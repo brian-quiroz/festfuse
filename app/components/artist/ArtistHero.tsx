@@ -35,14 +35,15 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
     .slice(0, 2);
 
   return (
-    <div className="relative h-[340px] overflow-hidden bg-[#110D24]">
+    <div className="relative h-[400px] overflow-hidden bg-[#110D24]">
       {/* Full-bleed background */}
       {artist.imageUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={artist.imageUrl}
           alt={artist.name}
-          className="absolute inset-0 w-full h-full object-cover object-right"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: artist.objectPosition ?? "center center" }}
         />
       ) : (
         <div className="absolute inset-0 flex items-center justify-end pr-24">
