@@ -35,7 +35,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
     .slice(0, 2);
 
   return (
-    <div className="relative h-80 overflow-hidden">
+    <div className="relative h-[340px] overflow-hidden">
       {/* Base background */}
       <div className="absolute inset-0 bg-[#110D24]" />
 
@@ -50,20 +50,18 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
 
       {/* Photo placeholder — right side */}
       <div className="absolute right-16 inset-y-0 flex items-center pointer-events-none">
-        <div className="relative w-52 h-52">
-          <div className="w-full h-full rounded-full bg-[#231C45] border border-[#2D2556] flex items-center justify-center">
-            <span className="text-5xl font-extrabold text-[#6B6893]/50 tracking-tight select-none">
-              {initials}
-            </span>
-          </div>
+        <div className="w-52 h-52 rounded-full bg-[#231C45] border border-[#2D2556] flex items-center justify-center">
+          <span className="text-5xl font-extrabold text-[#6B6893]/50 tracking-tight select-none">
+            {initials}
+          </span>
         </div>
       </div>
 
       {/* Left gradient overlay — ensures text readability */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#110D24] from-[42%] via-[#110D24]/70 to-transparent" />
 
-      {/* Left content — stacked, buttons pinned to bottom */}
-      <div className="absolute inset-y-0 left-0 w-[58%] px-8 py-7 flex flex-col">
+      {/* Left content */}
+      <div className="absolute inset-y-0 left-0 w-[58%] px-8 py-8 flex flex-col">
         {/* Genre tags */}
         <div className="flex gap-2 flex-wrap">
           {artist.genres.map((genre) => (
@@ -80,6 +78,9 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
         <h1 className="text-5xl font-extrabold text-white tracking-tight leading-none mt-4">
           {artist.name}
         </h1>
+
+        {/* Tagline */}
+        <p className="text-sm italic text-white/45 mt-2">{artist.tagline}</p>
 
         {/* Origin + socials — same line */}
         <div className="flex items-center gap-3 mt-3">
@@ -104,10 +105,10 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
           </div>
         </div>
 
-        {/* Spacer */}
-        <div className="flex-1" />
+        {/* Spacer — pushes action buttons to the bottom */}
+        <div className="flex-1 min-h-[32px]" />
 
-        {/* Action buttons — pinned to bottom */}
+        {/* Action buttons */}
         <ArtistActions />
       </div>
     </div>

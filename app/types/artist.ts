@@ -16,15 +16,23 @@ export type Artist = {
     discoverability: number
     fanFamiliarity: number
   }
+  metrics: {
+    monthlyListeners: string
+    popularityScore: string
+    topTrack: string
+    latestRelease: string
+  }
   vibes: string[]
   fansOf: string[]
   tracks: Array<{ name: string; album: string; duration: string }>
   about: string
   trivia: Array<{ emoji: string; fact: string }>
   schedule: {
+    festival: string
     stage: string
     day: string
-    time: string
-    duration: string
+    date: string
+    startTime: string
+    endTime: string
   }
 }

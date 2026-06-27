@@ -18,6 +18,12 @@ export const mockArtist: Artist = {
     discoverability: 95,
     fanFamiliarity: 90,
   },
+  metrics: {
+    monthlyListeners: "8.2M",
+    popularityScore: "82/100",
+    topTrack: "The Less I Know The Better",
+    latestRelease: "The Slow Rush (2020)",
+  },
   vibes: ["Euphoric", "Dreamy", "Late Night", "Cosmic", "Chill", "Hypnotic"],
   fansOf: ["Pink Floyd", "Beach House", "Alt-J", "MGMT"],
   tracks: [
@@ -46,9 +52,11 @@ export const mockArtist: Artist = {
     },
   ],
   schedule: {
+    festival: "Glastonbury 2025",
     stage: "Pyramid Stage",
     day: "Saturday",
-    time: "10:30 PM",
-    duration: "75 min",
+    date: "Jun 28",
+    startTime: "10:30 PM",
+    endTime: "11:45 PM",
   },
 };

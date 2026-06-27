@@ -4,9 +4,10 @@ import { useState } from "react";
 import type { Artist } from "@/app/types/artist";
 import OverviewTab from "./OverviewTab";
 import TriviaTab from "./TriviaTab";
+import StatsTab from "./StatsTab";
 import FloatingCards from "./FloatingCards";
 
-const TABS = ["Overview", "Trivia", "Music", "Stats"] as const;
+const TABS = ["Overview", "Trivia", "Stats"] as const;
 type Tab = (typeof TABS)[number];
 
 export default function ArtistContent({ artist }: { artist: Artist }) {
@@ -36,15 +37,10 @@ export default function ArtistContent({ artist }: { artist: Artist }) {
         <div className="flex-1 min-w-0">
           {active === "Overview" && <OverviewTab artist={artist} />}
           {active === "Trivia" && <TriviaTab artist={artist} />}
-          {active === "Music" && (
-            <p className="text-[#6B6893] text-sm py-10">Music coming soon</p>
-          )}
-          {active === "Stats" && (
-            <p className="text-[#6B6893] text-sm py-10">Stats coming soon</p>
-          )}
+          {active === "Stats" && <StatsTab artist={artist} />}
         </div>
 
-        {/* Floating cards — sticky so they stay visible while content scrolls */}
+        {/* Floating cards — sticky while content scrolls */}
         <div className="w-64 flex-shrink-0 sticky top-6 pb-12">
           <FloatingCards artist={artist} />
         </div>
