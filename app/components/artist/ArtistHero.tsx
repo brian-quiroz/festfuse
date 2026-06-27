@@ -22,7 +22,7 @@ function InstagramIcon() {
 function XIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631z" />
     </svg>
   );
 }
@@ -35,33 +35,45 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
     .slice(0, 2);
 
   return (
-    <div className="relative h-[340px] overflow-hidden">
-      {/* Base background */}
-      <div className="absolute inset-0 bg-[#110D24]" />
+    <div className="relative h-[340px] overflow-hidden bg-[#110D24]">
+      {/* Full-bleed background */}
+      {artist.imageUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={artist.imageUrl}
+          alt={artist.name}
+          className="absolute inset-0 w-full h-full object-cover object-right"
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-end pr-24">
+          <div className="w-52 h-52 rounded-full bg-[#231C45] border border-[#2D2556] flex items-center justify-center">
+            <span className="text-5xl font-extrabold text-[#6B6893]/50 tracking-tight select-none">
+              {initials}
+            </span>
+          </div>
+        </div>
+      )}
 
-      {/* Right-side surface colour behind the photo */}
-      <div className="absolute inset-0 bg-gradient-to-l from-[#231C45] via-[#1B1535]/60 to-transparent" />
-
-      {/* Subtle cyan glow top-right */}
+      {/* Cinematic gradient — solid dark left, fades to transparent right */}
       <div
         className="absolute inset-0"
-        style={{ background: "radial-gradient(ellipse 55% 90% at 82% 40%, rgba(0,229,255,0.09) 0%, transparent 65%)" }}
+        style={{
+          background:
+            "linear-gradient(to right, #110D24 0%, #110D24 35%, rgba(17,13,36,0.82) 52%, rgba(17,13,36,0.35) 72%, rgba(17,13,36,0.05) 100%)",
+        }}
       />
 
-      {/* Photo placeholder — right side */}
-      <div className="absolute right-16 inset-y-0 flex items-center pointer-events-none">
-        <div className="w-52 h-52 rounded-full bg-[#231C45] border border-[#2D2556] flex items-center justify-center">
-          <span className="text-5xl font-extrabold text-[#6B6893]/50 tracking-tight select-none">
-            {initials}
-          </span>
-        </div>
-      </div>
+      {/* Top + bottom vignette for depth */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(17,13,36,0.5) 0%, transparent 30%, transparent 65%, rgba(17,13,36,0.7) 100%)",
+        }}
+      />
 
-      {/* Left gradient overlay — ensures text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#110D24] from-[42%] via-[#110D24]/70 to-transparent" />
-
-      {/* Left content */}
-      <div className="absolute inset-y-0 left-0 w-[58%] px-8 py-8 flex flex-col">
+      {/* Left content — sits above all overlays */}
+      <div className="absolute inset-y-0 left-0 w-[60%] px-8 py-8 flex flex-col z-10">
         {/* Genre tags */}
         <div className="flex gap-2 flex-wrap">
           {artist.genres.map((genre) => (
@@ -82,7 +94,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
         {/* Tagline */}
         <p className="text-sm italic text-white/45 mt-2">{artist.tagline}</p>
 
-        {/* Origin + socials — same line */}
+        {/* Origin + socials */}
         <div className="flex items-center gap-3 mt-3">
           <span className="text-[#6B6893] text-sm">📍 {artist.origin}</span>
           <div className="w-px h-4 bg-[#2D2556]" />
@@ -105,7 +117,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
           </div>
         </div>
 
-        {/* Spacer — pushes action buttons to the bottom */}
+        {/* Spacer */}
         <div className="flex-1 min-h-[32px]" />
 
         {/* Action buttons */}
