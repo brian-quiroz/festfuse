@@ -1,4 +1,5 @@
-import { mockArtist } from "@/app/data/artists";
+import { notFound } from "next/navigation";
+import { artistsBySlug } from "@/app/data/artists";
 import Sidebar from "@/app/components/Sidebar";
 import ArtistHero from "@/app/components/artist/ArtistHero";
 import ArtistContent from "@/app/components/artist/ArtistContent";
@@ -8,8 +9,10 @@ export default async function ArtistPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  await params;
-  const artist = mockArtist;
+  const { slug } = await params;
+  const artist = artistsBySlug[slug];
+
+  if (!artist) notFound();
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#110D24]">

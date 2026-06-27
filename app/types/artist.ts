@@ -1,6 +1,7 @@
 export type Artist = {
   name: string
   slug: string
+  imageUrl?: string
   genres: string[]
   origin: string
   tagline: string
