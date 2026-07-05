@@ -1,5 +1,45 @@
 import type { Artist } from "@/app/types/artist";
 
+function EyeIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function MusicIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" />
+    </svg>
+  );
+}
+
+function ZapIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+    </svg>
+  );
+}
+
+function StarIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  );
+}
+
+function UserIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
+
 function TrackRow({ track, isLast }: { track: { name: string; album: string; duration: string }; isLast: boolean }) {
   return (
     <div className={`flex items-center gap-3 py-3 group ${!isLast ? "border-b border-white/5" : ""}`}>
@@ -30,7 +70,8 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
       {/* Row 1 — Why See | Listen First */}
       <div className="grid grid-cols-2 gap-8">
         <section>
-          <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-5">
+          <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-5">
+            <EyeIcon />
             Why See {artist.name}
           </h3>
           <ul className="space-y-3.5">
@@ -44,7 +85,8 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
         </section>
 
         <section>
-          <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-5">
+          <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-5">
+            <MusicIcon />
             Listen First
           </h3>
           <div>
@@ -58,7 +100,8 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
       {/* Row 2 — What to Expect | Best For */}
       <div className="grid grid-cols-2 gap-8">
         <section>
-          <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+          <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+            <ZapIcon />
             What to Expect
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -74,7 +117,8 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
         </section>
 
         <section>
-          <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+          <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+            <StarIcon />
             Best For
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -92,7 +136,8 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
 
       {/* Row 3 — About */}
       <section>
-        <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+        <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+          <UserIcon />
           About
         </h3>
         <p className="text-sm text-white/70 leading-relaxed">{artist.about}</p>

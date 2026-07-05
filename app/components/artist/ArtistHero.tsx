@@ -27,6 +27,15 @@ function XIcon() {
   );
 }
 
+function MapPinIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}
+
 export default function ArtistHero({ artist }: { artist: Artist }) {
   const initials = artist.name
     .split(" ")
@@ -97,16 +106,27 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
         </div>
 
         {/* Artist name */}
-        <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none mt-4">
+        <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none mt-4 flex items-center gap-3">
           {artist.name}
+          <span
+            className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#00E5FF] flex-shrink-0"
+            title={`Playing at ${artist.schedule.festival}`}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#110D24" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </span>
         </h1>
 
         {/* Tagline */}
         <p className="text-sm text-white/60 mt-2 leading-relaxed">{artist.tagline}</p>
 
-        {/* Origin + socials */}
-        <div className="flex items-center gap-3 mt-4">
-          <span className="text-white/40 text-sm">📍 {artist.origin}</span>
+        {/* Origin + socials — cluster break from identity above */}
+        <div className="flex items-center gap-3 mt-6">
+          <span className="flex items-center gap-1.5 text-white/40 text-sm">
+            <MapPinIcon />
+            {artist.origin}
+          </span>
           <div className="w-px h-3.5 bg-white/10" />
           <div className="flex items-center gap-3.5">
             {artist.socials.spotify && (
