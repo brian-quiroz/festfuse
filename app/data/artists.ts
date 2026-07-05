@@ -62,7 +62,7 @@ const tameImpala: Artist = {
     },
   ],
   schedule: {
-    festival: "Glastonbury 2025",
+    festival: "Lollapalooza 2026",
     stage: "Pyramid Stage",
     day: "Saturday",
     date: "Jun 28",
@@ -133,7 +133,7 @@ const jennie: Artist = {
     },
   ],
   schedule: {
-    festival: "Glastonbury 2025",
+    festival: "Lollapalooza 2026",
     stage: "Other Stage",
     day: "Friday",
     date: "Jun 27",
@@ -179,9 +179,9 @@ const beabadoobee: Artist = {
   bestFor: ["Indie music fans", "Discovering new artists", "Guitar pop lovers", "Emotional catharsis", "Quiet afternoon crowd"],
   similarArtists: [{ name: "Mitski" }, { name: "Phoebe Bridgers" }, { name: "Soccer Mommy" }, { name: "Japanese Breakfast" }],
   tracks: [
-    { name: "Care", album: "Beatopia", duration: "3:09" },
-    { name: "The Night Is Dark", album: "Fake It Flowers", duration: "3:20" },
-    { name: "Last Day On Earth", album: "Beatopia", duration: "3:54" },
+    { name: "Care", album: "Beatopia", duration: "3:09", artworkUrl: "/albums/beabadoobee/beatopia.png" },
+    { name: "The Night Is Dark", album: "Fake It Flowers", duration: "3:20", artworkUrl: "/albums/beabadoobee/fake-it-flowers.jpg" },
+    { name: "Last Day On Earth", album: "Beatopia", duration: "3:54", artworkUrl: "/albums/beabadoobee/beatopia.png" },
   ],
   about:
     "Bea Kristi, performing as Beabadoobee, burst onto the internet in 2017 with lo-fi bedroom recordings that resonated deeply with a generation of indie kids raised on Tumblr and thrift stores. Born in the Philippines and raised in London, her sound fuses 90s shoegaze warmth, jangly guitar pop, and earnest lyricism that feels both intimate and universal. From viral TikTok moments to headlining her own sold-out tours, she has grown from bedroom artist to festival mainstay without ever losing the handmade sincerity that made people fall in love with her.",
@@ -204,7 +204,7 @@ const beabadoobee: Artist = {
     },
   ],
   schedule: {
-    festival: "Glastonbury 2025",
+    festival: "Lollapalooza 2026",
     stage: "West Holts Stage",
     day: "Sunday",
     date: "Jun 29",
@@ -275,7 +275,7 @@ const majorLazer: Artist = {
     },
   ],
   schedule: {
-    festival: "Glastonbury 2025",
+    festival: "Lollapalooza 2026",
     stage: "Park Stage",
     day: "Saturday",
     date: "Jun 28",
