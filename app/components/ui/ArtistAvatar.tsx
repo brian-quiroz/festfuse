@@ -40,14 +40,14 @@ export default function ArtistAvatar({ name, imageUrl, size = 32, className = ""
         width: size,
         height: size,
         background: "#1B1535",
-        border: "1px solid rgba(255,255,255,0.10)",
+        border: "1px solid rgba(255,255,255,0.22)",
       }}
     >
       {showInitials && (
         <span
           style={{
             fontSize,
-            color: "rgba(255,255,255,0.40)",
+            color: "rgba(255,255,255,0.65)",
             fontWeight: 700,
             letterSpacing: "0.02em",
             lineHeight: 1,

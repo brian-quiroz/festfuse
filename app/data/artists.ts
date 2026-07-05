@@ -3,7 +3,7 @@ import type { Artist } from "@/app/types/artist";
 const tameImpala: Artist = {
   name: "Tame Impala",
   slug: "tame-impala",
-  imageUrl: "/artists/tame-impala.jpg",
+  imageUrl: "/artists/heroes/tame-impala.jpg",
   objectPosition: "center center",
   festivalStatus: "Headliner",
   genres: ["Psychedelic Rock", "Indie", "Electronic"],
@@ -37,9 +37,9 @@ const tameImpala: Artist = {
   bestFor: ["Psychedelic music lovers", "Festival veterans", "Night owls", "Indie and rock fans"],
   similarArtists: [{ name: "Pink Floyd" }, { name: "Beach House" }, { name: "Alt-J" }, { name: "MGMT" }],
   tracks: [
-    { name: "The Less I Know The Better", album: "Currents", duration: "3:34" },
-    { name: "Eventually", album: "Currents", duration: "5:18" },
-    { name: "Let It Happen", album: "Currents", duration: "7:47" },
+    { name: "The Less I Know The Better", album: "Currents", duration: "3:34", artworkUrl: "/albums/tame-impala/currents.png" },
+    { name: "Eventually", album: "Currents", duration: "5:18", artworkUrl: "/albums/tame-impala/currents.png" },
+    { name: "Let It Happen", album: "Currents", duration: "7:47", artworkUrl: "/albums/tame-impala/currents.png" },
   ],
   about:
     "Tame Impala is the psychedelic music project of Australian multi-instrumentalist Kevin Parker. Writing, recording, performing, and producing everything himself, Parker has evolved the project from sun-baked psych-rock into a shimmering fusion of psychedelia, synth-pop, and electronic music. Known for expansive live sets and meticulous sonic textures, Tame Impala has become one of the defining acts of the modern festival circuit.",
@@ -74,7 +74,7 @@ const tameImpala: Artist = {
 const jennie: Artist = {
   name: "Jennie",
   slug: "jennie",
-  imageUrl: "/artists/jennie.jpg",
+  imageUrl: "/artists/heroes/jennie.jpg",
   objectPosition: "center 15%",
   festivalStatus: "Headliner",
   genres: ["K-Pop", "R&B", "Hip-Hop"],
@@ -145,7 +145,7 @@ const jennie: Artist = {
 const beabadoobee: Artist = {
   name: "Beabadoobee",
   slug: "beabadoobee",
-  imageUrl: "/artists/beabadoobee.jpg",
+  imageUrl: "/artists/heroes/beabadoobee.jpg",
   objectPosition: "center 20%",
   festivalStatus: "Rising",
   genres: ["Indie Pop", "Shoegaze", "Bedroom Pop"],
@@ -177,7 +177,12 @@ const beabadoobee: Artist = {
   ],
   whatToExpect: ["Intimate and emotional", "Guitar-driven set", "Heartfelt singalongs", "Smaller crowd", "Afternoon chill"],
   bestFor: ["Indie music fans", "Discovering new artists", "Guitar pop lovers", "Emotional catharsis", "Quiet afternoon crowd"],
-  similarArtists: [{ name: "Mitski" }, { name: "Phoebe Bridgers" }, { name: "Soccer Mommy" }, { name: "Japanese Breakfast" }],
+  similarArtists: [
+    { name: "Mitski", imageUrl: "/artists/avatars/mitski.jpg" },
+    { name: "Phoebe Bridgers", imageUrl: "/artists/avatars/phoebe-bridgers.jpg" },
+    { name: "Soccer Mommy", imageUrl: "/artists/avatars/soccer-mommy.jpg" },
+    { name: "Japanese Breakfast", imageUrl: "/artists/avatars/japanese-breakfast.jpg" }
+  ],
   tracks: [
     { name: "Care", album: "Beatopia", duration: "3:09", artworkUrl: "/albums/beabadoobee/beatopia.png" },
     { name: "The Night Is Dark", album: "Fake It Flowers", duration: "3:20", artworkUrl: "/albums/beabadoobee/fake-it-flowers.jpg" },
@@ -216,7 +221,7 @@ const beabadoobee: Artist = {
 const majorLazer: Artist = {
   name: "Major Lazer",
   slug: "major-lazer",
-  imageUrl: "/artists/major-lazer.jpg",
+  imageUrl: "/artists/heroes/major-lazer.jpg",
   objectPosition: "center 30%",
   festivalStatus: "Headliner",
   genres: ["Electronic", "Dancehall", "Dance Pop"],
@@ -250,9 +255,9 @@ const majorLazer: Artist = {
   bestFor: ["Late-night ravers", "Dance music lovers", "Groups of friends", "Party-first festival goers"],
   similarArtists: [{ name: "DJ Snake" }, { name: "J Balvin" }, { name: "Skrillex" }, { name: "Diplo" }],
   tracks: [
-    { name: "Lean On", album: "Peace Is the Mission", duration: "2:58" },
-    { name: "Cold Water", album: "Music Is the Weapon", duration: "3:04" },
-    { name: "Run the World", album: "Free the Universe", duration: "3:46" },
+    { name: "Lean On", album: "Peace Is the Mission", duration: "2:58", artworkUrl: "/albums/major-lazer/peace-is-the-mission.png" },
+    { name: "Cold Water", album: "Music Is the Weapon", duration: "3:04", artworkUrl: "/albums/major-lazer/music-is-the-weapon.jpeg" },
+    { name: "Run the World", album: "Free the Universe", duration: "3:46", artworkUrl: "/albums/major-lazer/free-the-universe.png" },
   ],
   about:
     "Major Lazer is the genre-defying electronic music project led by Diplo, alongside Walshy Fire and Ape Drums. Born from a love of Jamaican dancehall and Caribbean bass music, the group has spent over a decade building one of the most infectious and globe-spanning sounds in dance music. Their 2015 hit Lean On became one of the most-streamed songs in Spotify history. Live, Major Lazer shows are a full-blown spectacle — confetti cannons, crowd surfers, and a party that refuses to quit until the venue runs out of energy.",
