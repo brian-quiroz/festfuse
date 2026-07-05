@@ -58,6 +58,23 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
         </div>
       </div>
 
+      {/* Similar Artists */}
+      <div className="bg-[#1B1535] rounded-xl border border-[#2D2556] p-4">
+        <h3 className="text-xs font-semibold text-[#6B6893] uppercase tracking-widest mb-3">
+          Similar Artists
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          {artist.similarArtists.map((name) => (
+            <span
+              key={name}
+              className="px-2.5 py-1 rounded-full bg-[#231C45] border border-[#2D2556] text-xs text-white/65 hover:text-white hover:border-[#00E5FF]/30 transition-colors cursor-default"
+            >
+              {name}
+            </span>
+          ))}
+        </div>
+      </div>
+
       {/* Notes — autosave */}
       <div className="bg-[#1B1535] rounded-xl border border-[#2D2556] p-4">
         <div className="flex items-center justify-between mb-3">

@@ -24,8 +24,10 @@ export type Artist = {
     topTrack: string
     latestRelease: string
   }
-  vibes: string[]
-  fansOf: string[]
+  whySee: string[]
+  whatToExpect: string[]
+  bestFor: string[]
+  similarArtists: string[]
   tracks: Array<{ name: string; album: string; duration: string }>
   about: string
   trivia: Array<{ emoji: string; fact: string }>
