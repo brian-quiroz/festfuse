@@ -35,7 +35,7 @@ const tameImpala: Artist = {
   ],
   whatToExpect: ["Visual light production", "Extended psychedelic jams", "Dense layered sound", "Crowd singalongs", "Late-night headliner energy"],
   bestFor: ["Psychedelic music lovers", "Festival veterans", "Night owls", "Indie and rock fans"],
-  similarArtists: ["Pink Floyd", "Beach House", "Alt-J", "MGMT"],
+  similarArtists: [{ name: "Pink Floyd" }, { name: "Beach House" }, { name: "Alt-J" }, { name: "MGMT" }],
   tracks: [
     { name: "The Less I Know The Better", album: "Currents", duration: "3:34" },
     { name: "Eventually", album: "Currents", duration: "5:18" },
@@ -106,7 +106,7 @@ const jennie: Artist = {
   ],
   whatToExpect: ["High-energy choreography", "Large crowd", "Visual production", "Crowd singalongs", "Fashion moments"],
   bestFor: ["K-pop fans", "Pop lovers", "First-time festival goers", "Dancing crowds"],
-  similarArtists: ["CL", "Doja Cat", "Cardi B", "BLACKPINK"],
+  similarArtists: [{ name: "CL" }, { name: "Doja Cat" }, { name: "Cardi B" }, { name: "BLACKPINK" }],
   tracks: [
     { name: "SOLO", album: "SOLO", duration: "2:58" },
     { name: "You & Me", album: "You & Me", duration: "3:19" },
@@ -177,7 +177,7 @@ const beabadoobee: Artist = {
   ],
   whatToExpect: ["Intimate and emotional", "Guitar-driven set", "Heartfelt singalongs", "Smaller crowd", "Afternoon chill"],
   bestFor: ["Indie music fans", "Discovering new artists", "Guitar pop lovers", "Emotional catharsis", "Quiet afternoon crowd"],
-  similarArtists: ["Mitski", "Phoebe Bridgers", "Soccer Mommy", "Japanese Breakfast"],
+  similarArtists: [{ name: "Mitski" }, { name: "Phoebe Bridgers" }, { name: "Soccer Mommy" }, { name: "Japanese Breakfast" }],
   tracks: [
     { name: "Care", album: "Beatopia", duration: "3:09" },
     { name: "The Night Is Dark", album: "Fake It Flowers", duration: "3:20" },
@@ -248,7 +248,7 @@ const majorLazer: Artist = {
   ],
   whatToExpect: ["Party atmosphere", "Confetti and pyrotechnics", "Massive crowd", "Bass-heavy sound", "Nonstop dancing"],
   bestFor: ["Late-night ravers", "Dance music lovers", "Groups of friends", "Party-first festival goers"],
-  similarArtists: ["DJ Snake", "J Balvin", "Skrillex", "Diplo"],
+  similarArtists: [{ name: "DJ Snake" }, { name: "J Balvin" }, { name: "Skrillex" }, { name: "Diplo" }],
   tracks: [
     { name: "Lean On", album: "Peace Is the Mission", duration: "2:58" },
     { name: "Cold Water", album: "Music Is the Weapon", duration: "3:04" },

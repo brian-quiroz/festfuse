@@ -1,16 +1,12 @@
-import { Eye, Headphones, Zap, Star, User, Play } from "lucide-react";
+import { Eye, Headphones, Zap, Star, User } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
+import AlbumArtwork from "@/app/components/ui/AlbumArtwork";
 
-function TrackRow({ track, isLast }: { track: { name: string; album: string; duration: string }; isLast: boolean }) {
+function TrackRow({ track, isLast }: { track: Artist["tracks"][number]; isLast: boolean }) {
   return (
     <div className={`flex items-center gap-3 py-3 group ${!isLast ? "border-b border-white/5" : ""}`}>
-      <button className="w-7 h-7 rounded-full border border-[#00E5FF]/25 flex items-center justify-center flex-shrink-0 transition-all group-hover:bg-[#00E5FF] group-hover:border-[#00E5FF]">
-        <Play
-          size={9}
-          fill="currentColor"
-          strokeWidth={0}
-          className="text-[#00E5FF] group-hover:text-[#110D24] ml-0.5 transition-colors"
-        />
+      <button className="flex-shrink-0 rounded-md">
+        <AlbumArtwork artworkUrl={track.artworkUrl} alt={track.name} size={28} />
       </button>
       <div className="flex-1 min-w-0">
         <div className="text-sm font-semibold text-white truncate">{track.name}</div>

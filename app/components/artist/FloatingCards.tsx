@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { MapPin, Users, Pencil } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
+import ArtistAvatar from "@/app/components/ui/ArtistAvatar";
 
 export default function FloatingCards({ artist }: { artist: Artist }) {
   const [notes, setNotes] = useState("");
@@ -58,12 +59,13 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
           Similar Artists
         </h3>
         <div className="flex flex-wrap gap-1.5">
-          {artist.similarArtists.map((name) => (
+          {artist.similarArtists.map((a) => (
             <span
-              key={name}
-              className="px-2.5 py-1 rounded-full bg-white/6 border border-white/10 text-xs text-white/60 hover:text-white/85 hover:border-white/20 transition-colors cursor-default"
+              key={a.name}
+              className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/6 border border-white/10 text-xs text-white/60 hover:text-white/85 hover:border-white/20 transition-colors cursor-default"
             >
-              {name}
+              <ArtistAvatar name={a.name} imageUrl={a.imageUrl} size={18} />
+              {a.name}
             </span>
           ))}
         </div>
