@@ -62,10 +62,10 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
           {artist.similarArtists.map((a) => (
             <button
               key={a.name}
-              className="flex flex-col items-center gap-1.5 py-3 rounded-xl hover:bg-white/5 hover:-translate-y-0.5 transition-all group"
+              className="flex flex-col items-center gap-1.5 py-3 rounded-xl hover:bg-white/4 hover:-translate-y-0.5 transition-[background-color,transform] duration-200 ease-out group"
             >
-              <ArtistAvatar name={a.name} imageUrl={a.imageUrl} size={52} />
-              <span className="text-xs font-medium text-white/65 group-hover:text-white/75 leading-tight text-center transition-colors px-1 w-full">
+              <ArtistAvatar name={a.name} imageUrl={a.imageUrl} size={56} />
+              <span className="text-xs font-medium text-white/75 group-hover:text-white leading-tight text-center transition-colors px-1 w-full">
                 {a.name}
               </span>
             </button>

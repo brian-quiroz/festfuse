@@ -4,7 +4,7 @@ const tameImpala: Artist = {
   name: "Tame Impala",
   slug: "tame-impala",
   imageUrl: "/artists/heroes/tame-impala.jpg",
-  objectPosition: "center center",
+  objectPosition: "center 17%",
   festivalStatus: "Headliner",
   genres: ["Psychedelic Rock", "Indie", "Electronic"],
   origin: "Perth, Australia",
@@ -35,7 +35,12 @@ const tameImpala: Artist = {
   ],
   whatToExpect: ["Visual light production", "Extended psychedelic jams", "Dense layered sound", "Crowd singalongs", "Late-night headliner energy"],
   bestFor: ["Psychedelic music lovers", "Festival veterans", "Night owls", "Indie and rock fans"],
-  similarArtists: [{ name: "Pink Floyd" }, { name: "Beach House" }, { name: "Alt-J" }, { name: "MGMT" }],
+  similarArtists: [
+    { name: "Pink Floyd", imageUrl: "/artists/avatars/pink-floyd.jpg" },
+    { name: "Beach House", imageUrl: "/artists/avatars/beach-house.jpg" },
+    { name: "Alt-J", imageUrl: "/artists/avatars/alt-j.jpg" },
+    { name: "MGMT", imageUrl: "/artists/avatars/mgmt.jpg" }
+  ],
   tracks: [
     { name: "The Less I Know The Better", album: "Currents", duration: "3:34", artworkUrl: "/albums/tame-impala/currents.png" },
     { name: "Eventually", album: "Currents", duration: "5:18", artworkUrl: "/albums/tame-impala/currents.png" },
@@ -106,7 +111,12 @@ const jennie: Artist = {
   ],
   whatToExpect: ["High-energy choreography", "Large crowd", "Visual production", "Crowd singalongs", "Fashion moments"],
   bestFor: ["K-pop fans", "Pop lovers", "First-time festival goers", "Dancing crowds"],
-  similarArtists: [{ name: "CL" }, { name: "Doja Cat" }, { name: "Cardi B" }, { name: "BLACKPINK" }],
+  similarArtists: [
+    { name: "CL", imageUrl: "/artists/avatars/cl.jpg" },
+    { name: "Doja Cat", imageUrl: "/artists/avatars/doja-cat.jpg" },
+    { name: "Cardi B", imageUrl: "/artists/avatars/cardi-b.png" },
+    { name: "BLACKPINK", imageUrl: "/artists/avatars/blackpink.png" }
+  ],
   tracks: [
     { name: "SOLO", album: "SOLO", duration: "2:58", artworkUrl: "/albums/jennie/solo.png" },
     { name: "You & Me", album: "You & Me", duration: "3:19", artworkUrl: "/albums/jennie/you-and-me.png" },
@@ -222,7 +232,7 @@ const majorLazer: Artist = {
   name: "Major Lazer",
   slug: "major-lazer",
   imageUrl: "/artists/heroes/major-lazer.jpg",
-  objectPosition: "center 30%",
+  objectPosition: "center 26%",
   festivalStatus: "Headliner",
   genres: ["Electronic", "Dancehall", "Dance Pop"],
   origin: "Miami, Florida",
@@ -253,7 +263,12 @@ const majorLazer: Artist = {
   ],
   whatToExpect: ["Party atmosphere", "Confetti and pyrotechnics", "Massive crowd", "Bass-heavy sound", "Nonstop dancing"],
   bestFor: ["Late-night ravers", "Dance music lovers", "Groups of friends", "Party-first festival goers"],
-  similarArtists: [{ name: "DJ Snake" }, { name: "J Balvin" }, { name: "Skrillex" }, { name: "Diplo" }],
+  similarArtists: [
+    { name: "DJ Snake", imageUrl: "/artists/avatars/dj-snake.jpg" },
+    { name: "J Balvin", imageUrl: "/artists/avatars/j-balvin.jpg" },
+    { name: "Skrillex", imageUrl: "/artists/avatars/skrillex.jpg" },
+    { name: "Diplo", imageUrl: "/artists/avatars/diplo.jpg" }
+  ],
   tracks: [
     { name: "Lean On", album: "Peace Is the Mission", duration: "2:58", artworkUrl: "/albums/major-lazer/peace-is-the-mission.png" },
     { name: "Cold Water", album: "Music Is the Weapon", duration: "3:04", artworkUrl: "/albums/major-lazer/music-is-the-weapon.jpeg" },

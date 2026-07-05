@@ -20,13 +20,12 @@ function getInitials(name: string): string {
 export default function ArtistAvatar({ name, imageUrl, size = 32, className = "" }: ArtistAvatarProps) {
   if (imageUrl) {
     return (
-      <Image
-        src={imageUrl}
-        alt={name}
-        width={size}
-        height={size}
-        className={`rounded-full object-cover flex-shrink-0 ${className}`}
-      />
+      <div
+        className={`relative rounded-full overflow-hidden flex-shrink-0 ${className}`}
+        style={{ width: size, height: size }}
+      >
+        <Image src={imageUrl} alt={name} fill className="object-cover" />
+      </div>
     )
   }
 
