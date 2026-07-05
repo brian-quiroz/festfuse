@@ -93,17 +93,17 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
           <div className="w-px h-3.5 bg-white/10" />
           <div className="flex items-center gap-3.5">
             {artist.socials.spotify && (
-              <a href={artist.socials.spotify} className="text-white/35 hover:text-[#00E5FF] transition-colors">
+              <a href={artist.socials.spotify} className="text-white/50 hover:text-[#1ED760] transition-colors">
                 <FaSpotify size={16} />
               </a>
             )}
             {artist.socials.instagram && (
-              <a href={artist.socials.instagram} className="text-white/35 hover:text-[#00E5FF] transition-colors">
+              <a href={artist.socials.instagram} className="text-white/50 hover:text-[#E1306C] transition-colors">
                 <FaInstagram size={16} />
               </a>
             )}
             {artist.socials.twitter && (
-              <a href={artist.socials.twitter} className="text-white/35 hover:text-[#00E5FF] transition-colors">
+              <a href={artist.socials.twitter} className="text-white/50 hover:text-white transition-colors">
                 <FaXTwitter size={16} />
               </a>
             )}

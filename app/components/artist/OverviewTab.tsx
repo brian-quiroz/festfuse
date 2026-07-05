@@ -29,7 +29,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
       <div className="grid grid-cols-2 gap-8">
         <section>
           <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-5">
-            <Eye size={14} strokeWidth={2.5} />
+            <Eye size={15} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />
             Why See {artist.name}
           </h3>
           <ul className="space-y-3.5">
@@ -44,7 +44,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
 
         <section>
           <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-5">
-            <Headphones size={14} strokeWidth={2.5} />
+            <Headphones size={15} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />
             Listen First
           </h3>
           <div>
@@ -59,7 +59,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
       <div className="grid grid-cols-2 gap-8">
         <section>
           <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-            <Zap size={14} strokeWidth={2.5} />
+            <Zap size={15} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />
             What to Expect
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -76,7 +76,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
 
         <section>
           <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-            <Star size={14} strokeWidth={2.5} />
+            <Star size={15} strokeWidth={2} className="text-[#E8FF47] flex-shrink-0" />
             Best For
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -95,7 +95,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
       {/* Row 3 — About */}
       <section>
         <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-          <User size={14} strokeWidth={2.5} />
+          <User size={15} strokeWidth={2} className="text-white/55 flex-shrink-0" />
           About
         </h3>
         <p className="text-sm text-white/70 leading-relaxed">{artist.about}</p>

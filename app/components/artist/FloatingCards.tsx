@@ -29,7 +29,7 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
       {/* Playing At */}
       <div className="rounded-2xl border border-[#00E5FF]/20 bg-[#00E5FF]/6 p-5">
         <h3 className="flex items-center gap-1.5 text-xs font-semibold text-[#00E5FF]/55 uppercase tracking-widest mb-3.5">
-          <MapPin size={13} strokeWidth={2.5} />
+          <MapPin size={14} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />
           Playing At
         </h3>
         <div className="space-y-2.5">
@@ -54,7 +54,7 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
       {/* Similar Artists */}
       <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
         <h3 className="flex items-center gap-1.5 text-xs font-semibold text-white/40 uppercase tracking-widest mb-3.5">
-          <Users size={13} strokeWidth={2.5} />
+          <Users size={14} strokeWidth={2} className="text-[#00E5FF]/60 flex-shrink-0" />
           Similar Artists
         </h3>
         <div className="flex flex-wrap gap-1.5">
@@ -73,7 +73,7 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
       <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
         <div className="flex items-center justify-between mb-3.5">
           <h3 className="flex items-center gap-1.5 text-xs font-semibold text-white/40 uppercase tracking-widest">
-            <Pencil size={13} strokeWidth={2.5} />
+            <Pencil size={14} strokeWidth={2} className="text-white/50 flex-shrink-0" />
             Notes
           </h3>
           <span
