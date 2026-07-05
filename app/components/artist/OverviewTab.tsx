@@ -4,12 +4,12 @@ import AlbumArtwork from "@/app/components/ui/AlbumArtwork";
 
 function TrackRow({ track, isLast }: { track: Artist["tracks"][number]; isLast: boolean }) {
   return (
-    <div className={`flex items-center gap-3 py-3 group ${!isLast ? "border-b border-white/5" : ""}`}>
+    <div className={`flex items-center gap-4 py-4 group ${!isLast ? "border-b border-white/5" : ""}`}>
       <button className="flex-shrink-0 rounded-md">
-        <AlbumArtwork artworkUrl={track.artworkUrl} alt={track.name} size={28} />
+        <AlbumArtwork artworkUrl={track.artworkUrl} alt={track.name} size={44} />
       </button>
       <div className="flex-1 min-w-0">
-        <div className="text-sm font-semibold text-white truncate">{track.name}</div>
+        <div className="text-base font-semibold text-white truncate">{track.name}</div>
         <div className="text-xs text-white/40 mt-0.5">{track.album}</div>
       </div>
       <span className="text-xs text-white/35 tabular-nums flex-shrink-0">{track.duration}</span>
