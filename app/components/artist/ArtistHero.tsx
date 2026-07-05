@@ -1,4 +1,4 @@
-import { MapPin, Check } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { FaSpotify, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import type { Artist } from "@/app/types/artist";
 import ArtistActions from "./ArtistActions";
@@ -57,35 +57,43 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
         }}
       />
 
-      {/* Left content */}
+      {/* Content column */}
       <div className="absolute inset-y-0 left-0 w-[58%] px-8 pt-14 pb-10 flex flex-col z-10">
 
-        {/* Genre tags — context cluster */}
-        <div className="flex gap-2 flex-wrap">
-          {artist.genres.map((genre) => (
-            <span
-              key={genre}
-              className="px-2.5 py-0.5 rounded-full bg-[#00E5FF]/8 border border-[#00E5FF]/20 text-[#00E5FF] text-xs font-medium tracking-wide"
-            >
-              {genre}
-            </span>
-          ))}
+        {/* ── Group 1: Identity ─────────────────────────────────── */}
+        <div className="flex flex-col gap-3">
+
+          {/* Genre pills */}
+          <div className="flex gap-2 flex-wrap">
+            {artist.genres.map((genre) => (
+              <span
+                key={genre}
+                className="px-2.5 py-0.5 rounded-full bg-[#00E5FF]/8 border border-[#00E5FF]/20 text-[#00E5FF] text-xs font-medium tracking-wide"
+              >
+                {genre}
+              </span>
+            ))}
+          </div>
+
+          {/* Name + status badge + tagline */}
+          <div>
+            <div className="flex items-end gap-3">
+              <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none">
+                {artist.name}
+              </h1>
+              {artist.festivalStatus && (
+                <span className="mb-2 flex-shrink-0 px-2.5 py-0.5 rounded-md bg-[#FF2D78]/8 border border-[#FF2D78]/20 text-[#FF2D78] text-[9px] font-semibold tracking-widest uppercase">
+                  {artist.festivalStatus}
+                </span>
+              )}
+            </div>
+            <p className="text-sm text-white/60 mt-2 leading-relaxed">{artist.tagline}</p>
+          </div>
+
         </div>
 
-        {/* Identity cluster: name + badge, tagline */}
-        <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none mt-4 flex items-center gap-3">
-          {artist.name}
-          <span
-            className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#00E5FF] flex-shrink-0"
-            title={`Playing at ${artist.schedule.festival}`}
-          >
-            <Check size={15} color="#110D24" strokeWidth={3} />
-          </span>
-        </h1>
-        <p className="text-sm text-white/60 mt-2 leading-relaxed">{artist.tagline}</p>
-
-        {/* Metadata cluster — cluster break via mt-6 */}
-        <div className="flex items-center gap-3 mt-6">
+        {/* ── Group 2: Metadata ─────────────────────────────────── */}
+        <div className="mt-10 flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-white/40 text-sm">
             <MapPin size={13} strokeWidth={2.5} />
             {artist.origin}
@@ -110,11 +118,11 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
           </div>
         </div>
 
-        {/* Spacer */}
-        <div className="flex-1 min-h-[40px]" />
+        {/* ── Group 3: Actions ──────────────────────────────────── */}
+        <div className="mt-8">
+          <ArtistActions />
+        </div>
 
-        {/* Action cluster */}
-        <ArtistActions />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ export type Artist = {
   slug: string
   imageUrl?: string
   objectPosition?: string
+  festivalStatus?: string
   genres: string[]
   origin: string
   tagline: string
