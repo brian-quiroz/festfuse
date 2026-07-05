@@ -119,7 +119,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
         </div>
 
         {/* ── Group 3: Actions ──────────────────────────────────── */}
-        <div className="mt-8">
+        <div className="mt-12">
           <ArtistActions />
         </div>
 
