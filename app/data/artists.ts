@@ -108,9 +108,9 @@ const jennie: Artist = {
   bestFor: ["K-pop fans", "Pop lovers", "First-time festival goers", "Dancing crowds"],
   similarArtists: [{ name: "CL" }, { name: "Doja Cat" }, { name: "Cardi B" }, { name: "BLACKPINK" }],
   tracks: [
-    { name: "SOLO", album: "SOLO", duration: "2:58" },
-    { name: "You & Me", album: "You & Me", duration: "3:19" },
-    { name: "Mantra", album: "Ruby", duration: "2:52" },
+    { name: "SOLO", album: "SOLO", duration: "2:58", artworkUrl: "/albums/jennie/solo.png" },
+    { name: "You & Me", album: "You & Me", duration: "3:19", artworkUrl: "/albums/jennie/you-and-me.png" },
+    { name: "Mantra", album: "Ruby", duration: "2:52", artworkUrl: "/albums/jennie/ruby.png" },
   ],
   about:
     "Jennie Kim is a South Korean singer, rapper, and global fashion icon, best known as a member of BLACKPINK. Her 2018 debut solo single SOLO broke records across Asia and cemented her status as a bona fide solo force. Known for her sharp rap delivery, sleek pop hooks, and boundary-pushing style, Jennie commands stages with the effortless authority of someone who was always meant to headline them. Her 2025 debut album Ruby marked a new chapter — a fully realised artist with nothing left to prove.",

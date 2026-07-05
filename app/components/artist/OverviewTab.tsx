@@ -22,7 +22,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
     <div className="space-y-12 pb-12">
 
       {/* Row 1 — Why See | Listen First */}
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8">
         <section>
           <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-5">
             <Eye size={15} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />
@@ -52,7 +52,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
       </div>
 
       {/* Row 2 — What to Expect | Best For */}
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8">
         <section>
           <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
             <Zap size={15} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />

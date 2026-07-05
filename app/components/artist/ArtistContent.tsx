@@ -41,7 +41,7 @@ export default function ArtistContent({ artist }: { artist: Artist }) {
         </div>
 
         {/* Floating cards — sticky while content scrolls */}
-        <div className="w-64 flex-shrink-0 sticky top-6 pb-12">
+        <div className="w-72 flex-shrink-0 sticky top-6 pb-12">
           <FloatingCards artist={artist} />
         </div>
       </div>
