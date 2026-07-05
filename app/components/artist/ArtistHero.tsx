@@ -1,40 +1,7 @@
+import { MapPin, Check } from "lucide-react";
+import { FaSpotify, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import type { Artist } from "@/app/types/artist";
 import ArtistActions from "./ArtistActions";
-
-function SpotifyIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.563.387-.857.207-2.35-1.435-5.305-1.76-8.786-.963-.335.077-.67-.133-.746-.47-.077-.334.132-.67.47-.745 3.808-.871 7.077-.496 9.712 1.115.293.18.386.563.207.856zm1.223-2.722c-.226.367-.706.482-1.072.257-2.687-1.652-6.785-2.131-9.965-1.166-.413.127-.848-.105-.973-.517-.125-.413.108-.848.52-.973 3.632-1.102 8.147-.568 11.233 1.328.366.226.48.707.257 1.072zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71c-.493.15-1.016-.13-1.166-.623-.148-.492.13-1.016.623-1.166 3.54-1.075 9.428-.867 13.14 1.48.445.264.59.838.327 1.282-.264.443-.838.59-1.282.325z" />
-    </svg>
-  );
-}
-
-function InstagramIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-      <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
-      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-    </svg>
-  );
-}
-
-function XIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631z" />
-    </svg>
-  );
-}
-
-function MapPinIcon() {
-  return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-      <circle cx="12" cy="10" r="3" />
-    </svg>
-  );
-}
 
 export default function ArtistHero({ artist }: { artist: Artist }) {
   const initials = artist.name
@@ -65,7 +32,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
         </div>
       )}
 
-      {/* Cinematic left-to-right gradient — solid on left, feathering out to transparent */}
+      {/* Cinematic left-to-right gradient */}
       <div
         className="absolute inset-0"
         style={{
@@ -82,7 +49,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
         }}
       />
 
-      {/* Bottom fade — hero bleeds seamlessly into the page */}
+      {/* Bottom fade */}
       <div
         className="absolute bottom-0 left-0 right-0 h-36 pointer-events-none"
         style={{
@@ -93,7 +60,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
       {/* Left content */}
       <div className="absolute inset-y-0 left-0 w-[58%] px-8 pt-14 pb-10 flex flex-col z-10">
 
-        {/* Genre tags */}
+        {/* Genre tags — context cluster */}
         <div className="flex gap-2 flex-wrap">
           {artist.genres.map((genre) => (
             <span
@@ -105,43 +72,39 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
           ))}
         </div>
 
-        {/* Artist name */}
+        {/* Identity cluster: name + badge, tagline */}
         <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none mt-4 flex items-center gap-3">
           {artist.name}
           <span
             className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#00E5FF] flex-shrink-0"
             title={`Playing at ${artist.schedule.festival}`}
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#110D24" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
+            <Check size={15} color="#110D24" strokeWidth={3} />
           </span>
         </h1>
-
-        {/* Tagline */}
         <p className="text-sm text-white/60 mt-2 leading-relaxed">{artist.tagline}</p>
 
-        {/* Origin + socials — cluster break from identity above */}
+        {/* Metadata cluster — cluster break via mt-6 */}
         <div className="flex items-center gap-3 mt-6">
           <span className="flex items-center gap-1.5 text-white/40 text-sm">
-            <MapPinIcon />
+            <MapPin size={13} strokeWidth={2.5} />
             {artist.origin}
           </span>
           <div className="w-px h-3.5 bg-white/10" />
           <div className="flex items-center gap-3.5">
             {artist.socials.spotify && (
               <a href={artist.socials.spotify} className="text-white/35 hover:text-[#00E5FF] transition-colors">
-                <SpotifyIcon />
+                <FaSpotify size={16} />
               </a>
             )}
             {artist.socials.instagram && (
               <a href={artist.socials.instagram} className="text-white/35 hover:text-[#00E5FF] transition-colors">
-                <InstagramIcon />
+                <FaInstagram size={16} />
               </a>
             )}
             {artist.socials.twitter && (
               <a href={artist.socials.twitter} className="text-white/35 hover:text-[#00E5FF] transition-colors">
-                <XIcon />
+                <FaXTwitter size={16} />
               </a>
             )}
           </div>
@@ -150,7 +113,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
         {/* Spacer */}
         <div className="flex-1 min-h-[40px]" />
 
-        {/* Action buttons */}
+        {/* Action cluster */}
         <ArtistActions />
       </div>
     </div>

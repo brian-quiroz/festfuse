@@ -1,33 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { MapPin, Users, Pencil } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
-
-function MapPinIcon() {
-  return (
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
-    </svg>
-  );
-}
-
-function UsersIcon() {
-  return (
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" />
-      <path d="M23 21v-2a4 4 0 00-3-3.87" /><path d="M16 3.13a4 4 0 010 7.75" />
-    </svg>
-  );
-}
-
-function PencilIcon() {
-  return (
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
-      <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
-    </svg>
-  );
-}
 
 export default function FloatingCards({ artist }: { artist: Artist }) {
   const [notes, setNotes] = useState("");
@@ -54,7 +29,7 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
       {/* Playing At */}
       <div className="rounded-2xl border border-[#00E5FF]/20 bg-[#00E5FF]/6 p-5">
         <h3 className="flex items-center gap-1.5 text-xs font-semibold text-[#00E5FF]/55 uppercase tracking-widest mb-3.5">
-          <MapPinIcon />
+          <MapPin size={13} strokeWidth={2.5} />
           Playing At
         </h3>
         <div className="space-y-2.5">
@@ -79,7 +54,7 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
       {/* Similar Artists */}
       <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
         <h3 className="flex items-center gap-1.5 text-xs font-semibold text-white/40 uppercase tracking-widest mb-3.5">
-          <UsersIcon />
+          <Users size={13} strokeWidth={2.5} />
           Similar Artists
         </h3>
         <div className="flex flex-wrap gap-1.5">
@@ -98,7 +73,7 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
       <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
         <div className="flex items-center justify-between mb-3.5">
           <h3 className="flex items-center gap-1.5 text-xs font-semibold text-white/40 uppercase tracking-widest">
-            <PencilIcon />
+            <Pencil size={13} strokeWidth={2.5} />
             Notes
           </h3>
           <span

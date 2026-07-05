@@ -1,58 +1,16 @@
+import { Eye, Headphones, Zap, Star, User, Play } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
-
-function EyeIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
-    </svg>
-  );
-}
-
-function MusicIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" />
-    </svg>
-  );
-}
-
-function ZapIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-    </svg>
-  );
-}
-
-function StarIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-    </svg>
-  );
-}
-
-function UserIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" />
-    </svg>
-  );
-}
 
 function TrackRow({ track, isLast }: { track: { name: string; album: string; duration: string }; isLast: boolean }) {
   return (
     <div className={`flex items-center gap-3 py-3 group ${!isLast ? "border-b border-white/5" : ""}`}>
       <button className="w-7 h-7 rounded-full border border-[#00E5FF]/25 flex items-center justify-center flex-shrink-0 transition-all group-hover:bg-[#00E5FF] group-hover:border-[#00E5FF]">
-        <svg
-          width="9"
-          height="9"
-          viewBox="0 0 24 24"
+        <Play
+          size={9}
           fill="currentColor"
+          strokeWidth={0}
           className="text-[#00E5FF] group-hover:text-[#110D24] ml-0.5 transition-colors"
-        >
-          <polygon points="5 3 19 12 5 21 5 3" />
-        </svg>
+        />
       </button>
       <div className="flex-1 min-w-0">
         <div className="text-sm font-semibold text-white truncate">{track.name}</div>
@@ -71,7 +29,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
       <div className="grid grid-cols-2 gap-8">
         <section>
           <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-5">
-            <EyeIcon />
+            <Eye size={14} strokeWidth={2.5} />
             Why See {artist.name}
           </h3>
           <ul className="space-y-3.5">
@@ -86,7 +44,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
 
         <section>
           <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-5">
-            <MusicIcon />
+            <Headphones size={14} strokeWidth={2.5} />
             Listen First
           </h3>
           <div>
@@ -101,7 +59,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
       <div className="grid grid-cols-2 gap-8">
         <section>
           <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-            <ZapIcon />
+            <Zap size={14} strokeWidth={2.5} />
             What to Expect
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -118,7 +76,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
 
         <section>
           <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-            <StarIcon />
+            <Star size={14} strokeWidth={2.5} />
             Best For
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -137,7 +95,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
       {/* Row 3 — About */}
       <section>
         <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-          <UserIcon />
+          <User size={14} strokeWidth={2.5} />
           About
         </h3>
         <p className="text-sm text-white/70 leading-relaxed">{artist.about}</p>
