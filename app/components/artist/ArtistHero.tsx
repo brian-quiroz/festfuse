@@ -82,7 +82,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
       />
 
       {/* Left content */}
-      <div className="absolute inset-y-0 left-0 w-[58%] px-8 pt-10 pb-10 flex flex-col z-10">
+      <div className="absolute inset-y-0 left-0 w-[58%] px-8 pt-14 pb-10 flex flex-col z-10">
 
         {/* Genre tags */}
         <div className="flex gap-2 flex-wrap">
@@ -97,15 +97,15 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
         </div>
 
         {/* Artist name */}
-        <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none mt-5">
+        <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none mt-4">
           {artist.name}
         </h1>
 
         {/* Tagline */}
-        <p className="text-sm text-white/55 mt-2.5 leading-relaxed">{artist.tagline}</p>
+        <p className="text-sm text-white/60 mt-2 leading-relaxed">{artist.tagline}</p>
 
         {/* Origin + socials */}
-        <div className="flex items-center gap-3 mt-3">
+        <div className="flex items-center gap-3 mt-4">
           <span className="text-white/40 text-sm">📍 {artist.origin}</span>
           <div className="w-px h-3.5 bg-white/10" />
           <div className="flex items-center gap-3.5">

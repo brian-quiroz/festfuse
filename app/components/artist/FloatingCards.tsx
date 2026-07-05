@@ -31,34 +31,34 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
           Playing At
         </h3>
         <div className="space-y-2.5">
-          <div className="text-sm font-semibold text-white/90">{schedule.festival}</div>
+          <div className="text-sm font-semibold text-white">{schedule.festival}</div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-white/30">Date</span>
-            <span className="text-xs text-white/70">{schedule.day}, {schedule.date}</span>
+            <span className="text-xs text-white/35">Date</span>
+            <span className="text-xs text-white/75">{schedule.day}, {schedule.date}</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-white/30">Time</span>
+            <span className="text-xs text-white/35">Time</span>
             <span className="text-xs font-semibold text-[#00E5FF]">
               {schedule.startTime} – {schedule.endTime}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-white/30">Stage</span>
-            <span className="text-xs text-white/70">{schedule.stage}</span>
+            <span className="text-xs text-white/35">Stage</span>
+            <span className="text-xs text-white/75">{schedule.stage}</span>
           </div>
         </div>
       </div>
 
       {/* Similar Artists */}
       <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
-        <h3 className="text-xs font-semibold text-white/30 uppercase tracking-widest mb-3.5">
+        <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3.5">
           Similar Artists
         </h3>
         <div className="flex flex-wrap gap-1.5">
           {artist.similarArtists.map((name) => (
             <span
               key={name}
-              className="px-2.5 py-1 rounded-full bg-white/6 border border-white/10 text-xs text-white/55 hover:text-white/85 hover:border-white/20 transition-colors cursor-default"
+              className="px-2.5 py-1 rounded-full bg-white/6 border border-white/10 text-xs text-white/60 hover:text-white/85 hover:border-white/20 transition-colors cursor-default"
             >
               {name}
             </span>
@@ -69,7 +69,7 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
       {/* Notes */}
       <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
         <div className="flex items-center justify-between mb-3.5">
-          <h3 className="text-xs font-semibold text-white/30 uppercase tracking-widest">
+          <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest">
             Notes
           </h3>
           <span
@@ -85,7 +85,7 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
           onChange={(e) => handleNotesChange(e.target.value)}
           placeholder="Add a personal note..."
           rows={4}
-          className="w-full bg-white/4 border border-white/8 rounded-xl px-3 py-2.5 text-sm text-white/75 placeholder-white/20 resize-none outline-none focus:border-[#00E5FF]/30 transition-colors leading-relaxed"
+          className="w-full bg-white/4 border border-white/8 rounded-xl px-3 py-2.5 text-sm text-white/80 placeholder-white/25 resize-none outline-none focus:border-[#00E5FF]/30 transition-colors leading-relaxed"
         />
       </div>
 

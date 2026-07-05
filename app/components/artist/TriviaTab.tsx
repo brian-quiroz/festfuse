@@ -8,11 +8,11 @@ export default function TriviaTab({ artist }: { artist: Artist }) {
       {artist.trivia.map((item, i) => (
         <div
           key={i}
-          className="bg-white/3 rounded-2xl p-6 border border-white/8 border-l-[3px]"
+          className="bg-white/5 rounded-2xl p-6 border border-white/8 border-l-[3px]"
           style={{ borderLeftColor: BORDER_COLORS[i % BORDER_COLORS.length] }}
         >
           <div className="text-3xl mb-4">{item.emoji}</div>
-          <p className="text-sm text-white/65 leading-relaxed">{item.fact}</p>
+          <p className="text-sm text-white/70 leading-relaxed">{item.fact}</p>
         </div>
       ))}
     </div>

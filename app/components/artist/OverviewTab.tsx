@@ -15,10 +15,10 @@ function TrackRow({ track, isLast }: { track: { name: string; album: string; dur
         </svg>
       </button>
       <div className="flex-1 min-w-0">
-        <div className="text-sm font-semibold text-white/90 truncate">{track.name}</div>
-        <div className="text-xs text-white/35 mt-0.5">{track.album}</div>
+        <div className="text-sm font-semibold text-white truncate">{track.name}</div>
+        <div className="text-xs text-white/40 mt-0.5">{track.album}</div>
       </div>
-      <span className="text-xs text-white/30 tabular-nums flex-shrink-0">{track.duration}</span>
+      <span className="text-xs text-white/35 tabular-nums flex-shrink-0">{track.duration}</span>
     </div>
   );
 }
@@ -30,21 +30,21 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
       {/* Row 1 — Why See | Listen First */}
       <div className="grid grid-cols-2 gap-8">
         <section>
-          <h3 className="text-xs font-semibold text-white/30 uppercase tracking-widest mb-5">
+          <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-5">
             Why See {artist.name}
           </h3>
           <ul className="space-y-3.5">
             {artist.whySee.map((point, i) => (
               <li key={i} className="flex items-start gap-2.5">
-                <span className="text-[#00E5FF]/70 text-sm leading-relaxed flex-shrink-0 mt-px">→</span>
-                <span className="text-sm text-white/65 leading-relaxed">{point}</span>
+                <span className="text-[#00E5FF]/60 text-sm leading-relaxed flex-shrink-0 mt-px">→</span>
+                <span className="text-sm text-white/72 leading-relaxed">{point}</span>
               </li>
             ))}
           </ul>
         </section>
 
         <section>
-          <h3 className="text-xs font-semibold text-white/30 uppercase tracking-widest mb-5">
+          <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-5">
             Listen First
           </h3>
           <div>
@@ -58,14 +58,14 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
       {/* Row 2 — What to Expect | Best For */}
       <div className="grid grid-cols-2 gap-8">
         <section>
-          <h3 className="text-xs font-semibold text-white/30 uppercase tracking-widest mb-4">
+          <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
             What to Expect
           </h3>
           <div className="flex flex-wrap gap-2">
             {artist.whatToExpect.map((item) => (
               <span
                 key={item}
-                className="px-3 py-1.5 rounded-full bg-white/5 border border-white/8 text-sm text-white/55"
+                className="px-3 py-1.5 rounded-full bg-white/5 border border-white/8 text-sm text-white/65"
               >
                 {item}
               </span>
@@ -74,14 +74,14 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
         </section>
 
         <section>
-          <h3 className="text-xs font-semibold text-white/30 uppercase tracking-widest mb-4">
+          <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
             Best For
           </h3>
           <div className="flex flex-wrap gap-2">
             {artist.bestFor.map((item) => (
               <span
                 key={item}
-                className="px-3 py-1.5 rounded-full bg-[#E8FF47]/8 border border-[#E8FF47]/20 text-sm text-[#E8FF47]/70"
+                className="px-3 py-1.5 rounded-full bg-[#E8FF47]/8 border border-[#E8FF47]/20 text-sm text-[#E8FF47]/80"
               >
                 {item}
               </span>
@@ -92,10 +92,10 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
 
       {/* Row 3 — About */}
       <section>
-        <h3 className="text-xs font-semibold text-white/30 uppercase tracking-widest mb-4">
+        <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
           About
         </h3>
-        <p className="text-sm text-white/55 leading-relaxed">{artist.about}</p>
+        <p className="text-sm text-white/70 leading-relaxed">{artist.about}</p>
       </section>
 
     </div>
