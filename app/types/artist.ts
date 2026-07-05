@@ -12,13 +12,6 @@ export type Artist = {
     instagram?: string
     twitter?: string
   }
-  stats: {
-    stagePresence: number
-    crowdEnergy: number
-    vocals: number
-    discoverability: number
-    fanFamiliarity: number
-  }
   metrics: {
     monthlyListeners: string
     popularityScore: string

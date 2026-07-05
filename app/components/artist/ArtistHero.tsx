@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { FaSpotify, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import type { Artist } from "@/app/types/artist";
@@ -15,11 +16,12 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
 
       {/* Full-bleed artist photo */}
       {artist.imageUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src={artist.imageUrl}
           alt={artist.name}
-          className="absolute inset-0 w-full h-full object-cover"
+          fill
+          priority
+          className="object-cover"
           style={{ objectPosition: artist.objectPosition ?? "center center" }}
         />
       ) : (

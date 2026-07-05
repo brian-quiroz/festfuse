@@ -96,11 +96,11 @@ export default function Sidebar() {
         <div className="px-3 pt-3 pb-5">
           <div className="rounded-xl border border-[#2D2556] bg-[#231C45] p-3.5">
             <div className="text-sm font-semibold text-white leading-tight mb-0.5">Lollapalooza 2026</div>
-            <div className="text-[11px] text-[#6B6893] mb-3">Jun 25 – Jun 29 · West Holts Stage</div>
+            <div className="text-[11px] text-[#6B6893] mb-3">Jul 30 – Aug 2 · Grant Park · Chicago</div>
             <div className="h-1 rounded-full bg-[#2D2556] overflow-hidden mb-1.5">
-              <div className="h-full w-[86%] rounded-full bg-[#00E5FF]" />
+              <div className="h-full w-[67%] rounded-full bg-[#00E5FF]" />
             </div>
-            <div className="text-[10px] text-[#6B6893]">86% planned</div>
+            <div className="text-[10px] text-[#6B6893]">67% planned</div>
           </div>
         </div>
 

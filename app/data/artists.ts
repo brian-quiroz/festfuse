@@ -14,13 +14,6 @@ const tameImpala: Artist = {
     instagram: "#",
     twitter: "#",
   },
-  stats: {
-    stagePresence: 92,
-    crowdEnergy: 88,
-    vocals: 78,
-    discoverability: 95,
-    fanFamiliarity: 90,
-  },
   metrics: {
     monthlyListeners: "8.2M",
     popularityScore: "82/100",
@@ -68,9 +61,9 @@ const tameImpala: Artist = {
   ],
   schedule: {
     festival: "Lollapalooza 2026",
-    stage: "Pyramid Stage",
+    stage: "T-Mobile",
     day: "Saturday",
-    date: "Jun 28",
+    date: "July 31",
     startTime: "10:30 PM",
     endTime: "11:45 PM",
   },
@@ -89,13 +82,6 @@ const jennie: Artist = {
     spotify: "https://open.spotify.com/artist/250b0Wlc5Vk0CoUsaCY84M",
     instagram: "#",
     twitter: "#",
-  },
-  stats: {
-    stagePresence: 94,
-    crowdEnergy: 96,
-    vocals: 84,
-    discoverability: 97,
-    fanFamiliarity: 98,
   },
   metrics: {
     monthlyListeners: "18.5M",
@@ -144,11 +130,11 @@ const jennie: Artist = {
   ],
   schedule: {
     festival: "Lollapalooza 2026",
-    stage: "Other Stage",
-    day: "Friday",
-    date: "Jun 27",
-    startTime: "8:00 PM",
-    endTime: "9:15 PM",
+    stage: "Bud Light",
+    day: "Saturday",
+    date: "Aug 1",
+    startTime: "9:00 PM",
+    endTime: "10:00 PM",
   },
 };
 
@@ -165,13 +151,6 @@ const beabadoobee: Artist = {
     spotify: "https://open.spotify.com/artist/35l9BRT7MXmM8bv2WDQiyB",
     instagram: "#",
     twitter: "#",
-  },
-  stats: {
-    stagePresence: 76,
-    crowdEnergy: 73,
-    vocals: 88,
-    discoverability: 82,
-    fanFamiliarity: 66,
   },
   metrics: {
     monthlyListeners: "3.8M",
@@ -220,11 +199,11 @@ const beabadoobee: Artist = {
   ],
   schedule: {
     festival: "Lollapalooza 2026",
-    stage: "West Holts Stage",
+    stage: "T-Mobile",
     day: "Sunday",
-    date: "Jun 29",
-    startTime: "2:30 PM",
-    endTime: "3:30 PM",
+    date: "Aug 2",
+    startTime: "6:45 PM",
+    endTime: "7:45 PM",
   },
 };
 
@@ -241,13 +220,6 @@ const majorLazer: Artist = {
     spotify: "https://open.spotify.com/artist/738wLrAtLtCtFOLvQBXOXp",
     instagram: "#",
     twitter: "#",
-  },
-  stats: {
-    stagePresence: 97,
-    crowdEnergy: 99,
-    vocals: 60,
-    discoverability: 88,
-    fanFamiliarity: 83,
   },
   metrics: {
     monthlyListeners: "12.1M",
@@ -296,11 +268,11 @@ const majorLazer: Artist = {
   ],
   schedule: {
     festival: "Lollapalooza 2026",
-    stage: "Park Stage",
+    stage: "Perry's",
     day: "Saturday",
-    date: "Jun 28",
-    startTime: "11:00 PM",
-    endTime: "12:30 AM",
+    date: "Jul 31",
+    startTime: "8:30 PM",
+    endTime: "9:45 PM",
   },
 };
 
@@ -309,5 +281,3 @@ export const allArtists: Artist[] = [tameImpala, jennie, beabadoobee, majorLazer
 export const artistsBySlug: Record<string, Artist> = Object.fromEntries(
   allArtists.map((a) => [a.slug, a])
 );
-
-export const mockArtist = tameImpala;
