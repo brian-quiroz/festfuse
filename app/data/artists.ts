@@ -3,7 +3,7 @@ import type { Artist } from "@/app/types/artist";
 const tameImpala: Artist = {
   name: "Tame Impala",
   slug: "tame-impala",
-  imageUrl: "https://image-cdn-fa.spotifycdn.com/image/ab67616100005174e412a782245eb20d9626c601",
+  imageUrl: "/artists/tame-impala.jpg",
   objectPosition: "center center",
   genres: ["Psychedelic Rock", "Indie", "Electronic"],
   origin: "Perth, Australia",
@@ -73,7 +73,7 @@ const tameImpala: Artist = {
 const jennie: Artist = {
   name: "Jennie",
   slug: "jennie",
-  imageUrl: "https://image-cdn-fa.spotifycdn.com/image/ab67616100005174a8e3627e392a1d8f539cb575",
+  imageUrl: "/artists/jennie.jpg",
   objectPosition: "center 15%",
   genres: ["K-Pop", "R&B", "Hip-Hop"],
   origin: "Seoul, South Korea",
@@ -143,7 +143,7 @@ const jennie: Artist = {
 const beabadoobee: Artist = {
   name: "Beabadoobee",
   slug: "beabadoobee",
-  imageUrl: "https://image-cdn-ak.spotifycdn.com/image/ab676161000051743a41a62e7193703d29d30a9a",
+  imageUrl: "/artists/beabadoobee.jpg",
   objectPosition: "center 20%",
   genres: ["Indie Pop", "Shoegaze", "Bedroom Pop"],
   origin: "London, England",
@@ -213,7 +213,7 @@ const beabadoobee: Artist = {
 const majorLazer: Artist = {
   name: "Major Lazer",
   slug: "major-lazer",
-  imageUrl: "https://image-cdn-fa.spotifycdn.com/image/ab67616100005174d18eac6f1e653551fd05a793",
+  imageUrl: "/artists/major-lazer.jpg",
   objectPosition: "center 30%",
   genres: ["Electronic", "Dancehall", "Dance Pop"],
   origin: "Miami, Florida",

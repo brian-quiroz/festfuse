@@ -7,9 +7,9 @@ export default function ArtistActions() {
   const [saved, setSaved] = useState(false);
 
   return (
-    <div className="flex items-center gap-2 flex-wrap">
-      <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#00E5FF] text-[#110D24] text-sm font-bold hover:bg-[#00E5FF]/90 transition-colors">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <div className="flex items-center gap-2.5 flex-wrap">
+      <button className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-[#00E5FF] text-[#110D24] text-sm font-bold hover:bg-[#00E5FF]/90 transition-colors">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <line x1="12" y1="5" x2="12" y2="19" />
           <line x1="5" y1="12" x2="19" y2="12" />
         </svg>
@@ -18,15 +18,15 @@ export default function ArtistActions() {
 
       <button
         onClick={() => setMustSee(!mustSee)}
-        className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold transition-colors ${
+        className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
           mustSee
             ? "bg-[#E8FF47] text-[#110D24]"
-            : "border border-[#2D2556] text-[#6B6893] hover:border-[#E8FF47]/50 hover:text-[#E8FF47]"
+            : "border border-white/15 text-white/50 hover:border-[#E8FF47]/40 hover:text-[#E8FF47]"
         }`}
       >
         <svg
-          width="14"
-          height="14"
+          width="13"
+          height="13"
           viewBox="0 0 24 24"
           fill={mustSee ? "currentColor" : "none"}
           stroke="currentColor"
@@ -41,15 +41,15 @@ export default function ArtistActions() {
 
       <button
         onClick={() => setSaved(!saved)}
-        className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+        className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
           saved
-            ? "border border-[#E8FF47] text-[#E8FF47] bg-[#E8FF47]/10"
-            : "border border-[#2D2556] text-[#6B6893] hover:border-[#E8FF47]/50 hover:text-[#E8FF47]"
+            ? "border border-[#E8FF47]/60 text-[#E8FF47] bg-[#E8FF47]/10"
+            : "border border-white/15 text-white/50 hover:border-[#E8FF47]/40 hover:text-[#E8FF47]"
         }`}
       >
         <svg
-          width="14"
-          height="14"
+          width="13"
+          height="13"
           viewBox="0 0 24 24"
           fill={saved ? "currentColor" : "none"}
           stroke="currentColor"
@@ -62,8 +62,8 @@ export default function ArtistActions() {
         {saved ? "Saved" : "Save"}
       </button>
 
-      <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-[#2D2556] text-[#6B6893] text-sm font-medium hover:text-white hover:border-white/30 transition-colors">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <button className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg border border-white/15 text-white/40 text-sm font-medium hover:text-white/70 hover:border-white/25 transition-colors">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="18" y1="20" x2="18" y2="10" />
           <line x1="12" y1="20" x2="12" y2="4" />
           <line x1="6" y1="20" x2="6" y2="14" />

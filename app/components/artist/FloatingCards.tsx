@@ -13,7 +13,6 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
     setNotes(value);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      // Persist to localStorage; swap for API call when backend is ready
       try { localStorage.setItem(`notes:${artist.slug}`, value); } catch {}
       setSavedVisible(true);
       if (fadeRef.current) clearTimeout(fadeRef.current);
@@ -25,49 +24,41 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
 
   return (
     <div className="space-y-4">
-      {/* Playing At — cyan tint */}
-      <div className="bg-[#00E5FF]/5 rounded-xl border border-[#00E5FF]/20 p-4">
-        <h3 className="text-xs font-semibold text-[#00E5FF]/70 uppercase tracking-widest mb-3">
+
+      {/* Playing At */}
+      <div className="rounded-2xl border border-[#00E5FF]/20 bg-[#00E5FF]/6 p-5">
+        <h3 className="text-xs font-semibold text-[#00E5FF]/55 uppercase tracking-widest mb-3.5">
           Playing At
         </h3>
         <div className="space-y-2.5">
-          {/* Festival name */}
-          <div className="text-sm font-bold text-white">{schedule.festival}</div>
-
-          {/* Day + date */}
+          <div className="text-sm font-semibold text-white/90">{schedule.festival}</div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#6B6893]">Date</span>
-            <span className="text-sm text-white/80">
-              {schedule.day}, {schedule.date}
-            </span>
+            <span className="text-xs text-white/30">Date</span>
+            <span className="text-xs text-white/70">{schedule.day}, {schedule.date}</span>
           </div>
-
-          {/* Start → End time */}
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#6B6893]">Time</span>
-            <span className="text-sm font-bold text-[#00E5FF]">
+            <span className="text-xs text-white/30">Time</span>
+            <span className="text-xs font-semibold text-[#00E5FF]">
               {schedule.startTime} – {schedule.endTime}
             </span>
           </div>
-
-          {/* Stage */}
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#6B6893]">Stage</span>
-            <span className="text-sm text-white/80">{schedule.stage}</span>
+            <span className="text-xs text-white/30">Stage</span>
+            <span className="text-xs text-white/70">{schedule.stage}</span>
           </div>
         </div>
       </div>
 
       {/* Similar Artists */}
-      <div className="bg-[#1B1535] rounded-xl border border-[#2D2556] p-4">
-        <h3 className="text-xs font-semibold text-[#6B6893] uppercase tracking-widest mb-3">
+      <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
+        <h3 className="text-xs font-semibold text-white/30 uppercase tracking-widest mb-3.5">
           Similar Artists
         </h3>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           {artist.similarArtists.map((name) => (
             <span
               key={name}
-              className="px-2.5 py-1 rounded-full bg-[#231C45] border border-[#2D2556] text-xs text-white/65 hover:text-white hover:border-[#00E5FF]/30 transition-colors cursor-default"
+              className="px-2.5 py-1 rounded-full bg-white/6 border border-white/10 text-xs text-white/55 hover:text-white/85 hover:border-white/20 transition-colors cursor-default"
             >
               {name}
             </span>
@@ -75,14 +66,14 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
         </div>
       </div>
 
-      {/* Notes — autosave */}
-      <div className="bg-[#1B1535] rounded-xl border border-[#2D2556] p-4">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-semibold text-[#6B6893] uppercase tracking-widest">
+      {/* Notes */}
+      <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
+        <div className="flex items-center justify-between mb-3.5">
+          <h3 className="text-xs font-semibold text-white/30 uppercase tracking-widest">
             Notes
           </h3>
           <span
-            className={`text-xs text-[#00E5FF] transition-opacity duration-500 ${
+            className={`text-xs text-[#00E5FF]/60 transition-opacity duration-500 ${
               savedVisible ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -94,9 +85,10 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
           onChange={(e) => handleNotesChange(e.target.value)}
           placeholder="Add a personal note..."
           rows={4}
-          className="w-full bg-[#231C45] border border-[#2D2556] rounded-lg px-3 py-2.5 text-sm text-white placeholder-[#6B6893] resize-none outline-none focus:border-[#00E5FF]/50 transition-colors leading-relaxed"
+          className="w-full bg-white/4 border border-white/8 rounded-xl px-3 py-2.5 text-sm text-white/75 placeholder-white/20 resize-none outline-none focus:border-[#00E5FF]/30 transition-colors leading-relaxed"
         />
       </div>
+
     </div>
   );
 }

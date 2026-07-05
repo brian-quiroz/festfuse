@@ -9,11 +9,11 @@ export default function StatsTab({ artist }: { artist: Artist }) {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-4 pb-12">
+    <div className="grid grid-cols-2 gap-8 pb-12">
       {cards.map(({ value, label }) => (
-        <div key={label} className="bg-[#1B1535] rounded-xl p-5 border border-[#2D2556]">
-          <div className="text-2xl font-bold text-white mb-1 leading-tight">{value}</div>
-          <div className="text-sm text-[#6B6893]">{label}</div>
+        <div key={label} className="bg-white/3 rounded-2xl p-6 border border-white/8">
+          <div className="text-3xl font-bold text-white leading-tight mb-2">{value}</div>
+          <div className="text-xs font-semibold text-white/30 uppercase tracking-widest">{label}</div>
         </div>
       ))}
     </div>
