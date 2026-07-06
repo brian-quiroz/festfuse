@@ -48,7 +48,7 @@ export default function ExplorePage() {
             cardSize="large"
           />
 
-          <QuickPicksBanner previewArtists={allArtists} />
+          <QuickPicksBanner />
 
           <ArtistCarousel
             title="New To You"
