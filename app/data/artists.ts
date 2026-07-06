@@ -143,7 +143,6 @@ const beabadoobee: Artist = {
   slug: "beabadoobee",
   imageUrl: "/artists/heroes/beabadoobee.jpg",
   objectPosition: "center 20%",
-  festivalStatus: "Rising",
   genres: ["Indie Pop", "Shoegaze", "Bedroom Pop"],
   origin: "London, England",
   tagline: "Fuzzed-out feelings in perfect three minutes.",

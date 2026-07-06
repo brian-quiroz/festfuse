@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { Heart, Star, Calendar } from "lucide-react"
+import { Heart, Star } from "lucide-react"
 import type { Artist } from "@/app/types/artist"
 
 interface ArtistCardProps {
@@ -13,9 +13,36 @@ interface ArtistCardProps {
 
 export default function ArtistCard({ artist, size = "default" }: ArtistCardProps) {
   const router = useRouter()
-  const [interested, setInterested] = useState(false)
   const [mustSee, setMustSee] = useState(false)
-  const [scheduled, setScheduled] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const savedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const handleMustSee = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!mustSee) {
+      setMustSee(true)
+      if (!saved) {
+        savedTimeoutRef.current = setTimeout(() => setSaved(true), 100)
+      }
+    } else {
+      setMustSee(false)
+      if (savedTimeoutRef.current) {
+        clearTimeout(savedTimeoutRef.current)
+        savedTimeoutRef.current = null
+      }
+      // saved stays intact — Option B
+    }
+  }
+
+  const handleSaved = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (saved) {
+      setSaved(false)
+      if (mustSee) setMustSee(false) // cascade down: unsaving removes Must See
+    } else {
+      setSaved(true)
+    }
+  }
 
   const isLarge = size === "large"
   const cardW = isLarge ? "w-52" : "w-44"
@@ -26,13 +53,6 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
       return (
         <span className="px-2 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/15 border border-[#FF2D78]/30 text-[#FF2D78]">
           Headliner
-        </span>
-      )
-    }
-    if (artist.festivalStatus === "Rising") {
-      return (
-        <span className="px-2 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#00E5FF]/10 border border-[#00E5FF]/25 text-[#00E5FF]">
-          Rising
         </span>
       )
     }
@@ -73,37 +93,27 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
           <div className="absolute top-3 left-3">{statusBadge()}</div>
         )}
 
-        {/* Action buttons */}
-        <div className="absolute bottom-3 left-3 flex items-center gap-1.5">
+        {/* Actions — Must See first, Saved second */}
+        <div className="absolute bottom-3 left-3 flex items-center gap-1">
           <button
-            onClick={(e) => { e.stopPropagation(); setInterested(!interested) }}
-            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all border ${
-              interested
-                ? "bg-[#E8FF47]/15 border-[#E8FF47]/50 text-[#E8FF47]"
-                : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
-            }`}
-          >
-            <Heart size={11} fill={interested ? "currentColor" : "none"} strokeWidth={2} />
-          </button>
-          <button
-            onClick={(e) => { e.stopPropagation(); setMustSee(!mustSee) }}
-            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all border ${
+            onClick={handleMustSee}
+            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
               mustSee
-                ? "bg-[#E8FF47]/15 border-[#E8FF47]/50 text-[#E8FF47]"
+                ? "bg-[#E8FF47]/25 border-[#E8FF47]/65 text-[#E8FF47]"
                 : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
             }`}
           >
             <Star size={11} fill={mustSee ? "currentColor" : "none"} strokeWidth={2} />
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); setScheduled(!scheduled) }}
-            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all border ${
-              scheduled
-                ? "bg-[#00E5FF]/15 border-[#00E5FF]/50 text-[#00E5FF]"
+            onClick={handleSaved}
+            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
+              saved
+                ? "bg-[#E8FF47]/10 border-[#E8FF47]/35 text-[#E8FF47]/85"
                 : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
             }`}
           >
-            <Calendar size={11} strokeWidth={2} />
+            <Heart size={11} fill={saved ? "currentColor" : "none"} strokeWidth={2} />
           </button>
         </div>
       </div>

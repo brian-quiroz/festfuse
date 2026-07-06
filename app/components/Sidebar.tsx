@@ -3,14 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Home, Search, Music2, Zap, BarChart2, Calendar,
+  Home, Search, Zap, BarChart2, Calendar,
   Star, Heart, CircleCheck, TriangleAlert,
 } from "lucide-react";
 
 const navItems = [
   { label: "Home", href: "/", Icon: Home },
   { label: "Explore", href: "/explore", Icon: Search },
-  { label: "Artists", href: "/artist", Icon: Music2 },
   { label: "Quick Picks", href: "/quick-picks", Icon: Zap },
   { label: "Compare", href: "/compare", Icon: BarChart2 },
   { label: "Schedule", href: "/schedule", Icon: Calendar },
