@@ -5,7 +5,6 @@ const tameImpala: Artist = {
   slug: "tame-impala",
   imageUrl: "/artists/heroes/tame-impala.jpg",
   objectPosition: "center 17%",
-  festivalStatus: "Headliner",
   genres: ["Psychedelic Rock", "Indie", "Electronic"],
   origin: "Perth, Australia",
   tagline: "Where the mind wanders, the music follows.",
