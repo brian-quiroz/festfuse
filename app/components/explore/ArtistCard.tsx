@@ -45,8 +45,8 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
   }
 
   const isLarge = size === "large"
-  const cardW = isLarge ? "w-52" : "w-44"
-  const photoH = isLarge ? "h-64" : "h-56"
+  const cardW = isLarge ? "w-60" : "w-48"
+  const photoH = isLarge ? "h-72" : "h-60"
 
   const statusBadge = () => {
     if (artist.festivalStatus === "Headliner") {
