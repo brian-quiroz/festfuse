@@ -92,7 +92,7 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
             onClick={handleMustSee}
             className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
               mustSee
-                ? "bg-[#E8FF47]/25 border-[#E8FF47]/65 text-[#E8FF47]"
+                ? "bg-[#E8FF47] border-[#E8FF47] text-[#110D24]"
                 : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
             }`}
           >
@@ -102,7 +102,7 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
             onClick={handleSaved}
             className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
               saved
-                ? "bg-[#E8FF47]/10 border-[#E8FF47]/35 text-[#E8FF47]/85"
+                ? "bg-[#E8FF47]/18 border-[#E8FF47]/50 text-[#E8FF47]"
                 : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
             }`}
           >
