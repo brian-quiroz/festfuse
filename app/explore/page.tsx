@@ -43,7 +43,6 @@ export default function ExplorePage() {
 
           <ArtistCarousel
             title="Festival Favorites"
-            subtitle="Top picks everyone's excited about."
             icon={<Star size={15} fill="currentColor" strokeWidth={0} className="text-[#E8FF47]" />}
             artists={festivalFavorites}
             cardSize="large"
@@ -53,21 +52,18 @@ export default function ExplorePage() {
 
           <ArtistCarousel
             title="New To You"
-            subtitle="Emerging artists on the rise."
             icon={<Compass size={15} strokeWidth={2} className="text-[#00E5FF]" />}
             artists={newToYou}
           />
 
           <ArtistCarousel
             title="Hidden Gems"
-            subtitle="Underrated acts worth catching."
             icon={<Gem size={15} strokeWidth={2} className="text-[#00E5FF]" />}
             artists={hiddenGems}
           />
 
           <ArtistCarousel
             title="Rave Energy"
-            subtitle="High-energy sets for the late-night crowd."
             icon={<Zap size={15} fill="currentColor" strokeWidth={0} className="text-[#E8FF47]" />}
             artists={raveEnergy}
           />

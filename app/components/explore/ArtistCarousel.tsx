@@ -7,13 +7,12 @@ import ArtistCard from "./ArtistCard"
 
 interface ArtistCarouselProps {
   title: string
-  subtitle?: string
   icon?: React.ReactNode
   artists: Artist[]
   cardSize?: "default" | "large"
 }
 
-export default function ArtistCarousel({ title, subtitle, icon, artists, cardSize = "default" }: ArtistCarouselProps) {
+export default function ArtistCarousel({ title, icon, artists, cardSize = "default" }: ArtistCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const scroll = (dir: "left" | "right") => {
@@ -28,7 +27,6 @@ export default function ArtistCarousel({ title, subtitle, icon, artists, cardSiz
             {icon}
             <h2 className="text-lg font-bold text-white">{title}</h2>
           </div>
-          {subtitle && <p className="text-sm text-white/40 mt-0.5">{subtitle}</p>}
         </div>
         <div className="flex items-center gap-2">
           <button

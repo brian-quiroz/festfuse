@@ -66,27 +66,29 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
       role="article"
     >
       {/* Photo */}
-      <div className={`relative ${photoH}`}>
-        {artist.imageUrl ? (
-          <Image
-            src={artist.imageUrl}
-            alt={artist.name}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-            style={{ objectPosition: artist.objectPosition ?? "center center" }}
+      <div className={`relative ${photoH} overflow-hidden`}>
+        {/* Scaled layer: image + gradient move together */}
+        <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]">
+          {artist.imageUrl ? (
+            <Image
+              src={artist.imageUrl}
+              alt={artist.name}
+              fill
+              className="object-cover"
+              style={{ objectPosition: artist.objectPosition ?? "center center" }}
+            />
+          ) : (
+            <div className="absolute inset-0 bg-[#231C45]" />
+          )}
+          {/* Gradient inside scaled layer so it moves with the image */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(17,13,36,0.12) 0%, transparent 28%, rgba(17,13,36,0.65) 72%, rgba(17,13,36,0.95) 100%)",
+            }}
           />
-        ) : (
-          <div className="absolute inset-0 bg-[#231C45]" />
-        )}
-
-        {/* Gradient */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(17,13,36,0.12) 0%, transparent 28%, rgba(17,13,36,0.65) 72%, rgba(17,13,36,0.95) 100%)",
-          }}
-        />
+        </div>
 
         {/* Status badge */}
         {artist.festivalStatus && (
