@@ -56,7 +56,7 @@ export default function QuickPicksBanner({ previewArtists }: QuickPicksBannerPro
           </p>
           <Link
             href="/quick-picks"
-            className="inline-flex items-center gap-1.5 mt-5 px-5 py-2.5 rounded-lg bg-[#00E5FF] text-[#110D24] text-sm font-bold hover:bg-[#00E5FF]/90 transition-colors"
+            className="inline-flex items-center gap-1.5 mt-5 px-5 py-2.5 rounded-lg bg-[#FF2D78] text-white text-sm font-bold hover:bg-[#FF2D78]/90 transition-colors"
           >
             Start Quick Picks
             <ArrowRight size={14} strokeWidth={2.5} />

@@ -29,7 +29,7 @@ export default function ExplorePage() {
                 Discover new artists and build your perfect lineup.
               </p>
             </div>
-            <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-white/15 text-white/50 text-sm font-medium hover:border-white/25 hover:text-white/70 transition-colors mt-1 flex-shrink-0">
+            <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#00E5FF] text-[#110D24] text-sm font-bold hover:bg-[#00E5FF]/90 transition-colors mt-1 flex-shrink-0">
               <Shuffle size={14} strokeWidth={2} />
               Surprise Me
             </button>
