@@ -576,7 +576,7 @@ const johnSummit: Artist = {
   whatToExpect: ["Driving house music", "Extended DJ set", "Massive late-night energy", "Relentless build and release", "Club-to-festival scale sound"],
   bestFor: ["House music fans", "Late-night ravers", "Electronic music lovers", "Groups who want to dance all night"],
   similarArtists: [
-    { name: "Fisher", imageUrl: "/artists/avatars/fisher.jpg" },
+    { name: "Fisher", imageUrl: "/artists/avatars/fisher.avif" },
     { name: "Chris Lake", imageUrl: "/artists/avatars/chris-lake.jpg" },
     { name: "Eric Prydz", imageUrl: "/artists/avatars/eric-prydz.jpg" },
     { name: "Skrillex", imageUrl: "/artists/avatars/skrillex.jpg" },
@@ -653,7 +653,7 @@ const charliXcx: Artist = {
   tracks: [
     { name: "360", album: "brat", duration: "2:13", artworkUrl: "/albums/charli-xcx/brat.jpg" },
     { name: "girl, so confusing", album: "brat", duration: "3:17", artworkUrl: "/albums/charli-xcx/brat.jpg" },
-    { name: "Boom Clap", album: "Sucker", duration: "3:00", artworkUrl: "/albums/charli-xcx/sucker.jpg" },
+    { name: "Boom Clap", album: "Sucker", duration: "3:00", artworkUrl: "/albums/charli-xcx/sucker.png" },
   ],
   about:
     "Charli XCX has spent a decade operating at the bleeding edge of pop, writing hits for others while building one of the most adventurous solo catalogues in the genre. She wrote Iggy Azalea's 'Fancy' and Icona Pop's 'I Love It' before most people knew her name as a solo artist. Her 2024 album brat arrived as a cultural watershed — a neon-green, uncompromising collection that defined an entire summer's aesthetic and earned universal critical acclaim. Charli performs like someone who has nothing left to prove and everything left to do.",
@@ -720,9 +720,9 @@ const smashingPumpkins: Artist = {
     { name: "My Chemical Romance", imageUrl: "/artists/avatars/my-chemical-romance.jpg" },
   ],
   tracks: [
-    { name: "Bullet with Butterfly Wings", album: "Mellon Collie and the Infinite Sadness", duration: "4:18", artworkUrl: "/albums/smashing-pumpkins/mellon-collie.jpg" },
-    { name: "1979", album: "Mellon Collie and the Infinite Sadness", duration: "4:26", artworkUrl: "/albums/smashing-pumpkins/mellon-collie.jpg" },
-    { name: "Tonight Tonight", album: "Mellon Collie and the Infinite Sadness", duration: "4:14", artworkUrl: "/albums/smashing-pumpkins/mellon-collie.jpg" },
+    { name: "Bullet with Butterfly Wings", album: "Mellon Collie and the Infinite Sadness", duration: "4:18", artworkUrl: "/albums/the-smashing-pumpkins/mellon-collie-and-the-infinite-sadness.jpg" },
+    { name: "1979", album: "Mellon Collie and the Infinite Sadness", duration: "4:26", artworkUrl: "/albums/the-smashing-pumpkins/mellon-collie-and-the-infinite-sadness.jpg" },
+    { name: "Tonight Tonight", album: "Mellon Collie and the Infinite Sadness", duration: "4:14", artworkUrl: "/albums/the-smashing-pumpkins/mellon-collie-and-the-infinite-sadness.jpg" },
   ],
   about:
     "The Smashing Pumpkins are one of the definitive rock bands of the 1990s. Formed in Chicago by Billy Corgan, the band built a sound that combined massively layered, distorted guitars with introspective lyricism and unexpected melodic beauty. Albums like Siamese Dream and Mellon Collie and the Infinite Sadness stand as milestones of alternative rock — dense, ambitious, and emotionally enormous. Their live shows are events: loud, long, and performed with the urgency of musicians who have spent decades earning their stage.",
@@ -786,12 +786,12 @@ const oliviaDean: Artist = {
     { name: "Lianne La Havas", imageUrl: "/artists/avatars/lianne-la-havas.jpg" },
     { name: "Jorja Smith", imageUrl: "/artists/avatars/jorja-smith.jpg" },
     { name: "Joy Crookes", imageUrl: "/artists/avatars/joy-crookes.jpg" },
-    { name: "Celeste", imageUrl: "/artists/avatars/celeste.jpg" },
+    { name: "Celeste", imageUrl: "/artists/avatars/celeste.png" },
   ],
   tracks: [
-    { name: "Dive", album: "Messy", duration: "3:02", artworkUrl: "/albums/olivia-dean/messy.jpg" },
-    { name: "UFO", album: "Messy", duration: "3:14", artworkUrl: "/albums/olivia-dean/messy.jpg" },
-    { name: "Danger", album: "Messy", duration: "3:28", artworkUrl: "/albums/olivia-dean/messy.jpg" },
+    { name: "Dive", album: "Messy", duration: "3:02", artworkUrl: "/albums/olivia-dean/messy.png" },
+    { name: "UFO", album: "Messy", duration: "3:14", artworkUrl: "/albums/olivia-dean/messy.png" },
+    { name: "Danger", album: "Messy", duration: "3:28", artworkUrl: "/albums/olivia-dean/messy.png" },
   ],
   about:
     "Olivia Dean is a London-born singer-songwriter whose debut album Messy announced her as one of British music's most exciting new voices. Rooted in soul and R&B but filtered through a distinctly modern pop sensibility, her songs are warm, emotionally precise, and shot through with genuine wit. She writes with specificity — about real feelings in real situations — and performs with a presence that makes every room feel smaller and more intimate. Messy earned widespread critical acclaim and a Mercury Prize nomination, cementing a debut that's only the beginning.",
@@ -858,9 +858,9 @@ const tateMcRae: Artist = {
     { name: "Ariana Grande", imageUrl: "/artists/avatars/ariana-grande.jpg" },
   ],
   tracks: [
-    { name: "greedy", album: "think later.", duration: "2:11", artworkUrl: "/albums/tate-mcrae/think-later.jpg" },
-    { name: "2 hands", album: "think later.", duration: "2:37", artworkUrl: "/albums/tate-mcrae/think-later.jpg" },
-    { name: "you broke me first", album: "all the things i never said", duration: "3:06", artworkUrl: "/albums/tate-mcrae/all-the-things.jpg" },
+    { name: "greedy", album: "think later.", duration: "2:11", artworkUrl: "/albums/tate-mcrae/think-later.png" },
+    { name: "2 hands", album: "think later.", duration: "2:37", artworkUrl: "/albums/tate-mcrae/think-later.png" },
+    { name: "you broke me first", album: "all the things i never said", duration: "3:06", artworkUrl: "/albums/tate-mcrae/all-the-things-i-never-said.jpg" },
   ],
   about:
     "Tate McRae is a Calgary-born singer, songwriter, and dancer who has built one of pop music's most devoted fanbases through relentless work and a rare combination of talents. A competitive dancer before becoming a recording artist, McRae brings a physical vocabulary to her performances that most pop acts simply can't match. Her 2023 album think later. — anchored by the massive hit 'greedy' — established her as a genuine pop force, trading on emotional honesty and irresistible hooks in equal measure.",
@@ -924,7 +924,7 @@ const theXx: Artist = {
     { name: "Beach House", imageUrl: "/artists/avatars/beach-house.jpg" },
     { name: "James Blake", imageUrl: "/artists/avatars/james-blake.jpg" },
     { name: "Bon Iver", imageUrl: "/artists/avatars/bon-iver.jpg" },
-    { name: "London Grammar", imageUrl: "/artists/avatars/london-grammar.jpg" },
+    { name: "London Grammar", imageUrl: "/artists/avatars/london-grammar.avif" },
   ],
   tracks: [
     { name: "Intro", album: "xx", duration: "2:07", artworkUrl: "/albums/the-xx/xx.jpg" },
@@ -989,14 +989,14 @@ const aespa: Artist = {
   whatToExpect: ["Synchronized choreography", "High-production visuals", "Bilingual performance (Korean/English)", "Intense fan energy", "Short but stacked set"],
   bestFor: ["K-pop fans", "Pop music lovers", "Fans of concept-driven acts", "Anyone who wants to be converted"],
   similarArtists: [
-    { name: "BLACKPINK", imageUrl: "/artists/avatars/blackpink.jpg" },
+    { name: "BLACKPINK", imageUrl: "/artists/avatars/blackpink.png" },
     { name: "NewJeans", imageUrl: "/artists/avatars/newjeans.jpg" },
     { name: "TWICE", imageUrl: "/artists/avatars/twice.jpg" },
-    { name: "IVE", imageUrl: "/artists/avatars/ive.jpg" },
+    { name: "IVE", imageUrl: "/artists/avatars/ive.png" },
   ],
   tracks: [
-    { name: "Supernova", album: "Supernova", duration: "3:01", artworkUrl: "/albums/aespa/supernova.jpg" },
-    { name: "Whiplash", album: "Whiplash", duration: "3:05", artworkUrl: "/albums/aespa/whiplash.jpg" },
+    { name: "Supernova", album: "Supernova", duration: "3:01", artworkUrl: "/albums/aespa/supernova.png" },
+    { name: "Whiplash", album: "Whiplash", duration: "3:05", artworkUrl: "/albums/aespa/whiplash.png" },
     { name: "Next Level", album: "savage", duration: "3:37", artworkUrl: "/albums/aespa/savage.jpg" },
   ],
   about:
