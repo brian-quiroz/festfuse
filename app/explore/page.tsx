@@ -6,11 +6,14 @@ import ExploreFilters from "@/app/components/explore/ExploreFilters"
 import { Star, Compass, Gem, Zap, Shuffle } from "lucide-react"
 
 export default function ExplorePage() {
-  // Section groupings — curated manually until we have more artists and real personalization
-  const festivalFavorites = allArtists
-  const newToYou = [allArtists[2], allArtists[3], allArtists[0], allArtists[1]]
-  const hiddenGems = [allArtists[3], allArtists[2], allArtists[1], allArtists[0]]
-  const raveEnergy = [allArtists[3], allArtists[0], allArtists[2], allArtists[1]]
+  const festivalFavorites = allArtists.filter(a => a.festivalStatus === "Headliner")
+  const newToYou = allArtists.filter(a => !a.festivalStatus)
+  const hiddenGems = allArtists.filter(a =>
+    a.genres.some(g => ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g))
+  )
+  const raveEnergy = allArtists.filter(a =>
+    a.genres.some(g => ["Electronic", "Dancehall", "Dance Pop", "J-Pop", "K-Pop", "Psychedelic Rock"].includes(g))
+  )
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#110D24]">
