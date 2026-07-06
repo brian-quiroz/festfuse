@@ -7,12 +7,11 @@ import ArtistCard from "./ArtistCard"
 
 interface ArtistCarouselProps {
   title: string
-  icon?: React.ReactNode
   artists: Artist[]
   cardSize?: "default" | "large"
 }
 
-export default function ArtistCarousel({ title, icon, artists, cardSize = "default" }: ArtistCarouselProps) {
+export default function ArtistCarousel({ title, artists, cardSize = "default" }: ArtistCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const scroll = (dir: "left" | "right") => {
@@ -23,10 +22,7 @@ export default function ArtistCarousel({ title, icon, artists, cardSize = "defau
     <section>
       {/* Header */}
       <div className="flex items-center justify-between px-8 mb-5">
-        <div className="flex items-center gap-2">
-          {icon}
-          <h2 className="text-lg font-bold text-white">{title}</h2>
-        </div>
+        <h2 className="text-lg font-bold text-white">{title}</h2>
         <button className="text-sm text-white/30 hover:text-white/55 transition-colors">
           See all
         </button>

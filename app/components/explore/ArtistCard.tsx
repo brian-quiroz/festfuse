@@ -30,7 +30,6 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
         clearTimeout(savedTimeoutRef.current)
         savedTimeoutRef.current = null
       }
-      // saved stays intact — Option B
     }
   }
 
@@ -38,7 +37,7 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
     e.stopPropagation()
     if (saved) {
       setSaved(false)
-      if (mustSee) setMustSee(false) // cascade down: unsaving removes Must See
+      if (mustSee) setMustSee(false)
     } else {
       setSaved(true)
     }
@@ -47,17 +46,6 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
   const isLarge = size === "large"
   const cardW = isLarge ? "w-60" : "w-48"
   const photoH = isLarge ? "h-72" : "h-60"
-
-  const statusBadge = () => {
-    if (artist.festivalStatus === "Headliner") {
-      return (
-        <span className="px-2 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/15 border border-[#FF2D78]/30 text-[#FF2D78]">
-          Headliner
-        </span>
-      )
-    }
-    return null
-  }
 
   return (
     <div
@@ -80,7 +68,6 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
           ) : (
             <div className="absolute inset-0 bg-[#231C45]" />
           )}
-          {/* Gradient inside scaled layer so it moves with the image */}
           <div
             className="absolute inset-0"
             style={{
@@ -90,12 +77,16 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
           />
         </div>
 
-        {/* Status badge */}
-        {artist.festivalStatus && (
-          <div className="absolute top-3 left-3">{statusBadge()}</div>
+        {/* Headliner badge — bottom-right, balances action icons on the left */}
+        {artist.festivalStatus === "Headliner" && (
+          <div className="absolute bottom-3 right-3">
+            <span className="px-2 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/18 border border-[#FF2D78]/32 text-[#FF2D78]">
+              Headliner
+            </span>
+          </div>
         )}
 
-        {/* Actions — Must See first, Saved second */}
+        {/* Action icons — bottom-left */}
         <div className="absolute bottom-3 left-3 flex items-center gap-1">
           <button
             onClick={handleMustSee}

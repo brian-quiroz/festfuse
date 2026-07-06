@@ -3,7 +3,7 @@ import Sidebar from "@/app/components/Sidebar"
 import ArtistCarousel from "@/app/components/explore/ArtistCarousel"
 import QuickPicksBanner from "@/app/components/explore/QuickPicksBanner"
 import ExploreFilters from "@/app/components/explore/ExploreFilters"
-import { Star, Compass, Gem, Zap, Shuffle } from "lucide-react"
+import { Shuffle } from "lucide-react"
 
 export default function ExplorePage() {
   const festivalFavorites = allArtists.filter(a => a.festivalStatus === "Headliner")
@@ -41,32 +41,15 @@ export default function ExplorePage() {
         {/* Sections */}
         <div className="pt-10 pb-16 space-y-12">
 
-          <ArtistCarousel
-            title="Festival Favorites"
-            icon={<Star size={15} fill="currentColor" strokeWidth={0} className="text-[#E8FF47]" />}
-            artists={festivalFavorites}
-            cardSize="large"
-          />
+          <ArtistCarousel title="Festival Favorites" artists={festivalFavorites} cardSize="large" />
 
           <QuickPicksBanner />
 
-          <ArtistCarousel
-            title="New To You"
-            icon={<Compass size={15} strokeWidth={2} className="text-[#00E5FF]" />}
-            artists={newToYou}
-          />
+          <ArtistCarousel title="New To You" artists={newToYou} />
 
-          <ArtistCarousel
-            title="Hidden Gems"
-            icon={<Gem size={15} strokeWidth={2} className="text-[#00E5FF]" />}
-            artists={hiddenGems}
-          />
+          <ArtistCarousel title="Hidden Gems" artists={hiddenGems} />
 
-          <ArtistCarousel
-            title="Rave Energy"
-            icon={<Zap size={15} fill="currentColor" strokeWidth={0} className="text-[#E8FF47]" />}
-            artists={raveEnergy}
-          />
+          <ArtistCarousel title="Rave Energy" artists={raveEnergy} />
 
         </div>
       </main>
