@@ -1,4 +1,5 @@
 import Sidebar from "@/app/components/Sidebar";
+import { ArrowRight } from "lucide-react";
 
 export default function QuickPicksPage() {
     return (
@@ -8,12 +9,12 @@ export default function QuickPicksPage() {
                 
                 {/* Page header */}
                 <div className="px-8 pt-10 pb-0">
-                    <div className="flex flex-col gap-8">
+                    <div className="flex flex-col items-center gap-8">
                         
                         {/* Title */}
                         <div>
                             <h1 className="text-3xl font-extrabold text-white tracking-tight">Quick Picks</h1>
-                            <p>
+                            <p className="text-sm text-white/45 mt-1.5">
                                 One artist. One decision.
                             </p>
                         </div>
@@ -21,6 +22,10 @@ export default function QuickPicksPage() {
                         {/* Session Setup */}
 
                         {/* Start Session Button */}
+                         <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#00E5FF] text-[#110D24] text-sm font-bold hover:bg-[#00E5FF]/90 transition-colors">
+                            Start Quick Picks
+                            <ArrowRight size={13} strokeWidth={2.5} />
+                        </button>
                     </div>
                 </div>
 
