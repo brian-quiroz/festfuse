@@ -22,9 +22,9 @@ export default function QuickPicksPage() {
                         {/* Session Setup */}
 
                         {/* Start Session Button */}
-                         <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#00E5FF] text-[#110D24] text-sm font-bold hover:bg-[#00E5FF]/90 transition-colors">
+                         <button className="flex w-80 items-center justify-center gap-2 px-4 py-4 rounded-lg bg-[#00E5FF] text-[#110D24] text-base font-bold hover:bg-[#00E5FF]/90 transition-colors">
                             Start Quick Picks
-                            <ArrowRight size={13} strokeWidth={2.5} />
+                            <ArrowRight size={15} strokeWidth={2.5} />
                         </button>
                     </div>
                 </div>
