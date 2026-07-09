@@ -55,7 +55,7 @@ export default function SessionSetup() {
                                 Group by Festival Day
                                 </h3>
                                 <p className="text-xs text-white/45 mt-1.5">
-                                    Focus on one day at at time.
+                                    Focus on one day at a time.
                                 </p>
                                 <p className="text-xs text-white/45 mt-1.5">
                                     Recommended.
