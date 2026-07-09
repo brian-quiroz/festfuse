@@ -3,9 +3,10 @@
 import { useState } from "react";
 import StartOptions from "@/app/components/quick-picks/StartOptions";
 import { ArrowRight, Zap, Lock } from "lucide-react";
+import type { SessionConfig } from "@/app/types/quick-picks";
 
 interface Props {
-    onStart: () => void;
+    onStart: (config: SessionConfig) => void;
 }
 
 export default function StartScreen({ onStart }: Props) {
@@ -47,13 +48,13 @@ export default function StartScreen({ onStart }: Props) {
                         </div>
                     </div>
 
-                    {/* Session Setup + CTA */}
+                    {/* Start Options + CTA */}
                     <div className="w-full flex flex-col items-center gap-5">
                         <StartOptions groupByDay={groupByDay} onGroupByDayChange={setGroupByDay} />
 
                         <div className="w-full flex flex-col items-center gap-3">
                             <button
-                                onClick={onStart}
+                                onClick={() => onStart({ festivalId: "lollapalooza", groupByDay })}
                                 className="flex w-full max-w-md items-center justify-center gap-2 px-4 py-4 rounded-lg bg-[#00E5FF] text-[#110D24] text-base font-bold hover:bg-[#00E5FF]/90 transition-colors"
                             >
                                 Start Quick Picks
