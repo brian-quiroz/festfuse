@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import StartOptions from "@/app/components/quick-picks/StartOptions";
 import { ArrowRight, Zap, Lock } from "lucide-react";
 
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export default function StartScreen({ onStart }: Props) {
+    const [groupByDay, setGroupByDay] = useState(true);
     return (
         <>
             {/* Atmospheric background */}
@@ -47,7 +49,7 @@ export default function StartScreen({ onStart }: Props) {
 
                     {/* Session Setup + CTA */}
                     <div className="w-full flex flex-col items-center gap-5">
-                        <StartOptions />
+                        <StartOptions groupByDay={groupByDay} onGroupByDayChange={setGroupByDay} />
 
                         <div className="w-full flex flex-col items-center gap-3">
                             <button

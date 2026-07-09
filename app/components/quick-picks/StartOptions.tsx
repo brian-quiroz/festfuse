@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { ChevronDown, Calendar } from "lucide-react";
 import Image from "next/image";
 
-export default function StartOptions() {
-    const [groupByDay, setGroupByDay] = useState(true);
+interface Props {
+    groupByDay: boolean;
+    onGroupByDayChange: (value: boolean) => void;
+}
 
+export default function StartOptions({ groupByDay, onGroupByDayChange }: Props) {
     return (
         <div className="grid grid-cols-2 gap-6 w-full">
 
@@ -78,7 +80,7 @@ export default function StartOptions() {
                             className={`w-11 h-6 rounded-full relative p-0 flex-shrink-0 transition-colors duration-300 ease-in-out ${
                                 groupByDay ? "bg-[#00E5FF]/75" : "bg-white/20"
                             }`}
-                            onClick={() => setGroupByDay(!groupByDay)}
+                            onClick={() => onGroupByDayChange(!groupByDay)}
                         >
                             <div className={`w-5 h-5 bg-white rounded-full absolute left-0.5 top-0.5 transition-transform duration-300 ease-in-out ${
                                 groupByDay ? "translate-x-5" : "translate-x-0"
