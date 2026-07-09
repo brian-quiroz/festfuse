@@ -1,10 +1,11 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Heart, Star } from "lucide-react"
 import type { Artist } from "@/app/types/artist"
+import type { InterestLevel } from "@/app/types/quick-picks"
 
 interface ArtistCardProps {
   artist: Artist
@@ -13,35 +14,22 @@ interface ArtistCardProps {
 
 export default function ArtistCard({ artist, size = "default" }: ArtistCardProps) {
   const router = useRouter()
-  const [mustSee, setMustSee] = useState(false)
-  const [saved, setSaved] = useState(false)
-  const savedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Single stored tier; Must See visually implies Interested.
+  const [interestLevel, setInterestLevel] = useState<InterestLevel | null>(null)
 
   const handleMustSee = (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (!mustSee) {
-      setMustSee(true)
-      if (!saved) {
-        savedTimeoutRef.current = setTimeout(() => setSaved(true), 100)
-      }
-    } else {
-      setMustSee(false)
-      if (savedTimeoutRef.current) {
-        clearTimeout(savedTimeoutRef.current)
-        savedTimeoutRef.current = null
-      }
-    }
+    setInterestLevel((prev) => (prev === "mustSee" ? "interested" : "mustSee"))
   }
 
-  const handleSaved = (e: React.MouseEvent) => {
+  const handleInterested = (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (saved) {
-      setSaved(false)
-      if (mustSee) setMustSee(false)
-    } else {
-      setSaved(true)
-    }
+    setInterestLevel((prev) => (prev === null ? "interested" : null))
   }
+
+  const interested = interestLevel !== null
+  const mustSee = interestLevel === "mustSee"
 
   const isLarge = size === "large"
   const cardW = isLarge ? "w-60" : "w-48"
@@ -99,14 +87,14 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
             <Star size={11} fill={mustSee ? "currentColor" : "none"} strokeWidth={2} />
           </button>
           <button
-            onClick={handleSaved}
+            onClick={handleInterested}
             className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
-              saved
+              interested
                 ? "bg-[#E8FF47]/18 border-[#E8FF47]/50 text-[#E8FF47]"
                 : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
             }`}
           >
-            <Heart size={11} fill={saved ? "currentColor" : "none"} strokeWidth={2} />
+            <Heart size={11} fill={interested ? "currentColor" : "none"} strokeWidth={2} />
           </button>
         </div>
       </div>
