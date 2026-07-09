@@ -24,7 +24,9 @@ export default function ExplorePage() {
         <div className="px-8 pt-10 pb-0">
           <div className="flex items-start justify-between mb-7">
             <div>
-              <h1 className="text-3xl font-extrabold text-white tracking-tight">Explore Artists</h1>
+              <h1 className="text-3xl font-extrabold text-white tracking-tight">
+                Explore Artists
+              </h1>
               <p className="text-sm text-white/45 mt-1.5">
                 Discover new artists and build your perfect lineup.
               </p>
@@ -54,5 +56,5 @@ export default function ExplorePage() {
         </div>
       </main>
     </div>
-  )
+  );
 }

@@ -62,7 +62,7 @@ const tameImpala: Artist = {
     festival: "Lollapalooza 2026",
     stage: "T-Mobile",
     day: "Saturday",
-    date: "July 31",
+    date: "Jul 31",
     startTime: "10:30 PM",
     endTime: "11:45 PM",
   },
