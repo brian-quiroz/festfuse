@@ -15,17 +15,23 @@ export default function SessionSetup() {
                     <p className="text-[10px] text-white/35 uppercase tracking-widest font-semibold">Step 1</p>
                     <p className="text-sm text-white/75 mt-0.5">Festival</p>
                 </div>
-                <button className="w-full rounded-2xl border border-white/10 bg-[#1B1535] p-5 min-h-[104px] text-left flex items-center"> {/* flex items-center vertically centers content within min-h */}
+                <button className="w-full rounded-2xl border border-white/12 bg-[#1B1535] p-5 min-h-[104px] text-left flex items-center"> {/* flex items-center vertically centers content within min-h */}
                     <div className="flex items-center justify-between w-full">
 
                         <div className="flex items-center gap-4">
-                            <Image
-                            src="/festivals/logos/lollapalooza.webp"
-                            width={60}
-                            height={60}
-                            alt="Lollapalooza logo"
-                            className="object-contain"
-                            />
+                            {/*
+                              Logo container: white background by default (works for most festival logos).
+                              For logos designed for dark backgrounds, swap bg-white for bg-[#110D24] or bg-black.
+                            */}
+                            <div className="w-14 h-14 rounded-xl bg-white overflow-hidden flex items-center justify-center p-2 flex-shrink-0">
+                                <Image
+                                    src="/festivals/logos/lollapalooza.webp"
+                                    width={48}
+                                    height={48}
+                                    alt="Lollapalooza logo"
+                                    className="object-contain w-full h-full"
+                                />
+                            </div>
                             <div>
                                 <h3 className="text-sm font-semibold text-white/75">
                                     Lollapalooza 2026
@@ -47,7 +53,7 @@ export default function SessionSetup() {
                     <p className="text-[10px] text-white/35 uppercase tracking-widest font-semibold">Step 2</p>
                     <p className="text-sm text-white/75 mt-0.5">Grouping</p>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5 min-h-[104px] flex items-center">
+                <div className="rounded-2xl border border-white/12 bg-[#1B1535] p-5 min-h-[104px] flex items-center">
                     <div className="flex items-center justify-between w-full">
 
                         <div className="flex items-center gap-4">
