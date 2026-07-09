@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+
 interface Props {
     completedDay: string | null;
     upcomingDay: string | null;
@@ -7,6 +9,18 @@ interface Props {
 }
 
 export default function DayCompleteScreen({ completedDay, upcomingDay, onContinue }: Props) {
+    useEffect(() => {
+        function handleKey(e: KeyboardEvent) {
+            if (e.metaKey || e.ctrlKey || e.altKey) return;
+            if (e.key === "Enter") {
+                e.preventDefault();
+                onContinue();
+            }
+        }
+        window.addEventListener("keydown", handleKey);
+        return () => window.removeEventListener("keydown", handleKey);
+    }, [onContinue]);
+
     return (
         <>
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -33,9 +47,10 @@ export default function DayCompleteScreen({ completedDay, upcomingDay, onContinu
                 )}
                 <button
                     onClick={onContinue}
-                    className="mt-4 px-6 py-3 rounded-lg bg-[#00E5FF] text-[#110D24] font-bold text-sm hover:bg-[#00E5FF]/90 transition-colors"
+                    className="mt-4 flex items-center justify-between w-64 px-6 py-3 rounded-lg bg-[#00E5FF] text-[#110D24] font-bold text-sm hover:bg-[#00E5FF]/90 transition-colors"
                 >
-                    Continue →
+                    <span>Continue</span>
+                    <span className="opacity-60">↵</span>
                 </button>
             </div>
         </>

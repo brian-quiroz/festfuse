@@ -66,6 +66,10 @@ Present artists one at a time with just enough information to confidently decide
 - Interested
 - Must See
 
+Quick Picks optimizes for momentum, not perfect decisions.
+
+Favor forward progress over exhaustive review. Provide lightweight error recovery (e.g. undoing the last decision), but avoid introducing workflows that encourage second-guessing or turn Quick Picks back into browsing.
+
 ### Festival Artifact
 Celebrate the user's festival journey.
 Summarize their taste, discoveries, and decisions in a memorable, shareable format.

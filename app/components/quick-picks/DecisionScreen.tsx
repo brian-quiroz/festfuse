@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { X, Heart, Star, Calendar, Layers, TrendingUp, Play } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
@@ -15,6 +16,33 @@ interface Props {
 
 export default function DecisionScreen({ artist, dayLabel, progress, onDecision, onExit }: Props) {
   const pct = Math.round((progress.current / progress.total) * 100);
+  const [confirming, setConfirming] = useState<QuickPicksVerdict | null>(null);
+  const confirmingRef = useRef<QuickPicksVerdict | null>(null);
+
+  const handleDecisionClick = useCallback((verdict: QuickPicksVerdict) => {
+    if (confirmingRef.current) return;
+    confirmingRef.current = verdict;
+    setConfirming(verdict);
+    setTimeout(() => {
+      confirmingRef.current = null;
+      setConfirming(null);
+      onDecision(verdict);
+    }, 150);
+  }, [onDecision]);
+
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      switch (e.key) {
+        case "a": e.preventDefault(); handleDecisionClick("pass"); break;
+        case "s": e.preventDefault(); handleDecisionClick("interested"); break;
+        case "d": e.preventDefault(); handleDecisionClick("mustSee"); break;
+      }
+    }
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [handleDecisionClick]);
 
   return (
     <>
@@ -193,39 +221,57 @@ export default function DecisionScreen({ artist, dayLabel, progress, onDecision,
 
             {/* Decision buttons */}
             <div className="grid grid-cols-3 gap-3">
+
+              {/* Pass */}
               <button
-                onClick={() => onDecision("pass")}
-                className="flex items-center justify-center gap-2 py-4 rounded-xl border border-red-400/30 text-red-400/70 text-sm font-semibold hover:bg-red-400/8 hover:border-red-400/50 hover:text-red-400 transition-all duration-200"
+                onClick={() => handleDecisionClick("pass")}
+                className={`flex items-center justify-center gap-2 py-4 rounded-xl border text-sm font-semibold transition-all duration-150 ${
+                  confirming === "pass"
+                    ? "border-red-400/70 bg-red-400/15 text-red-400"
+                    : "border-red-400/45 text-red-400/80 hover:bg-red-400/10 hover:border-red-400/65 hover:text-red-400"
+                }`}
               >
                 <X size={15} strokeWidth={2.5} />
                 Pass
               </button>
 
+              {/* Interested */}
               <button
-                onClick={() => onDecision("interested")}
-                className="flex items-center justify-center gap-2 py-4 rounded-xl bg-[#E8FF47]/10 border border-[#E8FF47]/50 text-[#E8FF47] text-sm font-semibold hover:bg-[#E8FF47]/18 hover:border-[#E8FF47]/70 transition-all duration-200"
+                onClick={() => handleDecisionClick("interested")}
+                className={`flex items-center justify-center gap-2 py-4 rounded-xl border text-sm font-semibold transition-all duration-150 ${
+                  confirming === "interested"
+                    ? "bg-[#E8FF47]/40 border-[#E8FF47] text-[#E8FF47] scale-[1.02]"
+                    : "bg-[#E8FF47]/25 border-[#E8FF47]/72 text-[#E8FF47] hover:bg-[#E8FF47]/32 hover:border-[#E8FF47]/85"
+                }`}
               >
                 <Heart size={15} strokeWidth={2} />
                 Interested
               </button>
 
+              {/* Must See */}
               <button
-                onClick={() => onDecision("mustSee")}
-                className="flex items-center justify-center gap-2 py-4 rounded-xl bg-[#E8FF47] text-[#110D24] text-sm font-bold hover:bg-[#E8FF47]/90 transition-all duration-200"
+                onClick={() => handleDecisionClick("mustSee")}
+                style={confirming === "mustSee" ? { boxShadow: "0 0 24px rgba(232,255,71,0.45)" } : undefined}
+                className={`flex items-center justify-center gap-2 py-4 rounded-xl text-sm font-bold transition-all duration-150 ${
+                  confirming === "mustSee"
+                    ? "bg-[#E8FF47] text-[#110D24] scale-[1.03]"
+                    : "bg-[#E8FF47] text-[#110D24] hover:bg-[#E8FF47]/90 hover:shadow-[0_0_20px_rgba(232,255,71,0.4)]"
+                }`}
               >
                 <Star size={15} fill="currentColor" strokeWidth={0} />
                 Must See
               </button>
+
             </div>
 
           </div>
 
           {/* Keyboard hints */}
-          <div className="flex items-center justify-center gap-6 text-white/30 text-[11px]">
-            <span>← Pass</span>
-            <span>↓ Interested</span>
-            <span>→ Must See</span>
-            <span>↺ Undo</span>
+          <div className="flex items-center justify-center gap-6 text-white/40 text-[11px]">
+            <span>A Pass</span>
+            <span>S Interested</span>
+            <span>D Must See</span>
+            <span>Z Back</span>
           </div>
 
         </div>
