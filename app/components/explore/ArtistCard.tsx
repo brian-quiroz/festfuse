@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Heart, Star } from "lucide-react"
@@ -17,18 +17,38 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
 
   // Single stored tier; Must See visually implies Interested.
   const [interestLevel, setInterestLevel] = useState<InterestLevel | null>(null)
+  // Display-only: heart lights up immediately on direct tap, or after cascade delay when Must See is tapped from neutral.
+  const [heartVisible, setHeartVisible] = useState(false)
+  const cascadeRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => () => { if (cascadeRef.current) clearTimeout(cascadeRef.current) }, [])
 
   const handleMustSee = (e: React.MouseEvent) => {
     e.stopPropagation()
-    setInterestLevel((prev) => (prev === "mustSee" ? "interested" : "mustSee"))
+    if (cascadeRef.current) clearTimeout(cascadeRef.current)
+    if (interestLevel === "mustSee") {
+      setInterestLevel("interested")
+    } else {
+      const wasEmpty = interestLevel === null
+      setInterestLevel("mustSee")
+      if (wasEmpty) {
+        cascadeRef.current = setTimeout(() => setHeartVisible(true), 100)
+      }
+    }
   }
 
   const handleInterested = (e: React.MouseEvent) => {
     e.stopPropagation()
-    setInterestLevel((prev) => (prev === null ? "interested" : null))
+    if (cascadeRef.current) clearTimeout(cascadeRef.current)
+    if (interestLevel === null) {
+      setInterestLevel("interested")
+      setHeartVisible(true)
+    } else {
+      setInterestLevel(null)
+      setHeartVisible(false)
+    }
   }
 
-  const interested = interestLevel !== null
   const mustSee = interestLevel === "mustSee"
 
   const isLarge = size === "large"
@@ -89,12 +109,12 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
           <button
             onClick={handleInterested}
             className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
-              interested
+              heartVisible
                 ? "bg-[#E8FF47]/18 border-[#E8FF47]/50 text-[#E8FF47]"
                 : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
             }`}
           >
-            <Heart size={11} fill={interested ? "currentColor" : "none"} strokeWidth={2} />
+            <Heart size={11} fill={heartVisible ? "currentColor" : "none"} strokeWidth={2} />
           </button>
         </div>
       </div>
