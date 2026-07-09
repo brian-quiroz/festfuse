@@ -1,27 +1,20 @@
+import type { InterestLevel } from "@/app/types/interest";
+
 export type QuickPicksStep =
     | "start"
     | "decisioning"
     | "dayComplete"
     | "finalSummary";
 
-// Shared interest model — used by both Quick Picks and Artist page
-export type InterestLevel = "interested" | "mustSee";
-export type InterestSource = "quickPicks" | "artistPage";
+// Includes "pass", which is QP-only — no ArtistInterest is created for a pass
+export type QuickPicksVerdict = "pass" | InterestLevel;
 
-export interface ArtistInterest {
-    level: InterestLevel;
-    source: InterestSource;
-}
-
-// Quick Picks verdict — includes "pass" which is QP-only (no ArtistInterest is created for a pass)
-export type QuickPickVerdict = "pass" | InterestLevel;
-
-export interface SessionConfig {
+export interface QuickPicksSessionConfig {
     festivalId: string;
     groupByDay: boolean;
 }
 
-export interface QueueItem {
+export interface QuickPicksQueueItem {
     artistId: string;
     day: string;
     dayPosition: number;
@@ -29,8 +22,8 @@ export interface QueueItem {
 }
 
 export interface QuickPicksSession {
-    config: SessionConfig;
-    queue: QueueItem[];
+    config: QuickPicksSessionConfig;
+    queue: QuickPicksQueueItem[];
     currentIndex: number;
-    decisions: Record<string, QuickPickVerdict>;
+    decisions: Record<string, QuickPicksVerdict>;
 }

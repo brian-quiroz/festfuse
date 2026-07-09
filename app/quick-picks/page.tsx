@@ -7,8 +7,8 @@ import { allArtists } from "@/app/data/artists";
 import type {
     QuickPicksStep,
     QuickPicksSession,
-    SessionConfig,
-    QueueItem,
+    QuickPicksSessionConfig,
+    QuickPicksQueueItem,
 } from "@/app/types/quick-picks";
 
 const DAY_ORDER = ["Thursday", "Friday", "Saturday", "Sunday"];
@@ -21,7 +21,7 @@ function parseTime(t: string): number {
 
 // MVP: Build the queue in festival schedule order.
 // The queue-generation strategy may evolve later (recommendations, popularity, etc.) without changing the session architecture.
-function createSession(config: SessionConfig): QuickPicksSession {
+function createSession(config: QuickPicksSessionConfig): QuickPicksSession {
     const sorted = [...allArtists].sort((a, b) => {
         const dayDiff =
             DAY_ORDER.indexOf(a.schedule.day) - DAY_ORDER.indexOf(b.schedule.day);
@@ -36,7 +36,7 @@ function createSession(config: SessionConfig): QuickPicksSession {
     }
 
     const dayCounters: Record<string, number> = {};
-    const queue: QueueItem[] = sorted.map((artist) => {
+    const queue: QuickPicksQueueItem[] = sorted.map((artist) => {
         const day = artist.schedule.day;
         dayCounters[day] = (dayCounters[day] ?? 0) + 1;
         return {
@@ -54,7 +54,7 @@ export default function QuickPicksPage() {
     const [step, setStep] = useState<QuickPicksStep>("start");
     const [session, setSession] = useState<QuickPicksSession | null>(null);
 
-    function handleStart(config: SessionConfig) {
+    function handleStart(config: QuickPicksSessionConfig) {
         setSession(createSession(config));
         setStep("decisioning");
     }

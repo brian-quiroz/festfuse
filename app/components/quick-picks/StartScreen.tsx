@@ -3,10 +3,10 @@
 import { useState } from "react";
 import StartOptions from "@/app/components/quick-picks/StartOptions";
 import { ArrowRight, Zap, Lock } from "lucide-react";
-import type { SessionConfig } from "@/app/types/quick-picks";
+import type { QuickPicksSessionConfig } from "@/app/types/quick-picks";
 
 interface Props {
-    onStart: (config: SessionConfig) => void;
+    onStart: (config: QuickPicksSessionConfig) => void;
 }
 
 export default function StartScreen({ onStart }: Props) {

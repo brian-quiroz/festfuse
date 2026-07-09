@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Heart, Star } from "lucide-react"
 import type { Artist } from "@/app/types/artist"
-import type { InterestLevel } from "@/app/types/quick-picks"
+import type { InterestLevel } from "@/app/types/interest"
 
 interface ArtistCardProps {
   artist: Artist

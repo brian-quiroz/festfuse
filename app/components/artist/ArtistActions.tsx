@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Plus, Star, Heart, BarChart2 } from "lucide-react";
-import type { InterestLevel } from "@/app/types/quick-picks";
+import type { InterestLevel } from "@/app/types/interest";
 
 export default function ArtistActions() {
   // Single stored tier; Must See visually implies Interested.
