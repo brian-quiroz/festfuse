@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ChevronDown, Calendar } from "lucide-react";
 import Image from "next/image";
 
-export default function SessionSetup() {
+export default function StartOptions() {
     const [groupByDay, setGroupByDay] = useState(true);
 
     return (
