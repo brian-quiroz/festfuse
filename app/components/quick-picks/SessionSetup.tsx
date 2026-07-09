@@ -1,7 +1,12 @@
+"use client";
+
+import { useState } from "react";
 import { ChevronDown, Calendar } from "lucide-react";
 import Image from "next/image";
 
 export default function SessionSetup() {
+    const [groupByDay, setGroupByDay] = useState(true);
+
     return (
         <div className="grid grid-cols-2 gap-6">
 
@@ -57,12 +62,17 @@ export default function SessionSetup() {
                                 </p>
                             </div> 
                         </div>
-                        
-                        {/* Toggle */}
-                        <div>
-                            
-                        </div>
 
+                        {/* Toggle */}
+                        <button
+                            className="w-11 h-6 bg-[#00E5FF]/75 rounded-full relative p-0"
+                            onClick={() => setGroupByDay(!groupByDay)}
+                        >
+                            <div className={`w-5 h-5 bg-white rounded-full absolute left-0.5 top-0.5 transition-transform duration-300 ease-in-out ${
+                                groupByDay ? "translate-x-5" : "translate-x-0"
+                                }`}
+                            />
+                        </button>
                     </div>
                 </div>
             </div>
