@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { X, Heart, Star, Calendar, Layers, TrendingUp, Play } from "lucide-react";
+import { X, Heart, Star, Calendar, Layers, TrendingUp, Play, Undo2 } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 
@@ -11,41 +11,103 @@ interface Props {
   dayLabel: string | null;
   progress: { current: number; total: number };
   onDecision: (verdict: QuickPicksVerdict) => void;
+  onUndo: () => void;
+  canUndo: boolean;
+  priorVerdict: QuickPicksVerdict | null;
+  toast: { message: string; key: number } | null;
   onExit: () => void;
 }
 
-export default function DecisionScreen({ artist, dayLabel, progress, onDecision, onExit }: Props) {
+export default function DecisionScreen({
+  artist,
+  dayLabel,
+  progress,
+  onDecision,
+  onUndo,
+  canUndo,
+  priorVerdict,
+  toast,
+  onExit,
+}: Props) {
   const pct = Math.round((progress.current / progress.total) * 100);
   const [confirming, setConfirming] = useState<QuickPicksVerdict | null>(null);
   const confirmingRef = useRef<QuickPicksVerdict | null>(null);
+  const [restoredFlashing, setRestoredFlashing] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
 
-  const handleDecisionClick = useCallback((verdict: QuickPicksVerdict) => {
-    if (confirmingRef.current) return;
-    confirmingRef.current = verdict;
-    setConfirming(verdict);
-    setTimeout(() => {
-      confirmingRef.current = null;
-      setConfirming(null);
-      onDecision(verdict);
-    }, 150);
-  }, [onDecision]);
+  const handleDecisionClick = useCallback(
+    (verdict: QuickPicksVerdict) => {
+      if (confirmingRef.current) return;
+      confirmingRef.current = verdict;
+      setConfirming(verdict);
+      setTimeout(() => {
+        confirmingRef.current = null;
+        setConfirming(null);
+        onDecision(verdict);
+      }, 150);
+    },
+    [onDecision]
+  );
 
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-      switch (e.key) {
+      switch (e.key.toLowerCase()) {
         case "a": e.preventDefault(); handleDecisionClick("pass"); break;
         case "s": e.preventDefault(); handleDecisionClick("interested"); break;
         case "d": e.preventDefault(); handleDecisionClick("mustSee"); break;
+        case "z": if (canUndo) { e.preventDefault(); onUndo(); } break;
       }
     }
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [handleDecisionClick]);
+  }, [handleDecisionClick, canUndo, onUndo]);
+
+  // Flash-then-settle: when priorVerdict activates, briefly show confirming styles, then reset to normal resting
+  useEffect(() => {
+    if (!priorVerdict) {
+      setRestoredFlashing(false);
+      return;
+    }
+    setRestoredFlashing(true);
+    const t = setTimeout(() => setRestoredFlashing(false), 400);
+    return () => clearTimeout(t);
+  }, [priorVerdict]);
+
+  useEffect(() => {
+    if (!toast) return;
+    setToastVisible(true);
+    const t = setTimeout(() => setToastVisible(false), 1400);
+    return () => clearTimeout(t);
+  }, [toast?.key]);
+
+  const isFlashing = (verdict: QuickPicksVerdict) =>
+    restoredFlashing && priorVerdict === verdict;
+
+  const passClass =
+    confirming === "pass" || isFlashing("pass")
+      ? "border-red-400/70 bg-red-400/15 text-red-400"
+      : "border-red-400/45 text-red-400/80 hover:bg-red-400/10 hover:border-red-400/65 hover:text-red-400";
+
+  const interestedClass =
+    confirming === "interested" || isFlashing("interested")
+      ? "bg-[#E8FF47]/40 border-[#E8FF47] text-[#E8FF47] scale-[1.02]"
+      : "bg-[#E8FF47]/25 border-[#E8FF47]/72 text-[#E8FF47] hover:bg-[#E8FF47]/32 hover:border-[#E8FF47]/85";
+
+  const mustSeeClass =
+    confirming === "mustSee" || isFlashing("mustSee")
+      ? "bg-[#E8FF47] text-[#110D24] scale-[1.03]"
+      : "bg-[#E8FF47] text-[#110D24] hover:bg-[#E8FF47]/90 hover:shadow-[0_0_20px_rgba(232,255,71,0.4)]";
+
+  const mustSeeStyle =
+    confirming === "mustSee" || isFlashing("mustSee")
+      ? { boxShadow: "0 0 24px rgba(232,255,71,0.45)" }
+      : undefined;
 
   return (
     <>
+      {/* Atmospheric background */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
           <filter id="grain">
@@ -62,6 +124,7 @@ export default function DecisionScreen({ artist, dayLabel, progress, onDecision,
         <div className="absolute top-[-60px] left-[-60px] w-[500px] h-[400px] rounded-full bg-[#A78BFA]/10 blur-[110px]" />
       </div>
 
+      {/* Main content */}
       <div className="flex-1 flex flex-col items-center justify-center px-8 py-5">
         <div className="w-full max-w-[900px] flex flex-col gap-3">
 
@@ -84,6 +147,16 @@ export default function DecisionScreen({ artist, dayLabel, progress, onDecision,
               </div>
             </div>
             <button
+              onClick={canUndo ? onUndo : undefined}
+              className={`flex items-center gap-1 text-xs transition-colors flex-shrink-0 ${
+                canUndo
+                  ? "text-white/45 hover:text-white/70 cursor-pointer"
+                  : "text-white/15 cursor-default"
+              }`}
+            >
+              <Undo2 size={11} strokeWidth={2} /> Back
+            </button>
+            <button
               onClick={onExit}
               className="flex items-center gap-1 text-white/30 hover:text-white/60 text-xs transition-colors flex-shrink-0"
             >
@@ -91,7 +164,7 @@ export default function DecisionScreen({ artist, dayLabel, progress, onDecision,
             </button>
           </div>
 
-          {/* Hero + metadata + buttons — one decision block */}
+          {/* Hero + metadata + buttons */}
           <div className="flex flex-col gap-2">
 
             {/* Hero card */}
@@ -110,7 +183,6 @@ export default function DecisionScreen({ artist, dayLabel, progress, onDecision,
                 <div className="absolute inset-0 bg-[#231C45]" />
               )}
 
-              {/* Left-to-right gradient */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -118,8 +190,6 @@ export default function DecisionScreen({ artist, dayLabel, progress, onDecision,
                     "linear-gradient(to right, #110D24 0%, rgba(17,13,36,0.85) 20%, rgba(17,13,36,0.48) 45%, rgba(17,13,36,0.08) 100%)",
                 }}
               />
-
-              {/* Bottom-up gradient */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -127,14 +197,27 @@ export default function DecisionScreen({ artist, dayLabel, progress, onDecision,
                     "linear-gradient(to top, rgba(17,13,36,0.97) 0%, rgba(17,13,36,0.78) 25%, rgba(17,13,36,0.36) 55%, transparent 100%)",
                 }}
               />
-
-              {/* Top vignette */}
               <div
                 className="absolute inset-0"
                 style={{ background: "linear-gradient(to bottom, rgba(17,13,36,0.18) 0%, transparent 22%)" }}
               />
 
-              {/* Headliner badge */}
+              {/* Undo toast — floating inside hero, top-center, out of document flow */}
+              <div
+                className="absolute top-4 left-1/2 z-10 pointer-events-none transition-all duration-200"
+                style={{
+                  opacity: toastVisible ? 1 : 0,
+                  transform: toastVisible
+                    ? "translateX(-50%) translateY(0)"
+                    : "translateX(-50%) translateY(-6px)",
+                }}
+              >
+                <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/50 backdrop-blur-sm border border-white/25 text-white/85 text-[12px] whitespace-nowrap">
+                  <Undo2 size={11} strokeWidth={2} className="flex-shrink-0" />
+                  {toast?.message}
+                </span>
+              </div>
+
               {artist.festivalStatus === "Headliner" && (
                 <div className="absolute top-4 left-4">
                   <span className="px-2.5 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/18 border border-[#FF2D78]/32 text-[#FF2D78]">
@@ -143,10 +226,8 @@ export default function DecisionScreen({ artist, dayLabel, progress, onDecision,
                 </div>
               )}
 
-              {/* Content anchored to bottom */}
               <div className="absolute bottom-0 left-0 right-0 flex items-end gap-8 px-6 pb-6">
 
-                {/* Identity — left column */}
                 <div className="flex-1 min-w-0 flex flex-col gap-2">
                   <div className="flex gap-2 flex-wrap">
                     {artist.genres.slice(0, 2).map((genre) => (
@@ -166,7 +247,6 @@ export default function DecisionScreen({ artist, dayLabel, progress, onDecision,
                   </p>
                 </div>
 
-                {/* Context — right column */}
                 <div className="w-52 flex-shrink-0 flex flex-col gap-4 pb-0.5">
 
                   {artist.tracks.length > 0 && (
@@ -222,41 +302,26 @@ export default function DecisionScreen({ artist, dayLabel, progress, onDecision,
             {/* Decision buttons */}
             <div className="grid grid-cols-3 gap-3">
 
-              {/* Pass */}
               <button
                 onClick={() => handleDecisionClick("pass")}
-                className={`flex items-center justify-center gap-2 py-4 rounded-xl border text-sm font-semibold transition-all duration-150 ${
-                  confirming === "pass"
-                    ? "border-red-400/70 bg-red-400/15 text-red-400"
-                    : "border-red-400/45 text-red-400/80 hover:bg-red-400/10 hover:border-red-400/65 hover:text-red-400"
-                }`}
+                className={`flex items-center justify-center gap-2 py-4 rounded-xl border text-sm font-semibold transition-all duration-150 ${passClass}`}
               >
                 <X size={15} strokeWidth={2.5} />
                 Pass
               </button>
 
-              {/* Interested */}
               <button
                 onClick={() => handleDecisionClick("interested")}
-                className={`flex items-center justify-center gap-2 py-4 rounded-xl border text-sm font-semibold transition-all duration-150 ${
-                  confirming === "interested"
-                    ? "bg-[#E8FF47]/40 border-[#E8FF47] text-[#E8FF47] scale-[1.02]"
-                    : "bg-[#E8FF47]/25 border-[#E8FF47]/72 text-[#E8FF47] hover:bg-[#E8FF47]/32 hover:border-[#E8FF47]/85"
-                }`}
+                className={`flex items-center justify-center gap-2 py-4 rounded-xl border text-sm font-semibold transition-all duration-150 ${interestedClass}`}
               >
                 <Heart size={15} strokeWidth={2} />
                 Interested
               </button>
 
-              {/* Must See */}
               <button
                 onClick={() => handleDecisionClick("mustSee")}
-                style={confirming === "mustSee" ? { boxShadow: "0 0 24px rgba(232,255,71,0.45)" } : undefined}
-                className={`flex items-center justify-center gap-2 py-4 rounded-xl text-sm font-bold transition-all duration-150 ${
-                  confirming === "mustSee"
-                    ? "bg-[#E8FF47] text-[#110D24] scale-[1.03]"
-                    : "bg-[#E8FF47] text-[#110D24] hover:bg-[#E8FF47]/90 hover:shadow-[0_0_20px_rgba(232,255,71,0.4)]"
-                }`}
+                style={mustSeeStyle}
+                className={`flex items-center justify-center gap-2 py-4 rounded-xl text-sm font-bold transition-all duration-150 ${mustSeeClass}`}
               >
                 <Star size={15} fill="currentColor" strokeWidth={0} />
                 Must See
@@ -267,11 +332,11 @@ export default function DecisionScreen({ artist, dayLabel, progress, onDecision,
           </div>
 
           {/* Keyboard hints */}
-          <div className="flex items-center justify-center gap-6 text-white/40 text-[11px]">
-            <span>A Pass</span>
-            <span>S Interested</span>
-            <span>D Must See</span>
-            <span>Z Back</span>
+          <div className="flex items-center justify-center gap-6 text-[11px]">
+            <span className="text-white/40">A Pass</span>
+            <span className="text-white/40">S Interested</span>
+            <span className="text-white/40">D Must See</span>
+            <span className={canUndo ? "text-white/40" : "text-white/20"}>Z Back</span>
           </div>
 
         </div>

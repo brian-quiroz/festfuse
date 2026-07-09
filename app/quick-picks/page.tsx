@@ -57,14 +57,23 @@ function createSession(config: QuickPicksSessionConfig): QuickPicksSession {
 export default function QuickPicksPage() {
     const [step, setStep] = useState<QuickPicksStep>("start");
     const [session, setSession] = useState<QuickPicksSession | null>(null);
+    const [hasUndone, setHasUndone] = useState(false);
+    const [undoneVerdict, setUndoneVerdict] = useState<QuickPicksVerdict | null>(null);
+    const [undoToast, setUndoToast] = useState<{ message: string; key: number } | null>(null);
 
     function handleStart(config: QuickPicksSessionConfig) {
+        setHasUndone(false);
+        setUndoneVerdict(null);
+        setUndoToast(null);
         setSession(createSession(config));
         setStep("decisioning");
     }
 
     function handleDecision(verdict: QuickPicksVerdict) {
         if (!session) return;
+        setHasUndone(false);
+        setUndoneVerdict(null);
+        setUndoToast(null);
         const currentItem = session.queue[session.currentIndex];
         const newDecisions = { ...session.decisions, [currentItem.artistId]: verdict };
         const newIndex = session.currentIndex + 1;
@@ -84,11 +93,31 @@ export default function QuickPicksPage() {
         // Otherwise currentIndex advances and we stay on "decisioning"
     }
 
+    function handleUndo() {
+        if (!session || session.currentIndex === 0) return;
+        const prevIndex = session.currentIndex - 1;
+        const prevItem = session.queue[prevIndex];
+        const previousVerdict = (session.decisions[prevItem.artistId] as QuickPicksVerdict | undefined) ?? null;
+        const verdictLabels: Record<QuickPicksVerdict, string> = { pass: "Pass", interested: "Interested", mustSee: "Must See" };
+        const verdictLabel = previousVerdict ? verdictLabels[previousVerdict] : "decision";
+        const toastMessage = `${verdictLabel} undone`;
+        const newDecisions = { ...session.decisions };
+        delete newDecisions[prevItem.artistId];
+        setHasUndone(true);
+        setUndoneVerdict(previousVerdict);
+        setUndoToast({ message: toastMessage, key: Date.now() });
+        setSession({ ...session, currentIndex: prevIndex, decisions: newDecisions });
+        setStep("decisioning");
+    }
+
     function handleDayContinue() {
         setStep("decisioning");
     }
 
     function handleExit() {
+        setHasUndone(false);
+        setUndoneVerdict(null);
+        setUndoToast(null);
         setSession(null);
         setStep("start");
     }
@@ -107,6 +136,7 @@ export default function QuickPicksPage() {
             : null;
 
     const dayLabel = session?.config.groupByDay ? (currentQueueItem?.day ?? null) : null;
+    const canUndo = !hasUndone && session !== null && session.currentIndex > 0;
 
     // Completed day and upcoming day — used by the dayComplete placeholder
     const completedDay = session?.queue[(session.currentIndex ?? 1) - 1]?.day ?? null;
@@ -125,6 +155,10 @@ export default function QuickPicksPage() {
                         dayLabel={dayLabel}
                         progress={progress}
                         onDecision={handleDecision}
+                        onUndo={handleUndo}
+                        canUndo={canUndo}
+                        priorVerdict={undoneVerdict}
+                        toast={undoToast}
                         onExit={handleExit}
                     />
                 )}
