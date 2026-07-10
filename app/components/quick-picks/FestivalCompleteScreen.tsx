@@ -64,28 +64,28 @@ export default function FestivalCompleteScreen({ onGoToBlueprint, onGoToSchedule
                         {/* Festival Blueprint — yellow: user intent / personalization */}
                         <button
                             onClick={handleBlueprint}
-                            className={`flex flex-col gap-4 p-5 rounded-xl border border-[#E8FF47]/25 bg-[#E8FF47]/[0.04] text-left hover:border-[#E8FF47]/45 hover:bg-[#E8FF47]/[0.07] transition duration-150 ${pressingBlueprint ? "scale-[0.97]" : ""}`}
+                            className={`flex flex-col justify-between p-6 rounded-xl border border-[#E8FF47]/48 bg-[#E8FF47]/[0.09] text-left hover:border-[#E8FF47]/65 hover:bg-[#E8FF47]/[0.13] transition duration-150 ${pressingBlueprint ? "scale-[0.97]" : ""}`}
                         >
-                            <div className="flex flex-col gap-1.5">
+                            <div className="flex flex-col gap-2">
                                 <p className="text-[#E8FF47] text-xs uppercase tracking-widest font-bold">Festival Blueprint</p>
-                                <p className="text-white/65 text-sm leading-relaxed">Discover what your lineup says about you.</p>
+                                <p className="text-white/80 text-sm leading-relaxed">Discover what your lineup says about you.</p>
                             </div>
-                            <div className="flex justify-end">
-                                <ArrowRight size={15} strokeWidth={2} className="text-[#E8FF47]/55" />
+                            <div className="flex justify-end mt-4">
+                                <ArrowRight size={17} strokeWidth={2.5} className="text-[#E8FF47]/70" />
                             </div>
                         </button>
 
                         {/* Schedule — cyan: workflow / navigation */}
                         <button
                             onClick={handleSchedule}
-                            className={`flex flex-col gap-4 p-5 rounded-xl border border-[#00E5FF]/25 bg-[#00E5FF]/[0.04] text-left hover:border-[#00E5FF]/45 hover:bg-[#00E5FF]/[0.07] transition duration-150 ${pressingSchedule ? "scale-[0.97]" : ""}`}
+                            className={`flex flex-col justify-between p-6 rounded-xl border border-[#00E5FF]/48 bg-[#00E5FF]/[0.09] text-left hover:border-[#00E5FF]/65 hover:bg-[#00E5FF]/[0.13] transition duration-150 ${pressingSchedule ? "scale-[0.97]" : ""}`}
                         >
-                            <div className="flex flex-col gap-1.5">
+                            <div className="flex flex-col gap-2">
                                 <p className="text-[#00E5FF] text-xs uppercase tracking-widest font-bold">Schedule</p>
-                                <p className="text-white/65 text-sm leading-relaxed">Build your festival weekend.</p>
+                                <p className="text-white/80 text-sm leading-relaxed">Build your weekend around your picks.</p>
                             </div>
-                            <div className="flex justify-end">
-                                <ArrowRight size={15} strokeWidth={2} className="text-[#00E5FF]/55" />
+                            <div className="flex justify-end mt-4">
+                                <ArrowRight size={17} strokeWidth={2.5} className="text-[#00E5FF]/70" />
                             </div>
                         </button>
 
