@@ -1,37 +1,45 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Plus, Star, Heart, BarChart2 } from "lucide-react";
+import type { InterestLevel } from "@/app/types/interest";
 
 export default function ArtistActions() {
-  const [mustSee, setMustSee] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const savedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Single stored tier; Must See visually implies Interested.
+  const [interestLevel, setInterestLevel] = useState<InterestLevel | null>(null);
+  // Display-only: heart lights up immediately on direct tap, or after cascade delay when Must See is tapped from neutral.
+  const [heartVisible, setHeartVisible] = useState(false);
+  const cascadeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => { if (cascadeRef.current) clearTimeout(cascadeRef.current); }, []);
 
   const handleMustSee = () => {
-    if (!mustSee) {
-      setMustSee(true);
-      if (!saved) {
-        savedTimeoutRef.current = setTimeout(() => setSaved(true), 100);
-      }
+    if (cascadeRef.current) clearTimeout(cascadeRef.current);
+    if (interestLevel === "mustSee") {
+      setInterestLevel("interested");
+      // Heart stays visible — downgrading to Interested, not clearing
     } else {
-      setMustSee(false);
-      if (savedTimeoutRef.current) {
-        clearTimeout(savedTimeoutRef.current);
-        savedTimeoutRef.current = null;
+      const wasEmpty = interestLevel === null;
+      setInterestLevel("mustSee");
+      if (wasEmpty) {
+        cascadeRef.current = setTimeout(() => setHeartVisible(true), 100);
       }
-      // saved stays intact — Option B
+      // If upgrading from "interested", heart was already visible
     }
   };
 
-  const handleSaved = () => {
-    if (saved) {
-      setSaved(false);
-      if (mustSee) setMustSee(false); // cascade down: unsaving removes Must See
+  const handleInterested = () => {
+    if (cascadeRef.current) clearTimeout(cascadeRef.current);
+    if (interestLevel === null) {
+      setInterestLevel("interested");
+      setHeartVisible(true);
     } else {
-      setSaved(true);
+      setInterestLevel(null);
+      setHeartVisible(false);
     }
   };
+
+  const mustSee = interestLevel === "mustSee";
 
   return (
     <div className="flex items-center gap-2.5 flex-wrap">
@@ -53,15 +61,15 @@ export default function ArtistActions() {
       </button>
 
       <button
-        onClick={handleSaved}
+        onClick={handleInterested}
         className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
-          saved
+          heartVisible
             ? "border border-[#E8FF47]/50 text-[#E8FF47] bg-[#E8FF47]/18"
             : "border border-white/15 text-white/50 hover:border-[#E8FF47]/40 hover:text-[#E8FF47]"
         }`}
       >
-        <Heart size={14} fill={saved ? "currentColor" : "none"} strokeWidth={2} />
-        {saved ? "Saved" : "Save"}
+        <Heart size={14} fill={heartVisible ? "currentColor" : "none"} strokeWidth={2} />
+        Interested
       </button>
 
       <button className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg border border-white/15 text-white/40 text-sm font-medium hover:text-white/70 hover:border-white/25 transition-colors duration-200">

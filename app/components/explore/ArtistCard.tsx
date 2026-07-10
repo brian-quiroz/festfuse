@@ -1,10 +1,11 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Heart, Star } from "lucide-react"
 import type { Artist } from "@/app/types/artist"
+import type { InterestLevel } from "@/app/types/interest"
 
 interface ArtistCardProps {
   artist: Artist
@@ -13,35 +14,42 @@ interface ArtistCardProps {
 
 export default function ArtistCard({ artist, size = "default" }: ArtistCardProps) {
   const router = useRouter()
-  const [mustSee, setMustSee] = useState(false)
-  const [saved, setSaved] = useState(false)
-  const savedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Single stored tier; Must See visually implies Interested.
+  const [interestLevel, setInterestLevel] = useState<InterestLevel | null>(null)
+  // Display-only: heart lights up immediately on direct tap, or after cascade delay when Must See is tapped from neutral.
+  const [heartVisible, setHeartVisible] = useState(false)
+  const cascadeRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => () => { if (cascadeRef.current) clearTimeout(cascadeRef.current) }, [])
 
   const handleMustSee = (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (!mustSee) {
-      setMustSee(true)
-      if (!saved) {
-        savedTimeoutRef.current = setTimeout(() => setSaved(true), 100)
-      }
+    if (cascadeRef.current) clearTimeout(cascadeRef.current)
+    if (interestLevel === "mustSee") {
+      setInterestLevel("interested")
     } else {
-      setMustSee(false)
-      if (savedTimeoutRef.current) {
-        clearTimeout(savedTimeoutRef.current)
-        savedTimeoutRef.current = null
+      const wasEmpty = interestLevel === null
+      setInterestLevel("mustSee")
+      if (wasEmpty) {
+        cascadeRef.current = setTimeout(() => setHeartVisible(true), 100)
       }
     }
   }
 
-  const handleSaved = (e: React.MouseEvent) => {
+  const handleInterested = (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (saved) {
-      setSaved(false)
-      if (mustSee) setMustSee(false)
+    if (cascadeRef.current) clearTimeout(cascadeRef.current)
+    if (interestLevel === null) {
+      setInterestLevel("interested")
+      setHeartVisible(true)
     } else {
-      setSaved(true)
+      setInterestLevel(null)
+      setHeartVisible(false)
     }
   }
+
+  const mustSee = interestLevel === "mustSee"
 
   const isLarge = size === "large"
   const cardW = isLarge ? "w-60" : "w-48"
@@ -99,14 +107,14 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
             <Star size={11} fill={mustSee ? "currentColor" : "none"} strokeWidth={2} />
           </button>
           <button
-            onClick={handleSaved}
+            onClick={handleInterested}
             className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
-              saved
+              heartVisible
                 ? "bg-[#E8FF47]/18 border-[#E8FF47]/50 text-[#E8FF47]"
                 : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
             }`}
           >
-            <Heart size={11} fill={saved ? "currentColor" : "none"} strokeWidth={2} />
+            <Heart size={11} fill={heartVisible ? "currentColor" : "none"} strokeWidth={2} />
           </button>
         </div>
       </div>
