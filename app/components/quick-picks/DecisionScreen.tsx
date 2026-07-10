@@ -314,7 +314,7 @@ export default function DecisionScreen({
                   </span>
                 </div>
 
-                {artist.festivalStatus === "Headliner" && (
+                {artist.billingTier === "Headliner" && (
                   <div className="absolute top-4 left-4">
                     <span className="px-2.5 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/18 border border-[#FF2D78]/32 text-[#FF2D78]">
                       Headliner

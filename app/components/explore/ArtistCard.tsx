@@ -86,7 +86,7 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
         </div>
 
         {/* Headliner badge — bottom-right, balances action icons on the left */}
-        {artist.festivalStatus === "Headliner" && (
+        {artist.billingTier === "Headliner" && (
           <div className="absolute bottom-3 right-3">
             <span className="px-2 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/18 border border-[#FF2D78]/32 text-[#FF2D78]">
               Headliner
