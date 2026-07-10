@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { X, Heart, Star, Calendar, Layers, TrendingUp, Play, Undo2 } from "lucide-react";
+import { X, Heart, Star, Calendar, Layers, Clock, Play, Undo2 } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 
@@ -31,6 +31,17 @@ import type { QuickPicksVerdict } from "@/app/types/quick-picks";
  * Keyboard shortcuts: A/S/D = Pass/Interested/Must See, Z = undo. Normalized via
  * toLowerCase() for Caps Lock compatibility.
  */
+
+function calcSetLength(startTime: string, endTime: string): string {
+  const toMinutes = (t: string): number => {
+    const [time, period] = t.split(" ");
+    const [h, m] = time.split(":").map(Number);
+    return (h % 12 + (period === "PM" ? 12 : 0)) * 60 + m;
+  };
+  const diff = toMinutes(endTime) - toMinutes(startTime);
+  if (diff <= 0) return "–";
+  return `${diff} min`;
+}
 
 type ExitDir = "left" | "right" | "up" | "down";
 type EntryDir = "center" | "left" | "right" | "fromTop";
@@ -376,15 +387,15 @@ export default function DecisionScreen({
                 </motion.span>
               </span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
-                <Layers size={11} strokeWidth={2} className="flex-shrink-0" />
-                <motion.span key={`${artist.slug}-stage`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}>
-                  {artist.schedule.stage} Stage
+                <Clock size={11} strokeWidth={2} className="flex-shrink-0" />
+                <motion.span key={`${artist.slug}-setlength`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}>
+                  {calcSetLength(artist.schedule.startTime, artist.schedule.endTime)}
                 </motion.span>
               </span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
-                <TrendingUp size={11} strokeWidth={2} className="flex-shrink-0" />
-                <motion.span key={`${artist.slug}-popularity`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}>
-                  {artist.metrics.popularityScore} Popularity
+                <Layers size={11} strokeWidth={2} className="flex-shrink-0" />
+                <motion.span key={`${artist.slug}-stage`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}>
+                  {artist.schedule.stage} Stage
                 </motion.span>
               </span>
             </div>
