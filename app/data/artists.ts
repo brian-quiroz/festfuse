@@ -1,71 +1,5 @@
 import type { Artist } from "@/app/types/artist";
 
-const tameImpala: Artist = {
-  name: "Tame Impala",
-  slug: "tame-impala",
-  imageUrl: "/artists/heroes/tame-impala.jpg",
-  objectPosition: "center 17%",
-  genres: ["Psychedelic Rock", "Indie", "Electronic"],
-  origin: "Perth, Australia",
-  tagline: "Where the mind wanders, the music follows.",
-  socials: {
-    spotify: "https://open.spotify.com/artist/5INjqkS1o8h1imAzPqGZBb",
-    instagram: "#",
-    twitter: "#",
-  },
-  metrics: {
-    monthlyListeners: "8.2M",
-    topTrack: "The Less I Know The Better",
-    latestRelease: "The Slow Rush (2020)",
-  },
-  whySee: [
-    "Kevin Parker writes, records, and produces everything solo — a rare one-man band at festival scale",
-    "One of the most visually stunning live shows on the circuit, with immersive psychedelic lighting",
-    "A 15-year setlist spanning every era, guaranteed crowd-pleasers wall to wall",
-    "Late-night energy that turns a field into a cosmic dancefloor",
-  ],
-  whatToExpect: ["Visual light production", "Extended psychedelic jams", "Dense layered sound", "Crowd singalongs", "Late-night headliner energy"],
-  bestFor: ["Psychedelic music lovers", "Festival veterans", "Night owls", "Indie and rock fans"],
-  similarArtists: [
-    { name: "Pink Floyd", imageUrl: "/artists/avatars/pink-floyd.jpg" },
-    { name: "Beach House", imageUrl: "/artists/avatars/beach-house.jpg" },
-    { name: "Alt-J", imageUrl: "/artists/avatars/alt-j.jpg" },
-    { name: "MGMT", imageUrl: "/artists/avatars/mgmt.jpg" }
-  ],
-  tracks: [
-    { name: "The Less I Know The Better", album: "Currents", duration: "3:34", artworkUrl: "/albums/tame-impala/currents.png" },
-    { name: "Eventually", album: "Currents", duration: "5:18", artworkUrl: "/albums/tame-impala/currents.png" },
-    { name: "Let It Happen", album: "Currents", duration: "7:47", artworkUrl: "/albums/tame-impala/currents.png" },
-  ],
-  about:
-    "Tame Impala is the psychedelic music project of Australian multi-instrumentalist Kevin Parker. Writing, recording, performing, and producing everything himself, Parker has evolved the project from sun-baked psych-rock into a shimmering fusion of psychedelia, synth-pop, and electronic music. Known for expansive live sets and meticulous sonic textures, Tame Impala has become one of the defining acts of the modern festival circuit.",
-  trivia: [
-    {
-      emoji: "🎛️",
-      fact: "Kevin Parker writes, records, mixes, and produces every track entirely on his own — no outside producers or co-writers.",
-    },
-    {
-      emoji: "🏠",
-      fact: "The landmark album Currents was largely built in a makeshift studio inside Kevin's childhood bedroom in Perth.",
-    },
-    {
-      emoji: "🤝",
-      fact: "Beyoncé, Lady Gaga, Mark Ronson, and Travis Scott have all sought collaborations with Kevin Parker.",
-    },
-    {
-      emoji: "🎹",
-      fact: "Parker has an obsession with vintage synthesizers — he owns dozens, many discovered at garage sales and thrift stores.",
-    },
-  ],
-  schedule: {
-    festival: "Lollapalooza 2026",
-    stage: "T-Mobile",
-    day: "Saturday",
-    date: "Jul 31",
-    startTime: "10:30 PM",
-    endTime: "11:45 PM",
-  },
-};
 
 const jennie: Artist = {
   name: "Jennie",
@@ -1014,7 +948,7 @@ const aespa: Artist = {
 };
 
 export const allArtists: Artist[] = [
-  tameImpala, jennie, beabadoobee, majorLazer,
+  jennie, beabadoobee, majorLazer,
   lorde, yoasobi, sombr, leonThomas,
   johnSummit, charliXcx, smashingPumpkins, oliviaDean, tateMcRae, theXx,
   aespa,
