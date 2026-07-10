@@ -5,7 +5,7 @@ import Sidebar from "@/app/components/Sidebar";
 import StartScreen from "@/app/components/quick-picks/StartScreen";
 import DecisionScreen from "@/app/components/quick-picks/DecisionScreen";
 import DayCompleteScreen from "@/app/components/quick-picks/DayCompleteScreen";
-import FinalSummaryScreen from "@/app/components/quick-picks/FinalSummaryScreen";
+import FestivalCompleteScreen from "@/app/components/quick-picks/FestivalCompleteScreen";
 import { allArtists } from "@/app/data/artists";
 import type {
     QuickPicksStep,
@@ -90,7 +90,7 @@ export default function QuickPicksPage() {
             const capturedSession = session;
             setSession({ ...capturedSession, decisions: newDecisions });
             setIsScreenExiting(true);
-            const targetStep: QuickPicksStep = isLastOfSession ? "finalSummary" : "dayComplete";
+            const targetStep: QuickPicksStep = isLastOfSession ? "festivalComplete" : "dayComplete";
             setTimeout(() => {
                 setIsScreenExiting(false);
                 setSession({ ...capturedSession, decisions: newDecisions, currentIndex: newIndex });
@@ -221,11 +221,10 @@ export default function QuickPicksPage() {
                     />
                 )}
 
-                {step === "finalSummary" && session && (
-                    <FinalSummaryScreen
-                        decisions={session.decisions}
-                        totalArtists={session.queue.length}
-                        onExit={handleExit}
+                {step === "festivalComplete" && (
+                    <FestivalCompleteScreen
+                        onGoToBlueprint={handleExit}
+                        onGoToSchedule={handleExit}
                     />
                 )}
 
