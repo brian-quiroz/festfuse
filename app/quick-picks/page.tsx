@@ -60,11 +60,13 @@ export default function QuickPicksPage() {
     const [hasUndone, setHasUndone] = useState(false);
     const [undoneVerdict, setUndoneVerdict] = useState<QuickPicksVerdict | null>(null);
     const [undoToast, setUndoToast] = useState<{ message: string; key: number } | null>(null);
+    const [isScreenExiting, setIsScreenExiting] = useState(false);
 
     function handleStart(config: QuickPicksSessionConfig) {
         setHasUndone(false);
         setUndoneVerdict(null);
         setUndoToast(null);
+        setIsScreenExiting(false);
         setSession(createSession(config));
         setStep("decisioning");
     }
@@ -77,20 +79,28 @@ export default function QuickPicksPage() {
         const currentItem = session.queue[session.currentIndex];
         const newDecisions = { ...session.decisions, [currentItem.artistId]: verdict };
         const newIndex = session.currentIndex + 1;
-        const updatedSession = { ...session, decisions: newDecisions, currentIndex: newIndex };
 
-        setSession(updatedSession);
+        const isLastOfSession = newIndex >= session.queue.length;
+        const nextItem = isLastOfSession ? null : session.queue[newIndex];
+        const isDayTransition = !isLastOfSession && !!session.config.groupByDay && nextItem!.day !== currentItem.day;
 
-        if (newIndex >= session.queue.length) {
-            setStep("finalSummary");
+        if (isLastOfSession || isDayTransition) {
+            // Record the decision but keep currentIndex pointing at the last valid artist
+            // so DecisionScreen stays mounted and can animate the card out first.
+            const capturedSession = session;
+            setSession({ ...capturedSession, decisions: newDecisions });
+            setIsScreenExiting(true);
+            const targetStep: QuickPicksStep = isLastOfSession ? "finalSummary" : "dayComplete";
+            setTimeout(() => {
+                setIsScreenExiting(false);
+                setSession({ ...capturedSession, decisions: newDecisions, currentIndex: newIndex });
+                setStep(targetStep);
+            }, 320);
             return;
         }
 
-        const nextItem = session.queue[newIndex];
-        if (session.config.groupByDay && nextItem.day !== currentItem.day) {
-            setStep("dayComplete");
-        }
-        // Otherwise currentIndex advances and we stay on "decisioning"
+        setSession({ ...session, decisions: newDecisions, currentIndex: newIndex });
+        // step stays "decisioning"
     }
 
     function handleUndo() {
@@ -118,6 +128,7 @@ export default function QuickPicksPage() {
         setHasUndone(false);
         setUndoneVerdict(null);
         setUndoToast(null);
+        setIsScreenExiting(false);
         setSession(null);
         setStep("start");
     }
@@ -136,7 +147,7 @@ export default function QuickPicksPage() {
             : null;
 
     const dayLabel = session?.config.groupByDay ? (currentQueueItem?.day ?? null) : null;
-    const canUndo = !hasUndone && session !== null && session.currentIndex > 0;
+    const canUndo = !hasUndone && !isScreenExiting && session !== null && session.currentIndex > 0;
 
     const prevQueueItem = session && session.currentIndex > 0
         ? session.queue[session.currentIndex - 1]
@@ -153,6 +164,21 @@ export default function QuickPicksPage() {
         <div className="flex h-screen overflow-hidden bg-[#110D24]">
             <Sidebar />
             <main className="relative flex-1 min-w-0 overflow-y-auto overflow-x-hidden flex flex-col">
+                <div className="pointer-events-none absolute inset-0 overflow-hidden">
+                    <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
+                        <filter id="grain">
+                            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+                            <feColorMatrix type="saturate" values="0" />
+                        </filter>
+                        <rect width="100%" height="100%" filter="url(#grain)" />
+                    </svg>
+                    <div
+                        className="absolute inset-0"
+                        style={{ background: "radial-gradient(ellipse 85% 75% at 50% 45%, transparent 35%, rgba(17,13,36,0.6) 100%)" }}
+                    />
+                    <div className="absolute bottom-[-80px] right-[-80px] w-[640px] h-[520px] rounded-full bg-[#FF2D78]/12 blur-[130px]" />
+                    <div className="absolute top-[-60px] left-[-60px] w-[500px] h-[400px] rounded-full bg-[#A78BFA]/10 blur-[110px]" />
+                </div>
 
                 {step === "start" && <StartScreen onStart={handleStart} />}
 
@@ -168,6 +194,7 @@ export default function QuickPicksPage() {
                         undoVerdict={undoVerdict}
                         toast={undoToast}
                         onExit={handleExit}
+                        isScreenExiting={isScreenExiting}
                     />
                 )}
 

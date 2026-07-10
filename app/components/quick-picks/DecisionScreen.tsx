@@ -17,7 +17,9 @@ import type { QuickPicksVerdict } from "@/app/types/quick-picks";
  * AnimatePresence sees the correct direction when the artist key changes. heroVariants
  * encodes all directional logic as functions of `animCustom` via Framer Motion's `custom` prop.
  * mode="sync" with an 180ms entry delay lets the new card begin entering before the old one
- * fully exits, reducing perceived wait without visible overlap.
+ * fully exits, reducing perceived wait without visible overlap. `isScreenExiting` (parent prop)
+ * drives `animate="exit"` directly on the last card of a day/session so it slides out before
+ * the parent switches to DayComplete or FinalSummary.
  *
  * Undo state: `priorVerdict` (parent) identifies the just-restored verdict for the button
  * flash (`restoredFlashing`). `undoVerdict` (parent) is the verdict *about to be* undone —
@@ -78,6 +80,7 @@ interface Props {
   undoVerdict: QuickPicksVerdict | null;
   toast: { message: string; key: number } | null;
   onExit: () => void;
+  isScreenExiting?: boolean;
 }
 
 export default function DecisionScreen({
@@ -91,6 +94,7 @@ export default function DecisionScreen({
   undoVerdict,
   toast,
   onExit,
+  isScreenExiting = false,
 }: Props) {
   const pct = Math.round((progress.current / progress.total) * 100);
   const [confirming, setConfirming] = useState<QuickPicksVerdict | null>(null);
@@ -104,7 +108,7 @@ export default function DecisionScreen({
 
   const handleDecisionClick = useCallback(
     (verdict: QuickPicksVerdict) => {
-      if (confirmingRef.current) return;
+      if (confirmingRef.current || isScreenExiting) return;
       confirmingRef.current = verdict;
       setConfirming(verdict);
       setExitDir(verdictToExitDir(verdict));
@@ -115,7 +119,7 @@ export default function DecisionScreen({
         onDecision(verdict);
       }, 150);
     },
-    [onDecision]
+    [onDecision, isScreenExiting]
   );
 
   const handleUndoClick = useCallback(() => {
@@ -196,23 +200,6 @@ export default function DecisionScreen({
 
   return (
     <>
-      {/* Atmospheric background */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
-          <filter id="grain">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-            <feColorMatrix type="saturate" values="0" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#grain)" />
-        </svg>
-        <div
-          className="absolute inset-0"
-          style={{ background: "radial-gradient(ellipse 85% 75% at 50% 45%, transparent 35%, rgba(17,13,36,0.6) 100%)" }}
-        />
-        <div className="absolute bottom-[-80px] right-[-80px] w-[640px] h-[520px] rounded-full bg-[#FF2D78]/12 blur-[130px]" />
-        <div className="absolute top-[-60px] left-[-60px] w-[500px] h-[400px] rounded-full bg-[#A78BFA]/10 blur-[110px]" />
-      </div>
-
       {/* Main content */}
       <div className="flex-1 flex flex-col items-center justify-center px-8 py-5">
         <div className="w-full max-w-[900px] flex flex-col gap-3">
@@ -264,7 +251,7 @@ export default function DecisionScreen({
                 custom={animCustom}
                 variants={heroVariants}
                 initial="enter"
-                animate="center"
+                animate={isScreenExiting ? "exit" : "center"}
                 exit="exit"
                 className="absolute inset-0 rounded-2xl overflow-hidden bg-[#1B1535]"
               >
