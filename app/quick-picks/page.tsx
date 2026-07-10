@@ -156,9 +156,23 @@ export default function QuickPicksPage() {
         ? ((session!.decisions[prevQueueItem.artistId] as QuickPicksVerdict | undefined) ?? null)
         : null;
 
-    // Completed day and upcoming day — used by the dayComplete placeholder
+    // Completed day and upcoming day — used by DayCompleteScreen
     const completedDay = session?.queue[(session.currentIndex ?? 1) - 1]?.day ?? null;
     const upcomingDay = session?.queue[session.currentIndex]?.day ?? null;
+
+    // Per-day verdict counts for DayCompleteScreen
+    let completedDayStats: { mustSee: number; interested: number; pass: number; total: number } | null = null;
+    if (session && completedDay) {
+        const dayItems = session.queue.filter((item) => item.day === completedDay);
+        let mustSee = 0, interested = 0, pass = 0;
+        for (const item of dayItems) {
+            const v = session.decisions[item.artistId] as QuickPicksVerdict | undefined;
+            if (v === "mustSee") mustSee++;
+            else if (v === "interested") interested++;
+            else if (v === "pass") pass++;
+        }
+        completedDayStats = { mustSee, interested, pass, total: dayItems.length };
+    }
 
     return (
         <div className="flex h-screen overflow-hidden bg-[#110D24]">
@@ -202,6 +216,7 @@ export default function QuickPicksPage() {
                     <DayCompleteScreen
                         completedDay={completedDay}
                         upcomingDay={upcomingDay}
+                        dayStats={completedDayStats}
                         onContinue={handleDayContinue}
                     />
                 )}

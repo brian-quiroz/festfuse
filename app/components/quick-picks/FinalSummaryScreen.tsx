@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 
@@ -10,7 +11,17 @@ interface Props {
 }
 
 export default function FinalSummaryScreen({ decisions, totalArtists, onExit }: Props) {
+    const [pressing, setPressing] = useState(false);
     const verdicts = Object.values(decisions);
+
+    function handleExit() {
+        if (pressing) return;
+        setPressing(true);
+        setTimeout(() => {
+            setPressing(false);
+            onExit();
+        }, 100);
+    }
     const mustSeeCount = verdicts.filter((v) => v === "mustSee").length;
     const interestedCount = verdicts.filter((v) => v === "interested").length;
     const passCount = verdicts.filter((v) => v === "pass").length;
@@ -40,8 +51,8 @@ export default function FinalSummaryScreen({ decisions, totalArtists, onExit }: 
                     </div>
                 </div>
                 <button
-                    onClick={onExit}
-                    className="mt-6 px-6 py-3 rounded-lg bg-[#00E5FF] text-[#110D24] font-bold text-sm hover:bg-[#00E5FF]/90 transition-colors"
+                    onClick={handleExit}
+                    className={`mt-6 px-6 py-3 rounded-lg bg-[#00E5FF] text-[#110D24] font-bold text-sm hover:bg-[#00E5FF]/90 transition duration-100 ${pressing ? "scale-[0.97]" : ""}`}
                 >
                     Back to Start
                 </button>
