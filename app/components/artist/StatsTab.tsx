@@ -3,7 +3,6 @@ import type { Artist } from "@/app/types/artist";
 export default function StatsTab({ artist }: { artist: Artist }) {
   const cards = [
     { value: artist.metrics.monthlyListeners, label: "Monthly Listeners" },
-    { value: artist.metrics.popularityScore, label: "Popularity Score" },
     { value: artist.metrics.topTrack, label: "Top Track" },
     { value: artist.metrics.latestRelease, label: "Latest Release" },
   ];

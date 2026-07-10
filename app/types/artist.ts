@@ -14,7 +14,6 @@ export type Artist = {
   }
   metrics: {
     monthlyListeners: string
-    popularityScore: string
     topTrack: string
     latestRelease: string
   }

@@ -15,7 +15,6 @@ const tameImpala: Artist = {
   },
   metrics: {
     monthlyListeners: "8.2M",
-    popularityScore: "82/100",
     topTrack: "The Less I Know The Better",
     latestRelease: "The Slow Rush (2020)",
   },
@@ -84,7 +83,6 @@ const jennie: Artist = {
   },
   metrics: {
     monthlyListeners: "18.5M",
-    popularityScore: "91/100",
     topTrack: "SOLO",
     latestRelease: "Ruby (2025)",
   },
@@ -152,7 +150,6 @@ const beabadoobee: Artist = {
   },
   metrics: {
     monthlyListeners: "3.8M",
-    popularityScore: "68/100",
     topTrack: "Care",
     latestRelease: "This Is How Tomorrow Starts (2024)",
   },
@@ -220,7 +217,6 @@ const majorLazer: Artist = {
   },
   metrics: {
     monthlyListeners: "12.1M",
-    popularityScore: "79/100",
     topTrack: "Lean On",
     latestRelease: "Music Is the Weapon (Reloaded) (2021)",
   },
@@ -289,7 +285,6 @@ const lorde: Artist = {
   },
   metrics: {
     monthlyListeners: "6.1M",
-    popularityScore: "78/100",
     topTrack: "Royals",
     latestRelease: "Solar Power (2021)",
   },
@@ -357,7 +352,6 @@ const yoasobi: Artist = {
   },
   metrics: {
     monthlyListeners: "10.3M",
-    popularityScore: "88/100",
     topTrack: "Idol",
     latestRelease: "THE BOOK 3 (2024)",
   },
@@ -425,7 +419,6 @@ const sombr: Artist = {
   },
   metrics: {
     monthlyListeners: "1.8M",
-    popularityScore: "58/100",
     topTrack: "back to friends",
     latestRelease: "I Barely Know Her",
   },
@@ -493,7 +486,6 @@ const leonThomas: Artist = {
   },
   metrics: {
     monthlyListeners: "8.3M",
-    popularityScore: "76/100",
     topTrack: "wine & spirits",
     latestRelease: "MUTT (2023)",
   },
@@ -562,7 +554,6 @@ const johnSummit: Artist = {
   },
   metrics: {
     monthlyListeners: "6.4M",
-    popularityScore: "80/100",
     topTrack: "La Danza",
     latestRelease: "Comfort (2022)",
   },
@@ -631,7 +622,6 @@ const charliXcx: Artist = {
   },
   metrics: {
     monthlyListeners: "17.2M",
-    popularityScore: "92/100",
     topTrack: "360",
     latestRelease: "brat (2024)",
   },
@@ -700,7 +690,6 @@ const smashingPumpkins: Artist = {
   },
   metrics: {
     monthlyListeners: "5.5M",
-    popularityScore: "74/100",
     topTrack: "Bullet with Butterfly Wings",
     latestRelease: "ATUM: A Rock Opera in Three Acts (2023)",
   },
@@ -769,7 +758,6 @@ const oliviaDean: Artist = {
   },
   metrics: {
     monthlyListeners: "4.2M",
-    popularityScore: "70/100",
     topTrack: "Dive",
     latestRelease: "Messy (2023)",
   },
@@ -838,7 +826,6 @@ const tateMcRae: Artist = {
   },
   metrics: {
     monthlyListeners: "16.1M",
-    popularityScore: "89/100",
     topTrack: "greedy",
     latestRelease: "So Close to What (2025)",
   },
@@ -907,7 +894,6 @@ const theXx: Artist = {
   },
   metrics: {
     monthlyListeners: "8.7M",
-    popularityScore: "77/100",
     topTrack: "Intro",
     latestRelease: "I See You (2017)",
   },
@@ -975,7 +961,6 @@ const aespa: Artist = {
   },
   metrics: {
     monthlyListeners: "9.4M",
-    popularityScore: "84/100",
     topTrack: "Supernova",
     latestRelease: "Whiplash (2024)",
   },
