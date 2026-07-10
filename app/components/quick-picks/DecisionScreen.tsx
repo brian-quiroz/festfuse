@@ -367,19 +367,25 @@ export default function DecisionScreen({
             </AnimatePresence>
             </div>
 
-            {/* Metadata chips — anchored, update instantly */}
+            {/* Metadata chips — pill shape anchored, text fades in with new artist */}
             <div className="flex items-center gap-2 flex-wrap">
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
                 <Calendar size={11} strokeWidth={2} className="flex-shrink-0" />
-                {artist.schedule.day}, {artist.schedule.date} · {artist.schedule.startTime}
+                <motion.span key={`${artist.slug}-schedule`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}>
+                  {artist.schedule.day}, {artist.schedule.date} · {artist.schedule.startTime}
+                </motion.span>
               </span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
                 <Layers size={11} strokeWidth={2} className="flex-shrink-0" />
-                {artist.schedule.stage} Stage
+                <motion.span key={`${artist.slug}-stage`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}>
+                  {artist.schedule.stage} Stage
+                </motion.span>
               </span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
                 <TrendingUp size={11} strokeWidth={2} className="flex-shrink-0" />
-                {artist.metrics.popularityScore} Popularity
+                <motion.span key={`${artist.slug}-popularity`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}>
+                  {artist.metrics.popularityScore} Popularity
+                </motion.span>
               </span>
             </div>
 
