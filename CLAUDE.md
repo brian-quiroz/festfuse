@@ -70,6 +70,8 @@ Quick Picks optimizes for momentum, not perfect decisions.
 
 Favor forward progress over exhaustive review. Provide lightweight error recovery (e.g. undoing the last decision), but avoid introducing workflows that encourage second-guessing or turn Quick Picks back into browsing.
 
+The button confirmation is the emotional hierarchy. The card transition is the flow hierarchy. The direction already carries meaning. Don’t add personality on top of geometry.
+
 ### Festival Artifact
 Celebrate the user's festival journey.
 Summarize their taste, discoveries, and decisions in a memorable, shareable format.

@@ -2,9 +2,46 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X, Heart, Star, Calendar, Layers, TrendingUp, Play, Undo2 } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
+
+type ExitDir = "left" | "right" | "up";
+type AnimCustom = { exit: ExitDir; reduce: boolean };
+
+const EXIT_TRANSITION = { type: "tween" as const, duration: 0.18, ease: [0.4, 0, 1, 1] as [number, number, number, number] };
+const ENTER_TRANSITION = { type: "tween" as const, duration: 0.18, ease: [0, 0, 0.2, 1] as [number, number, number, number] };
+const REDUCED_TRANSITION = { type: "tween" as const, duration: 0.1, ease: "linear" as const };
+
+const heroVariants = {
+  enter: ({ reduce }: AnimCustom) => ({
+    opacity: 0,
+    scale: reduce ? 1 : 0.96,
+    x: 0,
+    y: 0,
+  }),
+  center: ({ reduce }: AnimCustom) => ({
+    opacity: 1,
+    scale: 1,
+    x: 0,
+    y: 0,
+    transition: reduce ? REDUCED_TRANSITION : ENTER_TRANSITION,
+  }),
+  exit: ({ exit, reduce }: AnimCustom) => ({
+    opacity: 0,
+    scale: 1,
+    x: reduce ? 0 : (exit === "left" ? -80 : exit === "right" ? 80 : 0),
+    y: reduce ? 0 : (exit === "up" ? -60 : 0),
+    transition: reduce ? REDUCED_TRANSITION : EXIT_TRANSITION,
+  }),
+};
+
+function verdictToExitDir(verdict: QuickPicksVerdict): ExitDir {
+  if (verdict === "pass") return "left";
+  if (verdict === "interested") return "right";
+  return "up";
+}
 
 interface Props {
   artist: Artist;
@@ -34,12 +71,16 @@ export default function DecisionScreen({
   const confirmingRef = useRef<QuickPicksVerdict | null>(null);
   const [restoredFlashing, setRestoredFlashing] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
+  const [exitDir, setExitDir] = useState<ExitDir>("left");
+  const shouldReduceMotion = useReducedMotion() ?? false;
+  const animCustom: AnimCustom = { exit: exitDir, reduce: shouldReduceMotion };
 
   const handleDecisionClick = useCallback(
     (verdict: QuickPicksVerdict) => {
       if (confirmingRef.current) return;
       confirmingRef.current = verdict;
       setConfirming(verdict);
+      setExitDir(verdictToExitDir(verdict));
       setTimeout(() => {
         confirmingRef.current = null;
         setConfirming(null);
@@ -49,6 +90,12 @@ export default function DecisionScreen({
     [onDecision]
   );
 
+  const handleUndoClick = useCallback(() => {
+    if (!canUndo) return;
+    setExitDir("right");
+    onUndo();
+  }, [canUndo, onUndo]);
+
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -57,14 +104,13 @@ export default function DecisionScreen({
         case "a": e.preventDefault(); handleDecisionClick("pass"); break;
         case "s": e.preventDefault(); handleDecisionClick("interested"); break;
         case "d": e.preventDefault(); handleDecisionClick("mustSee"); break;
-        case "z": if (canUndo) { e.preventDefault(); onUndo(); } break;
+        case "z": if (canUndo) { e.preventDefault(); handleUndoClick(); } break;
       }
     }
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [handleDecisionClick, canUndo, onUndo]);
+  }, [handleDecisionClick, handleUndoClick, canUndo]);
 
-  // Flash-then-settle: when priorVerdict activates, briefly show confirming styles, then reset to normal resting
   useEffect(() => {
     if (!priorVerdict) {
       setRestoredFlashing(false);
@@ -128,7 +174,7 @@ export default function DecisionScreen({
       <div className="flex-1 flex flex-col items-center justify-center px-8 py-5">
         <div className="w-full max-w-[900px] flex flex-col gap-3">
 
-          {/* Top bar */}
+          {/* Top bar — anchored */}
           <div className="flex items-center gap-2">
             {dayLabel && (
               <span className="px-2.5 py-1 rounded-full bg-white/8 border border-white/12 text-white/70 text-xs font-medium flex-shrink-0">
@@ -147,7 +193,7 @@ export default function DecisionScreen({
               </div>
             </div>
             <button
-              onClick={canUndo ? onUndo : undefined}
+              onClick={canUndo ? handleUndoClick : undefined}
               className={`flex items-center gap-1 text-xs transition-colors flex-shrink-0 ${
                 canUndo
                   ? "text-white/45 hover:text-white/70 cursor-pointer"
@@ -167,123 +213,129 @@ export default function DecisionScreen({
           {/* Hero + metadata + buttons */}
           <div className="flex flex-col gap-2">
 
-            {/* Hero card */}
-            <div className="relative h-[400px] rounded-2xl overflow-hidden bg-[#1B1535]">
-
-              {artist.imageUrl ? (
-                <Image
-                  src={artist.imageUrl}
-                  alt={artist.name}
-                  fill
-                  priority
-                  className="object-cover"
-                  style={{ objectPosition: artist.objectPosition ?? "center center" }}
-                />
-              ) : (
-                <div className="absolute inset-0 bg-[#231C45]" />
-              )}
-
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(to right, #110D24 0%, rgba(17,13,36,0.85) 20%, rgba(17,13,36,0.48) 45%, rgba(17,13,36,0.08) 100%)",
-                }}
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(to top, rgba(17,13,36,0.97) 0%, rgba(17,13,36,0.78) 25%, rgba(17,13,36,0.36) 55%, transparent 100%)",
-                }}
-              />
-              <div
-                className="absolute inset-0"
-                style={{ background: "linear-gradient(to bottom, rgba(17,13,36,0.18) 0%, transparent 22%)" }}
-              />
-
-              {/* Undo toast — floating inside hero, top-center, out of document flow */}
-              <div
-                className="absolute top-4 left-1/2 z-10 pointer-events-none transition-all duration-200"
-                style={{
-                  opacity: toastVisible ? 1 : 0,
-                  transform: toastVisible
-                    ? "translateX(-50%) translateY(0)"
-                    : "translateX(-50%) translateY(-6px)",
-                }}
+            {/* Hero card — transitions on artist change */}
+            <AnimatePresence mode="wait" custom={animCustom} initial={false}>
+              <motion.div
+                key={artist.slug}
+                custom={animCustom}
+                variants={heroVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="relative h-[400px] rounded-2xl overflow-hidden bg-[#1B1535]"
               >
-                <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/50 backdrop-blur-sm border border-white/25 text-white/85 text-[12px] whitespace-nowrap">
-                  <Undo2 size={11} strokeWidth={2} className="flex-shrink-0" />
-                  {toast?.message}
-                </span>
-              </div>
+                {artist.imageUrl ? (
+                  <Image
+                    src={artist.imageUrl}
+                    alt={artist.name}
+                    fill
+                    priority
+                    className="object-cover"
+                    style={{ objectPosition: artist.objectPosition ?? "center center" }}
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-[#231C45]" />
+                )}
 
-              {artist.festivalStatus === "Headliner" && (
-                <div className="absolute top-4 left-4">
-                  <span className="px-2.5 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/18 border border-[#FF2D78]/32 text-[#FF2D78]">
-                    Headliner
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(to right, #110D24 0%, rgba(17,13,36,0.85) 20%, rgba(17,13,36,0.48) 45%, rgba(17,13,36,0.08) 100%)",
+                  }}
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(to top, rgba(17,13,36,0.97) 0%, rgba(17,13,36,0.78) 25%, rgba(17,13,36,0.36) 55%, transparent 100%)",
+                  }}
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{ background: "linear-gradient(to bottom, rgba(17,13,36,0.18) 0%, transparent 22%)" }}
+                />
+
+                {/* Undo toast — floating inside hero, top-center */}
+                <div
+                  className="absolute top-4 left-1/2 z-10 pointer-events-none transition-all duration-200"
+                  style={{
+                    opacity: toastVisible ? 1 : 0,
+                    transform: toastVisible
+                      ? "translateX(-50%) translateY(0)"
+                      : "translateX(-50%) translateY(-6px)",
+                  }}
+                >
+                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/50 backdrop-blur-sm border border-white/25 text-white/85 text-[12px] whitespace-nowrap">
+                    <Undo2 size={11} strokeWidth={2} className="flex-shrink-0" />
+                    {toast?.message}
                   </span>
                 </div>
-              )}
 
-              <div className="absolute bottom-0 left-0 right-0 flex items-end gap-8 px-6 pb-6">
-
-                <div className="flex-1 min-w-0 flex flex-col gap-2">
-                  <div className="flex gap-2 flex-wrap">
-                    {artist.genres.slice(0, 2).map((genre) => (
-                      <span
-                        key={genre}
-                        className="px-2 py-0.5 rounded-full bg-[#00E5FF]/8 border border-[#00E5FF]/20 text-[#00E5FF] text-[10px] font-medium tracking-wide"
-                      >
-                        {genre}
-                      </span>
-                    ))}
+                {artist.festivalStatus === "Headliner" && (
+                  <div className="absolute top-4 left-4">
+                    <span className="px-2.5 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/18 border border-[#FF2D78]/32 text-[#FF2D78]">
+                      Headliner
+                    </span>
                   </div>
-                  <h2 className="text-[2.75rem] font-extrabold text-white tracking-tight leading-none">
-                    {artist.name}
-                  </h2>
-                  <p className="text-sm text-white/55 leading-snug max-w-sm">
-                    {artist.tagline}
-                  </p>
-                </div>
+                )}
 
-                <div className="w-52 flex-shrink-0 flex flex-col gap-4 pb-0.5">
+                <div className="absolute bottom-0 left-0 right-0 flex items-end gap-8 px-6 pb-6">
+                  <div className="flex-1 min-w-0 flex flex-col gap-2">
+                    <div className="flex gap-2 flex-wrap">
+                      {artist.genres.slice(0, 2).map((genre) => (
+                        <span
+                          key={genre}
+                          className="px-2 py-0.5 rounded-full bg-[#00E5FF]/8 border border-[#00E5FF]/20 text-[#00E5FF] text-[10px] font-medium tracking-wide"
+                        >
+                          {genre}
+                        </span>
+                      ))}
+                    </div>
+                    <h2 className="text-[2.75rem] font-extrabold text-white tracking-tight leading-none">
+                      {artist.name}
+                    </h2>
+                    <p className="text-sm text-white/55 leading-snug max-w-sm">
+                      {artist.tagline}
+                    </p>
+                  </div>
 
-                  {artist.tracks.length > 0 && (
-                    <div className="flex flex-col gap-2">
-                      <span className="text-white/35 text-[10px] font-semibold uppercase tracking-widest">
-                        Top Songs
-                      </span>
+                  <div className="w-52 flex-shrink-0 flex flex-col gap-4 pb-0.5">
+                    {artist.tracks.length > 0 && (
                       <div className="flex flex-col gap-2">
-                        {artist.tracks.slice(0, 3).map((track) => (
-                          <div key={track.name} className="flex items-center gap-2">
-                            <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                              <Play size={7} fill="currentColor" strokeWidth={0} className="text-white/55 ml-px" />
+                        <span className="text-white/35 text-[10px] font-semibold uppercase tracking-widest">
+                          Top Songs
+                        </span>
+                        <div className="flex flex-col gap-2">
+                          {artist.tracks.slice(0, 3).map((track) => (
+                            <div key={track.name} className="flex items-center gap-2">
+                              <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                                <Play size={7} fill="currentColor" strokeWidth={0} className="text-white/55 ml-px" />
+                              </div>
+                              <span className="text-white/80 text-[11px] truncate flex-1">{track.name}</span>
+                              <span className="text-white/30 text-[10px] flex-shrink-0">{track.duration}</span>
                             </div>
-                            <span className="text-white/80 text-[11px] truncate flex-1">{track.name}</span>
-                            <span className="text-white/30 text-[10px] flex-shrink-0">{track.duration}</span>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {artist.similarArtists.length > 0 && (
-                    <div className="flex flex-col gap-1.5">
-                      <span className="text-white/30 text-[10px] font-medium uppercase tracking-widest">
-                        Sounds like
-                      </span>
-                      <p className="text-white/50 text-[11px] leading-snug">
-                        {artist.similarArtists.slice(0, 4).map((a) => a.name).join(", ")}
-                      </p>
-                    </div>
-                  )}
-
+                    {artist.similarArtists.length > 0 && (
+                      <div className="flex flex-col gap-1.5">
+                        <span className="text-white/30 text-[10px] font-medium uppercase tracking-widest">
+                          Sounds like
+                        </span>
+                        <p className="text-white/50 text-[11px] leading-snug">
+                          {artist.similarArtists.slice(0, 4).map((a) => a.name).join(", ")}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </AnimatePresence>
 
-            {/* Metadata chips */}
+            {/* Metadata chips — anchored, update instantly */}
             <div className="flex items-center gap-2 flex-wrap">
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
                 <Calendar size={11} strokeWidth={2} className="flex-shrink-0" />
@@ -299,9 +351,8 @@ export default function DecisionScreen({
               </span>
             </div>
 
-            {/* Decision buttons */}
+            {/* Decision buttons — anchored */}
             <div className="grid grid-cols-3 gap-3">
-
               <button
                 onClick={() => handleDecisionClick("pass")}
                 className={`flex items-center justify-center gap-2 py-4 rounded-xl border text-sm font-semibold transition-all duration-150 ${passClass}`}
@@ -326,7 +377,6 @@ export default function DecisionScreen({
                 <Star size={15} fill="currentColor" strokeWidth={0} />
                 Must See
               </button>
-
             </div>
 
           </div>
