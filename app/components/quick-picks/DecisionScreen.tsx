@@ -10,8 +10,8 @@ import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 type ExitDir = "left" | "right" | "up";
 type AnimCustom = { exit: ExitDir; reduce: boolean };
 
-const EXIT_TRANSITION = { type: "tween" as const, duration: 0.18, ease: [0.4, 0, 1, 1] as [number, number, number, number] };
-const ENTER_TRANSITION = { type: "tween" as const, duration: 0.18, ease: [0, 0, 0.2, 1] as [number, number, number, number] };
+const EXIT_TRANSITION = { type: "tween" as const, duration: 0.26, ease: [0.4, 0, 1, 1] as [number, number, number, number] };
+const ENTER_TRANSITION = { type: "tween" as const, duration: 0.22, delay: 0.18, ease: [0, 0, 0.2, 1] as [number, number, number, number] };
 const REDUCED_TRANSITION = { type: "tween" as const, duration: 0.1, ease: "linear" as const };
 
 const heroVariants = {
@@ -31,8 +31,8 @@ const heroVariants = {
   exit: ({ exit, reduce }: AnimCustom) => ({
     opacity: 0,
     scale: 1,
-    x: reduce ? 0 : (exit === "left" ? -80 : exit === "right" ? 80 : 0),
-    y: reduce ? 0 : (exit === "up" ? -60 : 0),
+    x: reduce ? 0 : (exit === "left" ? -130 : exit === "right" ? 130 : 0),
+    y: reduce ? 0 : (exit === "up" ? -90 : 0),
     transition: reduce ? REDUCED_TRANSITION : EXIT_TRANSITION,
   }),
 };
@@ -213,8 +213,9 @@ export default function DecisionScreen({
           {/* Hero + metadata + buttons */}
           <div className="flex flex-col gap-2">
 
-            {/* Hero card — transitions on artist change */}
-            <AnimatePresence mode="wait" custom={animCustom} initial={false}>
+            {/* Hero card — fixed-height wrapper keeps layout stable during sync transition */}
+            <div className="relative h-[400px]">
+            <AnimatePresence mode="sync" custom={animCustom} initial={false}>
               <motion.div
                 key={artist.slug}
                 custom={animCustom}
@@ -222,7 +223,7 @@ export default function DecisionScreen({
                 initial="enter"
                 animate="center"
                 exit="exit"
-                className="relative h-[400px] rounded-2xl overflow-hidden bg-[#1B1535]"
+                className="absolute inset-0 rounded-2xl overflow-hidden bg-[#1B1535]"
               >
                 {artist.imageUrl ? (
                   <Image
@@ -334,6 +335,7 @@ export default function DecisionScreen({
                 </div>
               </motion.div>
             </AnimatePresence>
+            </div>
 
             {/* Metadata chips — anchored, update instantly */}
             <div className="flex items-center gap-2 flex-wrap">
