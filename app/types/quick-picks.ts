@@ -4,7 +4,7 @@ export type QuickPicksStep =
     | "start"
     | "decisioning"
     | "dayComplete"
-    | "finalSummary";
+    | "festivalComplete";
 
 // Includes "pass", which is QP-only — no ArtistInterest is created for a pass
 export type QuickPicksVerdict = "pass" | InterestLevel;
