@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { CornerDownLeft } from "lucide-react";
+import { ArrowRight, CornerDownLeft } from "lucide-react";
 
 // Counts from 0 to target with cubic ease-out. cancelAnimationFrame(0) is a safe no-op.
 function useCountUp(target: number, duration = 700, delay = 250) {
@@ -52,18 +52,28 @@ export default function DayCompleteScreen({ completedDay, upcomingDay, dayStats,
     const mustSeeCount = useCountUp(dayStats?.mustSee ?? 0);
     const interestedCount = useCountUp(dayStats?.interested ?? 0);
     const passCount = useCountUp(dayStats?.pass ?? 0);
+    const [pressing, setPressing] = useState(false);
+
+    function handleContinue() {
+        if (pressing) return;
+        setPressing(true);
+        setTimeout(() => {
+            setPressing(false);
+            onContinue();
+        }, 100);
+    }
 
     useEffect(() => {
         function handleKey(e: KeyboardEvent) {
             if (e.metaKey || e.ctrlKey || e.altKey) return;
             if (e.key === "Enter") {
                 e.preventDefault();
-                onContinue();
+                handleContinue();
             }
         }
         window.addEventListener("keydown", handleKey);
         return () => window.removeEventListener("keydown", handleKey);
-    }, [onContinue]);
+    }, [pressing, onContinue]);
 
     return (
         <motion.div
@@ -114,18 +124,17 @@ export default function DayCompleteScreen({ completedDay, upcomingDay, dayStats,
 
                 {/* Primary CTA */}
                 <div className="flex flex-col items-center gap-3 w-full max-w-[390px] mt-3">
-                    <motion.button
-                        onClick={onContinue}
-                        whileTap={{ scale: 0.97 }}
-                        transition={{ type: "tween", duration: 0.1 }}
-                        className="flex items-center justify-between w-full px-6 py-4 rounded-lg bg-[#00E5FF] text-[#110D24] font-extrabold text-base hover:bg-[#00E5FF]/90 transition-colors"
+                    <button
+                        onClick={handleContinue}
+                        className={`flex items-center justify-center gap-2 w-full px-6 py-4 rounded-lg bg-[#00E5FF] text-[#110D24] font-bold text-base hover:bg-[#00E5FF]/90 transition duration-100 ${pressing ? "scale-[0.97]" : ""}`}
                     >
-                        <span>Continue to {upcomingDay ?? "Next Day"}</span>
-                        <span className="flex items-center gap-1 px-2 py-1 rounded bg-[#110D24]/20 border border-[#110D24]/30 text-[#110D24]/70 text-xs font-medium">
-                            <CornerDownLeft size={12} strokeWidth={2.5} />
-                            Enter
-                        </span>
-                    </motion.button>
+                        Continue to {upcomingDay ?? "Next Day"}
+                        <ArrowRight size={15} strokeWidth={2.5} />
+                    </button>
+                    <span className="flex items-center gap-1 text-white/30 text-[11px]">
+                        <CornerDownLeft size={10} strokeWidth={2} />
+                        Enter
+                    </span>
                     <p className="text-white/50 text-xs">
                         You&apos;re making great picks.{" "}
                         <span className="text-white/70">Keep it up!</span>

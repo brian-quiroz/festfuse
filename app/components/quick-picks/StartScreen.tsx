@@ -11,6 +11,17 @@ interface Props {
 
 export default function StartScreen({ onStart }: Props) {
     const [groupByDay, setGroupByDay] = useState(true);
+    const [pressing, setPressing] = useState(false);
+
+    function handleStart() {
+        if (pressing) return;
+        setPressing(true);
+        setTimeout(() => {
+            setPressing(false);
+            onStart({ festivalId: "lollapalooza", groupByDay });
+        }, 100);
+    }
+
     return (
         <div className="flex-1 flex flex-col items-center justify-center px-8 py-16">
             <div className="flex flex-col items-center gap-8 w-full max-w-4xl">
@@ -35,8 +46,8 @@ export default function StartScreen({ onStart }: Props) {
 
                     <div className="w-full flex flex-col items-center gap-3">
                         <button
-                            onClick={() => onStart({ festivalId: "lollapalooza", groupByDay })}
-                            className="flex w-full max-w-md items-center justify-center gap-2 px-4 py-4 rounded-lg bg-[#00E5FF] text-[#110D24] text-base font-bold hover:bg-[#00E5FF]/90 transition-colors"
+                            onClick={handleStart}
+                            className={`flex w-full max-w-md items-center justify-center gap-2 px-4 py-4 rounded-lg bg-[#00E5FF] text-[#110D24] text-base font-bold hover:bg-[#00E5FF]/90 transition duration-100 ${pressing ? "scale-[0.97]" : ""}`}
                         >
                             Start Quick Picks
                             <ArrowRight size={15} strokeWidth={2.5} />
