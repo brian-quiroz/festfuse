@@ -7,6 +7,29 @@ import { X, Heart, Star, Calendar, Layers, TrendingUp, Play, Undo2 } from "lucid
 import type { Artist } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 
+/*
+ * DecisionScreen — moving parts overview
+ *
+ * Button confirmation: `confirming` (state) + `confirmingRef` (ref) handle the 150ms visual
+ * flash on verdict buttons. Ref guards against double-fires; state drives CSS classes.
+ *
+ * Card transition: `exitDir` + `entryDir` are set before calling onDecision/onUndo so
+ * AnimatePresence sees the correct direction when the artist key changes. heroVariants
+ * encodes all directional logic as functions of `animCustom` via Framer Motion's `custom` prop.
+ * mode="sync" with an 180ms entry delay lets the new card begin entering before the old one
+ * fully exits, reducing perceived wait without visible overlap.
+ *
+ * Undo state: `priorVerdict` (parent) identifies the just-restored verdict for the button
+ * flash (`restoredFlashing`). `undoVerdict` (parent) is the verdict *about to be* undone —
+ * used only to compute animation direction in handleUndoClick.
+ *
+ * Toast: keyed by `toast.key` so the useEffect re-fires on repeated undos. Delayed 200ms so
+ * it appears as the restored card enters rather than moving with it.
+ *
+ * Keyboard shortcuts: A/S/D = Pass/Interested/Must See, Z = undo. Normalized via
+ * toLowerCase() for Caps Lock compatibility.
+ */
+
 type ExitDir = "left" | "right" | "up" | "down";
 type EntryDir = "center" | "left" | "right" | "fromTop";
 type AnimCustom = { exit: ExitDir; entry: EntryDir; reduce: boolean };
@@ -136,10 +159,16 @@ export default function DecisionScreen({
   }, [priorVerdict]);
 
   useEffect(() => {
-    if (!toast) return;
-    setToastVisible(true);
-    const t = setTimeout(() => setToastVisible(false), 1400);
-    return () => clearTimeout(t);
+    if (!toast) {
+      setToastVisible(false);
+      return;
+    }
+    const show = setTimeout(() => setToastVisible(true), 200);
+    const hide = setTimeout(() => setToastVisible(false), 200 + 1400);
+    return () => {
+      clearTimeout(show);
+      clearTimeout(hide);
+    };
   }, [toast?.key]);
 
   const isFlashing = (verdict: QuickPicksVerdict) =>
