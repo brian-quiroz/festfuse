@@ -7,19 +7,20 @@ import { X, Heart, Star, Calendar, Layers, TrendingUp, Play, Undo2 } from "lucid
 import type { Artist } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 
-type ExitDir = "left" | "right" | "up";
-type AnimCustom = { exit: ExitDir; reduce: boolean };
+type ExitDir = "left" | "right" | "up" | "down";
+type EntryDir = "center" | "left" | "right" | "fromTop";
+type AnimCustom = { exit: ExitDir; entry: EntryDir; reduce: boolean };
 
 const EXIT_TRANSITION = { type: "tween" as const, duration: 0.26, ease: [0.4, 0, 1, 1] as [number, number, number, number] };
 const ENTER_TRANSITION = { type: "tween" as const, duration: 0.22, delay: 0.18, ease: [0, 0, 0.2, 1] as [number, number, number, number] };
 const REDUCED_TRANSITION = { type: "tween" as const, duration: 0.1, ease: "linear" as const };
 
 const heroVariants = {
-  enter: ({ reduce }: AnimCustom) => ({
+  enter: ({ entry, reduce }: AnimCustom) => ({
     opacity: 0,
-    scale: reduce ? 1 : 0.96,
-    x: 0,
-    y: 0,
+    scale: !reduce && entry === "center" ? 0.96 : 1,
+    x: reduce ? 0 : (entry === "left" ? -130 : entry === "right" ? 130 : 0),
+    y: reduce ? 0 : (entry === "fromTop" ? -90 : 0),
   }),
   center: ({ reduce }: AnimCustom) => ({
     opacity: 1,
@@ -32,7 +33,7 @@ const heroVariants = {
     opacity: 0,
     scale: 1,
     x: reduce ? 0 : (exit === "left" ? -130 : exit === "right" ? 130 : 0),
-    y: reduce ? 0 : (exit === "up" ? -90 : 0),
+    y: reduce ? 0 : (exit === "up" ? -90 : exit === "down" ? 90 : 0),
     transition: reduce ? REDUCED_TRANSITION : EXIT_TRANSITION,
   }),
 };
@@ -51,6 +52,7 @@ interface Props {
   onUndo: () => void;
   canUndo: boolean;
   priorVerdict: QuickPicksVerdict | null;
+  undoVerdict: QuickPicksVerdict | null;
   toast: { message: string; key: number } | null;
   onExit: () => void;
 }
@@ -63,6 +65,7 @@ export default function DecisionScreen({
   onUndo,
   canUndo,
   priorVerdict,
+  undoVerdict,
   toast,
   onExit,
 }: Props) {
@@ -72,8 +75,9 @@ export default function DecisionScreen({
   const [restoredFlashing, setRestoredFlashing] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [exitDir, setExitDir] = useState<ExitDir>("left");
+  const [entryDir, setEntryDir] = useState<EntryDir>("center");
   const shouldReduceMotion = useReducedMotion() ?? false;
-  const animCustom: AnimCustom = { exit: exitDir, reduce: shouldReduceMotion };
+  const animCustom: AnimCustom = { exit: exitDir, entry: entryDir, reduce: shouldReduceMotion };
 
   const handleDecisionClick = useCallback(
     (verdict: QuickPicksVerdict) => {
@@ -81,6 +85,7 @@ export default function DecisionScreen({
       confirmingRef.current = verdict;
       setConfirming(verdict);
       setExitDir(verdictToExitDir(verdict));
+      setEntryDir("center");
       setTimeout(() => {
         confirmingRef.current = null;
         setConfirming(null);
@@ -92,9 +97,18 @@ export default function DecisionScreen({
 
   const handleUndoClick = useCallback(() => {
     if (!canUndo) return;
-    setExitDir("right");
+    setExitDir(
+      undoVerdict === "pass" ? "right" :
+      undoVerdict === "interested" ? "left" :
+      "down"
+    );
+    setEntryDir(
+      undoVerdict === "pass" ? "left" :
+      undoVerdict === "interested" ? "right" :
+      "fromTop"
+    );
     onUndo();
-  }, [canUndo, onUndo]);
+  }, [canUndo, undoVerdict, onUndo]);
 
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
@@ -174,8 +188,8 @@ export default function DecisionScreen({
       <div className="flex-1 flex flex-col items-center justify-center px-8 py-5">
         <div className="w-full max-w-[900px] flex flex-col gap-3">
 
-          {/* Top bar — anchored */}
-          <div className="flex items-center gap-2">
+          {/* Top bar — sits above the card during exit transitions */}
+          <div className="relative z-10 flex items-center gap-2">
             {dayLabel && (
               <span className="px-2.5 py-1 rounded-full bg-white/8 border border-white/12 text-white/70 text-xs font-medium flex-shrink-0">
                 {dayLabel}

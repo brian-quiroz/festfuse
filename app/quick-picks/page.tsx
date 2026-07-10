@@ -138,6 +138,13 @@ export default function QuickPicksPage() {
     const dayLabel = session?.config.groupByDay ? (currentQueueItem?.day ?? null) : null;
     const canUndo = !hasUndone && session !== null && session.currentIndex > 0;
 
+    const prevQueueItem = session && session.currentIndex > 0
+        ? session.queue[session.currentIndex - 1]
+        : null;
+    const undoVerdict: QuickPicksVerdict | null = prevQueueItem
+        ? ((session!.decisions[prevQueueItem.artistId] as QuickPicksVerdict | undefined) ?? null)
+        : null;
+
     // Completed day and upcoming day — used by the dayComplete placeholder
     const completedDay = session?.queue[(session.currentIndex ?? 1) - 1]?.day ?? null;
     const upcomingDay = session?.queue[session.currentIndex]?.day ?? null;
@@ -158,6 +165,7 @@ export default function QuickPicksPage() {
                         onUndo={handleUndo}
                         canUndo={canUndo}
                         priorVerdict={undoneVerdict}
+                        undoVerdict={undoVerdict}
                         toast={undoToast}
                         onExit={handleExit}
                     />
