@@ -214,6 +214,7 @@ const sombr: Artist = {
 const empireOfTheSun: Artist = {
   name: "Empire of the Sun",
   slug: "empire-of-the-sun",
+  imageUrl: "/artists/heroes/empire-of-the-sun.jpg",
   genres: ["Electronic", "Synth-Pop", "Indie Pop"],
   origin: "Sydney, Australia",
   tagline: "Theatrical cosmic pop that turns every festival into a spectacle.",
@@ -259,6 +260,7 @@ const empireOfTheSun: Artist = {
 const wetLeg: Artist = {
   name: "Wet Leg",
   slug: "wet-leg",
+  imageUrl: "/artists/heroes/wet-leg.jpg",
   genres: ["Indie Rock", "Post-Punk"],
   origin: "Isle of Wight, UK",
   tagline: "Dry wit, big riffs, and the best debut in recent memory.",
@@ -304,6 +306,7 @@ const wetLeg: Artist = {
 const worship: Artist = {
   name: "WORSHIP",
   slug: "worship",
+  imageUrl: "/artists/heroes/worship.webp",
   genres: ["Drum and Bass"],
   origin: "United Kingdom",
   tagline: "Drum and bass' biggest names, B2B, all night.",
@@ -349,6 +352,7 @@ const worship: Artist = {
 const bloodOrange: Artist = {
   name: "Blood Orange",
   slug: "blood-orange",
+  imageUrl: "/artists/heroes/blood-orange.jpg",
   genres: ["R&B", "Soul", "Art-Pop"],
   origin: "London, UK",
   tagline: "Genre-fluid R&B from New York's most restlessly creative artist.",
@@ -439,6 +443,7 @@ const fiveSecondsOfSummer: Artist = {
 const kettama: Artist = {
   name: "KETTAMA",
   slug: "kettama",
+  imageUrl: "/artists/heroes/kettama.webp",
   genres: ["House", "Speed Garage"],
   origin: "Galway, Ireland",
   tagline: "Big-hearted house anthems built for the floor.",
@@ -484,6 +489,7 @@ const kettama: Artist = {
 const viagraBoys: Artist = {
   name: "Viagra Boys",
   slug: "viagra-boys",
+  imageUrl: "/artists/heroes/viagra-boys.webp",
   genres: ["Post-Punk", "Garage Rock"],
   origin: "Stockholm, Sweden",
   tagline: "Controlled post-punk chaos, weaponized humor, and raw underground energy.",
@@ -544,6 +550,7 @@ const viagraBoys: Artist = {
 const audreyHobert: Artist = {
   name: "Audrey Hobert",
   slug: "audrey-hobert",
+  imageUrl: "/artists/heroes/audrey-hobert.avif",
   genres: ["Indie Pop", "Singer-Songwriter"],
   origin: "Los Angeles, California",
   tagline:
@@ -590,6 +597,7 @@ const audreyHobert: Artist = {
 const snowStrippers: Artist = {
   name: "Snow Strippers",
   slug: "snow-strippers",
+  imageUrl: "/artists/heroes/snow-strippers.jpg",
   genres: ["Witch House", "Electroclash", "Electronic"],
   origin: "Detroit, Michigan",
   tagline: "Frenetic, blown-out electroclash born in the internet underground.",
@@ -635,6 +643,7 @@ const snowStrippers: Artist = {
 const borisBrejcha: Artist = {
   name: "Boris Brejcha",
   slug: "boris-brejcha",
+  imageUrl: "/artists/heroes/boris-brejcha.jpg",
   genres: ["High-Tech Minimal", "Techno"],
   origin: "Ludwigshafen, Germany",
   tagline: "The masked maestro of hypnotic, stadium-scale high-tech minimal.",
@@ -680,6 +689,8 @@ const borisBrejcha: Artist = {
 const parisPaloma: Artist = {
   name: "Paris Paloma",
   slug: "paris-paloma",
+  imageUrl: "/artists/heroes/paris-paloma.webp",
+  objectPosition: "center 40%",
   genres: ["Dark Folk", "Indie Pop", "Chamber Pop"],
   origin: "Derbyshire, England",
   tagline: "Visceral, mythological dark folk built on fierce emotional catharsis.",
@@ -770,6 +781,7 @@ const littleSimz: Artist = {
 const cmat: Artist = {
   name: "CMAT",
   slug: "cmat",
+  imageUrl: "/artists/heroes/cmat.webp",
   genres: ["Indie Pop", "Country Pop", "Alternative Folk"],
   origin: "Dublin, Ireland",
   tagline: "High-camp pop anthems matched with devastating, razor-sharp heartbreak storytelling.",
@@ -1043,6 +1055,7 @@ const kingfishr: Artist = {
 const ninajirachi: Artist = {
   name: "Ninajirachi",
   slug: "ninajirachi",
+  imageUrl: "/artists/heroes/ninajirachi.webp",
   genres: ["Hyperpop", "Club", "Electronic"],
   origin: "Central Coast, Australia",
   tagline: "Glitchy, hyper-futuristic club music delivered at terminal velocity.",
@@ -1088,6 +1101,7 @@ const ninajirachi: Artist = {
 const hauteAndFreddy: Artist = {
   name: "haute & freddy",
   slug: "haute-and-freddy",
+  imageUrl: "/artists/heroes/haute-and-freddy.webp",
   genres: ["Dance Pop", "House", "Electronic"],
   origin: "Paris, France",
   tagline: "Sleek, runway-ready French electronic pop built for the open air.",
@@ -1223,6 +1237,7 @@ const marlonFunaki: Artist = {
 const devault: Artist = {
   name: "Devault",
   slug: "devault",
+  imageUrl: "/artists/heroes/devault.jpg",
   genres: ["Industrial House", "Dark Techno", "Electronic"],
   origin: "Orange County, California",
   tagline: "Dark, cinematic industrial techno that turns early evenings into warehouse raves.",

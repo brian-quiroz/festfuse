@@ -246,6 +246,21 @@ Planning, conflict detection, and scheduling will be expanded after the core dis
 
 ---
 
+## Data Architecture
+
+### Artist Data
+
+Artist records live in `app/data/artists/`, split into one file per festival day for easier editing:
+
+- `thursday.ts`, `friday.ts`, `saturday.ts`, `sunday.ts` — storage only
+- `index.ts` — combines all four and exports `allArtists` and `artistsBySlug`
+
+**Rule: always import from `index.ts`, never from individual day files.**
+
+The day files are an editing convenience, not a data boundary. Any feature that needs to filter by day (e.g. Quick Picks for Friday only) must import `allArtists` from `index.ts` and filter by `artist.appearance.day === "Friday"`. Never use a day file as a shortcut to get that day's artists — it will silently break if an artist is miscategorized or moved.
+
+---
+
 ## Build Order
 
 ✅ Artist Page
