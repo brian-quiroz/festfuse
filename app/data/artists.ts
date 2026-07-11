@@ -269,7 +269,7 @@ const sombr: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
-    stage: "T Mobile",
+    stage: "T-Mobile",
     day: "Thursday",
     date: "Jul 30",
     startTime: "6:30 PM",
@@ -722,7 +722,7 @@ const worship: Artist = {
   whySee: [
     "Four of drum and bass' absolute elite titans sharing one single stage in a fluid, relentless four-way B2B performance",
     "The standard-bearers of modern UK dancefloor culture delivering the heaviest bass-heavy set of the entire weekend",
-    "Hear the massive global festival unveiling of their highly anticipated, first-ever official group recording project",
+    "Sub Focus, Dimension, Culture Shock, and 1991 are individually festival headliners — together they're something else entirely",
     "An absolute adrenaline-fueled masterclass in hyper-precise electronic sound design, tension, and massive structural bass releases"
   ],
   whatToExpect: ["Relentless four-way mixing", "Heavy underground dancefloor bass", "Massive laser field arrays", "Nonstop peak-time velocity"],
@@ -892,8 +892,8 @@ const audreyHobert: Artist = {
   whySee: [
     "Catch a hyper-gifted pop writer making her highly anticipated festival debut after co-writing Gracie Abrams' biggest hits",
     "Hear the live execution of her brilliant, critically beloved 2025 RCA Records solo debut, Who's the Clown?",
-    "Be among the first to experience her brand new, unreleased summer single 'Wet Hair' performed live before its release",
-    "Razor-sharp, stream-of-consciousness lyrical indie pop that plays out like real voice memos from a best friend"
+    "The rare songwriter who can make a lyric feel like a voice memo you sent at 2am — instantly relatable, painfully specific",
+    "Sharp, self-aware stage banter that makes a big outdoor crowd feel like a small living room show"
   ],
   whatToExpect: ["Intimate confessional lyricism", "Wordy hyper-specific indie pop", "Charming self-aware stage banter", "Warm emotional afternoon crowd"],
   bestFor: ["Lyric songwriting obsessives", "Fans of contemporary bedroom pop", "Early breakout talent seekers", "Intimate storyteller set lovers", "Indie pop music fans"],
@@ -916,12 +916,114 @@ const audreyHobert: Artist = {
   }
 };
 
+const snowStrippers: Artist = {
+  name: "Snow Strippers",
+  slug: "snow-strippers",
+  genres: ["Witch House", "Electroclash", "Electronic"],
+  origin: "Detroit, Michigan",
+  tagline: "Frenetic, blown-out electroclash born in the internet underground.",
+  socials: {},
+  whySee: [
+    "The absolute peak of the modern electronic underground crossing over into an explosive, boundary-pushing tent environment",
+    "Tatiana Schwaninger's completely detached, hypnotic vocals riding underneath Graham Perez's brutally heavy, corrupted electronic production",
+    "Experience a cult-favorite internet phenomenon that has rapidly grown into one of the most talked-about live underground projects",
+    "A blistering, unapologetic wall of fuzzed-out industrial energy that makes standard club sets look soft by comparison"
+  ],
+  whatToExpect: ["Blown-out industrial bass", "Hypnotic detached vocals", "Aggressive strobe lighting", "Frenetic cyberpunk energy"],
+  bestFor: ["Electroclash club traditionalists", "Underground witch house purists", "Cyberpunk aesthetic obsessives", "Late-night warehouse ravers", "High-velocity dance seekers"],
+  similarArtists: [],
+  tracks: [
+    { name: "Under Your Spell", album: "April Mixtape 3", duration: "" },
+    { name: "In My Head", album: "Night Killaz Vol. 1", duration: "" },
+    { name: "Almost A Year", album: "Night Killaz Vol. 2", duration: "" }
+  ],
+   about: "Snow Strippers is the Detroit-based electronic duo of Tatiana Schwaninger and Graham Perez, who ignited a global internet underground revival by fusing the gritty textures of early 2010s witch house with the maximalist velocity of electroclash. Operating out of the Surf Gang rap collective orbit alongside producers like evilgiane, their raw, distortion-heavy sound has earned them high-profile collaborations with Lil Uzi Vert. Live, they completely strip away the typical EDM polish, transforming the stage into a chaotic, adrenaline-fueled new rave paradise.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Airbnb",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "7:45 PM",
+    endTime: "8:30 PM"
+  }
+};
+
+const borisBrejcha: Artist = {
+  name: "Boris Brejcha",
+  slug: "boris-brejcha",
+  genres: ["High-Tech Minimal", "Techno"],
+  origin: "Ludwigshafen, Germany",
+  tagline: "The masked maestro of hypnotic, stadium-scale high-tech minimal.",
+  socials: {},
+  whySee: [
+    "The absolute pioneer of 'High-Tech Minimal' delivering a hyper-precise, calculated club sermon directly to Grant Park",
+    "His iconic, theatrical Venetian Joker mask performance framing a deeply hypnotic audio-visual stage landscape",
+    "A rare festival appearance from a global techno titan renowned for playing massive, multi-hour headline arena sets across Europe",
+    "Experience incredibly patient, complex minimal techno infrastructure that delivers massive, earth-shaking low-end bass pay-offs"
+  ],
+  whatToExpect: ["Hypnotic minimalist techno structures", "Theatrical Venetian mask showmanship", "Intricate melodic progression arcs", "Deeply sub-heavy bass drops"],
+  bestFor: ["High-tech minimal traditionalists", "European techno purists", "Late-night electronic club veterans", "Sound design infrastructure nerds", "Hypnotic repetition seekers"],
+  similarArtists: [],
+  tracks: [
+    { name: "Gravity", album: "Space Diver", duration: "" },
+    { name: "Purple Noise", album: "Feuerfalter Part02", duration: "" },
+    { name: "Spacewalker", album: "Space Diver", duration: "" }
+  ],
+  about:
+  "Boris Brejcha is a legendary German DJ and producer who has spent two decades operating at the vanguard of electronic music, single-handedly conceptualizing the 'High-Tech Minimal' sub-genre. Characterized by intricate percussive architecture, soaring cinematic synth melodies, and an unyielding techno pulse, Brejcha commands stages across the globe wearing his signature carnival mask. Backed by an extensive catalog of dark masterpiece albums like 'Space Diver', his live performances are masterfully calculated, high-production journeys tailored for massive electronic crowds.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Sub-headliner",
+    stage: "Perry's",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "5:45 PM",
+    endTime: "6:45 PM"
+  }
+};
+
+const parisPaloma: Artist = {
+  name: "Paris Paloma",
+  slug: "paris-paloma",
+  genres: ["Dark Folk", "Indie Pop", "Chamber Pop"],
+  origin: "Derbyshire, England",
+  tagline: "Visceral, mythological dark folk built on fierce emotional catharsis.",
+  socials: {},
+  whySee: [
+    "A deeply theatrical, folklore-inspired performance that acts as a beautifully dark, haunting oasis on the line-up",
+    "Experience the raw, bone-chilling crowd energy during her massive, viral feminist anthem 'labor' live in a festival setting",
+    "Stunning, rich chamber-pop arrangements tracking complex themes of grief, bodily autonomy, and mythological fury",
+    "The official festival tour run introducing her highly anticipated, deeply personal debut studio statement, Cacophony"
+  ],
+  whatToExpect: ["Haunting operatic vocal ranges", "Poetic dark-folk arrangements", "Intense communal crowd catharsis", "Gothic mythological visual cues"],
+  bestFor: ["Gothic alternative folk enthusiasts", "Lyric and narrative obsessives", "Chamber pop music lovers", "Breakout songwriter talent seekers", "Intimate emotional story devotees"],
+  similarArtists: [],
+  tracks: [
+    { name: "labor", album: "Cacophony", duration: "" },
+    { name: "yours", album: "Cacophony", duration: "" },
+    { name: "as good a reason", album: "Cacophony", duration: "" }
+  ],
+  about:
+    "Paris Paloma is a Derbyshire-born singer-songwriter whose brilliant blend of dark indie-folk, baroque pop, and visceral storytelling has garnered a deeply passionate global community. Writing with the precision of a classical poet, Paloma weaponizes themes of historical mythology, ancestral fury, and deeply raw interpersonal grief into powerful sonic statements. Her breakout platinum single 'labor' became a massive international rallying cry, establishing her debut full-length album 'Cacophony' as a landmark showcase of gothic, jaw-dropping vocal authority.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Tito's",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "3:45 PM",
+    endTime: "4:45 PM"
+  }
+};
+
 export const allArtists: Artist[] = [
   jennie, beabadoobee, majorLazer,
   lorde, yoasobi, sombr, leonThomas,
   johnSummit, charliXcx, smashingPumpkins, oliviaDean, tateMcRae, theXx,
   aespa, empireOfTheSun, wetLeg, worship,
   bloodOrange, fiveSecondsOfSummer, kettama, viagraBoys, audreyHobert,
+  snowStrippers, borisBrejcha, parisPaloma,
 ];
 
 export const artistsBySlug: Record<string, Artist> = Object.fromEntries(
