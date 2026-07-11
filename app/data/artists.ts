@@ -1017,6 +1017,234 @@ const parisPaloma: Artist = {
   }
 };
 
+const littleSimz: Artist = {
+  name: "Little Simz",
+  slug: "little-simz",
+  genres: ["Hip-Hop", "Conscious Rap", "Neo-Soul"],
+  origin: "London, England",
+  tagline: "One of the absolute greatest lyricists alive delivering pure live mastery.",
+  socials: {},
+  whySee: [
+    "A blistering, career-defining masterclass in pure structural lyricism backed by an elite live multi-instrumental ensemble",
+    "Hear the sweeping, cinematic live cuts from her critically acclaimed 2024 full-length masterpiece, Drop 7",
+    "Unmatched theatrical stage command that shifts effortlessly from aggressive, rapid-fire flows to introspective soul grooves",
+    "A legendary performer operating at the absolute absolute peak of her powers, commanding mainstage festival authority"
+  ],
+  whatToExpect: ["Razor-sharp live flows", "Elite live instrumentation", "Cinematic orchestral backdrops", "Intense poetic command"],
+  bestFor: ["Hip-hop traditionalists", "Lyric and narrative obsessives", "Live music purists", "Fans of alternative soul", "Mainstage festival crowds"],
+  similarArtists: [],
+  tracks: [
+    { name: "Gorilla", album: "No Thank You", duration: "" },
+    { name: "Introvert", album: "Sometimes I Might Be Introvert", duration: "" },
+    { name: "Mood Swings", album: "Drop 7", duration: "" }
+  ],
+  about: 
+    "Little Simz is the moniker of Simbiatu Ajikawo, a London-born rapper, songwriter, and actress whose uncompromising independent path has established her as one of hip-hop's most revered modern vanguards. Following the widespread critical masterpiece of 'Sometimes I Might Be Introvert'—which secured her a Mercury Prize—her evolution into 2024's club-ready electronic textures on 'Drop 7' showcased a restlessly creative artist who refuses to sit in one lane. Backed by a full live jazz-soul band, her live set is a deeply emotional, monumental tour de force of narrative performance.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Sub-headliner",
+    stage: "Bud Light",
+    day: "Friday",
+    date: "Jul 31",
+    startTime: "6:30 PM",
+    endTime: "7:30 PM"
+  }
+};
+
+const cmat: Artist = {
+  name: "CMAT",
+  slug: "cmat",
+  genres: ["Indie Pop", "Country Pop", "Alternative Folk"],
+  origin: "Dublin, Ireland",
+  tagline: "High-camp pop anthems matched with devastating, razor-sharp heartbreak storytelling.",
+  socials: {},
+  whySee: [
+    "The undisputed pop-country princess of Ireland delivering the funniest, most emotionally raw camp spectacle of the weekend",
+    "Ciara Mary-Alice Thompson's jaw-dropping, operatic vocal range that completely commands giant festival fields",
+    "Brilliant, tragi-comic anthem layouts that feel simultaneously like a massive Dolly Parton show and a chaotic indie pop party",
+    "A deeply passionate live environment fueled by elite storytelling, line dancing, and collective crowd catharsis"
+  ],
+  whatToExpect: ["High-camp pop choreography", "Devastating heartbreak country ballads", "Hilarious theatrical stage banter", "Massive group singalongs"],
+  bestFor: ["Alternative country enthusiasts", "Fans of witty pop camp", "Lyric and narrative obsessives", "Indie pop music lovers", "Early afternoon discovery seekers"],
+  similarArtists: [],
+  tracks: [
+    { name: "I Don't Really Care For You", album: "If My Wife New I Was Dead", duration: "" },
+    { name: "Stay For Something", album: "Crazymad, For Me", duration: "" },
+    { name: "California", album: "Crazymad, For Me", duration: "" }
+  ],
+  about: 
+    "CMAT is the artistic project of Dublin-born singer-songwriter Ciara Mary-Alice Thompson, whose unique blend of classic country songwriting tropes, glittering indie pop hooks, and postmodern humor has earned her global critical adoration. Drawing sharp thematic parallels between the grand emotional isolation of Nashville legends and modern millennial anxieties, her Brit-nominated sophomore album 'Crazymad, For Me' became a landmark breakout statement. Live, CMAT strips away all traditional indie rock solemnity, deploying an elite theatrical performance that is equal parts stadium-sized tragedy and celebratory line-dance party.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Tito's",
+    day: "Friday",
+    date: "Jul 31",
+    startTime: "2:30 PM",
+    endTime: "3:30 PM"
+  }
+};
+
+const boysNoize: Artist = {
+  name: "Boys Noize",
+  slug: "boys-noize",
+  genres: ["Electro House", "Techno", "Industrial Electronic"],
+  origin: "Berlin, Germany",
+  tagline: "Industrial Berlin techno and distorted punk energy designed to shatter warehouse dance floors.",
+  socials: {},
+  whySee: [
+    "A legendary titan of underground electronic music delivering a blistering, high-velocity audio-visual assault to the Perry's tent",
+    "Experience his historic, heavy-hitting club staples alongside brand-new, unreleased electronic studio cut collaborations",
+    "A relentless masterclass in modular hardware manipulation, metallic techno grooves, and distorted punk rock pacing",
+    "The absolute ultimate alternative electronic set for ravers looking for raw industrial muscle over commercial pop EDM"
+  ],
+  whatToExpect: ["Distorted warehouse techno loops", "Frenetic industrial laser arrays", "Heavy modular hardware transitions", "Nonstop maximum velocity momentum"],
+  bestFor: ["Industrial techno traditionalists", "Berlin club culture purists", "Late-night hard dance ravers", "Electronic production gear nerds", "High-velocity energy seekers"],
+  similarArtists: [],
+  tracks: [
+    { name: "XTC", album: "Out of the Black", duration: "" },
+    { name: "Fine Baseline", album: "Mayday", duration: "" },
+    { name: "Chamber", album: "Strictly Raw Vol. 2", duration: "" }
+  ],
+  about: 
+    "Alex Ridha, performing under the iconic moniker Boys Noize, has spent two decades standing as one of global electronic music's most influential and restlessly creative underground forces. Emerging from the anarchic Berlin club network, his raw, distortion-heavy brand of electro house and techno completely rewrote the rules of crossover electronic music. From running his legendary Boysnoize Records label to producing for avant-garde heavyweights like Arca, Frank Ocean, and Skrillex, his live festival environments remain chaotic, blindingly strobe-lit masterclasses in pure analog club energy.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Sub-headliner",
+    stage: "Perry's",
+    day: "Friday",
+    date: "Jul 31",
+    startTime: "7:15 PM",
+    endTime: "8:15 PM"
+  }
+};
+
+const betweenFriends: Artist = {
+  name: "Between Friends",
+  slug: "between-friends",
+  genres: ["Indie Pop", "Bedroom Pop", "Neo-Psychedelia"],
+  origin: "Los Angeles, California",
+  tagline: "Glitchy, neon-drenched notebook bedroom pop for late-night drives under palm trees.",
+  socials: {},
+  whySee: [
+    "The absolute internet-favorite sibling duo bringing their hyper-aesthetic, nostalgic indie pop directly to a massive festival setting",
+    "Savannah and Brandon Hudson's perfectly synchronized, dreamy vocal lines gliding over lush lo-fi synth instrumentation",
+    "Hear the live execution of their gorgeous, genre-fluid 2024 concept EP string, mapping a distinct modern pop landscape",
+    "A perfectly curated afternoon vibe check that translates internet aesthetic culture into a beautiful, communal live experience"
+  ],
+  whatToExpect: ["Glitchy retro-futuristic visuals", "Dreamy nostalgic pop layers", "Lush laptop-pop synth pads", "Effortless cool sibling chemistry"],
+  bestFor: ["Contemporary bedroom pop fans", "Lo-fi internet aesthetic lovers", "Chill afternoon groove hunters", "Indie pop music collectors", "Fans of alternative pop melodies"],
+  similarArtists: [],
+  tracks: [
+    { name: "Affection", album: "wejustneedtobalone", duration: "" },
+    { name: "iloveyou", album: "I Love My Friends", duration: "" },
+    { name: "Bruise", album: "I Love My Friends", duration: "" }
+  ],
+  about: 
+    "Between Friends is the Los Angeles-based alternative pop project of siblings Savannah and Brandon Hudson, who forged an intense internet-cult community through their meticulous blend of lo-fi bedroom recordings and glossy garage pop. Originally breaking out with their hazy bedroom anthem 'Affection', the duo expanded their sonic identity into a full-length statement on 'I Love My Friends', capturing the precise, hyper-aesthetic textures of Gen-Z youth culture. Live, their project functions as an intimate, neon-lit cinematic diary entry wrapped in warm, driving synthesizers.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "BMI",
+    day: "Friday",
+    date: "Jul 31",
+    startTime: "4:00 PM",
+    endTime: "4:45 PM"
+  }
+};
+
+const mph: Artist = {
+  name: "MPH",
+  slug: "mph",
+  genres: ["UK Garage", "Bassline", "House"],
+  origin: "Canterbury, England",
+  tagline:
+    "High-octane, hyper-precise UK garage driving the modern electronic underground dance revival.",
+  socials: {},
+  whySee: [
+    "One of the UK garage underground's absolute finest modern technicians commanding an intense, high-energy dance session",
+    "Experience a relentless display of syncopated swing rhythms, heavy bassline rollers, and infectious classic vocal chops",
+    "Catch a pioneer of the current international electronic groove resurgence during a prime, highly anticipated tent slot",
+    "An absolute, non-stop dance accelerator designed perfectly to turn a festival crowd into a boiling warehouse rave",
+  ],
+  whatToExpect: [
+    "Hyper-fast UK garage swing",
+    "Heavy rolling bassline steps",
+    "Infectious chopped vocal hooks",
+    "Nonstop high-velocity club grooves",
+  ],
+  bestFor: [
+    "UK garage and bassline purists",
+    "Underground club music devotees",
+    "High-velocity electronic dancers",
+    "Tent starters hunting bass loops",
+    "Electronic music culture lovers",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "One0Two", album: "Refraction", duration: "" },
+    { name: "Ghost", album: "Refraction", duration: "" },
+    { name: "Rush", album: "Rush", duration: "" },
+  ],
+  about:
+    "MPH is the artistic project of Canterbury-born DJ and electronic producer CJ Booth, who has rapidly solidified his position as one of the modern era's most prolific and essential UK Garage forces. Blending the nostalgic, soulful swing of late-90s garage with the crushing, heavy bassline weight of contemporary underground club culture, his landmark full-length project 'Refraction' earned widespread institutional praise. Behind the decks, MPH delivers a technically flawless, high-tempo masterclass in rhythm manipulation that sets the exact standard for modern club music.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Perry's",
+    day: "Friday",
+    date: "Jul 31",
+    startTime: "1:45 PM",
+    endTime: "2:45 PM",
+  },
+};
+
+const amble: Artist = {
+  name: "Amble",
+  slug: "amble",
+  genres: ["Contemporary Folk", "Alternative Folk", "Traditional Irish Folk"],
+  origin: "Midlands, Ireland",
+  tagline:
+    "Stripped-back, deeply nostalgic three-piece contemporary folk rooted in timeless storytelling.",
+  socials: {},
+  whySee: [
+    "Ireland's fastest-rising contemporary folk phenomena bringing an intimate, breathtakingly acoustic experience to Grant Park",
+    "Three-part vocal harmonies of jaw-dropping precision singing gorgeous, poetic modern hymns of ordinary Irish life",
+    "A stunningly quiet, emotionally enormous oasis on the bill that commands absolute, pin-drop silence from a crowd",
+    "The premier festival tour run showcasing the rich, stark instrumentation of their highly celebrated studio catalog",
+  ],
+  whatToExpect: [
+    "Stripped acoustic instrumentation",
+    "Flawless three-part harmonies",
+    "Deeply poetic narrative stories",
+    "Intimate communal crowd atmosphere",
+  ],
+  bestFor: [
+    "Traditional alternative folk fans",
+    "Lyric and storytelling obsessives",
+    "Acoustic music purists",
+    "Intimate emotional set hunters",
+    "Afternoon chill seekers",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Mariner Boy", album: "The Name, The Trade and the Mirror", duration: "" },
+    { name: "Tonylion", album: "Amble EP", duration: "" },
+    { name: "Lonely Island", album: "The Name, The Trade and the Mirror", duration: "" },
+  ],
+  about:
+    "Amble is the contemporary Irish folk three-piece consisting of Robbie Cunningham, Oisin McCaffrey, and Ross McNerney, whose minimalist, acoustic-led soundscapes have sparked a massive international folk resurgence. Rooted in the stark, timeless tradition of legendary acoustic storytellers, the trio pairs hauntingly beautiful acoustic guitars and bouzouki instrumentation with deeply moving tales of heartbreak, labor, and heritage. On the heels of their celebrated studio milestone 'The Name, The Trade and the Mirror', their live show translates raw, unadorned intimacy onto festival scales.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Allianz",
+    day: "Friday",
+    date: "Jul 31",
+    startTime: "12:45 PM",
+    endTime: "1:30 PM",
+  },
+};
+
 export const allArtists: Artist[] = [
   jennie, beabadoobee, majorLazer,
   lorde, yoasobi, sombr, leonThomas,
@@ -1024,6 +1252,7 @@ export const allArtists: Artist[] = [
   aespa, empireOfTheSun, wetLeg, worship,
   bloodOrange, fiveSecondsOfSummer, kettama, viagraBoys, audreyHobert,
   snowStrippers, borisBrejcha, parisPaloma,
+  littleSimz, cmat, boysNoize, betweenFriends, mph, amble
 ];
 
 export const artistsBySlug: Record<string, Artist> = Object.fromEntries(
