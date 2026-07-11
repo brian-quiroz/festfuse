@@ -728,11 +728,152 @@ const worship: Artist = {
   },
 };
 
+const bloodOrange: Artist = {
+  name: "Blood Orange",
+  slug: "blood-orange",
+  genres: ["R&B", "Soul", "Art-Pop"],
+  origin: "London, UK",
+  tagline: "Genre-fluid R&B from New York's most restlessly creative artist.",
+  socials: {},
+  whySee: [],
+  whatToExpect: [],
+  bestFor: [],
+  similarArtists: [],
+  tracks: [
+    { name: "Champagne Coast", album: "Coastal Grooves", duration: "" },
+    { name: "You're Not Good Enough", album: "Cupid Deluxe", duration: "" },
+    { name: "Mind Loaded", album: "Essex Honey", duration: "" },
+  ],
+  about:
+    "Blood Orange is the project of British-born, New York-based Dev Hynes — a restlessly creative songwriter, producer, and director whose music sits at the intersection of soul, R&B, pop, and art-rock. Since debuting in 2011 with Coastal Grooves, Hynes has built one of the most singular bodies of work in contemporary music, blending lush instrumentation with deeply personal explorations of identity, race, and belonging. His collaborators read like a who's who of the avant-garde, and his 2025 album Essex Honey — featuring Caroline Polachek, Lorde, and Mustafa — added another chapter to a discography that only gets richer.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    stage: "",
+    day: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+  },
+};
+
+const fiveSecondsOfSummer: Artist = {
+  name: "5 Seconds of Summer",
+  slug: "5-seconds-of-summer",
+  genres: ["Pop Punk", "Pop Rock"],
+  origin: "Sydney, Australia",
+  tagline: "Four friends from Sydney who've grown up on stage.",
+  socials: {},
+  whySee: [],
+  whatToExpect: [],
+  bestFor: [],
+  similarArtists: [],
+  tracks: [
+    { name: "She Looks So Perfect", album: "5 Seconds of Summer", duration: "" },
+    { name: "Youngblood", album: "Youngblood", duration: "" },
+    { name: "Teeth", album: "CALM", duration: "" },
+  ],
+  about:
+    "5 Seconds of Summer — Luke Hemmings, Calum Hood, Ashton Irwin, and Michael Clifford — formed in Sydney in 2011 and have spent over a decade proving that pop-punk energy and genuine songcraft can coexist. What began as a teenage YouTube project evolved into a global phenomenon. Their 2018 album Youngblood redefined their sound with darker, polished pop production, while their 2025 sixth album Everyone's a Star! found them poking wry fun at their own boy-band origins. At festivals, 5SOS are reliably massive — a crowd who has grown up alongside the band and will sing every word.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    stage: "",
+    day: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+  },
+};
+
+const kettama: Artist = {
+  name: "KETTAMA",
+  slug: "kettama",
+  genres: ["House", "Speed Garage"],
+  origin: "Galway, Ireland",
+  tagline: "Big-hearted house anthems built for the floor.",
+  socials: {},
+  whySee: [],
+  whatToExpect: [],
+  bestFor: [],
+  similarArtists: [],
+  tracks: [
+    { name: "B. O. D. Y.", album: "Bucklyn Bridge", duration: "" },
+    { name: "Archangel", album: "Archangel", duration: "" },
+    { name: "If U Want My Heart", album: "Archangel", duration: "" },
+  ],
+  about:
+    "KETTAMA is the alias of Evan Campbell, a DJ and producer from Galway, Ireland who has become one of the most exciting figures in contemporary house music. His 2018 breakthrough 'B O D Y' went viral after plays from Mall Grab and Annie Mac, and he has since built a catalog of high-energy bangers rooted in UK garage and speed garage. His 2025 debut album Archangel — released on Steel City Dance Discs and featuring collaborations with DJ Heartstring, Interplanetary Criminal, and Prospa — crystallised his sound into a full-length statement.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    stage: "",
+    day: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+  },
+};
+
+const viagraBoys: Artist = {
+  name: "Viagra Boys",
+  slug: "viagra-boys",
+  genres: ["Post-Punk", "Garage Rock"],
+  origin: "Stockholm, Sweden",
+  tagline: "Controlled post-punk chaos, weaponized humor, and raw underground energy.",
+  socials: {},
+  whySee: [],
+  whatToExpect: [],
+  bestFor: [],
+  similarArtists: [],
+  tracks: [
+    { name: "Sports", album: "Street Worms", duration: "3:58", artworkUrl: "/albums/viagra-boys/street-worms.jpg" },
+    { name: "Man Made of Meat", album: "viagr aboys", duration: "3:14", artworkUrl: "/albums/viagra-boys/viagr-aboys.jpg" },
+    { name: "Uno II", album: "viagr aboys", duration: "3:02", artworkUrl: "/albums/viagra-boys/viagr-aboys.jpg" },
+  ],
+  about:
+    "Viagra Boys are a Swedish art-punk outfit led by frontman Sebastian Murphy, celebrated for their feral live energy, biting social satire, and completely irreverent attitude. Following a string of critically adored releases including 'Street Worms' (2018) and 'Cave World' (2022), the band launched their own independent imprint, Shrimptech Enterprises, to drop their fourth studio album 'viagr aboys' in 2025. Shifting their focus from acid-laced external commentary to absurd inward reflections, their live set is a relentless, saxophone-fueled masterclass in theatrical punk rock mayhem.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    stage: "",
+    day: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+  },
+};
+
+const audreyHobert: Artist = {
+  name: "Audrey Hobert",
+  slug: "audrey-hobert",
+  genres: ["Indie Pop", "Singer-Songwriter"],
+  origin: "Los Angeles, California",
+  tagline: "Witty, wordy stream-of-consciousness pop music that plays out like voice memos from your funniest friend.",
+  socials: {},
+  whySee: [],
+  whatToExpect: [],
+  bestFor: [],
+  similarArtists: [],
+  tracks: [
+    { name: "Sue Me", album: "Who's the Clown?", duration: "" },
+    { name: "Bowling Alley", album: "Who's the Clown?", duration: "" },
+    { name: "Wet Hair", album: "Who's the Clown?", duration: "" },
+  ],
+  about:
+    "Audrey Hobert is a Los Angeles-based singer-songwriter who first captured global pop attention co-writing breakout hits on Gracie Abrams' 2024 album 'The Secret of Us'. Her 2025 RCA Records debut album 'Who's the Clown?' established her as a refreshingly sharp, self-aware solo force, weaponizing hyper-specific mid-twenties anxieties into wonderfully playful pop anthems. Following a massive run on television and the extension of her acclaimed 'Staircase to Stardom' tour, her live set delivers painfully honest lyricism backed by elite, high-energy pop instrumentation.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    stage: "",
+    day: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+  },
+};
+
 export const allArtists: Artist[] = [
   jennie, beabadoobee, majorLazer,
   lorde, yoasobi, sombr, leonThomas,
   johnSummit, charliXcx, smashingPumpkins, oliviaDean, tateMcRae, theXx,
   aespa, empireOfTheSun, wetLeg, worship,
+  bloodOrange, fiveSecondsOfSummer, kettama, viagraBoys, audreyHobert,
 ];
 
 export const artistsBySlug: Record<string, Artist> = Object.fromEntries(
