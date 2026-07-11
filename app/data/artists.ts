@@ -9,7 +9,7 @@ const jennie: Artist = {
   objectPosition: "center 15%",
   genres: ["K-Pop", "R&B", "Hip-Hop"],
   origin: "Seoul, South Korea",
-  tagline: "The one and only. Style meets swagger.",
+  tagline: "Unrivaled global pop icon delivering high-fashion, block-rocking festival energy.",
   socials: {
     spotify: "https://open.spotify.com/artist/250b0Wlc5Vk0CoUsaCY84M",
     youtube: "https://www.youtube.com/@jennierubyjane",
@@ -30,12 +30,12 @@ const jennie: Artist = {
     { name: "BLACKPINK", imageUrl: "/artists/avatars/blackpink.png" }
   ],
   tracks: [
-    { name: "SOLO", album: "SOLO", duration: "2:58", artworkUrl: "/albums/jennie/solo.png" },
-    { name: "You & Me", album: "You & Me", duration: "3:19", artworkUrl: "/albums/jennie/you-and-me.png" },
-    { name: "Mantra", album: "Ruby", duration: "2:52", artworkUrl: "/albums/jennie/ruby.png" },
+    { name: "Mantra", album: "Ruby", duration: "2:27", artworkUrl: "/albums/jennie/ruby.png" },
+    { name: "like JENNIE", album: "Ruby (The Complete Collection)", duration: "2:54", artworkUrl: "/albums/jennie/ruby-collection.jpg" },
+    { name: "Dracula - JENNIE Remix", album: "Dracula (Remix)", duration: "3:10", artworkUrl: "/albums/jennie/dracula-remix.jpg" },
   ],
   about:
-    "Jennie Kim is a South Korean singer, rapper, and global fashion icon, best known as a member of BLACKPINK. Her 2018 debut solo single SOLO broke records across Asia and cemented her status as a bona fide solo force. Known for her sharp rap delivery, sleek pop hooks, and boundary-pushing style, Jennie commands stages with the effortless authority of someone who was always meant to headline them. Her 2025 debut album Ruby marked a new chapter — a fully realised artist with nothing left to prove.",
+    "Jennie Kim debuted in 2016 as a core member of global phenomenon BLACKPINK before launching an equally historic solo career. Known for her fierce rap flows, sultry R&B hooks, and trendsetting fashion authority, she shattered international charts with her 2024 solo smash 'Mantra'. Following the massive global success of her late-2025 solo debut album 'Ruby' and a string of blockbuster 2026 hits like 'like JENNIE' and the hard-hitting 'Dracula' remix, her headlining live production is a world-class masterclass in precision choreography, high-fashion staging, and sheer pop dominance.",
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -55,7 +55,7 @@ const beabadoobee: Artist = {
   objectPosition: "center 20%",
   genres: ["Indie Pop", "Shoegaze", "Bedroom Pop"],
   origin: "London, England",
-  tagline: "Fuzzed-out feelings in perfect three minutes.",
+  tagline: "Nostalgic 90s alt-rock and dreamy bedroom pop, blown up to mainstage scale.",
   socials: {
     spotify: "https://open.spotify.com/artist/35l9BRT7MXmM8bv2WDQiyB",
     youtube: "https://www.youtube.com/@Beabadoobee",
@@ -76,12 +76,12 @@ const beabadoobee: Artist = {
     { name: "Japanese Breakfast", imageUrl: "/artists/avatars/japanese-breakfast.jpg" }
   ],
   tracks: [
-    { name: "Care", album: "Beatopia", duration: "3:09", artworkUrl: "/albums/beabadoobee/beatopia.png" },
-    { name: "The Night Is Dark", album: "Fake It Flowers", duration: "3:20", artworkUrl: "/albums/beabadoobee/fake-it-flowers.jpg" },
-    { name: "Last Day On Earth", album: "Beatopia", duration: "3:54", artworkUrl: "/albums/beabadoobee/beatopia.png" },
+    { name: "the perfect pair", album: "Beatopia", duration: "2:57", artworkUrl: "/albums/beabadoobee/beatopia.png" },
+    { name: "All I Did Was Dream of You (feat. The Marías)", album: "Pylon", duration: "3:12", artworkUrl: "/albums/beabadoobee/pylon.jpg" },
+    { name: "Beaches", album: "This Is How Tomorrow Moves", duration: "3:42", artworkUrl: "/albums/beabadoobee/this-is-how-tomorrow-moves.jpg" },
   ],
   about:
-    "Bea Kristi, performing as Beabadoobee, burst onto the internet in 2017 with lo-fi bedroom recordings that resonated deeply with a generation of indie kids raised on Tumblr and thrift stores. Born in the Philippines and raised in London, her sound fuses 90s shoegaze warmth, jangly guitar pop, and earnest lyricism that feels both intimate and universal. From viral TikTok moments to headlining her own sold-out tours, she has grown from bedroom artist to festival mainstay without ever losing the handmade sincerity that made people fall in love with her.",
+  "Bea Kristi, performing as beabadoobee, evolved from a lo-fi bedroom recording pioneer into one of alternative rock's most prominent global forces. Born in the Philippines and raised in London, her signature sound seamlessly fuses 90s shoegaze guitar hooks with sharp, diaristic indie-pop lyricism. Following the widespread critical acclaim of her Rick Rubin-produced 2024 masterpiece 'This Is How Tomorrow Moves', her massive 2026 stadium tours and highly anticipated album 'Pylon' have further elevated her status, cementing her as an unmissable, mainstage festival powerhouse.",
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
@@ -101,7 +101,7 @@ const majorLazer: Artist = {
   objectPosition: "center 26%",
   genres: ["Electronic", "Dancehall", "Dance Pop"],
   origin: "Miami, Florida",
-  tagline: "The sound of the planet doing its thing.",
+  tagline: "Global soundclash energy built to detonate festival mainstages.",
   socials: {
     spotify: "https://open.spotify.com/artist/738wLrAtLtCtFOLvQBXOXp",
     youtube: "https://www.youtube.com/@majorlazer",
@@ -122,12 +122,12 @@ const majorLazer: Artist = {
     { name: "Diplo", imageUrl: "/artists/avatars/diplo.jpg" }
   ],
   tracks: [
-    { name: "Lean On", album: "Peace Is the Mission", duration: "2:58", artworkUrl: "/albums/major-lazer/peace-is-the-mission.png" },
-    { name: "Cold Water", album: "Music Is the Weapon", duration: "3:04", artworkUrl: "/albums/major-lazer/music-is-the-weapon.jpeg" },
-    { name: "Run the World", album: "Free the Universe", duration: "3:46", artworkUrl: "/albums/major-lazer/free-the-universe.png" },
+    { name: "Lean On", album: "Peace Is The Mission", duration: "2:58", artworkUrl: "/albums/major-lazer/peace-is-the-mission.png" },
+    { name: "pAPi wiTH tOKisCha", album: "pAPi wiTH tOKisCha", duration: "2:41", artworkUrl: "/albums/major-lazer/papi.jpg" },
+    { name: "Que Calor (feat. J Balvin & El Alfa)", album: "Music Is The Weapon", duration: "2:49", artworkUrl: "/albums/major-lazer/music-is-the-weapon.jpeg" },
   ],
   about:
-    "Major Lazer is the genre-defying electronic music project led by Diplo, alongside Walshy Fire and Ape Drums. Born from a love of Jamaican dancehall and Caribbean bass music, the group has spent over a decade building one of the most infectious and globe-spanning sounds in dance music. Their 2015 hit Lean On became one of the most-streamed songs in Spotify history. Live, Major Lazer shows are a full-blown spectacle — confetti cannons, crowd surfers, and a party that refuses to quit until the venue runs out of energy.",
+    "Major Lazer is the legendary, genre-blurring electronic music project led by Diplo alongside Walshy Fire and Ape Drums. Born from a deep reverence for Jamaican dancehall and global bass music, the trio has spent nearly two decades bridging cultures and redefining crossover electronic music with chart-topping mega-hits like 'Lean On'. Following their 2025 full-length album 'GYALGEBRA' and explosive 2026 single drops like 'pAPi wiTH tOKisCha', their live performances remain a chaotic, maximalist spectacle—deploying massive pyrotechnics, elite dancers, and a historic catalog of global dance anthems.",
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
@@ -147,7 +147,7 @@ const lorde: Artist = {
   objectPosition: "center 20%",
   genres: ["Indie Pop", "Electropop", "Art Pop"],
   origin: "Auckland, New Zealand",
-  tagline: "Pure vision. Pure feeling.",
+  tagline: "The alt-pop high priestess guiding crowds through visceral emotional catharsis.",
   socials: {
     spotify: "https://open.spotify.com/artist/163tK9Wjr9P9DmM0AVK7lm",
     youtube: "https://www.youtube.com/@Lorde",
@@ -168,12 +168,12 @@ const lorde: Artist = {
     { name: "Grimes", imageUrl: "/artists/avatars/grimes.png" },
   ],
   tracks: [
-    { name: "Royals", album: "Pure Heroine", duration: "3:10", artworkUrl: "/albums/lorde/pure-heroine.png" },
     { name: "Green Light", album: "Melodrama", duration: "3:54", artworkUrl: "/albums/lorde/melodrama.png" },
-    { name: "Solar Power", album: "Solar Power", duration: "3:54", artworkUrl: "/albums/lorde/solar-power.jpg" },
+    { name: "Man Of The Year", album: "Virgin", duration: "3:22", artworkUrl: "/albums/lorde/virgin.jpg" },
+    { name: "Ribs", album: "Pure Heroine", duration: "4:18", artworkUrl: "/albums/lorde/pure-heroine.png" },
   ],
   about:
-    "Ella Yelich-O'Connor, performing as Lorde, redefined pop songwriting with Pure Heroine at just 16. Her 2017 follow-up Melodrama — a breakup album of devastating precision — earned near-universal acclaim and cemented her as one of the most important voices of her generation. Lorde writes pop as personal essay: every song carries a specific feeling, a specific place, a specific truth. Live, she strips away excess and gives you the song.",
+    "Ella Yelich-O'Connor, performing as Lorde, redefined modern pop music with her 2013 diamond-certified debut 'Pure Heroine' at just sixteen. Her 2017 follow-up 'Melodrama' cemented her as a generation-defining lyricist, celebrated for her devastating narrative precision. Following her sun-drenched acoustic detour 'Solar Power', her highly acclaimed late-2025 alternative studio album 'Virgin' marked a massive return to dark, heavy, and cinematic electronic textures. Performing a brilliant cross-examination of all four distinct eras, her live show balances massive festival-scale singalongs with raw, intimate emotional authority.",
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -193,7 +193,7 @@ const yoasobi: Artist = {
   objectPosition: "center 20%",
   genres: ["J-Pop", "Electronic", "Indie Pop"],
   origin: "Tokyo, Japan",
-  tagline: "Every song is a story. Every story is a song.",
+  tagline: "Bridging Japanese storytelling and explosive J-pop anthems on a global scale.",
   socials: {
     spotify: "https://open.spotify.com/artist/64tJ2EAv1R6UaZqc4iOCyj",
     youtube: "https://www.youtube.com/@YOASOBI_Official",
@@ -214,12 +214,12 @@ const yoasobi: Artist = {
     { name: "Ado", imageUrl: "/artists/avatars/ado.avif" },
   ],
   tracks: [
-    { name: "Idol", album: "THE BOOK 3", duration: "3:32", artworkUrl: "/albums/yoasobi/the-book-3.png" },
-    { name: "Into the Night", album: "THE BOOK", duration: "4:10", artworkUrl: "/albums/yoasobi/the-book.jpg" },
-    { name: "Gunjou", album: "THE BOOK", duration: "4:17", artworkUrl: "/albums/yoasobi/the-book.jpg" },
+    { name: "アイドル", album: "THE BOOK 3", duration: "3:32", artworkUrl: "/albums/yoasobi/the-book-3.png" },
+    { name: "夜に駆ける", album: "THE BOOK", duration: "4:21", artworkUrl: "/albums/yoasobi/the-book.jpg" },
+    { name: "群青", album: "THE BOOK", duration: "4:08", artworkUrl: "/albums/yoasobi/the-book.jpg" },
   ],
   about:
-    "YOASOBI is a Japanese music project formed in 2019 by producer Ayase and vocalist ikura. Their concept is singular: each song is a direct musical adaptation of a Japanese short story, developed in close collaboration with the original authors. The result is pop music with unusual emotional depth and narrative precision. Their debut track 'Into the Night' became a streaming phenomenon, and 'Idol' — written for the anime Oshi no Ko — became one of the most-streamed Japanese songs in Spotify history and a genuine global crossover moment.",
+    "YOASOBI is a Japanese music project formed in 2019 by producer Ayase and vocalist ikura with a singular concept: creating 'music from novels'. Each track serves as a direct musical adaptation of a short story, yielding pop music with unique narrative depth and intricate vocal delivery. Following the historic global crossover success of their smash hit 'アイドル' (Idol), the duo has continued to scale new heights with their 2026 studio album 'THE BOOK for,', cementing their status as premier international festival headliners.",
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
@@ -232,14 +232,14 @@ const yoasobi: Artist = {
 };
 
 const sombr: Artist = {
-  name: "Sombr",
+  name: "sombr",
   slug: "sombr",
   mbid: "502cf908-9921-48bc-bf0e-265c881c0156",
   imageUrl: "/artists/heroes/sombr.jpg",
   objectPosition: "center 20%",
   genres: ["Bedroom Pop", "Indie Pop", "Alt-Pop"],
   origin: "New York, USA",
-  tagline: "Quiet songs for loud feelings.",
+  tagline: "Late nights and young romance, scaled for the mainstage.",
   socials: {
     spotify: "https://open.spotify.com/artist/4G9NDjRyZFDlJKMRL8hx3S",
     youtube: "https://www.youtube.com/@sombr",
@@ -260,12 +260,12 @@ const sombr: Artist = {
     { name: "Role Model", imageUrl: "/artists/avatars/role-model.jpg" },
   ],
   tracks: [
-    { name: "back to friends", album: "I Barely Know Her", duration: "3:19", artworkUrl: "/albums/sombr/i-barely-know-her.png" },
-    { name: "undressed", album: "I Barely Know Her", duration: "3:02", artworkUrl: "/albums/sombr/i-barely-know-her.png" },
-    { name: "12 to 12", album: "I Barely Know Her", duration: "4:02", artworkUrl: "/albums/sombr/i-barely-know-her.png" },
+    { name: "back to friends", album: "back to friends", duration: "2:48", artworkUrl: "/albums/sombr/back-to-friends.jpg" },
+    { name: "My Body Isn't Ready", album: "My Body Isn't Ready", duration: "3:10", artworkUrl: "/albums/sombr/my-body-isnt-ready.jpg" },
+    { name: "Homewrecker", album: "Homewrecker", duration: "2:52", artworkUrl: "/albums/sombr/homewrecker.jpg" },
   ],
   about:
-    "Sombr is the project of singer-songwriter Shane Michael Boose. He makes small, honest songs about the feelings people rarely say out loud — bedroom pop built around close-mic'd guitar, plain lyrics, and arrangements that never oversell the emotion. In a landscape full of maximalism, Sombr's restraint reads as confidence. Shane has built a quietly devoted following on the strength of songs that feel less like performances and more like overheard conversations.",
+    "sombr is the alt-pop phenomenon bringing raw emotional vulnerability to stadium-level heights. He built a massive global audience through his signature style of bedroom-pop intimacy, anchored by heavy, yearning soundscapes and viral, multibillion-stream anthems like 'back to friends'. Following his 2025 debut album 'I Barely Know Her' and a series of massive 2026 single drops like 'Homewrecker' and 'My Body Isn't Ready', sombr's raw, guitar-driven confessions have transformed him from an internet secret into a premier, award-winning festival powerhouse.",
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
@@ -285,7 +285,7 @@ const leonThomas: Artist = {
   objectPosition: "center 20%",
   genres: ["Alternative R&B", "Soul", "Neo-Soul"],
   origin: "Brooklyn, New York",
-  tagline: "The songwriter's songwriter, finally in the spotlight.",
+  tagline: "Grammy-winning soul, built from the underground up.",
   socials: {
     spotify: "https://open.spotify.com/artist/3qBi3oNsvDhVfE5VBvfDMR",
     youtube: "https://www.youtube.com/channel/@leonthomas",
@@ -306,12 +306,12 @@ const leonThomas: Artist = {
     { name: "Lucky Daye", imageUrl: "/artists/avatars/lucky-daye.jpg" },
   ],
   tracks: [
-    { name: "wine & spirits", album: "MUTT", duration: "3:21", artworkUrl: "/albums/leon-thomas/mutt.png" },
-    { name: "Super Natural", album: "MUTT", duration: "3:48", artworkUrl: "/albums/leon-thomas/mutt.png" },
-    { name: "Blow Up", album: "MUTT", duration: "2:57", artworkUrl: "/albums/leon-thomas/mutt.png" },
+    { name: "YES IT IS", album: "YES IT IS", duration: "3:14", artworkUrl: "/albums/leon-thomas/yes-it-is.png" },
+    { name: "MUTT", album: "MUTT", duration: "3:32", artworkUrl: "/albums/leon-thomas/mutt.png" },
+    { name: "Treasure In The Hills", album: "PHOLKS", duration: "2:54", artworkUrl: "/albums/leon-thomas/pholks.png" },
   ],
   about:
-    "Leon Thomas has been one of music's best-kept secrets for years — a vocalist and songwriter whose fingerprints are on some of the biggest R&B records of the past decade. His 2023 debut album MUTT announced him as a solo force in his own right: warm, unhurried, and deeply soulful. Raised in Brooklyn on a diet of classic soul and hip-hop, Thomas brings an emotional directness to his music that cuts through the noise. His live show is proof that the voice was always the instrument.",
+    "Leon Thomas spent years as one of the industry's most prolific hidden forces—writing and producing hits for the likes of Ariana Grande, Drake, and SZA. He solidified his status as a solo powerhouse with his critically acclaimed 2024 studio album 'MUTT', which earned deep critical praise and an extensive road to the 2026 Grammys. Blending alternative R&B instrumentation with a timeless, rich vocal execution, his subsequent 2025 and 2026 projects like 'PHOLKS' and the gold-certified 'YES IT IS' have established him as an unmissable, dynamic live performer on the modern soul circuit.",
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
@@ -331,7 +331,7 @@ const johnSummit: Artist = {
   objectPosition: "center 20%",
   genres: ["House", "Tech House", "Electronic"],
   origin: "Chicago, Illinois",
-  tagline: "Chicago house music, amplified to festival scale.",
+  tagline: "The hometown hero turning Perry's into a massive, state-of-the-art warehouse rave.",
   socials: {
     spotify: "https://open.spotify.com/artist/7kNqXtgeIwFtelmRjWv205",
     youtube: "https://www.youtube.com/@JohnSummit",
@@ -352,12 +352,12 @@ const johnSummit: Artist = {
     { name: "Skrillex", imageUrl: "/artists/avatars/skrillex.jpg" },
   ],
   tracks: [
-    { name: "La Danza", album: "La Danza", duration: "5:42", artworkUrl: "/albums/john-summit/la-danza.jpg" },
-    { name: "Deep End", album: "Deep End", duration: "4:58", artworkUrl: "/albums/john-summit/deep-end.jpg" },
-    { name: "Where You Are", album: "Where You Are", duration: "3:52", artworkUrl: "/albums/john-summit/where-you-are.jpg" },
+    { name: "Where You Are", album: "Comfort In Chaos", duration: "3:52", artworkUrl: "/albums/john-summit/comfort-in-chaos.jpg" },
+    { name: "ALL THE TIME", album: "CTRL ESCAPE", duration: "3:08", artworkUrl: "/albums/john-summit/ctrl-escape.jpg" },
+    { name: "Shiver", album: "Comfort In Chaos", duration: "3:58", artworkUrl: "/albums/john-summit/comfort-in-chaos.jpg" },
   ],
   about:
-    "John Summit emerged from Chicago — the birthplace of house music — and became one of the genre's most in-demand names in record time. His DJ sets are studies in tension and release: patient, hypnotic builds that pay off with devastating precision. A vocal champion of underground roots in a mainstream landscape, Summit brings authenticity to every set without sacrificing the kind of energy that makes 30,000 people move as one.",
+    "John Summit emerged from Chicago—the birthplace of house music—and rapidly transformed into a global dance music phenomenon. His performances are legendary masterclasses in tension and release, blending underground tech-house grooves with massive, stadium-sized vocal melodies. Following the global acclaim of his 2024 debut album 'Comfort In Chaos', his brand-new 2026 sophomore studio album 'CTRL ESCAPE' has further elevated his sound, landing him his first official arena tour and cementing his position as the ultimate hometown festival closer.",
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -377,7 +377,7 @@ const charliXcx: Artist = {
   objectPosition: "center 20%",
   genres: ["Pop", "Hyperpop", "Electropop"],
   origin: "Cambridge, England",
-  tagline: "Brat. And that's that.",
+  tagline: "The avant-pop icon rewriting the rules of music, fashion, and film.",
   socials: {
     spotify: "https://open.spotify.com/artist/25uiPmTg16RbhZWAqwLBy5",
     youtube: "https://www.youtube.com/@charlixcx",
@@ -398,12 +398,12 @@ const charliXcx: Artist = {
     { name: "Troye Sivan", imageUrl: "/artists/avatars/troye-sivan.jpg" },
   ],
   tracks: [
-    { name: "360", album: "brat", duration: "2:13", artworkUrl: "/albums/charli-xcx/brat.jpg" },
-    { name: "girl, so confusing", album: "brat", duration: "3:17", artworkUrl: "/albums/charli-xcx/brat.jpg" },
-    { name: "Boom Clap", album: "Sucker", duration: "3:00", artworkUrl: "/albums/charli-xcx/sucker.png" },
+    { name: "360", album: "BRAT", duration: "2:13", artworkUrl: "/albums/charli-xcx/brat.jpg" },
+    { name: "Wink Wink", album: "Music, Fashion, Film", duration: "3:17", artworkUrl: "/albums/charli-xcx/brat.jpg" },
+    { name: "Guess featuring billie eilish", album: "Brat and it's completely different but also still brat", duration: "3:00", artworkUrl: "/albums/charli-xcx/sucker.png" },
   ],
   about:
-    "Charli XCX has spent a decade operating at the bleeding edge of pop, writing hits for others while building one of the most adventurous solo catalogues in the genre. She wrote Iggy Azalea's 'Fancy' and Icona Pop's 'I Love It' before most people knew her name as a solo artist. Her 2024 album brat arrived as a cultural watershed — a neon-green, uncompromising collection that defined an entire summer's aesthetic and earned universal critical acclaim. Charli performs like someone who has nothing left to prove and everything left to do.",
+    "Charli XCX has spent a decade operating at the bleeding edge of pop, writing massive hits for others while building one of the most adventurous solo catalogues in the genre. Her 2024 album 'BRAT' arrived as a cultural watershed—a neon-green, uncompromising collection that defined a global aesthetic and earned universal critical acclaim. Now, with the launch of her highly anticipated 2026 multimedia studio album 'Music, Fashion, Film', she performs like a true vanguard who continues to stay miles ahead of the pop curve.",
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -446,7 +446,7 @@ const smashingPumpkins: Artist = {
   tracks: [
     { name: "Bullet with Butterfly Wings", album: "Mellon Collie and the Infinite Sadness", duration: "4:18", artworkUrl: "/albums/the-smashing-pumpkins/mellon-collie-and-the-infinite-sadness.jpg" },
     { name: "1979", album: "Mellon Collie and the Infinite Sadness", duration: "4:26", artworkUrl: "/albums/the-smashing-pumpkins/mellon-collie-and-the-infinite-sadness.jpg" },
-    { name: "Tonight Tonight", album: "Mellon Collie and the Infinite Sadness", duration: "4:14", artworkUrl: "/albums/the-smashing-pumpkins/mellon-collie-and-the-infinite-sadness.jpg" },
+    { name: "Tonight, Tonight", album: "Mellon Collie and the Infinite Sadness", duration: "4:14", artworkUrl: "/albums/the-smashing-pumpkins/mellon-collie-and-the-infinite-sadness.jpg" },
   ],
   about:
     "The Smashing Pumpkins are one of the definitive rock bands of the 1990s. Formed in Chicago by Billy Corgan, the band built a sound that combined massively layered, distorted guitars with introspective lyricism and unexpected melodic beauty. Albums like Siamese Dream and Mellon Collie and the Infinite Sadness stand as milestones of alternative rock — dense, ambitious, and emotionally enormous. Their live shows are events: loud, long, and performed with the urgency of musicians who have spent decades earning their stage.",
@@ -490,12 +490,12 @@ const oliviaDean: Artist = {
     { name: "Celeste", imageUrl: "/artists/avatars/celeste.png" },
   ],
   tracks: [
-    { name: "Dive", album: "Messy", duration: "3:02", artworkUrl: "/albums/olivia-dean/messy.png" },
-    { name: "UFO", album: "Messy", duration: "3:14", artworkUrl: "/albums/olivia-dean/messy.png" },
-    { name: "Danger", album: "Messy", duration: "3:28", artworkUrl: "/albums/olivia-dean/messy.png" },
+    { name: "Man I Need", album: "The Art of Loving", duration: "3:02", artworkUrl: "/albums/olivia-dean/messy.png" },
+    { name: "So Easy (To Fall In Love)", album: "The Art of Loving", duration: "3:14", artworkUrl: "/albums/olivia-dean/messy.png" },
+    { name: "Dive", album: "Messy", duration: "3:28", artworkUrl: "/albums/olivia-dean/messy.png" },
   ],
   about:
-    "Olivia Dean is a London-born singer-songwriter whose debut album Messy announced her as one of British music's most exciting new voices. Rooted in soul and R&B but filtered through a distinctly modern pop sensibility, her songs are warm, emotionally precise, and shot through with genuine wit. She writes with specificity — about real feelings in real situations — and performs with a presence that makes every room feel smaller and more intimate. Messy earned widespread critical acclaim and a Mercury Prize nomination, cementing a debut that's only the beginning.",
+    "Olivia Dean is a London-born singer-songwriter whose 2023 debut album 'Messy' earned a Mercury Prize nomination and announced her as one of British soul's most exciting new voices. Her sound bridges classic R&B warmth with a modern pop sensibility, delivering emotionally precise songs with genuine wit. Following a historic sweep at the BRIT Awards and a Grammy win, her massive 2025 sophomore studio album 'The Art of Loving' catapulted her to global pop stardom, landing a number-one record and transforming her live performances into massive, horn-backed arena spectacles perfect for the festival mainstage.",
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -536,9 +536,9 @@ const tateMcRae: Artist = {
     { name: "Ariana Grande", imageUrl: "/artists/avatars/ariana-grande.jpg" },
   ],
   tracks: [
-    { name: "greedy", album: "think later.", duration: "2:11", artworkUrl: "/albums/tate-mcrae/think-later.png" },
-    { name: "2 hands", album: "think later.", duration: "2:37", artworkUrl: "/albums/tate-mcrae/think-later.png" },
-    { name: "you broke me first", album: "all the things i never said", duration: "3:06", artworkUrl: "/albums/tate-mcrae/all-the-things-i-never-said.jpg" },
+    { name: "greedy", album: "THINK LATER.", duration: "2:11", artworkUrl: "/albums/tate-mcrae/think-later.png" },
+    { name: "Sports car", album: "So Close To What", duration: "2:37", artworkUrl: "/albums/tate-mcrae/think-later.png" },
+    { name: "Revolving door", album: "So Close To What", duration: "3:06", artworkUrl: "/albums/tate-mcrae/all-the-things-i-never-said.jpg" },
   ],
   about:
     "Tate McRae is a Calgary-born singer, songwriter, and dancer who has built one of pop music's most devoted fanbases through relentless work and a rare combination of talents. A competitive dancer before becoming a recording artist, McRae brings a physical vocabulary to her performances that most pop acts simply can't match. Her 2023 album think later. — anchored by the massive hit 'greedy' — established her as a genuine pop force, trading on emotional honesty and irresistible hooks in equal measure.",
@@ -627,12 +627,12 @@ const aespa: Artist = {
     { name: "IVE", imageUrl: "/artists/avatars/ive.png" },
   ],
   tracks: [
-    { name: "Supernova", album: "Supernova", duration: "3:01", artworkUrl: "/albums/aespa/supernova.png" },
+    { name: "LEMONADE", album: "LEMONADE", duration: "3:37", artworkUrl: "/albums/aespa/lemonade.jpg" },
+    { name: "Supernova", album: "Armageddon", duration: "3:01", artworkUrl: "/albums/aespa/supernova.png" },
     { name: "Whiplash", album: "Whiplash", duration: "3:05", artworkUrl: "/albums/aespa/whiplash.png" },
-    { name: "Next Level", album: "savage", duration: "3:37", artworkUrl: "/albums/aespa/savage.jpg" },
   ],
   about:
-    "aespa debuted in 2020 under SM Entertainment with one of the most distinctive concepts in K-pop history: each of the four members — Karina, Giselle, Winter, and Ningning — has a digital AI counterpart called an æ. Their debut single 'Black Mamba' broke the SM Entertainment YouTube record and set the tone for a group that would never take the conventional path. Their 2024 single 'Supernova' and its follow-up 'Whiplash' pushed their sound into ambitious, genre-fluid territory that has continued to expand their global fanbase.",
+    "aespa debuted in 2020 under SM Entertainment with one of the most distinctive concepts in K-pop history: each of the four members — Karina, Giselle, Winter, and Ningning — has a digital AI counterpart called an æ. Their debut single 'Black Mamba' broke the SM Entertainment YouTube record and set the tone for a group that would never take the conventional path. Following the massive success of 2024's 'Supernova' and 'Whiplash', their 2026 sophomore album 'LEMONADE' pushed their sound into ambitious electronic territory, cementing their status as global festival sub-headliners.",
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
@@ -644,11 +644,95 @@ const aespa: Artist = {
   },
 };
 
+const empireOfTheSun: Artist = {
+  name: "Empire of the Sun",
+  slug: "empire-of-the-sun",
+  genres: ["Electronic", "Synth-Pop", "Indie Pop"],
+  origin: "Sydney, Australia",
+  tagline: "Theatrical cosmic pop that turns every festival into a spectacle.",
+  socials: {},
+  whySee: [],
+  whatToExpect: [],
+  bestFor: [],
+  similarArtists: [],
+  tracks: [
+    { name: "Walking on a Dream", album: "Walking on a Dream", duration: "" },
+    { name: "We Are the People", album: "Walking on a Dream", duration: "" },
+    { name: "Changes", album: "Ask That God", duration: "" },
+  ],
+  about:
+    "Empire of the Sun is the Australian electronic duo of Luke Steele and Nick Littlemore, whose debut single 'Walking on a Dream' became one of the defining anthems of the late 2000s. Their sound blends lush synth-pop and art-rock with an extravagant visual world — elaborate costumes, ancient mythology, and cinematic fantasy. Four studio albums deep, from the sun-drenched 2008 debut to 2024's critically acclaimed 'Ask That God', their live show is a full theatrical production that transforms festival stages into otherworldly spectacles.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    stage: "",
+    day: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+  },
+};
+
+const wetLeg: Artist = {
+  name: "Wet Leg",
+  slug: "wet-leg",
+  genres: ["Indie Rock", "Post-Punk"],
+  origin: "Isle of Wight, UK",
+  tagline: "Dry wit, big riffs, and the best debut in recent memory.",
+  socials: {},
+  whySee: [],
+  whatToExpect: [],
+  bestFor: [],
+  similarArtists: [],
+  tracks: [
+    { name: "Chaise Longue", album: "Wet Leg", duration: "" },
+    { name: "Wet Dream", album: "Wet Leg", duration: "" },
+    { name: "CPR", album: "Moisturizer", duration: "" },
+  ],
+  about:
+    "Wet Leg is the British indie duo of Rhian Teasdale and Hester Chambers, formed on the Isle of Wight and launched into the spotlight with 'Chaise Longue' — a deadpan, guitar-driven viral hit from 2021. Their 2022 self-titled debut won the Grammy for Best Alternative Music Album and established them as one of the most exciting voices in indie rock: sardonic, sharp, and deeply hooky. Their 2025 follow-up 'Moisturizer', produced by Dan Carey, expanded the band to a five-piece and debuted at number one in the UK.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    stage: "",
+    day: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+  },
+};
+
+const worship: Artist = {
+  name: "WORSHIP",
+  slug: "worship",
+  genres: ["Drum and Bass"],
+  origin: "United Kingdom",
+  tagline: "Drum and bass' biggest names, B2B, all night.",
+  socials: {},
+  whySee: [],
+  whatToExpect: [],
+  bestFor: [],
+  similarArtists: [],
+  tracks: [
+    { name: "Ready to Fly", album: "Evolve", duration: "" },
+    { name: "It's That Time - Dimension Remix", album: "It's That Time (Remixes)", duration: "" },
+    { name: "Bunker", album: "Sequel", duration: "" },
+  ],
+  about:
+    "Formed as a live collective touring concept in 2020, WORSHIP officially solidified their four-way B2B supergroup format during their massive breakout 2024 North American tour, before graduating to global festival mainstages as a unified recording project in 2026.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    stage: "",
+    day: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+  },
+};
+
 export const allArtists: Artist[] = [
   jennie, beabadoobee, majorLazer,
   lorde, yoasobi, sombr, leonThomas,
   johnSummit, charliXcx, smashingPumpkins, oliviaDean, tateMcRae, theXx,
-  aespa,
+  aespa, empireOfTheSun, wetLeg, worship,
 ];
 
 export const artistsBySlug: Record<string, Artist> = Object.fromEntries(
