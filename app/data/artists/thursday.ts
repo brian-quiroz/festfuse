@@ -31,10 +31,10 @@ const lorde: Artist = {
   ],
   bestFor: ["Indie pop fans", "Lyric obsessives", "Melodrama stans", "Emotional catharsis"],
   similarArtists: [
-    { name: "Billie Eilish", imageUrl: "/artists/avatars/billie-eilish.jpg" },
-    { name: "Lana Del Rey", imageUrl: "/artists/avatars/lana-del-rey.jpg" },
-    { name: "Halsey", imageUrl: "/artists/avatars/halsey.avif" },
-    { name: "Grimes", imageUrl: "/artists/avatars/grimes.png" },
+    { name: "MUNA" },
+    { name: "Tate McRae" },
+    { name: "Mother Mother" },
+    { name: "Will Swinton" },
   ],
   tracks: [
     {
@@ -103,10 +103,10 @@ const johnSummit: Artist = {
     "Groups who want to dance all night",
   ],
   similarArtists: [
-    { name: "Fisher", imageUrl: "/artists/avatars/fisher.avif" },
-    { name: "Chris Lake", imageUrl: "/artists/avatars/chris-lake.jpg" },
-    { name: "Eric Prydz", imageUrl: "/artists/avatars/eric-prydz.jpg" },
-    { name: "Skrillex", imageUrl: "/artists/avatars/skrillex.jpg" },
+    { name: "Omnom" },
+    { name: "SIDEPIECE" },
+    { name: "Westend" },
+    { name: "Dombresky" },
   ],
   tracks: [
     {
@@ -175,10 +175,10 @@ const sombr: Artist = {
     "Emotional afternoon vibe",
   ],
   similarArtists: [
-    { name: "Beabadoobee", imageUrl: "/artists/avatars/beabadoobee.jpg" },
-    { name: "Gracie Abrams", imageUrl: "/artists/avatars/gracie-abrams.jpg" },
-    { name: "Alexander 23", imageUrl: "/artists/avatars/alexander-23.jpg" },
-    { name: "Role Model", imageUrl: "/artists/avatars/role-model.jpg" },
+    { name: "Claire Rosinkranz" },
+    { name: "Ryman" },
+    { name: "Lucy Bedroque" },
+    { name: "Emi Grace" },
   ],
   tracks: [
     {
@@ -240,7 +240,12 @@ const empireOfTheSun: Artist = {
     "Legacy anthem hunters",
     "High-octane crowds",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "YOASOBI" },
+    { name: "MUNA" },
+    { name: "The xx" },
+    { name: "haute & freddy" },
+  ],
   tracks: [
     { name: "Walking on a Dream", album: "Walking on a Dream", duration: "" },
     { name: "We Are the People", album: "Walking on a Dream", duration: "" },
@@ -286,7 +291,12 @@ const wetLeg: Artist = {
     "Afternoon mainstage music fans",
     "Guitar music lovers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Villanelle" },
+    { name: "Water From Your Eyes" },
+    { name: "Ink" },
+    { name: "Day We Ran" },
+  ],
   tracks: [
     { name: "Chaise Longue", album: "Wet Leg", duration: "" },
     { name: "Wet Dream", album: "Wet Leg", duration: "" },
@@ -378,7 +388,12 @@ const bloodOrange: Artist = {
     "Indie music fans",
     "Production credit followers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Jae Stephens" },
+    { name: "Valencia Grace" },
+    { name: "Sienna Spiro" },
+    { name: "Amber Mark" },
+  ],
   tracks: [
     { name: "Champagne Coast", album: "Coastal Grooves", duration: "" },
     { name: "You're Not Good Enough", album: "Cupid Deluxe", duration: "" },
@@ -469,7 +484,12 @@ const kettama: Artist = {
     "Early afternoon tent starters",
     "Electronic music lovers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Westend" },
+    { name: "Omnom" },
+    { name: "Chace" },
+    { name: "MPH" },
+  ],
   tracks: [
     { name: "B. O. D. Y.", album: "Bucklyn Bridge", duration: "" },
     { name: "Archangel", album: "Archangel", duration: "" },
@@ -515,7 +535,12 @@ const viagraBoys: Artist = {
     "Fans of dark humor",
     "Alternative rock fans",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Bad Nerves" },
+    { name: "Cruz Beckham and the Breakers" },
+    { name: "Day We Ran" },
+    { name: "Finn Wolfhard" },
+  ],
   tracks: [
     {
       name: "Sports",
@@ -577,7 +602,12 @@ const audreyHobert: Artist = {
     "Intimate storyteller set lovers",
     "Indie pop music fans",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Asha Banks" },
+    { name: "Whitney Whitney" },
+    { name: "Next of Kin" },
+    { name: "Stella Lefty" },
+  ],
   tracks: [
     { name: "Sue Me", album: "Who's the Clown?", duration: "" },
     { name: "Bowling Alley", album: "Who's the Clown?", duration: "" },
@@ -623,7 +653,12 @@ const snowStrippers: Artist = {
     "Late-night warehouse ravers",
     "High-velocity dance seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Empire of the Sun" },
+    { name: "haute & freddy" },
+    { name: "John Summit" },
+    { name: "Avello" },
+  ],
   tracks: [
     { name: "Under Your Spell", album: "April Mixtape 3", duration: "" },
     { name: "In My Head", album: "Night Killaz Vol. 1", duration: "" },
@@ -669,7 +704,9 @@ const borisBrejcha: Artist = {
     "Sound design infrastructure nerds",
     "Hypnotic repetition seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Boys Noize" },
+  ],
   tracks: [
     { name: "Gravity", album: "Space Diver", duration: "" },
     { name: "Purple Noise", album: "Feuerfalter Part02", duration: "" },
@@ -716,7 +753,12 @@ const parisPaloma: Artist = {
     "Breakout songwriter talent seekers",
     "Intimate emotional story devotees",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Porch Light" },
+    { name: "Ella Boh" },
+    { name: "Whitney Whitney" },
+    { name: "Next of Kin" },
+  ],
   tracks: [
     { name: "labor", album: "Cacophony", duration: "" },
     { name: "yours", album: "Cacophony", duration: "" },
@@ -761,7 +803,12 @@ const littleSimz: Artist = {
     "Fans of alternative soul",
     "Mainstage festival crowds",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Mustard" },
+    { name: "Destin Conrad" },
+    { name: "Khamari" },
+    { name: "Lil Uzi Vert" },
+  ],
   tracks: [
     { name: "Gorilla", album: "No Thank You", duration: "" },
     { name: "Introvert", album: "Sometimes I Might Be Introvert", duration: "" },
@@ -807,7 +854,12 @@ const cmat: Artist = {
     "Indie pop music lovers",
     "Early afternoon discovery seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Will Swinton" },
+    { name: "Next of Kin" },
+    { name: "Bella Kay" },
+    { name: "Los Retros" },
+  ],
   tracks: [
     { name: "I Don't Really Care For You", album: "If My Wife New I Was Dead", duration: "" },
     { name: "Stay For Something", album: "Crazymad, For Me", duration: "" },
@@ -853,7 +905,9 @@ const boysNoize: Artist = {
     "Electronic production gear nerds",
     "High-velocity energy seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Boris Brejcha" },
+  ],
   tracks: [
     { name: "XTC", album: "Out of the Black", duration: "" },
     { name: "Fine Baseline", album: "Mayday", duration: "" },
@@ -898,7 +952,12 @@ const betweenFriends: Artist = {
     "Indie pop music collectors",
     "Fans of alternative pop melodies",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Love Spells" },
+    { name: "sombr" },
+    { name: "Beabadoobee" },
+    { name: "Claire Rosinkranz" },
+  ],
   tracks: [
     { name: "Affection", album: "wejustneedtobalone", duration: "" },
     { name: "iloveyou", album: "I Love My Friends", duration: "" },
@@ -944,7 +1003,12 @@ const mph: Artist = {
     "Tent starters hunting bass loops",
     "Electronic music culture lovers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Notion" },
+    { name: "Chace" },
+    { name: "Westend" },
+    { name: "Omnom" },
+  ],
   tracks: [
     { name: "One0Two", album: "Refraction", duration: "" },
     { name: "Ghost", album: "Refraction", duration: "" },
@@ -990,7 +1054,12 @@ const amble: Artist = {
     "Intimate emotional set hunters",
     "Afternoon chill seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Will Swinton" },
+    { name: "Kingfishr" },
+    { name: "Nat Myers" },
+    { name: "Elizabeth Nichols" },
+  ],
   tracks: [
     { name: "Mariner Boy", album: "The Name, The Trade and the Mirror", duration: "" },
     { name: "Tonylion", album: "Amble EP", duration: "" },
@@ -1035,7 +1104,12 @@ const kingfishr: Artist = {
     "Early afternoon discovery seekers",
     "Alternative rock enthusiasts",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Elizabeth Nichols" },
+    { name: "Nat Myers" },
+    { name: "Cameron Whitcomb" },
+    { name: "Penelope Road" },
+  ],
   tracks: [
     { name: "Eyes Don't Lie", album: "Live From Dublin", duration: "" },
     { name: "Anyway", album: "Anyway", duration: "" },
@@ -1081,7 +1155,12 @@ const ninajirachi: Artist = {
     "High-velocity energy seekers",
     "Underground electronic collectors",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "bradeazy" },
+    { name: "Frost Children" },
+    { name: "YOASOBI" },
+    { name: "LYNY" },
+  ],
   tracks: [
     { name: "Start Small", album: "Second Nature", duration: "" },
     { name: "Watermelo", album: "Blumiere EP", duration: "" },
@@ -1127,7 +1206,12 @@ const hauteAndFreddy: Artist = {
     "Afternoon groove hunters",
     "Electronic music culture lovers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "DJ Trixie Mattel" },
+    { name: "Omnom" },
+    { name: "Disco Lines" },
+    { name: "aespa" },
+  ],
   tracks: [
     { name: "U Want", album: "haute & freddy", duration: "" },
     { name: "Late Night", album: "Late Night", duration: "" },
@@ -1172,7 +1256,12 @@ const bellaKay: Artist = {
     "Chill afternoon groove seekers",
     "Fans of alternative pop",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Claire Rosinkranz" },
+    { name: "Balu Brigada" },
+    { name: "Ivri" },
+    { name: "Ryman" },
+  ],
   tracks: [
     { name: "Overthinking", album: "Shadows", duration: "" },
     { name: "Ghost Town", album: "Shadows", duration: "" },
@@ -1217,7 +1306,12 @@ const marlonFunaki: Artist = {
     "Live instrument devotees",
     "Early afternoon moshers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Spacey Jane" },
+    { name: "Easy Honey" },
+    { name: "Surfing for Daisy" },
+    { name: "Ink" },
+  ],
   tracks: [
     { name: "Summering", album: "Marlon Funaki", duration: "" },
     { name: "Prone", album: "Prone", duration: "" },
@@ -1263,7 +1357,12 @@ const devault: Artist = {
     "Late evening club veterans",
     "Sound design infrastructure nerds",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Eli Brown" },
+    { name: "Peace Control" },
+    { name: "Max Styler" },
+    { name: "KLO" },
+  ],
   tracks: [
     { name: "Runway", album: "Stay", duration: "" },
     { name: "Between The Lines", album: "Between The Lines", duration: "" },
@@ -1309,7 +1408,12 @@ const sb19: Artist = {
     "Monumental historical milestone seekers",
     "High-octane choreography fans",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "aespa" },
+    { name: "Zara Larsson" },
+    { name: "ADÉLA" },
+    { name: "Tate McRae" },
+  ],
   tracks: [
     { name: "GENTO", album: "PAGTATAG!", duration: "" },
     { name: "MAPA", album: "Pagsibol", duration: "" },
@@ -1354,7 +1458,12 @@ const eccaVandal: Artist = {
     "Mosh pit traditionalists",
     "High-velocity rock seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Sunshine" },
+    { name: "Fakemink" },
+    { name: "After" },
+    { name: "Kim Theory" },
+  ],
   tracks: [
     { name: "Broke", album: "Ecca Vandal", duration: "" },
     { name: "Future You", album: "Ecca Vandal", duration: "" },
@@ -1400,7 +1509,12 @@ const badNerves: Artist = {
     "High-energy afternoon moshers",
     "Guitar music purists",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Kim Theory" },
+    { name: "Die Spitz" },
+    { name: "Ecca Vandal" },
+    { name: "Viagra Boys" },
+  ],
   tracks: [
     { name: "Can't Be Happy", album: "Bad Nerves", duration: "" },
     { name: "Baby Drummer", album: "Bad Nerves", duration: "" },
@@ -1445,7 +1559,12 @@ const asha_banks: Artist = {
     "Intimate emotional story devotees",
     "Indie pop music collectors",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Porch Light" },
+    { name: "Audrey Hobert" },
+    { name: "Next of Kin" },
+    { name: "Whitney Whitney" },
+  ],
   tracks: [
     { name: "Something In Between", album: "Something In Between", duration: "" },
     { name: "I'm Just A Ghost", album: "Something In Between", duration: "" },
@@ -1491,7 +1610,12 @@ const faouzia: Artist = {
     "Early afternoon mainstage seekers",
     "Devotees of cinematic storytelling",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Paloma Morphy" },
+    { name: "Ella Boh" },
+    { name: "Paris Paloma" },
+    { name: "ADÉLA" },
+  ],
   tracks: [
     { name: "Tears of Gold", album: "CITIZEN", duration: "" },
     { name: "RIP, Love", album: "CITIZEN", duration: "" },
@@ -1537,7 +1661,12 @@ const eveningElephants: Artist = {
     "Groups of friends partying",
     "Chill summer melody seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Water From Your Eyes" },
+    { name: "Quadeca" },
+    { name: "Julia Wolf" },
+    { name: "Sunday (1994)" },
+  ],
   tracks: [
     { name: "Life Is Good", album: "Evening Elephants", duration: "" },
     { name: "Spit It Out", album: "Evening Elephants", duration: "" },
@@ -1582,7 +1711,12 @@ const pearlyDrops: Artist = {
     "Early afternoon discovery seekers",
     "Lo-fi synth-pop collectors",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Suki Waterhouse" },
+    { name: "New Constellations" },
+    { name: "Sunshine" },
+    { name: "Sunday (1994)" },
+  ],
   tracks: [
     { name: "Delusional On Sunset Blvd", album: "The Voices Are Coming Back", duration: "" },
     { name: "Ratgirl", album: "The Voices Are Coming Back", duration: "" },
@@ -1627,7 +1761,12 @@ const bixby: Artist = {
     "Internet indie culture purists",
     "Guitar music lovers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Bella Kay" },
+    { name: "Balu Brigada" },
+    { name: "Olivia Dean" },
+    { name: "Emi Grace" },
+  ],
   tracks: [
     { name: "desire", album: "desire", duration: "" },
     { name: "are you weeping?", album: "the marvel of the century", duration: "" },
@@ -1673,7 +1812,12 @@ const penelopeRoad: Artist = {
     "Acoustic music purists",
     "Early afternoon discovery seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Faouzia" },
+    { name: "Ella Boh" },
+    { name: "YUNGBLUD" },
+    { name: "Day We Ran" },
+  ],
   tracks: [
     { name: "Winyah", album: "Penelope Road", duration: "" },
     { name: "Daisies", album: "Penelope Road", duration: "" },
@@ -1718,7 +1862,12 @@ const knowGood: Artist = {
     "Tent starters hunting bass loops",
     "Electronic sound design nerds",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "LYNY" },
+    { name: "Alison Wonderland" },
+    { name: "KLO" },
+    { name: "The Chainsmokers" },
+  ],
   tracks: [
     { name: "Bodies", album: "BIG MODERN!", duration: "" },
     { name: "Bulls On Parade - Remix", album: "Bulls On Parade", duration: "" },
@@ -1763,7 +1912,12 @@ const elizabethNichols: Artist = {
     "Early afternoon discovery seekers",
     "Intimate emotional set hunters",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Waylon Wyatt" },
+    { name: "Will Swinton" },
+    { name: "Cameron Whitcomb" },
+    { name: "Skye Newman" },
+  ],
   tracks: [
     { name: "Voodoo", album: "Voodoo", duration: "" },
     { name: "Kiss & Tell", album: "Kiss & Tell", duration: "" },
@@ -1809,7 +1963,12 @@ const klo: Artist = {
     "Early afternoon tent starters",
     "Sound design infrastructure nerds",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Alison Wonderland" },
+    { name: "Know Good" },
+    { name: "LYNY" },
+    { name: "Avello" },
+  ],
   tracks: [
     { name: "TARTAN - Klo Flip", album: "Klo Flips", duration: "" },
     { name: "Vandal", album: "Vandal", duration: "" },
@@ -1855,7 +2014,12 @@ const theBraymores: Artist = {
     "Guitar music purists",
     "Midday festival field dancers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "The Creekers" },
+    { name: "Case Oats" },
+    { name: "Whatmore" },
+    { name: "Cruz Beckham and the Breakers" },
+  ],
   tracks: [
     { name: "Talking to Trees", album: "Talking to Trees EP", duration: "" },
     { name: "Who You'd Have Been", album: "Who You'd Have Been", duration: "" },
@@ -1901,7 +2065,12 @@ const chalk: Artist = {
     "Devotees of chaotic stage performance",
     "Left-field electronic collectors",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "YUNGBLUD" },
+    { name: "Wunderhorse" },
+    { name: "Geese" },
+    { name: "Not for Radio" },
+  ],
   tracks: [
     { name: "Conditions", album: "Conditions EP", duration: "" },
     { name: "Static", album: "Crystalpunk", duration: "" },
@@ -1946,7 +2115,10 @@ const simonGrossmann: Artist = {
     "Acoustic music purists",
     "Bilingual song collectors",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Penelope Road" },
+    { name: "Kingfishr" },
+  ],
   tracks: [
     { name: "Ciclo", album: "Ciclo", duration: "" },
     { name: "Agüitaecoco", album: "Mujer Eléctrica", duration: "" },
@@ -1992,7 +2164,12 @@ const kimTheory: Artist = {
     "High-energy festival openers",
     "Guitar music devotees",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Die Spitz" },
+    { name: "Bad Nerves" },
+    { name: "Viagra Boys" },
+    { name: "Finn Wolfhard" },
+  ],
   tracks: [
     { name: "He Said, She Said", album: "Bitch Scene", duration: "" },
     { name: "Trophy Wife", album: "Trophy Wife EP", duration: "" },

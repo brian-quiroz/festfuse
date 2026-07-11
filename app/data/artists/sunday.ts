@@ -36,10 +36,10 @@ const tateMcRae: Artist = {
     "Fans of precision performance",
   ],
   similarArtists: [
-    { name: "Olivia Rodrigo", imageUrl: "/artists/avatars/olivia-rodrigo.jpg" },
-    { name: "Sabrina Carpenter", imageUrl: "/artists/avatars/sabrina-carpenter.jpg" },
-    { name: "Dua Lipa", imageUrl: "/artists/avatars/dua-lipa.jpg" },
-    { name: "Ariana Grande", imageUrl: "/artists/avatars/ariana-grande.jpg" },
+    { name: "SB19" },
+    { name: "aespa" },
+    { name: "Zara Larsson" },
+    { name: "Charli XCX" },
   ],
   tracks: [
     {
@@ -107,10 +107,10 @@ const theXx: Artist = {
     "Anyone who needs to feel things quietly",
   ],
   similarArtists: [
-    { name: "Beach House", imageUrl: "/artists/avatars/beach-house.jpg" },
-    { name: "James Blake", imageUrl: "/artists/avatars/james-blake.jpg" },
-    { name: "Bon Iver", imageUrl: "/artists/avatars/bon-iver.jpg" },
-    { name: "London Grammar", imageUrl: "/artists/avatars/london-grammar.avif" },
+    { name: "Empire of the Sun" },
+    { name: "New Constellations" },
+    { name: "Sunshine" },
+    { name: "YOASOBI" },
   ],
   tracks: [
     { name: "Intro", album: "xx", duration: "2:07", artworkUrl: "/albums/the-xx/xx.jpg" },
@@ -161,7 +161,12 @@ const turnstile: Artist = {
     "High-visibility mainstage crowds",
     "Adrenaline-fueled music seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "54 Ultra" },
+    { name: "Ink" },
+    { name: "Penelope Road" },
+    { name: "The Smashing Pumpkins" },
+  ],
   tracks: [
     { name: "BLACKOUT", album: "GLOW ON", duration: "" },
     { name: "MYSTERY", album: "GLOW ON", duration: "" },
@@ -215,10 +220,10 @@ const beabadoobee: Artist = {
     "Quiet afternoon crowd",
   ],
   similarArtists: [
-    { name: "Mitski", imageUrl: "/artists/avatars/mitski.jpg" },
-    { name: "Phoebe Bridgers", imageUrl: "/artists/avatars/phoebe-bridgers.jpg" },
-    { name: "Soccer Mommy", imageUrl: "/artists/avatars/soccer-mommy.jpg" },
-    { name: "Japanese Breakfast", imageUrl: "/artists/avatars/japanese-breakfast.jpg" },
+    { name: "sombr" },
+    { name: "Lucy Bedroque" },
+    { name: "Emi Grace" },
+    { name: "Love Spells" },
   ],
   tracks: [
     {
@@ -287,10 +292,10 @@ const aespa: Artist = {
     "Anyone who wants to be converted",
   ],
   similarArtists: [
-    { name: "BLACKPINK", imageUrl: "/artists/avatars/blackpink.png" },
-    { name: "NewJeans", imageUrl: "/artists/avatars/newjeans.jpg" },
-    { name: "TWICE", imageUrl: "/artists/avatars/twice.jpg" },
-    { name: "IVE", imageUrl: "/artists/avatars/ive.png" },
+    { name: "Major Lazer" },
+    { name: "I-DLE" },
+    { name: "Zack Martino" },
+    { name: "DJ Trixie Mattel" },
   ],
   tracks: [
     {
@@ -351,7 +356,12 @@ const theChainsmokers: Artist = {
     "High-visibility mainstage crowds",
     "Legacy anthem hunters",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Whethan" },
+    { name: "Know Good" },
+    { name: "MC4D" },
+    { name: "Alison Wonderland" },
+  ],
   tracks: [
     { name: "Closer", album: "Collage", duration: "" },
     { name: "Don't Let Me Down", album: "Collage", duration: "" },
@@ -396,7 +406,12 @@ const muna: Artist = {
     "High-visibility mainstage crowds",
     "Vibe-focused afternoon dancers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Empire of the Sun" },
+    { name: "Lorde" },
+    { name: "Slayyyter" },
+    { name: "The xx" },
+  ],
   tracks: [
     { name: "Silk Chiffon", album: "MUNA", duration: "" },
     { name: "What I Want", album: "MUNA", duration: "" },
@@ -442,7 +457,11 @@ const hotMulligan: Artist = {
     "Devotees of chaotic stage performance",
     "High-energy afternoon crowds",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "YUNGBLUD" },
+    { name: "Turnstile" },
+    { name: "The Story So Far" },
+  ],
   tracks: [
     { name: "BCKYRD", album: "you'll be fine", duration: "" },
     { name: "Drink Milk and Run", album: "Why Would I Watch", duration: "" },
@@ -490,10 +509,10 @@ const yoasobi: Artist = {
   ],
   bestFor: ["Anime fans", "J-Pop curious listeners", "Pop music lovers", "Discovery seekers"],
   similarArtists: [
-    { name: "Yorushika", imageUrl: "/artists/avatars/yorushika.jpg" },
-    { name: "Eve", imageUrl: "/artists/avatars/eve.jpg" },
-    { name: "Fujii Kaze", imageUrl: "/artists/avatars/fujii-kaze.jpg" },
-    { name: "Ado", imageUrl: "/artists/avatars/ado.avif" },
+    { name: "Empire of the Sun" },
+    { name: "The xx" },
+    { name: "Ado" },
+    { name: "Paris Paloma" },
   ],
   tracks: [
     {
@@ -555,7 +574,12 @@ const ado: Artist = {
     "Devotees of theatrical stage performance",
     "International milestone seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "YOASOBI" },
+    { name: "SIDEPIECE" },
+    { name: "Ninajirachi" },
+    { name: "Snow Strippers" },
+  ],
   tracks: [
     { name: "Usseewa", album: "K狂言", duration: "" },
     { name: "New Genesis", album: "Uta's Songs: One Piece Film Red", duration: "" },
@@ -601,7 +625,12 @@ const jade: Artist = {
     "Vocal power purists",
     "Early afternoon mainstage seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Justine Skye" },
+    { name: "Blood Orange" },
+    { name: "Sienna Spiro" },
+    { name: "Olivia Dean" },
+  ],
   tracks: [
     { name: "Angel Of My Dreams", album: "Angel Of My Dreams", duration: "" },
     { name: "Fantasy", album: "Fantasy", duration: "" },
@@ -647,7 +676,12 @@ const eliBrown: Artist = {
     "Late-night club music veterans",
     "Sound design infrastructure nerds",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Max Styler" },
+    { name: "Peace Control" },
+    { name: "bradeazy" },
+    { name: "Devault" },
+  ],
   tracks: [
     { name: "Be the One", album: "Be the One", duration: "" },
     { name: "Believe", album: "Believe", duration: "" },
@@ -692,7 +726,12 @@ const dukeDumont: Artist = {
     "High-visibility dance tent seekers",
     "Legacy anthem hunters",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "SIDEPIECE" },
+    { name: "Chace" },
+    { name: "Westend" },
+    { name: "John Summit" },
+  ],
   tracks: [
     { name: "Ocean Drive", album: "Duality", duration: "" },
     { name: "Need U (100%)", album: "Need U (100%)", duration: "" },
@@ -738,7 +777,12 @@ const fakemink: Artist = {
     "Adrenaline-fueled dance seekers",
     "Gen-Z culture collectors",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "After" },
+    { name: "partyof2" },
+    { name: "Quadeca" },
+    { name: "KLO" },
+  ],
   tracks: [
     { name: "Mink", album: "Fakemink", duration: "" },
     { name: "Static", album: "Fakemink", duration: "" },
@@ -783,7 +827,12 @@ const dombresky: Artist = {
     "Midday electronic ravers",
     "High-velocity energy hunters",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Westend" },
+    { name: "Omnom" },
+    { name: "John Summit" },
+    { name: "SIDEPIECE" },
+  ],
   tracks: [
     { name: "Soulr", album: "Soulr", duration: "" },
     { name: "Utopia", album: "Uuality", duration: "" },
@@ -829,7 +878,12 @@ const monaleo: Artist = {
     "Adrenaline-fueled music seekers",
     "High-visibility alternative crowds",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Lil Uzi Vert" },
+    { name: "Beno" },
+    { name: "Mustard" },
+    { name: "After" },
+  ],
   tracks: [
     { name: "Beating Down Yo Block", album: "Where the Wild Things Are", duration: "" },
     { name: "We Not Humping", album: "Where the Wild Things Are", duration: "" },
@@ -874,7 +928,12 @@ const adela: Artist = {
     "Early afternoon discovery hunters",
     "Upbeat melody enthusiasts",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "SB19" },
+    { name: "Tate McRae" },
+    { name: "bbno$" },
+    { name: "aespa" },
+  ],
   tracks: [
     { name: "Sám", album: "Sám", duration: "" },
     { name: "Let Me Go", album: "Let Me Go", duration: "" },
@@ -919,7 +978,12 @@ const riordan: Artist = {
     "Tent starters hunting grooves",
     "High-velocity dance seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Eli Brown" },
+    { name: "Westend" },
+    { name: "Disco Lines" },
+    { name: "John Summit" },
+  ],
   tracks: [
     { name: "Needle On The Record", album: "Needle On The Record", duration: "" },
     { name: "Pompeii", album: "Pompeii", duration: "" },
@@ -964,7 +1028,12 @@ const wunderhorse: Artist = {
     "Lyric and narrative obsessives",
     "High-energy afternoon moshers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Day We Ran" },
+    { name: "Villanelle" },
+    { name: "Ink" },
+    { name: "The Braymores" },
+  ],
   tracks: [
     { name: "Purple", album: "Cub", duration: "" },
     { name: "Leader of the Pack", album: "Cub", duration: "" },
@@ -1010,7 +1079,12 @@ const amberMark: Artist = {
     "Vocal power purists",
     "Afternoon groove hunters",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Blood Orange" },
+    { name: "Justine Skye" },
+    { name: "Sienna Spiro" },
+    { name: "Valencia Grace" },
+  ],
   tracks: [
     { name: "Worth It", album: "Three Dimensions Deep", duration: "" },
     { name: "What If", album: "Three Dimensions Deep", duration: "" },
@@ -1055,7 +1129,12 @@ const westend: Artist = {
     "Groups of friends partying",
     "High-velocity dance tent seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "John Summit" },
+    { name: "SIDEPIECE" },
+    { name: "Omnom" },
+    { name: "bradeazy" },
+  ],
   tracks: [
     { name: "Get This Party Started", album: "Get This Party Started", duration: "" },
     { name: "Moderation", album: "Moderation", duration: "" },
@@ -1100,7 +1179,12 @@ const destinConrad: Artist = {
     "Early afternoon discovery seekers",
     "Intimate emotional story devotees",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Chezile" },
+    { name: "Khamari" },
+    { name: "Leon Thomas" },
+    { name: "KWN" },
+  ],
   tracks: [
     { name: "IN THE AIR", album: "COLORWAY", duration: "" },
     { name: "BILLBOARD", album: "SATIN", duration: "" },
@@ -1146,7 +1230,12 @@ const inji: Artist = {
     "High-energy afternoon dancers",
     "Internet scene trend spotters",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Disco Lines" },
+    { name: "SIDEPIECE" },
+    { name: "Omnom" },
+    { name: "Zack Martino" },
+  ],
   tracks: [
     { name: "GASLIGHT", album: "LFG", duration: "" },
     { name: "MADELINE", album: "LFG", duration: "" },
@@ -1191,7 +1280,12 @@ const waylonWyatt: Artist = {
     "Early afternoon discovery seekers",
     "Intimate emotional set hunters",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Cameron Whitcomb" },
+    { name: "Elizabeth Nichols" },
+    { name: "Calder Allen" },
+    { name: "Nat Myers" },
+  ],
   tracks: [
     { name: "Arkansas", album: "Waylon Wyatt", duration: "" },
     { name: "Back To Alabama", album: "Waylon Wyatt", duration: "" },
@@ -1237,7 +1331,12 @@ const waterFromYourEyes: Artist = {
     "Devotees of chaotic stage performance",
     "Underground indie music collectors",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Wet Leg" },
+    { name: "Geese" },
+    { name: "Wunderhorse" },
+    { name: "Villanelle" },
+  ],
   tracks: [
     { name: "Barley", album: "Everyone's Crushed", duration: "" },
     { name: "True Love", album: "Everyone's Crushed", duration: "" },
@@ -1282,7 +1381,12 @@ const losRetros: Artist = {
     "Indie pop music collectors",
     "Alternative R&B purists",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Empire of the Sun" },
+    { name: "Bixby" },
+    { name: "The Neighbourhood" },
+    { name: "Julia Wolf" },
+  ],
   tracks: [
     { name: "Someone To Spend Time With", album: "Retrospect EP", duration: "" },
     { name: "Friends", album: "Everlasting EP", duration: "" },
@@ -1327,7 +1431,12 @@ const vandelux: Artist = {
     "Afternoon groove hunters",
     "Electronic music culture lovers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Jackie Hollander" },
+    { name: "Duke Dumont" },
+    { name: "Empire of the Sun" },
+    { name: "MUNA" },
+  ],
   tracks: [
     { name: "Matter of Time", album: "Foreplay", duration: "" },
     { name: "All I Need", album: "Foreplay", duration: "" },
@@ -1373,7 +1482,12 @@ const newConstellations: Artist = {
     "Indie pop music collectors",
     "Chill summer melody seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Sunshine" },
+    { name: "Suki Waterhouse" },
+    { name: "The xx" },
+    { name: "Lorde" },
+  ],
   tracks: [
     { name: "Hot Days", album: "New Constellations", duration: "" },
     { name: "Caught in the Rain", album: "New Constellations", duration: "" },
@@ -1418,7 +1532,12 @@ const cruzBeckhamAndTheBreakers: Artist = {
     "Early afternoon mainstage crowds",
     "Scene trend-spotting collectors",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Whatmore" },
+    { name: "Finn Wolfhard" },
+    { name: "Villanelle" },
+    { name: "Day We Ran" },
+  ],
   tracks: [
     { name: "The Breakers", album: "The Breakers", duration: "" },
     { name: "Running", album: "Running", duration: "" },
@@ -1463,7 +1582,12 @@ const theBends: Artist = {
     "Guitar music purists",
     "Early afternoon moshers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Villanelle" },
+    { name: "Day We Ran" },
+    { name: "The Smashing Pumpkins" },
+    { name: "High Vis" },
+  ],
   tracks: [
     { name: "Static", album: "The Bends", duration: "" },
     { name: "Fallen", album: "The Bends", duration: "" },
@@ -1509,7 +1633,12 @@ const after: Artist = {
     "Adrenaline-fueled dance seekers",
     "Gen-Z culture collectors",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "partyof2" },
+    { name: "Fakemink" },
+    { name: "Ivri" },
+    { name: "KLO" },
+  ],
   tracks: [
     { name: "After", album: "After", duration: "" },
     { name: "Static", album: "After", duration: "" },
@@ -1555,7 +1684,12 @@ const whatmore: Artist = {
     "Guitar music purists",
     "Midday festival field dancers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "The Creekers" },
+    { name: "Case Oats" },
+    { name: "The Braymores" },
+    { name: "Mother Mother" },
+  ],
   tracks: [
     { name: "Whatmore", album: "Whatmore", duration: "" },
     { name: "Under the Skyline", album: "Whatmore", duration: "" },
@@ -1600,7 +1734,12 @@ const porchLight: Artist = {
     "Intimate storyteller set lovers",
     "Indie pop music collectors",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Whitney Whitney" },
+    { name: "Ella Boh" },
+    { name: "Stella Lefty" },
+    { name: "Next of Kin" },
+  ],
   tracks: [
     { name: "Voice Memos", album: "Porch Light", duration: "" },
     { name: "Overthinking", album: "Porch Light", duration: "" },
@@ -1645,7 +1784,12 @@ const easyHoney: Artist = {
     "Afternoon groove hunters",
     "Live instrument devotees",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Surfing for Daisy" },
+    { name: "Marlon Funaki" },
+    { name: "Spacey Jane" },
+    { name: "The Army, The Navy" },
+  ],
   tracks: [
     { name: "Steady", album: "Peach State", duration: "" },
     { name: "Spells", album: "Peach State", duration: "" },
@@ -1689,7 +1833,12 @@ const jackieHollander: Artist = {
     "Tent starters hunting grooves",
     "Electronic music culture lovers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "SIDEPIECE" },
+    { name: "Max Styler" },
+    { name: "INJI" },
+    { name: "AYYBO" },
+  ],
   tracks: [
     { name: "Resist", album: "Resist", duration: "" },
     { name: "Distortion", album: "Distortion", duration: "" },
@@ -1733,7 +1882,12 @@ const stellaLefty: Artist = {
     "Intimate storyteller set lovers",
     "Indie pop music collectors",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Porch Light" },
+    { name: "Whitney Whitney" },
+    { name: "Ella Boh" },
+    { name: "Next of Kin" },
+  ],
   tracks: [
     { name: "Voice Memos", album: "Stella Lefty", duration: "" },
     { name: "Overthinking", album: "Stella Lefty", duration: "" },
@@ -1778,7 +1932,12 @@ const justineSkye: Artist = {
     "Vocal power purists",
     "Sunset golden hour dancers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Jade" },
+    { name: "Jae Stephens" },
+    { name: "Blood Orange" },
+    { name: "Valencia Grace" },
+  ],
   tracks: [
     { name: "Collide", album: "Bare With Me", duration: "" },
     { name: "Build", album: "Bare With Me", duration: "" },
@@ -1824,7 +1983,12 @@ const willSwinton: Artist = {
     "Intimate emotional story devotees",
     "Acoustic music purists",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Audrey Hobert" },
+    { name: "Stella Lefty" },
+    { name: "Next of Kin" },
+    { name: "Whitney Whitney" },
+  ],
   tracks: [
     { name: "Wasted On You", album: "Will Swinton", duration: "" },
     { name: "Leave Me Dead", album: "Will Swinton", duration: "" },
@@ -1870,7 +2034,12 @@ const sunshine: Artist = {
     "Indie pop music collectors",
     "Chill summer melody seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "New Constellations" },
+    { name: "Suki Waterhouse" },
+    { name: "The xx" },
+    { name: "Will Swinton" },
+  ],
   tracks: [
     { name: "Hot Days", album: "Sunshine", duration: "" },
     { name: "Caught in the Rain", album: "Sunshine", duration: "" },
@@ -1916,7 +2085,12 @@ const caseOats: Artist = {
     "Guitar music purists",
     "Midday festival field dancers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Whatmore" },
+    { name: "The Braymores" },
+    { name: "The Creekers" },
+    { name: "Day We Ran" },
+  ],
   tracks: [
     { name: "Oats", album: "Case Oats", duration: "" },
     { name: "Under the Skyline", album: "Case Oats", duration: "" },
@@ -1961,7 +2135,12 @@ const surfingForDaisy: Artist = {
     "Afternoon groove hunters",
     "Live instrument devotees",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Easy Honey" },
+    { name: "Spacey Jane" },
+    { name: "Marlon Funaki" },
+    { name: "Love Spells" },
+  ],
   tracks: [
     { name: "Steady", album: "Peach State", duration: "" },
     { name: "Spells", album: "Peach State", duration: "" },
@@ -2005,7 +2184,12 @@ const snacktime: Artist = {
     "Midday festival field dancers",
     "High-velocity groove seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "Khamari" },
+    { name: "Sienna Spiro" },
+    { name: "Olivia Dean" },
+    { name: "Destin Conrad" },
+  ],
   tracks: [
     { name: "Eat That Snack", album: "SNACKTIME", duration: "" },
     { name: "Gumbo", album: "SNACKTIME", duration: "" },
@@ -2049,7 +2233,12 @@ const zackMartino: Artist = {
     "Early afternoon tent starters",
     "High-octane dance seekers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    { name: "MC4D" },
+    { name: "Major Lazer" },
+    { name: "aespa" },
+    { name: "Disco Lines" },
+  ],
   tracks: [
     { name: "Hold On To Me", album: "Hold On To Me", duration: "" },
     { name: "Craving", album: "Craving", duration: "" },
