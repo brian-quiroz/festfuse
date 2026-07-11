@@ -6,7 +6,6 @@ const jennie: Artist = {
   slug: "jennie",
   imageUrl: "/artists/heroes/jennie.jpg",
   objectPosition: "center 15%",
-  billingTier: "Headliner",
   genres: ["K-Pop", "R&B", "Hip-Hop"],
   origin: "Seoul, South Korea",
   tagline: "The one and only. Style meets swagger.",
@@ -59,8 +58,9 @@ const jennie: Artist = {
       fact: "She is a devoted cat person — her cat Kuma makes frequent appearances on her social media and has its own dedicated fanbase.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Headliner",
     stage: "Bud Light",
     day: "Saturday",
     date: "Aug 1",
@@ -74,7 +74,6 @@ const beabadoobee: Artist = {
   slug: "beabadoobee",
   imageUrl: "/artists/heroes/beabadoobee.jpg",
   objectPosition: "center 20%",
-  billingTier: "Sub-headliner",
   genres: ["Indie Pop", "Shoegaze", "Bedroom Pop"],
   origin: "London, England",
   tagline: "Fuzzed-out feelings in perfect three minutes.",
@@ -127,8 +126,9 @@ const beabadoobee: Artist = {
       fact: "She is proudly Filipino-British and has spoken about how her dual heritage influences her lyrics, aesthetics, and sense of identity.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Sub-headliner",
     stage: "T-Mobile",
     day: "Sunday",
     date: "Aug 2",
@@ -142,7 +142,6 @@ const majorLazer: Artist = {
   slug: "major-lazer",
   imageUrl: "/artists/heroes/major-lazer.jpg",
   objectPosition: "center 26%",
-  billingTier: "Sub-headliner",
   genres: ["Electronic", "Dancehall", "Dance Pop"],
   origin: "Miami, Florida",
   tagline: "The sound of the planet doing its thing.",
@@ -195,8 +194,9 @@ const majorLazer: Artist = {
       fact: "Diplo has produced for Beyoncé, Justin Bieber, M.I.A., Taylor Swift, and Bad Bunny — one of the most prolific crossover producers alive.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Sub-headliner",
     stage: "Perry's",
     day: "Saturday",
     date: "Jul 31",
@@ -210,7 +210,6 @@ const lorde: Artist = {
   slug: "lorde",
   imageUrl: "/artists/heroes/lorde.jpg",
   objectPosition: "center 20%",
-  billingTier: "Headliner",
   genres: ["Indie Pop", "Electropop", "Art Pop"],
   origin: "Auckland, New Zealand",
   tagline: "Pure vision. Pure feeling.",
@@ -263,8 +262,9 @@ const lorde: Artist = {
       fact: "'Royals' spent nine weeks at #1 on the Billboard Hot 100, making Lorde one of the youngest artists ever to lead the chart.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Headliner",
     stage: "T-Mobile",
     day: "Friday",
     date: "Aug 1",
@@ -278,7 +278,6 @@ const yoasobi: Artist = {
   slug: "yoasobi",
   imageUrl: "/artists/heroes/yoasobi.jpg",
   objectPosition: "center 20%",
-  billingTier: "Sub-headliner",
   genres: ["J-Pop", "Electronic", "Indie Pop"],
   origin: "Tokyo, Japan",
   tagline: "Every song is a story. Every story is a song.",
@@ -331,8 +330,9 @@ const yoasobi: Artist = {
       fact: "Vocalist ikura was a college student when YOASOBI launched, discovered by Ayase through an online music platform after she posted covers.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Sub-headliner",
     stage: "Bud Light",
     day: "Sunday",
     date: "Aug 2",
@@ -346,7 +346,6 @@ const sombr: Artist = {
   slug: "sombr",
   imageUrl: "/artists/heroes/sombr.jpg",
   objectPosition: "center 20%",
-  billingTier: "Sub-headliner",
   genres: ["Bedroom Pop", "Indie Pop", "Alt-Pop"],
   origin: "New York, USA",
   tagline: "Quiet songs for loud feelings.",
@@ -399,8 +398,9 @@ const sombr: Artist = {
       fact: "He rarely does interviews, letting the songs speak entirely for themselves.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Sub-headliner",
     stage: "BMI Stage",
     day: "Saturday",
     date: "Aug 1",
@@ -414,7 +414,6 @@ const leonThomas: Artist = {
   slug: "leon-thomas",
   imageUrl: "/artists/heroes/leon-thomas.jpg",
   objectPosition: "center 20%",
-  billingTier: "Sub-headliner",
   genres: ["Alternative R&B", "Soul", "Neo-Soul"],
   origin: "Brooklyn, New York",
   tagline: "The songwriter's songwriter, finally in the spotlight.",
@@ -467,8 +466,9 @@ const leonThomas: Artist = {
       fact: "Thomas co-writes and produces much of his own music, applying the same craft he brings to other artists' sessions to his personal work.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Sub-headliner",
     stage: "Perry's",
     day: "Friday",
     date: "Jul 31",
@@ -482,7 +482,6 @@ const johnSummit: Artist = {
   slug: "john-summit",
   imageUrl: "/artists/heroes/john-summit.jpg",
   objectPosition: "center 20%",
-  billingTier: "Headliner",
   genres: ["House", "Tech House", "Electronic"],
   origin: "Chicago, Illinois",
   tagline: "Chicago house music, amplified to festival scale.",
@@ -535,8 +534,9 @@ const johnSummit: Artist = {
       fact: "Summit is known for playing noticeably longer sets than his contracts require — when he's locked in, he simply doesn't want to stop.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Headliner",
     stage: "Perry's",
     day: "Saturday",
     date: "Aug 1",
@@ -550,7 +550,6 @@ const charliXcx: Artist = {
   slug: "charli-xcx",
   imageUrl: "/artists/heroes/charli-xcx.jpg",
   objectPosition: "center 20%",
-  billingTier: "Headliner",
   genres: ["Pop", "Hyperpop", "Electropop"],
   origin: "Cambridge, England",
   tagline: "Brat. And that's that.",
@@ -603,8 +602,9 @@ const charliXcx: Artist = {
       fact: "Charli has collaborated with artists across nearly every pop subgenre — from PC Music's experimental underground to mainstream radio giants.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Headliner",
     stage: "T-Mobile",
     day: "Thursday",
     date: "Jul 30",
@@ -618,7 +618,6 @@ const smashingPumpkins: Artist = {
   slug: "smashing-pumpkins",
   imageUrl: "/artists/heroes/the-smashing-pumpkins.jpg",
   objectPosition: "center 20%",
-  billingTier: "Headliner",
   genres: ["Alternative Rock", "Grunge", "Shoegaze"],
   origin: "Chicago, Illinois",
   tagline: "Despite all my rage.",
@@ -671,8 +670,9 @@ const smashingPumpkins: Artist = {
       fact: "'Tonight Tonight' features one of the most celebrated music videos of the MTV era, inspired by Georges Méliès' 1902 silent film A Trip to the Moon.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Headliner",
     stage: "Bud Light",
     day: "Friday",
     date: "Jul 31",
@@ -686,7 +686,6 @@ const oliviaDean: Artist = {
   slug: "olivia-dean",
   imageUrl: "/artists/heroes/olivia-dean.jpg",
   objectPosition: "center 20%",
-  billingTier: "Headliner",
   genres: ["Soul", "R&B", "Indie Pop"],
   origin: "London, England",
   tagline: "Soulful, sharp, and completely herself.",
@@ -739,8 +738,9 @@ const oliviaDean: Artist = {
       fact: "Dean has shared stages and collaborated with a wide range of British artists, becoming a central figure in London's thriving soul and indie scene.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Headliner",
     stage: "Solana Stage",
     day: "Sunday",
     date: "Aug 2",
@@ -754,7 +754,6 @@ const tateMcRae: Artist = {
   slug: "tate-mcrae",
   imageUrl: "/artists/heroes/tate-mcrae.avif",
   objectPosition: "center 20%",
-  billingTier: "Headliner",
   genres: ["Pop", "Dance Pop", "Electropop"],
   origin: "Calgary, Canada",
   tagline: "Dance like you mean it. Sing like you mean it more.",
@@ -807,8 +806,9 @@ const tateMcRae: Artist = {
       fact: "Though Canadian, McRae grew up partly in Abu Dhabi and has cited her international upbringing as a key influence on her ambition and worldview.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Headliner",
     stage: "Bud Light",
     day: "Thursday",
     date: "Jul 30",
@@ -822,7 +822,6 @@ const theXx: Artist = {
   slug: "the-xx",
   imageUrl: "/artists/heroes/the-xx.avif",
   objectPosition: "center 20%",
-  billingTier: "Headliner",
   genres: ["Indie Pop", "Dream Pop", "Electronic"],
   origin: "London, England",
   tagline: "Space between the notes. Feeling in the silence.",
@@ -875,8 +874,9 @@ const theXx: Artist = {
       fact: "Jamie xx also has a celebrated solo career — his album In Colour (2015) is considered one of the decade's finest electronic releases.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Headliner",
     stage: "T-Mobile",
     day: "Saturday",
     date: "Aug 1",
@@ -890,7 +890,6 @@ const aespa: Artist = {
   slug: "aespa",
   imageUrl: "/artists/heroes/aespa.jpg",
   objectPosition: "center 10%",
-  billingTier: "Sub-headliner",
   genres: ["K-Pop", "Pop", "Electronic", "Dance Pop"],
   origin: "Seoul, South Korea",
   tagline: "Four members. Four avatars. One universe.",
@@ -943,8 +942,9 @@ const aespa: Artist = {
       fact: "'Next Level' originally appeared in the Fast & Furious: Spy Racers soundtrack and was reimagined by aespa into one of the most memorable K-pop tracks of 2021.",
     },
   ],
-  schedule: {
-    festival: "Lollapalooza 2026",
+  appearance: {
+    festivalId: "lollapalooza",
+    billingTier: "Sub-headliner",
     stage: "T-Mobile",
     day: "Friday",
     date: "Jul 31",

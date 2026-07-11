@@ -1,9 +1,20 @@
+export type BillingTier = "Headliner" | "Sub-headliner" | "Undercard";
+
+export type FestivalAppearance = {
+  festivalId: string
+  billingTier?: BillingTier
+  stage: string
+  day: string
+  date: string
+  startTime: string
+  endTime: string
+}
+
 export type Artist = {
   name: string
   slug: string
   imageUrl?: string
   objectPosition?: string
-  billingTier?: "Headliner" | "Sub-headliner" | "Undercard"
   genres: string[]
   origin: string
   tagline: string
@@ -24,12 +35,5 @@ export type Artist = {
   tracks: Array<{ name: string; album: string; duration: string; artworkUrl?: string }>
   about: string
   trivia: Array<{ emoji: string; fact: string }>
-  schedule: {
-    festival: string
-    stage: string
-    day: string
-    date: string
-    startTime: string
-    endTime: string
-  }
+  appearance: FestivalAppearance
 }

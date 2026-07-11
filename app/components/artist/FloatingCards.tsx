@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { MapPin, Users, Pencil } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
+import { festivals } from "@/app/data/festivals";
 import ArtistAvatar from "@/app/components/ui/ArtistAvatar";
 
 export default function FloatingCards({ artist }: { artist: Artist }) {
@@ -22,7 +23,7 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
     }, 800);
   }
 
-  const { schedule } = artist;
+  const { appearance } = artist;
 
   return (
     <div className="space-y-4">
@@ -34,20 +35,20 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
           Playing At
         </h3>
         <div className="space-y-2.5">
-          <div className="text-sm font-semibold text-white">{schedule.festival}</div>
+          <div className="text-sm font-semibold text-white">{festivals[appearance.festivalId]?.name}</div>
           <div className="flex items-center justify-between">
             <span className="text-xs text-white/35">Date</span>
-            <span className="text-xs text-white/75">{schedule.day}, {schedule.date}</span>
+            <span className="text-xs text-white/75">{appearance.day}, {appearance.date}</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs text-white/35">Time</span>
             <span className="text-xs font-semibold text-[#00E5FF]">
-              {schedule.startTime} – {schedule.endTime}
+              {appearance.startTime} – {appearance.endTime}
             </span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs text-white/35">Stage</span>
-            <span className="text-xs text-white/75">{schedule.stage}</span>
+            <span className="text-xs text-white/75">{appearance.stage}</span>
           </div>
         </div>
       </div>

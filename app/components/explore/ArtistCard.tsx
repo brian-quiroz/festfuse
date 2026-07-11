@@ -86,7 +86,7 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
         </div>
 
         {/* Headliner badge — bottom-right, balances action icons on the left */}
-        {artist.billingTier === "Headliner" && (
+        {artist.appearance.billingTier === "Headliner" && (
           <div className="absolute bottom-3 right-3">
             <span className="px-2 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/18 border border-[#FF2D78]/32 text-[#FF2D78]">
               Headliner
@@ -124,9 +124,9 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
         <div className="font-bold text-white text-sm leading-tight truncate">{artist.name}</div>
         <div className="text-[12px] text-[#00E5FF] mt-1 truncate">{artist.genres[0]}</div>
         <div className="text-[11px] text-[#00E5FF]/60 mt-0.5">
-          {artist.schedule.day} · {artist.schedule.startTime}
+          {artist.appearance.day} · {artist.appearance.startTime}
         </div>
-        <div className="text-[11px] text-white/30 mt-0.5 truncate">{artist.schedule.stage} Stage</div>
+        <div className="text-[11px] text-white/30 mt-0.5 truncate">{artist.appearance.stage} Stage</div>
       </div>
     </div>
   )

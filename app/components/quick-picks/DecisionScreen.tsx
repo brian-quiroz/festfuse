@@ -314,7 +314,7 @@ export default function DecisionScreen({
                   </span>
                 </div>
 
-                {artist.billingTier === "Headliner" && (
+                {artist.appearance.billingTier === "Headliner" && (
                   <div className="absolute top-4 left-4">
                     <span className="px-2.5 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/18 border border-[#FF2D78]/32 text-[#FF2D78]">
                       Headliner
@@ -383,19 +383,19 @@ export default function DecisionScreen({
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
                 <Calendar size={11} strokeWidth={2} className="flex-shrink-0" />
                 <motion.span key={`${artist.slug}-schedule`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}>
-                  {artist.schedule.day}, {artist.schedule.date} · {artist.schedule.startTime}
+                  {artist.appearance.day}, {artist.appearance.date} · {artist.appearance.startTime}
                 </motion.span>
               </span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
                 <Clock size={11} strokeWidth={2} className="flex-shrink-0" />
                 <motion.span key={`${artist.slug}-setlength`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}>
-                  {calcSetLength(artist.schedule.startTime, artist.schedule.endTime)}
+                  {calcSetLength(artist.appearance.startTime, artist.appearance.endTime)}
                 </motion.span>
               </span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
                 <Layers size={11} strokeWidth={2} className="flex-shrink-0" />
                 <motion.span key={`${artist.slug}-stage`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}>
-                  {artist.schedule.stage} Stage
+                  {artist.appearance.stage} Stage
                 </motion.span>
               </span>
             </div>

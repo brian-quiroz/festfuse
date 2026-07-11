@@ -28,20 +28,20 @@ function parseTime(t: string): number {
 function createSession(config: QuickPicksSessionConfig): QuickPicksSession {
     const sorted = [...allArtists].sort((a, b) => {
         const dayDiff =
-            DAY_ORDER.indexOf(a.schedule.day) - DAY_ORDER.indexOf(b.schedule.day);
+            DAY_ORDER.indexOf(a.appearance.day) - DAY_ORDER.indexOf(b.appearance.day);
         return dayDiff !== 0
             ? dayDiff
-            : parseTime(a.schedule.startTime) - parseTime(b.schedule.startTime);
+            : parseTime(a.appearance.startTime) - parseTime(b.appearance.startTime);
     });
 
     const dayCounts: Record<string, number> = {};
     for (const artist of sorted) {
-        dayCounts[artist.schedule.day] = (dayCounts[artist.schedule.day] ?? 0) + 1;
+        dayCounts[artist.appearance.day] = (dayCounts[artist.appearance.day] ?? 0) + 1;
     }
 
     const dayCounters: Record<string, number> = {};
     const queue: QuickPicksQueueItem[] = sorted.map((artist) => {
-        const day = artist.schedule.day;
+        const day = artist.appearance.day;
         dayCounters[day] = (dayCounters[day] ?? 0) + 1;
         return {
             artistId: artist.slug,

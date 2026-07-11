@@ -6,8 +6,10 @@ import ExploreFilters from "@/app/components/explore/ExploreFilters"
 import { Shuffle } from "lucide-react"
 
 export default function ExplorePage() {
-  const festivalFavorites = allArtists.filter(a => a.billingTier === "Headliner")
-  const newToYou = allArtists.filter(a => !a.billingTier)
+  const festivalFavorites = allArtists.filter(a =>
+    a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+  )
+  const newToYou = allArtists.filter(a => !a.appearance.billingTier)
   const hiddenGems = allArtists.filter(a =>
     a.genres.some(g => ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g))
   )
