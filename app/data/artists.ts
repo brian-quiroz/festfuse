@@ -35,16 +35,6 @@ const jennie: Artist = {
   ],
   about:
     "Jennie Kim is a South Korean singer, rapper, and global fashion icon, best known as a member of BLACKPINK. Her 2018 debut solo single SOLO broke records across Asia and cemented her status as a bona fide solo force. Known for her sharp rap delivery, sleek pop hooks, and boundary-pushing style, Jennie commands stages with the effortless authority of someone who was always meant to headline them. Her 2025 debut album Ruby marked a new chapter — a fully realised artist with nothing left to prove.",
-  trivia: [
-    {
-      emoji: "🎭",
-      fact: "Her solo shows are conceived as fashion events as much as concerts — the styling, choreography, and set design are integrated into a single high-concept visual statement.",
-    },
-    {
-      emoji: "🌐",
-      fact: "Lollapalooza marks one of her first major solo headline slots at a US festival — a rare chance to see her outside the BLACKPINK framework, in a show built entirely around her solo identity.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -90,16 +80,6 @@ const beabadoobee: Artist = {
   ],
   about:
     "Bea Kristi, performing as Beabadoobee, burst onto the internet in 2017 with lo-fi bedroom recordings that resonated deeply with a generation of indie kids raised on Tumblr and thrift stores. Born in the Philippines and raised in London, her sound fuses 90s shoegaze warmth, jangly guitar pop, and earnest lyricism that feels both intimate and universal. From viral TikTok moments to headlining her own sold-out tours, she has grown from bedroom artist to festival mainstay without ever losing the handmade sincerity that made people fall in love with her.",
-  trivia: [
-    {
-      emoji: "🎸",
-      fact: "Despite originating as a bedroom pop artist, her live shows run loud and electric — a full band turns the intimate recordings into something that fills outdoor stages and invites mosh-pit energy.",
-    },
-    {
-      emoji: "🤘",
-      fact: "She fronts her live band as a genuine guitarist rather than a pop frontperson — her playing is central to the sound, not decorative.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
@@ -145,20 +125,6 @@ const majorLazer: Artist = {
   ],
   about:
     "Major Lazer is the genre-defying electronic music project led by Diplo, alongside Walshy Fire and Ape Drums. Born from a love of Jamaican dancehall and Caribbean bass music, the group has spent over a decade building one of the most infectious and globe-spanning sounds in dance music. Their 2015 hit Lean On became one of the most-streamed songs in Spotify history. Live, Major Lazer shows are a full-blown spectacle — confetti cannons, crowd surfers, and a party that refuses to quit until the venue runs out of energy.",
-  trivia: [
-    {
-      emoji: "🌍",
-      fact: "Major Lazer performed a free concert in Cuba in 2016 attended by 400,000 people — one of the largest concerts ever held on the island.",
-    },
-    {
-      emoji: "🎉",
-      fact: "Their shows are among the most participatory in festival culture — they routinely pull fans onstage and treat the crowd as an active element of the performance rather than an audience.",
-    },
-    {
-      emoji: "🌴",
-      fact: "Diplo and Walshy Fire work the stage as two distinct focal points, splitting crowd energy and keeping the set feeling like a relay rather than a single DJ performance.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
@@ -204,20 +170,6 @@ const lorde: Artist = {
   ],
   about:
     "Ella Yelich-O'Connor, performing as Lorde, redefined pop songwriting with Pure Heroine at just 16. Her 2017 follow-up Melodrama — a breakup album of devastating precision — earned near-universal acclaim and cemented her as one of the most important voices of her generation. Lorde writes pop as personal essay: every song carries a specific feeling, a specific place, a specific truth. Live, she strips away excess and gives you the song.",
-  trivia: [
-    {
-      emoji: "🕺",
-      fact: "Lorde's live performance style is defined by intense physicality — she moves through songs using her whole body in a way that feels improvised but emotionally precise, without relying on pyrotechnics or elaborate staging.",
-    },
-    {
-      emoji: "🎭",
-      fact: "She performed Melodrama front-to-back as a complete album experience across a run of concerts — one of the most discussed pop concert formats of that decade.",
-    },
-    {
-      emoji: "🔇",
-      fact: "She deliberately strips back production to keep focus on the music — no confetti cannons or visual spectacle, just her voice and a tight backing band.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -248,7 +200,7 @@ const yoasobi: Artist = {
     "Producer Ayase's electronic arrangements hit completely differently at festival volume",
     "A global phenomenon that most Western audiences are only beginning to discover",
   ],
-  whatToExpect: ["High-energy J-Pop anthems", "Dense electronic production", "Massive crowd singalongs", "Cross-cultural discovery", "Viral moments live"],
+  whatToExpect: ["High-energy J-Pop anthems", "Full live band — not a DJ set", "Massive crowd singalongs", "Cross-cultural discovery", "Viral moments live"],
   bestFor: ["Anime fans", "J-Pop curious listeners", "Pop music lovers", "Discovery seekers"],
   similarArtists: [
     { name: "Yorushika", imageUrl: "/artists/avatars/yorushika.jpg" },
@@ -263,20 +215,6 @@ const yoasobi: Artist = {
   ],
   about:
     "YOASOBI is a Japanese music project formed in 2019 by producer Ayase and vocalist ikura. Their concept is singular: each song is a direct musical adaptation of a Japanese short story, developed in close collaboration with the original authors. The result is pop music with unusual emotional depth and narrative precision. Their debut track 'Into the Night' became a streaming phenomenon, and 'Idol' — written for the anime Oshi no Ko — became one of the most-streamed Japanese songs in Spotify history and a genuine global crossover moment.",
-  trivia: [
-    {
-      emoji: "📖",
-      fact: "Every YOASOBI song is a musical adaptation of a Japanese short story — the duo works directly with each story's author to bring it to life.",
-    },
-    {
-      emoji: "🎬",
-      fact: "Their live concerts project imagery from the source short stories during each song — watching YOASOBI live is the closest thing to seeing a manga come to life on stage.",
-    },
-    {
-      emoji: "🎸",
-      fact: "Despite their electronic production roots, YOASOBI performs with a full live band — the transition from headphones to a stage full of musicians is genuinely surprising.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
@@ -322,16 +260,6 @@ const sombr: Artist = {
   ],
   about:
     "Sombr is the project of singer-songwriter Shane Michael Boose. He makes small, honest songs about the feelings people rarely say out loud — bedroom pop built around close-mic'd guitar, plain lyrics, and arrangements that never oversell the emotion. In a landscape full of maximalism, Sombr's restraint reads as confidence. Shane has built a quietly devoted following on the strength of songs that feel less like performances and more like overheard conversations.",
-  trivia: [
-    {
-      emoji: "🎙️",
-      fact: "His live sets lean into the emotional vulnerability of his recordings rather than trying to scale them up — the result is intimate even on a festival stage.",
-    },
-    {
-      emoji: "🎸",
-      fact: "He performs with minimal accompaniment, keeping almost all the focus on his voice and lyrics — rare in a festival context where production typically compensates for the scale.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
@@ -377,16 +305,6 @@ const leonThomas: Artist = {
   ],
   about:
     "Leon Thomas has been one of music's best-kept secrets for years — a vocalist and songwriter whose fingerprints are on some of the biggest R&B records of the past decade. His 2023 debut album MUTT announced him as a solo force in his own right: warm, unhurried, and deeply soulful. Raised in Brooklyn on a diet of classic soul and hip-hop, Thomas brings an emotional directness to his music that cuts through the noise. His live show is proof that the voice was always the instrument.",
-  trivia: [
-    {
-      emoji: "🎙️",
-      fact: "His live vocal performances are considered some of the most technically impressive in contemporary R&B — a range and control that hits differently in person than on record.",
-    },
-    {
-      emoji: "🎸",
-      fact: "He moves between multiple instruments across a set — piano, guitar, bass — making the live show feel more like a musician's showcase than a standard pop performance.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
@@ -432,20 +350,6 @@ const johnSummit: Artist = {
   ],
   about:
     "John Summit emerged from Chicago — the birthplace of house music — and became one of the genre's most in-demand names in record time. His DJ sets are studies in tension and release: patient, hypnotic builds that pay off with devastating precision. A vocal champion of underground roots in a mainstream landscape, Summit brings authenticity to every set without sacrificing the kind of energy that makes 30,000 people move as one.",
-  trivia: [
-    {
-      emoji: "🏙️",
-      fact: "Summit grew up in Chicago and credits the city's house music heritage as the direct foundation of his sound and ethos.",
-    },
-    {
-      emoji: "🎵",
-      fact: "'La Danza' became one of the most-Shazamed tracks at festivals across 2022 and 2023, introducing his sound to millions of new listeners mid-set.",
-    },
-    {
-      emoji: "🎧",
-      fact: "Summit is known for playing noticeably longer sets than his contracts require — when he's locked in, he simply doesn't want to stop.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -491,16 +395,6 @@ const charliXcx: Artist = {
   ],
   about:
     "Charli XCX has spent a decade operating at the bleeding edge of pop, writing hits for others while building one of the most adventurous solo catalogues in the genre. She wrote Iggy Azalea's 'Fancy' and Icona Pop's 'I Love It' before most people knew her name as a solo artist. Her 2024 album brat arrived as a cultural watershed — a neon-green, uncompromising collection that defined an entire summer's aesthetic and earned universal critical acclaim. Charli performs like someone who has nothing left to prove and everything left to do.",
-  trivia: [
-    {
-      emoji: "💚",
-      fact: "A brat show is a collective experience — crowds typically arrive in lime green already knowing they're participants in something larger than a concert.",
-    },
-    {
-      emoji: "🎭",
-      fact: "Her live shows are deliberately confrontational — the choreography is aggressive, the energy rewards chaos, and she gives the crowd explicit permission to lose control.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -546,20 +440,6 @@ const smashingPumpkins: Artist = {
   ],
   about:
     "The Smashing Pumpkins are one of the definitive rock bands of the 1990s. Formed in Chicago by Billy Corgan, the band built a sound that combined massively layered, distorted guitars with introspective lyricism and unexpected melodic beauty. Albums like Siamese Dream and Mellon Collie and the Infinite Sadness stand as milestones of alternative rock — dense, ambitious, and emotionally enormous. Their live shows are events: loud, long, and performed with the urgency of musicians who have spent decades earning their stage.",
-  trivia: [
-    {
-      emoji: "🎸",
-      fact: "Siamese Dream's guitar sound was created by overdubbing a single riff over 100 times — their live show attempts to recreate that wall of sound with an unusually large guitar rig.",
-    },
-    {
-      emoji: "🏙️",
-      fact: "They were one of the original acts on the first Lollapalooza tour in 1991 — playing the festival now carries historical weight for both the band and longtime fans.",
-    },
-    {
-      emoji: "⏱️",
-      fact: "Corgan is notorious for marathon setlists — 2+ hours that move through deep catalog cuts alongside anthems, making each Pumpkins show feel like a complete retrospective.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -590,7 +470,7 @@ const oliviaDean: Artist = {
     "Warm, joyful stage presence that turns a festival crowd into a community",
     "British soul at its finest: witty, specific, and deeply felt",
   ],
-  whatToExpect: ["Soul and R&B warmth", "Exceptional live vocals", "Joyful crowd atmosphere", "Intimate connection on a big stage", "British pop sharpness"],
+  whatToExpect: ["Soul and R&B warmth", "Exceptional live vocals", "Full live soul band with horns", "Joyful crowd atmosphere", "Intimate connection on a big stage"],
   bestFor: ["Soul and R&B fans", "Fans of British pop", "Anyone who loves great singing", "Afternoon crowd"],
   similarArtists: [
     { name: "Lianne La Havas", imageUrl: "/artists/avatars/lianne-la-havas.jpg" },
@@ -605,20 +485,6 @@ const oliviaDean: Artist = {
   ],
   about:
     "Olivia Dean is a London-born singer-songwriter whose debut album Messy announced her as one of British music's most exciting new voices. Rooted in soul and R&B but filtered through a distinctly modern pop sensibility, her songs are warm, emotionally precise, and shot through with genuine wit. She writes with specificity — about real feelings in real situations — and performs with a presence that makes every room feel smaller and more intimate. Messy earned widespread critical acclaim and a Mercury Prize nomination, cementing a debut that's only the beginning.",
-  trivia: [
-    {
-      emoji: "🎷",
-      fact: "She performs with a full live soul band that expands every arrangement — what sounds like intimate piano pop on record becomes a warm, horn-driven experience on stage.",
-    },
-    {
-      emoji: "😄",
-      fact: "Her shows are known for their unusual intimacy at scale — she talks to the crowd, reacts genuinely to the room, and creates an atmosphere that feels more like a house party than a festival.",
-    },
-    {
-      emoji: "🏆",
-      fact: "Her 2023 Glastonbury set was widely cited as one of the breakthrough performances of the weekend, introducing her to audiences many times the size of her usual crowds in a single afternoon.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -649,7 +515,7 @@ const tateMcRae: Artist = {
     "One of the fastest-rising pop acts of her generation — this is peak Tate McRae",
     "Polished, high-production pop with genuine emotional depth underneath the hooks",
   ],
-  whatToExpect: ["High-energy dance pop", "Stunning choreography", "Massive crowd singalongs", "Polished production", "Emotionally charged performance"],
+  whatToExpect: ["High-energy dance pop", "Stunning choreography", "Live vocals through full choreography — no safety net", "Massive crowd singalongs", "Polished production"],
   bestFor: ["Pop fans", "Dance lovers", "Anyone who needs to feel something", "Fans of precision performance"],
   similarArtists: [
     { name: "Olivia Rodrigo", imageUrl: "/artists/avatars/olivia-rodrigo.jpg" },
@@ -664,16 +530,6 @@ const tateMcRae: Artist = {
   ],
   about:
     "Tate McRae is a Calgary-born singer, songwriter, and dancer who has built one of pop music's most devoted fanbases through relentless work and a rare combination of talents. A competitive dancer before becoming a recording artist, McRae brings a physical vocabulary to her performances that most pop acts simply can't match. Her 2023 album think later. — anchored by the massive hit 'greedy' — established her as a genuine pop force, trading on emotional honesty and irresistible hooks in equal measure.",
-  trivia: [
-    {
-      emoji: "💃",
-      fact: "She trained as a competitive dancer before becoming a pop artist — her live shows are full choreography productions built around that foundation.",
-    },
-    {
-      emoji: "🎤",
-      fact: "She executes difficult dance sequences while singing live with no backing vocal safety net — a combination most pop acts deliberately avoid.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -719,20 +575,6 @@ const theXx: Artist = {
   ],
   about:
     "The xx formed in London and released one of the most quietly influential debut albums in modern pop history — xx (2009) — a record built on restraint, space, and the particular intimacy of two voices circling each other. Jamie xx's production frames Romy Madley Croft and Oliver Sim's vocals with minimalist electronic arrangements that feel simultaneously delicate and enormous. Their live shows are events: atmospheric, deliberate, and emotionally overwhelming in a way that has nothing to do with volume.",
-  trivia: [
-    {
-      emoji: "🌑",
-      fact: "Their live show is defined by extreme minimalism — dark staging, spare lighting, and deliberate silence used as a compositional element. The effect in a large outdoor space is genuinely counterintuitive.",
-    },
-    {
-      emoji: "🎛️",
-      fact: "Watching Jamie xx operate live gives you a different understanding of The xx's sound — his electronic contributions are as composed and intentional as any guitar part Romy plays.",
-    },
-    {
-      emoji: "🤫",
-      fact: "They're one of the few festival acts where the quietest moments on stage generate more tension than most artists' loudest ones — stillness is a deliberate performance choice, not a gap.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
@@ -778,20 +620,6 @@ const aespa: Artist = {
   ],
   about:
     "aespa debuted in 2020 under SM Entertainment with one of the most distinctive concepts in K-pop history: each of the four members — Karina, Giselle, Winter, and Ningning — has a digital AI counterpart called an æ. Their debut single 'Black Mamba' broke the SM Entertainment YouTube record and set the tone for a group that would never take the conventional path. Their 2024 single 'Supernova' and its follow-up 'Whiplash' pushed their sound into ambitious, genre-fluid territory that has continued to expand their global fanbase.",
-  trivia: [
-    {
-      emoji: "🤖",
-      fact: "The group's concept centers on each member having an AI avatar counterpart — the 'æ' versions exist in a parallel digital world called the 'KWANGYA,' and the lore is woven directly into their live productions.",
-    },
-    {
-      emoji: "🎬",
-      fact: "Their stage productions integrate the virtual universe narrative — screens, choreography, and set design coordinate to make the show feel like an event inside their fictional world, not just a pop concert.",
-    },
-    {
-      emoji: "🎤",
-      fact: "'Next Level' live is one of K-pop's most reliable crowd moments — the melody crosses language barriers and becomes a singalong regardless of whether the audience knows the words.",
-    },
-  ],
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",

@@ -29,6 +29,5 @@ export type Artist = {
   similarArtists: Array<{ name: string; imageUrl?: string }>
   tracks: Array<{ name: string; album: string; duration: string; artworkUrl?: string }>
   about: string
-  trivia: Array<{ emoji: string; fact: string }>
   appearance: FestivalAppearance
 }
