@@ -21,8 +21,8 @@ export type Artist = {
   tagline: string
   socials: {
     spotify?: string
-    instagram?: string
-    twitter?: string
+    youtube?: string
+    tiktok?: string
   }
   whySee: string[]
   whatToExpect: string[]

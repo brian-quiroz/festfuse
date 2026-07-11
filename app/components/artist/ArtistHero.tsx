@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { MapPin } from "lucide-react";
-import { FaSpotify, FaInstagram, FaXTwitter } from "react-icons/fa6";
+import { FaSpotify, FaYoutube, FaTiktok } from "react-icons/fa6";
 import type { Artist } from "@/app/types/artist";
 import ArtistActions from "./ArtistActions";
 
@@ -103,18 +103,18 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
           <div className="w-px h-3.5 bg-white/10" />
           <div className="flex items-center gap-3.5">
             {artist.socials.spotify && (
-              <a href={artist.socials.spotify} className="text-white/50 hover:text-[#1ED760] transition-colors">
+              <a href={artist.socials.spotify} target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-[#1ED760] transition-colors">
                 <FaSpotify size={16} />
               </a>
             )}
-            {artist.socials.instagram && (
-              <a href={artist.socials.instagram} className="text-white/50 hover:text-[#E1306C] transition-colors">
-                <FaInstagram size={16} />
+            {artist.socials.youtube && (
+              <a href={artist.socials.youtube} target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-[#FF0000] transition-colors">
+                <FaYoutube size={16} />
               </a>
             )}
-            {artist.socials.twitter && (
-              <a href={artist.socials.twitter} className="text-white/50 hover:text-white transition-colors">
-                <FaXTwitter size={16} />
+            {artist.socials.tiktok && (
+              <a href={artist.socials.tiktok} target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white transition-colors">
+                <FaTiktok size={16} />
               </a>
             )}
           </div>

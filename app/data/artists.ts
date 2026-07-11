@@ -12,8 +12,8 @@ const jennie: Artist = {
   tagline: "The one and only. Style meets swagger.",
   socials: {
     spotify: "https://open.spotify.com/artist/250b0Wlc5Vk0CoUsaCY84M",
-    instagram: "#",
-    twitter: "#",
+    youtube: "https://www.youtube.com/@jennierubyjane",
+    tiktok: "https://www.tiktok.com/@jennierubyjane",
   },
   whySee: [
     "Global K-pop icon making her solo debut on the festival stage — a historic moment",
@@ -58,8 +58,8 @@ const beabadoobee: Artist = {
   tagline: "Fuzzed-out feelings in perfect three minutes.",
   socials: {
     spotify: "https://open.spotify.com/artist/35l9BRT7MXmM8bv2WDQiyB",
-    instagram: "#",
-    twitter: "#",
+    youtube: "https://www.youtube.com/@Beabadoobee",
+    tiktok: "https://www.tiktok.com/@beabadoobeehq",
   },
   whySee: [
     "Catch her before she's headlining — Beabadoobee is on the cusp of breaking through",
@@ -104,8 +104,8 @@ const majorLazer: Artist = {
   tagline: "The sound of the planet doing its thing.",
   socials: {
     spotify: "https://open.spotify.com/artist/738wLrAtLtCtFOLvQBXOXp",
-    instagram: "#",
-    twitter: "#",
+    youtube: "https://www.youtube.com/@majorlazer",
+    tiktok: "https://www.tiktok.com/@majorlazer",
   },
   whySee: [
     "Lean On live — one of the most-streamed songs ever, in a field with 50,000 people singing every word",
@@ -150,8 +150,8 @@ const lorde: Artist = {
   tagline: "Pure vision. Pure feeling.",
   socials: {
     spotify: "https://open.spotify.com/artist/163tK9Wjr9P9DmM0AVK7lm",
-    instagram: "#",
-    twitter: "#",
+    youtube: "https://www.youtube.com/@Lorde",
+    tiktok: "https://www.tiktok.com/@lorde",
   },
   whySee: [
     "One of the sharpest songwriters of her generation — every lyric earns its place",
@@ -196,8 +196,8 @@ const yoasobi: Artist = {
   tagline: "Every song is a story. Every story is a song.",
   socials: {
     spotify: "https://open.spotify.com/artist/64tJ2EAv1R6UaZqc4iOCyj",
-    instagram: "#",
-    twitter: "#",
+    youtube: "https://www.youtube.com/@YOASOBI_Official",
+    tiktok: "https://www.tiktok.com/@yoasobi_",
   },
   whySee: [
     "Idol — one of the biggest songs on the planet — performed live by the duo who made it",
@@ -241,9 +241,9 @@ const sombr: Artist = {
   origin: "New York, USA",
   tagline: "Quiet songs for loud feelings.",
   socials: {
-    spotify: "#",
-    instagram: "#",
-    twitter: "#",
+    spotify: "https://open.spotify.com/artist/4G9NDjRyZFDlJKMRL8hx3S",
+    youtube: "https://www.youtube.com/@sombr",
+    tiktok: "https://www.tiktok.com/@sombr",
   },
   whySee: [
     "Catch him at this size — the intimacy won't last once the world fully catches up",
@@ -288,8 +288,8 @@ const leonThomas: Artist = {
   tagline: "The songwriter's songwriter, finally in the spotlight.",
   socials: {
     spotify: "https://open.spotify.com/artist/3qBi3oNsvDhVfE5VBvfDMR",
-    instagram: "#",
-    twitter: "#",
+    youtube: "https://www.youtube.com/channel/@leonthomas",
+    tiktok: "https://www.tiktok.com/@leonthomas",
   },
   whySee: [
     "One of the most naturally gifted vocalists performing anywhere this weekend",
@@ -333,9 +333,9 @@ const johnSummit: Artist = {
   origin: "Chicago, Illinois",
   tagline: "Chicago house music, amplified to festival scale.",
   socials: {
-    spotify: "#",
-    instagram: "#",
-    twitter: "#",
+    spotify: "https://open.spotify.com/artist/7kNqXtgeIwFtelmRjWv205",
+    youtube: "https://www.youtube.com/@JohnSummit",
+    tiktok: "https://www.tiktok.com/@johnsummit",
   },
   whySee: [
     "One of the fastest-rising DJs in the world — a Perry's set that will define the weekend",
@@ -379,9 +379,9 @@ const charliXcx: Artist = {
   origin: "Cambridge, England",
   tagline: "Brat. And that's that.",
   socials: {
-    spotify: "#",
-    instagram: "#",
-    twitter: "#",
+    spotify: "https://open.spotify.com/artist/25uiPmTg16RbhZWAqwLBy5",
+    youtube: "https://www.youtube.com/@charlixcx",
+    tiktok: "https://www.tiktok.com/@charlixcx",
   },
   whySee: [
     "brat was the defining album of its summer — see it become a live phenomenon",
@@ -425,9 +425,9 @@ const smashingPumpkins: Artist = {
   origin: "Chicago, Illinois",
   tagline: "Despite all my rage.",
   socials: {
-    spotify: "#",
-    instagram: "#",
-    twitter: "#",
+    spotify: "https://open.spotify.com/artist/40Yq4vzPs9VNUrIBG5Jr2i",
+    youtube: "https://www.youtube.com/@smashingpumpkins",
+    tiktok: "https://www.tiktok.com/@thesmashingpumpkins",
   },
   whySee: [
     "One of the greatest rock catalogues of the 1990s, performed by the band that built it",
@@ -471,9 +471,9 @@ const oliviaDean: Artist = {
   origin: "London, England",
   tagline: "Soulful, sharp, and completely herself.",
   socials: {
-    spotify: "#",
-    instagram: "#",
-    twitter: "#",
+    spotify: "https://open.spotify.com/artist/00x1fYSGhdqScXBRpSj3DW",
+    youtube: "https://www.youtube.com/@oliviadean",
+    tiktok: "https://www.tiktok.com/@oliviadeano_",
   },
   whySee: [
     "A voice that stops people mid-stride — genuinely one of the best singers performing this weekend",
@@ -517,9 +517,9 @@ const tateMcRae: Artist = {
   origin: "Calgary, Canada",
   tagline: "Dance like you mean it. Sing like you mean it more.",
   socials: {
-    spotify: "#",
-    instagram: "#",
-    twitter: "#",
+    spotify: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
+    youtube: "https://www.youtube.com/@tatemcrae",
+    tiktok: "https://www.tiktok.com/@tatemcrae",
   },
   whySee: [
     "A trained dancer performing her own choreography — pop excellence that's athletic and total",
@@ -563,9 +563,8 @@ const theXx: Artist = {
   origin: "London, England",
   tagline: "Space between the notes. Feeling in the silence.",
   socials: {
-    spotify: "#",
-    instagram: "#",
-    twitter: "#",
+    spotify: "https://open.spotify.com/artist/3iOvXCl6edW5Um0fXEBRXy",
+    youtube: "https://www.youtube.com/@thexx",
   },
   whySee: [
     "'Intro' live is a transformative experience — few pieces of music do more with less",
@@ -609,9 +608,9 @@ const aespa: Artist = {
   origin: "Seoul, South Korea",
   tagline: "Four members. Four avatars. One universe.",
   socials: {
-    spotify: "#",
-    instagram: "#",
-    twitter: "#",
+    spotify: "https://open.spotify.com/artist/6YVMFz59CuY7ngCxTxjpxE",
+    youtube: "https://www.youtube.com/@aespa",
+    tiktok: "https://www.tiktok.com/@aespa_official",
   },
   whySee: [
     "The most conceptually ambitious K-pop act on the circuit — an AI-meets-reality universe unlike anything else in pop",
