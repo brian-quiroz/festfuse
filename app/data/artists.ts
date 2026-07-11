@@ -37,20 +37,12 @@ const jennie: Artist = {
     "Jennie Kim is a South Korean singer, rapper, and global fashion icon, best known as a member of BLACKPINK. Her 2018 debut solo single SOLO broke records across Asia and cemented her status as a bona fide solo force. Known for her sharp rap delivery, sleek pop hooks, and boundary-pushing style, Jennie commands stages with the effortless authority of someone who was always meant to headline them. Her 2025 debut album Ruby marked a new chapter — a fully realised artist with nothing left to prove.",
   trivia: [
     {
-      emoji: "👗",
-      fact: "Jennie has been a global ambassador for Chanel since 2017, becoming one of the youngest brand ambassadors in the house's history.",
+      emoji: "🎭",
+      fact: "Her solo shows are conceived as fashion events as much as concerts — the styling, choreography, and set design are integrated into a single high-concept visual statement.",
     },
     {
-      emoji: "🌏",
-      fact: "She spent several years at school in New Zealand as a child, which is why her English is fluent and naturally accented.",
-    },
-    {
-      emoji: "🎤",
-      fact: "SOLO debuted at #1 on the Gaon Digital Chart and became the longest-charting song by a K-pop soloist on Billboard's World Digital Song Sales chart.",
-    },
-    {
-      emoji: "🐈",
-      fact: "She is a devoted cat person — her cat Kuma makes frequent appearances on her social media and has its own dedicated fanbase.",
+      emoji: "🌐",
+      fact: "Lollapalooza marks one of her first major solo headline slots at a US festival — a rare chance to see her outside the BLACKPINK framework, in a show built entirely around her solo identity.",
     },
   ],
   appearance: {
@@ -101,19 +93,11 @@ const beabadoobee: Artist = {
   trivia: [
     {
       emoji: "🎸",
-      fact: "Beabadoobee only started playing guitar at 17 after her parents gave her one as a gift — within months she had a viral hit.",
+      fact: "Despite originating as a bedroom pop artist, her live shows run loud and electric — a full band turns the intimate recordings into something that fills outdoor stages and invites mosh-pit energy.",
     },
     {
-      emoji: "🌸",
-      fact: "Her debut EP Patched Up was recorded in her bedroom using just a laptop microphone, released almost entirely on a whim.",
-    },
-    {
-      emoji: "📱",
-      fact: "Her song 'Coffee' went viral on TikTok years after release, propelling her to millions of new listeners overnight and landing her a label deal.",
-    },
-    {
-      emoji: "🇵🇭",
-      fact: "She is proudly Filipino-British and has spoken about how her dual heritage influences her lyrics, aesthetics, and sense of identity.",
+      emoji: "🤘",
+      fact: "She fronts her live band as a genuine guitarist rather than a pop frontperson — her playing is central to the sound, not decorative.",
     },
   ],
   appearance: {
@@ -167,16 +151,12 @@ const majorLazer: Artist = {
       fact: "Major Lazer performed a free concert in Cuba in 2016 attended by 400,000 people — one of the largest concerts ever held on the island.",
     },
     {
-      emoji: "📊",
-      fact: "Lean On was the most-streamed song on Spotify in 2015, accumulating over 526 million streams in a single year.",
+      emoji: "🎉",
+      fact: "Their shows are among the most participatory in festival culture — they routinely pull fans onstage and treat the crowd as an active element of the performance rather than an audience.",
     },
     {
-      emoji: "🎬",
-      fact: 'The animated music video for "Bubble Butt" features cameos from dozens of major artists and has become a cult festival classic.',
-    },
-    {
-      emoji: "🤝",
-      fact: "Diplo has produced for Beyoncé, Justin Bieber, M.I.A., Taylor Swift, and Bad Bunny — one of the most prolific crossover producers alive.",
+      emoji: "🌴",
+      fact: "Diplo and Walshy Fire work the stage as two distinct focal points, splitting crowd energy and keeping the set feeling like a relay rather than a single DJ performance.",
     },
   ],
   appearance: {
@@ -226,20 +206,16 @@ const lorde: Artist = {
     "Ella Yelich-O'Connor, performing as Lorde, redefined pop songwriting with Pure Heroine at just 16. Her 2017 follow-up Melodrama — a breakup album of devastating precision — earned near-universal acclaim and cemented her as one of the most important voices of her generation. Lorde writes pop as personal essay: every song carries a specific feeling, a specific place, a specific truth. Live, she strips away excess and gives you the song.",
   trivia: [
     {
-      emoji: "📝",
-      fact: "'Royals' was written in 30 minutes at age 15 after Lorde flipped through a National Geographic and noticed how remote royalty imagery felt from her suburban Auckland life.",
+      emoji: "🕺",
+      fact: "Lorde's live performance style is defined by intense physicality — she moves through songs using her whole body in a way that feels improvised but emotionally precise, without relying on pyrotechnics or elaborate staging.",
     },
     {
-      emoji: "🎛️",
-      fact: "Melodrama was co-produced with Jack Antonoff — widely regarded as one of the most acclaimed pop collaborations of the 2010s.",
+      emoji: "🎭",
+      fact: "She performed Melodrama front-to-back as a complete album experience across a run of concerts — one of the most discussed pop concert formats of that decade.",
     },
     {
-      emoji: "🌿",
-      fact: "Solar Power was written largely in isolation near the New Zealand coast, influenced by extended time away from cities and screens.",
-    },
-    {
-      emoji: "🏆",
-      fact: "'Royals' spent nine weeks at #1 on the Billboard Hot 100, making Lorde one of the youngest artists ever to lead the chart.",
+      emoji: "🔇",
+      fact: "She deliberately strips back production to keep focus on the music — no confetti cannons or visual spectacle, just her voice and a tight backing band.",
     },
   ],
   appearance: {
@@ -293,16 +269,12 @@ const yoasobi: Artist = {
       fact: "Every YOASOBI song is a musical adaptation of a Japanese short story — the duo works directly with each story's author to bring it to life.",
     },
     {
-      emoji: "🎌",
-      fact: "'Idol' debuted at #1 on the Billboard Global Excl. U.S. chart and became one of the highest-charting Japanese songs in Spotify history.",
+      emoji: "🎬",
+      fact: "Their live concerts project imagery from the source short stories during each song — watching YOASOBI live is the closest thing to seeing a manga come to life on stage.",
     },
     {
-      emoji: "⚡",
-      fact: "Ayase produces entirely from his home studio — the scale of YOASOBI's sound belies how lean the operation actually is.",
-    },
-    {
-      emoji: "🎤",
-      fact: "Vocalist ikura was a college student when YOASOBI launched, discovered by Ayase through an online music platform after she posted covers.",
+      emoji: "🎸",
+      fact: "Despite their electronic production roots, YOASOBI performs with a full live band — the transition from headphones to a stage full of musicians is genuinely surprising.",
     },
   ],
   appearance: {
@@ -353,19 +325,11 @@ const sombr: Artist = {
   trivia: [
     {
       emoji: "🎙️",
-      fact: "Shane records most of his music at home, deliberately keeping the production spare to let the lyrics carry the weight.",
-    },
-    {
-      emoji: "📱",
-      fact: "Much of his early audience found him through lo-fi playlist placements rather than traditional promotion.",
+      fact: "His live sets lean into the emotional vulnerability of his recordings rather than trying to scale them up — the result is intimate even on a festival stage.",
     },
     {
       emoji: "🎸",
-      fact: "His songs sit in the bedroom pop tradition of saying the most with the least — no production excess, just the feeling.",
-    },
-    {
-      emoji: "🤫",
-      fact: "He rarely does interviews, letting the songs speak entirely for themselves.",
+      fact: "He performs with minimal accompaniment, keeping almost all the focus on his voice and lyrics — rare in a festival context where production typically compensates for the scale.",
     },
   ],
   appearance: {
@@ -415,20 +379,12 @@ const leonThomas: Artist = {
     "Leon Thomas has been one of music's best-kept secrets for years — a vocalist and songwriter whose fingerprints are on some of the biggest R&B records of the past decade. His 2023 debut album MUTT announced him as a solo force in his own right: warm, unhurried, and deeply soulful. Raised in Brooklyn on a diet of classic soul and hip-hop, Thomas brings an emotional directness to his music that cuts through the noise. His live show is proof that the voice was always the instrument.",
   trivia: [
     {
-      emoji: "📺",
-      fact: "Leon Thomas started his career as a child actor on Nickelodeon's Victorious, where he also showcased his vocal talent before pivoting to music full-time.",
-    },
-    {
-      emoji: "✍️",
-      fact: "He has writing credits on records by Ariana Grande, Ty Dolla $ign, Jhené Aiko, and others — making MUTT a long-overdue spotlight moment.",
-    },
-    {
       emoji: "🎙️",
-      fact: "'wine & spirits' became his breakthrough solo track, accumulating hundreds of millions of streams and introducing his voice to a new generation.",
+      fact: "His live vocal performances are considered some of the most technically impressive in contemporary R&B — a range and control that hits differently in person than on record.",
     },
     {
-      emoji: "🎼",
-      fact: "Thomas co-writes and produces much of his own music, applying the same craft he brings to other artists' sessions to his personal work.",
+      emoji: "🎸",
+      fact: "He moves between multiple instruments across a set — piano, guitar, bass — making the live show feel more like a musician's showcase than a standard pop performance.",
     },
   ],
   appearance: {
@@ -482,12 +438,8 @@ const johnSummit: Artist = {
       fact: "Summit grew up in Chicago and credits the city's house music heritage as the direct foundation of his sound and ethos.",
     },
     {
-      emoji: "📈",
-      fact: "He rose from relative obscurity to headlining major festivals in under three years — one of the steepest ascents in recent electronic music.",
-    },
-    {
       emoji: "🎵",
-      fact: "'La Danza' became one of the most-Shazamed tracks at festivals across 2022 and 2023, introducing his sound to millions of new listeners.",
+      fact: "'La Danza' became one of the most-Shazamed tracks at festivals across 2022 and 2023, introducing his sound to millions of new listeners mid-set.",
     },
     {
       emoji: "🎧",
@@ -542,19 +494,11 @@ const charliXcx: Artist = {
   trivia: [
     {
       emoji: "💚",
-      fact: "brat's lime green album cover became one of 2024's most recognizable images — spawning a cultural movement and even being referenced in a U.S. presidential campaign.",
-    },
-    {
-      emoji: "✍️",
-      fact: "She wrote Iggy Azalea's 'Fancy' and Icona Pop's 'I Love It' — two of the defining pop hits of the early 2010s — before most people knew her as a solo artist.",
+      fact: "A brat show is a collective experience — crowds typically arrive in lime green already knowing they're participants in something larger than a concert.",
     },
     {
       emoji: "🎭",
-      fact: "'brat summer' became a genuine cultural phenomenon, with the color and attitude adopted far beyond the music world.",
-    },
-    {
-      emoji: "🎵",
-      fact: "Charli has collaborated with artists across nearly every pop subgenre — from PC Music's experimental underground to mainstream radio giants.",
+      fact: "Her live shows are deliberately confrontational — the choreography is aggressive, the energy rewards chaos, and she gives the crowd explicit permission to lose control.",
     },
   ],
   appearance: {
@@ -605,19 +549,15 @@ const smashingPumpkins: Artist = {
   trivia: [
     {
       emoji: "🎸",
-      fact: "Siamese Dream's guitar sound was created by overdubbing a single riff over 100 times — the sheer density of layering is part of what makes it so distinctive.",
-    },
-    {
-      emoji: "📀",
-      fact: "Mellon Collie and the Infinite Sadness was released as a double album with 28 tracks — an extraordinarily ambitious scope for a mainstream rock release in 1995.",
+      fact: "Siamese Dream's guitar sound was created by overdubbing a single riff over 100 times — their live show attempts to recreate that wall of sound with an unusually large guitar rig.",
     },
     {
       emoji: "🏙️",
-      fact: "The band formed in Chicago in 1988 and have maintained a fierce connection to the city — they always play it with particular energy.",
+      fact: "They were one of the original acts on the first Lollapalooza tour in 1991 — playing the festival now carries historical weight for both the band and longtime fans.",
     },
     {
-      emoji: "📺",
-      fact: "'Tonight Tonight' features one of the most celebrated music videos of the MTV era, inspired by Georges Méliès' 1902 silent film A Trip to the Moon.",
+      emoji: "⏱️",
+      fact: "Corgan is notorious for marathon setlists — 2+ hours that move through deep catalog cuts alongside anthems, making each Pumpkins show feel like a complete retrospective.",
     },
   ],
   appearance: {
@@ -667,20 +607,16 @@ const oliviaDean: Artist = {
     "Olivia Dean is a London-born singer-songwriter whose debut album Messy announced her as one of British music's most exciting new voices. Rooted in soul and R&B but filtered through a distinctly modern pop sensibility, her songs are warm, emotionally precise, and shot through with genuine wit. She writes with specificity — about real feelings in real situations — and performs with a presence that makes every room feel smaller and more intimate. Messy earned widespread critical acclaim and a Mercury Prize nomination, cementing a debut that's only the beginning.",
   trivia: [
     {
-      emoji: "🏆",
-      fact: "Messy received a Mercury Prize nomination in 2023, cementing Dean as one of the UK's most critically recognized breakthrough artists.",
-    },
-    {
-      emoji: "🎶",
-      fact: "Olivia began writing songs as a teenager and has described music as her primary way of processing emotions and translating experience into something shareable.",
+      emoji: "🎷",
+      fact: "She performs with a full live soul band that expands every arrangement — what sounds like intimate piano pop on record becomes a warm, horn-driven experience on stage.",
     },
     {
       emoji: "😄",
-      fact: "She is known for her playful, unfiltered social media presence — her humor and honesty online have made her one of music's most beloved personalities off-stage.",
+      fact: "Her shows are known for their unusual intimacy at scale — she talks to the crowd, reacts genuinely to the room, and creates an atmosphere that feels more like a house party than a festival.",
     },
     {
-      emoji: "🤝",
-      fact: "Dean has shared stages and collaborated with a wide range of British artists, becoming a central figure in London's thriving soul and indie scene.",
+      emoji: "🏆",
+      fact: "Her 2023 Glastonbury set was widely cited as one of the breakthrough performances of the weekend, introducing her to audiences many times the size of her usual crowds in a single afternoon.",
     },
   ],
   appearance: {
@@ -731,19 +667,11 @@ const tateMcRae: Artist = {
   trivia: [
     {
       emoji: "💃",
-      fact: "Tate trained as a competitive dancer from an early age, finishing third on So You Think You Can Dance: The Next Generation before pivoting to music full-time.",
+      fact: "She trained as a competitive dancer before becoming a pop artist — her live shows are full choreography productions built around that foundation.",
     },
     {
-      emoji: "📝",
-      fact: "She wrote her breakthrough track 'you broke me first' at 16, releasing it independently before it became a global streaming phenomenon.",
-    },
-    {
-      emoji: "📈",
-      fact: "'greedy' spent multiple weeks in the global Spotify top 10 and became one of the defining pop tracks of 2023.",
-    },
-    {
-      emoji: "🌍",
-      fact: "Though Canadian, McRae grew up partly in Abu Dhabi and has cited her international upbringing as a key influence on her ambition and worldview.",
+      emoji: "🎤",
+      fact: "She executes difficult dance sequences while singing live with no backing vocal safety net — a combination most pop acts deliberately avoid.",
     },
   ],
   appearance: {
@@ -793,20 +721,16 @@ const theXx: Artist = {
     "The xx formed in London and released one of the most quietly influential debut albums in modern pop history — xx (2009) — a record built on restraint, space, and the particular intimacy of two voices circling each other. Jamie xx's production frames Romy Madley Croft and Oliver Sim's vocals with minimalist electronic arrangements that feel simultaneously delicate and enormous. Their live shows are events: atmospheric, deliberate, and emotionally overwhelming in a way that has nothing to do with volume.",
   trivia: [
     {
-      emoji: "🏫",
-      fact: "Romy, Oliver, and Jamie all met at Elliot School in London — the band formed entirely among childhood friends.",
-    },
-    {
-      emoji: "🏆",
-      fact: "Their debut album xx won the Mercury Prize in 2010 — one of the youngest and most surprising winners in the award's history.",
-    },
-    {
-      emoji: "🎵",
-      fact: "'Intro' became one of the most licensed instrumental tracks of the 2010s, appearing in film trailers, TV shows, and viral moments worldwide.",
+      emoji: "🌑",
+      fact: "Their live show is defined by extreme minimalism — dark staging, spare lighting, and deliberate silence used as a compositional element. The effect in a large outdoor space is genuinely counterintuitive.",
     },
     {
       emoji: "🎛️",
-      fact: "Jamie xx also has a celebrated solo career — his album In Colour (2015) is considered one of the decade's finest electronic releases.",
+      fact: "Watching Jamie xx operate live gives you a different understanding of The xx's sound — his electronic contributions are as composed and intentional as any guitar part Romy plays.",
+    },
+    {
+      emoji: "🤫",
+      fact: "They're one of the few festival acts where the quietest moments on stage generate more tension than most artists' loudest ones — stillness is a deliberate performance choice, not a gap.",
     },
   ],
   appearance: {
@@ -857,19 +781,15 @@ const aespa: Artist = {
   trivia: [
     {
       emoji: "🤖",
-      fact: "The group's concept centers on each member having an AI avatar counterpart — the 'æ' versions exist in a parallel digital world called the 'KWANGYA.'",
+      fact: "The group's concept centers on each member having an AI avatar counterpart — the 'æ' versions exist in a parallel digital world called the 'KWANGYA,' and the lore is woven directly into their live productions.",
     },
     {
-      emoji: "📈",
-      fact: "'Black Mamba' set a record for the fastest SM Entertainment music video to reach 100 million YouTube views.",
+      emoji: "🎬",
+      fact: "Their stage productions integrate the virtual universe narrative — screens, choreography, and set design coordinate to make the show feel like an event inside their fictional world, not just a pop concert.",
     },
     {
-      emoji: "🌍",
-      fact: "The group spans four nationalities — Karina and Winter are Korean, Giselle is Japanese-Korean, and Ningning is Chinese.",
-    },
-    {
-      emoji: "🎵",
-      fact: "'Next Level' originally appeared in the Fast & Furious: Spy Racers soundtrack and was reimagined by aespa into one of the most memorable K-pop tracks of 2021.",
+      emoji: "🎤",
+      fact: "'Next Level' live is one of K-pop's most reliable crowd moments — the melody crosses language barriers and becomes a singalong regardless of whether the audience knows the words.",
     },
   ],
   appearance: {
