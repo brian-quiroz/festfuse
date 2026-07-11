@@ -651,9 +651,14 @@ const empireOfTheSun: Artist = {
   origin: "Sydney, Australia",
   tagline: "Theatrical cosmic pop that turns every festival into a spectacle.",
   socials: {},
-  whySee: [],
-  whatToExpect: [],
-  bestFor: [],
+  whySee: [
+    "A multi-sensory visual odyssey featuring high-concept choreography, legendary cinematic costumes, and otherworldly lighting architecture",
+    "The grand festival return of one of electronic pop's most legendary live acts, armed with multi-platinum legacy stadium anthems",
+    "Hear the soaring, transformative live debuts of their highly anticipated 2024 studio return, Ask That God, under the sunset skyline",
+    "An pure shot of celebratory, outdoor festival escapism that unifies tens of thousands of fans into one dancing crowd"
+  ],
+  whatToExpect: ["Theatrical stage costumes", "Massive electronic singalongs", "Surreal cinematic visual loops", "High-energy festival energy"],
+  bestFor: ["Electronic pop fans", "Visual theater lovers", "Sunset golden hour dancers", "Legacy anthem hunters", "High-octane crowds"],
   similarArtists: [],
   tracks: [
     { name: "Walking on a Dream", album: "Walking on a Dream", duration: "" },
@@ -680,9 +685,14 @@ const wetLeg: Artist = {
   origin: "Isle of Wight, UK",
   tagline: "Dry wit, big riffs, and the best debut in recent memory.",
   socials: {},
-  whySee: [],
-  whatToExpect: [],
-  bestFor: [],
+  whySee: [
+    "Witness the sharp, live evolution of a two-time Grammy-winning powerhouse expanding their signature indie sound on the mainstage",
+    "The global festival premiere of their razor-sharp, critically acclaimed 2025 sophomore studio triumph, Moisturizer",
+    "A masterclass in dry, sarcastic British wit matched with massive, fuzzed-out indie rock guitar riffs",
+    "Unrivaled crowd momentum fueled by explosive, viral indie staples like 'Chaise Longue' and 'Wet Dream'"
+  ],
+  whatToExpect: ["Deadpan vocal delivery", "Heavy roaring guitar riffs", "Infectious indie dance floors", "Witty tongue-in-cheek lyrics"],
+  bestFor: ["Indie rock traditionalists", "Post-punk revival stans", "Fans of dry lyrical wit", "Afternoon mainstage music fans", "Guitar music lovers"],
   similarArtists: [],
   tracks: [
     { name: "Chaise Longue", album: "Wet Leg", duration: "" },
@@ -709,9 +719,14 @@ const worship: Artist = {
   origin: "United Kingdom",
   tagline: "Drum and bass' biggest names, B2B, all night.",
   socials: {},
-  whySee: [],
-  whatToExpect: [],
-  bestFor: [],
+  whySee: [
+    "Four of drum and bass' absolute elite titans sharing one single stage in a fluid, relentless four-way B2B performance",
+    "The standard-bearers of modern UK dancefloor culture delivering the heaviest bass-heavy set of the entire weekend",
+    "Hear the massive global festival unveiling of their highly anticipated, first-ever official group recording project",
+    "An absolute adrenaline-fueled masterclass in hyper-precise electronic sound design, tension, and massive structural bass releases"
+  ],
+  whatToExpect: ["Relentless four-way mixing", "Heavy underground dancefloor bass", "Massive laser field arrays", "Nonstop peak-time velocity"],
+  bestFor: ["Drum and bass purists", "Late-night warehouse ravers", "High-velocity dance seekers", "Electronic music lovers", "Sound design nerds"],
   similarArtists: [],
   tracks: [
     { name: "Ready to Fly", album: "Evolve", duration: "" },
@@ -738,9 +753,14 @@ const bloodOrange: Artist = {
   origin: "London, UK",
   tagline: "Genre-fluid R&B from New York's most restlessly creative artist.",
   socials: {},
-  whySee: [],
-  whatToExpect: [],
-  bestFor: [],
+    whySee: [
+    "Dev Hynes' first extensive live festival outing in over six years, bringing an elite alternative collective to Grant Park",
+    "A live rendering of his gorgeous, star-studded 2025 masterpiece Essex Honey, blending despondent bliss with lush instrumentation",
+    "Experience the genre-fluid genius of an avant-garde mastermind who has written and produced for pop's top tier royalty",
+    "Deeply cinematic, soulful indie arrangements that act as a gorgeous, intimate emotional oasis amid festival chaos"
+  ],
+  whatToExpect: ["Lush alternative R&B grooves", "Cinematic instrumental setups", "Intimate vulnerable vocal runs", "Sophisticated avant-garde jazz"],
+  bestFor: ["Alternative R&B purists", "Lovers of deep songwriting", "Vibe-focused afternoon loungers", "Indie music fans", "Production credit followers"],
   similarArtists: [],
   tracks: [
     { name: "Champagne Coast", album: "Coastal Grooves", duration: "" },
@@ -767,9 +787,14 @@ const fiveSecondsOfSummer: Artist = {
   origin: "Sydney, Australia",
   tagline: "Four friends from Sydney who've grown up on stage.",
   socials: {},
-  whySee: [],
-  whatToExpect: [],
-  bestFor: [],
+  whySee: [
+    "A seasoned, stadium-proven live outfit celebrating fifteen years of explosive anthems on a massive mainstage scale",
+    "Hear the live premiere of their clever, self-aware 2025 sixth studio effort, Everyone's a Star!",
+    "Unrivaled crowd singalongs driven by massive global generation-defining radio chart-toppers like 'Youngblood'",
+    "High-energy pop-punk grit seamlessly married to exceptionally tight, polished modern rock musicianship"
+  ],
+  whatToExpect: ["Massive stadium pop singalongs", "High-octane pop-punk energy", "Polished arena production scale", "Tight multi-part vocal harmonies"],
+  bestFor: ["Pop-punk nostalgia lovers", "Mainstream rock devotees", "Massive group singalong seekers", "High-visibility mainstage crowds", "Pop music lovers"],
   similarArtists: [],
   tracks: [
     { name: "She Looks So Perfect", album: "5 Seconds of Summer", duration: "" },
@@ -796,9 +821,14 @@ const kettama: Artist = {
   origin: "Galway, Ireland",
   tagline: "Big-hearted house anthems built for the floor.",
   socials: {},
-  whySee: [],
-  whatToExpect: [],
-  bestFor: [],
+  whySee: [
+    "Ireland's premier electronic export brings a raw, high-tempo speed garage assault straight to the Perry's tent",
+    "The official tour run of his heavy, critically acclaimed late-2025 debut studio album statement, Archangel",
+    "Furious, fast-paced rhythm blocks designed purely to push underground club culture into massive festival crowds",
+    "Endorsed by heavy hitters globally, it stands as an elite option for absolute, raw electronic dancefloor momentum"
+  ],
+  whatToExpect: ["Driving speed garage loops", "Gritty UK club basslines", "High-velocity house grooves", "Raw unadulterated tent energy"],
+  bestFor: ["Speed garage house purists", "Underground club devotees", "Ravers hunting heavy bass", "Early afternoon tent starters", "Electronic music lovers"],
   similarArtists: [],
   tracks: [
     { name: "B. O. D. Y.", album: "Bucklyn Bridge", duration: "" },
@@ -825,9 +855,14 @@ const viagraBoys: Artist = {
   origin: "Stockholm, Sweden",
   tagline: "Controlled post-punk chaos, weaponized humor, and raw underground energy.",
   socials: {},
-  whySee: [],
-  whatToExpect: [],
-  bestFor: [],
+  whySee: [
+    "Stockholm's most feral post-punk outfit delivering a chaotic, satirical live show unmatched anywhere else on the bill",
+    "The premier festival showcase of their independent, punk-infused 2025 studio record, viagr aboys",
+    "Frontman Sebastian Murphy's unmatched, completely unhinged deadpan swagger and theatrical crowd command",
+    "A blistering, saxophone-fueled rock engine that transforms traditional mosh pits into performance art spectacles"
+  ],
+  whatToExpect: ["Feral post-punk instrumentation", "Biting dark satirical delivery", "Blistering fast saxophone riffs", "Completely unpredictable stage antics"],
+  bestFor: ["Post-punk garage rock heads", "Devotees of chaotic performance", "Mosh pit veterans", "Fans of dark humor", "Alternative rock fans"],
   similarArtists: [],
   tracks: [
     { name: "Sports", album: "Street Worms", duration: "3:58", artworkUrl: "/albums/viagra-boys/street-worms.jpg" },
@@ -854,9 +889,14 @@ const audreyHobert: Artist = {
   origin: "Los Angeles, California",
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like voice memos from your funniest friend.",
   socials: {},
-  whySee: [],
-  whatToExpect: [],
-  bestFor: [],
+  whySee: [
+    "Catch a hyper-gifted pop writer making her highly anticipated festival debut after co-writing Gracie Abrams' biggest hits",
+    "Hear the live execution of her brilliant, critically beloved 2025 RCA Records solo debut, Who's the Clown?",
+    "Be among the first to experience her brand new, unreleased summer single 'Wet Hair' performed live before its release",
+    "Razor-sharp, stream-of-consciousness lyrical indie pop that plays out like real voice memos from a best friend"
+  ],
+  whatToExpect: ["Intimate confessional lyricism", "Wordy hyper-specific indie pop", "Charming self-aware stage banter", "Warm emotional afternoon crowd"],
+  bestFor: ["Lyric songwriting obsessives", "Fans of contemporary bedroom pop", "Early breakout talent seekers", "Intimate storyteller set lovers", "Indie pop music fans"],
   similarArtists: [],
   tracks: [
     { name: "Sue Me", album: "Who's the Clown?", duration: "" },
