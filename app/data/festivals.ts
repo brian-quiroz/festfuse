@@ -3,5 +3,5 @@ export type Festival = {
 }
 
 export const festivals: Record<string, Festival> = {
-  lollapalooza: { name: "Lollapalooza 2026" },
+  "lollapalooza-2026": { name: "Lollapalooza 2026" },
 }

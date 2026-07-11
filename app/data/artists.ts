@@ -59,7 +59,7 @@ const jennie: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
     stage: "Bud Light",
     day: "Saturday",
@@ -127,7 +127,7 @@ const beabadoobee: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
     stage: "T-Mobile",
     day: "Sunday",
@@ -195,7 +195,7 @@ const majorLazer: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
     stage: "Perry's",
     day: "Saturday",
@@ -263,7 +263,7 @@ const lorde: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
     stage: "T-Mobile",
     day: "Friday",
@@ -331,7 +331,7 @@ const yoasobi: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
     stage: "Bud Light",
     day: "Sunday",
@@ -399,7 +399,7 @@ const sombr: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
     stage: "BMI Stage",
     day: "Saturday",
@@ -467,7 +467,7 @@ const leonThomas: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
     stage: "Perry's",
     day: "Friday",
@@ -535,7 +535,7 @@ const johnSummit: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
     stage: "Perry's",
     day: "Saturday",
@@ -603,7 +603,7 @@ const charliXcx: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
     stage: "T-Mobile",
     day: "Thursday",
@@ -671,7 +671,7 @@ const smashingPumpkins: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
     stage: "Bud Light",
     day: "Friday",
@@ -739,7 +739,7 @@ const oliviaDean: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
     stage: "Solana Stage",
     day: "Sunday",
@@ -807,7 +807,7 @@ const tateMcRae: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
     stage: "Bud Light",
     day: "Thursday",
@@ -875,7 +875,7 @@ const theXx: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
     stage: "T-Mobile",
     day: "Saturday",
@@ -943,7 +943,7 @@ const aespa: Artist = {
     },
   ],
   appearance: {
-    festivalId: "lollapalooza",
+    festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
     stage: "T-Mobile",
     day: "Friday",
