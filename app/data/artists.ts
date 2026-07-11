@@ -132,7 +132,7 @@ const majorLazer: Artist = {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
     stage: "Perry's",
-    day: "Saturday",
+    day: "Friday",
     date: "Jul 31",
     startTime: "8:30 PM",
     endTime: "9:45 PM",
@@ -178,10 +178,10 @@ const lorde: Artist = {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
     stage: "T-Mobile",
-    day: "Friday",
-    date: "Aug 1",
-    startTime: "9:00 PM",
-    endTime: "10:15 PM",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "8:30 PM",
+    endTime: "10:00 PM",
   },
 };
 
@@ -226,8 +226,8 @@ const yoasobi: Artist = {
     stage: "Bud Light",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "8:00 PM",
-    endTime: "9:15 PM",
+    startTime: "5:00 PM",
+    endTime: "6:00 PM",
   },
 };
 
@@ -269,11 +269,11 @@ const sombr: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
-    stage: "BMI Stage",
-    day: "Saturday",
-    date: "Aug 1",
-    startTime: "3:30 PM",
-    endTime: "4:30 PM",
+    stage: "T Mobile",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "6:30 PM",
+    endTime: "7:30 PM",
   },
 };
 
@@ -315,12 +315,12 @@ const leonThomas: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
-    stage: "Perry's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "7:00 PM",
-    endTime: "8:00 PM",
-  },
+    stage: "T-Mobile",
+    day: "Saturday",
+    date: "Aug 1",
+    startTime: "4:30 PM",
+    endTime: "5:30 PM",
+  }
 };
 
 const johnSummit: Artist = {
@@ -361,11 +361,11 @@ const johnSummit: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
-    stage: "Perry's",
-    day: "Saturday",
-    date: "Aug 1",
-    startTime: "10:00 PM",
-    endTime: "11:30 PM",
+    stage: "Bud Light",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "8:30 PM",
+    endTime: "10:00 PM",
   },
 };
 
@@ -408,10 +408,10 @@ const charliXcx: Artist = {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
     stage: "T-Mobile",
-    day: "Thursday",
-    date: "Jul 30",
-    startTime: "9:00 PM",
-    endTime: "10:15 PM",
+    day: "Friday",
+    date: "Jul 31",
+    startTime: "8:40 PM",
+    endTime: "10:00 PM",
   },
 };
 
@@ -499,11 +499,11 @@ const oliviaDean: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
-    stage: "Solana Stage",
-    day: "Sunday",
-    date: "Aug 2",
-    startTime: "4:00 PM",
-    endTime: "5:00 PM",
+    stage: "T-Mobile",
+    day: "Saturday",
+    date: "Aug 1",
+    startTime: "8:30 PM",
+    endTime: "10:00 PM",
   },
 };
 
@@ -545,11 +545,11 @@ const tateMcRae: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
-    stage: "Bud Light",
-    day: "Thursday",
-    date: "Jul 30",
-    startTime: "8:00 PM",
-    endTime: "9:00 PM",
+    stage: "T-Mobile",
+    day: "Sunday",
+    date: "Aug 2",
+    startTime: "8:45 PM",
+    endTime: "10:00 PM",
   },
 };
 
@@ -590,11 +590,11 @@ const theXx: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Headliner",
-    stage: "T-Mobile",
-    day: "Saturday",
-    date: "Aug 1",
-    startTime: "7:30 PM",
-    endTime: "9:00 PM",
+    stage: "Bud Light",
+    day: "Sunday",
+    date: "Aug 2",
+    startTime: "8:45 PM",
+    endTime: "10:00 PM",
   },
 };
 
@@ -636,11 +636,11 @@ const aespa: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
-    stage: "T-Mobile",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "6:00 PM",
-    endTime: "7:00 PM",
+    stage: "Allianz",
+    day: "Sunday",
+    date: "Aug 2",
+    startTime: "7:45 PM",
+    endTime: "8:45 PM",
   },
 };
 
@@ -664,12 +664,13 @@ const empireOfTheSun: Artist = {
     "Empire of the Sun is the Australian electronic duo of Luke Steele and Nick Littlemore, whose debut single 'Walking on a Dream' became one of the defining anthems of the late 2000s. Their sound blends lush synth-pop and art-rock with an extravagant visual world — elaborate costumes, ancient mythology, and cinematic fantasy. Four studio albums deep, from the sun-drenched 2008 debut to 2024's critically acclaimed 'Ask That God', their live show is a full theatrical production that transforms festival stages into otherworldly spectacles.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    stage: "",
-    day: "",
-    date: "",
-    startTime: "",
-    endTime: "",
-  },
+    billingTier: "Sub-headliner",
+    stage: "Bud Light",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "6:45 PM",
+    endTime: "7:45 PM",
+  }
 };
 
 const wetLeg: Artist = {
@@ -692,12 +693,13 @@ const wetLeg: Artist = {
     "Wet Leg is the British indie duo of Rhian Teasdale and Hester Chambers, formed on the Isle of Wight and launched into the spotlight with 'Chaise Longue' — a deadpan, guitar-driven viral hit from 2021. Their 2022 self-titled debut won the Grammy for Best Alternative Music Album and established them as one of the most exciting voices in indie rock: sardonic, sharp, and deeply hooky. Their 2025 follow-up 'Moisturizer', produced by Dan Carey, expanded the band to a five-piece and debuted at number one in the UK.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    stage: "",
-    day: "",
-    date: "",
-    startTime: "",
-    endTime: "",
-  },
+    billingTier: "Sub-headliner",
+    stage: "Allianz",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "7:30 PM",
+    endTime: "8:30 PM",
+  }
 };
 
 const worship: Artist = {
@@ -720,12 +722,13 @@ const worship: Artist = {
     "Formed as a live collective touring concept in 2020, WORSHIP officially solidified their four-way B2B supergroup format during their massive breakout 2024 North American tour, before graduating to global festival mainstages as a unified recording project in 2026.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    stage: "",
-    day: "",
-    date: "",
-    startTime: "",
-    endTime: "",
-  },
+    billingTier: "Sub-headliner",
+    stage: "Perry's",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "8:30 PM",
+    endTime: "9:45 PM",
+  }
 };
 
 const bloodOrange: Artist = {
@@ -748,12 +751,13 @@ const bloodOrange: Artist = {
     "Blood Orange is the project of British-born, New York-based Dev Hynes — a restlessly creative songwriter, producer, and director whose music sits at the intersection of soul, R&B, pop, and art-rock. Since debuting in 2011 with Coastal Grooves, Hynes has built one of the most singular bodies of work in contemporary music, blending lush instrumentation with deeply personal explorations of identity, race, and belonging. His collaborators read like a who's who of the avant-garde, and his 2025 album Essex Honey — featuring Caroline Polachek, Lorde, and Mustafa — added another chapter to a discography that only gets richer.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    stage: "",
-    day: "",
-    date: "",
-    startTime: "",
-    endTime: "",
-  },
+    billingTier: "Sub-headliner",
+    stage: "Bud Light",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "4:45 PM",
+    endTime: "5:45 PM",
+  }
 };
 
 const fiveSecondsOfSummer: Artist = {
@@ -776,12 +780,13 @@ const fiveSecondsOfSummer: Artist = {
     "5 Seconds of Summer — Luke Hemmings, Calum Hood, Ashton Irwin, and Michael Clifford — formed in Sydney in 2011 and have spent over a decade proving that pop-punk energy and genuine songcraft can coexist. What began as a teenage YouTube project evolved into a global phenomenon. Their 2018 album Youngblood redefined their sound with darker, polished pop production, while their 2025 sixth album Everyone's a Star! found them poking wry fun at their own boy-band origins. At festivals, 5SOS are reliably massive — a crowd who has grown up alongside the band and will sing every word.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    stage: "",
-    day: "",
-    date: "",
-    startTime: "",
-    endTime: "",
-  },
+    billingTier: "Sub-headliner",
+    stage: "T-Mobile",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "4:30 PM",
+    endTime: "5:30 PM",
+  }
 };
 
 const kettama: Artist = {
@@ -804,12 +809,13 @@ const kettama: Artist = {
     "KETTAMA is the alias of Evan Campbell, a DJ and producer from Galway, Ireland who has become one of the most exciting figures in contemporary house music. His 2018 breakthrough 'B O D Y' went viral after plays from Mall Grab and Annie Mac, and he has since built a catalog of high-energy bangers rooted in UK garage and speed garage. His 2025 debut album Archangel — released on Steel City Dance Discs and featuring collaborations with DJ Heartstring, Interplanetary Criminal, and Prospa — crystallised his sound into a full-length statement.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    stage: "",
-    day: "",
-    date: "",
-    startTime: "",
-    endTime: "",
-  },
+    billingTier: "Undercard",
+    stage: "Perry's",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "7:00 PM",
+    endTime: "8:00 PM",
+  }
 };
 
 const viagraBoys: Artist = {
@@ -832,12 +838,13 @@ const viagraBoys: Artist = {
     "Viagra Boys are a Swedish art-punk outfit led by frontman Sebastian Murphy, celebrated for their feral live energy, biting social satire, and completely irreverent attitude. Following a string of critically adored releases including 'Street Worms' (2018) and 'Cave World' (2022), the band launched their own independent imprint, Shrimptech Enterprises, to drop their fourth studio album 'viagr aboys' in 2025. Shifting their focus from acid-laced external commentary to absurd inward reflections, their live set is a relentless, saxophone-fueled masterclass in theatrical punk rock mayhem.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    stage: "",
-    day: "",
-    date: "",
-    startTime: "",
-    endTime: "",
-  },
+    billingTier: "Undercard",
+    stage: "Airbnb",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "9:00 PM",
+    endTime: "10:00 PM",
+  }
 };
 
 const audreyHobert: Artist = {
@@ -860,12 +867,13 @@ const audreyHobert: Artist = {
     "Audrey Hobert is a Los Angeles-based singer-songwriter who first captured global pop attention co-writing breakout hits on Gracie Abrams' 2024 album 'The Secret of Us'. Her 2025 RCA Records debut album 'Who's the Clown?' established her as a refreshingly sharp, self-aware solo force, weaponizing hyper-specific mid-twenties anxieties into wonderfully playful pop anthems. Following a massive run on television and the extension of her acclaimed 'Staircase to Stardom' tour, her live set delivers painfully honest lyricism backed by elite, high-energy pop instrumentation.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    stage: "",
-    day: "",
-    date: "",
-    startTime: "",
-    endTime: "",
-  },
+    billingTier: "Undercard",
+    stage: "Allianz",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "5:30 PM",
+    endTime: "6:30 PM",
+  }
 };
 
 export const allArtists: Artist[] = [
