@@ -4,10 +4,9 @@ import { useState } from "react";
 import type { Artist } from "@/app/types/artist";
 import OverviewTab from "./OverviewTab";
 import TriviaTab from "./TriviaTab";
-import StatsTab from "./StatsTab";
 import FloatingCards from "./FloatingCards";
 
-const TABS = ["Overview", "Stats", "Trivia"] as const;
+const TABS = ["Overview", "Trivia"] as const;
 type Tab = (typeof TABS)[number];
 
 export default function ArtistContent({ artist }: { artist: Artist }) {
@@ -36,7 +35,6 @@ export default function ArtistContent({ artist }: { artist: Artist }) {
       <div className="flex gap-10 items-start">
         <div className="flex-1 min-w-0">
           {active === "Overview" && <OverviewTab artist={artist} />}
-          {active === "Stats" && <StatsTab artist={artist} />}
           {active === "Trivia" && <TriviaTab artist={artist} />}
         </div>
 

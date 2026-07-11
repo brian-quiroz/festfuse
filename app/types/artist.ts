@@ -23,11 +23,6 @@ export type Artist = {
     instagram?: string
     twitter?: string
   }
-  metrics: {
-    monthlyListeners: string
-    topTrack: string
-    latestRelease: string
-  }
   whySee: string[]
   whatToExpect: string[]
   bestFor: string[]

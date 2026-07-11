@@ -14,11 +14,6 @@ const jennie: Artist = {
     instagram: "#",
     twitter: "#",
   },
-  metrics: {
-    monthlyListeners: "18.5M",
-    topTrack: "SOLO",
-    latestRelease: "Ruby (2025)",
-  },
   whySee: [
     "Global K-pop icon making her solo debut on the festival stage — a historic moment",
     "Sharp choreography and high-fashion production that rival any pop headline act",
@@ -81,11 +76,6 @@ const beabadoobee: Artist = {
     spotify: "https://open.spotify.com/artist/35l9BRT7MXmM8bv2WDQiyB",
     instagram: "#",
     twitter: "#",
-  },
-  metrics: {
-    monthlyListeners: "3.8M",
-    topTrack: "Care",
-    latestRelease: "This Is How Tomorrow Starts (2024)",
   },
   whySee: [
     "Catch her before she's headlining — Beabadoobee is on the cusp of breaking through",
@@ -150,11 +140,6 @@ const majorLazer: Artist = {
     instagram: "#",
     twitter: "#",
   },
-  metrics: {
-    monthlyListeners: "12.1M",
-    topTrack: "Lean On",
-    latestRelease: "Music Is the Weapon (Reloaded) (2021)",
-  },
   whySee: [
     "Lean On live — one of the most-streamed songs ever, in a field with 50,000 people singing every word",
     "A full-blown spectacle: confetti cannons, pyrotechnics, and crowd surfers from minute one",
@@ -217,11 +202,6 @@ const lorde: Artist = {
     spotify: "https://open.spotify.com/artist/163tK9Wjr9P9DmM0AVK7lm",
     instagram: "#",
     twitter: "#",
-  },
-  metrics: {
-    monthlyListeners: "6.1M",
-    topTrack: "Royals",
-    latestRelease: "Solar Power (2021)",
   },
   whySee: [
     "One of the sharpest songwriters of her generation — every lyric earns its place",
@@ -286,11 +266,6 @@ const yoasobi: Artist = {
     instagram: "#",
     twitter: "#",
   },
-  metrics: {
-    monthlyListeners: "10.3M",
-    topTrack: "Idol",
-    latestRelease: "THE BOOK 3 (2024)",
-  },
   whySee: [
     "Idol — one of the biggest songs on the planet — performed live by the duo who made it",
     "Their concept is unlike anyone else at the festival: every song adapts a Japanese short story into music",
@@ -353,11 +328,6 @@ const sombr: Artist = {
     spotify: "#",
     instagram: "#",
     twitter: "#",
-  },
-  metrics: {
-    monthlyListeners: "1.8M",
-    topTrack: "back to friends",
-    latestRelease: "I Barely Know Her",
   },
   whySee: [
     "Catch him at this size — the intimacy won't last once the world fully catches up",
@@ -422,11 +392,6 @@ const leonThomas: Artist = {
     instagram: "#",
     twitter: "#",
   },
-  metrics: {
-    monthlyListeners: "8.3M",
-    topTrack: "wine & spirits",
-    latestRelease: "MUTT (2023)",
-  },
   whySee: [
     "One of the most naturally gifted vocalists performing anywhere this weekend",
     "MUTT landed as one of 2023's most acclaimed R&B albums — hear it live before it becomes legacy material",
@@ -489,11 +454,6 @@ const johnSummit: Artist = {
     spotify: "#",
     instagram: "#",
     twitter: "#",
-  },
-  metrics: {
-    monthlyListeners: "6.4M",
-    topTrack: "La Danza",
-    latestRelease: "Comfort (2022)",
   },
   whySee: [
     "One of the fastest-rising DJs in the world — a Perry's set that will define the weekend",
@@ -558,11 +518,6 @@ const charliXcx: Artist = {
     instagram: "#",
     twitter: "#",
   },
-  metrics: {
-    monthlyListeners: "17.2M",
-    topTrack: "360",
-    latestRelease: "brat (2024)",
-  },
   whySee: [
     "brat was the defining album of its summer — see it become a live phenomenon",
     "One of the most boundary-pushing pop performers working today, with a genuinely iconoclastic vision",
@@ -625,11 +580,6 @@ const smashingPumpkins: Artist = {
     spotify: "#",
     instagram: "#",
     twitter: "#",
-  },
-  metrics: {
-    monthlyListeners: "5.5M",
-    topTrack: "Bullet with Butterfly Wings",
-    latestRelease: "ATUM: A Rock Opera in Three Acts (2023)",
   },
   whySee: [
     "One of the greatest rock catalogues of the 1990s, performed by the band that built it",
@@ -694,11 +644,6 @@ const oliviaDean: Artist = {
     instagram: "#",
     twitter: "#",
   },
-  metrics: {
-    monthlyListeners: "4.2M",
-    topTrack: "Dive",
-    latestRelease: "Messy (2023)",
-  },
   whySee: [
     "A voice that stops people mid-stride — genuinely one of the best singers performing this weekend",
     "Messy is a debut album full of career-defining songs — catch it while it still feels new",
@@ -761,11 +706,6 @@ const tateMcRae: Artist = {
     spotify: "#",
     instagram: "#",
     twitter: "#",
-  },
-  metrics: {
-    monthlyListeners: "16.1M",
-    topTrack: "greedy",
-    latestRelease: "So Close to What (2025)",
   },
   whySee: [
     "A trained dancer performing her own choreography — pop excellence that's athletic and total",
@@ -830,11 +770,6 @@ const theXx: Artist = {
     instagram: "#",
     twitter: "#",
   },
-  metrics: {
-    monthlyListeners: "8.7M",
-    topTrack: "Intro",
-    latestRelease: "I See You (2017)",
-  },
   whySee: [
     "'Intro' live is a transformative experience — few pieces of music do more with less",
     "One of the most atmospheric live shows in existence: minimal staging, maximal feeling",
@@ -897,11 +832,6 @@ const aespa: Artist = {
     spotify: "#",
     instagram: "#",
     twitter: "#",
-  },
-  metrics: {
-    monthlyListeners: "9.4M",
-    topTrack: "Supernova",
-    latestRelease: "Whiplash (2024)",
   },
   whySee: [
     "The most conceptually ambitious K-pop act on the circuit — an AI-meets-reality universe unlike anything else in pop",
