@@ -4,7 +4,9 @@ import AlbumArtwork from "@/app/components/ui/AlbumArtwork";
 
 function TrackRow({ track, isLast }: { track: Artist["tracks"][number]; isLast: boolean }) {
   return (
-    <div className={`flex items-center gap-4 py-4 group ${!isLast ? "border-b border-white/5" : ""}`}>
+    <div
+      className={`flex items-center gap-4 py-4 group ${!isLast ? "border-b border-white/5" : ""}`}
+    >
       <button className="flex-shrink-0 rounded-md">
         <AlbumArtwork artworkUrl={track.artworkUrl} alt={track.name} size={44} />
       </button>
@@ -20,7 +22,6 @@ function TrackRow({ track, isLast }: { track: Artist["tracks"][number]; isLast: 
 export default function OverviewTab({ artist }: { artist: Artist }) {
   return (
     <div className="space-y-12 pb-12">
-
       {/* Row 1 — Why See | Listen First */}
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-x-6 gap-y-8">
         <section>
@@ -31,7 +32,9 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
           <ul className="space-y-3.5">
             {artist.whySee.map((point, i) => (
               <li key={i} className="flex items-start gap-2.5">
-                <span className="text-[#00E5FF]/60 text-sm leading-relaxed flex-shrink-0 mt-px">→</span>
+                <span className="text-[#00E5FF]/60 text-sm leading-relaxed flex-shrink-0 mt-px">
+                  →
+                </span>
                 <span className="text-sm text-white/72 leading-relaxed">{point}</span>
               </li>
             ))}
@@ -96,7 +99,6 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
         </h3>
         <p className="text-sm text-white/70 leading-relaxed">{artist.about}</p>
       </section>
-
     </div>
   );
 }

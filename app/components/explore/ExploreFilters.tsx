@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Search, ChevronDown, SlidersHorizontal } from "lucide-react"
+import { useState } from "react";
+import { Search, ChevronDown, SlidersHorizontal } from "lucide-react";
 
 export default function ExploreFilters() {
-  const [activeFilter, setActiveFilter] = useState("All")
+  const [activeFilter, setActiveFilter] = useState("All");
 
-  const dropdownFilters = ["Genre", "Day", "Stage"]
+  const dropdownFilters = ["Genre", "Day", "Stage"];
 
   return (
     <div className="space-y-3">
@@ -58,5 +58,5 @@ export default function ExploreFilters() {
         </button>
       </div>
     </div>
-  )
+  );
 }

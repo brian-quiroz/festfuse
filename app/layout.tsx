@@ -12,14 +12,10 @@ export const metadata: Metadata = {
   description: "Build your perfect festival lineup",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={jakarta.variable}>
-      <body className="min-h-screen bg-[#110D24] text-white antialiased">
-        {children}
-      </body>
+      <body className="min-h-screen bg-[#110D24] text-white antialiased">{children}</body>
     </html>
   );
 }

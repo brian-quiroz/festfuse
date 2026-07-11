@@ -16,7 +16,9 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
     setNotes(value);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      try { localStorage.setItem(`notes:${artist.slug}`, value); } catch {}
+      try {
+        localStorage.setItem(`notes:${artist.slug}`, value);
+      } catch {}
       setSavedVisible(true);
       if (fadeRef.current) clearTimeout(fadeRef.current);
       fadeRef.current = setTimeout(() => setSavedVisible(false), 2000);
@@ -27,7 +29,6 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
 
   return (
     <div className="space-y-4">
-
       {/* Playing At */}
       <div className="rounded-2xl border border-[#00E5FF]/20 bg-[#00E5FF]/6 p-5">
         <h3 className="flex items-center gap-1.5 text-xs font-semibold text-[#00E5FF]/55 uppercase tracking-widest mb-3.5">
@@ -35,10 +36,14 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
           Playing At
         </h3>
         <div className="space-y-2.5">
-          <div className="text-sm font-semibold text-white">{festivals[appearance.festivalId]?.name}</div>
+          <div className="text-sm font-semibold text-white">
+            {festivals[appearance.festivalId]?.name}
+          </div>
           <div className="flex items-center justify-between">
             <span className="text-xs text-white/35">Date</span>
-            <span className="text-xs text-white/75">{appearance.day}, {appearance.date}</span>
+            <span className="text-xs text-white/75">
+              {appearance.day}, {appearance.date}
+            </span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs text-white/35">Time</span>
@@ -97,7 +102,6 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
           className="w-full bg-white/4 border border-white/8 rounded-xl px-3 py-2.5 text-sm text-white/80 placeholder-white/25 resize-none outline-none focus:border-[#00E5FF]/30 transition-colors leading-relaxed"
         />
       </div>
-
     </div>
   );
 }

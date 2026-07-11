@@ -4,11 +4,7 @@ import Sidebar from "@/app/components/Sidebar";
 import ArtistHero from "@/app/components/artist/ArtistHero";
 import ArtistContent from "@/app/components/artist/ArtistContent";
 
-export default async function ArtistPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ArtistPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const artist = artistsBySlug[slug];
 

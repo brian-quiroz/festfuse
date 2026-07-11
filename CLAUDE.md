@@ -8,16 +8,19 @@ Every feature should reduce the friction of those decisions.
 ## Stack
 
 ### Frontend
+
 - Next.js
 - React
 - TypeScript
 - Tailwind CSS
 
 ### Backend (planned)
+
 - FastAPI
 - Python
 
 ### Database (planned)
+
 - PostgreSQL
 
 ---
@@ -52,16 +55,20 @@ Discovery should feel exciting, playful, and premium rather than like filling ou
 FestFuse intentionally separates discovery into distinct experiences rather than combining everything into one screen.
 
 ### Explore
+
 Curious, self-directed discovery.
 Browse the festival lineup, filter artists, and follow your curiosity in a low-pressure environment.
 
 ### Artist Detail
+
 Editorial deep dive.
 Build excitement and confidence around a single artist. This page should inspire rather than compare.
 
 ### Quick Picks
+
 Guided decision making.
 Present artists one at a time with just enough information to confidently decide:
+
 - Pass
 - Interested
 - Must See
@@ -73,6 +80,7 @@ Favor forward progress over exhaustive review. Provide lightweight error recover
 The button confirmation is the emotional hierarchy. The card transition is the flow hierarchy. The direction already carries meaning. Don’t add personality on top of geometry.
 
 ### Festival Artifact
+
 Celebrate the user's festival journey.
 Summarize their taste, discoveries, and decisions in a memorable, shareable format.
 
@@ -104,6 +112,7 @@ Examples:
 - Links and navigational affordances
 
 Cyan should communicate:
+
 > "Here's something to discover or use."
 
 ---
@@ -122,6 +131,7 @@ Examples:
 - Festival Artifact highlights
 
 Yellow should communicate:
+
 > "This reflects your taste."
 
 ---
@@ -141,6 +151,7 @@ Examples:
 Avoid using hot pink for standard navigation or persistent actions.
 
 Hot pink should communicate:
+
 > "This is exciting."
 
 ---
@@ -160,6 +171,7 @@ Examples:
 Avoid decorative use of red.
 
 Red should communicate:
+
 > "Pay attention."
 
 ---

@@ -11,7 +11,12 @@ export default function ArtistActions() {
   const [heartVisible, setHeartVisible] = useState(false);
   const cascadeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => () => { if (cascadeRef.current) clearTimeout(cascadeRef.current); }, []);
+  useEffect(
+    () => () => {
+      if (cascadeRef.current) clearTimeout(cascadeRef.current);
+    },
+    []
+  );
 
   const handleMustSee = () => {
     if (cascadeRef.current) clearTimeout(cascadeRef.current);

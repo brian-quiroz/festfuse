@@ -3,8 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Home, Search, Zap, BarChart2, Calendar,
-  Star, Heart, CircleCheck, TriangleAlert,
+  Home,
+  Search,
+  Zap,
+  BarChart2,
+  Calendar,
+  Star,
+  Heart,
+  CircleCheck,
+  TriangleAlert,
 } from "lucide-react";
 
 const navItems = [
@@ -18,8 +25,20 @@ const navItems = [
 const myFestivalItems = [
   { label: "Must See", count: 18, Icon: Star, color: "#E8FF47", bg: "rgba(232,255,71,0.10)" },
   { label: "Saved", count: 42, Icon: Heart, color: "#E8FF47", bg: "rgba(232,255,71,0.10)" },
-  { label: "Scheduled", count: 29, Icon: CircleCheck, color: "#00E5FF", bg: "rgba(0,229,255,0.10)" },
-  { label: "Conflicts", count: 3, Icon: TriangleAlert, color: "#FF6B6B", bg: "rgba(255,107,107,0.12)" },
+  {
+    label: "Scheduled",
+    count: 29,
+    Icon: CircleCheck,
+    color: "#00E5FF",
+    bg: "rgba(0,229,255,0.10)",
+  },
+  {
+    label: "Conflicts",
+    count: 3,
+    Icon: TriangleAlert,
+    color: "#FF6B6B",
+    bg: "rgba(255,107,107,0.12)",
+  },
 ];
 
 export default function Sidebar() {
@@ -32,7 +51,6 @@ export default function Sidebar() {
 
   return (
     <aside className="w-60 flex-shrink-0 h-full bg-[#1B1535] border-r border-[#2D2556] flex flex-col">
-
       {/* Logo */}
       <div className="px-6 py-6 flex-shrink-0">
         <span className="text-xl font-extrabold tracking-tight">
@@ -43,7 +61,6 @@ export default function Sidebar() {
 
       {/* Scrollable middle */}
       <div className="flex-1 overflow-y-auto">
-
         {/* Main nav */}
         <nav className="px-3 pb-2 space-y-0.5">
           {navItems.map(({ label, href, Icon }) => {
@@ -79,7 +96,9 @@ export default function Sidebar() {
               type="button"
               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#6B6893] hover:text-white hover:bg-[#231C45] transition-colors"
             >
-              <span style={{ color }}><Icon size={15} strokeWidth={2} /></span>
+              <span style={{ color }}>
+                <Icon size={15} strokeWidth={2} />
+              </span>
               <span className="flex-1 text-left">{label}</span>
               <span
                 className="text-[10px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full"
@@ -94,15 +113,18 @@ export default function Sidebar() {
         {/* Festival card */}
         <div className="px-3 pt-3 pb-5">
           <div className="rounded-xl border border-[#2D2556] bg-[#231C45] p-3.5">
-            <div className="text-sm font-semibold text-white leading-tight mb-0.5">Lollapalooza 2026</div>
-            <div className="text-[11px] text-[#6B6893] mb-3">Jul 30 – Aug 2 · Grant Park · Chicago</div>
+            <div className="text-sm font-semibold text-white leading-tight mb-0.5">
+              Lollapalooza 2026
+            </div>
+            <div className="text-[11px] text-[#6B6893] mb-3">
+              Jul 30 – Aug 2 · Grant Park · Chicago
+            </div>
             <div className="h-1 rounded-full bg-[#2D2556] overflow-hidden mb-1.5">
               <div className="h-full w-[67%] rounded-full bg-[#00E5FF]" />
             </div>
             <div className="text-[10px] text-[#6B6893]">67% planned</div>
           </div>
         </div>
-
       </div>
 
       {/* Profile */}
@@ -117,7 +139,6 @@ export default function Sidebar() {
           </div>
         </div>
       </div>
-
     </aside>
   );
 }
