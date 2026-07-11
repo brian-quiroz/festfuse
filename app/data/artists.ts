@@ -1737,6 +1737,1005 @@ const amble: Artist = {
   },
 };
 
+const kingfishr: Artist = {
+  name: "Kingfishr",
+  slug: "kingfishr",
+  genres: ["Indie Folk", "Alternative Folk"],
+  origin: "Limerick, Ireland",
+  tagline: "Epic, stadium-scale acoustic indie folk built on soaring cinematic poetry.",
+  socials: {},
+  whySee: [
+    "The absolute vanguard of the current Irish acoustic movement making an immensely anticipated debut on the American festival circuit",
+    "Eddie Keogh's deeply resonant, earth-shaking baritone vocals cutting right through the open afternoon air of Grant Park",
+    "Experience a rapidly escalating independent phenomenon that has built a fierce cult reputation for emotionally overwhelming live sets",
+    "A gorgeous, towering wall of acoustic guitar and masterfully layered banjo hooks that makes standard folk acts feel quiet by comparison",
+  ],
+  whatToExpect: [
+    "Resonant baritone vocals",
+    "Epic acoustic structures",
+    "Cinematic banjo progressions",
+    "Intense poetic imagery",
+  ],
+  bestFor: [
+    "Indie folk purists",
+    "Lyric and narrative obsessives",
+    "Acoustic music traditionalists",
+    "Early afternoon discovery seekers",
+    "Alternative rock enthusiasts",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Eyes Don't Lie", album: "Live From Dublin", duration: "" },
+    { name: "Anyway", album: "Anyway", duration: "" },
+    { name: "Shadow", album: "Shadow", duration: "" },
+  ],
+  about:
+    "Kingfishr is the Limerick-born alternative folk project consisting of Eddie Keogh, Eoghan McGrath, and Eoin Fitzgibbon, who emerged from their university dorms to become one of European acoustic music's most staggeringly successful breakout vanguards. Pairing the raw, structural weight of stadium-scale indie rock with traditional Irish folk textures, the trio writes sweeping tales of pride, identity, and interpersonal grief. Behind the instruments, their performance delivers an immediate, cinematic wall of sound that translates perfectly to monumental festival stages.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Tito's",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "1:45 PM",
+    endTime: "2:45 PM",
+  },
+};
+
+const ninajirachi: Artist = {
+  name: "Ninajirachi",
+  slug: "ninajirachi",
+  genres: ["Hyperpop", "Club", "Electronic"],
+  origin: "Central Coast, Australia",
+  tagline: "Glitchy, hyper-futuristic club music delivered at terminal velocity.",
+  socials: {},
+  whySee: [
+    "Australia's premier electronic auteur bringing a boundary-pushing, hyper-glossy club sermon directly to the mid-afternoon crowd",
+    "Experience an elite display of syncopated percussion blocks, metallic baseline steps, and brilliantly pitch-shifted vocal arrays",
+    "A masterclass in avant-garde sound design that bridges left-field bedroom hyperpop with heavy, warehouse-ready techno infrastructure",
+    "The absolute blueprint for where electronic pop culture is heading next, delivered by an intensely innovative pioneer",
+  ],
+  whatToExpect: [
+    "Glitchy retro-futuristic loops",
+    "Brutal metallic basslines",
+    "High-velocity hyperpop swing",
+    "Blinding aesthetic visuals",
+  ],
+  bestFor: [
+    "Left-field club traditionalists",
+    "Hyperpop culture purists",
+    "Electronic production gear nerds",
+    "High-velocity energy seekers",
+    "Underground electronic collectors",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Start Small", album: "Second Nature", duration: "" },
+    { name: "Watermelo", album: "Blumiere EP", duration: "" },
+    { name: "Shatter", album: "4x4", duration: "" },
+  ],
+  about:
+    "Nina Wilson, performing under the moniker Ninajirachi, has spent the modern electronic era standing as one of the global underground's most fiercely creative and technologically precise sound designers. Emerging from Australia's left-field club network, her hyper-stylized brand of dance music completely shatters traditional genre boundaries by fusing pristine pop melodies with dark, abrasive percussive patterns. From running her own independent label initiatives to producing for avant-garde heavyweights, her live festival sets are relentless, adrenaline-fueled journeys into tomorrow's rave landscape.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Airbnb",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "4:00 PM",
+    endTime: "4:45 PM",
+  },
+};
+
+const hauteAndFreddy: Artist = {
+  name: "haute & freddy",
+  slug: "haute-and-freddy",
+  genres: ["Dance Pop", "House", "Electronic"],
+  origin: "Paris, France",
+  tagline: "Sleek, runway-ready French electronic pop built for the open air.",
+  socials: {},
+  whySee: [
+    "The absolute definition of modern French electronic polish making a high-visibility crossover statement on the mainstage",
+    "A perfectly synchronized live-electronic set that balances deep, driving baseline grooves with incredibly infectious vocal hooks",
+    "Experience a chic, hyper-stylized dance floor environment that translates European underground club ethos onto an enormous scale",
+    "The ultimate high-energy afternoon catalyst designed perfectly to unify a massive, moving festival crowd under the sun",
+  ],
+  whatToExpect: [
+    "Sleek house rhythms",
+    "Runway-ready visual loops",
+    "Infectious dance-pop choruses",
+    "Pristine electronic soundscapes",
+  ],
+  bestFor: [
+    "Dance pop enthusiasts",
+    "French house purists",
+    "High-visibility mainstage crowds",
+    "Afternoon groove hunters",
+    "Electronic music culture lovers",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "U Want", album: "haute & freddy", duration: "" },
+    { name: "Late Night", album: "Late Night", duration: "" },
+    { name: "Paris Express", album: "Rouge", duration: "" },
+  ],
+  about:
+    "haute & freddy is the Paris-born electronic collaboration whose meticulous combination of classic French house loops, sleek tech-house grooves, and high-fashion aesthetics has captured global dance floor attention. Originally breaking out of the underground fashion show circuit, the duo rapidly scaled their project into a major recording statement by blending timeless analog synthesizers with modern pop precision. Live, their project strips away unnecessary club pretension, delivering a beautifully crisp, high-tempo celebration of modern European dance design.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "T-Mobile",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "2:30 PM",
+    endTime: "3:30 PM",
+  },
+};
+
+const bellaKay: Artist = {
+  name: "Bella Kay",
+  slug: "bella-kay",
+  genres: ["Alt-Pop", "Dark Pop", "Indie Pop"],
+  origin: "Los Angeles, California",
+  tagline: "Vulnerable, shadow-drenched bedroom alt-pop for late-night overthinkers.",
+  socials: {},
+  whySee: [
+    "Catch a hyper-gifted independent lyricist executing a deeply atmospheric, confessional performance on the BMI stage",
+    "Songwriting that lands like an intense, unguarded voice memo tracking the complex textures of young romance and identity",
+    "A stunning afternoon oasis that pairs delicate, close-mic'd vocal textures with unexpectedly heavy electronic drops",
+    "The official festival tour run introducing her highly celebrated independent studio catalog to a massive live audience",
+  ],
+  whatToExpect: [
+    "Vulnerable vocal runs",
+    "Shadow-drenched synth pads",
+    "Intimate storyteller banter",
+    "Deeply personal lyricism",
+  ],
+  bestFor: [
+    "Contemporary bedroom pop fans",
+    "Lyric and narrative obsessives",
+    "Intimate emotional set hunters",
+    "Chill afternoon groove seekers",
+    "Fans of alternative pop",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Overthinking", album: "Shadows", duration: "" },
+    { name: "Ghost Town", album: "Shadows", duration: "" },
+    { name: "Bleach", album: "Bleach", duration: "" },
+  ],
+  about:
+    "Bella Kay is a Los Angeles-based singer-songwriter who built an intensely passionate internet community through her hyper-specific, diaristic brand of dark bedroom pop. Rooted in the emotional intimacy of close-mic'd acoustic elements but filtered through rich, brooding alternative electronic arrangements, her tracks explore the vulnerabilities of youth culture with profound honesty. Operating completely independent of major label machinery, her live festival execution transforms sprawling fields into intimate, shared listening sessions.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "BMI",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "4:30 PM",
+    endTime: "5:10 PM",
+  },
+};
+
+const marlonFunaki: Artist = {
+  name: "Marlon Funaki",
+  slug: "marlon-funaki",
+  genres: ["Indie Rock", "Surf Rock", "Blues Rock"],
+  origin: "Orange County, California",
+  tagline: "Fuzzed-out surf rock grit married to blistering, soulful blues guitar mastery.",
+  socials: {},
+  whySee: [
+    "An absolute masterclass in raw, traditional showmanship driven by a generation-defining young guitar virtuoso",
+    "Blistering, extended psychedelic blues solos that recall classic rock legends but delivered with a modern indie snarl",
+    "Experience an intensely passionate, high-energy live rock engine that completely bypasses processed backing tracks",
+    "A rare, guitar-driven underground discovery set that will leave music traditionalists completely floored by the talent",
+  ],
+  whatToExpect: [
+    "Blistering guitar solos",
+    "Raw fuzzed-out rock riffs",
+    "Soulful bluesy vocals",
+    "High-energy power trio pacing",
+  ],
+  bestFor: [
+    "Guitar music purists",
+    "Indie rock traditionalists",
+    "Surf and psych rock heads",
+    "Live instrument devotees",
+    "Early afternoon moshers",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Summering", album: "Marlon Funaki", duration: "" },
+    { name: "Prone", album: "Prone", duration: "" },
+    { name: "Escapism", album: "Escapism", duration: "" },
+  ],
+  about:
+    "Marlon Funaki is an Orange County-born singer, songwriter, and guitar technician whose brilliant blend of nostalgic surf rock distortion, raw garage indie, and virtuosic blues patterns has earned him a devoted independent following. Operating with the physical vocabulary of a seasoned road warrior, Funaki commands the stage with an extraordinary instrumental authority that feels completely analog. Backed by a relentless power-trio setup, his live performances are thrilling reminders of pure, raw, guitar-driven adrenaline.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Airbnb",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "1:50 PM",
+    endTime: "2:30 PM",
+  },
+};
+
+const devault: Artist = {
+  name: "Devault",
+  slug: "devault",
+  genres: ["Industrial House", "Dark Techno", "Electronic"],
+  origin: "Orange County, California",
+  tagline: "Dark, cinematic industrial techno that turns early evenings into warehouse raves.",
+  socials: {},
+  whySee: [
+    "A hyper-dark, cinematic electronic sermon that injects intense, late-night warehouse energy straight into the evening lineup",
+    "Sage DeVault's flawless engineering style delivering the most calculated, punishing baseline grooves of the day on Tito's",
+    "Experience a masterclass in gothic electronic ambiance, metallic midtempo techno structures, and dark vocal samples",
+    "The absolute premier alternative option for electronic fans hunting heavy, stylized atmospheric warehouse tension",
+  ],
+  whatToExpect: [
+    "Punishing industrial bass",
+    "Gothic midtempo techno steps",
+    "Cinematic dark visual backdrops",
+    "Hypnotic electronic pacing",
+  ],
+  bestFor: [
+    "Dark techno purists",
+    "Industrial electronic enthusiasts",
+    "Ravers hunting heavy bass",
+    "Late evening club veterans",
+    "Sound design infrastructure nerds",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Runway", album: "Stay", duration: "" },
+    { name: "Between The Lines", album: "Between The Lines", duration: "" },
+    { name: "Strom", album: "Strom", duration: "" },
+  ],
+  about:
+    "Sage DeVault, operating under the singular moniker Devault, has carved out an exceptionally prominent space as electronic music's premier merchant of cinematic darkness. Blending the heavy, metallic weight of industrial house with the nostalgic, cold textures of late-80s new wave and gothic techno, his meticulously engineered tracks possess a distinct narrative tension. Highly sought after for his official atmospheric remixes for major pop icons, his live festival environments function as blindingly intense, strobe-lit audio-visual spectacles.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Tito's",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "7:45 PM",
+    endTime: "8:30 PM",
+  },
+};
+
+const sb19: Artist = {
+  name: "SB19",
+  slug: "sb19",
+  genres: ["P-Pop", "Pop", "Dance Pop"],
+  origin: "Manila, Philippines",
+  tagline:
+    "The historic Kings of P-pop delivering flawless, hyper-synchronized vocal and dance mastery.",
+  socials: {},
+  whySee: [
+    "A historic milestone performance as the first-ever Filipino act to grace the Lollapalooza stage, making live music history",
+    "Mind-blowing, world-class choreography executed with flawless, military-grade precision across an entirely high-energy set",
+    "Pablo, Stell, Ken, Justin, and Josh bringing their legendary multi-octave vocal harmonies live to an intense, dedicated fanbase",
+    "An absolute stadium-proven spectacle packed with explosive charisma, seamless dance breakdowns, and soaring pop hooks",
+  ],
+  whatToExpect: [
+    "Hyper-synchronized group choreography",
+    "Exceptional live multi-octave vocals",
+    "High-fashion cinematic performance staging",
+    "Intense, roaring fan-base energy",
+  ],
+  bestFor: [
+    "P-pop and K-pop devotees",
+    "Precision dance performance lovers",
+    "Mainstream global pop enthusiasts",
+    "Monumental historical milestone seekers",
+    "High-octane choreography fans",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "GENTO", album: "PAGTATAG!", duration: "" },
+    { name: "MAPA", album: "Pagsibol", duration: "" },
+    { name: "MOONLIGHT", album: "MOONLIGHT", duration: "" },
+  ],
+  about:
+    "SB19 is the historic, self-managed Filipino boy band consisting of Pablo, Josh, Stell, Ken, and Justin, whose fiercely independent path and world-class performance training launched them into global pop prominence. Breaking barriers as the first Southeast Asian act nominated at the Billboard Music Awards, the quintet completely re-wrote the rules of the domestic music landscape with their multi-platinum, genre-fluid execution. Fresh off their massive trilogy concert finales, their highly anticipated afternoon performance brings an absolute masterclass in live theatrical vocal execution and intense, unbroken pop velocity.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Allianz",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "3:30 PM",
+    endTime: "4:30 PM",
+  },
+};
+
+const eccaVandal: Artist = {
+  name: "Ecca Vandal",
+  slug: "ecca-vandal",
+  genres: ["Punk Rock", "Alternative Hip-Hop", "Electronic Rock"],
+  origin: "Melbourne, Australia",
+  tagline: "A ferocious, genre-shattering riot of heavy punk riffs and abrasive hip-hop grit.",
+  socials: {},
+  whySee: [
+    "The absolute ultimate alternative live wildcard of the afternoon, delivering an intensely aggressive sonic collision of punk and rap",
+    "Ecca Vandal's magnetic, completely untamed stage presence that commands absolute mosh-pit chaos from a crowd",
+    "Experience a brilliant, boundary-pushing soundscape that channels the raw energy of Beastie Boys and the heavy distortion of electronic rock",
+    "Blistering live vocal delivery backed by razor-sharp instrumentation designed purely to shock and awaken the senses",
+  ],
+  whatToExpect: [
+    "Aggressive heavy guitar distortion",
+    "Ferocious rap-rock vocal delivery",
+    "Explosive main-field mosh pits",
+    "High-octane alternative electronic beats",
+  ],
+  bestFor: [
+    "Riot-grrrl punk purists",
+    "Alternative hip-hop enthusiasts",
+    "Devotees of chaotic stage performance",
+    "Mosh pit traditionalists",
+    "High-velocity rock seekers",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Broke", album: "Ecca Vandal", duration: "" },
+    { name: "Future You", album: "Ecca Vandal", duration: "" },
+    { name: "Pricey", album: "Ecca Vandal", duration: "" },
+  ],
+  about:
+    "Ecca Vandal is the South African-born, Melbourne-raised alternative powerhouse whose unapologetic fusion of aggressive post-punk instrumentation, alternative hip-hop lyricism, and abrasive electronic sub-bass has earned her critical acclaim from rock purists globally. Defying strict genre boxes, she crafts a high-tension sonic universe built around raw, confrontational storytelling and deeply political subtext. Backed by a relentless live touring setup, her afternoon performance stands as a fierce, adrenaline-fueled masterclass in pure, unadulterated live counter-culture showmanship.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Airbnb",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "2:50 PM",
+    endTime: "3:30 PM",
+  },
+};
+
+const badNerves: Artist = {
+  name: "Bad Nerves",
+  slug: "bad-nerves",
+  genres: ["Power Pop", "Garage Rock", "Punk Rock"],
+  origin: "London, England",
+  tagline:
+    "Hyper-speed, distortion-soaked power pop garage rock delivered like a lightning strike.",
+  socials: {},
+  whySee: [
+    "London's premier garage-punk sensation bringing a relentless, hyper-fast guitar assault straight to the Allianz stage",
+    "Experience incredibly infectious, melody-heavy punk anthems played at an absolute terminal, breathtaking velocity",
+    "A masterclass in traditional analog band energy that channels the rapid-fire hooks of The Ramones with a sharp, modern indie rock snarl",
+    "A non-stop, high-octane rock catalyst built around sharp distortion, massive group choruses, and pure adrenaline",
+  ],
+  whatToExpect: [
+    "Hyper-speed punk tempos",
+    "Massive melodic garage hooks",
+    "Blistering dual-guitar riffs",
+    "Relentless nonstop rock pacing",
+  ],
+  bestFor: [
+    "Garage rock traditionalists",
+    "Power pop hook fanatics",
+    "Punk and indie rock stans",
+    "High-energy afternoon moshers",
+    "Guitar music purists",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Can't Be Happy", album: "Bad Nerves", duration: "" },
+    { name: "Baby Drummer", album: "Bad Nerves", duration: "" },
+    { name: "Antidote", album: "Still Nervous", duration: "" },
+  ],
+  about:
+    "Bad Nerves is the London-born five-piece rock outfit whose hyper-speed blend of distorted garage punk grit and glittering, power-pop melodic hooks has earned them a reputation as one of the most exciting live rock bands in the UK. Writing music that operates with the urgent pacing of a racing pulse, the band relies on incredibly crisp dual-guitar layers and rapid-fire lyricism. Coming off massive, widely talked-about international support slots, their early afternoon performance provides a thrilling, beautifully raw antidote to overprocessed festival pop.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Allianz",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "1:30 PM",
+    endTime: "2:30 PM",
+  },
+};
+
+const asha_banks: Artist = {
+  name: "Asha Banks",
+  slug: "asha-banks",
+  genres: ["Indie Pop", "Singer-Songwriter"],
+  origin: "London, England",
+  tagline: "Stunning, whisper-close confessional indie pop tracking the messy textures of youth.",
+  socials: {},
+  whySee: [
+    "Catch an exceptional independent lyricist executing a deeply atmospheric, storyteller-style performance on the mainstage",
+    "Songwriting that lands like an intense, unguarded voice memo tracking the complex vulnerabilities of modern romance",
+    "A beautiful, sun-drenched early afternoon oasis that pairs delicate vocal textures with soaring indie pop melodies",
+    "The official premier festival tour run showcasing her highly celebrated independent studio catalog to an international crowd",
+  ],
+  whatToExpect: [
+    "Intimate confessional lyricism",
+    "Warm organic guitar strums",
+    "Charming self-aware stage banter",
+    "Lush dreamy vocal arrangements",
+  ],
+  bestFor: [
+    "Lyric and songwriting obsessives",
+    "Fans of contemporary bedroom pop",
+    "Early afternoon discovery seekers",
+    "Intimate emotional story devotees",
+    "Indie pop music collectors",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Something In Between", album: "Something In Between", duration: "" },
+    { name: "I'm Just A Ghost", album: "Something In Between", duration: "" },
+    { name: "Too Old For This", album: "Something In Between", duration: "" },
+  ],
+  about:
+    "Asha Banks is a London-born singer-songwriter who built an intensely passionate global community through her hyper-specific, beautifully diaristic brand of contemporary indie pop. Rooted in the emotional intimacy of close-mic'd acoustic infrastructure but elevated by bright, modern pop production, her tracks dissect the anxieties and shifting dynamics of young adulthood with profound precision. Handpicked for a massive global breakout tour cycle, her early mainstage set transforms a sprawling festival lawn into an intimate, shared bedroom listening session.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "T-Mobile",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "12:45 PM",
+    endTime: "1:30 PM",
+  },
+};
+
+const faouzia: Artist = {
+  name: "Faouzia",
+  slug: "faouzia",
+  genres: ["Pop", "Dark Pop", "Chamber Pop"],
+  origin: "Casablanca, Morocco",
+  tagline:
+    "A breathtakingly cinematic, three-octave vocal powerhouse commanding tragic dark pop melodies.",
+  socials: {},
+  whySee: [
+    "Witness one of the most technically gifted, jaw-dropping vocalists performing anywhere across the entire weekend",
+    "Faouzia's operatic, powerhouse vocal delivery effortlessly filling the open air with staggering emotional power",
+    "A beautifully dramatic, orchestrally layered sonic experience that seamlessly fuses contemporary pop with traditional Moroccan modal textures",
+    "Experience the raw, bone-chilling crowd energy driven by intense, massive dark-pop stadium singalongs",
+  ],
+  whatToExpect: [
+    "Stunning three-octave vocal runs",
+    "Cinematic dark-pop melodies",
+    "Dramatic theatrical stage presence",
+    "Richly layered orchestral backdrops",
+  ],
+  bestFor: [
+    "Pop vocal purists",
+    "Fans of dramatic dark pop",
+    "Chamber pop music lovers",
+    "Early afternoon mainstage seekers",
+    "Devotees of cinematic storytelling",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Tears of Gold", album: "CITIZEN", duration: "" },
+    { name: "RIP, Love", album: "CITIZEN", duration: "" },
+    { name: "Minefields", album: "Minefields", duration: "" },
+  ],
+  about:
+    "Faouzia Ouihya, performing under the singular moniker Faouzia, is a Moroccan-born, Canadian-raised singer-songwriter and multi-instrumentalist whose extraordinary vocal range and tragi-comic cinematic pop anthems have earned her global multi-platinum acclaim. Fusing traditional Arab vocal ornamentation with heavy, contemporary dark-pop instrumentation and sharp piano lines, she writes sweeping tales of resilience, loss, and emotional autonomy. Commands the stage with profound, operatic authority, her early afternoon set stands as an undeniable showcase of pristine musical power.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Tito's",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "12:15 PM",
+    endTime: "1:00 PM",
+  },
+};
+
+const eveningElephants: Artist = {
+  name: "Evening Elephants",
+  slug: "evening-elephants",
+  genres: ["Indie Pop", "Alternative Hip-Hop", "Indie Rock"],
+  origin: "Los Angeles, California",
+  tagline:
+    "Sun-drenched indie rock hooks floating over crisp hip-hop grooves for endless summer vibes.",
+  socials: {},
+  whySee: [
+    "The absolute perfect early evening vibe catalyst bringing a hyper-catchy, genre-fluid party directly to the BMI stage",
+    "Dreamy, shimmering indie guitar lines gliding effortlessly over crisp, low-slung alternative hip-hop rhythm sections",
+    "A loose, remarkably fun and charismatic live performance built specifically to celebrate carefree youth culture",
+    "The ultimate sunset groove opportunity designed to get groups of friends dancing as the skyline begins to light up",
+  ],
+  whatToExpect: [
+    "Shimmering indie rock guitar loops",
+    "Crisp alternative hip-hop beats",
+    "Infectious casual vocal melodies",
+    "Upbeat sunset party energy",
+  ],
+  bestFor: [
+    "Indie pop music fans",
+    "Alternative hip-hop lovers",
+    "Vibe-focused evening dancers",
+    "Groups of friends partying",
+    "Chill summer melody seekers",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Life Is Good", album: "Evening Elephants", duration: "" },
+    { name: "Spit It Out", album: "Evening Elephants", duration: "" },
+    { name: "Float", album: "Float", duration: "" },
+  ],
+  about:
+    "Evening Elephants is the Los Angeles-based alternative project whose meticulous combination of hazy indie rock guitar hooks, crisp hip-hop rhythm pockets, and carefree lyricism has fostered a deeply dedicated independent community. Forging a distinctively laid-back, sun-drenched sonic universe, the outfit crafts tracks that feel simultaneously nostalgic and deeply current. Performing a prime sunset slot, their live execution transforms the tree-lined perimeter of Grant Park into a vibrant, high-energy outdoor block party.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "BMI",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "6:50 PM",
+    endTime: "7:30 PM",
+  },
+};
+
+const pearlyDrops: Artist = {
+  name: "Pearly Drops",
+  slug: "pearly-drops",
+  genres: ["Dream Pop", "Electro-Pop", "Indie Electronica"],
+  origin: "Helsinki, Finland",
+  tagline: "Dreamlike, feverish electro-pop designed to bottle up a sense of beautiful isolation.",
+  socials: {},
+  whySee: [
+    "The premier live American festival showcase of Sandra Tervonen and Juuso Malin's surreal, feverish bedroom pop universe",
+    "Haunting, pitch-perfect vocal textures floating effortlessly over cold, meticulously layered analog synthesizers",
+    "Experience a cult-favorite Nordic synth-pop phenomenon hot off the heels of their highly praised studio statement, The Voices Are Coming Back",
+    "A gorgeous, intensely atmospheric midday set that transforms the open air into an intimate, dream-like club haven",
+  ],
+  whatToExpect: [
+    "Dreamlike synth soundscapes",
+    "Ethereal vocal loops",
+    "Surreal cinematic visual backing",
+    "Intimate avant-garde club energy",
+  ],
+  bestFor: [
+    "Left-field dream pop fans",
+    "Nordic electronic enthusiasts",
+    "Lyric and narrative obsessives",
+    "Early afternoon discovery seekers",
+    "Lo-fi synth-pop collectors",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Delusional On Sunset Blvd", album: "The Voices Are Coming Back", duration: "" },
+    { name: "Ratgirl", album: "The Voices Are Coming Back", duration: "" },
+    { name: "Bloom", album: "Call For Help", duration: "" },
+  ],
+  about:
+    "Pearly Drops is the Helsinki-born avant-pop collaboration of Sandra Tervonen and Juuso Malin, whose unique formula of hazy, tape-warped electro-pop and diaristic indie electronica has captured global underground attention. Writing with a distinct sense of beautiful nostalgia, the duo crafts tracks that focus on losing one's identity while chasing dreams under modern neon skylines. Celebrating their third full-length masterwork 'The Voices Are Coming Back', their early afternoon set translates raw bedroom intimacy into a beautifully crisp, outdoor electronic experience.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Allianz",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "12:00 PM",
+    endTime: "12:45 PM",
+  },
+};
+
+const bixby: Artist = {
+  name: "Bixby",
+  slug: "bixby",
+  genres: ["Alt-Pop", "R&B", "Indie Pop"],
+  origin: "Los Angeles, California",
+  tagline: "Glitched-out R&B vocals running over intense, guitar-driven internet indie-pop energy.",
+  socials: {},
+  whySee: [
+    "Catch one of the fastest-rising visionaries of the alternative pop sphere executing a hyper-kinetic, high-energy live band set",
+    "Experience the thrilling live execution of his massive 2026 international headline run, The Marvel of The Century! Showtour",
+    "A seamless vocal display trading between soulful, low-slung R&B runs and explosive, fuzzed-out indie rock guitar choruses",
+    "An absolute catalyst of youthful energy, complete with intense, localized crowd mosh pits on the Bud Light lawn",
+  ],
+  whatToExpect: [
+    "Glitchy retro-futuristic visuals",
+    "Explosive guitar-pop hooks",
+    "Sultry R&B vocal melodies",
+    "High-octane energetic crowd pits",
+  ],
+  bestFor: [
+    "Contemporary bedroom pop fans",
+    "Alternative R&B enthusiasts",
+    "High-energy afternoon moshers",
+    "Internet indie culture purists",
+    "Guitar music lovers",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "desire", album: "desire", duration: "" },
+    { name: "are you weeping?", album: "the marvel of the century", duration: "" },
+    { name: "endlessly", album: "the marvel of the century", duration: "" },
+  ],
+  about:
+    "bixby is the moniker of singer, songwriter, and multi-instrumentalist producer whose meticulous combination of slick internet-pop textures, raw indie rock, and modern R&B vocal deliveries has cultivated a fierce global community. Breaking out through a series of viral single drops before completely elevating his production style into a full-scale rock band statement, his sound explores heartbreak and ambition with hyper-specific honesty. Fresh off his massive tour cycle, his early afternoon slot delivers an absolute masterclass in unadulterated indie-pop momentum.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Bud Light",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "1:00 PM",
+    endTime: "1:45 PM",
+  },
+};
+
+const penelopeRoad: Artist = {
+  name: "Penelope Road",
+  slug: "penelope-road",
+  genres: ["Indie Folk", "Alternative Rock", "Chamber Pop"],
+  origin: "Nashville, Tennessee",
+  tagline:
+    "Towering, multi-instrumental indie folk built around explosive, orchestral rock releases.",
+  socials: {},
+  whySee: [
+    "A staggering, beautifully raw live folk-rock engine making an immensely anticipated debut on the Lollapalooza bill",
+    "Sweeping, cinematic instrumental arrangements that trade effortlessly between quiet acoustic guitar lines and roaring rock crescendos",
+    "Experience deeply poetic storytelling that functions like a stark, emotional essay on the complex vulnerabilities of youth",
+    "The official festival tour run highlighting their widely discussed new studio material under the Nettwerk Music banner",
+  ],
+  whatToExpect: [
+    "Rich multi-instrumental layers",
+    "Towering emotional rock drops",
+    "Intimate confessional vocals",
+    "Lush acoustic-folk infrastructure",
+  ],
+  bestFor: [
+    "Indie folk traditionalists",
+    "Lyric and narrative obsessives",
+    "Alternative rock enthusiasts",
+    "Acoustic music purists",
+    "Early afternoon discovery seekers",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Winyah", album: "Penelope Road", duration: "" },
+    { name: "Daisies", album: "Penelope Road", duration: "" },
+    { name: "Backseat", album: "Penelope Road", duration: "" },
+  ],
+  about:
+    "Penelope Road is the alternative folk collective whose combination of stark acoustic traditionalism, rich chamber-pop strings, and heavy indie rock dynamics has earned widespread critical adoration. Signing into the esteemed Nettwerk roster, the group maps a deeply evocative sonic universe centered around personal identity, modern isolation, and landscape poetry. Coming off high-profile co-headlining tour packages, their afternoon performance brings an absolute wall of orchestral sound that fills giant open festival fields with effortless power.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Airbnb",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "12:50 PM",
+    endTime: "1:30 PM",
+  },
+};
+
+const knowGood: Artist = {
+  name: "Know Good",
+  slug: "know-good",
+  genres: ["Future Bass", "Trap", "Electronic"],
+  origin: "Los Angeles, California",
+  tagline: "Dark, dynamic future bass and trap infused with heavy, genre-defying rhythms.",
+  socials: {},
+  whySee: [
+    "A blistering, high-velocity bass assault bringing intense warehouse electronic energy straight to the mid-day Perry's tent",
+    "The product of cousins Tanner and Sylas Morgan executing a flawless live blend of heavy electronic production and sharp verses",
+    "Experience a genre-defying performance that pulses with rolling low frequencies woven through alternative rock and hip-hop samples",
+    "An absolute, non-stop dance accelerator designed purely to push underground trap culture into massive festival spaces",
+  ],
+  whatToExpect: [
+    "Punishing low-frequency bass",
+    "Hyper-precise trap rhythms",
+    "Frenetic electronic sound design",
+    "Nonstop high-velocity pacing",
+  ],
+  bestFor: [
+    "Trap and future bass purists",
+    "Underground club music devotees",
+    "High-velocity dance seekers",
+    "Tent starters hunting bass loops",
+    "Electronic sound design nerds",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Bodies", album: "BIG MODERN!", duration: "" },
+    { name: "Bulls On Parade - Remix", album: "Bulls On Parade", duration: "" },
+    { name: "Dust", album: "Dust", duration: "" },
+  ],
+  about:
+    "KNOW GOOD is the electronic project of cousins Tanner and Sylas Morgan, who forged their sound out of a family musical legacy to emerge as a prominent force in the heavy dance scene. Blending the earth-shaking low-end bass of contemporary trap and future bass with sharp lyrical verses and multi-instrumental mastery, the duo delivers a dynamic sonic package. Backed by their highly talked-about single profiles, their live electronic festival environment completely strips away commercial EDM polish for pure, raw underground club energy.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Perry's",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "12:45 PM",
+    endTime: "1:30 PM",
+  },
+};
+
+const elizabethNichols: Artist = {
+  name: "Elizabeth Nichols",
+  slug: "elizabeth-nichols",
+  genres: ["Country", "Alternative Folk", "Singer-Songwriter"],
+  origin: "Nashville, Tennessee",
+  tagline: "Grounded, cheekily titled country storytelling built on timeless vocal authority.",
+  socials: {},
+  whySee: [
+    "A rising country standout bringing her highly celebrated Grand Ole Opry debut charisma straight to Grant Park",
+    "The official festival tour preview showcasing her debut headlining trek, the I Don't Kiss and Tell, I Kiss and Tour Tour",
+    "Razor-sharp country lyrics that trade on absolute emotional honesty, modern wit, and incredible acoustic guitar hooks",
+    "A stunning afternoon oasis that pairs traditional acoustic instrumentation with a truly monumental, timeless singing voice",
+  ],
+  whatToExpect: [
+    "Grounded country vocals",
+    "Witty tongue-in-cheek lyricism",
+    "Charming Southern stage banter",
+    "Tight acoustic multi-part layers",
+  ],
+  bestFor: [
+    "Traditional country music purists",
+    "Lyric and storytelling obsessives",
+    "Fans of alternative folk songwriting",
+    "Early afternoon discovery seekers",
+    "Intimate emotional set hunters",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Voodoo", album: "Voodoo", duration: "" },
+    { name: "Kiss & Tell", album: "Kiss & Tell", duration: "" },
+    { name: "Stay True", album: "Stay True", duration: "" },
+  ],
+  about:
+    "Elizabeth Nichols is a Nashville-based country singer-songwriter whose brilliant combination of traditional roots, modern storytelling wit, and jaw-dropping vocal authority has sparked widespread critical acclaim. Forging a distinctively cheekily titled lyrical universe that dissects romance and identity, Nichols commands the stage with the effortless confidence of a seasoned Opry veteran. Preparing for her extensive headlining autumn tour blocks, her early afternoon set provides a refreshing, beautifully authentic performance that cuts cleanly through standard festival pop noise.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "BMI",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "3:20 PM",
+    endTime: "4:00 PM",
+  },
+};
+
+const klo: Artist = {
+  name: "KLO",
+  slug: "klo",
+  genres: ["Trap", "Dubstep", "Electronic"],
+  origin: "Chicago, Illinois",
+  tagline:
+    "Aggressive hometown trap flips and distorted electronic bass loops designed to shatter tents.",
+  socials: {},
+  whySee: [
+    "A premier hometown electronic opener firing up the Perry's tent at high noon with punishing underground energy",
+    "Experience an elite display of distorted trap steps, high-velocity dubstep rolls, and viral, independent sound designs",
+    "A masterclass in technical deck manipulation, heavy syncopated basslines, and chaotic, bass-heavy club paces",
+    "The absolute perfect early-day adrenaline booster for ravers looking for heavy bass muscle from the very first minute",
+  ],
+  whatToExpect: [
+    "Punishing industrial basslines",
+    "Hyper-fast hometown trap flips",
+    "Blinding early strobe effects",
+    "Nonstop high-velocity mixing",
+  ],
+  bestFor: [
+    "Trap and dubstep traditionalists",
+    "Hometown electronic music devotees",
+    "High-velocity ravers hunting bass",
+    "Early afternoon tent starters",
+    "Sound design infrastructure nerds",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "TARTAN - Klo Flip", album: "Klo Flips", duration: "" },
+    { name: "Vandal", album: "Vandal", duration: "" },
+    { name: "Static", album: "Static", duration: "" },
+  ],
+  about:
+    "KLO is a Chicago-born electronic producer and DJ whose raw brand of underground trap flips, distorted dubstep architecture, and aggressive percussive sound design has rapidly turned heads across the alternative bass scene. Rooted deeply in the localized Soundcloud production culture, his engineering shifts away from standard commercial templates toward deep, structural low-frequency weights. Earning a highly coveted hometown opening slot on Perry's stage, his performance serves as a blistering, high-tempo celebration of modern heavy bass infrastructure.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Perry's",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "12:00 PM",
+    endTime: "12:30 PM",
+  },
+};
+
+const theBraymores: Artist = {
+  name: "The Braymores",
+  slug: "the-braymores",
+  genres: ["Alternative Rock", "Folk Rock", "Indie Rock"],
+  origin: "Chicago, Illinois",
+  tagline:
+    "Hometown indie-rock anthems fusing driving alternative grit with timeless folk-rock poetry.",
+  socials: {},
+  whySee: [
+    "A massive, highly anticipated hometown showcase performance on the BMI stage celebrating their rapid ascent in the indie world",
+    "Vocalist Matt Tilles' raw, soaring vocal delivery cutting through a wall of masterfully layered dual-guitar melodies",
+    "Experience the live, energetic debuts of new music from their highly anticipated upcoming studio project, When The Lights Went Out",
+    "An absolute masterclass in traditional analog band chemistry that treats giant festival fields like intimate local basement clubs",
+  ],
+  whatToExpect: [
+    "Driving dual-guitar hooks",
+    "Soaring alt-rock vocals",
+    "Rich folk-rock storytelling",
+    "High-energy hometown camaraderie",
+  ],
+  bestFor: [
+    "Indie rock traditionalists",
+    "Folk rock enthusiasts",
+    "Hometown scene supporters",
+    "Guitar music purists",
+    "Midday festival field dancers",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Talking to Trees", album: "Talking to Trees EP", duration: "" },
+    { name: "Who You'd Have Been", album: "Who You'd Have Been", duration: "" },
+    { name: "When The Lights Went Out", album: "When The Lights Went Out", duration: "" },
+  ],
+  about:
+    "The Braymores are the Chicago-born alternative rock quartet comprising Matt Tilles, Keegan Melaniphy, Russell Oren, and Connor Kohanzo, whose meticulous blend of fuzzed-out indie grit and traditional folk-rock songwriting has earned them major industry representation. Breaking out locally with their brilliant debut record 'Who You'd Have Been', the group writes sweeping, emotionally honest tales of personal history, identity, and midwestern isolation. Hot off the heels of major label distribution deals, their early afternoon performance brings a beautifully raw, guitar-driven masterclass to Grant Park.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "BMI",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "1:00 PM",
+    endTime: "1:40 PM",
+  },
+};
+
+const chalk: Artist = {
+  name: "Chalk",
+  slug: "chalk",
+  genres: ["Post-Punk", "Industrial Techno", "Gothic Rock"],
+  origin: "Belfast, Northern Ireland",
+  tagline:
+    "A terrifyingly brilliant, blistering collision of jagged post-punk guitars and industrial techno loops.",
+  socials: {},
+  whySee: [
+    "An absolute dark live wildcard of the evening lineup, delivering an intensely aggressive sonic assault unlike anything else on the bill",
+    "Ross Cullen's feral, spoken-word poetic delivery racing over Benedict Goddard's brutally heavy, industrial noise foundations",
+    "The official premier American showcase run introducing the towering sonic weight of their debut album statement, Crystalpunk",
+    "A blistering, blindingly intense live landscape that completely transforms a festival mosh pit into performance art theater",
+  ],
+  whatToExpect: [
+    "Distorted electronic basslines",
+    "Jagged post-punk riffs",
+    "Feral spoken-word delivery",
+    "Blinding industrial strobe fields",
+  ],
+  bestFor: [
+    "Industrial techno traditionalists",
+    "Gothic post-punk heads",
+    "Mosh pit veterans",
+    "Devotees of chaotic stage performance",
+    "Left-field electronic collectors",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Conditions", album: "Conditions EP", duration: "" },
+    { name: "Static", album: "Crystalpunk", duration: "" },
+    { name: "Velvet", album: "Crystalpunk", duration: "" },
+  ],
+  about:
+    "CHALK is the award-winning Belfast-born duo consisting of Ross Cullen and Benedict Goddard, whose uncompromising fusion of gritty Irish and German electronic techno infrastructure, gothic rock poetry, and jagged noise guitars has sent shockwaves through the European underground. Drawing intense atmospheric parallels between dark warehouse rave culture and confrontational punk rock showmanship, their landmark full-length debut 'Crystalpunk' crystallized their status as critical darlings. Behind the instruments, their live environment strips away all pop pretense for an adrenaline-fueled, industrial punk sermon.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "BMI",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "5:40 PM",
+    endTime: "6:20 PM",
+  },
+};
+
+const simonGrossmann: Artist = {
+  name: "Simon Grossmann",
+  slug: "simon-grossmann",
+  genres: ["Latin Pop", "Indie Folk", "Tropicalia"],
+  origin: "Caracas, Venezuela",
+  tagline: "Sun-drenched, melancholic Latin indie folk built around intimate, raspy storytelling.",
+  socials: {},
+  whySee: [
+    "Catch an exceptional bilingual lyricist bringing a beautifully warm, beach-side indie pop oasis directly to the afternoon lineup",
+    "Grossmann's distinctively raspy, soulful vocal delivery wrapping seamlessly around rich, close-mic'd acoustic arrangements",
+    "Experience a cult-favorite singer-songwriter celebrated for crafting laid-back, deeply nostalgic anthems that connect across borders",
+    "A gorgeously breezy, rhythmic afternoon set designed perfectly to get a crowd moving smoothly under the open sun",
+  ],
+  whatToExpect: [
+    "Raspy soulful vocals",
+    "Warm acoustic-folk strums",
+    "Low-slung tropical rhythms",
+    "Charming bilingual stage banter",
+  ],
+  bestFor: [
+    "Latin indie folk enthusiasts",
+    "Lyric and narrative obsessives",
+    "Chill afternoon groove hunters",
+    "Acoustic music purists",
+    "Bilingual song collectors",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "Ciclo", album: "Ciclo", duration: "" },
+    { name: "Agüitaecoco", album: "Mujer Eléctrica", duration: "" },
+    { name: "Limón", album: "Bahía", duration: "" },
+  ],
+  about:
+    "Simon Grossmann is a Venezuelan-born singer-songwriter whose brilliant combination of nostalgic Latin pop, breezy tropical rhythms, and intimate bedroom folk has garnered a deeply devoted international community. Writing with the specific narrative precision of a classic beach-side storyteller, Grossmann explores themes of young romance, transient lifestyles, and warm escapism with profound emotional honesty. Backed by highly celebrated studio milestones like 'Bahía', his early afternoon performance transforms a sprawling festival lawn into a relaxed, sun-drenched coastal retreat.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "BMI",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "2:10 PM",
+    endTime: "2:50 PM",
+  },
+};
+
+const kimTheory: Artist = {
+  name: "Kim Theory",
+  slug: "kim-theory",
+  genres: ["Riot Grrrl", "Punk Rock", "Garage Rock"],
+  origin: "Los Angeles, California",
+  tagline:
+    "Ferocious, teenage riot grrrl punk bringing raw house party audacity to the festival stage.",
+  socials: {},
+  whySee: [
+    "An absolute lightning-strike opening set from LA's favorite teen punk quartet executing their massive festival debut",
+    "Experience the blisteringly raw, live execution of tracks from their brand-new, ferocious sophomore statement, Trophy Wife",
+    "A glorious display of untamed, garage-rock distortion that echoes underground legends like Kim Gordon and Bratmobile",
+    "Catch a meteoric, fast-rising live force running on pure analog adrenaline before they completely explode globally",
+  ],
+  whatToExpect: [
+    "Ferocious garage-punk tempos",
+    "Abrasive raw vocal snarls",
+    "High-energy early mosh mosh",
+    "Relentless dual-guitar noise",
+  ],
+  bestFor: [
+    "Riot-grrrl punk purists",
+    "Garage rock traditionalists",
+    "Underground scene trend spotters",
+    "High-energy festival openers",
+    "Guitar music devotees",
+  ],
+  similarArtists: [],
+  tracks: [
+    { name: "He Said, She Said", album: "Bitch Scene", duration: "" },
+    { name: "Trophy Wife", album: "Trophy Wife EP", duration: "" },
+    { name: "Gimme Brains", album: "Trophy Wife EP", duration: "" },
+  ],
+  about:
+    "Kim Theory is the Los Angeles-born teen girl punk powerhouse consisting of Audrey Cymone, Lula Seifert, Lucy Fraser, and Zoey Su, who rapidly revitalized the West Coast underground through homegrown house parties and raw audacity. Referencing the structural blueprints of their musical heroes Kim Gordon and Kim Deal, the quartet writes blistering, uncompromising statements tracking bodily autonomy and adolescent rebellion. Mentored directly by iconic punk legends, their high-noon performance delivers a thrilling masterclass in pure, unadulterated counter-culture urgency.",
+  appearance: {
+    festivalId: "lollapalooza-2026",
+    billingTier: "Undercard",
+    stage: "Airbnb",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "12:00 PM",
+    endTime: "12:30 PM",
+  },
+};
+
 export const allArtists: Artist[] = [
   jennie,
   beabadoobee,
@@ -1769,6 +2768,28 @@ export const allArtists: Artist[] = [
   betweenFriends,
   mph,
   amble,
+  kingfishr,
+  ninajirachi,
+  hauteAndFreddy,
+  bellaKay,
+  marlonFunaki,
+  devault,
+  sb19,
+  eccaVandal,
+  badNerves,
+  asha_banks,
+  faouzia,
+  eveningElephants,
+  pearlyDrops,
+  bixby,
+  penelopeRoad,
+  knowGood,
+  elizabethNichols,
+  klo,
+  theBraymores,
+  chalk,
+  simonGrossmann,
+  kimTheory,
 ];
 
 export const artistsBySlug: Record<string, Artist> = Object.fromEntries(
