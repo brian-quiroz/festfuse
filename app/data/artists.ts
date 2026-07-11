@@ -4,6 +4,7 @@ import type { Artist } from "@/app/types/artist";
 const jennie: Artist = {
   name: "Jennie",
   slug: "jennie",
+  mbid: "779351de-0da5-4943-928b-495a3c40e8c0",
   imageUrl: "/artists/heroes/jennie.jpg",
   objectPosition: "center 15%",
   genres: ["K-Pop", "R&B", "Hip-Hop"],
@@ -49,6 +50,7 @@ const jennie: Artist = {
 const beabadoobee: Artist = {
   name: "Beabadoobee",
   slug: "beabadoobee",
+  mbid: "88d17133-abbc-42db-9526-4e2c1db60336",
   imageUrl: "/artists/heroes/beabadoobee.jpg",
   objectPosition: "center 20%",
   genres: ["Indie Pop", "Shoegaze", "Bedroom Pop"],
@@ -94,6 +96,7 @@ const beabadoobee: Artist = {
 const majorLazer: Artist = {
   name: "Major Lazer",
   slug: "major-lazer",
+  mbid: "75be165a-ad83-4d12-bd28-f589a15c479f",
   imageUrl: "/artists/heroes/major-lazer.jpg",
   objectPosition: "center 26%",
   genres: ["Electronic", "Dancehall", "Dance Pop"],
@@ -139,6 +142,7 @@ const majorLazer: Artist = {
 const lorde: Artist = {
   name: "Lorde",
   slug: "lorde",
+  mbid: "8e494408-8620-4c6a-82c2-c2ca4a1e4f12",
   imageUrl: "/artists/heroes/lorde.jpg",
   objectPosition: "center 20%",
   genres: ["Indie Pop", "Electropop", "Art Pop"],
@@ -184,6 +188,7 @@ const lorde: Artist = {
 const yoasobi: Artist = {
   name: "YOASOBI",
   slug: "yoasobi",
+  mbid: "df6c619f-4334-43e2-8b6a-4a32af1e4f85",
   imageUrl: "/artists/heroes/yoasobi.jpg",
   objectPosition: "center 20%",
   genres: ["J-Pop", "Electronic", "Indie Pop"],
@@ -229,6 +234,7 @@ const yoasobi: Artist = {
 const sombr: Artist = {
   name: "Sombr",
   slug: "sombr",
+  mbid: "502cf908-9921-48bc-bf0e-265c881c0156",
   imageUrl: "/artists/heroes/sombr.jpg",
   objectPosition: "center 20%",
   genres: ["Bedroom Pop", "Indie Pop", "Alt-Pop"],
@@ -274,6 +280,7 @@ const sombr: Artist = {
 const leonThomas: Artist = {
   name: "Leon Thomas",
   slug: "leon-thomas",
+  mbid: "412ff65d-26bf-4849-ba19-d2a58030fd1a",
   imageUrl: "/artists/heroes/leon-thomas.jpg",
   objectPosition: "center 20%",
   genres: ["Alternative R&B", "Soul", "Neo-Soul"],
@@ -319,6 +326,7 @@ const leonThomas: Artist = {
 const johnSummit: Artist = {
   name: "John Summit",
   slug: "john-summit",
+  mbid: "2547c5e3-314c-4332-981d-f18c902a4086",
   imageUrl: "/artists/heroes/john-summit.jpg",
   objectPosition: "center 20%",
   genres: ["House", "Tech House", "Electronic"],
@@ -364,6 +372,7 @@ const johnSummit: Artist = {
 const charliXcx: Artist = {
   name: "Charli XCX",
   slug: "charli-xcx",
+  mbid: "260b6184-8828-48eb-945c-bc4cb6fc34ca",
   imageUrl: "/artists/heroes/charli-xcx.jpg",
   objectPosition: "center 20%",
   genres: ["Pop", "Hyperpop", "Electropop"],
@@ -409,6 +418,7 @@ const charliXcx: Artist = {
 const smashingPumpkins: Artist = {
   name: "The Smashing Pumpkins",
   slug: "smashing-pumpkins",
+  mbid: "ba0d6274-db14-4ef5-b28d-657ebde1a396",
   imageUrl: "/artists/heroes/the-smashing-pumpkins.jpg",
   objectPosition: "center 20%",
   genres: ["Alternative Rock", "Grunge", "Shoegaze"],
@@ -454,6 +464,7 @@ const smashingPumpkins: Artist = {
 const oliviaDean: Artist = {
   name: "Olivia Dean",
   slug: "olivia-dean",
+  mbid: "15e0d608-0869-429b-898d-3d8db3ecedd5",
   imageUrl: "/artists/heroes/olivia-dean.jpg",
   objectPosition: "center 20%",
   genres: ["Soul", "R&B", "Indie Pop"],
@@ -499,6 +510,7 @@ const oliviaDean: Artist = {
 const tateMcRae: Artist = {
   name: "Tate McRae",
   slug: "tate-mcrae",
+  mbid: "f9133869-f87c-459c-9aa7-2f176cda7e06",
   imageUrl: "/artists/heroes/tate-mcrae.avif",
   objectPosition: "center 20%",
   genres: ["Pop", "Dance Pop", "Electropop"],
@@ -544,6 +556,7 @@ const tateMcRae: Artist = {
 const theXx: Artist = {
   name: "The xx",
   slug: "the-xx",
+  mbid: "c5c2ea1c-4bde-4f4d-bd0b-47b200bf99d6",
   imageUrl: "/artists/heroes/the-xx.avif",
   objectPosition: "center 20%",
   genres: ["Indie Pop", "Dream Pop", "Electronic"],
@@ -589,6 +602,7 @@ const theXx: Artist = {
 const aespa: Artist = {
   name: "aespa",
   slug: "aespa",
+  mbid: "b51c672b-85e0-48fe-8648-470a2422229f",
   imageUrl: "/artists/heroes/aespa.jpg",
   objectPosition: "center 10%",
   genres: ["K-Pop", "Pop", "Electronic", "Dance Pop"],

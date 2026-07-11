@@ -13,6 +13,7 @@ export type FestivalAppearance = {
 export type Artist = {
   name: string
   slug: string
+  mbid?: string
   imageUrl?: string
   objectPosition?: string
   genres: string[]
