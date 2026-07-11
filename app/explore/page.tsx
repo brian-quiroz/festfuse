@@ -9,7 +9,7 @@ export default function ExplorePage() {
   const festivalFavorites = allArtists.filter(a =>
     a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
   )
-  const newToYou = allArtists.filter(a => !a.appearance.billingTier)
+  const newToYou = allArtists.filter(a => (!a.appearance.billingTier || a.appearance.billingTier === "Undercard"))
   const hiddenGems = allArtists.filter(a =>
     a.genres.some(g => ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g))
   )
