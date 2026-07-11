@@ -3590,11 +3590,11 @@ const ellaRed: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Airbnb",
+    stage: "BMI",
     day: "Friday",
     date: "Jul 31",
-    startTime: "12:50 PM",
-    endTime: "1:30 PM",
+    startTime: "5:40 PM",
+    endTime: "6:20 PM",
   },
 };
 
@@ -3635,11 +3635,11 @@ const palomaMorphy: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Tito's",
+    stage: "BMI",
     day: "Friday",
     date: "Jul 31",
-    startTime: "1:00 PM",
-    endTime: "1:40 PM",
+    startTime: "6:50 PM",
+    endTime: "7:30 PM",
   },
 };
 
@@ -3728,8 +3728,8 @@ const ivri: Artist = {
     stage: "BMI",
     day: "Friday",
     date: "Jul 31",
-    startTime: "12:00 PM",
-    endTime: "12:40 PM",
+    startTime: "4:30 PM",
+    endTime: "5:10 PM",
   },
 };
 
@@ -3819,8 +3819,8 @@ const bradeazy: Artist = {
     stage: "Perry's",
     day: "Friday",
     date: "Jul 31",
-    startTime: "2:45 PM",
-    endTime: "3:45 PM",
+    startTime: "12:00 PM",
+    endTime: "12:30 PM",
   },
 };
 
@@ -3865,8 +3865,8 @@ const emiGrace: Artist = {
     stage: "BMI",
     day: "Friday",
     date: "Jul 31",
-    startTime: "1:00 PM",
-    endTime: "1:40 PM",
+    startTime: "3:20 PM",
+    endTime: "4:00 PM",
   },
 };
 
@@ -3956,8 +3956,8 @@ const chicagoMade: Artist = {
     stage: "Tito's",
     day: "Friday",
     date: "Jul 31",
-    startTime: "12:00 PM",
-    endTime: "12:45 PM",
+    startTime: "12:15 PM",
+    endTime: "1:00 PM",
   },
 };
 
@@ -4002,7 +4002,7 @@ const valenciaGrace: Artist = {
     day: "Friday",
     date: "Jul 31",
     startTime: "1:00 PM",
-    endTime: "1:45 PM",
+    endTime: "1:40 PM",
   },
 };
 
@@ -4046,8 +4046,8 @@ const whitneyWhitney: Artist = {
     stage: "BMI",
     day: "Friday",
     date: "Jul 31",
-    startTime: "2:10 PM",
-    endTime: "2:50 PM",
+    startTime: "12:00 PM",
+    endTime: "12:30 PM",
   },
 };
 
