@@ -8,6 +8,8 @@ const oliviaDean: Artist = {
   mbid: "15e0d608-0869-429b-898d-3d8db3ecedd5",
   imageUrl: "/artists/heroes/olivia-dean.jpg",
   objectPosition: "center 20%",
+  liveVideoId: "QOcUC9mN2s0",
+  liveVideoLabel: "Live at Fleet Steps, Mrs Macquaries Point, Sydney 2025",
   genres: ["Soul", "R&B", "Indie Pop"],
   origin: "London, England",
   tagline: "Soulful, sharp, and completely herself.",
