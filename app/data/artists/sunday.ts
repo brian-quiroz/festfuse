@@ -362,12 +362,7 @@ const aespa: Artist = {
     "Multilingual Performance",
     "Intense Fan Connection",
   ],
-  bestFor: [
-    "K-pop fans",
-    "Pop music lovers",
-    "Fans of concept-driven acts",
-    "Anyone who wants to be converted",
-  ],
+  bestFor: [],
   similarArtists: [
     {
       name: "Major Lazer",
@@ -436,7 +431,6 @@ const theChainsmokers: Artist = {
   ],
   bestFor: [
     "Bass & Groove Lovers",
-    "Groups & Social Experience",
     "Legacy & Milestone Hunters",
   ],
   similarArtists: [
@@ -653,7 +647,7 @@ const yoasobi: Artist = {
     "Massive Singalongs",
     "Spectacle Moments",
   ],
-  bestFor: ["Anime fans", "J-Pop curious listeners", "Pop music lovers", "Discovery seekers"],
+  bestFor: [],
   similarArtists: [
     {
       name: "Empire of the Sun",
@@ -943,7 +937,6 @@ const dukeDumont: Artist = {
   ],
   bestFor: [
     "Tent & Club Venue Seekers",
-    "Groups & Social Experience",
     "Dance Floor Seekers",
     "Legacy & Milestone Hunters",
   ],
@@ -1069,7 +1062,6 @@ const dombresky: Artist = {
   ],
   bestFor: [
     "Dance Floor Seekers",
-    "Groups & Social Experience",
   ],
   similarArtists: [
     {
@@ -1469,11 +1461,10 @@ const westend: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Tech house purists",
-    "Late-night club music veterans",
-    "Ravers hunting rolling basslines",
-    "Groups of friends partying",
-    "High-velocity dance tent seekers",
+    "Tent & Club Venue Seekers",
+    "Bass & Groove Lovers",
+    "Groups & Social Experience",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -1606,7 +1597,6 @@ const inji: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Groups & Social Experience",
     "Dance Floor Seekers",
     "Scene Trend Spotters",
   ],
@@ -2112,11 +2102,9 @@ const after: Artist = {
     "Synth & Atmospheric",
   ],
   bestFor: [
-    "Underground plugg rap purists",
-    "Internet rap scene trend spotters",
-    "Hometown scene supporters",
-    "Adrenaline-fueled dance seekers",
-    "Gen-Z culture collectors",
+    "Scene Trend Spotters",
+    "Hometown & Local Supporters",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -2173,11 +2161,8 @@ const whatmore: Artist = {
     "Lyrical Storytelling",
   ],
   bestFor: [
-    "Hometown scene supporters",
-    "Indie rock traditionalists",
-    "Folk rock enthusiasts",
-    "Guitar music purists",
-    "Midday festival field dancers",
+    "Hometown & Local Supporters",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -2292,7 +2277,6 @@ const easyHoney: Artist = {
     "Afternoon Vibes",
   ],
   bestFor: [
-    "Groups & Social Experience",
     "Bass & Groove Lovers",
   ],
   similarArtists: [
@@ -2349,7 +2333,6 @@ const jackieHollander: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Groups & Social Experience",
     "Bass & Groove Lovers",
   ],
   similarArtists: [
@@ -2410,11 +2393,8 @@ const stellaLefty: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Lyric and songwriting obsessives",
-    "Fans of contemporary bedroom pop",
-    "Early afternoon discovery seekers",
-    "Intimate storyteller set lovers",
-    "Indie pop music collectors",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     { name: "Porch Light", slug: "porch-light" },
@@ -2470,11 +2450,7 @@ const justineSkye: Artist = {
     "Cinematic Visuals",
   ],
   bestFor: [
-    "Alternative R&B purists",
-    "Mainstream pop music lovers",
-    "High-visibility mainstage crowds",
-    "Vocal power purists",
-    "Sunset golden hour dancers",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -2594,11 +2570,9 @@ const sunshine: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Left-field dream pop fans",
-    "Lyric and narrative obsessives",
-    "Early afternoon discovery seekers",
-    "Indie pop music collectors",
-    "Chill summer melody seekers",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
+    "Chill Summer Vibes",
   ],
   similarArtists: [
     {
@@ -2655,11 +2629,8 @@ const caseOats: Artist = {
     "Lyrical Storytelling",
   ],
   bestFor: [
-    "Hometown scene supporters",
-    "Indie rock traditionalists",
-    "Folk rock enthusiasts",
-    "Guitar music purists",
-    "Midday festival field dancers",
+    "Hometown & Local Supporters",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     { name: "Whatmore", slug: "whatmore" },
@@ -2716,11 +2687,8 @@ const surfingForDaisy: Artist = {
     "Afternoon Vibes",
   ],
   bestFor: [
-    "Indie rock traditionalists",
-    "Surf and psych rock heads",
-    "Groups of friends partying",
-    "Afternoon groove hunters",
-    "Live instrument devotees",
+    "Groups & Social Experience",
+    "Bass & Groove Lovers",
   ],
   similarArtists: [
     { name: "Easy Honey", slug: "easy-honey" },
@@ -2776,7 +2744,6 @@ const snacktime: Artist = {
     "Dance Floor Energy",
   ],
   bestFor: [
-    "Groups & Social Experience",
     "Dance Floor Seekers",
     "Bass & Groove Lovers",
   ],
@@ -2837,11 +2804,9 @@ const zackMartino: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Melodic house enthusiasts",
-    "Mainstream dance pop fans",
-    "Groups of friends partying",
-    "Early afternoon tent starters",
-    "High-octane dance seekers",
+    "Dance Floor Seekers",
+    "Groups & Social Experience",
+    "Tent & Club Venue Seekers",
   ],
   similarArtists: [
     {

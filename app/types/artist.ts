@@ -1,3 +1,5 @@
+import type { WhatToExpectTag, BestForTag } from "@/app/data/categories";
+
 export type BillingTier = "Headliner" | "Sub-headliner" | "Undercard";
 
 export type FestivalAppearance = {
@@ -27,8 +29,8 @@ export type Artist = {
     tiktok?: string;
   };
   whySee: string[];
-  whatToExpect: string[];
-  bestFor: string[];
+  whatToExpect: WhatToExpectTag[];
+  bestFor: BestForTag[];
   similarArtists: Array<{ name: string; slug?: string; imageUrl?: string }>;
   tracks: Array<{
     spotifyId?: string;

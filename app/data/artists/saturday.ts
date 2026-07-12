@@ -341,7 +341,6 @@ const discoLines: Artist = {
   ],
   bestFor: [
     "Dance Floor Seekers",
-    "Groups & Social Experience",
   ],
   similarArtists: [
     {
@@ -719,7 +718,6 @@ const djTrixieMattel: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Groups & Social Experience",
     "Dance Floor Seekers",
   ],
   similarArtists: [
@@ -780,7 +778,6 @@ const bbno_dollar: Artist = {
   ],
   bestFor: [
     "Hometown & Local Supporters",
-    "Groups & Social Experience",
     "Tent & Club Venue Seekers",
   ],
   similarArtists: [
@@ -849,11 +846,8 @@ const kwn: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Alternative R&B purists",
-    "Fans of contemporary bedroom pop",
-    "Early afternoon discovery seekers",
-    "Lyric and songwriting obsessives",
-    "Intimate emotional story devotees",
+    "Early Afternoon Discovery",
+    "Lyric & Narrative Obsessives",
   ],
   similarArtists: [
     {
@@ -914,11 +908,8 @@ const siennaSpiro: Artist = {
     "Theatrical Staging",
   ],
   bestFor: [
-    "Pop vocal purists",
-    "Fans of dramatic dark pop",
-    "Chamber pop music lovers",
-    "Early afternoon discovery seekers",
-    "Devotees of cinematic storytelling",
+    "Early Afternoon Discovery",
+    "Storytelling Lovers",
   ],
   similarArtists: [
     {
@@ -1242,11 +1233,8 @@ const cortis: Artist = {
     "Intense Fan Connection",
   ],
   bestFor: [
-    "K-pop and global hip-hop devotees",
-    "Precision dance performance fans",
-    "High-visibility mainstage crowds",
-    "Early afternoon discovery hunters",
-    "Upbeat trendsetting music collectors",
+    "Dance Floor Seekers",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     {
@@ -2032,11 +2020,8 @@ const chezile: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Alternative R&B purists",
-    "Fans of contemporary bedroom pop",
-    "Early afternoon discovery seekers",
-    "Lyric and narrative obsessives",
-    "Intimate emotional story devotees",
+    "Early Afternoon Discovery",
+    "Lyric & Narrative Obsessives",
   ],
   similarArtists: [
     {
@@ -2093,11 +2078,8 @@ const jaeStephens: Artist = {
     "Intimate Performance",
   ],
   bestFor: [
-    "Dance pop enthusiasts",
-    "Alternative R&B purists",
-    "High-visibility mainstage crowds",
-    "Afternoon groove hunters",
-    "Electronic music culture lovers",
+    "Dance Floor Seekers",
+    "Bass & Groove Lovers",
   ],
   similarArtists: [
     {
@@ -2158,11 +2140,9 @@ const ryman: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Lyric and songwriting obsessives",
-    "Fans of contemporary bedroom pop",
-    "Early afternoon discovery seekers",
-    "Indie pop music collectors",
-    "Chill summer melody seekers",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
+    "Chill Summer Vibes",
   ],
   similarArtists: [
     {
@@ -2344,11 +2324,9 @@ const mc4d: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Melodic house enthusiasts",
-    "Hometown electronic supporters",
-    "Groups of friends partying",
-    "Early afternoon tent starters",
-    "High-visibility festival crowds",
+    "Hometown & Local Supporters",
+    "Groups & Social Experience",
+    "Tent & Club Venue Seekers",
   ],
   similarArtists: [
     { name: "Zack Martino", slug: "zack-martino" },
@@ -2465,11 +2443,8 @@ const calderAllen: Artist = {
     "Lyrical Storytelling",
   ],
   bestFor: [
-    "Traditional country music purists",
-    "Fans of alternative folk songwriting",
-    "Lyric and narrative obsessives",
-    "Early afternoon discovery seekers",
-    "Intimate emotional story devotees",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     {
@@ -2536,11 +2511,8 @@ const natMyers: Artist = {
     "Intimate Performance",
   ],
   bestFor: [
-    "Traditional country music purists",
-    "Acoustic and delta blues purists",
-    "Lyric and narrative obsessives",
-    "Early afternoon discovery seekers",
-    "Live instrument devotees",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     {
@@ -2599,11 +2571,8 @@ const ink: Artist = {
     "Guitar-Driven Sound",
   ],
   bestFor: [
-    "Indie rock traditionalists",
-    "Post-punk revival stans",
-    "Hometown scene supporters",
-    "Guitar music purists",
-    "Early afternoon moshers",
+    "Hometown & Local Supporters",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     {
@@ -2661,11 +2630,9 @@ const peaceControl: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Tech house house purists",
-    "Hometown electronic music devotees",
-    "High-velocity electronic dancers",
-    "Early afternoon tent starters",
-    "Electronic music culture lovers",
+    "Hometown & Local Supporters",
+    "Dance Floor Seekers",
+    "Tent & Club Venue Seekers",
   ],
   similarArtists: [
     {
@@ -2726,11 +2693,8 @@ const theCreekers: Artist = {
     "Lyrical Storytelling",
   ],
   bestFor: [
-    "Hometown scene supporters",
-    "Indie rock traditionalists",
-    "Folk rock enthusiasts",
-    "Guitar music purists",
-    "Midday festival field dancers",
+    "Hometown & Local Supporters",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     { name: "Whatmore", slug: "whatmore" },

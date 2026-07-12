@@ -346,7 +346,6 @@ const majorLazer: Artist = {
   ],
   bestFor: [
     "Dance Floor Seekers",
-    "Groups & Social Experience",
   ],
   similarArtists: [
     {
@@ -795,11 +794,10 @@ const mustard: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "West Coast hip-hop purists",
-    "Late-night club music veterans",
-    "Groups of friends partying",
-    "High-visibility dance tent seekers",
-    "Legacy anthem hunters",
+    "Tent & Club Venue Seekers",
+    "Groups & Social Experience",
+    "Dance Floor Seekers",
+    "Legacy & Milestone Hunters",
   ],
   similarArtists: [
     {
@@ -1004,11 +1002,7 @@ const theStorySoFar: Artist = {
     "Guitar-Driven Sound",
   ],
   bestFor: [
-    "Pop-punk nostalgia lovers",
-    "Alternative rock traditionalists",
-    "Mosh pit veterans",
-    "Guitar music purists",
-    "High-visibility mainstage crowds",
+    "Mosh Pit Lovers",
   ],
   similarArtists: [
     {
@@ -1155,11 +1149,9 @@ const nettspend: Artist = {
     "Intense Fan Connection",
   ],
   bestFor: [
-    "Underground plugg rap purists",
-    "Internet rap scene trend spotters",
-    "Mosh pit traditionalists",
-    "Adrenaline-fueled dance seekers",
-    "Gen-Z culture collectors",
+    "Scene Trend Spotters",
+    "Mosh Pit Lovers",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -1227,7 +1219,6 @@ const sidepiece: Artist = {
   bestFor: [
     "Tent & Club Venue Seekers",
     "Bass & Groove Lovers",
-    "Groups & Social Experience",
     "Dance Floor Seekers",
   ],
   similarArtists: [
@@ -1697,11 +1688,8 @@ const juliaWolf: Artist = {
     "Conversational Delivery",
   ],
   bestFor: [
-    "Contemporary bedroom pop fans",
-    "Lyric and narrative obsessives",
-    "Early afternoon discovery seekers",
-    "Intimate emotional story devotees",
-    "Indie pop music collectors",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     {
@@ -1763,11 +1751,7 @@ const slayyyter: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Hyperpop culture purists",
-    "Fans of witty pop camp",
-    "High-velocity dance seekers",
-    "Fashion-forward festival crowds",
-    "Sleek commercial pop collectors",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -1846,11 +1830,9 @@ const claireRosinkranz: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Lyric and songwriting obsessives",
-    "Fans of contemporary bedroom pop",
-    "Early afternoon discovery seekers",
-    "Indie pop music collectors",
-    "Chill summer melody seekers",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
+    "Chill Summer Vibes",
   ],
   similarArtists: [
     {
@@ -2227,11 +2209,9 @@ const theArmyTheNavy: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Lyric and songwriting obsessives",
-    "Fans of contemporary bedroom pop",
-    "Early afternoon discovery seekers",
-    "Indie pop music collectors",
-    "Chill summer melody seekers",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
+    "Chill Summer Vibes",
   ],
   similarArtists: [
     {
@@ -2354,11 +2334,8 @@ const ellaRed: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Indie rock traditionalists",
-    "Lyric and narrative obsessives",
-    "Fans of dry lyrical wit",
-    "Early afternoon discovery seekers",
-    "Guitar music lovers",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     {
@@ -2536,11 +2513,9 @@ const ivri: Artist = {
     "Cinematic Visuals",
   ],
   bestFor: [
-    "Fans of dramatic dark pop",
-    "Contemporary bedroom pop fans",
-    "Underground club music devotees",
-    "Early afternoon discovery seekers",
-    "Electronic sound design nerds",
+    "Tent & Club Venue Seekers",
+    "Early Afternoon Discovery",
+    "Sound Design & Production Nerds",
   ],
   similarArtists: [
     {
@@ -2602,11 +2577,8 @@ const ellaBoh: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Lyric and songwriting obsessives",
-    "Fans of contemporary bedroom pop",
-    "Early afternoon discovery seekers",
-    "Intimate storyteller set lovers",
-    "Indie pop music collectors",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     { name: "Stella Lefty", slug: "stella-lefty" },
@@ -2660,7 +2632,6 @@ const bradeazy: Artist = {
   ],
   bestFor: [
     "Scene Trend Spotters",
-    "Groups & Social Experience",
     "Tent & Club Venue Seekers",
     "Dance Floor Seekers",
   ],
@@ -2721,11 +2692,9 @@ const emiGrace: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Lyric and songwriting obsessives",
-    "Fans of contemporary bedroom pop",
-    "Early afternoon discovery seekers",
-    "Indie pop music collectors",
-    "Chill summer melody seekers",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
+    "Chill Summer Vibes",
   ],
   similarArtists: [
     {
@@ -2786,11 +2755,9 @@ const beno: Artist = {
     "Intense Fan Connection",
   ],
   bestFor: [
-    "Underground plugg rap purists",
-    "Internet rap scene trend spotters",
-    "Mosh pit traditionalists",
-    "Adrenaline-fueled dance seekers",
-    "Gen-Z culture collectors",
+    "Scene Trend Spotters",
+    "Mosh Pit Lovers",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -2972,11 +2939,8 @@ const whitneyWhitney: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Lyric and songwriting obsessives",
-    "Fans of contemporary bedroom pop",
-    "Early afternoon discovery seekers",
-    "Intimate storyteller set lovers",
-    "Indie pop music collectors",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     {

@@ -1318,11 +1318,9 @@ const mph: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "UK garage and bassline purists",
-    "Underground club music devotees",
-    "High-velocity electronic dancers",
-    "Tent starters hunting bass loops",
-    "Electronic music culture lovers",
+    "Bass & Groove Lovers",
+    "Tent & Club Venue Seekers",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -1588,11 +1586,8 @@ const hauteAndFreddy: Artist = {
     "Synth & Atmospheric",
   ],
   bestFor: [
-    "Dance pop enthusiasts",
-    "French house purists",
-    "High-visibility mainstage crowds",
-    "Afternoon groove hunters",
-    "Electronic music culture lovers",
+    "Dance Floor Seekers",
+    "Bass & Groove Lovers",
   ],
   similarArtists: [
     { name: "DJ Trixie Mattel", slug: "dj-trixie-mattel" },
@@ -1649,11 +1644,8 @@ const bellaKay: Artist = {
     "Lyrical Storytelling",
   ],
   bestFor: [
-    "Contemporary bedroom pop fans",
-    "Lyric and narrative obsessives",
-    "Intimate emotional set hunters",
-    "Chill afternoon groove seekers",
-    "Fans of alternative pop",
+    "Lyric & Narrative Obsessives",
+    "Bass & Groove Lovers",
   ],
   similarArtists: [
     {
@@ -2027,11 +2019,8 @@ const asha_banks: Artist = {
     "Dreamy Atmosphere",
   ],
   bestFor: [
-    "Lyric and songwriting obsessives",
-    "Fans of contemporary bedroom pop",
-    "Early afternoon discovery seekers",
-    "Intimate emotional story devotees",
-    "Indie pop music collectors",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     { name: "Porch Light", slug: "porch-light" },
@@ -2159,7 +2148,6 @@ const eveningElephants: Artist = {
   ],
   bestFor: [
     "Dance Floor Seekers",
-    "Groups & Social Experience",
     "Chill Summer Vibes",
   ],
   similarArtists: [
@@ -2357,11 +2345,8 @@ const penelopeRoad: Artist = {
     "Intimate Performance",
   ],
   bestFor: [
-    "Indie folk traditionalists",
-    "Lyric and narrative obsessives",
-    "Alternative rock enthusiasts",
-    "Acoustic music purists",
-    "Early afternoon discovery seekers",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     {
@@ -2480,11 +2465,8 @@ const elizabethNichols: Artist = {
     "Conversational Delivery",
   ],
   bestFor: [
-    "Traditional country music purists",
-    "Lyric and storytelling obsessives",
-    "Fans of alternative folk songwriting",
-    "Early afternoon discovery seekers",
-    "Intimate emotional set hunters",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     {
@@ -2542,11 +2524,10 @@ const klo: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Trap and dubstep traditionalists",
-    "Hometown electronic music devotees",
-    "High-velocity ravers hunting bass",
-    "Early afternoon tent starters",
-    "Sound design infrastructure nerds",
+    "Hometown & Local Supporters",
+    "Bass & Groove Lovers",
+    "Tent & Club Venue Seekers",
+    "Sound Design & Production Nerds",
   ],
   similarArtists: [
     {
@@ -2783,11 +2764,7 @@ const kimTheory: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Riot-grrrl punk purists",
-    "Garage rock traditionalists",
-    "Underground scene trend spotters",
-    "High-energy festival openers",
-    "Guitar music devotees",
+    "Scene Trend Spotters",
   ],
   similarArtists: [
     {
