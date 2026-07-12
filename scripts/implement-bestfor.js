@@ -187,38 +187,72 @@ dayFiles.forEach((file) => {
   let fileContent = fs.readFileSync(filePath, "utf-8");
   const artistsForFile = artistMappings[file];
 
-  // Process artists in REVERSE order to maintain correct file positions
-  for (let i = artistsForFile.length - 1; i >= 0; i--) {
-    const mapping = artistsForFile[i];
-    const newBestForArray = formatBestForArray(mapping.mappedTags);
+  // Extract all artist blocks using bracket-counting (Option C - proven safe method)
+  const artistPattern = /const\s+(\w+):\s*Artist\s*=\s*\{/g;
+  const artists = [];
+  let match;
 
-    const artistName = mapping.name;
-    // Escape special regex characters in artist name
-    const escapedName = artistName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  while ((match = artistPattern.exec(fileContent)) !== null) {
+    const objectOpenBracePos = match.index + match[0].length - 1;
 
-    // Find the artist's specific bestFor array by looking for this artist's name first
-    // Then locate the bestFor field that belongs to them
-    const artistNameRegex = new RegExp(
-      `name:\\s*"${escapedName}"`,
-      "m"
-    );
+    let braceCount = 1;
+    let pos = objectOpenBracePos + 1;
+    let objectCloseBracePos = -1;
 
-    const nameIndex = fileContent.search(artistNameRegex);
-    if (nameIndex === -1) continue;
+    while (pos < fileContent.length && braceCount > 0) {
+      const char = fileContent[pos];
+      if (char === "{") braceCount++;
+      if (char === "}") braceCount--;
 
-    // From the artist's name position, find the next bestFor: [ ... ] pattern
-    const afterName = fileContent.substring(nameIndex);
-    const bestForRegex = /bestFor:\s*\[[\s\S]*?\]/;
-    const match = afterName.match(bestForRegex);
-
-    if (match) {
-      // Replace this specific bestFor array
-      const beforeBestFor = fileContent.substring(0, nameIndex + match.index);
-      const afterBestFor = fileContent.substring(
-        nameIndex + match.index + match[0].length
-      );
-      fileContent = beforeBestFor + newBestForArray + afterBestFor;
+      if (braceCount === 0) {
+        objectCloseBracePos = pos;
+        break;
+      }
+      pos++;
     }
+
+    if (objectCloseBracePos === -1) continue;
+
+    artists.push({
+      startPos: match.index,
+      endPos: objectCloseBracePos + 1,
+      varName: match[1],
+    });
+  }
+
+  // Process artists in REVERSE order to maintain correct file positions
+  for (let i = artists.length - 1; i >= 0; i--) {
+    const artist = artists[i];
+    const objectText = fileContent.slice(artist.startPos, artist.endPos);
+
+    // Find bestFor within this bounded object
+    const bestForMatch = /bestFor:\s*\[([\s\S]*?)\]/.exec(objectText);
+    if (!bestForMatch) continue;
+
+    // Get the mapping for this artist (in same order as extracted)
+    if (i >= artistMappings[file].length) continue;
+    const mapping = artistMappings[file][i];
+
+    let newArrayContent;
+    if (mapping.mappedCount === 0) {
+      newArrayContent = "";
+    } else {
+      const formatted = mapping.mappedTags.map((tag) => `    "${tag}"`).join(",\n");
+      newArrayContent = `\n${formatted},\n  `;
+    }
+
+    // Replace in original file
+    const oldBestFor = bestForMatch[0];
+    const newBestFor = `bestFor: [${newArrayContent}]`;
+
+    // Find the position within the full file
+    const bestForPosInObject = objectText.indexOf(oldBestFor);
+    const bestForPosInFile = artist.startPos + bestForPosInObject;
+
+    fileContent =
+      fileContent.slice(0, bestForPosInFile) +
+      newBestFor +
+      fileContent.slice(bestForPosInFile + oldBestFor.length);
   }
 
   fs.writeFileSync(filePath, fileContent, "utf-8");
