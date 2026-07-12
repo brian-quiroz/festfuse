@@ -81,9 +81,9 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
               <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none">
                 {artist.name}
               </h1>
-              {artist.appearance.billingTier && (
+              {artist.appearance.billingTier === "Headliner" && (
                 <span className="mb-2 flex-shrink-0 px-2.5 py-0.5 rounded-md bg-[#FF2D78]/8 border border-[#FF2D78]/20 text-[#FF2D78] text-[9px] font-semibold tracking-widest uppercase">
-                  {artist.appearance.billingTier}
+                  Headliner
                 </span>
               )}
             </div>
