@@ -25,11 +25,9 @@ const oliviaDean: Artist = {
     "British soul at its finest: witty, specific, and deeply felt",
   ],
   whatToExpect: [
-    "Soul and R&B warmth",
-    "Exceptional live vocals",
-    "Full live soul band with horns",
-    "Joyful crowd atmosphere",
-    "Intimate connection on a big stage",
+    "Live Band Performance",
+    "Crowd Atmosphere",
+    "Intimate Performance",
   ],
   bestFor: [
     "Soul and R&B fans",
@@ -114,11 +112,11 @@ const jennie: Artist = {
     "Crowd interaction and stage presence that make 80,000 people feel seen",
   ],
   whatToExpect: [
-    "High-energy choreography",
-    "Large crowd",
-    "Visual production",
-    "Crowd singalongs",
-    "Fashion moments",
+    "Choreography",
+    "Crowd Atmosphere",
+    "Cinematic Visuals",
+    "Massive Singalongs",
+    "Fashion Visual",
   ],
   bestFor: ["K-pop fans", "Pop lovers", "First-time festival goers", "Dancing crowds"],
   similarArtists: [
@@ -192,10 +190,10 @@ const theNeighbourhood: Artist = {
     "Hear the live execution of massive diamond-certified streaming benchmarks like 'Sweater Weather' under a shifting twilight skyline",
   ],
   whatToExpect: [
-    "Nocturnal indie pop grooves",
-    "Smoky alternative guitar textures",
-    "Massive stadium-scale group singalongs",
-    "Sleek low-density atmospheric staging",
+    "Late-Night Energy",
+    "Guitar-Driven Sound",
+    "Massive Singalongs",
+    "Production Style Approach",
   ],
   bestFor: [
     "Indie pop nostalgia lovers",
@@ -273,10 +271,10 @@ const ethelCain: Artist = {
     "A stunningly quiet, emotionally enormous sunset oasis that commands absolute, pin-drop silence from a massive festival crowd",
   ],
   whatToExpect: [
-    "Haunting operatic vocal ranges",
-    "Towering slowcore guitar walls",
-    "Gothic americana visual imagery",
-    "Intense communal crowd catharsis",
+    "Technical Vocal Range",
+    "Guitar-Driven Sound",
+    "Dark Mood Visuals",
+    "Crowd Atmosphere",
   ],
   bestFor: [
     "Gothic alternative folk enthusiasts",
@@ -345,10 +343,10 @@ const discoLines: Artist = {
     "The ultimate late-afternoon crowd catalyst under the Perry's tent designed purely to get massive groups of friends dancing together",
   ],
   whatToExpect: [
-    "Bouncy tech-house rhythms",
-    "Bright infectious vocal chops",
-    "Blinding daytime laser arrays",
-    "Nonstop high-energy party pacing",
+    "Rhythm Complexity",
+    "Melodic Vocal Hooks",
+    "Afternoon Vibes",
+    "High-Energy Pacing",
   ],
   bestFor: [
     "Tech house house purists",
@@ -430,11 +428,8 @@ const leonThomas: Artist = {
     "The rare artist who sounds better live — raw, unhurried, completely at ease",
   ],
   whatToExpect: [
-    "Soulful live vocals",
-    "Warm R&B atmosphere",
-    "Intimate crowd energy",
-    "Rich layered sound",
-    "Industry-insider charisma",
+    "Crowd Atmosphere",
+    "Lush Sound",
   ],
   bestFor: [
     "R&B fans",
@@ -508,10 +503,8 @@ const clipse: Artist = {
     "An absolute elite option for hip-hop traditionalists looking for pure lyrical muscle and effortless mic authority over modern commercial pop trap",
   ],
   whatToExpect: [
-    "Razor-sharp dual-vocal deliveries",
-    "Minimalist percussion loop snaps",
-    "Intense underground rap energy",
-    "Raw unadulterated mic control",
+    "Cinematic Visuals",
+    "Intense Fan Connection",
   ],
   bestFor: [
     "Hip-hop traditionalists",
@@ -588,10 +581,10 @@ const geese: Artist = {
     "A blistering, high-octane early evening rock catalyst designed to leave music traditionalists completely floored by the live talent",
   ],
   whatToExpect: [
-    "Jagged post-punk guitar hooks",
-    "Acrobatic theatrical vocals",
-    "Complex progressive rhythm shifts",
-    "High-energy chaotic rock pits",
+    "Guitar-Driven Sound",
+    "Choreography",
+    "Rhythm Complexity",
+    "Energetic Mosh Pits",
   ],
   bestFor: [
     "Post-punk revival stans",
@@ -666,10 +659,8 @@ const alisonWonderland: Artist = {
     "Experience a legendary catalog of multi-platinum festival-proven crossover weapons designed to push crowds to terminal velocity",
   ],
   whatToExpect: [
-    "Punishing low-frequency trap drops",
-    "Soaring cinematic visual loops",
-    "Live multi-instrumental setups",
-    "Nonstop maximum velocity momentum",
+    "Cinematic Visuals",
+    "High-Energy Pacing",
   ],
   bestFor: [
     "Trap and future bass purists",
@@ -746,10 +737,10 @@ const djTrixieMattel: Artist = {
     "The ultimate high-energy afternoon catalyst designed purely to get massive groups of friends dancing together under the sun",
   ],
   whatToExpect: [
-    "High-camp pop choreography",
-    "Glittering retro-futuristic visuals",
-    "Massive electronic pop singalongs",
-    "Irreverent electrifying stage atmosphere",
+    "Choreography",
+    "Retro-Futuristic Aesthetic",
+    "Massive Singalongs",
+    "Crowd Atmosphere",
   ],
   bestFor: [
     "Fans of witty pop camp",
@@ -812,10 +803,7 @@ const bbno_dollar: Artist = {
     "A loose, remarkably fun and high-energy crowd environment designed purely to get groups of friends dancing together",
   ],
   whatToExpect: [
-    "Bounce-driven club rhythm beats",
-    "Massive hip-hop singalongs",
-    "Charming comedic stage presence",
-    "Infectious upbeat party pacing",
+    "Massive Singalongs",
   ],
   bestFor: [
     "Internet hip-hop enthusiasts",
@@ -884,10 +872,10 @@ const kwn: Artist = {
     "The official premier festival tour run showcasing her highly celebrated independent studio catalog to an international crowd",
   ],
   whatToExpect: [
-    "Lush alternative R&B grooves",
-    "Intimate close-mic'd vocal runs",
-    "Shadow-drenched synth textures",
-    "Warm emotional early afternoon crowd",
+    "Bass & Groove",
+    "Intimate Performance",
+    "Dark Mood Visuals",
+    "Crowd Atmosphere",
   ],
   bestFor: [
     "Alternative R&B purists",
@@ -950,10 +938,9 @@ const siennaSpiro: Artist = {
     "Experience the raw, bone-chilling crowd connection driven by intense, massive dark-pop stadium singalongs",
   ],
   whatToExpect: [
-    "Stunning multi-octave vocal runs",
-    "Richly layered orchestral backdrops",
-    "Dramatic theatrical stage presence",
-    "Lush soulful piano melodies",
+    "Technical Vocal Range",
+    "Lush Sound",
+    "Theatrical Staging",
   ],
   bestFor: [
     "Pop vocal purists",
@@ -1012,10 +999,10 @@ const maxStyler: Artist = {
     "An absolute, non-stop dance accelerator designed perfectly to turn a festival crowd into a boiling warehouse rave",
   ],
   whatToExpect: [
-    "Driving tech-house loops",
-    "Gritty electronic basslines",
-    "High-velocity house grooves",
-    "Raw unadulterated tent energy",
+    "Cinematic Visuals",
+    "Bass & Groove",
+    "High-Energy Pacing",
+    "Intense Fan Connection",
   ],
   bestFor: [
     "Tech house house purists",
@@ -1090,10 +1077,9 @@ const spaceyJane: Artist = {
     "A flawlessly tight live show built on years of relentless arena touring, delivering an absolute masterclass in sun-drenched camaraderie",
   ],
   whatToExpect: [
-    "Bright jangly guitar hooks",
-    "Massive group-scale singalongs",
-    "Upbeat sun-drenched energy",
-    "Tight melodic rock rhythm",
+    "Guitar-Driven Sound",
+    "Massive Singalongs",
+    "Afternoon Vibes",
   ],
   bestFor: [
     "Indie rock traditionalists",
@@ -1165,10 +1151,10 @@ const wolfAlice: Artist = {
     "An absolute masterclass in traditional analog band chemistry that handles giant festival fields with profound emotional power",
   ],
   whatToExpect: [
-    "Towering shoegaze guitar walls",
-    "Acrobatic alternative rock vocals",
-    "Intense communal crowd catharsis",
-    "Sleek low-density atmospheric staging",
+    "Guitar-Driven Sound",
+    "Choreography",
+    "Crowd Atmosphere",
+    "Production Style Approach",
   ],
   bestFor: [
     "Alternative rock traditionalists",
@@ -1230,10 +1216,9 @@ const whethan: Artist = {
     "The ultimate early-evening crowd catalyst designed purely to get massive groups of friends dancing together as the skyline shifts",
   ],
   whatToExpect: [
-    "Bouncy future bass drops",
-    "Bright infectious pop vocals",
-    "Blinding high-production laser arrays",
-    "Nonstop daytime party pacing",
+    "Bass & Groove",
+    "High-Production Visuals",
+    "High-Energy Pacing",
   ],
   bestFor: [
     "Future bass purists",
@@ -1293,10 +1278,10 @@ const cortis: Artist = {
     "Witness the high-fashion performance swagger of 'FaSHioN', fresh off its massive live showcase at the NBA Crossover concert",
   ],
   whatToExpect: [
-    "Hyper-synchronized group choreography",
-    "Heavy hip-hop bass pockets",
-    "High-fashion cinematic visual backing",
-    "Intense localized fan-chant energy",
+    "Choreography",
+    "Bass & Groove",
+    "Cinematic Visuals",
+    "Intense Fan Connection",
   ],
   bestFor: [
     "K-pop and global hip-hop devotees",
@@ -1377,10 +1362,9 @@ const cameronWhitcomb: Artist = {
     "Experience razor-sharp country lyrics that trade on absolute emotional honesty, modern wit, and incredible acoustic hooks",
   ],
   whatToExpect: [
-    "Gravel-voiced country leads",
-    "High-energy stage acrobatics",
-    "Raw fuzzed-out folk riffs",
-    "Charming chaotic stage banter",
+    "Choreography",
+    "Guitar-Driven Sound",
+    "Conversational Delivery",
   ],
   bestFor: [
     "Traditional country music purists",
@@ -1443,10 +1427,10 @@ const ayybo: Artist = {
     "An absolute, non-stop dance accelerator designed perfectly to turn a festival crowd into a boiling warehouse rave",
   ],
   whatToExpect: [
-    "Driving tech-house loops",
-    "Gritty electronic basslines",
-    "High-velocity house grooves",
-    "Raw unadulterated tent energy",
+    "Cinematic Visuals",
+    "Bass & Groove",
+    "High-Energy Pacing",
+    "Intense Fan Connection",
   ],
   bestFor: [
     "Tech house house purists",
@@ -1509,10 +1493,10 @@ const khamari: Artist = {
     "The official premier festival tour run showcasing his highly celebrated independent studio catalog to an international crowd",
   ],
   whatToExpect: [
-    "Lush alternative R&B grooves",
-    "Intimate close-mic'd vocal runs",
-    "Shadow-drenched synth textures",
-    "Warm emotional early afternoon crowd",
+    "Bass & Groove",
+    "Intimate Performance",
+    "Dark Mood Visuals",
+    "Crowd Atmosphere",
   ],
   bestFor: [
     "Alternative R&B purists",
@@ -1577,10 +1561,10 @@ const quadeca: Artist = {
     "A blistering live rock engine that transforms traditional festival crowds into deeply emotional performance art spaces",
   ],
   whatToExpect: [
-    "Glitchy atmospheric loops",
-    "Lush ambient shoegaze walls",
-    "Complex progressive rhythm shifts",
-    "Intense localized crowd connection",
+    "Cinematic Visuals",
+    "Lush Sound",
+    "Rhythm Complexity",
+    "Crowd Atmosphere",
   ],
   bestFor: [
     "Alternative hip-hop lovers",
@@ -1641,10 +1625,9 @@ const momma: Artist = {
     "The official festival tour run highlighting their highly celebrated independent studio catalog to a massive live audience",
   ],
   whatToExpect: [
-    "Driving dual-guitar hooks",
-    "Heavy fuzzed-out rock riffs",
-    "Charming self-aware stage banter",
-    "High-energy afternoon mosh",
+    "Guitar-Driven Sound",
+    "Conversational Delivery",
+    "Energetic Mosh Pits",
   ],
   bestFor: [
     "Indie rock traditionalists",
@@ -1719,10 +1702,8 @@ const frostChildren: Artist = {
     "An absolute wildfire crowd environment packed with chaotic, high-energy teenage mosh pits early in the day",
   ],
   whatToExpect: [
-    "Glitchy retro-futuristic visuals",
-    "Hyper-speed digital hardcore beats",
-    "Micro-pop vocal deliveries",
-    "Raw unadulterated internet energy",
+    "Retro-Futuristic Aesthetic",
+    "Intense Fan Connection",
   ],
   bestFor: [
     "Hyperpop culture purists",
@@ -1791,10 +1772,10 @@ const goldieBoutilier: Artist = {
     "A gorgeous, sun-drenched sonic oasis designed perfectly to completely escape standard commercial pop noise",
   ],
   whatToExpect: [
-    "Vintage cinematic visual backdrops",
-    "Soaring multi-octave vocals",
-    "Theatrical alternative showmanship",
-    "Warm nostalgic afternoon energy",
+    "Cinematic Visuals",
+    "Technical Vocal Range",
+    "Theatrical Staging",
+    "Afternoon Vibes",
   ],
   bestFor: [
     "Lovers of vintage production",
@@ -1857,10 +1838,9 @@ const dieSpitz: Artist = {
     "A non-stop, high-octane alternative catalyst built around raw analog band chemistry and severe sub-cultural authority",
   ],
   whatToExpect: [
-    "Ferocious garage-punk tempos",
-    "Abrasive raw vocal snarls",
-    "Explosive main-field mosh pits",
-    "Relentless dual-guitar noise",
+    "Raw Vocal Delivery",
+    "Energetic Mosh Pits",
+    "High-Energy Pacing",
   ],
   bestFor: [
     "Hardcore punk traditionalists",
@@ -1919,10 +1899,10 @@ const lucyBedroque: Artist = {
     "The official premier festival tour run showcasing her highly celebrated independent studio catalog to an international crowd",
   ],
   whatToExpect: [
-    "Intimate confessional lyricism",
-    "Shadow-drenched synth pads",
-    "Charming self-aware stage banter",
-    "Lush dreamy vocal arrangements",
+    "Lyrical Storytelling",
+    "Dark Mood Visuals",
+    "Conversational Delivery",
+    "Dreamy Atmosphere",
   ],
   bestFor: [
     "Contemporary bedroom pop fans",
@@ -1985,10 +1965,10 @@ const omnom: Artist = {
     "An absolute, non-stop dance accelerator designed perfectly to turn a festival crowd into a boiling warehouse rave",
   ],
   whatToExpect: [
-    "Driving tech-house loops",
-    "Gritty electronic basslines",
-    "High-velocity house grooves",
-    "Raw unadulterated tent energy",
+    "Cinematic Visuals",
+    "Bass & Groove",
+    "High-Energy Pacing",
+    "Intense Fan Connection",
   ],
   bestFor: [
     "Tech house purists",
@@ -2058,10 +2038,9 @@ const jimLegxacy: Artist = {
     "Hear the live execution of fresh, boundary-pushing narrative epics that explore identity and young romance with profound honesty",
   ],
   whatToExpect: [
-    "Glitchy atmospheric loops",
-    "Lush acoustic guitar layers",
-    "Syncopated Afro-fusion steps",
-    "Intimate close-mic'd vocal hooks",
+    "Cinematic Visuals",
+    "Guitar-Driven Sound",
+    "Melodic Vocal Hooks",
   ],
   bestFor: [
     "Alternative R&B purists",
@@ -2120,10 +2099,10 @@ const chezile: Artist = {
     "The official premier festival tour run showcasing a highly celebrated independent studio catalog to an international crowd",
   ],
   whatToExpect: [
-    "Lush alternative R&B grooves",
-    "Intimate close-mic'd vocal runs",
-    "Shadow-drenched synth textures",
-    "Warm emotional early afternoon crowd",
+    "Bass & Groove",
+    "Intimate Performance",
+    "Dark Mood Visuals",
+    "Crowd Atmosphere",
   ],
   bestFor: [
     "Alternative R&B purists",
@@ -2182,10 +2161,9 @@ const jaeStephens: Artist = {
     "The ultimate high-energy afternoon catalyst designed perfectly to unify a massive, moving festival crowd under the sun",
   ],
   whatToExpect: [
-    "Sleek house rhythms",
-    "Pristine electronic soundscapes",
-    "Infectious dance-pop choruses",
-    "Intimate vulnerable vocal runs",
+    "Production Style Approach",
+    "Synth & Atmospheric",
+    "Intimate Performance",
   ],
   bestFor: [
     "Dance pop enthusiasts",
@@ -2248,10 +2226,9 @@ const ryman: Artist = {
     "The official festival tour run highlighting his highly celebrated independent studio catalog to an international crowd",
   ],
   whatToExpect: [
-    "Conversational pop vocal leads",
-    "Bright jazz-infused guitar loops",
-    "Charming self-aware stage banter",
-    "Warm emotional early afternoon crowd",
+    "Conversational Delivery",
+    "Guitar-Driven Sound",
+    "Crowd Atmosphere",
   ],
   bestFor: [
     "Lyric and songwriting obsessives",
@@ -2314,10 +2291,9 @@ const villanelle: Artist = {
     "Experience an exceptionally raw, fuzzed-out guitar infrastructure that completely bypasses processed backing tracks",
   ],
   whatToExpect: [
-    "Jagged post-punk guitar hooks",
-    "Raw fuzzed-out garage riffs",
-    "Complex progressive rhythm shifts",
-    "High-energy chaotic rock pits",
+    "Guitar-Driven Sound",
+    "Rhythm Complexity",
+    "Energetic Mosh Pits",
   ],
   bestFor: [
     "Post-punk revival stans",
@@ -2380,10 +2356,10 @@ const sunday1994: Artist = {
     "The official festival tour run highlighting their highly celebrated independent studio catalog to a massive live audience",
   ],
   whatToExpect: [
-    "Lush ambient shoegaze walls",
-    "Dreamy nostalgic pop layers",
-    "Charming self-aware stage banter",
-    "Warm emotional early afternoon crowd",
+    "Lush Sound",
+    "Dreamy Atmosphere",
+    "Conversational Delivery",
+    "Crowd Atmosphere",
   ],
   bestFor: [
     "Left-field dream pop fans",
@@ -2443,10 +2419,9 @@ const mc4d: Artist = {
     "The perfect high-visibility afternoon catalyst designed purely to get massive groups of friends dancing under the sun",
   ],
   whatToExpect: [
-    "Uplifting melodic house drops",
-    "Bright crossover vocal hooks",
-    "Blinding high-production lasers",
-    "Nonstop daytime party energy",
+    "Melodic Vocal Hooks",
+    "High-Production Visuals",
+    "High-Energy Pacing",
   ],
   bestFor: [
     "Melodic house enthusiasts",
@@ -2501,10 +2476,9 @@ const chace: Artist = {
     "A relentless masterclass in dance floor tension and release, delivered by one of Asia's most prominent electronic vanguards",
   ],
   whatToExpect: [
-    "Sleek house rhythms",
-    "Intricate electronic soundscapes",
-    "Syncopated garage swing lines",
-    "Hypnotic visual backing loops",
+    "Production Style Approach",
+    "Synth & Atmospheric",
+    "Cinematic Visuals",
   ],
   bestFor: [
     "Tech house house purists",
@@ -2568,10 +2542,9 @@ const calderAllen: Artist = {
     "A loose, remarkably charismatic live performance that treats giant open festival fields like an intimate Austin listening room",
   ],
   whatToExpect: [
-    "Gravel-voiced americana leads",
-    "Warm organic guitar strums",
-    "Charming Southern stage banter",
-    "Rich storytelling alt-rock textures",
+    "Guitar-Driven Sound",
+    "Conversational Delivery",
+    "Lyrical Storytelling",
   ],
   bestFor: [
     "Traditional country music purists",
@@ -2641,10 +2614,8 @@ const natMyers: Artist = {
     "A gorgeous, stripped-back early afternoon oasis that commands absolute, pin-drop silence from a festival crowd",
   ],
   whatToExpect: [
-    "Stark delta blues vocals",
-    "Frenetic acoustic fingerpicking",
-    "Raw slide guitar loops",
-    "Intimate storyteller stage presence",
+    "Guitar-Driven Sound",
+    "Intimate Performance",
   ],
   bestFor: [
     "Traditional country music purists",
@@ -2707,10 +2678,7 @@ const ink: Artist = {
     "The absolute perfect early afternoon catalyst designed to leave rock traditionalists completely floored by the talent",
   ],
   whatToExpect: [
-    "Driving dual-guitar hooks",
-    "Raw fuzzed-out rock riffs",
-    "Ferocious alternative vocal leads",
-    "High-energy hometown camaraderie",
+    "Guitar-Driven Sound",
   ],
   bestFor: [
     "Indie rock traditionalists",
@@ -2769,10 +2737,10 @@ const peaceControl: Artist = {
     "The absolute perfect early-day adrenaline booster for ravers looking for heavy bass muscle from the very first minute",
   ],
   whatToExpect: [
-    "Driving tech-house loops",
-    "Gritty electronic basslines",
-    "Blinding early strobe fields",
-    "Nonstop high-velocity mixing",
+    "Cinematic Visuals",
+    "Bass & Groove",
+    "High-Production Visuals",
+    "High-Energy Pacing",
   ],
   bestFor: [
     "Tech house house purists",
@@ -2836,10 +2804,8 @@ const theCreekers: Artist = {
     "The absolute perfect midday catalyst designed to unify a massive, supportive hometown crowd under the sun",
   ],
   whatToExpect: [
-    "Driving dual-guitar hooks",
-    "Raw soulful vocal delivery",
-    "Rich folk-rock storytelling",
-    "High-energy hometown camaraderie",
+    "Guitar-Driven Sound",
+    "Lyrical Storytelling",
   ],
   bestFor: [
     "Hometown scene supporters",
@@ -2890,10 +2856,9 @@ const nextOfKin: Artist = {
     "The official premier festival tour run showcasing a highly celebrated independent studio catalog to an international crowd",
   ],
   whatToExpect: [
-    "Intimate confessional lyricism",
-    "Wordy hyper-specific indie pop tracks",
-    "Charming self-aware stage banter",
-    "Warm emotional afternoon crowd",
+    "Lyrical Storytelling",
+    "Conversational Delivery",
+    "Crowd Atmosphere",
   ],
   bestFor: [
     "Lyric and songwriting obsessives",
@@ -2949,10 +2914,9 @@ const cyso: Artist = {
     "Witness world-class orchestral precision executed with a rare, fiery youthful energy unmatched anywhere else on the bill",
   ],
   whatToExpect: [
-    "Massive orchestral instrumentation",
-    "Towering symphonic wall arrangements",
-    "Cinematic multi-instrumental setups",
-    "Intense communal crowd catharsis",
+    "Live Band Performance",
+    "Cinematic Visuals",
+    "Crowd Atmosphere",
   ],
   bestFor: [
     "Classical and orchestral purists",
