@@ -4,7 +4,7 @@ import * as fs from "fs";
 
 const spotifyData = JSON.parse(
   fs.readFileSync(
-    new URL("../app/scripts/spotify-fetched-data.json", import.meta.url).pathname,
+    new URL("./spotify-fetched-data.json", import.meta.url).pathname,
     "utf-8"
   )
 );
