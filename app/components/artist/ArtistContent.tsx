@@ -3,19 +3,22 @@
 import { useState } from "react";
 import type { Artist } from "@/app/types/artist";
 import OverviewTab from "./OverviewTab";
+import LiveTab from "./LiveTab";
 import FloatingCards from "./FloatingCards";
 
-const TABS = ["Overview"] as const;
-type Tab = (typeof TABS)[number];
+type Tab = "Overview" | "Live";
 
 export default function ArtistContent({ artist }: { artist: Artist }) {
+  const tabs: Tab[] = ["Overview"];
+  if (artist.liveVideoId) tabs.push("Live");
+
   const [active, setActive] = useState<Tab>("Overview");
 
   return (
     <div className="px-8 pt-2 pb-16">
       {/* Tab bar */}
       <div className="flex border-b border-white/8 mb-8">
-        {TABS.map((tab) => (
+        {tabs.map((tab) => (
           <button
             key={tab}
             onClick={() => setActive(tab)}
@@ -34,6 +37,7 @@ export default function ArtistContent({ artist }: { artist: Artist }) {
       <div className="flex gap-10 items-start">
         <div className="flex-1 min-w-0">
           {active === "Overview" && <OverviewTab artist={artist} />}
+          {active === "Live" && <LiveTab artist={artist} />}
         </div>
 
         {/* Floating cards — sticky while content scrolls */}

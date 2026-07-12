@@ -16,6 +16,8 @@ export type Artist = {
   mbid?: string;
   imageUrl?: string;
   objectPosition?: string;
+  liveVideoId?: string;
+  liveVideoLabel?: string;
   genres: string[];
   origin: string;
   tagline: string;

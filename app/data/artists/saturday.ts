@@ -95,6 +95,8 @@ const jennie: Artist = {
   mbid: "779351de-0da5-4943-928b-495a3c40e8c0",
   imageUrl: "/artists/heroes/jennie.jpg",
   objectPosition: "center 15%",
+  liveVideoId: "aTP87bkvixE",
+  liveVideoLabel: "Live at Governor's Ball 2026",
   genres: ["K-Pop", "R&B", "Hip-Hop"],
   origin: "Seoul, South Korea",
   tagline: "Unrivaled global pop icon delivering high-fashion, block-rocking festival energy.",
