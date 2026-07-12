@@ -29,7 +29,7 @@ const charliXcx: Artist = {
     "Massive Singalongs",
     "Crowd Atmosphere",
   ],
-  bestFor: ["Pop fans", "Hyperpop heads", "Fashion-forward crowd", "Anyone who had a brat summer"],
+  bestFor: [],
   similarArtists: [
     {
       name: "Tate McRae",
@@ -112,7 +112,7 @@ const smashingPumpkins: Artist = {
     "Guitar-Driven Sound",
     "Period-Specific Sound",
   ],
-  bestFor: ["Alternative rock fans", "90s music lovers", "Guitar devotees", "Festival veterans"],
+  bestFor: [],
   similarArtists: [
     { name: "The Bends", slug: "the-bends" },
     {
@@ -182,11 +182,8 @@ const lilUziVert: Artist = {
     "High-Production Visuals",
   ],
   bestFor: [
-    "Trap and rage rap purists",
-    "High-visibility mainstage crowds",
-    "Mosh pit veterans",
-    "Adrenaline-fueled dance seekers",
-    "Modern hip-hop collectors",
+    "Mosh Pit Lovers",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -267,11 +264,7 @@ const yungblud: Artist = {
     "Massive Singalongs",
   ],
   bestFor: [
-    "Pop-punk nostalgia lovers",
-    "Alternative rock traditionalists",
-    "Mosh pit veterans",
-    "Devotees of chaotic performance",
-    "High-visibility mainstage crowds",
+    "Mosh Pit Lovers",
   ],
   similarArtists: [
     {
@@ -352,10 +345,8 @@ const majorLazer: Artist = {
     "Dance Floor Energy",
   ],
   bestFor: [
-    "Late-night ravers",
-    "Dance music lovers",
-    "Groups of friends",
-    "Party-first festival goers",
+    "Dance Floor Seekers",
+    "Groups & Social Experience",
   ],
   similarArtists: [
     {
@@ -435,11 +426,8 @@ const notForRadio: Artist = {
     "Synth & Atmospheric",
   ],
   bestFor: [
-    "Left-field dream pop fans",
-    "Psychedelic soul enthusiasts",
-    "Lyric and narrative obsessives",
-    "Late evening groove hunters",
-    "Underground indie music collectors",
+    "Lyric & Narrative Obsessives",
+    "Bass & Groove Lovers",
   ],
   similarArtists: [
     {
@@ -512,11 +500,7 @@ const zaraLarsson: Artist = {
     "Cinematic Visuals",
   ],
   bestFor: [
-    "Mainstream dance pop fans",
-    "Precision performance lovers",
-    "High-visibility mainstage crowds",
-    "Vocal power purists",
-    "Sleek commercial pop collectors",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -584,11 +568,9 @@ const freddieGibbs: Artist = {
     "Intense Fan Connection",
   ],
   bestFor: [
-    "Hip-hop traditionalists",
-    "Lyric and narrative obsessives",
-    "Underground rap purists",
-    "Late-night club music veterans",
-    "Production credit followers",
+    "Lyric & Narrative Obsessives",
+    "Tent & Club Venue Seekers",
+    "Sound Design & Production Nerds",
   ],
   similarArtists: [
     {
@@ -661,11 +643,9 @@ const sukiWaterhouse: Artist = {
     "Afternoon Vibes",
   ],
   bestFor: [
-    "Left-field dream pop fans",
-    "Lovers of vintage production",
-    "Lyric and narrative obsessives",
-    "Sunset golden hour dancers",
-    "Indie pop music collectors",
+    "Sound Design & Production Nerds",
+    "Lyric & Narrative Obsessives",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -735,11 +715,7 @@ const i_dle: Artist = {
     "Intense Fan Connection",
   ],
   bestFor: [
-    "K-pop and global pop devotees",
-    "Precision dance performance lovers",
-    "Fans of self-produced acts",
-    "High-visibility mainstage crowds",
-    "High-octane choreography fans",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -897,11 +873,7 @@ const oklou: Artist = {
     "Afternoon Vibes",
   ],
   bestFor: [
-    "Left-field pop enthusiasts",
-    "Ambient and electronic purists",
-    "Lyric and narrative obsessives",
-    "Vibe-focused afternoon loungers",
-    "Underground indie music collectors",
+    "Lyric & Narrative Obsessives",
   ],
   similarArtists: [
     {
@@ -963,11 +935,8 @@ const horsegiirL: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Happy hardcore traditionalists",
-    "Berlin club culture purists",
-    "High-velocity dance seekers",
-    "Late-night hard dance ravers",
-    "Devotees of chaotic stage performance",
+    "Tent & Club Venue Seekers",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -1116,11 +1085,8 @@ const loathe: Artist = {
     "Energetic Mosh Pits",
   ],
   bestFor: [
-    "Metalcore and shoegaze purists",
-    "Devotees of chaotic stage performance",
-    "Mosh pit traditionalists",
-    "Fans of alternative rock design",
-    "Heavy music gear nerds",
+    "Mosh Pit Lovers",
+    "Sound Design & Production Nerds",
   ],
   similarArtists: [
     {
@@ -1259,11 +1225,10 @@ const sidepiece: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Tech house purists",
-    "Late-night club music veterans",
-    "Ravers hunting rolling basslines",
-    "Groups of friends partying",
-    "High-velocity dance tent seekers",
+    "Tent & Club Venue Seekers",
+    "Bass & Groove Lovers",
+    "Groups & Social Experience",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -1332,11 +1297,8 @@ const skyeNewman: Artist = {
     "Dreamy Atmosphere",
   ],
   bestFor: [
-    "Lyric and songwriting obsessives",
-    "Fans of contemporary bedroom pop",
-    "Early afternoon discovery seekers",
-    "Intimate emotional story devotees",
-    "Indie pop music collectors",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     { name: "Stella Lefty", slug: "stella-lefty" },
@@ -1390,11 +1352,9 @@ const notion: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "UK garage and bassline purists",
-    "Underground club music devotees",
-    "High-velocity electronic dancers",
-    "Tent starters hunting bass loops",
-    "Electronic music culture lovers",
+    "Bass & Groove Lovers",
+    "Tent & Club Venue Seekers",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -1461,11 +1421,9 @@ const roz: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Tech house purists",
-    "Underground club devotees",
-    "Midday electronic dancers",
-    "Tent starters hunting grooves",
-    "Electronic music culture lovers",
+    "Tent & Club Venue Seekers",
+    "Dance Floor Seekers",
+    "Bass & Groove Lovers",
   ],
   similarArtists: [
     {
@@ -1533,11 +1491,7 @@ const baluBrigada: Artist = {
     "Production Style Approach",
   ],
   bestFor: [
-    "Contemporary bedroom pop fans",
-    "Lo-fi internet aesthetic lovers",
-    "Chill afternoon groove hunters",
-    "Indie pop music collectors",
-    "Fans of alternative pop melodies",
+    "Bass & Groove Lovers",
   ],
   similarArtists: [
     {
@@ -1598,11 +1552,8 @@ const lyny: Artist = {
     "Energetic Mosh Pits",
   ],
   bestFor: [
-    "Trap and future bass purists",
-    "Hometown electronic music devotees",
-    "High-velocity dance seekers",
-    "Tent starters hunting bass loops",
-    "Electronic sound design nerds",
+    "Lyric & Narrative Obsessives",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     {
@@ -1672,11 +1623,7 @@ const motherMother: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Indie rock traditionalists",
-    "Fans of alternative pop melodies",
-    "Lyric and narrative obsessives",
-    "High-energy afternoon moshers",
-    "Guitar music purists",
+    "Lyric & Narrative Obsessives",
   ],
   similarArtists: [
     {
@@ -1965,11 +1912,7 @@ const fiftyFourUltra: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Hardcore punk traditionalists",
-    "Mosh pit veterans",
-    "Devotees of chaotic stage performance",
-    "Guitar music purists",
-    "High-velocity rock seekers",
+    "Mosh Pit Lovers",
   ],
   similarArtists: [
     {
@@ -2030,11 +1973,9 @@ const highVis: Artist = {
     "Energetic Mosh Pits",
   ],
   bestFor: [
-    "Post-punk and alternative rock fans",
-    "Lyric and songwriting obsessives",
-    "Mosh pit traditionalists",
-    "Guitar music purists",
-    "Early afternoon discovery seekers",
+    "Lyric & Narrative Obsessives",
+    "Mosh Pit Lovers",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     {
@@ -2109,11 +2050,7 @@ const finnWolfhard: Artist = {
     "Crowd Atmosphere",
   ],
   bestFor: [
-    "Indie rock traditionalists",
-    "Garage punk hook fanatics",
-    "Guitar music purists",
-    "Early afternoon mainstage music fans",
-    "Scene trend-spotting collectors",
+    "Early Afternoon Discovery",
   ],
   similarArtists: [
     { name: "Cruz Beckham and the Breakers", slug: "cruz-beckham-and-the-breakers" },
@@ -2171,11 +2108,8 @@ const avello: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Melodic bass purists",
-    "Underground dubstep devotees",
-    "High-velocity dance seekers",
-    "Tent starters hunting bass loops",
-    "Electronic music culture lovers",
+    "Bass & Groove Lovers",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     { name: "KLO", slug: "klo" },
@@ -2238,11 +2172,9 @@ const partyof2: Artist = {
     "Synth & Atmospheric",
   ],
   bestFor: [
-    "Underground plugg rap purists",
-    "Internet rap scene trend spotters",
-    "Early afternoon mainstage seekers",
-    "Adrenaline-fueled dance fans",
-    "Gen-Z culture collectors",
+    "Scene Trend Spotters",
+    "Early Afternoon Discovery",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     { name: "After", slug: "after" },
@@ -2361,11 +2293,7 @@ const loveSpells: Artist = {
     "Bass & Groove",
   ],
   bestFor: [
-    "Contemporary bedroom pop fans",
-    "Lo-fi internet aesthetic lovers",
-    "Chill afternoon groove hunters",
-    "Indie pop music collectors",
-    "Fans of alternative pop melodies",
+    "Bass & Groove Lovers",
   ],
   similarArtists: [
     {
@@ -2488,11 +2416,8 @@ const palomaMorphy: Artist = {
     "Cinematic Visuals",
   ],
   bestFor: [
-    "Pop vocal purists",
-    "Fans of dramatic dark pop",
-    "Chamber pop music lovers",
-    "Early afternoon discovery seekers",
-    "Devotees of cinematic storytelling",
+    "Early Afternoon Discovery",
+    "Storytelling Lovers",
   ],
   similarArtists: [
     {
@@ -2551,11 +2476,9 @@ const dayWeRan: Artist = {
     "Guitar-Driven Sound",
   ],
   bestFor: [
-    "Indie rock traditionalists",
-    "Post-punk revival stans",
-    "Hometown scene supporters",
-    "Guitar music purists",
-    "Early afternoon moshers",
+    "Tent & Club Venue Seekers",
+    "Early Afternoon Discovery",
+    "Sound Design & Production Nerds",
   ],
   similarArtists: [
     {
@@ -2736,11 +2659,10 @@ const bradeazy: Artist = {
     "High-Energy Pacing",
   ],
   bestFor: [
-    "Tech house enthusiasts",
-    "Internet scene trend spotters",
-    "Groups of friends partying",
-    "Early afternoon tent starters",
-    "High-octane dance seekers",
+    "Scene Trend Spotters",
+    "Groups & Social Experience",
+    "Tent & Club Venue Seekers",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -2928,11 +2850,8 @@ const chicagoMade: Artist = {
     "Guitar-Driven Sound",
   ],
   bestFor: [
-    "Hometown scene supporters",
-    "Indie rock traditionalists",
-    "Alternative hip-hop lovers",
-    "Live instrument devotees",
-    "Midday festival field dancers",
+    "Hometown & Local Supporters",
+    "Dance Floor Seekers",
   ],
   similarArtists: [
     {
@@ -2989,11 +2908,8 @@ const valenciaGrace: Artist = {
     "Theatrical Staging",
   ],
   bestFor: [
-    "Pop vocal purists",
-    "Fans of dramatic dark pop",
-    "Chamber pop music lovers",
-    "Early afternoon discovery seekers",
-    "Devotees of cinematic storytelling",
+    "Early Afternoon Discovery",
+    "Storytelling Lovers",
   ],
   similarArtists: [
     {
