@@ -1081,7 +1081,7 @@ const littleSimz: Artist = {
     "Little Simz is the moniker of Simbiatu Ajikawo, a London-born rapper, songwriter, and actress whose uncompromising independent path has established her as one of hip-hop's most revered modern vanguards. Following the widespread critical masterpiece of 'Sometimes I Might Be Introvert'—which secured her a Mercury Prize—her evolution into 2024's club-ready electronic textures on 'Drop 7' showcased a restlessly creative artist who refuses to sit in one lane. Backed by a full live jazz-soul band, her live set is a deeply emotional, monumental tour de force of narrative performance.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
+    billingTier: "Undercard",
     stage: "Bud Light",
     day: "Friday",
     date: "Jul 31",
@@ -1165,6 +1165,8 @@ const cmat: Artist = {
 const boysNoize: Artist = {
   name: "Boys Noize",
   slug: "boys-noize",
+  imageUrl: "/artists/heroes/boys-noize.jpg",
+  objectPosition: "center 30%",
   genres: ["Electro House", "Techno", "Industrial Electronic"],
   origin: "Berlin, Germany",
   tagline:
@@ -1210,7 +1212,7 @@ const boysNoize: Artist = {
     "Alex Ridha, performing under the iconic moniker Boys Noize, has spent two decades standing as one of global electronic music's most influential and restlessly creative underground forces. Emerging from the anarchic Berlin club network, his raw, distortion-heavy brand of electro house and techno completely rewrote the rules of crossover electronic music. From running his legendary Boysnoize Records label to producing for avant-garde heavyweights like Arca, Frank Ocean, and Skrillex, his live festival environments remain chaotic, blindingly strobe-lit masterclasses in pure analog club energy.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
+    billingTier: "Undercard",
     stage: "Perry's",
     day: "Friday",
     date: "Jul 31",
@@ -1222,6 +1224,8 @@ const boysNoize: Artist = {
 const betweenFriends: Artist = {
   name: "Between Friends",
   slug: "between-friends",
+  imageUrl: "/artists/heroes/between-friends.webp",
+  objectPosition: "center 20%",
   genres: ["Indie Pop", "Bedroom Pop", "Neo-Psychedelia"],
   origin: "Los Angeles, California",
   tagline: "Glitchy, neon-drenched notebook bedroom pop for late-night drives under palm trees.",

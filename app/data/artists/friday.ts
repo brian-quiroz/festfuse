@@ -152,6 +152,8 @@ const smashingPumpkins: Artist = {
 const lilUziVert: Artist = {
   name: "Lil Uzi Vert",
   slug: "lil-uzi-vert",
+  imageUrl: "/artists/heroes/lil-uzi-vert.webp",
+  objectPosition: "center 10%",
   genres: ["Hip-Hop", "Trap", "Rage Rap"],
   origin: "Philadelphia, Pennsylvania",
   tagline: "Hyper-kinetic punk-rap adrenaline and massive stadium-scale trap anthems.",
@@ -229,6 +231,8 @@ const lilUziVert: Artist = {
 const yungblud: Artist = {
   name: "YUNGBLUD",
   slug: "yungblud",
+  imageUrl: "/artists/heroes/yungblud.webp",
+  objectPosition: "center 0%",
   genres: ["Alternative Rock", "Pop-Punk", "Gothic Rock"],
   origin: "Doncaster, England",
   tagline: "An explosive, theatrical riot of generational alternative punk defiance.",

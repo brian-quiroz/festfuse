@@ -457,7 +457,7 @@ const theChainsmokers: Artist = {
     "The Chainsmokers is the Grammy-winning electronic pop duo of Alex Pall and Drew Taggart, whose sharp combination of multi-platinum future bass production, sleek indie-pop hooks, and commanding stage showmanship earned them billions of streams worldwide. Moving rapidly from the club underground to absolute global chart dominance, they crafted the literal sonic blueprint for crossover electronic radio anthems throughout the late 2010s. Backed by an exceptionally polished live visual infrastructure, their headlining mainstage closer provides a massive, high-velocity celebration of pop history.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Headliner",
+    billingTier: "Sub-headliner",
     stage: "Bud Light",
     day: "Sunday",
     date: "Aug 2",
@@ -599,7 +599,7 @@ const hotMulligan: Artist = {
     "Hot Mulligan is the Michigan-born five-piece rock outfit whose hyper-vivid blend of distorted garage emo grit and glittering, pop-punk melodic hooks has earned them a reputation as the definitive leaders of the modern emo resurgence. Writing music that operates with the urgent, unpredictable pacing of a panic attack, the band relies on incredibly crisp dual-guitar layers and deeply conversational lyricism. Coming off massive global headline arena runs, their late-afternoon performance provides a thrilling, beautifully raw antidote to overprocessed pop.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
+    billingTier: "Sub-headliner",
     stage: "Tito's",
     day: "Sunday",
     date: "Aug 2",
@@ -678,7 +678,7 @@ const yoasobi: Artist = {
     "YOASOBI is a Japanese music project formed in 2019 by producer Ayase and vocalist ikura with a singular concept: creating 'music from novels'. Each track serves as a direct musical adaptation of a short story, yielding pop music with unique narrative depth and intricate vocal delivery. Following the historic global crossover success of their smash hit 'アイドル' (Idol), the duo has continued to scale new heights with their 2026 studio album 'THE BOOK for,', cementing their status as premier international festival headliners.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
+    billingTier: "Undercard",
     stage: "Bud Light",
     day: "Sunday",
     date: "Aug 2",
@@ -747,7 +747,7 @@ const ado: Artist = {
     "Ado is the completely anonymous Japanese vocal powerhouse whose extraordinary three-octave range and fierce independent path transformed her from a bedroom utaite into an essential global vanguard of J-pop. Completely obscuring her physical identity behind dark silhouettes and striking anime avatars, she pairs bold social commentary with genre-fluid alternative rock textures. Shattering international streaming benchmarks with blockbusters like 'Usseewa', her highly visible evening mainstage performance stands as an undeniable showcase of pristine musical power.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
+    billingTier: "Undercard",
     stage: "Bud Light",
     day: "Sunday",
     date: "Aug 2",
@@ -888,7 +888,7 @@ const eliBrown: Artist = {
     "Eli Brown is a Bristol-born DJ and electronic producer who has rapidly solidified his position as one of the modern era's most prolific and essential dark techno forces. Blending the heavy, metallic weight of industrial techno with the nostalgic, cold textures of late-80s warehouse networks, his meticulously engineered tracks possess a distinct narrative tension. Highly sought after for his uncompromising approach on his own Arcane imprint, his late-night festival environment functions as a blindingly intense, strobe-lit audio-visual spectacle.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
+    billingTier: "Undercard",
     stage: "Perry's",
     day: "Sunday",
     date: "Aug 2",
@@ -953,7 +953,7 @@ const dukeDumont: Artist = {
     "Adam Dyment, performing under the iconic moniker Duke Dumont, is a Grammy-nominated multi-platinum producer and DJ who completely re-engineered the crossover house music landscape over the past decade. Characterized by his unique formula of minimalist, high-tempo deep house loops, heavy rolling bass steps, and pristine alternative vocal choices, his production has anchored massive radio hits globally. Closing down the late-night slot, his performance serves as an explosive celebration of modern electronic music history.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
+    billingTier: "Undercard",
     stage: "Perry's",
     day: "Sunday",
     date: "Aug 2",
@@ -2429,7 +2429,7 @@ const justineSkye: Artist = {
     "Justine Skye is a Brooklyn-born global pop-R&B powerhouse whose sharp combination of multi-platinum vocal authority, trendsetting fashion style, and commanding stage presence has earned her massive international acclaim. Breaking onto charts as an independent internet phenom before collaborating with the genre's top production elite, she has spent over a decade refining a sound that bridges timeless soul structures with contemporary electronic club syncopation. Backed by an exceptionally polished live band, her late afternoon mainstage slot provides an undeniable clinic in world-class pop showmanship.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
+    billingTier: "Undercard",
     stage: "T-Mobile",
     day: "Sunday",
     date: "Aug 2",

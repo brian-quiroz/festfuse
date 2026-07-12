@@ -369,7 +369,7 @@ const discoLines: Artist = {
     "Thadeus Labuszewski, operating under the singular moniker Disco Lines, is a Colorado-born electronic producer and DJ whose meticulous formula of upbeat house tempos, deep tech-house rolling baselines, and massive crossover pop appeal has earned him global multi-platinum acclaim. Dominating festival circuits through an intensely playful digital presence and pristine production skills, he crafts a hyper-kinetic soundscape built around heavy groove loops. Ready to ignite his high-visibility afternoon slot, his live performance strips away club pretension for a beautifully unadulterated, celebratory dance party.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
+    billingTier: "Sub-headliner",
     stage: "Perry's",
     day: "Saturday",
     date: "Aug 1",
@@ -528,7 +528,7 @@ const clipse: Artist = {
     "Clipse is the iconic Virginia-born hip-hop duo comprising brothers Gene 'No Malice' Thornton and Terrence 'Pusha T' Thornton, whose uncompromising independent path and machine-gun lyrical delivery completely re-wrote the rules of contemporary street rap. Celebrated for their uncanny ability to float effortlessly over complex, avant-garde production landscapes built by Pharell Williams and The Neptunes, the duo writes stark, cinematic street journals with profound precision. Returning to the festival stage, their evening performance stands as an undeniable showcase of pristine musical power and raw hip-hop heritage.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
+    billingTier: "Sub-headliner",
     stage: "Bud Light",
     day: "Saturday",
     date: "Aug 1",
@@ -602,7 +602,7 @@ const geese: Artist = {
     "Geese is the Brooklyn-born five-piece rock outfit whose hyper-vivid blend of distorted post-punk instrumentation, jangly alternative guitars, and avant-garde theatrical rock tropes has earned them a reputation as one of the most exciting young live bands in America. Writing music that operates with the urgent, unpredictable pacing of a fever dream, the band relies on incredibly crisp dual-guitar layers and satirical narrative lyricism. Coming off their highly acclaimed studio milestone '3D Country', their early afternoon performance provides a thrilling, beautifully raw antidote to overprocessed pop.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
+    billingTier: "Sub-headliner",
     stage: "Allianz",
     day: "Saturday",
     date: "Aug 1",
@@ -676,7 +676,7 @@ const alisonWonderland: Artist = {
     "Alexandra Sholler, performing under the iconic moniker Alison Wonderland, is an Australian-born global dance powerhouse whose sharp combination of multi-platinum electronic production, classical cello training, and raw, vulnerable vocal deliveries has earned her billions of streams worldwide. Breaking onto international circuits as a vanguard of the future bass boom, she has spent over a decade refining a sound that pairs crushing trap basslines with pristine indie pop Hooks. Her late-night headlining performance provides a masterclass in high-production festival theater.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Headliner",
+    billingTier: "Undercard",
     stage: "Perry's",
     day: "Saturday",
     date: "Aug 1",
@@ -1063,7 +1063,7 @@ const spaceyJane: Artist = {
     "Spacey Jane is the Fremantle-born alternative rock quartet comprising Caleb Harper, Ashton Hardman-Le Cornu, Jerra Anstey, and Peppa Lane, whose meticulous blend of fuzzed-out surf rock distortion, driving indie rhythms, and earnest lyricism has earned them massive global acclaim. Breaking out of Western Australia to capture international chart dominance, the band writes sweeping, emotionally precise tales of relationship anxieties, identity, and modern isolation. Occupying a high-visibility late-afternoon slot, their performance brings a beautifully raw rock clinic to Grant Park.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
+    billingTier: "Undercard",
     stage: "Allianz",
     day: "Saturday",
     date: "Aug 1",
@@ -1126,7 +1126,7 @@ const wolfAlice: Artist = {
     "Wolf Alice is the London-born alternative rock outfit led by singer-songwriter Ellie Rowsell alongside Joff Oddie, Theo Ellis, and Joel Amey, whose uncompromising independent path and pristine studio records have established them as essential vanguards of modern rock. Seamlessly fusing the cold textures of late-80s shoegaze, gritty grunge riffs, and glossy art-pop melodies, the band anchors a monumental sonic landscape that addresses trauma, identity, and intimacy with staggering honesty. Moving onto a major sub-headlining mainstage slot, their live performance scales bedroom vulnerability into sweeping arena-sized anthems.",
   appearance: {
     festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
+    billingTier: "Undercard",
     stage: "Bud Light",
     day: "Saturday",
     date: "Aug 1",
