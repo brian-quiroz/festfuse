@@ -1,22 +1,26 @@
-"use client"
+"use client";
 
-import { useRef } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import type { Artist } from "@/app/types/artist"
-import ArtistCard from "./ArtistCard"
+import { useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import type { Artist } from "@/app/types/artist";
+import ArtistCard from "./ArtistCard";
 
 interface ArtistCarouselProps {
-  title: string
-  artists: Artist[]
-  cardSize?: "default" | "large"
+  title: string;
+  artists: Artist[];
+  cardSize?: "default" | "large";
 }
 
-export default function ArtistCarousel({ title, artists, cardSize = "default" }: ArtistCarouselProps) {
-  const scrollRef = useRef<HTMLDivElement>(null)
+export default function ArtistCarousel({
+  title,
+  artists,
+  cardSize = "default",
+}: ArtistCarouselProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (dir: "left" | "right") => {
-    scrollRef.current?.scrollBy({ left: dir === "left" ? -440 : 440, behavior: "smooth" })
-  }
+    scrollRef.current?.scrollBy({ left: dir === "left" ? -440 : 440, behavior: "smooth" });
+  };
 
   return (
     <section>
@@ -30,7 +34,6 @@ export default function ArtistCarousel({ title, artists, cardSize = "default" }:
 
       {/* Scroll area with side-hover arrows */}
       <div className="relative">
-
         {/* Left hover zone */}
         <div className="group/left absolute left-0 inset-y-0 w-20 z-10 flex items-center justify-start pl-3 pointer-events-none">
           <div className="pointer-events-auto">
@@ -55,15 +58,12 @@ export default function ArtistCarousel({ title, artists, cardSize = "default" }:
           </div>
         </div>
 
-        <div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-auto pl-8 pr-8 pb-2 no-scrollbar"
-        >
+        <div ref={scrollRef} className="flex gap-4 overflow-x-auto pl-8 pr-8 pb-2 no-scrollbar">
           {artists.map((artist, i) => (
             <ArtistCard key={`${artist.slug}-${i}`} artist={artist} size={cardSize} />
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

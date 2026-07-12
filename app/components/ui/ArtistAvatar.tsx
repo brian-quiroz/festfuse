@@ -1,10 +1,10 @@
-import Image from "next/image"
+import Image from "next/image";
 
 interface ArtistAvatarProps {
-  name: string
-  imageUrl?: string
-  size?: number
-  className?: string
+  name: string;
+  imageUrl?: string;
+  size?: number;
+  className?: string;
 }
 
 function getInitials(name: string): string {
@@ -14,10 +14,15 @@ function getInitials(name: string): string {
     .map((w) => w[0])
     .join("")
     .slice(0, 2)
-    .toUpperCase()
+    .toUpperCase();
 }
 
-export default function ArtistAvatar({ name, imageUrl, size = 32, className = "" }: ArtistAvatarProps) {
+export default function ArtistAvatar({
+  name,
+  imageUrl,
+  size = 32,
+  className = "",
+}: ArtistAvatarProps) {
   if (imageUrl) {
     return (
       <div
@@ -26,11 +31,11 @@ export default function ArtistAvatar({ name, imageUrl, size = 32, className = ""
       >
         <Image src={imageUrl} alt={name} fill className="object-cover" />
       </div>
-    )
+    );
   }
 
-  const showInitials = size >= 22
-  const fontSize = Math.max(8, Math.round(size * 0.35))
+  const showInitials = size >= 22;
+  const fontSize = Math.max(8, Math.round(size * 0.35));
 
   return (
     <div
@@ -56,5 +61,5 @@ export default function ArtistAvatar({ name, imageUrl, size = 32, className = ""
         </span>
       )}
     </div>
-  )
+  );
 }

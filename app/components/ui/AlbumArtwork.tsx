@@ -1,19 +1,24 @@
-import Image from "next/image"
-import { Play, Music } from "lucide-react"
+import Image from "next/image";
+import { Play, Music } from "lucide-react";
 
 interface AlbumArtworkProps {
-  artworkUrl?: string
-  alt?: string
-  size?: number
-  className?: string
+  artworkUrl?: string;
+  alt?: string;
+  size?: number;
+  className?: string;
 }
 
 // Purely visual component — no interactive elements.
 // Wrap in a <button> in the parent to own play interaction.
 // Both states respond to the nearest ancestor group hover.
-export default function AlbumArtwork({ artworkUrl, alt = "Album artwork", size = 28, className = "" }: AlbumArtworkProps) {
-  const sizeStyle = { width: size, height: size }
-  const iconSize = Math.max(8, Math.round(size * 0.38))
+export default function AlbumArtwork({
+  artworkUrl,
+  alt = "Album artwork",
+  size = 28,
+  className = "",
+}: AlbumArtworkProps) {
+  const sizeStyle = { width: size, height: size };
+  const iconSize = Math.max(8, Math.round(size * 0.38));
 
   if (artworkUrl) {
     return (
@@ -26,7 +31,7 @@ export default function AlbumArtwork({ artworkUrl, alt = "Album artwork", size =
           <Play size={iconSize} fill="white" strokeWidth={0} className="ml-0.5" />
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -44,5 +49,5 @@ export default function AlbumArtwork({ artworkUrl, alt = "Album artwork", size =
         className="text-white/20 group-hover:text-[#00E5FF]/50 transition-colors"
       />
     </div>
-  )
+  );
 }
