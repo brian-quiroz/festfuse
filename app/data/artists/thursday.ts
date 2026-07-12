@@ -394,7 +394,7 @@ const worship: Artist = {
   name: "WORSHIP",
   slug: "worship",
   imageUrl: "/artists/heroes/worship.webp",
-  genres: ["Drum and Bass"],
+  genres: ["Drum and Bass", "Electronic"],
   origin: "United Kingdom",
   tagline: "Drum and bass' biggest names, B2B, all night.",
   socials: {},
@@ -417,7 +417,24 @@ const worship: Artist = {
     "Electronic music lovers",
     "Sound design nerds",
   ],
-  similarArtists: [],
+  similarArtists: [
+    {
+      name: "Empire of the Sun",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c806f3e714afa21861e20248",
+    },
+    {
+      name: "Avello",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1781a61a6367dead8dac77f1911",
+    },
+    {
+      name: "John Summit",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
+    },
+    {
+      name: "haute & freddy",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178f24b273d9959e097972d5992",
+    },
+  ],
   tracks: [
     { name: "Ready to Fly", album: "Evolve", duration: "" },
     { name: "It's That Time - Dimension Remix", album: "It's That Time (Remixes)", duration: "" },
@@ -514,7 +531,9 @@ const bloodOrange: Artist = {
 const fiveSecondsOfSummer: Artist = {
   name: "5 Seconds of Summer",
   slug: "5-seconds-of-summer",
-  genres: ["Pop Punk", "Pop Rock"],
+  imageUrl: "/artists/heroes/5-seconds-of-summer.png",
+  objectPosition: "center 35%",
+  genres: ["Pop-Punk", "Alternative Rock"],
   origin: "Sydney, Australia",
   tagline: "Four friends from Sydney who've grown up on stage.",
   socials: { spotify: "https://open.spotify.com/artist/5Rl15oVamLq7FbSb0NNBNy" },
@@ -537,7 +556,24 @@ const fiveSecondsOfSummer: Artist = {
     "High-visibility mainstage crowds",
     "Pop music lovers",
   ],
-  similarArtists: [],
+  similarArtists: [
+    {
+      name: "YUNGBLUD",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1787c9287712c4355e54c94e0d0",
+    },
+    {
+      name: "The Story So Far",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1784d8d055d82fc1e5b1c5ecb1d",
+    },
+    {
+      name: "The Neighbourhood",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178df0b5ac84376a0a4b2166816",
+    },
+    {
+      name: "Day We Ran",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17896aa0ad1b8badab28252f80b",
+    },
+  ],
   tracks: [
     {
       spotifyId: "1gugDOSMREb34Xo0c1PlxM",
@@ -975,6 +1011,8 @@ const parisPaloma: Artist = {
 const littleSimz: Artist = {
   name: "Little Simz",
   slug: "little-simz",
+  imageUrl: "/artists/heroes/little-simz.jpg",
+  objectPosition: "center 0%",
   genres: ["Hip-Hop", "Conscious Rap", "Neo-Soul"],
   origin: "London, England",
   tagline: "One of the absolute greatest lyricists alive delivering pure live mastery.",
@@ -1473,11 +1511,11 @@ const ninajirachi: Artist = {
       name: "Frost Children",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17851daae4f55980f7ff0ea8c30",
     },
+    { name: "WORSHIP" },
     {
       name: "YOASOBI",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178964812dece6096f894a1fe85",
     },
-    { name: "LYNY", imageUrl: "https://i.scdn.co/image/ab6761610000f178ec6b5f8aa6b2ee962d3de80f" },
   ],
   tracks: [
     {

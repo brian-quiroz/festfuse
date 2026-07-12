@@ -72,6 +72,21 @@ function patch(content: string, slug: string, related: { name: string }[]): stri
 
 const DRY_RUN = process.argv.includes("--dry-run");
 
+// --artists worship,5-seconds-of-summer  → only patch those slugs
+const artistsArg = process.argv.find((a) => a.startsWith("--artists="));
+const targetSlugs = artistsArg
+  ? new Set(artistsArg.replace("--artists=", "").split(",").map((s) => s.trim()))
+  : null;
+
+const artists = targetSlugs
+  ? allArtists.filter((a) => targetSlugs.has(a.slug))
+  : allArtists;
+
+if (targetSlugs) {
+  const unknown = [...targetSlugs].filter((s) => !allArtists.find((a) => a.slug === s));
+  if (unknown.length) console.warn(`Warning: unknown slugs: ${unknown.join(", ")}`);
+}
+
 const files = [
   "../app/data/artists/thursday.ts",
   "../app/data/artists/friday.ts",
@@ -80,8 +95,8 @@ const files = [
 ].map((p) => new URL(p, import.meta.url).pathname);
 
 if (DRY_RUN) {
-  console.log("=== DRY RUN — first 3 artists ===\n");
-  for (const artist of allArtists.slice(0, 3)) {
+  console.log(`=== DRY RUN — ${artists.length} artist(s) ===\n`);
+  for (const artist of artists) {
     const related = computeRelated(artist.slug);
     console.log(`${artist.name} (${artist.slug})`);
     console.log(`  genres: [${artist.genres.join(", ")}]`);
@@ -91,11 +106,15 @@ if (DRY_RUN) {
 } else {
   for (const file of files) {
     let content = fs.readFileSync(file, "utf-8");
-    for (const artist of allArtists) {
-      content = patch(content, artist.slug, computeRelated(artist.slug));
+    let changed = false;
+    for (const artist of artists) {
+      const updated = patch(content, artist.slug, computeRelated(artist.slug));
+      if (updated !== content) { content = updated; changed = true; }
     }
-    fs.writeFileSync(file, content);
-    console.log(`Patched ${file.split("/").at(-1)}`);
+    if (changed) {
+      fs.writeFileSync(file, content);
+      console.log(`Patched ${file.split("/").at(-1)}`);
+    }
   }
   console.log("Done.");
 }

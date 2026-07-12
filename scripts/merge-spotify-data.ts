@@ -127,19 +127,18 @@ function patchTrack(
   return content;
 }
 
-function patchSimilarImages(content: string): string {
+function patchSimilarImages(content: string, nameSubset?: Set<string>): string {
   for (const artist of allArtists) {
+    if (nameSubset && !nameSubset.has(artist.name)) continue;
     const imageUrl = imageByExactName.get(artist.name);
     if (!imageUrl) continue;
 
     const esc = artist.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-    // { name: "Name" } → add imageUrl
     content = content.replace(
       new RegExp(`\\{\\s*name:\\s*"${esc}"\\s*\\}`, "g"),
       `{ name: "${artist.name}", imageUrl: "${imageUrl}" }`
     );
-    // { name: "Name", imageUrl: "old" } → update imageUrl
     content = content.replace(
       new RegExp(`\\{\\s*name:\\s*"${esc}",\\s*imageUrl:\\s*"[^"]*"\\s*\\}`, "g"),
       `{ name: "${artist.name}", imageUrl: "${imageUrl}" }`
@@ -149,6 +148,25 @@ function patchSimilarImages(content: string): string {
 }
 
 const DRY_RUN = process.argv.includes("--dry-run");
+
+// --artists=slug1,slug2 → only patch those artists
+const artistsArg = process.argv.find((a) => a.startsWith("--artists="));
+const targetSlugs = artistsArg
+  ? new Set(artistsArg.replace("--artists=", "").split(",").map((s) => s.trim()))
+  : null;
+
+const artists = targetSlugs ? allArtists.filter((a) => targetSlugs.has(a.slug)) : allArtists;
+
+if (targetSlugs) {
+  const unknown = [...targetSlugs].filter((s) => !allArtists.find((a) => a.slug === s));
+  if (unknown.length) console.warn(`Warning: unknown slugs: ${unknown.join(", ")}`);
+}
+
+// When targeting, only patch similarArtist images for names that appear
+// as similar artists of the targeted artists (avoids touching unrelated entries).
+const similarImageSubset = targetSlugs
+  ? new Set(artists.flatMap((a) => a.similarArtists.map((s) => s.name)))
+  : undefined;
 
 const files = [
   "../app/data/artists/thursday.ts",
@@ -163,39 +181,39 @@ let skippedTracks = 0;
 
 for (const file of files) {
   let content = fs.readFileSync(file, "utf-8");
+  let changed = false;
 
-  for (const artist of allArtists) {
+  for (const artist of artists) {
     const entry = byName.get(artist.name.toLowerCase());
     if (!entry) continue;
 
-    // Re-derive region after each mutation
     const region = artistRegion(content, artist.slug);
     if (!region) continue;
 
-    content = patchSpotify(content, region.slugPos, region.regionEnd, entry.spotify_url);
+    const updated = patchSpotify(content, region.slugPos, region.regionEnd, entry.spotify_url);
+    if (updated !== content) { content = updated; changed = true; }
     artistCount++;
 
     for (const track of entry.tracks) {
-      if (track.album_match_type !== "exact") {
-        skippedTracks++;
-        continue;
-      }
+      if (track.album_match_type !== "exact") { skippedTracks++; continue; }
       const artworkUrl = track.album_images?.[1]?.url ?? track.album_images?.[0]?.url ?? "";
-      content = patchTrack(content, artist.slug, track.name, track.spotify_id, track.duration, artworkUrl);
+      const patched = patchTrack(content, artist.slug, track.name, track.spotify_id, track.duration, artworkUrl);
+      if (patched !== content) { content = patched; changed = true; }
       trackCount++;
     }
   }
 
-  content = patchSimilarImages(content);
+  const withImages = patchSimilarImages(content, similarImageSubset);
+  if (withImages !== content) { content = withImages; changed = true; }
 
-  if (!DRY_RUN) {
+  if (!DRY_RUN && changed) {
     fs.writeFileSync(file, content);
     console.log(`Patched ${file.split("/").at(-1)}`);
   }
 }
 
 if (DRY_RUN) {
-  console.log(`Dry run: would patch ${artistCount} artists, ${trackCount} tracks (${skippedTracks} tracks skipped — non-exact album match).`);
+  console.log(`Dry run: would patch ${artistCount} artists, ${trackCount} tracks (${skippedTracks} skipped — non-exact album match).`);
 } else {
-  console.log(`Done. Patched ${artistCount} artists, ${trackCount} tracks (${skippedTracks} tracks skipped — non-exact album match).`);
+  console.log(`Done. Patched ${artistCount} artists, ${trackCount} tracks (${skippedTracks} skipped — non-exact album match).`);
 }

@@ -669,6 +669,7 @@ const sukiWaterhouse: Artist = {
 const i_dle: Artist = {
   name: "I-DLE",
   slug: "i-dle",
+  imageUrl: "/artists/heroes/i-dle.jpg",
   genres: ["K-Pop", "Pop", "Electronic Rock"],
   origin: "Seoul, South Korea",
   tagline: "Fiercely self-produced K-pop icons delivering bold, genre-fluid theatrical dominance.",
@@ -694,12 +695,18 @@ const i_dle: Artist = {
   ],
   similarArtists: [
     { name: "aespa", imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b" },
-    { name: "SB19", imageUrl: "https://i.scdn.co/image/ab6761610000f17856dea7970c54f7ce5688a688" },
     {
       name: "Zara Larsson",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178d519a7e349541cba8f85e965",
     },
-    { name: "Jade", imageUrl: "https://i.scdn.co/image/a0e0fd64fd74b658761ea717e2126b1bad974f4a" },
+    {
+      name: "Charli XCX",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786fa76436a2bba83b9f1d6fd1",
+    },
+    {
+      name: "Faouzia",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786310c4d3dcfe99b0a9da2a30",
+    },
   ],
   tracks: [
     {
