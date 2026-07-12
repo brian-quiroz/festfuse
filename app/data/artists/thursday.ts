@@ -343,6 +343,7 @@ const wetLeg: Artist = {
   name: "Wet Leg",
   slug: "wet-leg",
   imageUrl: "/artists/heroes/wet-leg.jpg",
+  objectPosition: "center 30%",
   genres: ["Indie Rock", "Post-Punk"],
   origin: "Isle of Wight, UK",
   tagline: "Dry wit, big riffs, and the best debut in recent memory.",
