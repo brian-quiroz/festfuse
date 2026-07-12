@@ -28,7 +28,7 @@ export type Artist = {
   whatToExpect: string[];
   bestFor: string[];
   similarArtists: Array<{ name: string; imageUrl?: string }>;
-  tracks: Array<{ name: string; album: string; duration: string; artworkUrl?: string }>;
+  tracks: Array<{ spotifyId?: string; name: string; album: string; duration: string; artworkUrl?: string }>;
   about: string;
   appearance: FestivalAppearance;
 };

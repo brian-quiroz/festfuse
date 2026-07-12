@@ -36,25 +36,42 @@ const oliviaDean: Artist = {
     "Afternoon crowd",
   ],
   similarArtists: [
-    { name: "Blood Orange" },
-    { name: "Valencia Grace" },
+    {
+      name: "Blood Orange",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17882a833d61eafc09c05c24882",
+    },
+    {
+      name: "Valencia Grace",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17825599b11aff6d045b573a13f",
+    },
     { name: "Justine Skye" },
-    { name: "Sienna Spiro" },
+    {
+      name: "Sienna Spiro",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178fb0ab819bbd4502028cd1feb",
+    },
   ],
   tracks: [
     {
+      spotifyId: "0mYXRQpTGjaLJt1l9MY4ps",
       name: "Man I Need",
       album: "The Art of Loving",
-      duration: "3:02",
-      artworkUrl: "/albums/olivia-dean/messy.png",
+      duration: "3:04",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e029a336bfb6d40bbd90a507417",
     },
     {
+      spotifyId: "6sGIMrtIzQjdzNndVxe397",
       name: "So Easy (To Fall In Love)",
       album: "The Art of Loving",
-      duration: "3:14",
-      artworkUrl: "/albums/olivia-dean/messy.png",
+      duration: "2:49",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e029a336bfb6d40bbd90a507417",
     },
-    { name: "Dive", album: "Messy", duration: "3:28", artworkUrl: "/albums/olivia-dean/messy.png" },
+    {
+      spotifyId: "36vmaZyO0iAE6FZ7287fg2",
+      name: "Dive",
+      album: "Messy",
+      duration: "3:20",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02cac9b52107643faf13a7587b",
+    },
   ],
   about:
     "Olivia Dean is a London-born singer-songwriter whose 2023 debut album 'Messy' earned a Mercury Prize nomination and announced her as one of British soul's most exciting new voices. Her sound bridges classic R&B warmth with a modern pop sensibility, delivering emotionally precise songs with genuine wit. Following a historic sweep at the BRIT Awards and a Grammy win, her massive 2025 sophomore studio album 'The Art of Loving' catapulted her to global pop stardom, landing a number-one record and transforming her live performances into massive, horn-backed arena spectacles perfect for the festival mainstage.",
@@ -98,13 +115,25 @@ const jennie: Artist = {
   ],
   bestFor: ["K-pop fans", "Pop lovers", "First-time festival goers", "Dancing crowds"],
   similarArtists: [
-    { name: "CORTIS" },
-    { name: "Blood Orange" },
-    { name: "aespa" },
-    { name: "bbno$" },
+    {
+      name: "CORTIS",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178267afab76836557af2bd37c8",
+    },
+    {
+      name: "Blood Orange",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17882a833d61eafc09c05c24882",
+    },
+    { name: "aespa", imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b" },
+    { name: "bbno$", imageUrl: "https://i.scdn.co/image/ab6761610000f178e7c585e9ecd65c76b7bf91ac" },
   ],
   tracks: [
-    { name: "Mantra", album: "Ruby", duration: "2:27", artworkUrl: "/albums/jennie/ruby.png" },
+    {
+      spotifyId: "1kUyOJb3fzUo8r0OCz5SQk",
+      name: "Mantra",
+      album: "Ruby",
+      duration: "2:16",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02dcf27dec5e479b2e39c4c993",
+    },
     {
       name: "like JENNIE",
       album: "Ruby (The Complete Collection)",
@@ -112,10 +141,11 @@ const jennie: Artist = {
       artworkUrl: "/albums/jennie/ruby-collection.jpg",
     },
     {
+      spotifyId: "5yvVYFDUpbnjcnRBgjwTzM",
       name: "Dracula - JENNIE Remix",
       album: "Dracula (Remix)",
-      duration: "3:10",
-      artworkUrl: "/albums/jennie/dracula-remix.jpg",
+      duration: "3:29",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02c7c031ce9d06b131f8563676",
     },
   ],
   about:
@@ -137,7 +167,7 @@ const theNeighbourhood: Artist = {
   genres: ["Indie Pop", "Alternative Rock", "Dark Pop"],
   origin: "Newbury Park, California",
   tagline: "Nocturnal, smoky indie-pop melancholia built for late-night festival fields.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/77SW9BnxLY8rJ0RciFqkHh" },
   whySee: [
     "A massive, highly anticipated mainstage festival reunion set executing a monumental catalog of generation-defining dark pop anthems",
     "Jesse Rutherford's effortless, deeply charismatic vocal delivery commanding a crowd of tens of thousands singing every lyric",
@@ -158,15 +188,42 @@ const theNeighbourhood: Artist = {
     "Iconic anthem hunters",
   ],
   similarArtists: [
-    { name: "Bella Kay" },
-    { name: "54 Ultra" },
+    {
+      name: "Bella Kay",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1783d7290ae36694e14b0655753",
+    },
+    {
+      name: "54 Ultra",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1788fdf273bf26657879cccdc74",
+    },
     { name: "Cruz Beckham and the Breakers" },
-    { name: "Whitney Whitney" },
+    {
+      name: "Whitney Whitney",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b9b32a1845c72390fc48c28c",
+    },
   ],
   tracks: [
-    { name: "Sweater Weather", album: "I Love You.", duration: "" },
-    { name: "Daddy Issues", album: "Wiped Out!", duration: "" },
-    { name: "Reflections", album: "Hard To Imagine The Neighbourhood Ever Changing", duration: "" },
+    {
+      spotifyId: "2QjOHCTQ1Jl3zawyYOpxh6",
+      name: "Sweater Weather",
+      album: "I Love You.",
+      duration: "4:00",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e028265a736a1eb838ad5a0b921",
+    },
+    {
+      spotifyId: "5E30LdtzQTGqRvNd7l6kG5",
+      name: "Daddy Issues",
+      album: "Wiped Out!",
+      duration: "4:20",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e025260c62db020e5861a51556d",
+    },
+    {
+      spotifyId: "2xql0pid3EUwW38AsywxhV",
+      name: "Reflections",
+      album: "Hard To Imagine The Neighbourhood Ever Changing",
+      duration: "4:04",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e029b6ac98a52f62d5cb473da40",
+    },
   ],
   about:
     "The Neighbourhood is the California-born alternative powerhouse whose meticulous combination of hazy indie-rock instrumentation, low-slung hip-hop rhythm pockets, and dark R&B melodic vocal lines completely re-engineered the soundscape of 2013 internet music culture. Anchored by the brooding lyricism of frontman Jesse Rutherford, the band maps a hyper-stylized, black-and-white sonic universe that explores identity and intimacy with profound emotional honesty. Occupying a highly visible sub-headlining slot on the mainstage, their performance provides a monumental, high-velocity celebration of modern indie history.",
@@ -188,7 +245,7 @@ const ethelCain: Artist = {
   origin: "Tallahassee, Florida",
   tagline:
     "Devastating, southern-gothic slowcore epics delivered with bone-chilling vocal majesty.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/0avMDS4HyoCEP6RqZJWpY2" },
   whySee: [
     "Hayden Anhedönia's first major mainstage festival run bringing a deeply moving, dark alternative community together in the park",
     "Towering, ten-minute slowcore rock arrangements that trade effortlessly between quiet ambient spaces and roaring guitar crescendos",
@@ -209,15 +266,33 @@ const ethelCain: Artist = {
     "Intimate emotional storyteller devotees",
   ],
   similarArtists: [
-    { name: "Not for Radio" },
-    { name: "Suki Waterhouse" },
-    { name: "Sunday (1994)" },
-    { name: "Pearly Drops" },
+    {
+      name: "Not for Radio",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17859a30bdb69e6a990c22a5d32",
+    },
+    {
+      name: "Suki Waterhouse",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1781696da72cfcb968be92b84d4",
+    },
+    {
+      name: "Sunday (1994)",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b7e25151a004217ba46eb173",
+    },
+    {
+      name: "Pearly Drops",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178d8ffff9d4383a19d7101dffc",
+    },
   ],
   tracks: [
     { name: "American Teenager", album: "Preacher's Daughter", duration: "" },
     { name: "Gibson Girl", album: "Preacher's Daughter", duration: "" },
-    { name: "Punish", album: "Perverts", duration: "" },
+    {
+      spotifyId: "6JnZ9hXxtXTtjwB3aAptTf",
+      name: "Punish",
+      album: "Perverts",
+      duration: "6:40",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02c6d1d934d100fa2167c71b5d",
+    },
   ],
   about:
     "Hayden Anhedönia, performing under the conceptual moniker Ethel Cain, is a Florida-born singer-songwriter, multi-instrumentalist, and auteur whose brilliant blend of ambient dream pop, crushing slowcore distortion, and visceral southern gothic imagery has earned a monumental international cult following. Deconstructing complex ancestral traumas and interpersonal grief with painful precision, her critically adored concept records like 'Preacher's Daughter' established her as a generation-defining lyricist. Live, her performance strips away corporate pretense, transforming sprawling mainstage lawns into haunting, cathedral-scale communal sanctuaries.",
@@ -238,7 +313,7 @@ const discoLines: Artist = {
   genres: ["Tech House", "Dance Pop", "Electronic"],
   origin: "Boulder, Colorado",
   tagline: "Bouncy, high-energy tech-house loops built purely for celebratory day parties.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/5Kmr0b3ip8g9P2i0dLTC3Z" },
   whySee: [
     "Thadeus Labuszewski bringing his hyper-infectious, cheerful brand of modern tech-house straight to a boiling festival tent",
     "A non-stop, high-velocity dance party packed back-to-back with viral club weapons and multi-platinum independent single drops",
@@ -259,14 +334,35 @@ const discoLines: Artist = {
     "High-velocity energy hunters",
   ],
   similarArtists: [
-    { name: "INJI" },
-    { name: "bradeazy" },
-    { name: "Whethan" },
-    { name: "Westend" },
+    { name: "INJI", imageUrl: "https://i.scdn.co/image/ab6761610000f178bb9b2f1ed4018b6bd506516b" },
+    {
+      name: "bradeazy",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1781c9da6b48887663d291b8df4",
+    },
+    {
+      name: "Whethan",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1782717c8959d00aa37044bbb74",
+    },
+    {
+      name: "Westend",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178bc781a35d287a09940ae6046",
+    },
   ],
   tracks: [
-    { name: "Baby Girl", album: "Baby Girl", duration: "" },
-    { name: "MDMA", album: "MDMA", duration: "" },
+    {
+      spotifyId: "2cSdAkzAf2T4j4aLvx4LLz",
+      name: "Baby Girl",
+      album: "Baby Girl",
+      duration: "1:51",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e027b0cbc69fe31ee3bc72c0c6a",
+    },
+    {
+      spotifyId: "33fFeAVSb0ue54Izu9uADo",
+      name: "MDMA",
+      album: "MDMA",
+      duration: "3:07",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0288d87ef7928e8c885cccbebe",
+    },
     { name: "Anotha One", album: "Anotha One", duration: "" },
   ],
   about:
@@ -292,7 +388,7 @@ const leonThomas: Artist = {
   origin: "Brooklyn, New York",
   tagline: "Grammy-winning soul, built from the underground up.",
   socials: {
-    spotify: "https://open.spotify.com/artist/3qBi3oNsvDhVfE5VBvfDMR",
+    spotify: "https://open.spotify.com/artist/0nnBZ8FXWjG9wZgM2cpfeb",
     youtube: "https://www.youtube.com/channel/@leonthomas",
     tiktok: "https://www.tiktok.com/@leonthomas",
   },
@@ -316,9 +412,18 @@ const leonThomas: Artist = {
     "Music nerds who follow production credits",
   ],
   similarArtists: [
-    { name: "Destin Conrad" },
-    { name: "Khamari" },
-    { name: "Chezile" },
+    {
+      name: "Destin Conrad",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786be69fc54978eb83fa10167c",
+    },
+    {
+      name: "Khamari",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786921bdf2ddc6e84970fd172e",
+    },
+    {
+      name: "Chezile",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b1593dbc8b1c5ee3c62b55a1",
+    },
     { name: "KWN" },
   ],
   tracks: [
@@ -328,7 +433,13 @@ const leonThomas: Artist = {
       duration: "3:14",
       artworkUrl: "/albums/leon-thomas/yes-it-is.png",
     },
-    { name: "MUTT", album: "MUTT", duration: "3:32", artworkUrl: "/albums/leon-thomas/mutt.png" },
+    {
+      spotifyId: "1mh9eHVRdNhzryG43PXdW1",
+      name: "MUTT",
+      album: "MUTT",
+      duration: "3:13",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0282a5b97ffaf87e21ce6fdf4a",
+    },
     {
       name: "Treasure In The Hills",
       album: "PHOLKS",
@@ -355,7 +466,7 @@ const clipse: Artist = {
   genres: ["Hip-Hop", "Boom Bap", "Underground Rap"],
   origin: "Virginia Beach, Virginia",
   tagline: "Legendary coke-rap royalty delivering pristine, razor-sharp technical lyricism.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/2J257euzcjnDLipsyJH3F2" },
   whySee: [
     "A historic, highly anticipated festival performance from brothers Pusha T and Malice executing their legendary reunion era",
     "A masterclass in technical rap execution from two of the absolute finest, most uncompromising pure lyricists in hip-hop history",
@@ -377,14 +488,41 @@ const clipse: Artist = {
   ],
   similarArtists: [
     { name: "Chicago Made" },
-    { name: "Freddie Gibbs" },
-    { name: "Lil Uzi Vert" },
-    { name: "Nettspend" },
+    {
+      name: "Freddie Gibbs",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178499def7bd0369aa26a22273c",
+    },
+    {
+      name: "Lil Uzi Vert",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17862c272d76220f2e9dad56704",
+    },
+    {
+      name: "Nettspend",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786bc255a221b2d2db4c1de21f",
+    },
   ],
   tracks: [
-    { name: "Grindin'", album: "Lord Willin'", duration: "" },
-    { name: "When the Last Time", album: "Lord Willin'", duration: "" },
-    { name: "Mr. Me Too", album: "Hell Hath No Fury", duration: "" },
+    {
+      spotifyId: "3XrvEifl0hIzgBGUa5jBLS",
+      name: "Grindin'",
+      album: "Lord Willin'",
+      duration: "4:24",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0295bf7f7dac7b61a95d47f07e",
+    },
+    {
+      spotifyId: "0EXm0iaB0CzqtsB3VaupXj",
+      name: "When the Last Time",
+      album: "Lord Willin'",
+      duration: "4:14",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0295bf7f7dac7b61a95d47f07e",
+    },
+    {
+      spotifyId: "6cAldqwmbUwpM8D17FWtPL",
+      name: "Mr. Me Too",
+      album: "Hell Hath No Fury",
+      duration: "3:41",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e021533f5dd895bb03556473485",
+    },
   ],
   about:
     "Clipse is the iconic Virginia-born hip-hop duo comprising brothers Gene 'No Malice' Thornton and Terrence 'Pusha T' Thornton, whose uncompromising independent path and machine-gun lyrical delivery completely re-wrote the rules of contemporary street rap. Celebrated for their uncanny ability to float effortlessly over complex, avant-garde production landscapes built by Pharell Williams and The Neptunes, the duo writes stark, cinematic street journals with profound precision. Returning to the festival stage, their evening performance stands as an undeniable showcase of pristine musical power and raw hip-hop heritage.",
@@ -405,7 +543,7 @@ const geese: Artist = {
   genres: ["Post-Punk", "Indie Rock", "Art Rock"],
   origin: "Brooklyn, New York",
   tagline: "Jagged, unpredictable art-punk chaos and thrillingly unhinged live energy.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/0WCo84qtCKfbyIf1lqQWB4" },
   whySee: [
     "One of the absolute sharpest, most restlessly creative rock outfits of the modern underground executing an intense performance",
     "Cameron Winter's completely unhinged, acrobatic vocal deliveries shifting effortlessly from deadpan rants to soaring theatrical croons",
@@ -426,15 +564,39 @@ const geese: Artist = {
     "Early afternoon moshers",
   ],
   similarArtists: [
-    { name: "Wet Leg" },
-    { name: "Day We Ran" },
-    { name: "Wunderhorse" },
-    { name: "Water From Your Eyes" },
+    {
+      name: "Wet Leg",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178a4e6cf8b3d6ea5a6b4b5fb8f",
+    },
+    {
+      name: "Day We Ran",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17896aa0ad1b8badab28252f80b",
+    },
+    {
+      name: "Wunderhorse",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1780e05e549428cb38b2f3e7a60",
+    },
+    {
+      name: "Water From Your Eyes",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b34bc1624b682463e153834a",
+    },
   ],
   tracks: [
     { name: "Disco Man", album: "Projector", duration: "" },
-    { name: "Cowboy Nudes", album: "3D Country", duration: "" },
-    { name: "3D Country", album: "3D Country", duration: "" },
+    {
+      spotifyId: "5vtJPJsiwW5BZAYo8Nla0n",
+      name: "Cowboy Nudes",
+      album: "3D Country",
+      duration: "2:50",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e028af65a82cdd9104f19e4047b",
+    },
+    {
+      spotifyId: "1h0TAXegSmZzATP3MhqGbH",
+      name: "3D Country",
+      album: "3D Country",
+      duration: "5:13",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e028af65a82cdd9104f19e4047b",
+    },
   ],
   about:
     "Geese is the Brooklyn-born five-piece rock outfit whose hyper-vivid blend of distorted post-punk instrumentation, jangly alternative guitars, and avant-garde theatrical rock tropes has earned them a reputation as one of the most exciting young live bands in America. Writing music that operates with the urgent, unpredictable pacing of a fever dream, the band relies on incredibly crisp dual-guitar layers and satirical narrative lyricism. Coming off their highly acclaimed studio milestone '3D Country', their early afternoon performance provides a thrilling, beautifully raw antidote to overprocessed pop.",
@@ -455,7 +617,7 @@ const alisonWonderland: Artist = {
   genres: ["Trap", "Future Bass", "Electronic"],
   origin: "Sydney, Australia",
   tagline: "Cinematic, arena-scale future bass and heavy, deeply emotional electronic anthems.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/11gWrKZMBsGQWmobv3oNfW" },
   whySee: [
     "An absolute pioneer of the international electronic circuit returning to detonate the mainstage with a world-class live performance",
     "Alexandra Sholler's flawless live execution, trading between hyper-precise deck manipulation, raw live vocals, and classical cello interludes",
@@ -476,15 +638,39 @@ const alisonWonderland: Artist = {
     "Adrenaline-fueled dance seekers",
   ],
   similarArtists: [
-    { name: "LYNY" },
-    { name: "Know Good" },
+    { name: "LYNY", imageUrl: "https://i.scdn.co/image/ab6761610000f178ec6b5f8aa6b2ee962d3de80f" },
+    {
+      name: "Know Good",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1785358de71801fad4a13adc2f2",
+    },
     { name: "KLO" },
-    { name: "Whethan" },
+    {
+      name: "Whethan",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1782717c8959d00aa37044bbb74",
+    },
   ],
   tracks: [
-    { name: "I Want U", album: "Run", duration: "" },
-    { name: "Church", album: "Awake", duration: "" },
-    { name: "Something Real", album: "Loner", duration: "" },
+    {
+      spotifyId: "6wb61u8ayuanWSHZzle5od",
+      name: "I Want U",
+      album: "Run",
+      duration: "3:30",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e025b6b8e70388320d3410a6b92",
+    },
+    {
+      spotifyId: "6Apozxrk03AIyQwyswUjbt",
+      name: "Church",
+      album: "Awake",
+      duration: "3:03",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0248362f277592191f882a2b14",
+    },
+    {
+      spotifyId: "1Z0N9hxlzZRPAKI5Q33jsq",
+      name: "Something Real",
+      album: "Loner",
+      duration: "3:49",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e027da84e98f85118248ebfb17d",
+    },
   ],
   about:
     "Alexandra Sholler, performing under the iconic moniker Alison Wonderland, is an Australian-born global dance powerhouse whose sharp combination of multi-platinum electronic production, classical cello training, and raw, vulnerable vocal deliveries has earned her billions of streams worldwide. Breaking onto international circuits as a vanguard of the future bass boom, she has spent over a decade refining a sound that pairs crushing trap basslines with pristine indie pop Hooks. Her late-night headlining performance provides a masterclass in high-production festival theater.",
@@ -526,10 +712,16 @@ const djTrixieMattel: Artist = {
     "High-energy afternoon dancers",
   ],
   similarArtists: [
-    { name: "The Chainsmokers" },
-    { name: "Whethan" },
-    { name: "INJI" },
-    { name: "MC4D" },
+    {
+      name: "The Chainsmokers",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1784567279fac84a0375c3d819b",
+    },
+    {
+      name: "Whethan",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1782717c8959d00aa37044bbb74",
+    },
+    { name: "INJI", imageUrl: "https://i.scdn.co/image/ab6761610000f178bb9b2f1ed4018b6bd506516b" },
+    { name: "MC4D", imageUrl: "https://i.scdn.co/image/ab6761610000f178042776271fc2c09e905c93e6" },
   ],
   tracks: [
     { name: "Malibu", album: "Barbara", duration: "" },
@@ -555,7 +747,7 @@ const bbno_dollar: Artist = {
   genres: ["Hip-Hop", "Indie Pop", "Dance Pop"],
   origin: "Vancouver, Canada",
   tagline: "Witty, low-slung internet rap hooks and carefree, bounce-driven party grooves.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/41X1TR6hrK8Q2ZCpp2EqCz" },
   whySee: [
     "The ultimate carefree afternoon hip-hop party catalyst bringing a hyper-catchy, viral performance directly to the Tito's stage",
     "Alexander Gumuchian's unmatched, completely charismatic live crowd banter and rapid-fire stream-of-consciousness comedic rap flows",
@@ -576,15 +768,30 @@ const bbno_dollar: Artist = {
     "Gen-Z culture collectors",
   ],
   similarArtists: [
-    { name: "ADÉLA" },
-    { name: "The Chainsmokers" },
-    { name: "The Neighbourhood" },
-    { name: "Empire of the Sun" },
+    { name: "ADÉLA", imageUrl: "https://i.scdn.co/image/ab6761610000f178fa24d9eab0a75b1ab0f9013b" },
+    {
+      name: "The Chainsmokers",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1784567279fac84a0375c3d819b",
+    },
+    {
+      name: "The Neighbourhood",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178df0b5ac84376a0a4b2166816",
+    },
+    {
+      name: "Empire of the Sun",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c806f3e714afa21861e20248",
+    },
   ],
   tracks: [
     { name: "Lalala", album: "Recess", duration: "" },
     { name: "edamame (feat. Rich Brian)", album: "eat ya veggies", duration: "" },
-    { name: "it boy", album: "it boy", duration: "" },
+    {
+      spotifyId: "30K6y3aeYjmjCHhLiudtH9",
+      name: "it boy",
+      album: "it boy",
+      duration: "2:26",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0214456281b63152fd75e6d931",
+    },
   ],
   about:
     "Alexander Gumuchian, performing under the moniker bbno$ (baby no money), is a Vancouver-born rapper and songwriter whose unique formula of low-slung underground rap pockets, crisp disco-pop hooks, and postmodern internet humor has garnered billions of streams worldwide. Writing with the specific narrative precision of a cartoon auteur, he maps a distinctively laid-back, sun-drenched sonic landscape that rejects traditional rap solemnity. Backed by effortless live charisma, his late afternoon set transforms a sprawling festival field into a vibrant outdoor block party.",
@@ -626,10 +833,22 @@ const kwn: Artist = {
     "Intimate emotional story devotees",
   ],
   similarArtists: [
-    { name: "Chezile" },
-    { name: "Leon Thomas" },
-    { name: "Destin Conrad" },
-    { name: "Khamari" },
+    {
+      name: "Chezile",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b1593dbc8b1c5ee3c62b55a1",
+    },
+    {
+      name: "Leon Thomas",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c6c4f4aaf40ebee92b8a8228",
+    },
+    {
+      name: "Destin Conrad",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786be69fc54978eb83fa10167c",
+    },
+    {
+      name: "Khamari",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786921bdf2ddc6e84970fd172e",
+    },
   ],
   tracks: [
     { name: "wnad", album: "wnad", duration: "" },
@@ -655,7 +874,7 @@ const siennaSpiro: Artist = {
   genres: ["Soul", "R&B", "Chamber Pop"],
   origin: "London, England",
   tagline: "Stunning, earth-shaking British soul built on monumental, timeless vocal authority.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/02gSuSAWEdWa5UOvqzjX6v" },
   whySee: [
     "Witness one of the most technically gifted, breathtakingly unique young vocalists performing anywhere across the entire weekend",
     "Spiro's operatic, powerhouse vocal delivery effortlessly filling the open air with staggering emotional power",
@@ -676,9 +895,18 @@ const siennaSpiro: Artist = {
     "Devotees of cinematic storytelling",
   ],
   similarArtists: [
-    { name: "Valencia Grace" },
-    { name: "Olivia Dean" },
-    { name: "Jae Stephens" },
+    {
+      name: "Valencia Grace",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17825599b11aff6d045b573a13f",
+    },
+    {
+      name: "Olivia Dean",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1785c7577ad44daeb7ce4b941a1",
+    },
+    {
+      name: "Jae Stephens",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17886987e340bcff4b2debb3e84",
+    },
     { name: "Justine Skye" },
   ],
   tracks: [
@@ -705,7 +933,7 @@ const maxStyler: Artist = {
   genres: ["Tech House", "Dark Techno", "Electronic"],
   origin: "San Luis Obispo, California",
   tagline: "Dark, hypnotic tech-house grooves built for early evening warehouse raves.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/3NKKngINK1tP6BFy0WOyWk" },
   whySee: [
     "One of the tech-house underground's absolute finest modern technicians commanding an intense, high-energy dance session",
     "Experience a relentless display of syncopated swing rhythms, heavy bassline rollers, and infectious classic vocal chops",
@@ -726,15 +954,39 @@ const maxStyler: Artist = {
     "Electronic music culture lovers",
   ],
   similarArtists: [
-    { name: "Peace Control" },
-    { name: "Eli Brown" },
-    { name: "Disco Lines" },
-    { name: "John Summit" },
+    {
+      name: "Peace Control",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17817b940b1cfc87546d75925c0",
+    },
+    {
+      name: "Eli Brown",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178264c8c3a982604908c6cf188",
+    },
+    {
+      name: "Disco Lines",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178965c9bf81cfe9ca329b8a5c7",
+    },
+    {
+      name: "John Summit",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
+    },
   ],
   tracks: [
-    { name: "Resist", album: "Resist", duration: "" },
+    {
+      spotifyId: "4XRROIQrTul8S5ISpQzeOh",
+      name: "Resist",
+      album: "Resist",
+      duration: "3:23",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e026b5537c8b9d885ba5e29ce99",
+    },
     { name: "Wanna Dance", album: "Wanna Dance", duration: "" },
-    { name: "Hypnotic", album: "Hypnotic", duration: "" },
+    {
+      spotifyId: "1TCJjzvQn6zaIzckTZiabG",
+      name: "Hypnotic",
+      album: "Hypnotic",
+      duration: "3:20",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02807ec4836f7f3366efb4b516",
+    },
   ],
   about:
     "Max Styler is a California-born DJ and electronic producer who has rapidly solidified his position as one of the modern era's most prolific and essential tech-house forces. Blending the nostalgic, soulful swing of underground clubs with the crushing, heavy bassline weight of contemporary dance networks, his landmark projects have earned widespread institutional praise. Behind the decks, Styler delivers a technically flawless, high-tempo masterclass in rhythm manipulation that sets the exact standard for modern club music.",
@@ -755,7 +1007,7 @@ const spaceyJane: Artist = {
   genres: ["Indie Rock", "Surf Rock", "Alt-Pop"],
   origin: "Fremantle, Australia",
   tagline: "Sun-drenched Australian indie rock packed with soaring, melancholic festival anthems.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/6V70yeZQCoSR2M3fyW8qiA" },
   whySee: [
     "Australia's premier indie-rock export delivering a massive, high-energy mainstage performance packed with soaring guitar pop hooks",
     "Caleb Harper's deeply honest, conversational vocal leads commanding massive, park-wide crowd singalongs under the open sky",
@@ -776,15 +1028,36 @@ const spaceyJane: Artist = {
     "Guitar music lovers",
   ],
   similarArtists: [
-    { name: "Marlon Funaki" },
-    { name: "The Army, The Navy" },
+    {
+      name: "Marlon Funaki",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178712c7cd98ae745930f1e86a6",
+    },
+    {
+      name: "The Army, The Navy",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178a80252ae3d399fc49014502d",
+    },
     { name: "Surfing for Daisy" },
-    { name: "Ella Red" },
+    {
+      name: "Ella Red",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17839b0de9171e1e5ff2d8a39cb",
+    },
   ],
   tracks: [
-    { name: "Booster Seat", album: "Sunlight", duration: "" },
+    {
+      spotifyId: "72RC6Kw32QfJi6RzlDKNxs",
+      name: "Booster Seat",
+      album: "Sunlight",
+      duration: "4:28",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02f4e16426b9de1ae437f588e7",
+    },
     { name: "Feeding the Family", album: "Sunlight", duration: "" },
-    { name: "Hardlight", album: "Here Comes Everybody", duration: "" },
+    {
+      spotifyId: "14hUuDsgEshd6VjyGxk8RB",
+      name: "Hardlight",
+      album: "Here Comes Everybody",
+      duration: "3:33",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02cc3d962daa7e5d11efc6563e",
+    },
   ],
   about:
     "Spacey Jane is the Fremantle-born alternative rock quartet comprising Caleb Harper, Ashton Hardman-Le Cornu, Jerra Anstey, and Peppa Lane, whose meticulous blend of fuzzed-out surf rock distortion, driving indie rhythms, and earnest lyricism has earned them massive global acclaim. Breaking out of Western Australia to capture international chart dominance, the band writes sweeping, emotionally precise tales of relationship anxieties, identity, and modern isolation. Occupying a high-visibility late-afternoon slot, their performance brings a beautifully raw rock clinic to Grant Park.",
@@ -806,7 +1079,7 @@ const wolfAlice: Artist = {
   origin: "London, England",
   tagline:
     "A terrifyingly beautiful, blistering collision of heavy shoegaze walls and fierce cinematic art-rock.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/3btzEQD6sugImIHPMRgkwV" },
   whySee: [
     "A massive, highly anticipated mainstage return from a Mercury Prize-winning powerhouse operating at the peak of their live authority",
     "Ellie Rowsell's extraordinary, flexible vocal delivery shifting effortlessly from delicate dream-pop whispers to ferocious rock snarls",
@@ -828,14 +1101,26 @@ const wolfAlice: Artist = {
   ],
   similarArtists: [
     { name: "The Bends" },
-    { name: "The Creekers" },
+    {
+      name: "The Creekers",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1783bd55f87a9e1be1eb5b1c1e1",
+    },
     { name: "Cruz Beckham and the Breakers" },
-    { name: "Wunderhorse" },
+    {
+      name: "Wunderhorse",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1780e05e549428cb38b2f3e7a60",
+    },
   ],
   tracks: [
     { name: "Don't Delete the Kisses", album: "Visions of a Life", duration: "" },
     { name: "The Last Man on Earth", album: "Blue Weekend", duration: "" },
-    { name: "Smile", album: "Blue Weekend", duration: "" },
+    {
+      spotifyId: "0wQKKPy050lguUxlKvHIi5",
+      name: "Smile",
+      album: "Blue Weekend",
+      duration: "3:16",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02ae6b2ae9241c11cb170a2bc5",
+    },
   ],
   about:
     "Wolf Alice is the London-born alternative rock outfit led by singer-songwriter Ellie Rowsell alongside Joff Oddie, Theo Ellis, and Joel Amey, whose uncompromising independent path and pristine studio records have established them as essential vanguards of modern rock. Seamlessly fusing the cold textures of late-80s shoegaze, gritty grunge riffs, and glossy art-pop melodies, the band anchors a monumental sonic landscape that addresses trauma, identity, and intimacy with staggering honesty. Moving onto a major sub-headlining mainstage slot, their live performance scales bedroom vulnerability into sweeping arena-sized anthems.",
@@ -857,7 +1142,7 @@ const whethan: Artist = {
   origin: "Chicago, Illinois",
   tagline:
     "Hometown electronic wunderkind delivering glossy, high-energy future bass and synth-pop heaters.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/0vqJkZ0RpLZixt3lTmD8vP" },
   whySee: [
     "A massive, highly anticipated hometown showcase performance from a multi-platinum electronic mastermind under the Perry's tent",
     "Experience a non-stop, high-velocity dance party packed back-to-back with a decade of global crossover festival weapons",
@@ -878,9 +1163,18 @@ const whethan: Artist = {
     "Legacy anthem hunters",
   ],
   similarArtists: [
-    { name: "The Chainsmokers" },
-    { name: "Major Lazer" },
-    { name: "Know Good" },
+    {
+      name: "The Chainsmokers",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1784567279fac84a0375c3d819b",
+    },
+    {
+      name: "Major Lazer",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178ab312009266614f4d3185229",
+    },
+    {
+      name: "Know Good",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1785358de71801fad4a13adc2f2",
+    },
     { name: "Zack Martino" },
   ],
   tracks: [
@@ -908,7 +1202,7 @@ const cortis: Artist = {
   origin: "Seoul, South Korea",
   tagline:
     "Bold, boundary-pushing K-pop hip-hop delivering high-fashion intensity and massive global streams.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/1ebt9HnXdyYA6KgLXr1n4P" },
   whySee: [
     "A massive, highly anticipated mainstage festival appearance bringing world-class Korean hip-hop choreography directly to Grant Park",
     "Hear the thunderous live festival execution of 'REDRED'—the smash title track that dominated charts for 11 straight weeks",
@@ -929,15 +1223,42 @@ const cortis: Artist = {
     "Upbeat trendsetting music collectors",
   ],
   similarArtists: [
-    { name: "Jennie" },
-    { name: "Little Simz" },
-    { name: "bbno$" },
-    { name: "Nettspend" },
+    {
+      name: "Jennie",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178a8e3627e392a1d8f539cb575",
+    },
+    {
+      name: "Little Simz",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178a22264dfbad2d96ffc6ee2e0",
+    },
+    { name: "bbno$", imageUrl: "https://i.scdn.co/image/ab6761610000f178e7c585e9ecd65c76b7bf91ac" },
+    {
+      name: "Nettspend",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786bc255a221b2d2db4c1de21f",
+    },
   ],
   tracks: [
-    { name: "REDRED", album: "GREENGREEN", duration: "" },
-    { name: "GO!", album: "Color Outside the Lines", duration: "" },
-    { name: "FaSHioN", album: "Color Outside the Lines", duration: "" },
+    {
+      spotifyId: "4BnDAG8QyfWirLFdGuV99x",
+      name: "REDRED",
+      album: "GREENGREEN",
+      duration: "2:43",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e027a702a4c3a18c1439fdc29ff",
+    },
+    {
+      spotifyId: "6OWWZtNQORY1McaZmOrwhc",
+      name: "GO!",
+      album: "Color Outside the Lines",
+      duration: "2:50",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e024b56a34b0c2b3798fd46f855",
+    },
+    {
+      spotifyId: "4ecdsGz3Hg6TKPwQ0ZOdJz",
+      name: "FaSHioN",
+      album: "Color Outside the Lines",
+      duration: "2:54",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e024b56a34b0c2b3798fd46f855",
+    },
   ],
   about:
     "CORTIS is a global K-pop and hip-hop phenomenon whose unique fusion of heavy, bounce-driven rap structures, high-fashion styling, and hyper-synchronized dance precision has shattered streaming records worldwide. Breaking out internationally with their debut studio album 'Color Outside the Lines', the group cemented their status as dominant mainstream forces when their second mini-album title track 'REDRED' spent 11 consecutive weeks at number one on the charts. Commandeering a rapid-fire, high-visibility mid-afternoon slot on the mainstage, their live performance delivers an undeniable masterclass in pure pop velocity.",
@@ -958,7 +1279,7 @@ const cameronWhitcomb: Artist = {
   genres: ["Country", "Alternative Folk", "Americana"],
   origin: "Kamloops, Canada",
   tagline: "Raw, gravel-voiced country grit delivered with explosive, unhinged live energy.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/6dhXvR5MsnlwYguRuqoapR" },
   whySee: [
     "An absolute force of nature delivering one of the most high-octane, visually unpredictable acoustic rock sets of the afternoon",
     "Whitcomb's extraordinary, deeply textured vocal rasp effortlessly filling the open air with staggering emotional power",
@@ -979,10 +1300,22 @@ const cameronWhitcomb: Artist = {
     "High-velocity rock seekers",
   ],
   similarArtists: [
-    { name: "Waylon Wyatt" },
-    { name: "Nat Myers" },
-    { name: "Calder Allen" },
-    { name: "Elizabeth Nichols" },
+    {
+      name: "Waylon Wyatt",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17851e191838dca7d4729b268a2",
+    },
+    {
+      name: "Nat Myers",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1782f32ced200ebf7a8f6047377",
+    },
+    {
+      name: "Calder Allen",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c4a45f0e840b74b85c5e87d9",
+    },
+    {
+      name: "Elizabeth Nichols",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786a6686aacc775a0807c37cd8",
+    },
   ],
   tracks: [
     { name: "The Road", album: "The Road", duration: "" },
@@ -1008,7 +1341,7 @@ const ayybo: Artist = {
   genres: ["Tech House", "G-House", "Electronic"],
   origin: "Orange County, California",
   tagline: "Dark, low-slung house grooves packed with heavy, hip-hop-infused club attitude.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/0YVquC9RaJLYFNmlJFzkTV" },
   whySee: [
     "One of the tech-house underground's absolute finest modern technicians commanding an intense, high-energy dance session",
     "Experience a relentless display of syncopated swing rhythms, heavy bassline rollers, and infectious classic vocal chops",
@@ -1029,10 +1362,13 @@ const ayybo: Artist = {
     "Electronic music culture lovers",
   ],
   similarArtists: [
-    { name: "INJI" },
-    { name: "John Summit" },
-    { name: "Omnom" },
-    { name: "RØZ" },
+    { name: "INJI", imageUrl: "https://i.scdn.co/image/ab6761610000f178bb9b2f1ed4018b6bd506516b" },
+    {
+      name: "John Summit",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
+    },
+    { name: "Omnom", imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a" },
+    { name: "RØZ", imageUrl: "https://i.scdn.co/image/ab6761610000f1780744913e8d8f59576784147b" },
   ],
   tracks: [
     { name: "HYPNOTIC", album: "HYPNOTIC", duration: "" },
@@ -1058,7 +1394,7 @@ const khamari: Artist = {
   genres: ["Alternative R&B", "Soul", "Neo-Soul"],
   origin: "Boston, Massachusetts",
   tagline: "Stunning, whisper-close confessional R&B built on timeless multi-instrumental poetry.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/6kmDosYCYjFQtywDq0DLPZ" },
   whySee: [
     "Catch an exceptional alternative R&B lyricist executing a deeply atmospheric, storyteller-style performance on the alternative stage",
     "Songwriting that lands like an intense, unguarded voice memo tracking the complex, messy textures of young identity",
@@ -1079,13 +1415,28 @@ const khamari: Artist = {
     "Intimate emotional story devotees",
   ],
   similarArtists: [
-    { name: "Destin Conrad" },
-    { name: "Chezile" },
-    { name: "Leon Thomas" },
+    {
+      name: "Destin Conrad",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786be69fc54978eb83fa10167c",
+    },
+    {
+      name: "Chezile",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b1593dbc8b1c5ee3c62b55a1",
+    },
+    {
+      name: "Leon Thomas",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c6c4f4aaf40ebee92b8a8228",
+    },
     { name: "KWN" },
   ],
   tracks: [
-    { name: "Doctor, My Eyes", album: "A Brief Nirvana", duration: "" },
+    {
+      spotifyId: "4ZgXDDRSS4lVx1g3WkRon0",
+      name: "Doctor, My Eyes",
+      album: "A Brief Nirvana",
+      duration: "3:14",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0206e4905884a56d60f27ebfdf",
+    },
     { name: "Cherry On Top", album: "A Brief Nirvana", duration: "" },
     { name: "TheseฤซDays", album: "A Brief Nirvana", duration: "" },
   ],
@@ -1108,7 +1459,7 @@ const quadeca: Artist = {
   genres: ["Folk-Glow", "Alternative Hip-Hop", "Neo-Psychedelia"],
   origin: "Los Angeles, California",
   tagline: "A beautifully haunting, glitchy collision of ambient folk glow and avant-garde rap.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/3zz52ViyCBcplK0ftEVPSS" },
   whySee: [
     "One of alternative music's absolute finest contemporary innovators delivering a high-octane audio-visual sermon to the alternative stage",
     "Benjamin Lasky's flexible vocal command shifting effortlessly from brutal rap flows to gorgeous dream-pop runs",
@@ -1130,14 +1481,26 @@ const quadeca: Artist = {
   ],
   similarArtists: [
     { name: "After" },
-    { name: "Love Spells" },
-    { name: "Evening Elephants" },
+    {
+      name: "Love Spells",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b33be717b74e15b9f5c235f2",
+    },
+    {
+      name: "Evening Elephants",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b0270b39611e7152aa4832f9",
+    },
     { name: "Easy Honey" },
   ],
   tracks: [
     { name: "Born Yesterday", album: "I Didn't Mean to Haunt You", duration: "" },
     { name: "Tell Me A Joke", album: "I Didn't Mean to Haunt You", duration: "" },
-    { name: "Sisyphus", album: "From Me To You", duration: "" },
+    {
+      spotifyId: "5jxJX7R3q0Wum8BLlqprdq",
+      name: "Sisyphus",
+      album: "From Me To You",
+      duration: "4:32",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02901b1a9b8054f02142079fc5",
+    },
   ],
   about:
     "Benjamin Lasky, performing under the moniker Quadeca, has spent the modern creative era standing at the absolute vanguard of contemporary music, single-handedly transforming from an internet rap prodigy into a revered avant-garde auteur. Characterized by his unique choice of hazy, tape-warped production layers, folk-glow arrangements, and deeply moving narrative poetry, his records explore grief and memory with profound honesty. Backed by intense live musicianship and a fierce performance ethos, his early evening set stands as a thrilling masterclass in pure sonic tension.",
@@ -1158,7 +1521,7 @@ const momma: Artist = {
   genres: ["Indie Rock", "90s Alternative", "Grunge"],
   origin: "Los Angeles, California",
   tagline: "Fuzzed-out, heavy 90s alternative rock hooks packed with sharp melodic grit.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/5Wj0an60VgRckYV9zlDe1e" },
   whySee: [
     "Catch an exceptional songwriting collective executing a beautifully warm, sun-drenched indie rock performance on the Allianz stage",
     "Etta Friedman and Allegra Weingarten's perfectly synchronized vocal harmonies gliding over heavy, chorus-heavy dream pop guitar lines",
@@ -1179,14 +1542,38 @@ const momma: Artist = {
     "Early afternoon discovery seekers",
   ],
   similarArtists: [
-    { name: "The Braymores" },
-    { name: "Spacey Jane" },
-    { name: "Water From Your Eyes" },
-    { name: "Mother Mother" },
+    {
+      name: "The Braymores",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178e72ca0c70ab4f5bb3da261dc",
+    },
+    {
+      name: "Spacey Jane",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178f5864abfed7a8d4b9334a7a0",
+    },
+    {
+      name: "Water From Your Eyes",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b34bc1624b682463e153834a",
+    },
+    {
+      name: "Mother Mother",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178fdfbc01d2597633aae65f6b7",
+    },
   ],
   tracks: [
-    { name: "Speeding 72", album: "Household Name", duration: "" },
-    { name: "Rockstar", album: "Household Name", duration: "" },
+    {
+      spotifyId: "2QYmaiPbbXxXMBrvWj34m0",
+      name: "Speeding 72",
+      album: "Household Name",
+      duration: "3:58",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02088d81927483865772a923cd",
+    },
+    {
+      spotifyId: "0nh29E71VEHJD8HxMyckVf",
+      name: "Rockstar",
+      album: "Household Name",
+      duration: "3:09",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02088d81927483865772a923cd",
+    },
     { name: "Medicine", album: "Medicine", duration: "" },
   ],
   about:
@@ -1208,7 +1595,7 @@ const frostChildren: Artist = {
   genres: ["Hyperpop", "Digital Hardcore", "Electronic"],
   origin: "New York, New York",
   tagline: "Blistering, hyper-chaotic internet pop and unhinged digital hardcore perfection.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/6R1kfr0GIWnwxY4zW11Vag" },
   whySee: [
     "The absolute polarising flashpoint of modern underground internet pop making an explosive, completely unhinged club statement",
     "Lulu and Angel Prost's magnetic stage command delivering sharp hardware manipulation alongside high-fashion electronic production",
@@ -1229,13 +1616,28 @@ const frostChildren: Artist = {
     "Underground electronic collectors",
   ],
   similarArtists: [
-    { name: "Ninajirachi" },
-    { name: "Disco Lines" },
-    { name: "aespa" },
-    { name: "John Summit" },
+    {
+      name: "Ninajirachi",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1789ab4772c0bd3455137b1d02e",
+    },
+    {
+      name: "Disco Lines",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178965c9bf81cfe9ca329b8a5c7",
+    },
+    { name: "aespa", imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b" },
+    {
+      name: "John Summit",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
+    },
   ],
   tracks: [
-    { name: "FLATLINE", album: "SPEED RUN", duration: "" },
+    {
+      spotifyId: "4FjpNddm5GtoIS81GxoQz1",
+      name: "FLATLINE",
+      album: "SPEED RUN",
+      duration: "3:45",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e021b118cbb5309ce2f685cfb39",
+    },
     { name: "FOXGLOVE", album: "SPEED RUN", duration: "" },
     { name: "Strobe", album: "Hearth Room", duration: "" },
   ],
@@ -1258,7 +1660,7 @@ const goldieBoutilier: Artist = {
   genres: ["Alt-Pop", "Cinematic Pop", "Americana-Pop"],
   origin: "Cape Breton, Canada",
   tagline: "Glittering, vintage Hollywood-hued pop tragedy wrapped in lush, cinematic spaces.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/392WuM1Yb4QRI0GG4epyn5" },
   whySee: [
     "Experience a breathtaking, retro-fueled performance that translates 1970s cinematic style into a modern festival landscape",
     "Goldie's soaring, multi-octave vocal control flawlessly commanding an emotionally massive early afternoon crowd",
@@ -1279,10 +1681,22 @@ const goldieBoutilier: Artist = {
     "Pop vocal purists",
   ],
   similarArtists: [
-    { name: "Claire Rosinkranz" },
-    { name: "Julia Wolf" },
-    { name: "Emi Grace" },
-    { name: "Spacey Jane" },
+    {
+      name: "Claire Rosinkranz",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1789fd59f9fc4a311da6437b6a5",
+    },
+    {
+      name: "Julia Wolf",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178464afc83fc7ddaf9292bb9a8",
+    },
+    {
+      name: "Emi Grace",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1781d8d8c934c382100d033bb41",
+    },
+    {
+      name: "Spacey Jane",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178f5864abfed7a8d4b9334a7a0",
+    },
   ],
   tracks: [
     { name: "The Gold", album: "Emerald Year", duration: "" },
@@ -1308,7 +1722,7 @@ const dieSpitz: Artist = {
   genres: ["Grunge", "Punk Rock", "Garage Rock"],
   origin: "Austin, Texas",
   tagline: "Ferocious, fuzzed-out Texas punk and untamed garage grit built to shred stages.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/0zfZmpHTu0MlkkNr5KHeXE" },
   whySee: [
     "An absolute lightning-strike afternoon set from Austin's favorite punk quartet executing an intensely aggressive live rock engine",
     "Blistering, rapid-fire dual-guitar distortion and raw vocal snarls that completely bypass processed backing tracks",
@@ -1329,10 +1743,16 @@ const dieSpitz: Artist = {
     "High-velocity rock seekers",
   ],
   similarArtists: [
-    { name: "Bad Nerves" },
-    { name: "Kim Theory" },
+    {
+      name: "Bad Nerves",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178ca8c5f607e5e4d7c70c4da79",
+    },
+    {
+      name: "Kim Theory",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178aeb5f081b1d106a80f4a67a6",
+    },
     { name: "Cruz Beckham and the Breakers" },
-    { name: "Momma" },
+    { name: "Momma", imageUrl: "https://i.scdn.co/image/ab6761610000f1781079525c9132bc6a8bd1e833" },
   ],
   tracks: [
     { name: "Hair of the Dog", album: "Teeth", duration: "" },
@@ -1358,7 +1778,7 @@ const lucyBedroque: Artist = {
   genres: ["Indie Pop", "Alt-Pop", "Bedroom Pop"],
   origin: "New York, New York",
   tagline: "Conversational, shadow-drenched bedroom alt-pop for nocturnal overthinkers.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/2I8H267eH5va9da4vGt38O" },
   whySee: [
     "Catch a hyper-gifted independent lyricist executing a deeply atmospheric, confessional performance on the alternative stage",
     "Songwriting that lands like an intense, unguarded voice memo tracking the complex, messy textures of young romance",
@@ -1379,10 +1799,16 @@ const lucyBedroque: Artist = {
     "Indie pop music collectors",
   ],
   similarArtists: [
-    { name: "Emi Grace" },
-    { name: "sombr" },
-    { name: "Claire Rosinkranz" },
-    { name: "Ryman" },
+    {
+      name: "Emi Grace",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1781d8d8c934c382100d033bb41",
+    },
+    { name: "sombr", imageUrl: "https://i.scdn.co/image/ab6761610000f17878edaa6468cae153565c2c97" },
+    {
+      name: "Claire Rosinkranz",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1789fd59f9fc4a311da6437b6a5",
+    },
+    { name: "Ryman", imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10" },
   ],
   tracks: [
     { name: "Overdriven", album: "Bedroque", duration: "" },
@@ -1408,7 +1834,7 @@ const omnom: Artist = {
   genres: ["Tech House", "House", "Electronic"],
   origin: "Los Angeles, California",
   tagline: "Bouncy, low-slung tech-house grooves packed with heavy, hip-hop-infused club attitude.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/3PYRXP25JcbqhvNaJYcnWy" },
   whySee: [
     "One of the tech-house underground's absolute finest modern technicians commanding an intense, high-energy dance session",
     "Experience a relentless display of syncopated swing rhythms, heavy bassline rollers, and infectious classic vocal chops",
@@ -1429,14 +1855,29 @@ const omnom: Artist = {
     "Electronic music culture lovers",
   ],
   similarArtists: [
-    { name: "Westend" },
-    { name: "John Summit" },
-    { name: "SIDEPIECE" },
-    { name: "AYYBO" },
+    {
+      name: "Westend",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178bc781a35d287a09940ae6046",
+    },
+    {
+      name: "John Summit",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
+    },
+    {
+      name: "SIDEPIECE",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17821705221c7f192d4a7963910",
+    },
+    { name: "AYYBO", imageUrl: "https://i.scdn.co/image/ab6761610000f178f8c3472c2555b482981daecf" },
   ],
   tracks: [
     { name: "Number One", album: "Number One", duration: "" },
-    { name: "Losing Control", album: "Losing Control", duration: "" },
+    {
+      spotifyId: "1rlPXuxUk4t8xVS05Uab4G",
+      name: "Losing Control",
+      album: "Losing Control",
+      duration: "2:45",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02382792749a81b76678ab1af1",
+    },
     { name: "Mind Doctor", album: "Mind Doctor", duration: "" },
   ],
   about:
@@ -1459,7 +1900,7 @@ const jimLegxacy: Artist = {
   origin: "London, England",
   tagline:
     "A breathtaking, glitchy collision of traditional Afrobeats rhythms and emo-rap intimacy.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/7IrBqZo6diq3hV3GpUhrs2" },
   whySee: [
     "One of alternative music's absolute finest contemporary innovators executing a deeply atmospheric, highly anticipated festival debut",
     "Experience a spectacular live rendering of his unique 'Afro-glow' production style, blending crisp loops with acoustic guitars",
@@ -1480,10 +1921,16 @@ const jimLegxacy: Artist = {
     "Underground indie music collectors",
   ],
   similarArtists: [
-    { name: "Oklou" },
-    { name: "Destin Conrad" },
+    { name: "Oklou", imageUrl: "https://i.scdn.co/image/ab6761610000f178f8b90fcffca3c4e28564f0e3" },
+    {
+      name: "Destin Conrad",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786be69fc54978eb83fa10167c",
+    },
     { name: "KWN" },
-    { name: "Leon Thomas" },
+    {
+      name: "Leon Thomas",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c6c4f4aaf40ebee92b8a8228",
+    },
   ],
   tracks: [
     { name: "Hitlight", album: "Homeless", duration: "" },
@@ -1509,7 +1956,7 @@ const chezile: Artist = {
   genres: ["Alternative R&B", "Soul", "Neo-Soul"],
   origin: "Atlanta, Georgia",
   tagline: "Sultry, low-slung alternative R&B tracking the raw, intimate vulnerabilities of youth.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/1EmdfupUQDpXOcb4Nj2mBH" },
   whySee: [
     "Catch an exceptional independent lyricist executing a deeply atmospheric, confessional performance on the Tito's stage",
     "Songwriting that lands like an intense, unguarded voice memo tracking the complex, messy textures of young romance",
@@ -1530,9 +1977,18 @@ const chezile: Artist = {
     "Intimate emotional story devotees",
   ],
   similarArtists: [
-    { name: "Destin Conrad" },
-    { name: "Leon Thomas" },
-    { name: "Khamari" },
+    {
+      name: "Destin Conrad",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786be69fc54978eb83fa10167c",
+    },
+    {
+      name: "Leon Thomas",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c6c4f4aaf40ebee92b8a8228",
+    },
+    {
+      name: "Khamari",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786921bdf2ddc6e84970fd172e",
+    },
     { name: "KWN" },
   ],
   tracks: [
@@ -1559,7 +2015,7 @@ const jaeStephens: Artist = {
   genres: ["Soul", "R&B", "Dance Pop"],
   origin: "Los Angeles, California",
   tagline: "Sleek, high-gloss electronic R&B and contemporary soul built for the open air.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/4HiLipaDjOwRkhJlk5s1uT" },
   whySee: [
     "The absolute definition of modern electronic R&B polish making a high-visibility crossover statement on the Allianz stage",
     "A perfectly synchronized live performance that balances deep, driving baseline grooves with incredibly infectious vocal hooks",
@@ -1580,10 +2036,19 @@ const jaeStephens: Artist = {
     "Electronic music culture lovers",
   ],
   similarArtists: [
-    { name: "Jade" },
-    { name: "Blood Orange" },
-    { name: "Olivia Dean" },
-    { name: "Valencia Grace" },
+    { name: "Jade", imageUrl: "https://i.scdn.co/image/a0e0fd64fd74b658761ea717e2126b1bad974f4a" },
+    {
+      name: "Blood Orange",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17882a833d61eafc09c05c24882",
+    },
+    {
+      name: "Olivia Dean",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1785c7577ad44daeb7ce4b941a1",
+    },
+    {
+      name: "Valencia Grace",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17825599b11aff6d045b573a13f",
+    },
   ],
   tracks: [
     { name: "24K", album: "High Class", duration: "" },
@@ -1609,7 +2074,7 @@ const ryman: Artist = {
   genres: ["Indie Pop", "Alt-Pop", "Bedroom Pop"],
   origin: "Nashville, Tennessee",
   tagline: "Sun-drenched, conversational bedroom pop that plays out like real diary entries.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/1ZUNE7b5nNiN31AnJ0Smqj" },
   whySee: [
     "Catch a hyper-gifted young multi-instrumentalist executing a beautifully warm, sun-drenched indie pop performance",
     "Songwriting that lands like an intense, playful voice memo tracking the carefree textures of youth and modern romance",
@@ -1630,10 +2095,19 @@ const ryman: Artist = {
     "Chill summer melody seekers",
   ],
   similarArtists: [
-    { name: "Emi Grace" },
-    { name: "sombr" },
-    { name: "Claire Rosinkranz" },
-    { name: "Lucy Bedroque" },
+    {
+      name: "Emi Grace",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1781d8d8c934c382100d033bb41",
+    },
+    { name: "sombr", imageUrl: "https://i.scdn.co/image/ab6761610000f17878edaa6468cae153565c2c97" },
+    {
+      name: "Claire Rosinkranz",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1789fd59f9fc4a311da6437b6a5",
+    },
+    {
+      name: "Lucy Bedroque",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178100cfd4653979ed518fbf28f",
+    },
   ],
   tracks: [
     { name: "Rewind", album: "Ryman", duration: "" },
@@ -1659,7 +2133,7 @@ const villanelle: Artist = {
   genres: ["Indie Rock", "Alternative Rock", "Post-Punk"],
   origin: "London, England",
   tagline: "Jagged, unpredictable post-punk chaos and thrillingly unhinged live rock energy.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/3J9QwmRJDdn9Oq1fB6mfcF" },
   whySee: [
     "One of the absolute sharpest, most restlessly creative rock outfits of the modern underground executing an intense performance",
     "A masterclass in traditional analog power band energy, delivering jagged dual-guitar riffs and complex progressive rhythmic patterns",
@@ -1680,10 +2154,19 @@ const villanelle: Artist = {
     "Early afternoon moshers",
   ],
   similarArtists: [
-    { name: "Wunderhorse" },
-    { name: "Day We Ran" },
-    { name: "Ink" },
-    { name: "The Creekers" },
+    {
+      name: "Wunderhorse",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1780e05e549428cb38b2f3e7a60",
+    },
+    {
+      name: "Day We Ran",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17896aa0ad1b8badab28252f80b",
+    },
+    { name: "Ink", imageUrl: "https://i.scdn.co/image/ab6761610000f178b3df8a3980032366a3a040bc" },
+    {
+      name: "The Creekers",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1783bd55f87a9e1be1eb5b1c1e1",
+    },
   ],
   tracks: [
     { name: "Blue", album: "Villanelle", duration: "" },
@@ -1709,7 +2192,7 @@ const sunday1994: Artist = {
   genres: ["Dream Pop", "Shoegaze", "Indie Rock"],
   origin: "Los Angeles, California",
   tagline: "Lush, tape-warped 90s shoegaze walls and cinematic bedroom dream-pop melancholia.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/1vTFaCiaR50b2IXELHW52U" },
   whySee: [
     "Catch an exceptional songwriting collective executing a beautifully warm, sun-drenched indie pop performance on the Allianz stage",
     "Perfectly synchronized, warm vocal harmonies gliding effortlessly over heavy, chorus-heavy dream pop guitar lines",
@@ -1730,9 +2213,18 @@ const sunday1994: Artist = {
     "Indie pop music collectors",
   ],
   similarArtists: [
-    { name: "Wolf Alice" },
-    { name: "The Army, The Navy" },
-    { name: "Day We Ran" },
+    {
+      name: "Wolf Alice",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178517744f1b17b914a3ac923b7",
+    },
+    {
+      name: "The Army, The Navy",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178a80252ae3d399fc49014502d",
+    },
+    {
+      name: "Day We Ran",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17896aa0ad1b8badab28252f80b",
+    },
     { name: "The Bends" },
   ],
   tracks: [
@@ -1760,7 +2252,7 @@ const mc4d: Artist = {
   origin: "Chicago, Illinois",
   tagline:
     "Hometown electronic brothers delivering sun-drenched, euphoric mainstage house anthems.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/2MbY32LPINIi9P6PCkrOJI" },
   whySee: [
     "A massive hometown showcase performance from twin brothers Matt and Chris DiBari bringing pure festival energy to Grant Park",
     "Experience their signature, hyper-infectious remixes and original melodic house weapons that have dominated viral charts",
@@ -1783,8 +2275,14 @@ const mc4d: Artist = {
   similarArtists: [
     { name: "Zack Martino" },
     { name: "DJ Trixie Mattel" },
-    { name: "Whethan" },
-    { name: "haute & freddy" },
+    {
+      name: "Whethan",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1782717c8959d00aa37044bbb74",
+    },
+    {
+      name: "haute & freddy",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178f24b273d9959e097972d5992",
+    },
   ],
   tracks: [
     { name: "Sinking", album: "Sinking", duration: "" },
@@ -1810,7 +2308,7 @@ const chace: Artist = {
   genres: ["House", "UK Garage", "Electronic"],
   origin: "Shanghai, China",
   tagline: "Sleek, avant-garde house grooves and hyper-precise electronic sound design.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/5kPhAZL6iV8iDywUmIPC3g" },
   whySee: [
     "Catch an international electronic auteur making a rare, highly anticipated appearance on the American festival circuit",
     "An elite display of modular hardware manipulation, syncopated garage rhythms, and flawlessly mixed independent club tracks",
@@ -1831,10 +2329,19 @@ const chace: Artist = {
     "Electronic music culture lovers",
   ],
   similarArtists: [
-    { name: "Duke Dumont" },
-    { name: "John Summit" },
-    { name: "Omnom" },
-    { name: "haute & freddy" },
+    {
+      name: "Duke Dumont",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c0791f9c2d17dfd58e301c91",
+    },
+    {
+      name: "John Summit",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
+    },
+    { name: "Omnom", imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a" },
+    {
+      name: "haute & freddy",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178f24b273d9959e097972d5992",
+    },
   ],
   tracks: [
     { name: "Never", album: "Belong", duration: "" },
@@ -1861,7 +2368,7 @@ const calderAllen: Artist = {
   origin: "Austin, Texas",
   tagline:
     "Gravel-voiced Texas americana and driving alternative folk built on raw generational songwriting.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/1XlVbGlQaBoESaJ43y2sCD" },
   whySee: [
     "A stunning afternoon oasis that pairs traditional acoustic instrumentation with a truly monumental, raw singing voice",
     "Experience razor-sharp alternative folk lyrics that trade on absolute emotional honesty and incredible guitar hooks",
@@ -1882,13 +2389,31 @@ const calderAllen: Artist = {
     "Intimate emotional story devotees",
   ],
   similarArtists: [
-    { name: "Nat Myers" },
-    { name: "Cameron Whitcomb" },
-    { name: "Waylon Wyatt" },
-    { name: "Finn Wolfhard" },
+    {
+      name: "Nat Myers",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1782f32ced200ebf7a8f6047377",
+    },
+    {
+      name: "Cameron Whitcomb",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178712f78798ce31073c16673c8",
+    },
+    {
+      name: "Waylon Wyatt",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17851e191838dca7d4729b268a2",
+    },
+    {
+      name: "Finn Wolfhard",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178926418bb71d5a111e6fbb9eb",
+    },
   ],
   tracks: [
-    { name: "Good Times", album: "The Game", duration: "" },
+    {
+      spotifyId: "276ZfAgAGiqQqF1Iub8adH",
+      name: "Good Times",
+      album: "The Game",
+      duration: "4:58",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e022a8aac15571e141a49c90c4f",
+    },
     { name: "Bend", album: "The Game", duration: "" },
     { name: "Ripple", album: "Ripple", duration: "" },
   ],
@@ -1912,7 +2437,7 @@ const natMyers: Artist = {
   origin: "Kenton County, Kentucky",
   tagline:
     "Stark, lightning-fast pre-war country blues delivered with raw, poetic street authority.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/2QMlNryks9wyxBCsBGciTS" },
   whySee: [
     "A masterclass in traditional analog blues showmanship from a highly gifted poet handpicked by Dan Auerbach for Easy Eye Sound",
     "Blistering, hyper-precise acoustic fingerpicking and slide guitar loops that feel completely untamed and electrifying live",
@@ -1933,10 +2458,22 @@ const natMyers: Artist = {
     "Live instrument devotees",
   ],
   similarArtists: [
-    { name: "Cameron Whitcomb" },
-    { name: "Waylon Wyatt" },
-    { name: "Calder Allen" },
-    { name: "Elizabeth Nichols" },
+    {
+      name: "Cameron Whitcomb",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178712f78798ce31073c16673c8",
+    },
+    {
+      name: "Waylon Wyatt",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17851e191838dca7d4729b268a2",
+    },
+    {
+      name: "Calder Allen",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c4a45f0e840b74b85c5e87d9",
+    },
+    {
+      name: "Elizabeth Nichols",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1786a6686aacc775a0807c37cd8",
+    },
   ],
   tracks: [
     { name: "Yellowhorse", album: "Yellowhorse", duration: "" },
@@ -1962,7 +2499,7 @@ const ink: Artist = {
   genres: ["Alternative Rock", "Post-Punk", "Indie Rock"],
   origin: "Chicago, Illinois",
   tagline: "A fuzzed-out, blistering hometown alternative rock engine built on pure garage grit.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/4ZhFCxPekpmV12n2xMeF2z" },
   whySee: [
     "A massive, highly anticipated hometown showcase performance on the alternative stage celebrating a rapid local scene ascent",
     "Experience a blistering display of dual-guitar distortion, heavy punk tempos, and raw, confrontational vocal delivery",
@@ -1983,9 +2520,18 @@ const ink: Artist = {
     "Early afternoon moshers",
   ],
   similarArtists: [
-    { name: "Villanelle" },
-    { name: "Day We Ran" },
-    { name: "Wunderhorse" },
+    {
+      name: "Villanelle",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1781ece1eae58afddb4d3238501",
+    },
+    {
+      name: "Day We Ran",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17896aa0ad1b8badab28252f80b",
+    },
+    {
+      name: "Wunderhorse",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1780e05e549428cb38b2f3e7a60",
+    },
     { name: "Cruz Beckham and the Breakers" },
   ],
   tracks: [
@@ -2012,7 +2558,7 @@ const peaceControl: Artist = {
   genres: ["Tech House", "Dark Techno", "Electronic"],
   origin: "Chicago, Illinois",
   tagline: "Dark, hypnotic hometown tech-house grooves built for early afternoon warehouse raves.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/3rzbheJbLKamFWE8v9fPRh" },
   whySee: [
     "A premier hometown electronic opener firing up the Perry's stage at high noon with punishing underground energy",
     "Experience a relentless display of syncopated swing rhythms, heavy bassline rollers, and infectious classic vocal chops",
@@ -2033,10 +2579,22 @@ const peaceControl: Artist = {
     "Electronic music culture lovers",
   ],
   similarArtists: [
-    { name: "Eli Brown" },
-    { name: "Max Styler" },
-    { name: "Devault" },
-    { name: "Riordan" },
+    {
+      name: "Eli Brown",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178264c8c3a982604908c6cf188",
+    },
+    {
+      name: "Max Styler",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178ded53da461b13994a9ef8347",
+    },
+    {
+      name: "Devault",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178669860fe69ee33857a3bdeb6",
+    },
+    {
+      name: "Riordan",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17844deba7abbd6473132e75682",
+    },
   ],
   tracks: [
     { name: "Control", album: "Peace Control", duration: "" },
@@ -2063,7 +2621,7 @@ const theCreekers: Artist = {
   origin: "Chicago, Illinois",
   tagline:
     "Hometown indie-rock anthems fusing driving alternative grit with timeless folk-rock storytelling.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/2Ee2dvrxHJvnpWgaqC5T0i" },
   whySee: [
     "A massive, highly anticipated hometown showcase performance on the alternative stage celebrating a rapid local ascent",
     "Experience a brilliant, traditional analog band chemistry that treats giant festival fields like intimate local clubs",
@@ -2085,7 +2643,10 @@ const theCreekers: Artist = {
   ],
   similarArtists: [
     { name: "Whatmore" },
-    { name: "The Braymores" },
+    {
+      name: "The Braymores",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178e72ca0c70ab4f5bb3da261dc",
+    },
     { name: "Case Oats" },
     { name: "Cruz Beckham and the Breakers" },
   ],
@@ -2113,7 +2674,7 @@ const nextOfKin: Artist = {
   genres: ["Indie Pop", "Singer-Songwriter", "Chamber Pop"],
   origin: "Los Angeles, California",
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like real voice memos.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/668OF7yLpmsPIL10HHKPFC" },
   whySee: [
     "Catch an exceptional independent pop writer executing a beautifully warm, storyteller performance on the alternative stage",
     "Razor-sharp lyricism that lands like an intense, unguarded diary entry tracking the complex textures of youth and romance",
@@ -2134,10 +2695,16 @@ const nextOfKin: Artist = {
     "Indie pop music collectors",
   ],
   similarArtists: [
-    { name: "Ella Boh" },
+    {
+      name: "Ella Boh",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178f3ca12f1b323dbb7027d78dc",
+    },
     { name: "Porch Light" },
     { name: "Stella Lefty" },
-    { name: "Whitney Whitney" },
+    {
+      name: "Whitney Whitney",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b9b32a1845c72390fc48c28c",
+    },
   ],
   tracks: [
     { name: "Voice Memos", album: "Next of Kin", duration: "" },
@@ -2164,7 +2731,7 @@ const cyso: Artist = {
   origin: "Chicago, Illinois",
   tagline:
     "A monumental, high-visibility symphonic powerhouse re-engineering modern festival soundscapes.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/38F4eptEGZAvPhZEjWS46W" },
   whySee: [
     "A historic, deeply emotional hometown performance highlighting over a hundred of the city's finest young virtuoso musicians",
     "Experience a breathtaking, widescreen sonic universe that trades effortlessly between classical masterworks and massive rock covers",
