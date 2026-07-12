@@ -27,8 +27,14 @@ export type Artist = {
   whySee: string[];
   whatToExpect: string[];
   bestFor: string[];
-  similarArtists: Array<{ name: string; imageUrl?: string }>;
-  tracks: Array<{ spotifyId?: string; name: string; album: string; duration: string; artworkUrl?: string }>;
+  similarArtists: Array<{ name: string; slug?: string; imageUrl?: string }>;
+  tracks: Array<{
+    spotifyId?: string;
+    name: string;
+    album: string;
+    duration: string;
+    artworkUrl?: string;
+  }>;
   about: string;
   appearance: FestivalAppearance;
 };

@@ -63,9 +63,7 @@ function patch(content: string, slug: string, related: { name: string }[]): stri
 
   const items = related.map((r) => `\n    { name: "${r.name}" }`).join(",");
   const newBlock =
-    related.length === 0
-      ? "similarArtists: [],"
-      : `similarArtists: [${items},\n  ],`;
+    related.length === 0 ? "similarArtists: []," : `similarArtists: [${items},\n  ],`;
 
   return content.slice(0, fieldPos) + newBlock + content.slice(i);
 }
@@ -75,12 +73,15 @@ const DRY_RUN = process.argv.includes("--dry-run");
 // --artists worship,5-seconds-of-summer  → only patch those slugs
 const artistsArg = process.argv.find((a) => a.startsWith("--artists="));
 const targetSlugs = artistsArg
-  ? new Set(artistsArg.replace("--artists=", "").split(",").map((s) => s.trim()))
+  ? new Set(
+      artistsArg
+        .replace("--artists=", "")
+        .split(",")
+        .map((s) => s.trim())
+    )
   : null;
 
-const artists = targetSlugs
-  ? allArtists.filter((a) => targetSlugs.has(a.slug))
-  : allArtists;
+const artists = targetSlugs ? allArtists.filter((a) => targetSlugs.has(a.slug)) : allArtists;
 
 if (targetSlugs) {
   const unknown = [...targetSlugs].filter((s) => !allArtists.find((a) => a.slug === s));
@@ -109,7 +110,10 @@ if (DRY_RUN) {
     let changed = false;
     for (const artist of artists) {
       const updated = patch(content, artist.slug, computeRelated(artist.slug));
-      if (updated !== content) { content = updated; changed = true; }
+      if (updated !== content) {
+        content = updated;
+        changed = true;
+      }
     }
     if (changed) {
       fs.writeFileSync(file, content);

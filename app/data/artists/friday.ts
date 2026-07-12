@@ -33,14 +33,24 @@ const charliXcx: Artist = {
   similarArtists: [
     {
       name: "Tate McRae",
+      slug: "tate-mcrae",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178bed8016bd64422793ff3bc75",
     },
     {
       name: "Slayyyter",
+      slug: "slayyyter",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178d475efee7c254f7e77a2d306",
     },
-    { name: "Lorde", imageUrl: "https://i.scdn.co/image/ab6761610000f178678a3a4bc2d8a84074f22c71" },
-    { name: "aespa", imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b" },
+    {
+      name: "Lorde",
+      slug: "lorde",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178678a3a4bc2d8a84074f22c71",
+    },
+    {
+      name: "aespa",
+      slug: "aespa",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b",
+    },
   ],
   tracks: [
     {
@@ -105,14 +115,16 @@ const smashingPumpkins: Artist = {
   ],
   bestFor: ["Alternative rock fans", "90s music lovers", "Guitar devotees", "Festival veterans"],
   similarArtists: [
-    { name: "The Bends" },
+    { name: "The Bends", slug: "the-bends" },
     {
       name: "Wolf Alice",
+      slug: "wolf-alice",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178517744f1b17b914a3ac923b7",
     },
-    { name: "Whatmore" },
+    { name: "Whatmore", slug: "whatmore" },
     {
       name: "Die Spitz",
+      slug: "die-spitz",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178221291d43457048ddb8f0f5e",
     },
   ],
@@ -178,17 +190,24 @@ const lilUziVert: Artist = {
     "Modern hip-hop collectors",
   ],
   similarArtists: [
-    { name: "Beno", imageUrl: "https://i.scdn.co/image/ab6761610000f178c81366842659393e281fe4ca" },
+    {
+      name: "Beno",
+      slug: "beno",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c81366842659393e281fe4ca",
+    },
     {
       name: "Monaleo",
+      slug: "monaleo",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17867d27938b6b6046bd09e020c",
     },
     {
       name: "Mustard",
+      slug: "mustard",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17854406b7007a449aeaac06c44",
     },
     {
       name: "Nettspend",
+      slug: "nettspend",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786bc255a221b2d2db4c1de21f",
     },
   ],
@@ -259,18 +278,22 @@ const yungblud: Artist = {
   similarArtists: [
     {
       name: "The Story So Far",
+      slug: "the-story-so-far",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1784d8d055d82fc1e5b1c5ecb1d",
     },
     {
       name: "Villanelle",
+      slug: "villanelle",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1781ece1eae58afddb4d3238501",
     },
     {
       name: "Hot Mulligan",
+      slug: "hot-mulligan",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f39d742e60fa4e7246c133d4",
     },
     {
       name: "Wunderhorse",
+      slug: "wunderhorse",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1780e05e549428cb38b2f3e7a60",
     },
   ],
@@ -338,16 +361,26 @@ const majorLazer: Artist = {
     "Party-first festival goers",
   ],
   similarArtists: [
-    { name: "aespa", imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b" },
+    {
+      name: "aespa",
+      slug: "aespa",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b",
+    },
     {
       name: "Disco Lines",
+      slug: "disco-lines",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178965c9bf81cfe9ca329b8a5c7",
     },
     {
       name: "Whethan",
+      slug: "whethan",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782717c8959d00aa37044bbb74",
     },
-    { name: "INJI", imageUrl: "https://i.scdn.co/image/ab6761610000f178bb9b2f1ed4018b6bd506516b" },
+    {
+      name: "INJI",
+      slug: "inji",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178bb9b2f1ed4018b6bd506516b",
+    },
   ],
   tracks: [
     {
@@ -414,18 +447,22 @@ const notForRadio: Artist = {
   similarArtists: [
     {
       name: "Ethel Cain",
+      slug: "ethel-cain",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783bbecf739fb7198dffd61795",
     },
     {
       name: "Sunday (1994)",
+      slug: "sunday-1994",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b7e25151a004217ba46eb173",
     },
     {
       name: "Pearly Drops",
+      slug: "pearly-drops",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178d8ffff9d4383a19d7101dffc",
     },
     {
       name: "YUNGBLUD",
+      slug: "yungblud",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787c9287712c4355e54c94e0d0",
     },
   ],
@@ -489,11 +526,20 @@ const zaraLarsson: Artist = {
   similarArtists: [
     {
       name: "Tate McRae",
+      slug: "tate-mcrae",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178bed8016bd64422793ff3bc75",
     },
-    { name: "Jade", imageUrl: "https://i.scdn.co/image/a0e0fd64fd74b658761ea717e2126b1bad974f4a" },
-    { name: "aespa", imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b" },
-    { name: "Justine Skye" },
+    {
+      name: "Jade",
+      slug: "jade",
+      imageUrl: "https://i.scdn.co/image/a0e0fd64fd74b658761ea717e2126b1bad974f4a",
+    },
+    {
+      name: "aespa",
+      slug: "aespa",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b",
+    },
+    { name: "Justine Skye", slug: "justine-skye" },
   ],
   tracks: [
     { name: "Symphony", album: "So Good", duration: "" },
@@ -554,18 +600,22 @@ const freddieGibbs: Artist = {
   similarArtists: [
     {
       name: "Clipse",
+      slug: "clipse",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787d6973a4df776665c9852f26",
     },
     {
       name: "Jennie",
+      slug: "jennie",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a8e3627e392a1d8f539cb575",
     },
     {
       name: "CORTIS",
+      slug: "cortis",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178267afab76836557af2bd37c8",
     },
     {
       name: "Little Simz",
+      slug: "little-simz",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a22264dfbad2d96ffc6ee2e0",
     },
   ],
@@ -628,15 +678,18 @@ const sukiWaterhouse: Artist = {
   similarArtists: [
     {
       name: "The xx",
+      slug: "the-xx",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783a96db4736ef035e1fcb2516",
     },
     {
       name: "New Constellations",
+      slug: "new-constellations",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786a3aa969f4f79f38b0c16c91",
     },
-    { name: "Sunshine" },
+    { name: "Sunshine", slug: "sunshine" },
     {
       name: "The Army, The Navy",
+      slug: "the-army-the-navy",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a80252ae3d399fc49014502d",
     },
   ],
@@ -698,17 +751,24 @@ const i_dle: Artist = {
     "High-octane choreography fans",
   ],
   similarArtists: [
-    { name: "aespa", imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b" },
+    {
+      name: "aespa",
+      slug: "aespa",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b",
+    },
     {
       name: "Zara Larsson",
+      slug: "zara-larsson",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178d519a7e349541cba8f85e965",
     },
     {
       name: "Charli XCX",
+      slug: "charli-xcx",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786fa76436a2bba83b9f1d6fd1",
     },
     {
       name: "Faouzia",
+      slug: "faouzia",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786310c4d3dcfe99b0a9da2a30",
     },
   ],
@@ -777,14 +837,24 @@ const mustard: Artist = {
   similarArtists: [
     {
       name: "Monaleo",
+      slug: "monaleo",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17867d27938b6b6046bd09e020c",
     },
     {
       name: "Lil Uzi Vert",
+      slug: "lil-uzi-vert",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17862c272d76220f2e9dad56704",
     },
-    { name: "Beno", imageUrl: "https://i.scdn.co/image/ab6761610000f178c81366842659393e281fe4ca" },
-    { name: "LYNY", imageUrl: "https://i.scdn.co/image/ab6761610000f178ec6b5f8aa6b2ee962d3de80f" },
+    {
+      name: "Beno",
+      slug: "beno",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c81366842659393e281fe4ca",
+    },
+    {
+      name: "LYNY",
+      slug: "lyny",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178ec6b5f8aa6b2ee962d3de80f",
+    },
   ],
   tracks: [
     {
@@ -843,17 +913,24 @@ const oklou: Artist = {
     "Underground indie music collectors",
   ],
   similarArtists: [
-    { name: "AYYBO", imageUrl: "https://i.scdn.co/image/ab6761610000f178f8c3472c2555b482981daecf" },
+    {
+      name: "AYYBO",
+      slug: "ayybo",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178f8c3472c2555b482981daecf",
+    },
     {
       name: "John Summit",
+      slug: "john-summit",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
     },
     {
       name: "Snow Strippers",
+      slug: "snow-strippers",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782949c67f381d533010389d6a",
     },
     {
       name: "Devault",
+      slug: "devault",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178669860fe69ee33857a3bdeb6",
     },
   ],
@@ -902,14 +979,24 @@ const horsegiirL: Artist = {
     "Devotees of chaotic stage performance",
   ],
   similarArtists: [
-    { name: "MC4D", imageUrl: "https://i.scdn.co/image/ab6761610000f178042776271fc2c09e905c93e6" },
+    {
+      name: "MC4D",
+      slug: "mc4d",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178042776271fc2c09e905c93e6",
+    },
     {
       name: "Eli Brown",
+      slug: "eli-brown",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178264c8c3a982604908c6cf188",
     },
-    { name: "aespa", imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b" },
+    {
+      name: "aespa",
+      slug: "aespa",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b",
+    },
     {
       name: "Snow Strippers",
+      slug: "snow-strippers",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782949c67f381d533010389d6a",
     },
   ],
@@ -967,17 +1054,20 @@ const theStorySoFar: Artist = {
   similarArtists: [
     {
       name: "YUNGBLUD",
+      slug: "yungblud",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787c9287712c4355e54c94e0d0",
     },
     {
       name: "Wolf Alice",
+      slug: "wolf-alice",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178517744f1b17b914a3ac923b7",
     },
     {
       name: "The Smashing Pumpkins",
+      slug: "smashing-pumpkins",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782897dd777bbd8e3f23e49c99",
     },
-    { name: "The Bends" },
+    { name: "The Bends", slug: "the-bends" },
   ],
   tracks: [
     {
@@ -1045,17 +1135,20 @@ const loathe: Artist = {
   similarArtists: [
     {
       name: "Sunday (1994)",
+      slug: "sunday-1994",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b7e25151a004217ba46eb173",
     },
     {
       name: "Wolf Alice",
+      slug: "wolf-alice",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178517744f1b17b914a3ac923b7",
     },
     {
       name: "The Smashing Pumpkins",
+      slug: "smashing-pumpkins",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782897dd777bbd8e3f23e49c99",
     },
-    { name: "The Bends" },
+    { name: "The Bends", slug: "the-bends" },
   ],
   tracks: [
     {
@@ -1116,15 +1209,22 @@ const nettspend: Artist = {
   similarArtists: [
     {
       name: "Lil Uzi Vert",
+      slug: "lil-uzi-vert",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17862c272d76220f2e9dad56704",
     },
-    { name: "Beno", imageUrl: "https://i.scdn.co/image/ab6761610000f178c81366842659393e281fe4ca" },
+    {
+      name: "Beno",
+      slug: "beno",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c81366842659393e281fe4ca",
+    },
     {
       name: "Little Simz",
+      slug: "little-simz",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a22264dfbad2d96ffc6ee2e0",
     },
     {
       name: "Clipse",
+      slug: "clipse",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787d6973a4df776665c9852f26",
     },
   ],
@@ -1181,15 +1281,22 @@ const sidepiece: Artist = {
   similarArtists: [
     {
       name: "Westend",
+      slug: "westend",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178bc781a35d287a09940ae6046",
     },
-    { name: "Omnom", imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a" },
+    {
+      name: "Omnom",
+      slug: "omnom",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a",
+    },
     {
       name: "John Summit",
+      slug: "john-summit",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
     },
     {
       name: "haute & freddy",
+      slug: "haute-and-freddy",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f24b273d9959e097972d5992",
     },
   ],
@@ -1245,16 +1352,18 @@ const skyeNewman: Artist = {
     "Indie pop music collectors",
   ],
   similarArtists: [
-    { name: "Stella Lefty" },
+    { name: "Stella Lefty", slug: "stella-lefty" },
     {
       name: "Ella Boh",
+      slug: "ella-boh",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f3ca12f1b323dbb7027d78dc",
     },
     {
       name: "Audrey Hobert",
+      slug: "audrey-hobert",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1784fc78e354b19324810f1e933",
     },
-    { name: "Porch Light" },
+    { name: "Porch Light", slug: "porch-light" },
   ],
   tracks: [
     { name: "Daydream", album: "Skye Newman", duration: "" },
@@ -1302,14 +1411,24 @@ const notion: Artist = {
     "Electronic music culture lovers",
   ],
   similarArtists: [
-    { name: "MPH", imageUrl: "https://i.scdn.co/image/ab6761610000f1787e64c67ba432f9223f1acf9f" },
-    { name: "Chace", imageUrl: "https://i.scdn.co/image/ab6761610000f178f75bb8d64c3d43282ad006f7" },
+    {
+      name: "MPH",
+      slug: "mph",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1787e64c67ba432f9223f1acf9f",
+    },
+    {
+      name: "Chace",
+      slug: "chace",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178f75bb8d64c3d43282ad006f7",
+    },
     {
       name: "Duke Dumont",
+      slug: "duke-dumont",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178c0791f9c2d17dfd58e301c91",
     },
     {
       name: "SIDEPIECE",
+      slug: "sidepiece",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17821705221c7f192d4a7963910",
     },
   ],
@@ -1366,15 +1485,22 @@ const roz: Artist = {
   similarArtists: [
     {
       name: "Max Styler",
+      slug: "max-styler",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178ded53da461b13994a9ef8347",
     },
-    { name: "INJI", imageUrl: "https://i.scdn.co/image/ab6761610000f178bb9b2f1ed4018b6bd506516b" },
+    {
+      name: "INJI",
+      slug: "inji",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178bb9b2f1ed4018b6bd506516b",
+    },
     {
       name: "Eli Brown",
+      slug: "eli-brown",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178264c8c3a982604908c6cf188",
     },
     {
       name: "SIDEPIECE",
+      slug: "sidepiece",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17821705221c7f192d4a7963910",
     },
   ],
@@ -1429,16 +1555,26 @@ const baluBrigada: Artist = {
     "Fans of alternative pop melodies",
   ],
   similarArtists: [
-    { name: "Ryman", imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10" },
+    {
+      name: "Ryman",
+      slug: "ryman",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10",
+    },
     {
       name: "Claire Rosinkranz",
+      slug: "claire-rosinkranz",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1789fd59f9fc4a311da6437b6a5",
     },
     {
       name: "Julia Wolf",
+      slug: "julia-wolf",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178464afc83fc7ddaf9292bb9a8",
     },
-    { name: "sombr", imageUrl: "https://i.scdn.co/image/ab6761610000f17878edaa6468cae153565c2c97" },
+    {
+      name: "sombr",
+      slug: "sombr",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17878edaa6468cae153565c2c97",
+    },
   ],
   tracks: [
     { name: "Preview", album: "Find A Way EP", duration: "" },
@@ -1487,17 +1623,20 @@ const lyny: Artist = {
   similarArtists: [
     {
       name: "Know Good",
+      slug: "know-good",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1785358de71801fad4a13adc2f2",
     },
     {
       name: "Alison Wonderland",
+      slug: "alison-wonderland",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b7e4c34bfa9cf5b54afadb14",
     },
     {
       name: "Whethan",
+      slug: "whethan",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782717c8959d00aa37044bbb74",
     },
-    { name: "KLO" },
+    { name: "KLO", slug: "klo" },
   ],
   tracks: [
     {
@@ -1559,14 +1698,20 @@ const motherMother: Artist = {
   similarArtists: [
     {
       name: "The Braymores",
+      slug: "the-braymores",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178e72ca0c70ab4f5bb3da261dc",
     },
-    { name: "Ink", imageUrl: "https://i.scdn.co/image/ab6761610000f178b3df8a3980032366a3a040bc" },
+    {
+      name: "Ink",
+      slug: "ink",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b3df8a3980032366a3a040bc",
+    },
     {
       name: "Villanelle",
+      slug: "villanelle",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1781ece1eae58afddb4d3238501",
     },
-    { name: "Cruz Beckham and the Breakers" },
+    { name: "Cruz Beckham and the Breakers", slug: "cruz-beckham-and-the-breakers" },
   ],
   tracks: [
     {
@@ -1631,14 +1776,24 @@ const juliaWolf: Artist = {
     "Indie pop music collectors",
   ],
   similarArtists: [
-    { name: "Ryman", imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10" },
-    { name: "Bixby", imageUrl: "https://i.scdn.co/image/ab6761610000f178f91b9382299af20b9130c80c" },
+    {
+      name: "Ryman",
+      slug: "ryman",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10",
+    },
+    {
+      name: "Bixby",
+      slug: "bixby",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178f91b9382299af20b9130c80c",
+    },
     {
       name: "Lucy Bedroque",
+      slug: "lucy-bedroque",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178100cfd4653979ed518fbf28f",
     },
     {
       name: "Claire Rosinkranz",
+      slug: "claire-rosinkranz",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1789fd59f9fc4a311da6437b6a5",
     },
   ],
@@ -1689,15 +1844,22 @@ const slayyyter: Artist = {
   similarArtists: [
     {
       name: "Charli XCX",
+      slug: "charli-xcx",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786fa76436a2bba83b9f1d6fd1",
     },
     {
       name: "Tate McRae",
+      slug: "tate-mcrae",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178bed8016bd64422793ff3bc75",
     },
-    { name: "ADÉLA", imageUrl: "https://i.scdn.co/image/ab6761610000f178fa24d9eab0a75b1ab0f9013b" },
+    {
+      name: "ADÉLA",
+      slug: "adela",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178fa24d9eab0a75b1ab0f9013b",
+    },
     {
       name: "Disco Lines",
+      slug: "disco-lines",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178965c9bf81cfe9ca329b8a5c7",
     },
   ],
@@ -1766,12 +1928,22 @@ const claireRosinkranz: Artist = {
   similarArtists: [
     {
       name: "Lucy Bedroque",
+      slug: "lucy-bedroque",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178100cfd4653979ed518fbf28f",
     },
-    { name: "Ryman", imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10" },
-    { name: "sombr", imageUrl: "https://i.scdn.co/image/ab6761610000f17878edaa6468cae153565c2c97" },
+    {
+      name: "Ryman",
+      slug: "ryman",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10",
+    },
+    {
+      name: "sombr",
+      slug: "sombr",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17878edaa6468cae153565c2c97",
+    },
     {
       name: "Emi Grace",
+      slug: "emi-grace",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1781d8d8c934c382100d033bb41",
     },
   ],
@@ -1822,18 +1994,22 @@ const fiftyFourUltra: Artist = {
   similarArtists: [
     {
       name: "Turnstile",
+      slug: "turnstile",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a4c3fd0017b42344516dc16c",
     },
     {
       name: "The Creekers",
+      slug: "the-creekers",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783bd55f87a9e1be1eb5b1c1e1",
     },
     {
       name: "Villanelle",
+      slug: "villanelle",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1781ece1eae58afddb4d3238501",
     },
     {
       name: "Wolf Alice",
+      slug: "wolf-alice",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178517744f1b17b914a3ac923b7",
     },
   ],
@@ -1882,14 +2058,20 @@ const highVis: Artist = {
     "Early afternoon discovery seekers",
   ],
   similarArtists: [
-    { name: "Ink", imageUrl: "https://i.scdn.co/image/ab6761610000f178b3df8a3980032366a3a040bc" },
+    {
+      name: "Ink",
+      slug: "ink",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b3df8a3980032366a3a040bc",
+    },
     {
       name: "Day We Ran",
+      slug: "day-we-ran",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17896aa0ad1b8badab28252f80b",
     },
-    { name: "The Bends" },
+    { name: "The Bends", slug: "the-bends" },
     {
       name: "Wunderhorse",
+      slug: "wunderhorse",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1780e05e549428cb38b2f3e7a60",
     },
   ],
@@ -1956,17 +2138,20 @@ const finnWolfhard: Artist = {
     "Scene trend-spotting collectors",
   ],
   similarArtists: [
-    { name: "Cruz Beckham and the Breakers" },
+    { name: "Cruz Beckham and the Breakers", slug: "cruz-beckham-and-the-breakers" },
     {
       name: "Wolf Alice",
+      slug: "wolf-alice",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178517744f1b17b914a3ac923b7",
     },
     {
       name: "Spacey Jane",
+      slug: "spacey-jane",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f5864abfed7a8d4b9334a7a0",
     },
     {
       name: "Ella Red",
+      slug: "ella-red",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17839b0de9171e1e5ff2d8a39cb",
     },
   ],
@@ -2016,17 +2201,20 @@ const avello: Artist = {
     "Electronic music culture lovers",
   ],
   similarArtists: [
-    { name: "KLO" },
+    { name: "KLO", slug: "klo" },
     {
       name: "Major Lazer",
+      slug: "major-lazer",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178ab312009266614f4d3185229",
     },
     {
       name: "Empire of the Sun",
+      slug: "empire-of-the-sun",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178c806f3e714afa21861e20248",
     },
     {
       name: "horsegiirL",
+      slug: "horsegiirl",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17850fd23946deeb6991ef1ee09",
     },
   ],
@@ -2081,16 +2269,18 @@ const partyof2: Artist = {
     "Gen-Z culture collectors",
   ],
   similarArtists: [
-    { name: "After" },
+    { name: "After", slug: "after" },
     {
       name: "Fakemink",
+      slug: "fakemink",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178fea7ad1b3bc4a7f94234bd1c",
     },
     {
       name: "Lil Uzi Vert",
+      slug: "lil-uzi-vert",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17862c272d76220f2e9dad56704",
     },
-    { name: "KLO" },
+    { name: "KLO", slug: "klo" },
   ],
   tracks: [
     { name: "Double Up", album: "PARTYOF2", duration: "" },
@@ -2139,18 +2329,22 @@ const theArmyTheNavy: Artist = {
   similarArtists: [
     {
       name: "Spacey Jane",
+      slug: "spacey-jane",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f5864abfed7a8d4b9334a7a0",
     },
     {
       name: "Ella Red",
+      slug: "ella-red",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17839b0de9171e1e5ff2d8a39cb",
     },
     {
       name: "Sunday (1994)",
+      slug: "sunday-1994",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b7e25151a004217ba46eb173",
     },
     {
       name: "Julia Wolf",
+      slug: "julia-wolf",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178464afc83fc7ddaf9292bb9a8",
     },
   ],
@@ -2201,18 +2395,22 @@ const loveSpells: Artist = {
   similarArtists: [
     {
       name: "Between Friends",
+      slug: "between-friends",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17820d75570b0e6c6e124d2a3fa",
     },
     {
       name: "Emi Grace",
+      slug: "emi-grace",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1781d8d8c934c382100d033bb41",
     },
     {
       name: "Beabadoobee",
+      slug: "beabadoobee",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783a41a62e7193703d29d30a9a",
     },
     {
       name: "Claire Rosinkranz",
+      slug: "claire-rosinkranz",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1789fd59f9fc4a311da6437b6a5",
     },
   ],
@@ -2263,14 +2461,20 @@ const ellaRed: Artist = {
   similarArtists: [
     {
       name: "The Army, The Navy",
+      slug: "the-army-the-navy",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a80252ae3d399fc49014502d",
     },
     {
       name: "Spacey Jane",
+      slug: "spacey-jane",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f5864abfed7a8d4b9334a7a0",
     },
-    { name: "Easy Honey" },
-    { name: "sombr", imageUrl: "https://i.scdn.co/image/ab6761610000f17878edaa6468cae153565c2c97" },
+    { name: "Easy Honey", slug: "easy-honey" },
+    {
+      name: "sombr",
+      slug: "sombr",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17878edaa6468cae153565c2c97",
+    },
   ],
   tracks: [
     { name: "Put Me In My Place", album: "Ella Red", duration: "" },
@@ -2319,14 +2523,24 @@ const palomaMorphy: Artist = {
   similarArtists: [
     {
       name: "Faouzia",
+      slug: "faouzia",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786310c4d3dcfe99b0a9da2a30",
     },
     {
       name: "Paris Paloma",
+      slug: "paris-paloma",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178fea2286a364dd2a0c4209136",
     },
-    { name: "Ivri", imageUrl: "https://i.scdn.co/image/ab6761610000f178db6265ab7c2b7e2a156c99ae" },
-    { name: "Oklou", imageUrl: "https://i.scdn.co/image/ab6761610000f178f8b90fcffca3c4e28564f0e3" },
+    {
+      name: "Ivri",
+      slug: "ivri",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178db6265ab7c2b7e2a156c99ae",
+    },
+    {
+      name: "Oklou",
+      slug: "oklou",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178f8b90fcffca3c4e28564f0e3",
+    },
   ],
   tracks: [
     { name: "Grave", album: "Paloma Morphy", duration: "" },
@@ -2375,14 +2589,20 @@ const dayWeRan: Artist = {
   similarArtists: [
     {
       name: "Villanelle",
+      slug: "villanelle",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1781ece1eae58afddb4d3238501",
     },
     {
       name: "Wunderhorse",
+      slug: "wunderhorse",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1780e05e549428cb38b2f3e7a60",
     },
-    { name: "Ink", imageUrl: "https://i.scdn.co/image/ab6761610000f178b3df8a3980032366a3a040bc" },
-    { name: "Cruz Beckham and the Breakers" },
+    {
+      name: "Ink",
+      slug: "ink",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178b3df8a3980032366a3a040bc",
+    },
+    { name: "Cruz Beckham and the Breakers", slug: "cruz-beckham-and-the-breakers" },
   ],
   tracks: [
     { name: "Running Blind", album: "Day We Ran", duration: "" },
@@ -2431,18 +2651,22 @@ const ivri: Artist = {
   similarArtists: [
     {
       name: "Bella Kay",
+      slug: "bella-kay",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783d7290ae36694e14b0655753",
     },
     {
       name: "partyof2",
+      slug: "partyof2",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b9dbe3484f4e59e7b0e18b7a",
     },
     {
       name: "Balu Brigada",
+      slug: "balu-brigada",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178871bccd59b468f93c4650066",
     },
     {
       name: "The Army, The Navy",
+      slug: "the-army-the-navy",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a80252ae3d399fc49014502d",
     },
   ],
@@ -2492,14 +2716,16 @@ const ellaBoh: Artist = {
     "Indie pop music collectors",
   ],
   similarArtists: [
-    { name: "Stella Lefty" },
-    { name: "Porch Light" },
+    { name: "Stella Lefty", slug: "stella-lefty" },
+    { name: "Porch Light", slug: "porch-light" },
     {
       name: "Whitney Whitney",
+      slug: "whitney-whitney",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b9b32a1845c72390fc48c28c",
     },
     {
       name: "Next of Kin",
+      slug: "next-of-kin",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178cbe19203158c6eae4ed0504a",
     },
   ],
@@ -2550,12 +2776,18 @@ const bradeazy: Artist = {
   similarArtists: [
     {
       name: "Ninajirachi",
+      slug: "ninajirachi",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1789ab4772c0bd3455137b1d02e",
     },
-    { name: "Jackie Hollander" },
-    { name: "INJI", imageUrl: "https://i.scdn.co/image/ab6761610000f178bb9b2f1ed4018b6bd506516b" },
+    { name: "Jackie Hollander", slug: "jackie-hollander" },
+    {
+      name: "INJI",
+      slug: "inji",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178bb9b2f1ed4018b6bd506516b",
+    },
     {
       name: "John Summit",
+      slug: "john-summit",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
     },
   ],
@@ -2607,14 +2839,24 @@ const emiGrace: Artist = {
   similarArtists: [
     {
       name: "Lucy Bedroque",
+      slug: "lucy-bedroque",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178100cfd4653979ed518fbf28f",
     },
     {
       name: "Claire Rosinkranz",
+      slug: "claire-rosinkranz",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1789fd59f9fc4a311da6437b6a5",
     },
-    { name: "Ryman", imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10" },
-    { name: "sombr", imageUrl: "https://i.scdn.co/image/ab6761610000f17878edaa6468cae153565c2c97" },
+    {
+      name: "Ryman",
+      slug: "ryman",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10",
+    },
+    {
+      name: "sombr",
+      slug: "sombr",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f17878edaa6468cae153565c2c97",
+    },
   ],
   tracks: [
     { name: "Leaving You", album: "Blue Room", duration: "" },
@@ -2663,18 +2905,22 @@ const beno: Artist = {
   similarArtists: [
     {
       name: "Nettspend",
+      slug: "nettspend",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786bc255a221b2d2db4c1de21f",
     },
     {
       name: "Lil Uzi Vert",
+      slug: "lil-uzi-vert",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17862c272d76220f2e9dad56704",
     },
     {
       name: "Monaleo",
+      slug: "monaleo",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17867d27938b6b6046bd09e020c",
     },
     {
       name: "Mustard",
+      slug: "mustard",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17854406b7007a449aeaac06c44",
     },
   ],
@@ -2726,15 +2972,18 @@ const chicagoMade: Artist = {
   similarArtists: [
     {
       name: "Clipse",
+      slug: "clipse",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787d6973a4df776665c9852f26",
     },
-    { name: "Easy Honey" },
+    { name: "Easy Honey", slug: "easy-honey" },
     {
       name: "The Creekers",
+      slug: "the-creekers",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783bd55f87a9e1be1eb5b1c1e1",
     },
     {
       name: "The Braymores",
+      slug: "the-braymores",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178e72ca0c70ab4f5bb3da261dc",
     },
   ],
@@ -2785,17 +3034,20 @@ const valenciaGrace: Artist = {
   similarArtists: [
     {
       name: "Sienna Spiro",
+      slug: "sienna-spiro",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178fb0ab819bbd4502028cd1feb",
     },
     {
       name: "Jae Stephens",
+      slug: "jae-stephens",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17886987e340bcff4b2debb3e84",
     },
     {
       name: "Amber Mark",
+      slug: "amber-mark",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a7f15e8167fb79fe64582e96",
     },
-    { name: "Justine Skye" },
+    { name: "Justine Skye", slug: "justine-skye" },
   ],
   tracks: [
     { name: "What I'm Feeling", album: "Valencia Grace EP", duration: "" },
@@ -2850,12 +3102,14 @@ const whitneyWhitney: Artist = {
   similarArtists: [
     {
       name: "Ella Boh",
+      slug: "ella-boh",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f3ca12f1b323dbb7027d78dc",
     },
-    { name: "Porch Light" },
-    { name: "Stella Lefty" },
+    { name: "Porch Light", slug: "porch-light" },
+    { name: "Stella Lefty", slug: "stella-lefty" },
     {
       name: "Next of Kin",
+      slug: "next-of-kin",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178cbe19203158c6eae4ed0504a",
     },
   ],
