@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { allArtists } from "@/app/data/artists";
 import Sidebar from "@/app/components/Sidebar";
 import ArtistCarousel from "@/app/components/explore/ArtistCarousel";
@@ -8,8 +8,7 @@ import QuickPicksBanner from "@/app/components/explore/QuickPicksBanner";
 import ExploreFilters from "@/app/components/explore/ExploreFilters";
 import { searchArtists } from "@/app/lib/search";
 import { filterArtists } from "@/app/lib/filters";
-import { interleaveByDay } from "@/app/lib/interleave";
-import { sortByDay } from "@/app/lib/sort";
+import { shuffleDayBlocks, interleaveByDayShuffled } from "@/app/lib/carousel";
 import ArtistResultsGrid from "@/app/components/explore/ArtistResultsGrid";
 import ActiveFilters from "@/app/components/explore/ActiveFilters";
 import { Shuffle } from "lucide-react";
@@ -20,38 +19,81 @@ export default function ExplorePage() {
   const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
   const [activeDay, setActiveDay] = useState<string>("");
   const [activeStages, setActiveStages] = useState<Stage[]>([]);
-  // Festival Favorites: keep chronological order (mirrors poster order), sorted by day
-  const festivalFavorites = sortByDay(
-    allArtists.filter(
-      (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
-    )
+  // Festival Favorites: sort by billing tier within each day, shuffle day-block order
+  // Each day's segment appears in billing tier order (headliner → subheadliner → undercard),
+  // but which day's block appears first varies per page load
+  // Memoized once per page visit — allArtists doesn't change during session
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const festivalFavorites = useMemo(
+    () =>
+      shuffleDayBlocks(
+        allArtists.filter(
+          (a) =>
+            a.appearance.billingTier === "Headliner" ||
+            a.appearance.billingTier === "Sub-headliner"
+        )
+      ),
+    []
   );
 
   // Hidden Gems: curatorial row, suppress only against Festival Favorites (Rule B)
-  const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
-  const hiddenGems = interleaveByDay(
-    allArtists.filter((a) =>
-      a.genres.some((g) =>
-        ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)
-      ) && !shownInFestival.has(a.slug) // Only suppression: Hidden Gems vs Festival Favorites
-    )
+  // Pipeline: sort by day → filter (exclude headliners + subheadliners) → shuffle within days → interleave
+  // Dependency: [festivalFavorites] because Hidden Gems' filter explicitly reads and excludes
+  // artists from Festival Favorites (suppression rule). This is a real data dependency.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const hiddenGems = useMemo(
+    () => {
+      const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
+      return interleaveByDayShuffled(
+        allArtists.filter((a) =>
+          a.genres.some((g) =>
+            ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)
+          ) &&
+          a.appearance.billingTier !== "Headliner" &&
+          a.appearance.billingTier !== "Sub-headliner" &&
+          !shownInFestival.has(a.slug) // Only suppression: Hidden Gems vs Festival Favorites
+        )
+      );
+    },
+    [festivalFavorites]
   );
 
   // International Picks: factual row, no suppression (Rule A)
-  const internationalPicks = interleaveByDay(
-    allArtists.filter((a) => a.location.country !== "United States")
+  // Pipeline: sort by day → filter → shuffle within days → interleave
+  // Memoized once per page visit — allArtists doesn't change during session
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const internationalPicks = useMemo(
+    () =>
+      interleaveByDayShuffled(
+        allArtists.filter((a) => a.location.country !== "United States")
+      ),
+    []
   );
 
   // Chicago's Own: factual row, no suppression (Rule A)
-  const chicagosOwn = interleaveByDay(
-    allArtists.filter((a) =>
-      a.location.city === "Chicago" || a.location.state === "Illinois"
-    )
+  // Pipeline: sort by day → filter → shuffle within days → interleave
+  // Memoized once per page visit — allArtists doesn't change during session
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const chicagosOwn = useMemo(
+    () =>
+      interleaveByDayShuffled(
+        allArtists.filter((a) =>
+          a.location.city === "Chicago" || a.location.state === "Illinois"
+        )
+      ),
+    []
   );
 
   // Cinematic Visuals: factual row, no suppression (Rule A)
-  const cinematicVisuals = interleaveByDay(
-    allArtists.filter((a) => a.whatToExpect.includes("Cinematic Visuals"))
+  // Pipeline: sort by day → filter → shuffle within days → interleave
+  // Memoized once per page visit — allArtists doesn't change during session
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const cinematicVisuals = useMemo(
+    () =>
+      interleaveByDayShuffled(
+        allArtists.filter((a) => a.whatToExpect.includes("Cinematic Visuals"))
+      ),
+    []
   );
 
   return (

@@ -189,7 +189,7 @@ export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
 
 The Explore page manages four distinct states:
 
-1. **No filters + no search** → Show curated carousels (Festival Favorites, New To You, Hidden Gems, Rave Energy, Quick Picks)
+1. **No filters + no search** → Show curated carousels (Festival Favorites, Hidden Gems, International Picks, Chicago's Own, Cinematic Visuals)
 2. **Filters only** → Show ActiveFilters bar + ArtistResultsGrid
 3. **Search only** → Show search heading + ArtistResultsGrid
 4. **Search + filters** → Show ActiveFilters bar + ArtistResultsGrid
@@ -239,37 +239,96 @@ If you added a second curatorial row (e.g., "Artists Worth Seeing Early"), you'd
 
 Right now Rule C doesn't apply to anything — Cinematic Visuals is factual (Rule A), not curatorial, so there's no second curatorial row to protect.
 
+---
+
+## Carousel Presentation Strategies
+
+Two distinct algorithms power carousel rows, chosen based on the row's editorial intent:
+
+### shuffleDayBlocks (Festival Favorites only)
+
+**Intent:** Maintain billing tier hierarchy within each day, vary which day appears first.
+
+**Algorithm:**
+1. Filter artists (headliners/sub-headliners)
+2. Sort by day (defensive)
+3. Group by day, sort within each group by billing tier (explicit enforcement)
+4. Shuffle the order of day-blocks (not artists)
+5. Concatenate shuffled blocks
+
+**Why this pattern:** Billing prominence matters for Festival Favorites — headliners should appear before sub-headliners within a day. But showing Thursday first every page load is boring. Day-block shuffling varies the sequence while preserving the billboard poster order within each day. Avoids the "headliner-clumping" problem that artist-level interleaving would cause.
+
+**Example:**
+- Input (after filtering): Thu=[H1, S1], Fri=[H1, S1], Sat=[H1, S1], Sun=[H1, S1]
+- After shuffle: [Sat=[H1, S1], Thu=[H1, S1], Sun=[H1, S1], Fri=[H1, S1]]
+- Result: Each day's block is contiguous and tier-ordered, day sequence varies
+
+### interleaveByDayShuffled (all other carousel rows)
+
+**Intent:** Break file-order bias, distribute artists across days evenly, no tier enforcement.
+
+**Algorithm:**
+1. Filter artists (apply row-specific criteria)
+2. Sort by day (defensive)
+3. Group by day, shuffle within each group (breaks bias)
+4. Round-robin interleave across shuffled groups
+5. Concatenate result
+
+**Why this pattern:** All other rows (International Picks, Chicago's Own, Cinematic Visuals, Hidden Gems) don't care about billing prominence — they're answering a different question ("Is this artist from outside the US?" not "Is this artist famous?"). File-order bias is a hazard: if the data file happens to list headliners first, every row would inherit that prominence bias without editing work. Shuffling within days breaks that bias. Round-robin interleaving distributes artists across visible viewport positions evenly (first visible artist comes from each day in order) rather than front-loading any single day.
+
+**Example:**
+- Input: Thu=[A, B], Fri=[C, D], Sat=[E], Sun=[F]
+- After shuffle within days: Thu=[B, A], Fri=[D, C], Sat=[E], Sun=[F]
+- Interleaved (one from each day): [B, D, E, F, A, C]
+- Result: Mix of days visible at all scroll positions, no day/artist clustering
+
+**Data Consistency Note:**
+Both functions call `sortByDay()` defensively at the start. This prevents silent bugs if artist data ever gets shuffled or if upstream filters reorder artists unexpectedly. The sort is cheap and provides defensive consistency.
+
 ### Implementation Pattern
 
 ```typescript
 // Festival Favorites: factual, no upstream suppression
-const festivalFavorites = sortByDay(
-  allArtists.filter((a) => a.appearance.billingTier === "Headliner" || ...)
+// Pipeline: filter to headliners/sub-headliners → sort by day → sort within each day by billing tier
+// → shuffle day-block order → concatenate (see shuffleDayBlocks in app/lib/carousel.ts)
+// Result: each day's billing tier order is explicit & consistent, but day sequence varies per load
+const festivalFavorites = shuffleDayBlocks(
+  allArtists.filter((a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner")
 );
 
 // Hidden Gems: curatorial, suppress only against Festival Favorites (Rule B)
+// Pipeline: filter by genre → exclude headliners/sub-headliners → exclude artists already in Festival Favorites
+// → sort by day → shuffle within days → interleave across days (see interleaveByDayShuffled)
 const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
-const hiddenGems = interleaveByDay(
+const hiddenGems = interleaveByDayShuffled(
   allArtists.filter((a) =>
-    a.genres.some(g => ["Bedroom Pop", ...].includes(g)) &&
-    !shownInFestival.has(a.slug) // Only suppression in the system
+    a.genres.some(g => ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)) &&
+    a.appearance.billingTier !== "Headliner" &&
+    a.appearance.billingTier !== "Sub-headliner" &&
+    !shownInFestival.has(a.slug) // Rule B suppression: don't show already-featured artists
   )
 );
 
 // International Picks: factual, no suppression (Rule A)
-const internationalPicks = interleaveByDay(
+// Pipeline: filter to non-US → sort by day → shuffle within days → interleave
+// Result: represents all qualifying artists, shuffled presentation breaks file-order bias
+const internationalPicks = interleaveByDayShuffled(
   allArtists.filter((a) => a.location.country !== "United States")
 );
 
 // Chicago's Own: factual, no suppression (Rule A)
-const chicagosOwn = interleaveByDay(
+// Pipeline: filter to Chicago/Illinois → sort by day → shuffle within days → interleave
+// Result: represents all qualifying artists, shuffled presentation breaks file-order bias
+const chicagosOwn = interleaveByDayShuffled(
   allArtists.filter((a) =>
     a.location.city === "Chicago" || a.location.state === "Illinois"
   )
 );
 
 // Cinematic Visuals: factual, no suppression (Rule A)
-const cinematicVisuals = interleaveByDay(
+// Pipeline: filter by tag → sort by day → shuffle within days → interleave
+// Result: represents all qualifying artists, shuffled presentation breaks file-order bias
+const cinematicVisuals = interleaveByDayShuffled(
   allArtists.filter((a) => a.whatToExpect.includes("Cinematic Visuals"))
 );
 ```

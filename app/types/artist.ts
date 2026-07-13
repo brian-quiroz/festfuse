@@ -1,6 +1,4 @@
-import type { WhatToExpectTag, BestForTag, Genre, Location, Stage } from "@/app/data/categories";
-
-export type BillingTier = "Headliner" | "Sub-headliner" | "Undercard";
+import type { WhatToExpectTag, BestForTag, Genre, Location, Stage, BillingTier } from "@/app/data/categories";
 
 export type FestivalAppearance = {
   festivalId: string;
