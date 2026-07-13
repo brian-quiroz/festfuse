@@ -20,26 +20,18 @@ export default function ArtistCard({ artist, size = "default", responsive = fals
   const decision = decisionsByArtist[artist.slug];
   const verdict = decision?.verdict ?? null;
 
-  // Derive display state from verdict
+  // Single verdict field, mutually exclusive. Each button sets its own value directly (or clears if already set).
   const mustSee = verdict === "mustSee";
-  const heartVisible = verdict === "interested" || verdict === "mustSee";
+  const interested = verdict === "interested";
 
   const handleMustSee = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (verdict === "mustSee") {
-      setDecision(artist.slug, "interested", "explore");
-    } else {
-      setDecision(artist.slug, "mustSee", "explore");
-    }
+    setDecision(artist.slug, verdict === "mustSee" ? null : "mustSee", "explore");
   };
 
   const handleInterested = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (verdict === null) {
-      setDecision(artist.slug, "interested", "explore");
-    } else {
-      setDecision(artist.slug, null, "explore");
-    }
+    setDecision(artist.slug, verdict === "interested" ? null : "interested", "explore");
   };
 
   const isLarge = size === "large";
@@ -100,12 +92,12 @@ export default function ArtistCard({ artist, size = "default", responsive = fals
           <button
             onClick={handleInterested}
             className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
-              heartVisible
+              interested
                 ? "bg-[#E8FF47]/18 border-[#E8FF47]/50 text-[#E8FF47]"
                 : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
             }`}
           >
-            <Heart size={11} fill={heartVisible ? "currentColor" : "none"} strokeWidth={2} />
+            <Heart size={11} fill={interested ? "currentColor" : "none"} strokeWidth={2} />
           </button>
         </div>
       </div>

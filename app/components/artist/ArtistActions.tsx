@@ -10,28 +10,19 @@ interface ArtistActionsProps {
 export default function ArtistActions({ artistId }: ArtistActionsProps) {
   const { decisionsByArtist, setDecision } = useInterestStore();
 
-  // Read from store — Must See visually implies Interested.
   const decision = decisionsByArtist[artistId];
   const verdict = decision?.verdict ?? null;
 
-  // Derive display state from verdict
+  // Single verdict field, mutually exclusive. Each button sets its own value directly (or clears if already set).
   const mustSee = verdict === "mustSee";
-  const heartVisible = verdict === "interested" || verdict === "mustSee";
+  const interested = verdict === "interested";
 
   const handleMustSee = () => {
-    if (verdict === "mustSee") {
-      setDecision(artistId, "interested", "artist");
-    } else {
-      setDecision(artistId, "mustSee", "artist");
-    }
+    setDecision(artistId, verdict === "mustSee" ? null : "mustSee", "artist");
   };
 
   const handleInterested = () => {
-    if (verdict === null) {
-      setDecision(artistId, "interested", "artist");
-    } else {
-      setDecision(artistId, null, "artist");
-    }
+    setDecision(artistId, verdict === "interested" ? null : "interested", "artist");
   };
 
   return (
@@ -56,12 +47,12 @@ export default function ArtistActions({ artistId }: ArtistActionsProps) {
       <button
         onClick={handleInterested}
         className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
-          heartVisible
+          interested
             ? "border border-[#E8FF47]/50 text-[#E8FF47] bg-[#E8FF47]/18"
             : "border border-white/15 text-white/50 hover:border-[#E8FF47]/40 hover:text-[#E8FF47]"
         }`}
       >
-        <Heart size={14} fill={heartVisible ? "currentColor" : "none"} strokeWidth={2} />
+        <Heart size={14} fill={interested ? "currentColor" : "none"} strokeWidth={2} />
         Interested
       </button>
 
