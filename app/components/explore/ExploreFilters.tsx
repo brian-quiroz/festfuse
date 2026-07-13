@@ -3,10 +3,20 @@
 import { useState } from "react";
 import { Search, ChevronDown, SlidersHorizontal } from "lucide-react";
 
-export default function ExploreFilters() {
+interface ExploreFiltersProps {
+  onSearchChange?: (query: string) => void;
+}
+
+export default function ExploreFilters({ onSearchChange }: ExploreFiltersProps) {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const dropdownFilters = ["Genre", "Day", "Stage"];
+
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    onSearchChange?.(value);
+  };
 
   return (
     <div className="space-y-3">
@@ -20,6 +30,8 @@ export default function ExploreFilters() {
         <input
           type="text"
           placeholder="Search artists, genres, or keywords..."
+          value={searchQuery}
+          onChange={(e) => handleSearchChange(e.target.value)}
           className="w-full bg-[#1B1535] border border-[#2D2556] rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#00E5FF]/30 transition-colors"
         />
       </div>

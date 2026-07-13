@@ -1,11 +1,17 @@
+"use client";
+
+import { useState } from "react";
 import { allArtists } from "@/app/data/artists";
 import Sidebar from "@/app/components/Sidebar";
 import ArtistCarousel from "@/app/components/explore/ArtistCarousel";
 import QuickPicksBanner from "@/app/components/explore/QuickPicksBanner";
 import ExploreFilters from "@/app/components/explore/ExploreFilters";
+import { searchArtists } from "@/app/lib/search";
+import SearchResultsGrid from "@/app/components/explore/SearchResultsGrid";
 import { Shuffle } from "lucide-react";
 
 export default function ExplorePage() {
+  const [searchQuery, setSearchQuery] = useState("");
   const festivalFavorites = allArtists.filter(
     (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
   );
@@ -42,20 +48,26 @@ export default function ExplorePage() {
             </button>
           </div>
 
-          <ExploreFilters />
+          <ExploreFilters onSearchChange={setSearchQuery} />
         </div>
 
         {/* Sections */}
-        <div className="pt-10 pb-16 space-y-12">
-          <ArtistCarousel title="Festival Favorites" artists={festivalFavorites} cardSize="large" />
+        <div className="pt-10 pb-16">
+          {searchQuery ? (
+            <SearchResultsGrid query={searchQuery} results={searchArtists(searchQuery, allArtists)} />
+          ) : (
+            <div className="space-y-12">
+              <ArtistCarousel title="Festival Favorites" artists={festivalFavorites} cardSize="large" />
 
-          <QuickPicksBanner />
+              <QuickPicksBanner />
 
-          <ArtistCarousel title="New To You" artists={newToYou} />
+              <ArtistCarousel title="New To You" artists={newToYou} />
 
-          <ArtistCarousel title="Hidden Gems" artists={hiddenGems} />
+              <ArtistCarousel title="Hidden Gems" artists={hiddenGems} />
 
-          <ArtistCarousel title="Rave Energy" artists={raveEnergy} />
+              <ArtistCarousel title="Rave Energy" artists={raveEnergy} />
+            </div>
+          )}
         </div>
       </main>
     </div>
