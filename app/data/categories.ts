@@ -237,6 +237,50 @@ export const GENRES = [
 
 export type Genre = (typeof GENRES)[number];
 
+/**
+ * Genre Parent Categories (11 total)
+ * The 124 genres above are grouped into these broader categories for organizational reference.
+ * This is for understanding only — filters and search use the detailed 124-genre list.
+ *
+ * Rock/Alternative: 90s Alternative, Alternative Rock, Art Rock, Blues Rock, Electronic Rock,
+ *   Garage Rock, Gothic Rock, Grunge, Indie Rock, Industrial Rock, Madchester, Neo-Psychedelia,
+ *   Post-Punk, Shoegaze, Surf Rock, etc. (tracks alternative and rock-adjacent styles)
+ *
+ * Pop: Alt-Pop, Ambient Pop, Art Pop, Chamber Pop, Cinematic Pop, Dance Pop, Dark Pop, Electro-Pop,
+ *   Electropop, Experimental Pop, Groove Pop, Hyperpop, Latin Pop, Power Pop, Psychedelic Pop,
+ *   Subversive Pop, Synth-Pop, etc. (any subgenre of pop)
+ *
+ * Folk/Americana/Country: Alternative Folk, Americana, Americana-Pop, Brass Band, Contemporary Folk,
+ *   Country, Country Blues, Country Pop, Dark Folk, Folk Rock, Gothic Folk, Indie Folk,
+ *   Singer-Songwriter, Traditional Irish Folk, etc. (folk, country, and americana styles)
+ *
+ * Hip-Hop/Rap: Alternative Hip-Hop, Boom Bap, Conscious Rap, Emo-Rap, Gangsta Rap, Hip-Hop,
+ *   Hip-Hop-Pop, Korean Hip-Hop, Plugg, Rage Rap, Southern Rap, Trap, Underground Rap,
+ *   West Coast Rap, etc. (all rap and hip-hop variants)
+ *
+ * R&B/Soul: Alternative R&B, Chicano Soul, Funk, Neo-Soul, R&B, Soul, etc.
+ *   (R&B, soul, funk, and contemporary variations)
+ *
+ * Indie/Bedroom/Shoegaze: Bedroom Pop, Dream Pop, Indie Electronica, Indie Folk, Indie Pop,
+ *   Indie Rock, Lo-Fi Indie, Slowcore, Shoegaze, etc. (lo-fi, bedroom, indie, and dream pop styles)
+ *
+ * Electronic/Dance: Bass House, Bassline, Club, Dark Techno, Deep House, Digital Hardcore,
+ *   Disco House, Drum and Bass, Dubstep, Electro House, Electroclash, Eurodance, Folktronica,
+ *   Future Bass, G-House, Happy Hardcore, House, House-Pop, Industrial Electronic, Industrial House,
+ *   Industrial Techno, Melodic Bass, Melodic House, Minimal Tech, Speed Garage, Tech House, Techno,
+ *   UK Garage, Witch House, etc. (all electronic and dance-oriented styles)
+ *
+ * K-Pop/J-Pop/P-Pop: J-Pop, K-Pop, P-Pop (Asian pop and pop-influenced styles)
+ *
+ * Punk/Hardcore/Metal: Alternative Metal, Emo, Hardcore Punk, Metalcore, Pop-Punk, Post-Hardcore,
+ *   Punk Rock, Riot Grrrl, etc. (punk, metalcore, hardcore, and related high-intensity styles)
+ *
+ * Classical/Orchestral: Classical, Cinematic Orchestral, Symphonic Rock, etc.
+ *   (orchestral and classical-influenced styles)
+ *
+ * Global Pop: Afroswing, Tropicalia, etc. (regional pop and world music styles)
+ */
+
 // ============================================================================
 // STAGE: Festival stage names (derived from festival-specific mappings)
 // ============================================================================
