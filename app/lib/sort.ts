@@ -1,8 +1,10 @@
 import type { Artist } from "@/app/types/artist";
 import { BILLING_TIERS } from "@/app/data/categories";
+import { getDaysForActiveFestival } from "@/app/data/festivals";
 
 // Festival day order (defensive: don't rely on data file arrangement)
-const DAY_ORDER = ["Thursday", "Friday", "Saturday", "Sunday"];
+// Sourced from festival configuration to enable multi-festival support
+const DAY_ORDER = getDaysForActiveFestival();
 
 // Billing tier prominence order (defensive: don't rely on file-order artist arrangement)
 // Used by shuffleDayBlocks to explicitly enforce tier hierarchy within each day

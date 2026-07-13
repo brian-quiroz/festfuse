@@ -287,6 +287,8 @@ Both functions call `sortByDay()` defensively at the start. This prevents silent
 
 ### Implementation Pattern
 
+The following is a **simplified illustration** of how each carousel is computed in `app/explore/page.tsx`. See that file for the actual implementation, including memoization, dependency arrays, and ESLint overrides. The patterns here show the filter + presentation logic only:
+
 ```typescript
 // Festival Favorites: factual, no upstream suppression
 // Pipeline: filter to headliners/sub-headliners → sort by day → sort within each day by billing tier

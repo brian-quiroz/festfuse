@@ -19,10 +19,11 @@ export default function ExplorePage() {
   const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
   const [activeDay, setActiveDay] = useState<string>("");
   const [activeStages, setActiveStages] = useState<Stage[]>([]);
-  // Festival Favorites: sort by billing tier within each day, shuffle day-block order
-  // Each day's segment appears in billing tier order (headliner → subheadliner → undercard),
-  // but which day's block appears first varies per page load
-  // Memoized once per page visit — allArtists doesn't change during session
+
+  // Carousel rows are memoized with empty or stable dependencies because allArtists is static
+  // for the session. They shuffle once on mount and stay stable while the user browses, filters,
+  // or searches. See ARCHITECTURE.md § Carousel Presentation Strategies for algorithm details.
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const festivalFavorites = useMemo(
     () =>
@@ -36,10 +37,7 @@ export default function ExplorePage() {
     []
   );
 
-  // Hidden Gems: curatorial row, suppress only against Festival Favorites (Rule B)
-  // Pipeline: sort by day → filter (exclude headliners + subheadliners) → shuffle within days → interleave
-  // Dependency: [festivalFavorites] because Hidden Gems' filter explicitly reads and excludes
-  // artists from Festival Favorites (suppression rule). This is a real data dependency.
+  // Suppress against Festival Favorites (Hidden Gems' premise is "overlooked")
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const hiddenGems = useMemo(
     () => {
@@ -51,16 +49,13 @@ export default function ExplorePage() {
           ) &&
           a.appearance.billingTier !== "Headliner" &&
           a.appearance.billingTier !== "Sub-headliner" &&
-          !shownInFestival.has(a.slug) // Only suppression: Hidden Gems vs Festival Favorites
+          !shownInFestival.has(a.slug)
         )
       );
     },
     [festivalFavorites]
   );
 
-  // International Picks: factual row, no suppression (Rule A)
-  // Pipeline: sort by day → filter → shuffle within days → interleave
-  // Memoized once per page visit — allArtists doesn't change during session
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const internationalPicks = useMemo(
     () =>
@@ -70,9 +65,6 @@ export default function ExplorePage() {
     []
   );
 
-  // Chicago's Own: factual row, no suppression (Rule A)
-  // Pipeline: sort by day → filter → shuffle within days → interleave
-  // Memoized once per page visit — allArtists doesn't change during session
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const chicagosOwn = useMemo(
     () =>
@@ -84,9 +76,6 @@ export default function ExplorePage() {
     []
   );
 
-  // Cinematic Visuals: factual row, no suppression (Rule A)
-  // Pipeline: sort by day → filter → shuffle within days → interleave
-  // Memoized once per page visit — allArtists doesn't change during session
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const cinematicVisuals = useMemo(
     () =>

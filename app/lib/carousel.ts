@@ -1,7 +1,8 @@
 import type { Artist } from "@/app/types/artist";
 import { sortByDay, sortByBillingTier } from "./sort";
+import { getDaysForActiveFestival } from "@/app/data/festivals";
 
-const DAY_ORDER = ["Thursday", "Friday", "Saturday", "Sunday"];
+const DAY_ORDER = getDaysForActiveFestival();
 
 /**
  * Shuffle array in-place using Fisher-Yates algorithm.
@@ -76,10 +77,8 @@ export function shuffleDayBlocks(artists: Artist[]): Artist[] {
 /**
  * Round-robin interleave artists by day with shuffling within each day.
  *
- * Use this for any carousel row EXCEPT Festival Favorites — i.e., any row where preserving
- * billing-prominence order within a day is not the intended behavior.
- * This includes both factual rows (International Picks, Chicago's Own, Cinematic Visuals)
- * and curatorial rows (Hidden Gems).
+ * Use this for any carousel row where billing-prominence order is not the intended behavior
+ * (i.e., everything except Festival Favorites).
  *
  * Pipeline:
  * 1. Sort by day (defensive)
@@ -89,7 +88,8 @@ export function shuffleDayBlocks(artists: Artist[]): Artist[] {
  *
  * This prevents rows from inheriting the "prominent-within-day" bias that exists in the
  * raw data files (which are pre-sorted by billing prominence within each day).
- * Suppression rules (curatorial vs factual) are a separate concern handled at the filter level.
+ * Suppression rules and row classifications are a separate concern handled at the filter level
+ * — see ARCHITECTURE.md for details on which rows suppress against which.
  *
  * Example:
  *   Input: [Thu-B, Thu-A, Fri-E, Fri-C, Sat-D, Sun-F]

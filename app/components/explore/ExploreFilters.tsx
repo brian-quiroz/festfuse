@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { Search, X, SlidersHorizontal } from "lucide-react";
 import type { Genre, Stage } from "@/app/data/categories";
 import { GENRES } from "@/app/data/categories";
-import { ACTIVE_FESTIVAL_ID, FESTIVAL_STAGES } from "@/app/data/festivals";
+import { getDaysForActiveFestival, getStagesForActiveFestival } from "@/app/data/festivals";
 import { allArtists } from "@/app/data/artists";
 import MultiSelectDropdown from "@/app/components/explore/MultiSelectDropdown";
 import SingleSelectDropdown from "@/app/components/explore/SingleSelectDropdown";
@@ -45,11 +45,9 @@ export default function ExploreFilters({
     allArtists.some((artist) => artist.genres.includes(genre))
   );
 
-  // Days of the week
-  const days = ["Thursday", "Friday", "Saturday", "Sunday"];
-
-  // Available stages for this festival
-  const availableStages = (FESTIVAL_STAGES[ACTIVE_FESTIVAL_ID] || []) as Stage[];
+  // Festival days and stages (sourced from festival configuration)
+  const days = getDaysForActiveFestival() as string[];
+  const availableStages = getStagesForActiveFestival() as Stage[];
 
   const handleSearchChange = (value: string) => {
     setSearchQuery(value);
