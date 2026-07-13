@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Search, X, SlidersHorizontal } from "lucide-react";
+import { Search, X } from "lucide-react";
 import type { Genre, Stage } from "@/app/data/categories";
-import { GENRES } from "@/app/data/categories";
+import { GENRES, STATUS_FILTER_LABELS } from "@/app/data/categories";
 import { getDaysForActiveFestival, getStagesForActiveFestival } from "@/app/data/festivals";
 import { allArtists } from "@/app/data/artists";
+import type { StatusFilterValue } from "@/app/types/interest";
 import MultiSelectDropdown from "@/app/components/explore/MultiSelectDropdown";
 import SingleSelectDropdown from "@/app/components/explore/SingleSelectDropdown";
 
@@ -14,10 +15,12 @@ interface ExploreFiltersProps {
   selectedGenres?: Genre[];
   selectedDay?: string;
   selectedStages?: Stage[];
+  selectedStatus?: StatusFilterValue[];
   onSearchChange?: (query: string) => void;
   onGenresChange?: (genres: Genre[]) => void;
   onDayChange?: (day: string) => void;
   onStagesChange?: (stages: Stage[]) => void;
+  onStatusChange?: (status: StatusFilterValue[]) => void;
 }
 
 export default function ExploreFilters({
@@ -25,15 +28,18 @@ export default function ExploreFilters({
   selectedGenres: externalGenres = [],
   selectedDay: externalDay = "",
   selectedStages: externalStages = [],
+  selectedStatus: externalStatus = [],
   onSearchChange,
   onGenresChange,
   onDayChange,
   onStagesChange,
+  onStatusChange,
 }: ExploreFiltersProps) {
   const [searchQuery, setSearchQuery] = useState(externalSearchQuery);
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>(externalGenres);
   const [selectedDay, setSelectedDay] = useState<string>(externalDay);
   const [selectedStages, setSelectedStages] = useState<Stage[]>(externalStages);
+  const [selectedStatus, setSelectedStatus] = useState<StatusFilterValue[]>(externalStatus);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [allButtonPressed, setAllButtonPressed] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -44,7 +50,8 @@ export default function ExploreFilters({
     setSelectedGenres(externalGenres);
     setSelectedDay(externalDay);
     setSelectedStages(externalStages);
-  }, [externalSearchQuery, externalGenres, externalDay, externalStages]);
+    setSelectedStatus(externalStatus);
+  }, [externalSearchQuery, externalGenres, externalDay, externalStages, externalStatus]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -94,6 +101,14 @@ export default function ExploreFilters({
     onStagesChange?.(updated);
   };
 
+  const handleStatusToggle = (status: StatusFilterValue) => {
+    const updated = selectedStatus.includes(status)
+      ? selectedStatus.filter((s) => s !== status)
+      : [...selectedStatus, status];
+    setSelectedStatus(updated);
+    onStatusChange?.(updated);
+  };
+
   const handleClearAll = () => {
     setAllButtonPressed(true);
     setTimeout(() => setAllButtonPressed(false), 300);
@@ -101,10 +116,12 @@ export default function ExploreFilters({
     setSelectedGenres([]);
     setSelectedDay("");
     setSelectedStages([]);
+    setSelectedStatus([]);
     onSearchChange?.("");
     onGenresChange?.([]);
     onDayChange?.("");
     onStagesChange?.([]);
+    onStatusChange?.([]);
   };
 
   return (
@@ -166,7 +183,7 @@ export default function ExploreFilters({
           All
         </button>
 
-        {/* Genre Dropdown (Multi-select) */}
+        {/* Genre Dropdown (Multi-select, count mode) */}
         <MultiSelectDropdown
           title="Genre"
           options={availableGenres}
@@ -174,6 +191,7 @@ export default function ExploreFilters({
           onToggle={handleGenreToggle}
           isOpen={openDropdown === "Genre"}
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Genre" : null)}
+          displayMode="count"
         />
 
         {/* Day Dropdown (Single-select) */}
@@ -196,11 +214,18 @@ export default function ExploreFilters({
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Stage" : null)}
         />
 
-        {/* More Filters button */}
-        <button className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border border-white/15 text-white/50 hover:border-white/25 hover:text-white/70 transition-colors">
-          <SlidersHorizontal size={13} strokeWidth={2} />
-          More Filters
-        </button>
+        {/* Status Dropdown (Multi-select, labels mode) */}
+        <MultiSelectDropdown
+          title="Status"
+          options={["mustSee" as StatusFilterValue, "interested" as StatusFilterValue, "passed" as StatusFilterValue, "undecided" as StatusFilterValue]}
+          selected={selectedStatus}
+          onToggle={handleStatusToggle}
+          isOpen={openDropdown === "Status"}
+          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Status" : null)}
+          displayMode="labels"
+          displayLabels={STATUS_FILTER_LABELS}
+          showAllWhenComplete
+        />
       </div>
     </div>
   );

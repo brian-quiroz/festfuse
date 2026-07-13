@@ -14,18 +14,22 @@ import ActiveFilters from "@/app/components/explore/ActiveFilters";
 import { Shuffle, ChevronLeft } from "lucide-react";
 import { createSeededRandom } from "@/app/lib/random";
 import { sortChronologically, sortFestivalFavoritesForFullView } from "@/app/lib/sort";
+import { useInterestStore } from "@/app/store/interestStore";
 import type { Genre, Stage } from "@/app/data/categories";
 import type { Artist } from "@/app/types/artist";
+import type { StatusFilterValue } from "@/app/types/interest";
 
 interface ExploreContentProps {
   seed: number;
 }
 
 export default function ExploreContent({ seed }: ExploreContentProps) {
+  const { decisionsByArtist } = useInterestStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
   const [activeDay, setActiveDay] = useState<string>("");
   const [activeStages, setActiveStages] = useState<Stage[]>([]);
+  const [activeStatus, setActiveStatus] = useState<StatusFilterValue[]>([]);
   const [viewingCarousel, setViewingCarousel] = useState<string | null>(null);
   const mainRef = useRef<HTMLElement>(null);
 
@@ -35,6 +39,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     setActiveGenres([]);
     setActiveDay("");
     setActiveStages([]);
+    setActiveStatus([]);
     setViewingCarousel(carouselName);
     // Scroll to top so user sees the carousel header
     mainRef.current?.scrollTo(0, 0);
@@ -46,6 +51,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     setActiveGenres([]);
     setActiveDay("");
     setActiveStages([]);
+    setActiveStatus([]);
     setViewingCarousel(null);
   };
 
@@ -185,25 +191,32 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
             selectedGenres={activeGenres}
             selectedDay={activeDay}
             selectedStages={activeStages}
+            selectedStatus={activeStatus}
             onSearchChange={setSearchQuery}
             onGenresChange={setActiveGenres}
             onDayChange={setActiveDay}
             onStagesChange={setActiveStages}
+            onStatusChange={setActiveStatus}
           />
         </div>
 
         {/* Result count summary — only show when viewing carousels, not in carousel detail view */}
         {!viewingCarousel && (() => {
-          const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0;
+          const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0 || activeStatus.length > 0;
           const hasSearch = searchQuery.trim().length > 0;
 
           if (!hasFilters && !hasSearch) return null;
 
-          const filtered = filterArtists(allArtists, {
-            genres: activeGenres.length > 0 ? activeGenres : undefined,
-            day: activeDay || undefined,
-            stages: activeStages.length > 0 ? activeStages : undefined,
-          });
+          const filtered = filterArtists(
+            allArtists,
+            {
+              genres: activeGenres.length > 0 ? activeGenres : undefined,
+              day: activeDay || undefined,
+              stages: activeStages.length > 0 ? activeStages : undefined,
+              verdicts: activeStatus.length > 0 ? activeStatus : undefined,
+            },
+            decisionsByArtist
+          );
 
           const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
 
@@ -236,14 +249,19 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
             : sortChronologically(currentCarousel.artists);
 
           // Apply additional filters and search if any
-          const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0;
+          const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0 || activeStatus.length > 0;
           const hasSearch = searchQuery.trim().length > 0;
 
-          const filtered = filterArtists(sortedArtists, {
-            genres: activeGenres.length > 0 ? activeGenres : undefined,
-            day: activeDay || undefined,
-            stages: activeStages.length > 0 ? activeStages : undefined,
-          });
+          const filtered = filterArtists(
+            sortedArtists,
+            {
+              genres: activeGenres.length > 0 ? activeGenres : undefined,
+              day: activeDay || undefined,
+              stages: activeStages.length > 0 ? activeStages : undefined,
+              verdicts: activeStatus.length > 0 ? activeStatus : undefined,
+            },
+            decisionsByArtist
+          );
 
           const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
 
@@ -262,10 +280,13 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                   onClearStage={(stage) =>
                     setActiveStages(activeStages.filter((s) => s !== stage))
                   }
+                  status={activeStatus}
+                  onClearStatus={() => setActiveStatus([])}
                   onClearAll={() => {
                     setActiveGenres([]);
                     setActiveDay("");
                     setActiveStages([]);
+                    setActiveStatus([]);
                   }}
                 />
               )}
@@ -295,15 +316,20 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
 
         {/* Four-state rendering */}
         {!viewingCarousel && (() => {
-          const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0;
+          const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0 || activeStatus.length > 0;
           const hasSearch = searchQuery.trim().length > 0;
 
           // Apply filters first, then search within filtered results
-          const filtered = filterArtists(allArtists, {
-            genres: activeGenres.length > 0 ? activeGenres : undefined,
-            day: activeDay || undefined,
-            stages: activeStages.length > 0 ? activeStages : undefined,
-          });
+          const filtered = filterArtists(
+            allArtists,
+            {
+              genres: activeGenres.length > 0 ? activeGenres : undefined,
+              day: activeDay || undefined,
+              stages: activeStages.length > 0 ? activeStages : undefined,
+              verdicts: activeStatus.length > 0 ? activeStatus : undefined,
+            },
+            decisionsByArtist
+          );
 
           const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
 
@@ -360,6 +386,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                   genres={activeGenres}
                   day={activeDay}
                   stages={activeStages}
+                  status={activeStatus}
                   onClearGenre={(genre) =>
                     setActiveGenres(activeGenres.filter((g) => g !== genre))
                   }
@@ -367,10 +394,12 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                   onClearStage={(stage) =>
                     setActiveStages(activeStages.filter((s) => s !== stage))
                   }
+                  onClearStatus={() => setActiveStatus([])}
                   onClearAll={() => {
                     setActiveGenres([]);
                     setActiveDay("");
                     setActiveStages([]);
+                    setActiveStatus([]);
                   }}
                 />
                 <div className="pt-10 pb-16">
