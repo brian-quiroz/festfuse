@@ -1,14 +1,14 @@
 "use client";
 
 import { Plus, Star, Heart, BarChart2 } from "lucide-react";
-import { useInterestStore } from "@/app/store/interestStore";
+import { useDecisionStore } from "@/app/store/decisionStore";
 
 interface ArtistActionsProps {
   artistId: string;
 }
 
 export default function ArtistActions({ artistId }: ArtistActionsProps) {
-  const { decisionsByArtist, setDecision } = useInterestStore();
+  const { decisionsByArtist, setDecision } = useDecisionStore();
 
   const decision = decisionsByArtist[artistId];
   const verdict = decision?.verdict ?? null;

@@ -6,7 +6,7 @@ import type { Genre, Stage } from "@/app/data/categories";
 import { GENRES, STATUS_FILTER_LABELS } from "@/app/data/categories";
 import { getDaysForActiveFestival, getStagesForActiveFestival } from "@/app/data/festivals";
 import { allArtists } from "@/app/data/artists";
-import type { StatusFilterValue } from "@/app/types/interest";
+import type { StatusFilterValue } from "@/app/types/decision";
 import MultiSelectDropdown from "@/app/components/explore/MultiSelectDropdown";
 import SingleSelectDropdown from "@/app/components/explore/SingleSelectDropdown";
 

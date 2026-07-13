@@ -7,7 +7,7 @@ import DecisionScreen from "@/app/components/quick-picks/DecisionScreen";
 import DayCompleteScreen from "@/app/components/quick-picks/DayCompleteScreen";
 import FestivalCompleteScreen from "@/app/components/quick-picks/FestivalCompleteScreen";
 import { allArtists } from "@/app/data/artists";
-import { useInterestStore, type ArtistDecision } from "@/app/store/interestStore";
+import { useDecisionStore, type ArtistDecision } from "@/app/store/decisionStore";
 import { interleaveByTierWithinDay } from "@/app/lib/quick-picks-queue";
 import { getDaysForActiveFestival } from "@/app/data/festivals";
 import type {
@@ -70,7 +70,7 @@ function createSession(
 }
 
 export default function QuickPicksPage() {
-  const { decisionsByArtist, setDecision } = useInterestStore();
+  const { decisionsByArtist, setDecision } = useDecisionStore();
   const [step, setStep] = useState<QuickPicksStep>("start");
   const [session, setSession] = useState<QuickPicksSession | null>(null);
   const [initialDecisions, setInitialDecisions] = useState<Record<string, QuickPicksVerdict | null>>({});

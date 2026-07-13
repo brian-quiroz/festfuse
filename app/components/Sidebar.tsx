@@ -12,7 +12,7 @@ import {
   Heart,
   CircleCheck,
 } from "lucide-react";
-import { useInterestStore } from "@/app/store/interestStore";
+import { useDecisionStore } from "@/app/store/decisionStore";
 
 const navItems = [
   { label: "Home", href: "/", Icon: Home },
@@ -34,7 +34,7 @@ const staticFestivalItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { decisionsByArtist } = useInterestStore();
+  const { decisionsByArtist } = useDecisionStore();
 
   // Derive counts from store
   const mustSeeCount = Object.values(decisionsByArtist).filter(

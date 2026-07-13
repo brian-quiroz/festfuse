@@ -1,6 +1,6 @@
 import type { Artist } from "@/app/types/artist";
 import type { Genre, Stage } from "@/app/data/categories";
-import type { Verdict, StatusFilterValue } from "@/app/types/interest";
+import type { Verdict, StatusFilterValue } from "@/app/types/decision";
 
 /**
  * Apply genre, day, stage, and status filters to an artist array.

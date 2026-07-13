@@ -14,17 +14,17 @@ import ActiveFilters from "@/app/components/explore/ActiveFilters";
 import { Shuffle, ChevronLeft } from "lucide-react";
 import { createSeededRandom } from "@/app/lib/random";
 import { sortChronologically, sortFestivalFavoritesForFullView } from "@/app/lib/sort";
-import { useInterestStore } from "@/app/store/interestStore";
+import { useDecisionStore } from "@/app/store/decisionStore";
 import type { Genre, Stage } from "@/app/data/categories";
 import type { Artist } from "@/app/types/artist";
-import type { StatusFilterValue } from "@/app/types/interest";
+import type { StatusFilterValue } from "@/app/types/decision";
 
 interface ExploreContentProps {
   seed: number;
 }
 
 export default function ExploreContent({ seed }: ExploreContentProps) {
-  const { decisionsByArtist } = useInterestStore();
+  const { decisionsByArtist } = useDecisionStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
   const [activeDay, setActiveDay] = useState<string>("");

@@ -300,9 +300,9 @@ export type BillingTier = (typeof BILLING_TIERS)[number];
 // ============================================================================
 // VERDICT_LABELS: Human-readable labels for verdict enum values
 // ============================================================================
-// Import Verdict type from app/types/interest and use this map to display verdicts in UI
+// Import Verdict type from app/types/decision and use this map to display verdicts in UI
 
-import type { Verdict, StatusFilterValue } from "@/app/types/interest";
+import type { Verdict, StatusFilterValue } from "@/app/types/decision";
 
 export const VERDICT_LABELS: Record<Verdict, string> = {
   mustSee: "Must See",

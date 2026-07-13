@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Heart, Star } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
-import { useInterestStore } from "@/app/store/interestStore";
+import { useDecisionStore } from "@/app/store/decisionStore";
 
 interface ArtistCardProps {
   artist: Artist;
@@ -14,7 +14,7 @@ interface ArtistCardProps {
 
 export default function ArtistCard({ artist, size = "default", responsive = false }: ArtistCardProps) {
   const router = useRouter();
-  const { decisionsByArtist, setDecision } = useInterestStore();
+  const { decisionsByArtist, setDecision } = useDecisionStore();
 
   // Read from store
   const decision = decisionsByArtist[artist.slug];

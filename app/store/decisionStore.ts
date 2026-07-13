@@ -12,7 +12,7 @@ export interface ArtistDecision {
   updatedAt: number;
 }
 
-export interface InterestState {
+export interface DecisionState {
   decisionsByArtist: Record<string, ArtistDecision>;
   setDecision: (
     artistId: string,
@@ -21,7 +21,7 @@ export interface InterestState {
   ) => void;
 }
 
-export const useInterestStore = create<InterestState>()(
+export const useDecisionStore = create<DecisionState>()(
   persist(
     (set) => ({
       decisionsByArtist: {},
@@ -41,7 +41,7 @@ export const useInterestStore = create<InterestState>()(
         }),
     }),
     {
-      name: "festfuse-interest",
+      name: "festfuse-decision",
     }
   )
 );

@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import type { Genre, Stage } from "@/app/data/categories";
-import type { StatusFilterValue } from "@/app/types/interest";
+import type { StatusFilterValue } from "@/app/types/decision";
 
 interface ActiveFiltersProps {
   genres?: Genre[];
