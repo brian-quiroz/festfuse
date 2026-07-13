@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { Plus, Star, Heart, BarChart2 } from "lucide-react";
 import { useInterestStore } from "@/app/store/interestStore";
 
@@ -15,47 +14,25 @@ export default function ArtistActions({ artistId }: ArtistActionsProps) {
   const decision = decisionsByArtist[artistId];
   const verdict = decision?.verdict ?? null;
 
-  // Display-only: heart lights up immediately on direct tap, or after cascade delay when Must See is tapped from neutral.
-  // Initialize from persisted state so heart shows correctly on component mount.
-  const [heartVisible, setHeartVisible] = useState(
-    verdict === "interested" || verdict === "mustSee"
-  );
-  const cascadeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(
-    () => () => {
-      if (cascadeRef.current) clearTimeout(cascadeRef.current);
-    },
-    []
-  );
+  // Derive display state from verdict
+  const mustSee = verdict === "mustSee";
+  const heartVisible = verdict === "interested" || verdict === "mustSee";
 
   const handleMustSee = () => {
-    if (cascadeRef.current) clearTimeout(cascadeRef.current);
     if (verdict === "mustSee") {
       setDecision(artistId, "interested", "artist");
-      // Heart stays visible — downgrading to Interested, not clearing
     } else {
-      const wasEmpty = verdict === null;
       setDecision(artistId, "mustSee", "artist");
-      if (wasEmpty) {
-        cascadeRef.current = setTimeout(() => setHeartVisible(true), 100);
-      }
-      // If upgrading from "interested", heart was already visible
     }
   };
 
   const handleInterested = () => {
-    if (cascadeRef.current) clearTimeout(cascadeRef.current);
     if (verdict === null) {
       setDecision(artistId, "interested", "artist");
-      setHeartVisible(true);
     } else {
       setDecision(artistId, null, "artist");
-      setHeartVisible(false);
     }
   };
-
-  const mustSee = verdict === "mustSee";
 
   return (
     <div className="flex items-center gap-2.5 flex-wrap">

@@ -7,8 +7,8 @@ import DecisionScreen from "@/app/components/quick-picks/DecisionScreen";
 import DayCompleteScreen from "@/app/components/quick-picks/DayCompleteScreen";
 import FestivalCompleteScreen from "@/app/components/quick-picks/FestivalCompleteScreen";
 import { allArtists } from "@/app/data/artists";
-import { getDaysForActiveFestival } from "@/app/data/festivals";
-import { useInterestStore } from "@/app/store/interestStore";
+import { useInterestStore, type ArtistDecision } from "@/app/store/interestStore";
+import { sortChronologically } from "@/app/lib/sort";
 import type {
   QuickPicksStep,
   QuickPicksSession,
@@ -17,23 +17,17 @@ import type {
   QuickPicksVerdict,
 } from "@/app/types/quick-picks";
 
-const DAY_ORDER = getDaysForActiveFestival();
-
-function parseTime(t: string): number {
-  const [time, period] = t.split(" ");
-  const [h, m] = time.split(":").map(Number);
-  return ((h % 12) + (period === "PM" ? 12 : 0)) * 60 + m;
-}
-
-// MVP: Build the queue in festival schedule order.
+// MVP: Build the queue in chronological order from undecided artists only.
 // The queue-generation strategy may evolve later (recommendations, popularity, etc.) without changing the session architecture.
-function createSession(config: QuickPicksSessionConfig): QuickPicksSession {
-  const sorted = [...allArtists].sort((a, b) => {
-    const dayDiff = DAY_ORDER.indexOf(a.appearance.day) - DAY_ORDER.indexOf(b.appearance.day);
-    return dayDiff !== 0
-      ? dayDiff
-      : parseTime(a.appearance.startTime) - parseTime(b.appearance.startTime);
-  });
+function createSession(
+  config: QuickPicksSessionConfig,
+  decisionsByArtist: Record<string, ArtistDecision>
+): QuickPicksSession {
+  // Filter to only undecided artists (no entry in store means undecided)
+  const undecidedArtists = allArtists.filter((a) => !decisionsByArtist[a.slug]);
+
+  // Sort chronologically (day → time → name)
+  const sorted = sortChronologically(undecidedArtists);
 
   const dayCounts: Record<string, number> = {};
   for (const artist of sorted) {
@@ -70,7 +64,7 @@ export default function QuickPicksPage() {
     setUndoneVerdict(null);
     setUndoToast(null);
     setIsScreenExiting(false);
-    const newSession = createSession(config);
+    const newSession = createSession(config, decisionsByArtist);
     // Capture the current state of decisions for all artists in the queue for undo purposes
     const initial: Record<string, QuickPicksVerdict | null> = {};
     for (const item of newSession.queue) {
@@ -90,11 +84,7 @@ export default function QuickPicksPage() {
     const newDecisions = { ...session.decisions, [currentItem.artistId]: verdict };
 
     // Write decision to the shared store immediately so it's visible on other pages
-    if (verdict === "passed") {
-      setDecision(currentItem.artistId, null, "quickPicks");
-    } else {
-      setDecision(currentItem.artistId, verdict, "quickPicks");
-    }
+    setDecision(currentItem.artistId, verdict, "quickPicks");
 
     const newIndex = session.currentIndex + 1;
 

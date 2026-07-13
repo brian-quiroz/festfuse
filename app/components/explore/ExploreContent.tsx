@@ -13,7 +13,7 @@ import ArtistResultsGrid from "@/app/components/explore/ArtistResultsGrid";
 import ActiveFilters from "@/app/components/explore/ActiveFilters";
 import { Shuffle, ChevronLeft } from "lucide-react";
 import { createSeededRandom } from "@/app/lib/random";
-import { sortForFullCarouselView, sortFestivalFavoritesForFullView } from "@/app/lib/sort";
+import { sortChronologically, sortFestivalFavoritesForFullView } from "@/app/lib/sort";
 import type { Genre, Stage } from "@/app/data/categories";
 import type { Artist } from "@/app/types/artist";
 
@@ -233,7 +233,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
           // all other carousels use day → time → name
           const sortedArtists = viewingCarousel === "festival-favorites"
             ? sortFestivalFavoritesForFullView(currentCarousel.artists)
-            : sortForFullCarouselView(currentCarousel.artists);
+            : sortChronologically(currentCarousel.artists);
 
           // Apply additional filters and search if any
           const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0;
