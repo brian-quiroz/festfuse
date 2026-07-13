@@ -1502,7 +1502,7 @@ const frostChildren: Artist = {
   name: "Frost Children",
   slug: "frost-children",
   genres: ["Hyperpop", "Digital Hardcore", "Electronic"],
-  origin: "New York, New York",
+  origin: "New York City, New York",
   tagline: "Blistering, hyper-chaotic internet pop and unhinged digital hardcore perfection.",
   socials: { spotify: "https://open.spotify.com/artist/6R1kfr0GIWnwxY4zW11Vag" },
   whySee: [
@@ -1678,7 +1678,7 @@ const lucyBedroque: Artist = {
   name: "Lucy Bedroque",
   slug: "lucy-bedroque",
   genres: ["Indie Pop", "Alt-Pop", "Bedroom Pop"],
-  origin: "New York, New York",
+  origin: "Los Angeles, California",
   tagline: "Conversational, shadow-drenched bedroom alt-pop for nocturnal overthinkers.",
   socials: { spotify: "https://open.spotify.com/artist/2I8H267eH5va9da4vGt38O" },
   whySee: [

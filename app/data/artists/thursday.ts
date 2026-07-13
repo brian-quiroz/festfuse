@@ -174,7 +174,7 @@ const sombr: Artist = {
   imageUrl: "/artists/heroes/sombr.jpg",
   objectPosition: "center 20%",
   genres: ["Bedroom Pop", "Indie Pop", "Alt-Pop"],
-  origin: "New York, USA",
+  origin: "New York City, New York",
   tagline: "Late nights and young romance, scaled for the mainstage.",
   socials: {
     spotify: "https://open.spotify.com/artist/4G9NDjRyZFDlJKMRL8hx3S",
@@ -326,7 +326,7 @@ const wetLeg: Artist = {
   imageUrl: "/artists/heroes/wet-leg.jpg",
   objectPosition: "center 30%",
   genres: ["Indie Rock", "Post-Punk"],
-  origin: "Isle of Wight, UK",
+  origin: "Isle of Wight, England",
   tagline: "Dry wit, big riffs, and the best debut in recent memory.",
   socials: { spotify: "https://open.spotify.com/artist/2TwOrUcYnAlIiKmVQkkoSZ" },
   whySee: [
@@ -400,7 +400,7 @@ const worship: Artist = {
   slug: "worship",
   imageUrl: "/artists/heroes/worship.webp",
   genres: ["Drum and Bass", "Electronic"],
-  origin: "United Kingdom",
+  origin: "London, England",
   tagline: "Drum and bass' biggest names, B2B, all night.",
   socials: {},
   whySee: [
@@ -456,7 +456,7 @@ const bloodOrange: Artist = {
   slug: "blood-orange",
   imageUrl: "/artists/heroes/blood-orange.jpg",
   genres: ["R&B", "Soul", "Art Pop"],
-  origin: "London, UK",
+  origin: "London, England",
   tagline: "Genre-fluid R&B from New York's most restlessly creative artist.",
   socials: { spotify: "https://open.spotify.com/artist/6LEeAFiJF8OuPx747e1wxR" },
   whySee: [
@@ -1399,7 +1399,7 @@ const ninajirachi: Artist = {
   slug: "ninajirachi",
   imageUrl: "/artists/heroes/ninajirachi.webp",
   genres: ["Hyperpop", "Club", "Electronic"],
-  origin: "Central Coast, Australia",
+  origin: "Sydney, Australia",
   tagline: "Glitchy, hyper-futuristic club music delivered at terminal velocity.",
   socials: { spotify: "https://open.spotify.com/artist/3MekbRujJg5VZThubOlrkR" },
   whySee: [

@@ -401,7 +401,7 @@ const theChainsmokers: Artist = {
   name: "The Chainsmokers",
   slug: "the-chainsmokers",
   genres: ["Dance Pop", "Future Bass", "Electronic"],
-  origin: "New York, New York",
+  origin: "Los Angeles, California",
   tagline: "Multi-platinum electronic giants delivering a massive, stadium-scale pop spectacle.",
   socials: { spotify: "https://open.spotify.com/artist/69GGBxA162lTqCwzJG5jLp" },
   whySee: [
@@ -1092,7 +1092,7 @@ const adela: Artist = {
   name: "ADÉLA",
   slug: "adela",
   genres: ["Pop", "Indie Pop", "Dance Pop"],
-  origin: "Slovakia",
+  origin: "Bratislava, Slovakia",
   tagline: "Sleek, atmospheric European pop melodies driven by stunning vocal clarity.",
   socials: { spotify: "https://open.spotify.com/artist/2qanRMyA5bNuTvz1dK45OP" },
   whySee: [
@@ -1286,7 +1286,7 @@ const amberMark: Artist = {
   name: "Amber Mark",
   slug: "amber-mark",
   genres: ["R&B", "Soul", "House-Pop"],
-  origin: "New York, New York",
+  origin: "New York City, New York",
   tagline:
     "Lush, sun-drenched global R&B and house-infused soul built on magnificent vocal richness.",
   socials: { spotify: "https://open.spotify.com/artist/0tbeZu9lv8YEKSQ9tZSslu" },
@@ -1344,7 +1344,7 @@ const westend: Artist = {
   name: "Westend",
   slug: "westend",
   genres: ["Tech House", "House", "Electronic"],
-  origin: "New York, New York",
+  origin: "New York City, New York",
   tagline: "Driving, tech-house rollers packed with heavy, crisp warehouse grooves.",
   socials: { spotify: "https://open.spotify.com/artist/4epc3Bd0DOBA0kDywkRAsu" },
   whySee: [
@@ -2548,7 +2548,7 @@ const zackMartino: Artist = {
   name: "Zack Martino",
   slug: "zack-martino",
   genres: ["Melodic House", "Dance Pop", "Electronic"],
-  origin: "New York, New York",
+  origin: "New York City, New York",
   tagline: "Sleek, high-gloss electronic dance pop and euphoric, stadium-scale house anthems.",
   socials: {},
   whySee: [

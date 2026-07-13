@@ -1132,7 +1132,7 @@ const sidepiece: Artist = {
   name: "SIDEPIECE",
   slug: "sidepiece",
   genres: ["Tech House", "House", "Electronic"],
-  origin: "Miami, Florida / Los Angeles, California",
+  origin: "Los Angeles, California",
   tagline: "Grammy-nominated tech-house masterminds delivering heavy, multi-platinum club anthems.",
   socials: { spotify: "https://open.spotify.com/artist/5czbzNZZfWpyFgZyfT3Mkk" },
   whySee: [
@@ -1193,7 +1193,7 @@ const skyeNewman: Artist = {
   name: "Skye Newman",
   slug: "skye-newman",
   genres: ["Indie Pop", "Singer-Songwriter"],
-  origin: "New York, New York",
+  origin: "London, England",
   tagline:
     "Stunning, whisper-close confessional bedroom pop tracking the modern vulnerabilities of youth.",
   socials: { spotify: "https://open.spotify.com/artist/4UoEzpWZrFWvlGYOzTEn1M" },
@@ -1695,7 +1695,7 @@ const claireRosinkranz: Artist = {
   name: "Claire Rosinkranz",
   slug: "claire-rosinkranz",
   genres: ["Indie Pop", "Alt-Pop", "Bedroom Pop"],
-  origin: "Southern California",
+  origin: "Los Angeles, California",
   tagline: "Sun-drenched, conversational bedroom pop that plays out like real diary entries.",
   socials: { spotify: "https://open.spotify.com/artist/3V0ZQW0dNuVaFtbVYgSI24" },
   whySee: [
@@ -2311,7 +2311,7 @@ const ivri: Artist = {
   name: "Ivri",
   slug: "ivri",
   genres: ["Alt-Pop", "Dark Pop", "Electronic Pop"],
-  origin: "New York, New York",
+  origin: "New York City, New York",
   tagline: "Sultry, nocturnal alt-pop floating over rich, industrial electronic beats.",
   socials: { spotify: "https://open.spotify.com/artist/5EjK7aUvQ9LMNqc2zXiWLS" },
   whySee: [
