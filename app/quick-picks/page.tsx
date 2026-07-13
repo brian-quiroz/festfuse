@@ -8,7 +8,8 @@ import DayCompleteScreen from "@/app/components/quick-picks/DayCompleteScreen";
 import FestivalCompleteScreen from "@/app/components/quick-picks/FestivalCompleteScreen";
 import { allArtists } from "@/app/data/artists";
 import { useInterestStore, type ArtistDecision } from "@/app/store/interestStore";
-import { sortChronologically } from "@/app/lib/sort";
+import { interleaveByTierWithinDay } from "@/app/lib/quick-picks-queue";
+import { getDaysForActiveFestival } from "@/app/data/festivals";
 import type {
   QuickPicksStep,
   QuickPicksSession,
@@ -17,7 +18,9 @@ import type {
   QuickPicksVerdict,
 } from "@/app/types/quick-picks";
 
-// MVP: Build the queue in chronological order from undecided artists only.
+// Build the queue using tier-interleaved order within each day.
+// Within each day: headliners/sub-headliners are sprinkled throughout,
+// with undercard artists filling most slots to maintain momentum and discovery.
 // The queue-generation strategy may evolve later (recommendations, popularity, etc.) without changing the session architecture.
 function createSession(
   config: QuickPicksSessionConfig,
@@ -26,8 +29,25 @@ function createSession(
   // Filter to only undecided artists (no entry in store means undecided)
   const undecidedArtists = allArtists.filter((a) => !decisionsByArtist[a.slug]);
 
-  // Sort chronologically (day → time → name)
-  const sorted = sortChronologically(undecidedArtists);
+  // Group artists by day
+  const byDay = new Map<string, typeof undecidedArtists>();
+  for (const artist of undecidedArtists) {
+    const day = artist.appearance.day;
+    if (!byDay.has(day)) {
+      byDay.set(day, []);
+    }
+    byDay.get(day)!.push(artist);
+  }
+
+  // For each day (in festival order), interleave by tier
+  const sorted: typeof undecidedArtists = [];
+  const days = getDaysForActiveFestival();
+  for (const day of days) {
+    if (byDay.has(day)) {
+      const dayArtists = interleaveByTierWithinDay(byDay.get(day)!);
+      sorted.push(...dayArtists);
+    }
+  }
 
   const dayCounts: Record<string, number> = {};
   for (const artist of sorted) {
