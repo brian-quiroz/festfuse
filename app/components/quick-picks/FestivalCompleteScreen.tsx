@@ -5,11 +5,12 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 interface Props {
+  context: "sessionComplete" | "nothingToReview";
   onGoToBlueprint: () => void;
   onGoToSchedule: () => void;
 }
 
-export default function FestivalCompleteScreen({ onGoToBlueprint, onGoToSchedule }: Props) {
+export default function FestivalCompleteScreen({ context, onGoToBlueprint, onGoToSchedule }: Props) {
   const [pressingBlueprint, setPressingBlueprint] = useState(false);
   const [pressingSchedule, setPressingSchedule] = useState(false);
 
@@ -43,7 +44,7 @@ export default function FestivalCompleteScreen({ onGoToBlueprint, onGoToSchedule
         <div className="flex items-center gap-3">
           <span className="h-px w-12 bg-[#FF2D78]/60" />
           <p className="text-[#FF2D78] text-sm uppercase tracking-widest font-extrabold">
-            Festival Complete
+            {context === "sessionComplete" ? "Festival Complete" : "All Caught Up"}
           </p>
           <span className="h-px w-12 bg-[#FF2D78]/60" />
         </div>
@@ -54,7 +55,11 @@ export default function FestivalCompleteScreen({ onGoToBlueprint, onGoToSchedule
             <span className="text-white">All </span>
             <span className="text-[#FF2D78]">done!</span>
           </h1>
-          <p className="text-white/50 text-base">You&apos;ve explored the entire lineup.</p>
+          <p className="text-white/50 text-base">
+            {context === "sessionComplete"
+              ? "You've explored the entire lineup."
+              : "You've already made a decision on every artist."}
+          </p>
         </div>
 
         {/* Transition flows into destination cards — grouped to signal connection */}

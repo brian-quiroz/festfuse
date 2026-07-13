@@ -1,6 +1,6 @@
 import type { Verdict } from "@/app/types/interest";
 
-export type QuickPicksStep = "start" | "decisioning" | "dayComplete" | "festivalComplete";
+export type QuickPicksStep = "start" | "decisioning" | "dayComplete" | "festivalComplete" | "allDecided";
 
 // QuickPicksVerdict is an alias for Verdict.
 // Quick Picks decisions (mustSee, interested, passed) are written to the shared interest store immediately via setDecision().

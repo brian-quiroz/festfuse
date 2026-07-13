@@ -85,6 +85,14 @@ export default function QuickPicksPage() {
     setUndoToast(null);
     setIsScreenExiting(false);
     const newSession = createSession(config, decisionsByArtist);
+
+    // If no undecided artists, show "all reviewed" screen instead of blank page
+    if (newSession.queue.length === 0) {
+      setSession(newSession);
+      setStep("allDecided");
+      return;
+    }
+
     // Capture the current state of decisions for all artists in the queue for undo purposes
     const initial: Record<string, QuickPicksVerdict | null> = {};
     for (const item of newSession.queue) {
@@ -283,8 +291,12 @@ export default function QuickPicksPage() {
           />
         )}
 
-        {step === "festivalComplete" && (
-          <FestivalCompleteScreen onGoToBlueprint={handleExit} onGoToSchedule={handleExit} />
+        {(step === "festivalComplete" || step === "allDecided") && (
+          <FestivalCompleteScreen
+            context={step === "festivalComplete" ? "sessionComplete" : "nothingToReview"}
+            onGoToBlueprint={handleExit}
+            onGoToSchedule={handleExit}
+          />
         )}
       </main>
     </div>
