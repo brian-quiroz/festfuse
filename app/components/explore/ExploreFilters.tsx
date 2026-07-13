@@ -40,10 +40,10 @@ export default function ExploreFilters({ onSearchChange }: ExploreFiltersProps) 
       <div className="flex items-center gap-2 flex-wrap">
         <button
           onClick={() => setActiveFilter("All")}
-          className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${
+          className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-colors ${
             activeFilter === "All"
-              ? "bg-[#00E5FF] text-[#110D24]"
-              : "border border-white/15 text-white/50 hover:border-white/25 hover:text-white/70"
+              ? "bg-[#00E5FF] border-[#00E5FF] text-[#110D24]"
+              : "border-white/15 text-white/50 hover:border-white/25 hover:text-white/70"
           }`}
         >
           All
@@ -53,10 +53,10 @@ export default function ExploreFilters({ onSearchChange }: ExploreFiltersProps) 
           <button
             key={filter}
             onClick={() => setActiveFilter(filter)}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
               activeFilter === filter
-                ? "border border-[#00E5FF]/40 text-[#00E5FF] bg-[#00E5FF]/8"
-                : "border border-white/15 text-white/50 hover:border-white/25 hover:text-white/70"
+                ? "border-[#00E5FF]/40 text-[#00E5FF] bg-[#00E5FF]/8"
+                : "border-white/15 text-white/50 hover:border-white/25 hover:text-white/70"
             }`}
           >
             {filter}
