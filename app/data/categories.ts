@@ -238,6 +238,14 @@ export const GENRES = [
 export type Genre = (typeof GENRES)[number];
 
 // ============================================================================
+// STAGE: Festival stage names (derived from festival-specific mappings)
+// ============================================================================
+// Import FESTIVAL_STAGES to derive the union type — ensures single source of truth.
+import { FESTIVAL_STAGES } from "./festivals";
+
+export type Stage = typeof FESTIVAL_STAGES[keyof typeof FESTIVAL_STAGES][number];
+
+// ============================================================================
 // US_STATES: United States state names (50 entries)
 // ============================================================================
 
