@@ -10,9 +10,10 @@ import type { InterestLevel } from "@/app/types/interest";
 interface ArtistCardProps {
   artist: Artist;
   size?: "default" | "large";
+  responsive?: boolean;
 }
 
-export default function ArtistCard({ artist, size = "default" }: ArtistCardProps) {
+export default function ArtistCard({ artist, size = "default", responsive = false }: ArtistCardProps) {
   const router = useRouter();
 
   // Single stored tier; Must See visually implies Interested.
@@ -57,7 +58,7 @@ export default function ArtistCard({ artist, size = "default" }: ArtistCardProps
   const mustSee = interestLevel === "mustSee";
 
   const isLarge = size === "large";
-  const cardW = isLarge ? "w-60" : "w-48";
+  const cardW = responsive ? "w-full" : (isLarge ? "w-60" : "w-48");
   const photoH = isLarge ? "h-72" : "h-60";
 
   return (

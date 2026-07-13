@@ -123,6 +123,10 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
           </div>
 
           <ExploreFilters
+            searchQuery={searchQuery}
+            selectedGenres={activeGenres}
+            selectedDay={activeDay}
+            selectedStages={activeStages}
             onSearchChange={setSearchQuery}
             onGenresChange={setActiveGenres}
             onDayChange={setActiveDay}
