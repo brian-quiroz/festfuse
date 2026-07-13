@@ -1,4 +1,4 @@
-import type { WhatToExpectTag, BestForTag, Genre } from "@/app/data/categories";
+import type { WhatToExpectTag, BestForTag, Genre, Location } from "@/app/data/categories";
 
 export type BillingTier = "Headliner" | "Sub-headliner" | "Undercard";
 
@@ -21,7 +21,7 @@ export type Artist = {
   liveVideoId?: string;
   liveVideoLabel?: string;
   genres: Genre[];
-  location: string;
+  location: Location;
   tagline: string;
   socials: {
     spotify?: string;

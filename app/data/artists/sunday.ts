@@ -11,7 +11,7 @@ const tateMcRae: Artist = {
   liveVideoId: "yyoXdNoRTqg",
   liveVideoLabel: "Live in Boston - Miss Possessive World Tour 2025",
   genres: ["Pop", "Dance Pop", "Electropop"],
-  location: "Calgary, Canada",
+  location: { city: "Calgary", country: "Canada" },
   tagline: "Dance like you mean it. Sing like you mean it more.",
   socials: {
     spotify: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
@@ -92,7 +92,7 @@ const theXx: Artist = {
   liveVideoId: "Q_RCrC7KzSc",
   liveVideoLabel: "Live at Primavera Sound 2026",
   genres: ["Indie Pop", "Dream Pop", "Electronic"],
-  location: "London, England",
+  location: { city: "London", country: "England" },
   tagline: "Space between the notes. Feeling in the silence.",
   socials: {
     spotify: "https://open.spotify.com/artist/3iOvXCl6edW5Um0fXEBRXy",
@@ -169,7 +169,7 @@ const turnstile: Artist = {
   name: "Turnstile",
   slug: "turnstile",
   genres: ["Hardcore Punk", "Alternative Rock", "Post-Hardcore"],
-  location: "Baltimore, Maryland",
+  location: { city: "Baltimore", state: "Maryland", country: "United States" },
   tagline: "Explosive, groove-laden alternative hardcore that redefines modern rock energy.",
   socials: { spotify: "https://open.spotify.com/artist/2qnpHrOzdmOo1S4ox3j17x" },
   whySee: [
@@ -245,7 +245,7 @@ const beabadoobee: Artist = {
   imageUrl: "/artists/heroes/beabadoobee.jpg",
   objectPosition: "center 20%",
   genres: ["Indie Pop", "Shoegaze", "Bedroom Pop"],
-  location: "London, England",
+  location: { city: "London", country: "England" },
   tagline: "Nostalgic 90s alt-rock and dreamy bedroom pop, blown up to mainstage scale.",
   socials: {
     spotify: "https://open.spotify.com/artist/35l9BRT7MXmM8bv2WDQiyB",
@@ -330,7 +330,7 @@ const aespa: Artist = {
   imageUrl: "/artists/heroes/aespa.jpg",
   objectPosition: "center 10%",
   genres: ["K-Pop", "Pop", "Electronic", "Dance Pop"],
-  location: "Seoul, South Korea",
+  location: { city: "Seoul", country: "South Korea" },
   tagline: "Four members. Four avatars. One universe.",
   socials: {
     spotify: "https://open.spotify.com/artist/6YVMFz59CuY7ngCxTxjpxE",
@@ -401,7 +401,7 @@ const theChainsmokers: Artist = {
   name: "The Chainsmokers",
   slug: "the-chainsmokers",
   genres: ["Dance Pop", "Future Bass", "Electronic"],
-  location: "Los Angeles, California",
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Multi-platinum electronic giants delivering a massive, stadium-scale pop spectacle.",
   socials: { spotify: "https://open.spotify.com/artist/69GGBxA162lTqCwzJG5jLp" },
   whySee: [
@@ -467,7 +467,7 @@ const muna: Artist = {
   name: "MUNA",
   slug: "muna",
   genres: ["Indie Pop", "Synth-Pop", "Electropop"],
-  location: "Los Angeles, California",
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Sleek, euphoric queer synth-pop anthems built on raw, joyful emotional catharsis.",
   socials: { spotify: "https://open.spotify.com/artist/6xdRb2GypJ7DqnWAI2mHGn" },
   whySee: [
@@ -540,7 +540,7 @@ const hotMulligan: Artist = {
   name: "Hot Mulligan",
   slug: "hot-mulligan",
   genres: ["Emo", "Pop-Punk", "Post-Hardcore"],
-  location: "Lansing, Michigan",
+  location: { city: "Lansing", state: "Michigan", country: "United States" },
   tagline:
     "Blistering, hyper-vivid midwestern emo anthems delivered like an absolute lightning strike.",
   socials: { spotify: "https://open.spotify.com/artist/1lKZzN2d4IqiEYxyECIEHI" },
@@ -600,7 +600,7 @@ const yoasobi: Artist = {
   imageUrl: "/artists/heroes/yoasobi.jpg",
   objectPosition: "center 20%",
   genres: ["J-Pop", "Electronic", "Indie Pop"],
-  location: "Tokyo, Japan",
+  location: { city: "Tokyo", country: "Japan" },
   tagline: "Bridging Japanese storytelling and explosive J-pop anthems on a global scale.",
   socials: {
     spotify: "https://open.spotify.com/artist/64tJ2EAv1R6UaZqc4iOCyj",
@@ -677,7 +677,7 @@ const ado: Artist = {
   name: "Ado",
   slug: "ado",
   genres: ["J-Pop", "Rock", "Electronic"],
-  location: "Tokyo, Japan",
+  location: { city: "Tokyo", country: "Japan" },
   tagline:
     "A monumental, completely anonymous J-pop powerhouse commanding jaw-dropping vocal fury.",
   socials: { spotify: "https://open.spotify.com/artist/6mEQK9m2krja6X1cfsAjfl" },
@@ -744,7 +744,7 @@ const jade: Artist = {
   name: "Jade",
   slug: "jade",
   genres: ["R&B", "Pop", "Soul"],
-  location: "London, England",
+  location: { city: "London", country: "England" },
   tagline:
     "Sleek, high-gloss British pop-R&B and contemporary soul built on flawless vocal authority.",
   socials: { spotify: "https://open.spotify.com/artist/7ypgj95aGInvJMJbMv78wB" },
@@ -808,7 +808,7 @@ const eliBrown: Artist = {
   name: "Eli Brown",
   slug: "eli-brown",
   genres: ["Dark Techno", "Tech House", "Electronic"],
-  location: "Bristol, England",
+  location: { city: "Bristol", country: "England" },
   tagline:
     "Punishing, sinister dark techno designed to turn giant festival tents into industrial warehouses.",
   socials: { spotify: "https://open.spotify.com/artist/5lVNSw2GPci8kebrAQpZqU" },
@@ -870,7 +870,7 @@ const dukeDumont: Artist = {
   name: "Duke Dumont",
   slug: "duke-dumont",
   genres: ["House", "Deep House", "Electronic"],
-  location: "London, England",
+  location: { city: "London", country: "England" },
   tagline: "The multi-platinum architect of pristine, stadium-scale deep house anthems.",
   socials: { spotify: "https://open.spotify.com/artist/61lyPtntblHJvA7FMMhi7E" },
   whySee: [
@@ -931,7 +931,7 @@ const fakemink: Artist = {
   name: "Fakemink",
   slug: "fakemink",
   genres: ["Alternative Hip-Hop", "Trap", "Electronic Pop"],
-  location: "Chicago, Illinois",
+  location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
     "Glitchy, high-velocity internet rap and bounce-driven trap from a hometown breakout project.",
   socials: { spotify: "https://open.spotify.com/artist/0qc4BFxcwRFZfevTck4fOi" },
@@ -979,7 +979,7 @@ const dombresky: Artist = {
   name: "Dombresky",
   slug: "dombresky",
   genres: ["House", "Tech House", "Disco House"],
-  location: "Montpellier, France",
+  location: { city: "Montpellier", country: "France" },
   tagline: "Infectious, soul-sampled French house loops built purely for celebratory day parties.",
   socials: { spotify: "https://open.spotify.com/artist/2GVtgxcx7jg5xVCZsIHSGN" },
   whySee: [
@@ -1040,7 +1040,7 @@ const monaleo: Artist = {
   name: "Monaleo",
   slug: "monaleo",
   genres: ["Hip-Hop", "Southern Rap", "Trap"],
-  location: "Houston, Texas",
+  location: { city: "Houston", state: "Texas", country: "United States" },
   tagline:
     "Ferocious, rapid-fire Southern trap delivery and unapologetic, aggressive mic dominance.",
   socials: { spotify: "https://open.spotify.com/artist/2sflbTtCirog5VxD6jPAfb" },
@@ -1092,7 +1092,7 @@ const adela: Artist = {
   name: "ADÉLA",
   slug: "adela",
   genres: ["Pop", "Indie Pop", "Dance Pop"],
-  location: "Bratislava, Slovakia",
+  location: { city: "Bratislava", country: "Slovakia" },
   tagline: "Sleek, atmospheric European pop melodies driven by stunning vocal clarity.",
   socials: { spotify: "https://open.spotify.com/artist/2qanRMyA5bNuTvz1dK45OP" },
   whySee: [
@@ -1147,7 +1147,7 @@ const riordan: Artist = {
   name: "Riordan",
   slug: "riordan",
   genres: ["Tech House", "Minimal Tech", "Electronic"],
-  location: "Brighton, England",
+  location: { city: "Brighton", country: "England" },
   tagline: "High-octane, bass-heavy minimal tech house crafted to fuel relentless dance floors.",
   socials: { spotify: "https://open.spotify.com/artist/68rU1sdZ0HjxjEC5YnSmao" },
   whySee: [
@@ -1208,7 +1208,7 @@ const wunderhorse: Artist = {
   name: "Wunderhorse",
   slug: "wunderhorse",
   genres: ["Indie Rock", "Alternative Rock", "Post-Punk"],
-  location: "London, England",
+  location: { city: "London", country: "England" },
   tagline: "Visceral, raw guitar rock and poetic, fuzzed-out alternative storytelling.",
   socials: { spotify: "https://open.spotify.com/artist/41pd7r1XBRsvdxY3vHEgib" },
   whySee: [
@@ -1286,7 +1286,7 @@ const amberMark: Artist = {
   name: "Amber Mark",
   slug: "amber-mark",
   genres: ["R&B", "Soul", "House-Pop"],
-  location: "New York City, New York",
+  location: { city: "New York City", state: "New York", country: "United States" },
   tagline:
     "Lush, sun-drenched global R&B and house-infused soul built on magnificent vocal richness.",
   socials: { spotify: "https://open.spotify.com/artist/0tbeZu9lv8YEKSQ9tZSslu" },
@@ -1344,7 +1344,7 @@ const westend: Artist = {
   name: "Westend",
   slug: "westend",
   genres: ["Tech House", "House", "Electronic"],
-  location: "New York City, New York",
+  location: { city: "New York City", state: "New York", country: "United States" },
   tagline: "Driving, tech-house rollers packed with heavy, crisp warehouse grooves.",
   socials: { spotify: "https://open.spotify.com/artist/4epc3Bd0DOBA0kDywkRAsu" },
   whySee: [
@@ -1410,7 +1410,7 @@ const destinConrad: Artist = {
   name: "Destin Conrad",
   slug: "destin-conrad",
   genres: ["Alternative R&B", "Soul", "Neo-Soul"],
-  location: "Tampa, Florida",
+  location: { city: "Tampa", state: "Florida", country: "United States" },
   tagline: "Sultry, whisper-close confessional alternative R&B for late-night overthinkers.",
   socials: { spotify: "https://open.spotify.com/artist/4jwROPSUkTkohLCRiyjiZZ" },
   whySee: [
@@ -1467,7 +1467,7 @@ const inji: Artist = {
   name: "INJI",
   slug: "inji",
   genres: ["Dance Pop", "Tech House", "Electronic"],
-  location: "Istanbul, Turkey",
+  location: { city: "Istanbul", country: "Turkey" },
   tagline:
     "Irreverent, high-velocity tech-house pop built purely for chaotic festival day parties.",
   socials: { spotify: "https://open.spotify.com/artist/0Z4Ir8usNVcAdCSQl0fQki" },
@@ -1531,7 +1531,7 @@ const waylonWyatt: Artist = {
   name: "Waylon Wyatt",
   slug: "waylon-wyatt",
   genres: ["Country", "Alternative Folk", "Americana"],
-  location: "Hackleburg, Alabama",
+  location: { city: "Hackleburg", state: "Alabama", country: "United States" },
   tagline: "Grounded, gravel-voiced Alabama folk storytelling built on timeless acoustic hooks.",
   socials: { spotify: "https://open.spotify.com/artist/6Ff2omMMZOd8FWNqb980Ol" },
   whySee: [
@@ -1586,7 +1586,7 @@ const waterFromYourEyes: Artist = {
   name: "Water From Your Eyes",
   slug: "water-from-your-eyes",
   genres: ["Experimental Pop", "Indie Rock", "Post-Punk"],
-  location: "Brooklyn, New York",
+  location: { city: "Brooklyn", state: "New York", country: "United States" },
   tagline:
     "A terrifyingly brilliant, blistering collision of jagged art-punk guitars and dance loops.",
   socials: { spotify: "https://open.spotify.com/artist/6hYlNLoZJg74dVhA8FHIc0" },
@@ -1659,7 +1659,7 @@ const losRetros: Artist = {
   name: "Los Retros",
   slug: "los-retros",
   genres: ["Chicano Soul", "Indie Pop", "Lo-Fi Indie"],
-  location: "Oxnard, California",
+  location: { city: "Oxnard", state: "California", country: "United States" },
   tagline: "Sun-drenched, vintage-hued Chicano soul and hazy lo-fi bedroom pop melodies.",
   socials: { spotify: "https://open.spotify.com/artist/0qraFJK6boYSp4ZMMX4PzG" },
   whySee: [
@@ -1714,7 +1714,7 @@ const vandelux: Artist = {
   name: "Vandelux",
   slug: "vandelux",
   genres: ["Indie Electronica", "Deep House", "Synth-Pop"],
-  location: "Vancouver, Canada",
+  location: { city: "Vancouver", country: "Canada" },
   tagline: "Sleek, cinematic indie electronica and driving deep house built for the open air.",
   socials: { spotify: "https://open.spotify.com/artist/2rdSCmWgrIWA8pmwhS1T2k" },
   whySee: [
@@ -1765,7 +1765,7 @@ const newConstellations: Artist = {
   name: "New Constellations",
   slug: "new-constellations",
   genres: ["Dream Pop", "Indie Pop", "Electronic Rock"],
-  location: "Portland, Oregon",
+  location: { city: "Portland", state: "Oregon", country: "United States" },
   tagline:
     "Shimmering, cosmic dream pop built on soaring vocal lines and rich psychedelic grooves.",
   socials: { spotify: "https://open.spotify.com/artist/5WF5jtgP0H31QTl5g4WxW9" },
@@ -1817,7 +1817,7 @@ const cruzBeckhamAndTheBreakers: Artist = {
   name: "Cruz Beckham and the Breakers",
   slug: "cruz-beckham-and-the-breakers",
   genres: ["Alternative Rock", "Indie Rock", "Garage Rock"],
-  location: "London, England",
+  location: { city: "London", country: "England" },
   tagline: "Scrappy, distortion-soaked garage rock revivalism with a classic British edge.",
   socials: {},
   whySee: [
@@ -1868,7 +1868,7 @@ const theBends: Artist = {
   name: "The Bends",
   slug: "the-bends",
   genres: ["Post-Punk", "Shoegaze", "Alternative Rock"],
-  location: "Chicago, Illinois",
+  location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline: "A fuzzed-out hometown alternative rock engine built on towering shoegaze walls.",
   socials: {},
   whySee: [
@@ -1923,7 +1923,7 @@ const after: Artist = {
   name: "After",
   slug: "after",
   genres: ["Alternative Hip-Hop", "Trap", "Electronic Pop"],
-  location: "Chicago, Illinois",
+  location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
     "Glitchy, high-velocity internet rap and bounce-driven trap from a hometown breakout project.",
   socials: {},
@@ -1975,7 +1975,7 @@ const whatmore: Artist = {
   name: "Whatmore",
   slug: "whatmore",
   genres: ["Alternative Rock", "Folk Rock", "Indie Rock"],
-  location: "Chicago, Illinois",
+  location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
     "Hometown indie-rock anthems fusing driving alternative grit with timeless folk-rock storytelling.",
   socials: {},
@@ -2027,7 +2027,7 @@ const porchLight: Artist = {
   name: "Porch Light",
   slug: "porch-light",
   genres: ["Indie Pop", "Singer-Songwriter", "Chamber Pop"],
-  location: "Los Angeles, California",
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like real voice memos.",
   socials: {},
   whySee: [
@@ -2078,7 +2078,7 @@ const easyHoney: Artist = {
   name: "Easy Honey",
   slug: "easy-honey",
   genres: ["Indie Rock", "Surf Rock", "Neo-Psychedelia"],
-  location: "Charleston, South Carolina",
+  location: { city: "Charleston", state: "South Carolina", country: "United States" },
   tagline: "Sun-drenched, witty surf rock and fuzzed-out psych grooves built for festival fields.",
   socials: {},
   whySee: [
@@ -2128,7 +2128,7 @@ const jackieHollander: Artist = {
   name: "Jackie Hollander",
   slug: "jackie-hollander",
   genres: ["Tech House", "Deep House", "Electronic"],
-  location: "San Francisco, California",
+  location: { city: "San Francisco", state: "California", country: "United States" },
   tagline: "Sleek, low-slung deep tech house grooves packed with heavy underground attitude.",
   socials: {},
   whySee: [
@@ -2182,7 +2182,7 @@ const stellaLefty: Artist = {
   name: "Stella Lefty",
   slug: "stella-lefty",
   genres: ["Indie Pop", "Singer-Songwriter", "Chamber Pop"],
-  location: "Los Angeles, California",
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like real voice memos.",
   socials: {},
   whySee: [
@@ -2233,7 +2233,7 @@ const justineSkye: Artist = {
   name: "Justine Skye",
   slug: "justine-skye",
   genres: ["R&B", "Pop", "Soul"],
-  location: "Brooklyn, New York",
+  location: { city: "Brooklyn", state: "New York", country: "United States" },
   tagline: "Sleek, high-gloss contemporary R&B driven by multi-platinum vocal confidence.",
   socials: {},
   whySee: [
@@ -2288,7 +2288,7 @@ const willSwinton: Artist = {
   name: "Will Swinton",
   slug: "will-swinton",
   genres: ["Indie Pop", "Singer-Songwriter", "Alternative Folk"],
-  location: "Auckland, New Zealand",
+  location: { city: "Auckland", country: "New Zealand" },
   tagline:
     "Gravel-voiced, cinematic indie pop tracking the raw, intimate vulnerabilities of youth.",
   socials: {},
@@ -2340,7 +2340,7 @@ const sunshine: Artist = {
   name: "Sunshine",
   slug: "sunshine",
   genres: ["Indie Pop", "Dream Pop", "Electronic Rock"],
-  location: "Los Angeles, California",
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline:
     "Shimmering, cosmic dream pop built on soaring vocal lines and rich psychedelic grooves.",
   socials: {},
@@ -2392,7 +2392,7 @@ const caseOats: Artist = {
   name: "Case Oats",
   slug: "case-oats",
   genres: ["Alternative Rock", "Folk Rock", "Indie Rock"],
-  location: "Chicago, Illinois",
+  location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
     "Hometown indie-rock anthems fusing driving alternative grit with timeless folk-rock storytelling.",
   socials: {},
@@ -2444,7 +2444,7 @@ const surfingForDaisy: Artist = {
   name: "Surfing for Daisy",
   slug: "surfing-for-daisy",
   genres: ["Indie Rock", "Surf Rock", "Neo-Psychedelia"],
-  location: "Charleston, South Carolina",
+  location: { city: "Charleston", state: "South Carolina", country: "United States" },
   tagline: "Sun-drenched, witty surf rock and fuzzed-out psych grooves built for festival fields.",
   socials: {},
   whySee: [
@@ -2494,7 +2494,7 @@ const snacktime: Artist = {
   name: "SNACKTIME",
   slug: "snacktime",
   genres: ["Funk", "Brass Band", "Soul"],
-  location: "Philadelphia, Pennsylvania",
+  location: { city: "Philadelphia", state: "Pennsylvania", country: "United States" },
   tagline: "High-octane, intense brass-heavy funk and soul built purely for outdoor block parties.",
   socials: {},
   whySee: [
@@ -2548,7 +2548,7 @@ const zackMartino: Artist = {
   name: "Zack Martino",
   slug: "zack-martino",
   genres: ["Melodic House", "Dance Pop", "Electronic"],
-  location: "New York City, New York",
+  location: { city: "New York City", state: "New York", country: "United States" },
   tagline: "Sleek, high-gloss electronic dance pop and euphoric, stadium-scale house anthems.",
   socials: {},
   whySee: [
