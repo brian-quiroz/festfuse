@@ -205,49 +205,71 @@ Both handle open/close state via parent, enabling clean separation of concerns.
 
 ## Carousel Duplicate Suppression
 
-When displaying multiple curated carousels on the Explore page, some show overlapping artists. Suppression logic balances:
-- **Editorial clarity:** Each row's premise should be logically sound
-- **Factual completeness:** Objective/criteria-based rows answer a specific question and shouldn't be artificially filtered
-- **Discovery intent:** Tag-based discovery rows should avoid repeating the same artist
+Carousel rows are classified by whether they answer objective (factual) or subjective (curatorial) questions.
+
+### Row Classification
+
+**Factual/Criteria-Based Rows** (answer checkable, objective questions):
+- Festival Favorites — "Is this artist a headliner/sub-headliner?" (objective fact)
+- International Picks — "Is this artist from outside the US?" (objective fact)
+- Chicago's Own — "Is this artist from Chicago?" (objective fact)
+- Cinematic Visuals — "Does this artist have this tag?" (objective fact)
+- Future rows: Larger Than Life, etc.
+
+**Curatorial/Discovery Rows** (answer subjective "is this worth surfacing" questions):
+- Hidden Gems — "Is this artist overlooked/underrated?" (editorial judgment)
 
 ### Suppression Rules
 
-**NO suppression** between Festival Favorites and factual/criteria-based rows:
-- Rows: International Picks, Chicago's Own, Larger Than Life
-- Rationale: These rows answer objective questions ("Who's from Chicago?" "Who's a legacy act?"). Excluding a qualifying artist just because they're also famous would make the row factually incomplete or misleading.
-- Example: If a Chicago artist is also a headliner, they should appear in both rows.
+**Rule A: Factual rows never suppress against each other or Festival Favorites.**
 
-**YES suppression** for Hidden Gems against Festival Favorites:
-- Hidden Gems has a semantic requirement: artists should be overlooked/underrated
-- A headliner or sub-headliner appearing in Hidden Gems contradicts the row's own definition
-- Implementation: Filter out artists with `billingTier === "Headliner"` or `billingTier === "Sub-headliner"`
+An artist can legitimately be:
+- A headliner *and* international *and* have Cinematic Visuals simultaneously
+- From Chicago *and* a sub-headliner *and* have great lyrics
 
-**YES suppression** among conceptually similar discovery rows:
-- If multiple tag-based or discovery-driven rows exist, they should deduplicate against each other
-- An artist should not appear in multiple rows of the same type (e.g., if "New To You" and "Hidden Gems" both exist, don't show the same artist in both)
-- Implementation: Track shown artists across similar rows, skip duplicates in downstream rows
+All three facts are simultaneously true. Hiding an artist from one row because they appear in another would make each row factually incomplete or misleading.
+
+**Rule B: Hidden Gems suppresses only against Festival Favorites.**
+
+Hidden Gems' premise is "overlooked," which is contradicted if a headliner appears in it. This is the *only* suppression relationship in the current system.
+
+**Rule C: If you had two curatorial rows, they'd suppress against each other** (currently hypothetical).
+
+If you added a second curatorial row (e.g., "Artists Worth Seeing Early"), you'd want the same editorially-chosen artist to not appear twice under different curatorial framings.
+
+Right now Rule C doesn't apply to anything — Cinematic Visuals is factual (Rule A), not curatorial, so there's no second curatorial row to protect.
 
 ### Implementation Pattern
 
 ```typescript
-// Festival Favorites: no upstream filter needed (first row)
-const festivalFavorites = allArtists.filter(
-  (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+// Festival Favorites: factual, no upstream suppression
+const festivalFavorites = sortByDay(
+  allArtists.filter((a) => a.appearance.billingTier === "Headliner" || ...)
 );
 
-// Hidden Gems: suppress against Festival Favorites (semantic constraint)
-const shownInFestival = new Set(festivalFavorites.map(a => a.slug));
-const hiddenGems = allArtists.filter(
-  (a) => 
-    a.genres.some(g => ["Bedroom Pop", "Indie Pop", ...].includes(g)) &&
-    !shownInFestival.has(a.slug) // Suppress headliners/sub-headliners
+// Hidden Gems: curatorial, suppress only against Festival Favorites (Rule B)
+const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
+const hiddenGems = interleaveByDay(
+  allArtists.filter((a) =>
+    a.genres.some(g => ["Bedroom Pop", ...].includes(g)) &&
+    !shownInFestival.has(a.slug) // Only suppression in the system
+  )
 );
 
-// Rave Energy: suppress against discovery rows (similar concept)
-const shownInDiscovery = new Set([...hiddenGems].map(a => a.slug));
-const raveEnergy = allArtists.filter(
-  (a) =>
-    a.genres.some(g => ["Electronic", "Dancehall", ...].includes(g)) &&
-    !shownInDiscovery.has(a.slug) // Suppress if already shown in discovery rows
+// International Picks: factual, no suppression (Rule A)
+const internationalPicks = interleaveByDay(
+  allArtists.filter((a) => a.location.country !== "United States")
+);
+
+// Chicago's Own: factual, no suppression (Rule A)
+const chicagosOwn = interleaveByDay(
+  allArtists.filter((a) =>
+    a.location.city === "Chicago" || a.location.state === "Illinois"
+  )
+);
+
+// Cinematic Visuals: factual, no suppression (Rule A)
+const cinematicVisuals = interleaveByDay(
+  allArtists.filter((a) => a.whatToExpect.includes("Cinematic Visuals"))
 );
 ```

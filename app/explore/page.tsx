@@ -27,23 +27,32 @@ export default function ExplorePage() {
     )
   );
 
-  // Hidden Gems: suppress against Festival Favorites, then interleave by day
-  const shownInFestivalRow = new Set(festivalFavorites.map((a) => a.slug));
-  const hiddenGemsUninterleaved = allArtists.filter((a) =>
-    a.genres.some((g) =>
-      ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)
-    ) && !shownInFestivalRow.has(a.slug)
+  // Hidden Gems: curatorial row, suppress only against Festival Favorites (Rule B)
+  const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
+  const hiddenGems = interleaveByDay(
+    allArtists.filter((a) =>
+      a.genres.some((g) =>
+        ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)
+      ) && !shownInFestival.has(a.slug) // Only suppression: Hidden Gems vs Festival Favorites
+    )
   );
-  const hiddenGems = interleaveByDay(hiddenGemsUninterleaved);
 
-  // Rave Energy: suppress against discovery rows, then interleave by day
-  const shownInDiscoveryRows = new Set(hiddenGems.map((a) => a.slug));
-  const raveEnergyUninterleaved = allArtists.filter((a) =>
-    a.genres.some((g) =>
-      ["Electronic", "Dancehall", "Dance Pop", "J-Pop", "K-Pop", "Psychedelic Rock"].includes(g)
-    ) && !shownInDiscoveryRows.has(a.slug)
+  // International Picks: factual row, no suppression (Rule A)
+  const internationalPicks = interleaveByDay(
+    allArtists.filter((a) => a.location.country !== "United States")
   );
-  const raveEnergy = interleaveByDay(raveEnergyUninterleaved);
+
+  // Chicago's Own: factual row, no suppression (Rule A)
+  const chicagosOwn = interleaveByDay(
+    allArtists.filter((a) =>
+      a.location.city === "Chicago" || a.location.state === "Illinois"
+    )
+  );
+
+  // Cinematic Visuals: factual row, no suppression (Rule A)
+  const cinematicVisuals = interleaveByDay(
+    allArtists.filter((a) => a.whatToExpect.includes("Cinematic Visuals"))
+  );
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#110D24]">
@@ -131,7 +140,11 @@ export default function ExplorePage() {
 
                 <ArtistCarousel title="Hidden Gems" artists={hiddenGems} />
 
-                <ArtistCarousel title="Rave Energy" artists={raveEnergy} />
+                <ArtistCarousel title="International Picks" artists={internationalPicks} />
+
+                <ArtistCarousel title="Chicago's Own" artists={chicagosOwn} />
+
+                <ArtistCarousel title="Cinematic Visuals" artists={cinematicVisuals} />
               </div>
             );
           }
