@@ -15,7 +15,7 @@ export default function SearchResultsGrid({ query, results }: SearchResultsGridP
           : `${results.length} result${results.length === 1 ? "" : "s"} for "${query}"`}
       </h2>
       {results.length > 0 && (
-        <div className="grid grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-6 gap-x-4 gap-y-7">
           {results.map((artist) => (
             <ArtistCard key={artist.slug} artist={artist} />
           ))}
