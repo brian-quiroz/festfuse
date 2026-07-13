@@ -11,8 +11,8 @@ import {
   Star,
   Heart,
   CircleCheck,
-  TriangleAlert,
 } from "lucide-react";
+import { useInterestStore } from "@/app/store/interestStore";
 
 const navItems = [
   { label: "Home", href: "/", Icon: Home },
@@ -22,9 +22,7 @@ const navItems = [
   { label: "Schedule", href: "/schedule", Icon: Calendar },
 ];
 
-const myFestivalItems = [
-  { label: "Must See", count: 18, Icon: Star, color: "#E8FF47", bg: "rgba(232,255,71,0.10)" },
-  { label: "Saved", count: 42, Icon: Heart, color: "#E8FF47", bg: "rgba(232,255,71,0.10)" },
+const staticFestivalItems = [
   {
     label: "Scheduled",
     count: 29,
@@ -32,17 +30,26 @@ const myFestivalItems = [
     color: "#00E5FF",
     bg: "rgba(0,229,255,0.10)",
   },
-  {
-    label: "Conflicts",
-    count: 3,
-    Icon: TriangleAlert,
-    color: "#FF6B6B",
-    bg: "rgba(255,107,107,0.12)",
-  },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { decisionsByArtist } = useInterestStore();
+
+  // Derive counts from store
+  const mustSeeCount = Object.values(decisionsByArtist).filter(
+    (decision) => decision.verdict === "mustSee"
+  ).length;
+
+  const interestedCount = Object.values(decisionsByArtist).filter(
+    (decision) => decision.verdict === "interested"
+  ).length;
+
+  const myFestivalItems = [
+    { label: "Must See", count: mustSeeCount, Icon: Star, color: "#E8FF47", bg: "rgba(232,255,71,0.10)" },
+    { label: "Interested", count: interestedCount, Icon: Heart, color: "#E8FF47", bg: "rgba(232,255,71,0.10)" },
+    ...staticFestivalItems,
+  ];
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
