@@ -1,9 +1,11 @@
+import type { WhatToExpectTag, BestForTag, Genre, Location, Stage } from "@/app/data/categories";
+
 export type BillingTier = "Headliner" | "Sub-headliner" | "Undercard";
 
 export type FestivalAppearance = {
   festivalId: string;
   billingTier?: BillingTier;
-  stage: string;
+  stage: Stage;
   day: string;
   date: string;
   startTime: string;
@@ -16,8 +18,10 @@ export type Artist = {
   mbid?: string;
   imageUrl?: string;
   objectPosition?: string;
-  genres: string[];
-  origin: string;
+  liveVideoId?: string;
+  liveVideoLabel?: string;
+  genres: Genre[];
+  location: Location;
   tagline: string;
   socials: {
     spotify?: string;
@@ -25,10 +29,16 @@ export type Artist = {
     tiktok?: string;
   };
   whySee: string[];
-  whatToExpect: string[];
-  bestFor: string[];
-  similarArtists: Array<{ name: string; imageUrl?: string }>;
-  tracks: Array<{ spotifyId?: string; name: string; album: string; duration: string; artworkUrl?: string }>;
+  whatToExpect: WhatToExpectTag[];
+  bestFor: BestForTag[];
+  similarArtists: Array<{ name: string; slug?: string; imageUrl?: string }>;
+  tracks: Array<{
+    spotifyId?: string;
+    name: string;
+    album: string;
+    duration: string;
+    artworkUrl?: string;
+  }>;
   about: string;
   appearance: FestivalAppearance;
 };

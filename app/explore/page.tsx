@@ -1,11 +1,23 @@
+"use client";
+
+import { useState } from "react";
 import { allArtists } from "@/app/data/artists";
 import Sidebar from "@/app/components/Sidebar";
 import ArtistCarousel from "@/app/components/explore/ArtistCarousel";
 import QuickPicksBanner from "@/app/components/explore/QuickPicksBanner";
 import ExploreFilters from "@/app/components/explore/ExploreFilters";
+import { searchArtists } from "@/app/lib/search";
+import { filterArtists } from "@/app/lib/filters";
+import ArtistResultsGrid from "@/app/components/explore/ArtistResultsGrid";
+import ActiveFilters from "@/app/components/explore/ActiveFilters";
 import { Shuffle } from "lucide-react";
+import type { Genre, Stage } from "@/app/data/categories";
 
 export default function ExplorePage() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
+  const [activeDay, setActiveDay] = useState<string>("");
+  const [activeStages, setActiveStages] = useState<Stage[]>([]);
   const festivalFavorites = allArtists.filter(
     (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
   );
@@ -42,21 +54,127 @@ export default function ExplorePage() {
             </button>
           </div>
 
-          <ExploreFilters />
+          <ExploreFilters
+            onSearchChange={setSearchQuery}
+            onGenresChange={setActiveGenres}
+            onDayChange={setActiveDay}
+            onStagesChange={setActiveStages}
+          />
         </div>
 
-        {/* Sections */}
-        <div className="pt-10 pb-16 space-y-12">
-          <ArtistCarousel title="Festival Favorites" artists={festivalFavorites} cardSize="large" />
+        {/* Result count summary */}
+        {(() => {
+          const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0;
+          const hasSearch = searchQuery.trim().length > 0;
 
-          <QuickPicksBanner />
+          if (!hasFilters && !hasSearch) return null;
 
-          <ArtistCarousel title="New To You" artists={newToYou} />
+          const filtered = filterArtists(allArtists, {
+            genres: activeGenres.length > 0 ? activeGenres : undefined,
+            day: activeDay || undefined,
+            stages: activeStages.length > 0 ? activeStages : undefined,
+          });
 
-          <ArtistCarousel title="Hidden Gems" artists={hiddenGems} />
+          const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
 
-          <ArtistCarousel title="Rave Energy" artists={raveEnergy} />
-        </div>
+          let summaryText = "";
+          if (hasSearch && hasFilters) {
+            summaryText = results.length === 0
+              ? `No artists found`
+              : `${results.length} result${results.length === 1 ? "" : "s"} for "${searchQuery}"`;
+          } else if (hasSearch) {
+            summaryText = results.length === 0
+              ? `No results for "${searchQuery}"`
+              : `${results.length} result${results.length === 1 ? "" : "s"} for "${searchQuery}"`;
+          } else {
+            summaryText = `${results.length} artist${results.length === 1 ? "" : "s"}`;
+          }
+
+          return (
+            <div className="px-8 py-3 text-sm text-white/50">
+              {summaryText}
+            </div>
+          );
+        })()}
+
+        {/* Four-state rendering */}
+        {(() => {
+          const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0;
+          const hasSearch = searchQuery.trim().length > 0;
+
+          // Apply filters first, then search within filtered results
+          const filtered = filterArtists(allArtists, {
+            genres: activeGenres.length > 0 ? activeGenres : undefined,
+            day: activeDay || undefined,
+            stages: activeStages.length > 0 ? activeStages : undefined,
+          });
+
+          const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
+
+          // State 1: No search, no filters → curated carousels
+          if (!hasFilters && !hasSearch) {
+            return (
+              <div className="pt-10 pb-16 space-y-12">
+                <ArtistCarousel title="Festival Favorites" artists={festivalFavorites} cardSize="large" />
+
+                <QuickPicksBanner />
+
+                <ArtistCarousel title="New To You" artists={newToYou} />
+
+                <ArtistCarousel title="Hidden Gems" artists={hiddenGems} />
+
+                <ArtistCarousel title="Rave Energy" artists={raveEnergy} />
+              </div>
+            );
+          }
+
+          // State 2 & 4: Filters active (with or without search) → ActiveFilters + ArtistResultsGrid
+          if (hasFilters) {
+            return (
+              <>
+                <ActiveFilters
+                  genres={activeGenres}
+                  day={activeDay}
+                  stages={activeStages}
+                  onClearGenre={(genre) =>
+                    setActiveGenres(activeGenres.filter((g) => g !== genre))
+                  }
+                  onClearDay={() => setActiveDay("")}
+                  onClearStage={(stage) =>
+                    setActiveStages(activeStages.filter((s) => s !== stage))
+                  }
+                  onClearAll={() => {
+                    setActiveGenres([]);
+                    setActiveDay("");
+                    setActiveStages([]);
+                  }}
+                />
+                <div className="pt-10 pb-16">
+                  {results.length === 0 ? (
+                    <div className="px-8 text-center py-12">
+                      <p className="text-white/60">No artists match your filters{hasSearch ? ` and search "${searchQuery}"` : ""}.</p>
+                    </div>
+                  ) : (
+                    <ArtistResultsGrid results={results} />
+                  )}
+                </div>
+              </>
+            );
+          }
+
+          // State 3: Search only (no filters) → ArtistResultsGrid with search heading
+          return (
+            <div className="pt-10 pb-16 px-8">
+              <h2 className="text-xl font-bold text-white mb-8">
+                {results.length === 0
+                  ? `No results for "${searchQuery}"`
+                  : `${results.length} result${results.length === 1 ? "" : "s"} for "${searchQuery}"`}
+              </h2>
+              {results.length > 0 && <ArtistResultsGrid results={results} />}
+            </div>
+          );
+        })()}
+
       </main>
     </div>
   );

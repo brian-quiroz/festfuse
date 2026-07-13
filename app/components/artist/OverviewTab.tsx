@@ -1,4 +1,4 @@
-import { Eye, Headphones, Zap, Star, User } from "lucide-react";
+import { Eye, Headphones, Waves, Target, User } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
 import AlbumArtwork from "@/app/components/ui/AlbumArtwork";
 
@@ -58,7 +58,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-x-6 gap-y-8">
         <section>
           <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-            <Zap size={15} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />
+            <Waves size={15} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />
             What to Expect
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -75,7 +75,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
 
         <section>
           <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-            <Star size={15} strokeWidth={2} className="text-[#E8FF47] flex-shrink-0" />
+            <Target size={15} strokeWidth={2} className="text-[#E8FF47] flex-shrink-0" />
             Best For
           </h3>
           <div className="flex flex-wrap gap-2">

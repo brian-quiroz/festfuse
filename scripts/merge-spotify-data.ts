@@ -3,10 +3,7 @@ import { allArtists } from "../app/data/artists/index.ts";
 import * as fs from "fs";
 
 const spotifyData = JSON.parse(
-  fs.readFileSync(
-    new URL("../app/scripts/spotify-fetched-data.json", import.meta.url).pathname,
-    "utf-8"
-  )
+  fs.readFileSync(new URL("./spotify-fetched-data.json", import.meta.url).pathname, "utf-8")
 );
 
 // Only successfully matched artists
@@ -45,7 +42,10 @@ function extractStr(text: string, field: string): string {
   return m?.[1] ?? "";
 }
 
-function artistRegion(content: string, slug: string): { slugPos: number; regionEnd: number } | null {
+function artistRegion(
+  content: string,
+  slug: string
+): { slugPos: number; regionEnd: number } | null {
   const slugPos = content.indexOf(`slug: "${slug}"`);
   if (slugPos === -1) return null;
   const next = content.indexOf("\nexport const ", slugPos + 1);
@@ -152,7 +152,12 @@ const DRY_RUN = process.argv.includes("--dry-run");
 // --artists=slug1,slug2 → only patch those artists
 const artistsArg = process.argv.find((a) => a.startsWith("--artists="));
 const targetSlugs = artistsArg
-  ? new Set(artistsArg.replace("--artists=", "").split(",").map((s) => s.trim()))
+  ? new Set(
+      artistsArg
+        .replace("--artists=", "")
+        .split(",")
+        .map((s) => s.trim())
+    )
   : null;
 
 const artists = targetSlugs ? allArtists.filter((a) => targetSlugs.has(a.slug)) : allArtists;
@@ -191,20 +196,39 @@ for (const file of files) {
     if (!region) continue;
 
     const updated = patchSpotify(content, region.slugPos, region.regionEnd, entry.spotify_url);
-    if (updated !== content) { content = updated; changed = true; }
+    if (updated !== content) {
+      content = updated;
+      changed = true;
+    }
     artistCount++;
 
     for (const track of entry.tracks) {
-      if (track.album_match_type !== "exact") { skippedTracks++; continue; }
+      if (track.album_match_type !== "exact") {
+        skippedTracks++;
+        continue;
+      }
       const artworkUrl = track.album_images?.[1]?.url ?? track.album_images?.[0]?.url ?? "";
-      const patched = patchTrack(content, artist.slug, track.name, track.spotify_id, track.duration, artworkUrl);
-      if (patched !== content) { content = patched; changed = true; }
+      const patched = patchTrack(
+        content,
+        artist.slug,
+        track.name,
+        track.spotify_id,
+        track.duration,
+        artworkUrl
+      );
+      if (patched !== content) {
+        content = patched;
+        changed = true;
+      }
       trackCount++;
     }
   }
 
   const withImages = patchSimilarImages(content, similarImageSubset);
-  if (withImages !== content) { content = withImages; changed = true; }
+  if (withImages !== content) {
+    content = withImages;
+    changed = true;
+  }
 
   if (!DRY_RUN && changed) {
     fs.writeFileSync(file, content);
@@ -213,7 +237,11 @@ for (const file of files) {
 }
 
 if (DRY_RUN) {
-  console.log(`Dry run: would patch ${artistCount} artists, ${trackCount} tracks (${skippedTracks} skipped — non-exact album match).`);
+  console.log(
+    `Dry run: would patch ${artistCount} artists, ${trackCount} tracks (${skippedTracks} skipped — non-exact album match).`
+  );
 } else {
-  console.log(`Done. Patched ${artistCount} artists, ${trackCount} tracks (${skippedTracks} skipped — non-exact album match).`);
+  console.log(
+    `Done. Patched ${artistCount} artists, ${trackCount} tracks (${skippedTracks} skipped — non-exact album match).`
+  );
 }
