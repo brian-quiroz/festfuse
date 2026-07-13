@@ -8,6 +8,8 @@ import QuickPicksBanner from "@/app/components/explore/QuickPicksBanner";
 import ExploreFilters from "@/app/components/explore/ExploreFilters";
 import { searchArtists } from "@/app/lib/search";
 import { filterArtists } from "@/app/lib/filters";
+import { interleaveByDay } from "@/app/lib/interleave";
+import { sortByDay } from "@/app/lib/sort";
 import ArtistResultsGrid from "@/app/components/explore/ArtistResultsGrid";
 import ActiveFilters from "@/app/components/explore/ActiveFilters";
 import { Shuffle } from "lucide-react";
@@ -18,22 +20,30 @@ export default function ExplorePage() {
   const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
   const [activeDay, setActiveDay] = useState<string>("");
   const [activeStages, setActiveStages] = useState<Stage[]>([]);
-  const festivalFavorites = allArtists.filter(
-    (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+  // Festival Favorites: keep chronological order (mirrors poster order), sorted by day
+  const festivalFavorites = sortByDay(
+    allArtists.filter(
+      (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+    )
   );
-  const newToYou = allArtists.filter(
-    (a) => !a.appearance.billingTier || a.appearance.billingTier === "Undercard"
-  );
-  const hiddenGems = allArtists.filter((a) =>
+
+  // Hidden Gems: suppress against Festival Favorites, then interleave by day
+  const shownInFestivalRow = new Set(festivalFavorites.map((a) => a.slug));
+  const hiddenGemsUninterleaved = allArtists.filter((a) =>
     a.genres.some((g) =>
       ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)
-    )
+    ) && !shownInFestivalRow.has(a.slug)
   );
-  const raveEnergy = allArtists.filter((a) =>
+  const hiddenGems = interleaveByDay(hiddenGemsUninterleaved);
+
+  // Rave Energy: suppress against discovery rows, then interleave by day
+  const shownInDiscoveryRows = new Set(hiddenGems.map((a) => a.slug));
+  const raveEnergyUninterleaved = allArtists.filter((a) =>
     a.genres.some((g) =>
       ["Electronic", "Dancehall", "Dance Pop", "J-Pop", "K-Pop", "Psychedelic Rock"].includes(g)
-    )
+    ) && !shownInDiscoveryRows.has(a.slug)
   );
+  const raveEnergy = interleaveByDay(raveEnergyUninterleaved);
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#110D24]">
@@ -118,8 +128,6 @@ export default function ExplorePage() {
                 <ArtistCarousel title="Festival Favorites" artists={festivalFavorites} cardSize="large" />
 
                 <QuickPicksBanner />
-
-                <ArtistCarousel title="New To You" artists={newToYou} />
 
                 <ArtistCarousel title="Hidden Gems" artists={hiddenGems} />
 
