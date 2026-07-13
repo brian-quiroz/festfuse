@@ -8,6 +8,7 @@ import DayCompleteScreen from "@/app/components/quick-picks/DayCompleteScreen";
 import FestivalCompleteScreen from "@/app/components/quick-picks/FestivalCompleteScreen";
 import { allArtists } from "@/app/data/artists";
 import { getDaysForActiveFestival } from "@/app/data/festivals";
+import { useInterestStore } from "@/app/store/interestStore";
 import type {
   QuickPicksStep,
   QuickPicksSession,
@@ -55,8 +56,10 @@ function createSession(config: QuickPicksSessionConfig): QuickPicksSession {
 }
 
 export default function QuickPicksPage() {
+  const { decisionsByArtist, setDecision } = useInterestStore();
   const [step, setStep] = useState<QuickPicksStep>("start");
   const [session, setSession] = useState<QuickPicksSession | null>(null);
+  const [initialDecisions, setInitialDecisions] = useState<Record<string, QuickPicksVerdict | null>>({});
   const [hasUndone, setHasUndone] = useState(false);
   const [undoneVerdict, setUndoneVerdict] = useState<QuickPicksVerdict | null>(null);
   const [undoToast, setUndoToast] = useState<{ message: string; key: number } | null>(null);
@@ -67,7 +70,14 @@ export default function QuickPicksPage() {
     setUndoneVerdict(null);
     setUndoToast(null);
     setIsScreenExiting(false);
-    setSession(createSession(config));
+    const newSession = createSession(config);
+    // Capture the current state of decisions for all artists in the queue for undo purposes
+    const initial: Record<string, QuickPicksVerdict | null> = {};
+    for (const item of newSession.queue) {
+      initial[item.artistId] = decisionsByArtist[item.artistId]?.verdict ?? null;
+    }
+    setInitialDecisions(initial);
+    setSession(newSession);
     setStep("decisioning");
   }
 
@@ -78,6 +88,14 @@ export default function QuickPicksPage() {
     setUndoToast(null);
     const currentItem = session.queue[session.currentIndex];
     const newDecisions = { ...session.decisions, [currentItem.artistId]: verdict };
+
+    // Write decision to the shared store immediately so it's visible on other pages
+    if (verdict === "passed") {
+      setDecision(currentItem.artistId, null, "quickPicks");
+    } else {
+      setDecision(currentItem.artistId, verdict, "quickPicks");
+    }
+
     const newIndex = session.currentIndex + 1;
 
     const isLastOfSession = newIndex >= session.queue.length;
@@ -111,7 +129,7 @@ export default function QuickPicksPage() {
     const previousVerdict =
       (session.decisions[prevItem.artistId] as QuickPicksVerdict | undefined) ?? null;
     const verdictLabels: Record<QuickPicksVerdict, string> = {
-      pass: "Pass",
+      passed: "Passed",
       interested: "Interested",
       mustSee: "Must See",
     };
@@ -119,6 +137,17 @@ export default function QuickPicksPage() {
     const toastMessage = `${verdictLabel} undone`;
     const newDecisions = { ...session.decisions };
     delete newDecisions[prevItem.artistId];
+
+    // Restore the artist's previous persisted verdict from the store
+    const priorState = initialDecisions[prevItem.artistId];
+    if (priorState === "passed") {
+      setDecision(prevItem.artistId, null, "quickPicks");
+    } else if (priorState === null) {
+      setDecision(prevItem.artistId, null, "quickPicks");
+    } else {
+      setDecision(prevItem.artistId, priorState, "quickPicks");
+    }
+
     setHasUndone(true);
     setUndoneVerdict(previousVerdict);
     setUndoToast({ message: toastMessage, key: Date.now() });
@@ -169,21 +198,21 @@ export default function QuickPicksPage() {
   let completedDayStats: {
     mustSee: number;
     interested: number;
-    pass: number;
+    passed: number;
     total: number;
   } | null = null;
   if (session && completedDay) {
     const dayItems = session.queue.filter((item) => item.day === completedDay);
     let mustSee = 0,
       interested = 0,
-      pass = 0;
+      passed = 0;
     for (const item of dayItems) {
       const v = session.decisions[item.artistId] as QuickPicksVerdict | undefined;
       if (v === "mustSee") mustSee++;
       else if (v === "interested") interested++;
-      else if (v === "pass") pass++;
+      else if (v === "passed") passed++;
     }
-    completedDayStats = { mustSee, interested, pass, total: dayItems.length };
+    completedDayStats = { mustSee, interested, passed, total: dayItems.length };
   }
 
   return (

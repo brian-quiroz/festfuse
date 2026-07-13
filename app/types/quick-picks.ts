@@ -1,9 +1,10 @@
-import type { InterestLevel } from "@/app/types/interest";
+import type { Verdict } from "@/app/types/interest";
 
 export type QuickPicksStep = "start" | "decisioning" | "dayComplete" | "festivalComplete";
 
-// Includes "pass", which is QP-only — no ArtistInterest is created for a pass
-export type QuickPicksVerdict = "pass" | InterestLevel;
+// QuickPicksVerdict is an alias for Verdict.
+// Quick Picks decisions (mustSee, interested, passed) are written to the shared interest store immediately via setDecision().
+export type QuickPicksVerdict = Verdict;
 
 export interface QuickPicksSessionConfig {
   festivalId: string;

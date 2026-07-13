@@ -84,7 +84,7 @@ const heroVariants = {
 };
 
 function verdictToExitDir(verdict: QuickPicksVerdict): ExitDir {
-  if (verdict === "pass") return "left";
+  if (verdict === "passed") return "left";
   if (verdict === "interested") return "right";
   return "up";
 }
@@ -144,9 +144,9 @@ export default function DecisionScreen({
 
   const handleUndoClick = useCallback(() => {
     if (!canUndo) return;
-    setExitDir(undoVerdict === "pass" ? "right" : undoVerdict === "interested" ? "left" : "down");
+    setExitDir(undoVerdict === "passed" ? "right" : undoVerdict === "interested" ? "left" : "down");
     setEntryDir(
-      undoVerdict === "pass" ? "left" : undoVerdict === "interested" ? "right" : "fromTop"
+      undoVerdict === "passed" ? "left" : undoVerdict === "interested" ? "right" : "fromTop"
     );
     onUndo();
   }, [canUndo, undoVerdict, onUndo]);
@@ -158,7 +158,7 @@ export default function DecisionScreen({
       switch (e.key.toLowerCase()) {
         case "a":
           e.preventDefault();
-          handleDecisionClick("pass");
+          handleDecisionClick("passed");
           break;
         case "s":
           e.preventDefault();
@@ -206,7 +206,7 @@ export default function DecisionScreen({
   const isFlashing = (verdict: QuickPicksVerdict) => restoredFlashing && priorVerdict === verdict;
 
   const passClass =
-    confirming === "pass" || isFlashing("pass")
+    confirming === "passed" || isFlashing("passed")
       ? "border-red-400/70 bg-red-400/15 text-red-400"
       : "border-red-400/45 text-red-400/80 hover:bg-red-400/10 hover:border-red-400/65 hover:text-red-400";
 
@@ -447,7 +447,7 @@ export default function DecisionScreen({
             {/* Decision buttons — anchored */}
             <div className="grid grid-cols-3 gap-3">
               <button
-                onClick={() => handleDecisionClick("pass")}
+                onClick={() => handleDecisionClick("passed")}
                 className={`flex items-center justify-center gap-2 py-4 rounded-xl border text-sm font-semibold transition-all duration-150 ${passClass}`}
               >
                 <X size={15} strokeWidth={2.5} />

@@ -365,3 +365,99 @@ const cinematicVisuals = interleaveByDayShuffled(
   allArtists.filter((a) => a.whatToExpect.includes("Cinematic Visuals"))
 );
 ```
+
+---
+
+## Interest State
+
+User decisions (Must See, Interested, Passed) are centralized in a Zustand store with localStorage persistence. This serves as the single source of truth across Explore, Artist Detail, Quick Picks, and future features. Decisions also track their source and timestamp for potential use by features like Festival Artifact.
+
+### Store Shape
+
+```typescript
+type Verdict = "mustSee" | "interested" | "passed";
+
+interface ArtistDecision {
+  verdict: Verdict;
+  source: "explore" | "artist" | "quickPicks";
+  updatedAt: number; // millisecond timestamp
+}
+
+interface InterestState {
+  decisionsByArtist: Record<string, ArtistDecision>;
+  setDecision: (
+    artistId: string,
+    verdict: Verdict | null,
+    source: ArtistDecision["source"]
+  ) => void;
+}
+```
+
+**Key design choices:**
+
+- **Three verdict states, not two:** "passed" is distinct from unset/null. Allows Quick Picks re-runs to differentiate "never considered" from "actively rejected," and lets Surprise Me treat "passed" as eligible for second-chance while excluding "mustSee"/"interested".
+- **Missing key = undecided:** No entry in `decisionsByArtist` means the artist has never received a verdict.
+- **Decision metadata:** Source and timestamp are captured at write-time. No features consume these yet, but Festival Artifact (planned near-term) may reference decision provenance (e.g., "most of your Must Sees came from Quick Picks"). Capturing now avoids data loss—this information cannot be reconstructed after the fact.
+- **Note on Surprise Me:** Surprise Me only navigates to a random artist's detail page—it doesn't present a decision UI. Any verdict set after landing on that page correctly uses `source: "artist"`, the same as any other artist-page decision.
+
+### Festival Scoping
+
+`decisionsByArtist` is keyed by artist ID (slug), which is currently implicitly festival-specific—each artist record belongs to exactly one festival (Lollapalooza 2026) since the app only supports one festival today. If multi-festival support is added later, this assumption must be revisited: either artist IDs need to become globally unique across festivals in a way that naturally preserves this scoping, or `decisionsByArtist` itself needs an explicit festival-keyed layer (e.g., `decisionsByFestivalAndArtist`). Do not assume artist IDs are safe to reuse or collide across festivals without addressing this scoping first.
+
+### State Boundaries
+
+**In shared store (persisted to localStorage):**
+- `ArtistDecision` per artist — the verdict, where it came from, and when it was decided.
+
+**In local component state:**
+- `heartVisible` — animation/display detail and visual sync state. The heart icon's fill/color is driven by heartVisible, not by verdict directly, so its *initial value* on mount must be derived from the store (`heartVisible = verdict === "interested" || verdict === "mustSee"`). Only the *ongoing* cascade-delay behavior (the 100ms timeout when Must See is tapped from neutral) is truly local and session-only. Without this initialization, "Interested" silently fails to visually sync across pages while "Must See" (which reads directly from the store) works fine.
+
+Keeps the store focused (one decision fact per artist) while preserving all existing UI cascade behavior and ensuring visual state stays consistent across navigation.
+
+### Quick Picks Session vs. Shared Store
+
+Quick Picks maintains two separate, coherent pieces of state:
+
+**Session state (ephemeral):**
+- Queue position, verdicts recorded during this session, undo eligibility, day boundaries
+
+**Shared store (persistent):**
+- Current decision (verdict, source, timestamp) for each artist
+
+**Critical rule:** When a Quick Picks verdict is recorded (mustSee/interested/passed), it must call `setDecision()` immediately with `source: "quickPicks"`. The session state tracks verdicts for undo and progress; the shared store makes the decision visible across the app. Verdicts should not wait until Quick Picks completes.
+
+### Filtering Rules by Feature
+
+- **Quick Picks default queue:** Only artists with no entry in `decisionsByArtist` (fully undecided).
+- **Quick Picks re-runs:** Same as above—only undecided artists, skipping those with any prior verdict.
+- **Surprise Me:** Exclude artists with verdict "mustSee" or "interested"; include artists with verdict "passed" (second-chance discovery).
+- **Explore / Artist page:** Can freely set/overwrite any current verdict.
+
+### Undo Requirement
+
+Undoing a Quick Picks decision has two effects:
+
+1. **Session undo:** Remove the verdict from the session's `decisions` object and rewind queue position for the animation.
+2. **Store undo:** Restore the artist's previous verdict from the store (or remove the key entirely if there was no prior verdict).
+
+This prevents inconsistency where Quick Picks shows "undo worked" but Explore or the Artist page still shows the old decision.
+
+**Example:** If an artist was previously marked "mustSee" on the artist page, then Quick Picks marks them "passed," undoing the Quick Picks verdict restores "mustSee" in the store and UI.
+
+### Migration Note
+
+When implementing the store, `app/types/quick-picks.ts` currently defines `QuickPicksVerdict = "pass" | InterestLevel` using "pass" (old spelling). After this architecture is implemented, `QuickPicksVerdict` should become an alias to `Verdict` from `app/types/interest.ts`, and all uses of the string "pass" in DecisionScreen and quick-picks/page.tsx should be updated to "passed" for consistency. After the change, run `npx tsc --noEmit` to confirm zero errors across the whole project, not just the files directly touched.
+
+---
+
+## Future Consideration: Festival-Agnostic Bookmarking
+
+The current model (mustSee, interested, passed) is intentionally festival-scoped — all three verdicts describe a user's relationship to an artist within the context of one specific festival's lineup and schedule. This is correct for the current single-festival MVP and should not change.
+
+If multi-festival support is added later, there may be value in a fourth, separate concept: a festival-agnostic "I like this artist in general" signal (working name: bookmarked or following) — independent of any specific festival's decision-making. For example, a user might want to note "I like this artist" even when browsing a festival where that artist isn't currently playing, or carry that signal forward across multiple festivals over time.
+
+This should be introduced as an entirely NEW, additional field — never by redefining or repurposing "interested." Reasoning: "interested" already has an established, understood meaning in the current UI (a festival-specific decision), and users' existing localStorage data already reflects that meaning. Silently changing what "interested" means later would break the implicit contract with existing data and confuse users who already understand the current model.
+
+If/when this is built, it needs its own distinct visual treatment — not another star or heart — since it represents a categorically different kind of fact (general taste, not a festival-specific decision), similar to how "Scheduled" was deliberately given a different visual treatment than "Must See"/"Interested" earlier in this project, since it's also a different kind of fact (a plan commitment, not an interest level).
+
+**Do not implement this now.** This section exists so the option is preserved and clearly scoped for future consideration, not lost or forgotten.

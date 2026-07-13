@@ -37,7 +37,7 @@ function useCountUp(target: number, duration = 700, delay = 250) {
 interface DayStats {
   mustSee: number;
   interested: number;
-  pass: number;
+  passed: number;
   total: number;
 }
 
@@ -56,7 +56,7 @@ export default function DayCompleteScreen({
 }: Props) {
   const mustSeeCount = useCountUp(dayStats?.mustSee ?? 0);
   const interestedCount = useCountUp(dayStats?.interested ?? 0);
-  const passCount = useCountUp(dayStats?.pass ?? 0);
+  const passedCount = useCountUp(dayStats?.passed ?? 0);
   const [pressing, setPressing] = useState(false);
 
   function handleContinue() {
@@ -122,7 +122,7 @@ export default function DayCompleteScreen({
               <p className="text-white/45 text-xs mt-1">Interested</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl font-bold text-white/40 tabular-nums">{passCount}</p>
+              <p className="text-3xl font-bold text-white/40 tabular-nums">{passedCount}</p>
               <p className="text-white/45 text-xs mt-1">Passed</p>
             </div>
           </div>

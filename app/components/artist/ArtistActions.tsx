@@ -2,13 +2,24 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Plus, Star, Heart, BarChart2 } from "lucide-react";
-import type { InterestLevel } from "@/app/types/interest";
+import { useInterestStore } from "@/app/store/interestStore";
 
-export default function ArtistActions() {
-  // Single stored tier; Must See visually implies Interested.
-  const [interestLevel, setInterestLevel] = useState<InterestLevel | null>(null);
+interface ArtistActionsProps {
+  artistId: string;
+}
+
+export default function ArtistActions({ artistId }: ArtistActionsProps) {
+  const { decisionsByArtist, setDecision } = useInterestStore();
+
+  // Read from store — Must See visually implies Interested.
+  const decision = decisionsByArtist[artistId];
+  const verdict = decision?.verdict ?? null;
+
   // Display-only: heart lights up immediately on direct tap, or after cascade delay when Must See is tapped from neutral.
-  const [heartVisible, setHeartVisible] = useState(false);
+  // Initialize from persisted state so heart shows correctly on component mount.
+  const [heartVisible, setHeartVisible] = useState(
+    verdict === "interested" || verdict === "mustSee"
+  );
   const cascadeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(
@@ -20,12 +31,12 @@ export default function ArtistActions() {
 
   const handleMustSee = () => {
     if (cascadeRef.current) clearTimeout(cascadeRef.current);
-    if (interestLevel === "mustSee") {
-      setInterestLevel("interested");
+    if (verdict === "mustSee") {
+      setDecision(artistId, "interested", "artist");
       // Heart stays visible — downgrading to Interested, not clearing
     } else {
-      const wasEmpty = interestLevel === null;
-      setInterestLevel("mustSee");
+      const wasEmpty = verdict === null;
+      setDecision(artistId, "mustSee", "artist");
       if (wasEmpty) {
         cascadeRef.current = setTimeout(() => setHeartVisible(true), 100);
       }
@@ -35,16 +46,16 @@ export default function ArtistActions() {
 
   const handleInterested = () => {
     if (cascadeRef.current) clearTimeout(cascadeRef.current);
-    if (interestLevel === null) {
-      setInterestLevel("interested");
+    if (verdict === null) {
+      setDecision(artistId, "interested", "artist");
       setHeartVisible(true);
     } else {
-      setInterestLevel(null);
+      setDecision(artistId, null, "artist");
       setHeartVisible(false);
     }
   };
 
-  const mustSee = interestLevel === "mustSee";
+  const mustSee = verdict === "mustSee";
 
   return (
     <div className="flex items-center gap-2.5 flex-wrap">
