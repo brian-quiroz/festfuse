@@ -480,7 +480,7 @@ const bloodOrange: Artist = {
   name: "Blood Orange",
   slug: "blood-orange",
   imageUrl: "/artists/heroes/blood-orange.jpg",
-  genres: ["R&B", "Soul", "Art-Pop"],
+  genres: ["R&B", "Soul", "Art Pop"],
   origin: "London, UK",
   tagline: "Genre-fluid R&B from New York's most restlessly creative artist.",
   socials: { spotify: "https://open.spotify.com/artist/6LEeAFiJF8OuPx747e1wxR" },

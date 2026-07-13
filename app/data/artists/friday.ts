@@ -1061,7 +1061,7 @@ const theStorySoFar: Artist = {
 const loathe: Artist = {
   name: "Loathe",
   slug: "loathe",
-  genres: ["Deftones-Core", "Metalcore", "Shoegaze"],
+  genres: ["Alternative Metal", "Metalcore", "Shoegaze"],
   origin: "Liverpool, England",
   tagline:
     "A terrifyingly beautiful, blistering collision of heavy metalcore brutality and lush shoegaze textures.",

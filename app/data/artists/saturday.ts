@@ -1488,7 +1488,7 @@ const khamari: Artist = {
 const quadeca: Artist = {
   name: "Quadeca",
   slug: "quadeca",
-  genres: ["Folk-Glow", "Alternative Hip-Hop", "Neo-Psychedelia"],
+  genres: ["Folktronica", "Alternative Hip-Hop", "Neo-Psychedelia"],
   origin: "Los Angeles, California",
   tagline: "A beautifully haunting, glitchy collision of ambient folk glow and avant-garde rap.",
   socials: { spotify: "https://open.spotify.com/artist/3zz52ViyCBcplK0ftEVPSS" },
@@ -1689,7 +1689,7 @@ const frostChildren: Artist = {
 const goldieBoutilier: Artist = {
   name: "Goldie Boutilier",
   slug: "goldie-boutilier",
-  genres: ["Alt-Pop", "Cinematic Pop", "Americana-Pop"],
+  genres: ["Alt-Pop", "Art Pop", "Americana-Pop"],
   origin: "Cape Breton, Canada",
   tagline: "Glittering, vintage Hollywood-hued pop tragedy wrapped in lush, cinematic spaces.",
   socials: { spotify: "https://open.spotify.com/artist/392WuM1Yb4QRI0GG4epyn5" },
@@ -1943,7 +1943,7 @@ const omnom: Artist = {
 const jimLegxacy: Artist = {
   name: "Jim Legxacy",
   slug: "jim-legacy",
-  genres: ["Afro-Glow", "Alternative R&B", "Emo-Rap"],
+  genres: ["Afroswing", "Alternative R&B", "Emo-Rap"],
   origin: "London, England",
   tagline:
     "A breathtaking, glitchy collision of traditional Afrobeats rhythms and emo-rap intimacy.",
