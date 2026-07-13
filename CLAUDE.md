@@ -261,6 +261,21 @@ The day files are an editing convenience, not a data boundary. Any feature that 
 
 ---
 
+## Refactoring & Code Integrity
+
+When restructuring layouts or reorganizing component hierarchies, **never remove or break existing UI components in the process**, even when they look redundant or are being moved around.
+
+During refactoring:
+
+1. **Test the full page**, not just the section being changed. A restructure in one part can silently break rendering elsewhere.
+2. **Keep critical UI components in your mental checklist** — before considering a refactor done, verify that things like filter displays, buttons, and navigational elements are still working in all contexts they should appear.
+3. **Make smaller, testable changes** rather than aggressive restructuring in one shot. This makes it easier to spot what broke.
+4. **Use version control as a safety net** — if something disappears, `git diff` should make it obvious.
+
+A component that's hard to find in a refactor is still a problem. Better to err on the side of being conservative with code removal until you're certain nothing is using it.
+
+---
+
 ## Build Order
 
 ✅ Artist Page

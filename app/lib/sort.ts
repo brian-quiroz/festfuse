@@ -42,3 +42,62 @@ export function sortByBillingTier(artists: Artist[]): Artist[] {
     return tierOrderA - tierOrderB;
   });
 }
+
+/**
+ * Sort artists for "See all" grid view: day → appearance time → artist name.
+ * Provides a stable, predictable ordering for carousel full views.
+ * Use this for all carousels except Festival Favorites.
+ */
+export function sortForFullCarouselView(artists: Artist[]): Artist[] {
+  return [...artists].sort((a, b) => {
+    // First: sort by day
+    const dayA = DAY_ORDER.indexOf(a.appearance.day);
+    const dayB = DAY_ORDER.indexOf(b.appearance.day);
+    if (dayA !== dayB) return dayA - dayB;
+
+    // Second: sort by appearance time (as string, lexical order works for HH:MM format)
+    const timeA = a.appearance.startTime;
+    const timeB = b.appearance.startTime;
+    if (timeA !== timeB) return timeA.localeCompare(timeB);
+
+    // Third: sort by artist name
+    return a.name.localeCompare(b.name);
+  });
+}
+
+/**
+ * Sort Festival Favorites for "See all" grid view: day → billing tier → appearance time → artist name.
+ * Billing tier order (Headliner → Sub-headliner → Undercard) is preserved within each day.
+ */
+export function sortFestivalFavoritesForFullView(artists: Artist[]): Artist[] {
+  return [...artists].sort((a, b) => {
+    // First: sort by day
+    const dayA = DAY_ORDER.indexOf(a.appearance.day);
+    const dayB = DAY_ORDER.indexOf(b.appearance.day);
+    if (dayA !== dayB) return dayA - dayB;
+
+    // Second: sort by billing tier (Headliner → Sub-headliner → Undercard)
+    const tierA = a.appearance.billingTier;
+    const tierB = b.appearance.billingTier;
+
+    if (tierA === undefined && tierB === undefined) {
+      // Both undefined: continue to time
+    } else if (tierA === undefined) {
+      return 1; // undefined tiers sort to the end
+    } else if (tierB === undefined) {
+      return -1;
+    } else {
+      const tierOrderA = BILLING_TIERS.indexOf(tierA);
+      const tierOrderB = BILLING_TIERS.indexOf(tierB);
+      if (tierOrderA !== tierOrderB) return tierOrderA - tierOrderB;
+    }
+
+    // Third: sort by appearance time
+    const timeA = a.appearance.startTime;
+    const timeB = b.appearance.startTime;
+    if (timeA !== timeB) return timeA.localeCompare(timeB);
+
+    // Fourth: sort by artist name
+    return a.name.localeCompare(b.name);
+  });
+}
