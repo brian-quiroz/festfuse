@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search, X, SlidersHorizontal } from "lucide-react";
 import type { Genre, Stage } from "@/app/data/categories";
 import { GENRES } from "@/app/data/categories";
 import { ACTIVE_FESTIVAL_ID, FESTIVAL_STAGES } from "@/app/data/festivals";
@@ -80,9 +80,11 @@ export default function ExploreFilters({
   };
 
   const handleClearAll = () => {
+    setSearchQuery("");
     setSelectedGenres([]);
     setSelectedDay("");
     setSelectedStages([]);
+    onSearchChange?.("");
     onGenresChange?.([]);
     onDayChange?.("");
     onStagesChange?.([]);
@@ -118,8 +120,19 @@ export default function ExploreFilters({
           placeholder="Search artists, genres, or keywords..."
           value={searchQuery}
           onChange={(e) => handleSearchChange(e.target.value)}
-          className="w-full bg-[#1B1535] border border-[#2D2556] rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#00E5FF]/30 transition-colors"
+          className="w-full bg-[#1B1535] border border-[#2D2556] rounded-xl pl-11 pr-11 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#00E5FF]/30 transition-colors"
         />
+        {searchQuery.trim().length > 0 && (
+          <button
+            onClick={() => {
+              handleSearchChange("");
+            }}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+            aria-label="Clear search"
+          >
+            <X size={15} strokeWidth={2} />
+          </button>
+        )}
       </div>
 
       {/* Filter pills */}

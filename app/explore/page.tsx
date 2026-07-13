@@ -62,6 +62,41 @@ export default function ExplorePage() {
           />
         </div>
 
+        {/* Result count summary */}
+        {(() => {
+          const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0;
+          const hasSearch = searchQuery.trim().length > 0;
+
+          if (!hasFilters && !hasSearch) return null;
+
+          const filtered = filterArtists(allArtists, {
+            genres: activeGenres.length > 0 ? activeGenres : undefined,
+            day: activeDay || undefined,
+            stages: activeStages.length > 0 ? activeStages : undefined,
+          });
+
+          const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
+
+          let summaryText = "";
+          if (hasSearch && hasFilters) {
+            summaryText = results.length === 0
+              ? `No artists found`
+              : `${results.length} result${results.length === 1 ? "" : "s"} for "${searchQuery}"`;
+          } else if (hasSearch) {
+            summaryText = results.length === 0
+              ? `No results for "${searchQuery}"`
+              : `${results.length} result${results.length === 1 ? "" : "s"} for "${searchQuery}"`;
+          } else {
+            summaryText = `${results.length} artist${results.length === 1 ? "" : "s"}`;
+          }
+
+          return (
+            <div className="px-8 py-3 text-sm text-white/50">
+              {summaryText}
+            </div>
+          );
+        })()}
+
         {/* Four-state rendering */}
         {(() => {
           const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0;
