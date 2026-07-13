@@ -340,7 +340,10 @@ export const COUNTRIES = [
 export type Country = (typeof COUNTRIES)[number];
 
 /**
- * Origin: Structured representation of where an artist is from.
+ * Origin: A place associated with an artist — not necessarily their birthplace.
+ * Data is sourced inconsistently (sometimes birthplace, sometimes current
+ * base, sometimes scene affiliation), so this field intentionally makes
+ * no claim about which. Treat it as "a location tied to this artist" only.
  *
  * Format:
  * - city: Required. The city name (e.g., "Los Angeles", "Manchester")
@@ -350,7 +353,7 @@ export type Country = (typeof COUNTRIES)[number];
  * Example (US):    { city: "Los Angeles", state: "California", country: "United States" }
  * Example (non-US): { city: "Manchester", country: "England" }
  */
-export interface Origin {
+export interface Location {
   city: string;
   state?: USState;
   country: Country;

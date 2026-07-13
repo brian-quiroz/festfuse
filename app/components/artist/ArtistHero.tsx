@@ -95,7 +95,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
         <div className="mt-10 flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-white/40 text-sm">
             <MapPin size={13} strokeWidth={2.5} />
-            {artist.origin}
+            {artist.location}
           </span>
           <div className="w-px h-3.5 bg-white/10" />
           <div className="flex items-center gap-3.5">

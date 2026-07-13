@@ -11,7 +11,7 @@ const lorde: Artist = {
   imageUrl: "/artists/heroes/lorde.jpg",
   objectPosition: "center 20%",
   genres: ["Indie Pop", "Electropop", "Art Pop"],
-  origin: "Auckland, New Zealand",
+  location: "Auckland, New Zealand",
   tagline: "The alt-pop high priestess guiding crowds through visceral emotional catharsis.",
   socials: {
     spotify: "https://open.spotify.com/artist/163tK9Wjr9P9DmM0AVK7lm",
@@ -89,7 +89,7 @@ const johnSummit: Artist = {
   liveVideoId: "aloPGSlq31Y",
   liveVideoLabel: "Live at Ultra Miami 2026",
   genres: ["House", "Tech House", "Electronic"],
-  origin: "Chicago, Illinois",
+  location: "Chicago, Illinois",
   tagline: "The hometown hero turning Perry's into a massive, state-of-the-art warehouse rave.",
   socials: {
     spotify: "https://open.spotify.com/artist/7kNqXtgeIwFtelmRjWv205",
@@ -174,7 +174,7 @@ const sombr: Artist = {
   imageUrl: "/artists/heroes/sombr.jpg",
   objectPosition: "center 20%",
   genres: ["Bedroom Pop", "Indie Pop", "Alt-Pop"],
-  origin: "New York City, New York",
+  location: "New York City, New York",
   tagline: "Late nights and young romance, scaled for the mainstage.",
   socials: {
     spotify: "https://open.spotify.com/artist/4G9NDjRyZFDlJKMRL8hx3S",
@@ -258,7 +258,7 @@ const empireOfTheSun: Artist = {
   slug: "empire-of-the-sun",
   imageUrl: "/artists/heroes/empire-of-the-sun.jpg",
   genres: ["Electronic", "Synth-Pop", "Indie Pop"],
-  origin: "Sydney, Australia",
+  location: "Sydney, Australia",
   tagline: "Theatrical cosmic pop that turns every festival into a spectacle.",
   socials: { spotify: "https://open.spotify.com/artist/67hb7towEyKvt5Z8Bx306c" },
   whySee: [
@@ -326,7 +326,7 @@ const wetLeg: Artist = {
   imageUrl: "/artists/heroes/wet-leg.jpg",
   objectPosition: "center 30%",
   genres: ["Indie Rock", "Post-Punk"],
-  origin: "Isle of Wight, England",
+  location: "Isle of Wight, England",
   tagline: "Dry wit, big riffs, and the best debut in recent memory.",
   socials: { spotify: "https://open.spotify.com/artist/2TwOrUcYnAlIiKmVQkkoSZ" },
   whySee: [
@@ -400,7 +400,7 @@ const worship: Artist = {
   slug: "worship",
   imageUrl: "/artists/heroes/worship.webp",
   genres: ["Drum and Bass", "Electronic"],
-  origin: "London, England",
+  location: "London, England",
   tagline: "Drum and bass' biggest names, B2B, all night.",
   socials: {},
   whySee: [
@@ -456,7 +456,7 @@ const bloodOrange: Artist = {
   slug: "blood-orange",
   imageUrl: "/artists/heroes/blood-orange.jpg",
   genres: ["R&B", "Soul", "Art Pop"],
-  origin: "London, England",
+  location: "London, England",
   tagline: "Genre-fluid R&B from New York's most restlessly creative artist.",
   socials: { spotify: "https://open.spotify.com/artist/6LEeAFiJF8OuPx747e1wxR" },
   whySee: [
@@ -525,7 +525,7 @@ const fiveSecondsOfSummer: Artist = {
   imageUrl: "/artists/heroes/5-seconds-of-summer.png",
   objectPosition: "center 35%",
   genres: ["Pop-Punk", "Alternative Rock"],
-  origin: "Sydney, Australia",
+  location: "Sydney, Australia",
   tagline: "Four friends from Sydney who've grown up on stage.",
   socials: { spotify: "https://open.spotify.com/artist/5Rl15oVamLq7FbSb0NNBNy" },
   whySee: [
@@ -599,7 +599,7 @@ const kettama: Artist = {
   slug: "kettama",
   imageUrl: "/artists/heroes/kettama.webp",
   genres: ["House", "Speed Garage"],
-  origin: "Galway, Ireland",
+  location: "Galway, Ireland",
   tagline: "Big-hearted house anthems built for the floor.",
   socials: { spotify: "https://open.spotify.com/artist/3an9rnsXKPCAMlZgH4A0n4" },
   whySee: [
@@ -672,7 +672,7 @@ const viagraBoys: Artist = {
   slug: "viagra-boys",
   imageUrl: "/artists/heroes/viagra-boys.webp",
   genres: ["Post-Punk", "Garage Rock"],
-  origin: "Stockholm, Sweden",
+  location: "Stockholm, Sweden",
   tagline: "Controlled post-punk chaos, weaponized humor, and raw underground energy.",
   socials: { spotify: "https://open.spotify.com/artist/2nAKP6etu8wXNnezKXgqgg" },
   whySee: [
@@ -742,7 +742,7 @@ const audreyHobert: Artist = {
   slug: "audrey-hobert",
   imageUrl: "/artists/heroes/audrey-hobert.avif",
   genres: ["Indie Pop", "Singer-Songwriter"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline:
     "Witty, wordy stream-of-consciousness pop music that plays out like voice memos from your funniest friend.",
   socials: { spotify: "https://open.spotify.com/artist/4N0TAwz9vhnQtjCqS65aKS" },
@@ -801,7 +801,7 @@ const snowStrippers: Artist = {
   slug: "snow-strippers",
   imageUrl: "/artists/heroes/snow-strippers.jpg",
   genres: ["Witch House", "Electroclash", "Electronic"],
-  origin: "Detroit, Michigan",
+  location: "Detroit, Michigan",
   tagline: "Frenetic, blown-out electroclash born in the internet underground.",
   socials: { spotify: "https://open.spotify.com/artist/6TsAG8Ve1icEC8ydeHm3C8" },
   whySee: [
@@ -863,7 +863,7 @@ const borisBrejcha: Artist = {
   slug: "boris-brejcha",
   imageUrl: "/artists/heroes/boris-brejcha.jpg",
   genres: ["High-Tech Minimal", "Techno"],
-  origin: "Ludwigshafen, Germany",
+  location: "Ludwigshafen, Germany",
   tagline: "The masked maestro of hypnotic, stadium-scale high-tech minimal.",
   socials: { spotify: "https://open.spotify.com/artist/6caPJFLv1wesmM7gwK1ACy" },
   whySee: [
@@ -905,7 +905,7 @@ const parisPaloma: Artist = {
   imageUrl: "/artists/heroes/paris-paloma.webp",
   objectPosition: "center 40%",
   genres: ["Dark Folk", "Indie Pop", "Chamber Pop"],
-  origin: "Derbyshire, England",
+  location: "Derbyshire, England",
   tagline: "Visceral, mythological dark folk built on fierce emotional catharsis.",
   socials: { spotify: "https://open.spotify.com/artist/2EXpthNgSeTDeX8nGwxppp" },
   whySee: [
@@ -964,7 +964,7 @@ const littleSimz: Artist = {
   imageUrl: "/artists/heroes/little-simz.jpg",
   objectPosition: "center 0%",
   genres: ["Hip-Hop", "Conscious Rap", "Neo-Soul"],
-  origin: "London, England",
+  location: "London, England",
   tagline: "One of the absolute greatest lyricists alive delivering pure live mastery.",
   socials: { spotify: "https://open.spotify.com/artist/6eXZu6O7nAUA5z6vLV8NKI" },
   whySee: [
@@ -1038,7 +1038,7 @@ const cmat: Artist = {
   slug: "cmat",
   imageUrl: "/artists/heroes/cmat.webp",
   genres: ["Indie Pop", "Country Pop", "Alternative Folk"],
-  origin: "Dublin, Ireland",
+  location: "Dublin, Ireland",
   tagline: "High-camp pop anthems matched with devastating, razor-sharp heartbreak storytelling.",
   socials: { spotify: "https://open.spotify.com/artist/3VBNIRx1LxVdRqOiPgkLwv" },
   whySee: [
@@ -1108,7 +1108,7 @@ const boysNoize: Artist = {
   imageUrl: "/artists/heroes/boys-noize.jpg",
   objectPosition: "center 30%",
   genres: ["Electro House", "Techno", "Industrial Electronic"],
-  origin: "Berlin, Germany",
+  location: "Berlin, Germany",
   tagline:
     "Industrial Berlin techno and distorted punk energy designed to shatter warehouse dance floors.",
   socials: { spotify: "https://open.spotify.com/artist/62k5LKMhymqlDNo2DWOvvv" },
@@ -1157,7 +1157,7 @@ const betweenFriends: Artist = {
   imageUrl: "/artists/heroes/between-friends.webp",
   objectPosition: "center 20%",
   genres: ["Indie Pop", "Bedroom Pop", "Neo-Psychedelia"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline: "Glitchy, neon-drenched notebook bedroom pop for late-night drives under palm trees.",
   socials: { spotify: "https://open.spotify.com/artist/2HkSsS8O2U2gPhnCGVN5vn" },
   whySee: [
@@ -1217,7 +1217,7 @@ const mph: Artist = {
   name: "MPH",
   slug: "mph",
   genres: ["UK Garage", "Bassline", "House"],
-  origin: "Canterbury, England",
+  location: "Canterbury, England",
   tagline:
     "High-octane, hyper-precise UK garage driving the modern electronic underground dance revival.",
   socials: { spotify: "https://open.spotify.com/artist/62SCu33InHVq97VaWw3eof" },
@@ -1279,7 +1279,7 @@ const amble: Artist = {
   name: "Amble",
   slug: "amble",
   genres: ["Contemporary Folk", "Alternative Folk", "Traditional Irish Folk"],
-  origin: "Midlands, Ireland",
+  location: "Midlands, Ireland",
   tagline:
     "Stripped-back, deeply nostalgic three-piece contemporary folk rooted in timeless storytelling.",
   socials: { spotify: "https://open.spotify.com/artist/5ZC7GPz5h9zkEfjZBUDNzI" },
@@ -1331,7 +1331,7 @@ const kingfishr: Artist = {
   name: "Kingfishr",
   slug: "kingfishr",
   genres: ["Indie Folk", "Alternative Folk"],
-  origin: "Limerick, Ireland",
+  location: "Limerick, Ireland",
   tagline: "Epic, stadium-scale acoustic indie folk built on soaring cinematic poetry.",
   socials: { spotify: "https://open.spotify.com/artist/6c2qQFq3xfxFJndX6wSe4f" },
   whySee: [
@@ -1399,7 +1399,7 @@ const ninajirachi: Artist = {
   slug: "ninajirachi",
   imageUrl: "/artists/heroes/ninajirachi.webp",
   genres: ["Hyperpop", "Club", "Electronic"],
-  origin: "Sydney, Australia",
+  location: "Sydney, Australia",
   tagline: "Glitchy, hyper-futuristic club music delivered at terminal velocity.",
   socials: { spotify: "https://open.spotify.com/artist/3MekbRujJg5VZThubOlrkR" },
   whySee: [
@@ -1462,7 +1462,7 @@ const hauteAndFreddy: Artist = {
   slug: "haute-and-freddy",
   imageUrl: "/artists/heroes/haute-and-freddy.webp",
   genres: ["Dance Pop", "House", "Electronic"],
-  origin: "Paris, France",
+  location: "Paris, France",
   tagline: "Sleek, runway-ready French electronic pop built for the open air.",
   socials: { spotify: "https://open.spotify.com/artist/66T34XqGkEWbzKWALSBDuR" },
   whySee: [
@@ -1513,7 +1513,7 @@ const bellaKay: Artist = {
   name: "Bella Kay",
   slug: "bella-kay",
   genres: ["Alt-Pop", "Dark Pop", "Indie Pop"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline: "Vulnerable, shadow-drenched bedroom alt-pop for late-night overthinkers.",
   socials: { spotify: "https://open.spotify.com/artist/4Z8MrrKMBHMPa8d04Ivur8" },
   whySee: [
@@ -1568,7 +1568,7 @@ const marlonFunaki: Artist = {
   name: "Marlon Funaki",
   slug: "marlon-funaki",
   genres: ["Indie Rock", "Surf Rock", "Blues Rock"],
-  origin: "Orange County, California",
+  location: "Orange County, California",
   tagline: "Fuzzed-out surf rock grit married to blistering, soulful blues guitar mastery.",
   socials: { spotify: "https://open.spotify.com/artist/3BcSXip92N0HwJRA9sVmP6" },
   whySee: [
@@ -1616,7 +1616,7 @@ const devault: Artist = {
   slug: "devault",
   imageUrl: "/artists/heroes/devault.jpg",
   genres: ["Industrial House", "Dark Techno", "Electronic"],
-  origin: "Orange County, California",
+  location: "Orange County, California",
   tagline: "Dark, cinematic industrial techno that turns early evenings into warehouse raves.",
   socials: { spotify: "https://open.spotify.com/artist/1VBAKMui4zm5MnBWNn3NbL" },
   whySee: [
@@ -1667,7 +1667,7 @@ const sb19: Artist = {
   name: "SB19",
   slug: "sb19",
   genres: ["P-Pop", "Pop", "Dance Pop"],
-  origin: "Manila, Philippines",
+  location: "Manila, Philippines",
   tagline:
     "The historic Kings of P-pop delivering flawless, hyper-synchronized vocal and dance mastery.",
   socials: { spotify: "https://open.spotify.com/artist/3g7vYcdDXnqnDKYFwqXBJP" },
@@ -1740,7 +1740,7 @@ const eccaVandal: Artist = {
   name: "Ecca Vandal",
   slug: "ecca-vandal",
   genres: ["Punk Rock", "Alternative Hip-Hop", "Electronic Rock"],
-  origin: "Melbourne, Australia",
+  location: "Melbourne, Australia",
   tagline: "A ferocious, genre-shattering riot of heavy punk riffs and abrasive hip-hop grit.",
   socials: { spotify: "https://open.spotify.com/artist/0NhKCHTPG7Sz62S3zxV1Cf" },
   whySee: [
@@ -1787,7 +1787,7 @@ const badNerves: Artist = {
   name: "Bad Nerves",
   slug: "bad-nerves",
   genres: ["Power Pop", "Garage Rock", "Punk Rock"],
-  origin: "London, England",
+  location: "London, England",
   tagline:
     "Hyper-speed, distortion-soaked power pop garage rock delivered like a lightning strike.",
   socials: { spotify: "https://open.spotify.com/artist/7IPyXY4ZHkuvQY1ny8TnMQ" },
@@ -1855,7 +1855,7 @@ const asha_banks: Artist = {
   name: "Asha Banks",
   slug: "asha-banks",
   genres: ["Indie Pop", "Singer-Songwriter"],
-  origin: "London, England",
+  location: "London, England",
   tagline: "Stunning, whisper-close confessional indie pop tracking the messy textures of youth.",
   socials: { spotify: "https://open.spotify.com/artist/2uDFxcjRQnf8mjFwfqieSw" },
   whySee: [
@@ -1911,7 +1911,7 @@ const faouzia: Artist = {
   name: "Faouzia",
   slug: "faouzia",
   genres: ["Pop", "Dark Pop", "Chamber Pop"],
-  origin: "Casablanca, Morocco",
+  location: "Casablanca, Morocco",
   tagline:
     "A breathtakingly cinematic, three-octave vocal powerhouse commanding tragic dark pop melodies.",
   socials: { spotify: "https://open.spotify.com/artist/5NhgsV7qPWHZqYEMKzbYvo" },
@@ -1973,7 +1973,7 @@ const eveningElephants: Artist = {
   name: "Evening Elephants",
   slug: "evening-elephants",
   genres: ["Indie Pop", "Alternative Hip-Hop", "Indie Rock"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline:
     "Sun-drenched indie rock hooks floating over crisp hip-hop grooves for endless summer vibes.",
   socials: { spotify: "https://open.spotify.com/artist/4mvJqW3HQswIu7RmvcAQUy" },
@@ -2029,7 +2029,7 @@ const pearlyDrops: Artist = {
   name: "Pearly Drops",
   slug: "pearly-drops",
   genres: ["Dream Pop", "Electro-Pop", "Indie Electronica"],
-  origin: "Helsinki, Finland",
+  location: "Helsinki, Finland",
   tagline: "Dreamlike, feverish electro-pop designed to bottle up a sense of beautiful isolation.",
   socials: { spotify: "https://open.spotify.com/artist/2eMb96S1ZJ1YQ7FhWAzWJL" },
   whySee: [
@@ -2097,7 +2097,7 @@ const bixby: Artist = {
   name: "Bixby",
   slug: "bixby",
   genres: ["Alt-Pop", "R&B", "Indie Pop"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline: "Glitched-out R&B vocals running over intense, guitar-driven internet indie-pop energy.",
   socials: { spotify: "https://open.spotify.com/artist/3vqtY7Lhhuw6sEwU4HmIRv" },
   whySee: [
@@ -2158,7 +2158,7 @@ const penelopeRoad: Artist = {
   name: "Penelope Road",
   slug: "penelope-road",
   genres: ["Indie Folk", "Alternative Rock", "Chamber Pop"],
-  origin: "Nashville, Tennessee",
+  location: "Nashville, Tennessee",
   tagline:
     "Towering, multi-instrumental indie folk built around explosive, orchestral rock releases.",
   socials: { spotify: "https://open.spotify.com/artist/2BxNY82SWxJkGveOWm2oxH" },
@@ -2214,7 +2214,7 @@ const knowGood: Artist = {
   name: "Know Good",
   slug: "know-good",
   genres: ["Future Bass", "Trap", "Electronic"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline: "Dark, dynamic future bass and trap infused with heavy, genre-defying rhythms.",
   socials: { spotify: "https://open.spotify.com/artist/4iogDJBJ2BO2jl8OkPrfpx" },
   whySee: [
@@ -2270,7 +2270,7 @@ const elizabethNichols: Artist = {
   name: "Elizabeth Nichols",
   slug: "elizabeth-nichols",
   genres: ["Country", "Alternative Folk", "Singer-Songwriter"],
-  origin: "Nashville, Tennessee",
+  location: "Nashville, Tennessee",
   tagline: "Grounded, cheekily titled country storytelling built on timeless vocal authority.",
   socials: { spotify: "https://open.spotify.com/artist/06cAJQBSPkt3bG7uMoWfmA" },
   whySee: [
@@ -2321,7 +2321,7 @@ const klo: Artist = {
   name: "KLO",
   slug: "klo",
   genres: ["Trap", "Dubstep", "Electronic"],
-  origin: "Chicago, Illinois",
+  location: "Chicago, Illinois",
   tagline:
     "Aggressive hometown trap flips and distorted electronic bass loops designed to shatter tents.",
   socials: {},
@@ -2382,7 +2382,7 @@ const theBraymores: Artist = {
   name: "The Braymores",
   slug: "the-braymores",
   genres: ["Alternative Rock", "Folk Rock", "Indie Rock"],
-  origin: "Chicago, Illinois",
+  location: "Chicago, Illinois",
   tagline:
     "Hometown indie-rock anthems fusing driving alternative grit with timeless folk-rock poetry.",
   socials: { spotify: "https://open.spotify.com/artist/7CrVM33l2Pt32fCxJWGVw6" },
@@ -2432,7 +2432,7 @@ const chalk: Artist = {
   name: "Chalk",
   slug: "chalk",
   genres: ["Post-Punk", "Industrial Techno", "Gothic Rock"],
-  origin: "Belfast, Northern Ireland",
+  location: "Belfast, Northern Ireland",
   tagline:
     "A terrifyingly brilliant, blistering collision of jagged post-punk guitars and industrial techno loops.",
   socials: { spotify: "https://open.spotify.com/artist/3qa9pv6B0dmiBVETLQOCpi" },
@@ -2493,7 +2493,7 @@ const simonGrossmann: Artist = {
   name: "Simon Grossmann",
   slug: "simon-grossmann",
   genres: ["Latin Pop", "Indie Folk", "Tropicalia"],
-  origin: "Caracas, Venezuela",
+  location: "Caracas, Venezuela",
   tagline: "Sun-drenched, melancholic Latin indie folk built around intimate, raspy storytelling.",
   socials: { spotify: "https://open.spotify.com/artist/6t38N9HASTn9ca0PIxfReQ" },
   whySee: [
@@ -2544,7 +2544,7 @@ const kimTheory: Artist = {
   name: "Kim Theory",
   slug: "kim-theory",
   genres: ["Riot Grrrl", "Punk Rock", "Garage Rock"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline:
     "Ferocious, teenage riot grrrl punk bringing raw house party audacity to the festival stage.",
   socials: { spotify: "https://open.spotify.com/artist/3yyFgRwj9zkv2pZ5CGUsEa" },

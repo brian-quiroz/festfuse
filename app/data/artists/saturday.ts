@@ -11,7 +11,7 @@ const oliviaDean: Artist = {
   liveVideoId: "QOcUC9mN2s0",
   liveVideoLabel: "Live at Fleet Steps, Mrs Macquaries Point, Sydney 2025",
   genres: ["Soul", "R&B", "Indie Pop"],
-  origin: "London, England",
+  location: "London, England",
   tagline: "Soulful, sharp, and completely herself.",
   socials: {
     spotify: "https://open.spotify.com/artist/00x1fYSGhdqScXBRpSj3DW",
@@ -89,7 +89,7 @@ const jennie: Artist = {
   liveVideoId: "aTP87bkvixE",
   liveVideoLabel: "Live at Governor's Ball 2026",
   genres: ["K-Pop", "R&B", "Hip-Hop"],
-  origin: "Seoul, South Korea",
+  location: "Seoul, South Korea",
   tagline: "Unrivaled global pop icon delivering high-fashion, block-rocking festival energy.",
   socials: {
     spotify: "https://open.spotify.com/artist/250b0Wlc5Vk0CoUsaCY84M",
@@ -171,7 +171,7 @@ const theNeighbourhood: Artist = {
   name: "The Neighbourhood",
   slug: "the-neighbourhood",
   genres: ["Indie Pop", "Alternative Rock", "Dark Pop"],
-  origin: "Newbury Park, California",
+  location: "Newbury Park, California",
   tagline: "Nocturnal, smoky indie-pop melancholia built for late-night festival fields.",
   socials: { spotify: "https://open.spotify.com/artist/77SW9BnxLY8rJ0RciFqkHh" },
   whySee: [
@@ -245,7 +245,7 @@ const ethelCain: Artist = {
   name: "Ethel Cain",
   slug: "ethel-cain",
   genres: ["Gothic Folk", "Slowcore", "Dream Pop"],
-  origin: "Tallahassee, Florida",
+  location: "Tallahassee, Florida",
   tagline:
     "Devastating, southern-gothic slowcore epics delivered with bone-chilling vocal majesty.",
   socials: { spotify: "https://open.spotify.com/artist/0avMDS4HyoCEP6RqZJWpY2" },
@@ -312,7 +312,7 @@ const discoLines: Artist = {
   name: "Disco Lines",
   slug: "disco-lines",
   genres: ["Tech House", "Dance Pop", "Electronic"],
-  origin: "Boulder, Colorado",
+  location: "Boulder, Colorado",
   tagline: "Bouncy, high-energy tech-house loops built purely for celebratory day parties.",
   socials: { spotify: "https://open.spotify.com/artist/5Kmr0b3ip8g9P2i0dLTC3Z" },
   whySee: [
@@ -387,7 +387,7 @@ const leonThomas: Artist = {
   imageUrl: "/artists/heroes/leon-thomas.jpg",
   objectPosition: "center 20%",
   genres: ["Alternative R&B", "Soul", "Neo-Soul"],
-  origin: "Brooklyn, New York",
+  location: "Brooklyn, New York",
   tagline: "Grammy-winning soul, built from the underground up.",
   socials: {
     spotify: "https://open.spotify.com/artist/0nnBZ8FXWjG9wZgM2cpfeb",
@@ -458,7 +458,7 @@ const clipse: Artist = {
   name: "Clipse",
   slug: "clipse",
   genres: ["Hip-Hop", "Boom Bap", "Underground Rap"],
-  origin: "Virginia Beach, Virginia",
+  location: "Virginia Beach, Virginia",
   tagline: "Legendary coke-rap royalty delivering pristine, razor-sharp technical lyricism.",
   socials: { spotify: "https://open.spotify.com/artist/2J257euzcjnDLipsyJH3F2" },
   whySee: [
@@ -527,7 +527,7 @@ const geese: Artist = {
   name: "Geese",
   slug: "geese",
   genres: ["Post-Punk", "Indie Rock", "Art Rock"],
-  origin: "Brooklyn, New York",
+  location: "Brooklyn, New York",
   tagline: "Jagged, unpredictable art-punk chaos and thrillingly unhinged live energy.",
   socials: { spotify: "https://open.spotify.com/artist/0WCo84qtCKfbyIf1lqQWB4" },
   whySee: [
@@ -594,7 +594,7 @@ const alisonWonderland: Artist = {
   name: "Alison Wonderland",
   slug: "alison-wonderland",
   genres: ["Trap", "Future Bass", "Electronic"],
-  origin: "Sydney, Australia",
+  location: "Sydney, Australia",
   tagline: "Cinematic, arena-scale future bass and heavy, deeply emotional electronic anthems.",
   socials: { spotify: "https://open.spotify.com/artist/11gWrKZMBsGQWmobv3oNfW" },
   whySee: [
@@ -663,7 +663,7 @@ const djTrixieMattel: Artist = {
   name: "DJ Trixie Mattel",
   slug: "dj-trixie-mattel",
   genres: ["Dance Pop", "Electro-Pop", "Electronic"],
-  origin: "Milwaukee, Wisconsin",
+  location: "Milwaukee, Wisconsin",
   tagline: "High-camp pop choreography and glittering, retro-fueled electro-pop club parties.",
   socials: {},
   whySee: [
@@ -723,7 +723,7 @@ const bbno_dollar: Artist = {
   name: "bbno$",
   slug: "bbno-dollar",
   genres: ["Hip-Hop", "Indie Pop", "Dance Pop"],
-  origin: "Vancouver, Canada",
+  location: "Vancouver, Canada",
   tagline: "Witty, low-slung internet rap hooks and carefree, bounce-driven party grooves.",
   socials: { spotify: "https://open.spotify.com/artist/41X1TR6hrK8Q2ZCpp2EqCz" },
   whySee: [
@@ -784,7 +784,7 @@ const kwn: Artist = {
   name: "KWN",
   slug: "kwn",
   genres: ["Alternative R&B", "Soul", "Electronic Pop"],
-  origin: "London, England",
+  location: "London, England",
   tagline: "Sultry, nocturnal alternative R&B tracking the raw vulnerabilities of modern romance.",
   socials: {},
   whySee: [
@@ -839,7 +839,7 @@ const siennaSpiro: Artist = {
   name: "Sienna Spiro",
   slug: "sienna-spiro",
   genres: ["Soul", "R&B", "Chamber Pop"],
-  origin: "London, England",
+  location: "London, England",
   tagline: "Stunning, earth-shaking British soul built on monumental, timeless vocal authority.",
   socials: { spotify: "https://open.spotify.com/artist/02gSuSAWEdWa5UOvqzjX6v" },
   whySee: [
@@ -890,7 +890,7 @@ const maxStyler: Artist = {
   name: "Max Styler",
   slug: "max-styler",
   genres: ["Tech House", "Dark Techno", "Electronic"],
-  origin: "San Luis Obispo, California",
+  location: "San Luis Obispo, California",
   tagline: "Dark, hypnotic tech-house grooves built for early evening warehouse raves.",
   socials: { spotify: "https://open.spotify.com/artist/3NKKngINK1tP6BFy0WOyWk" },
   whySee: [
@@ -962,7 +962,7 @@ const spaceyJane: Artist = {
   name: "Spacey Jane",
   slug: "spacey-jane",
   genres: ["Indie Rock", "Surf Rock", "Alt-Pop"],
-  origin: "Fremantle, Australia",
+  location: "Fremantle, Australia",
   tagline: "Sun-drenched Australian indie rock packed with soaring, melancholic festival anthems.",
   socials: { spotify: "https://open.spotify.com/artist/6V70yeZQCoSR2M3fyW8qiA" },
   whySee: [
@@ -1025,7 +1025,7 @@ const wolfAlice: Artist = {
   name: "Wolf Alice",
   slug: "wolf-alice",
   genres: ["Alternative Rock", "Shoegaze", "Indie Rock"],
-  origin: "London, England",
+  location: "London, England",
   tagline:
     "A terrifyingly beautiful, blistering collision of heavy shoegaze walls and fierce cinematic art-rock.",
   socials: { spotify: "https://open.spotify.com/artist/3btzEQD6sugImIHPMRgkwV" },
@@ -1084,7 +1084,7 @@ const whethan: Artist = {
   name: "Whethan",
   slug: "whethan",
   genres: ["Future Bass", "Dance Pop", "Electronic"],
-  origin: "Chicago, Illinois",
+  location: "Chicago, Illinois",
   tagline:
     "Hometown electronic wunderkind delivering glossy, high-energy future bass and synth-pop heaters.",
   socials: { spotify: "https://open.spotify.com/artist/0vqJkZ0RpLZixt3lTmD8vP" },
@@ -1136,7 +1136,7 @@ const cortis: Artist = {
   name: "CORTIS",
   slug: "cortis",
   genres: ["K-Pop", "Hip-Hop", "Korean Hip-Hop"],
-  origin: "Seoul, South Korea",
+  location: "Seoul, South Korea",
   tagline:
     "Bold, boundary-pushing K-pop hip-hop delivering high-fashion intensity and massive global streams.",
   socials: { spotify: "https://open.spotify.com/artist/1ebt9HnXdyYA6KgLXr1n4P" },
@@ -1210,7 +1210,7 @@ const cameronWhitcomb: Artist = {
   name: "Cameron Whitcomb",
   slug: "cameron-whitcomb",
   genres: ["Country", "Alternative Folk", "Americana"],
-  origin: "Kamloops, Canada",
+  location: "Kamloops, Canada",
   tagline: "Raw, gravel-voiced country grit delivered with explosive, unhinged live energy.",
   socials: { spotify: "https://open.spotify.com/artist/6dhXvR5MsnlwYguRuqoapR" },
   whySee: [
@@ -1265,7 +1265,7 @@ const ayybo: Artist = {
   name: "AYYBO",
   slug: "ayybo",
   genres: ["Tech House", "G-House", "Electronic"],
-  origin: "Orange County, California",
+  location: "Orange County, California",
   tagline: "Dark, low-slung house grooves packed with heavy, hip-hop-infused club attitude.",
   socials: { spotify: "https://open.spotify.com/artist/0YVquC9RaJLYFNmlJFzkTV" },
   whySee: [
@@ -1325,7 +1325,7 @@ const khamari: Artist = {
   name: "Khamari",
   slug: "khamari",
   genres: ["Alternative R&B", "Soul", "Neo-Soul"],
-  origin: "Boston, Massachusetts",
+  location: "Boston, Massachusetts",
   tagline: "Stunning, whisper-close confessional R&B built on timeless multi-instrumental poetry.",
   socials: { spotify: "https://open.spotify.com/artist/6kmDosYCYjFQtywDq0DLPZ" },
   whySee: [
@@ -1382,7 +1382,7 @@ const quadeca: Artist = {
   name: "Quadeca",
   slug: "quadeca",
   genres: ["Folktronica", "Alternative Hip-Hop", "Neo-Psychedelia"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline: "A beautifully haunting, glitchy collision of ambient folk glow and avant-garde rap.",
   socials: { spotify: "https://open.spotify.com/artist/3zz52ViyCBcplK0ftEVPSS" },
   whySee: [
@@ -1435,7 +1435,7 @@ const momma: Artist = {
   name: "Momma",
   slug: "momma",
   genres: ["Indie Rock", "90s Alternative", "Grunge"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline: "Fuzzed-out, heavy 90s alternative rock hooks packed with sharp melodic grit.",
   socials: { spotify: "https://open.spotify.com/artist/5Wj0an60VgRckYV9zlDe1e" },
   whySee: [
@@ -1502,7 +1502,7 @@ const frostChildren: Artist = {
   name: "Frost Children",
   slug: "frost-children",
   genres: ["Hyperpop", "Digital Hardcore", "Electronic"],
-  origin: "New York City, New York",
+  location: "New York City, New York",
   tagline: "Blistering, hyper-chaotic internet pop and unhinged digital hardcore perfection.",
   socials: { spotify: "https://open.spotify.com/artist/6R1kfr0GIWnwxY4zW11Vag" },
   whySee: [
@@ -1563,7 +1563,7 @@ const goldieBoutilier: Artist = {
   name: "Goldie Boutilier",
   slug: "goldie-boutilier",
   genres: ["Alt-Pop", "Art Pop", "Americana-Pop"],
-  origin: "Cape Breton, Canada",
+  location: "Cape Breton, Canada",
   tagline: "Glittering, vintage Hollywood-hued pop tragedy wrapped in lush, cinematic spaces.",
   socials: { spotify: "https://open.spotify.com/artist/392WuM1Yb4QRI0GG4epyn5" },
   whySee: [
@@ -1627,7 +1627,7 @@ const dieSpitz: Artist = {
   name: "Die Spitz",
   slug: "die-spitz",
   genres: ["Grunge", "Punk Rock", "Garage Rock"],
-  origin: "Austin, Texas",
+  location: "Austin, Texas",
   tagline: "Ferocious, fuzzed-out Texas punk and untamed garage grit built to shred stages.",
   socials: { spotify: "https://open.spotify.com/artist/0zfZmpHTu0MlkkNr5KHeXE" },
   whySee: [
@@ -1678,7 +1678,7 @@ const lucyBedroque: Artist = {
   name: "Lucy Bedroque",
   slug: "lucy-bedroque",
   genres: ["Indie Pop", "Alt-Pop", "Bedroom Pop"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline: "Conversational, shadow-drenched bedroom alt-pop for nocturnal overthinkers.",
   socials: { spotify: "https://open.spotify.com/artist/2I8H267eH5va9da4vGt38O" },
   whySee: [
@@ -1738,7 +1738,7 @@ const omnom: Artist = {
   name: "Omnom",
   slug: "omnom",
   genres: ["Tech House", "House", "Electronic"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline: "Bouncy, low-slung tech-house grooves packed with heavy, hip-hop-infused club attitude.",
   socials: { spotify: "https://open.spotify.com/artist/3PYRXP25JcbqhvNaJYcnWy" },
   whySee: [
@@ -1804,7 +1804,7 @@ const jimLegxacy: Artist = {
   name: "Jim Legxacy",
   slug: "jim-legacy",
   genres: ["Afroswing", "Alternative R&B", "Emo-Rap"],
-  origin: "London, England",
+  location: "London, England",
   tagline:
     "A breathtaking, glitchy collision of traditional Afrobeats rhythms and emo-rap intimacy.",
   socials: { spotify: "https://open.spotify.com/artist/7IrBqZo6diq3hV3GpUhrs2" },
@@ -1860,7 +1860,7 @@ const chezile: Artist = {
   name: "Chezile",
   slug: "chezile",
   genres: ["Alternative R&B", "Soul", "Neo-Soul"],
-  origin: "Atlanta, Georgia",
+  location: "Atlanta, Georgia",
   tagline: "Sultry, low-slung alternative R&B tracking the raw, intimate vulnerabilities of youth.",
   socials: { spotify: "https://open.spotify.com/artist/1EmdfupUQDpXOcb4Nj2mBH" },
   whySee: [
@@ -1911,7 +1911,7 @@ const jaeStephens: Artist = {
   name: "Jae Stephens",
   slug: "jae-stephens",
   genres: ["Soul", "R&B", "Dance Pop"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline: "Sleek, high-gloss electronic R&B and contemporary soul built for the open air.",
   socials: { spotify: "https://open.spotify.com/artist/4HiLipaDjOwRkhJlk5s1uT" },
   whySee: [
@@ -1966,7 +1966,7 @@ const ryman: Artist = {
   name: "Ryman",
   slug: "ryman",
   genres: ["Indie Pop", "Alt-Pop", "Bedroom Pop"],
-  origin: "Nashville, Tennessee",
+  location: "Nashville, Tennessee",
   tagline: "Sun-drenched, conversational bedroom pop that plays out like real diary entries.",
   socials: { spotify: "https://open.spotify.com/artist/1ZUNE7b5nNiN31AnJ0Smqj" },
   whySee: [
@@ -2021,7 +2021,7 @@ const villanelle: Artist = {
   name: "Villanelle",
   slug: "villanelle",
   genres: ["Indie Rock", "Alternative Rock", "Post-Punk"],
-  origin: "London, England",
+  location: "London, England",
   tagline: "Jagged, unpredictable post-punk chaos and thrillingly unhinged live rock energy.",
   socials: { spotify: "https://open.spotify.com/artist/3J9QwmRJDdn9Oq1fB6mfcF" },
   whySee: [
@@ -2076,7 +2076,7 @@ const sunday1994: Artist = {
   name: "Sunday (1994)",
   slug: "sunday-1994",
   genres: ["Dream Pop", "Shoegaze", "Indie Rock"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline: "Lush, tape-warped 90s shoegaze walls and cinematic bedroom dream-pop melancholia.",
   socials: { spotify: "https://open.spotify.com/artist/1vTFaCiaR50b2IXELHW52U" },
   whySee: [
@@ -2127,7 +2127,7 @@ const mc4d: Artist = {
   name: "MC4D",
   slug: "mc4d",
   genres: ["Melodic House", "Dance Pop", "Electronic"],
-  origin: "Chicago, Illinois",
+  location: "Chicago, Illinois",
   tagline:
     "Hometown electronic brothers delivering sun-drenched, euphoric mainstage house anthems.",
   socials: { spotify: "https://open.spotify.com/artist/2MbY32LPINIi9P6PCkrOJI" },
@@ -2179,7 +2179,7 @@ const chace: Artist = {
   name: "Chace",
   slug: "chace",
   genres: ["House", "UK Garage", "Electronic"],
-  origin: "Shanghai, China",
+  location: "Shanghai, China",
   tagline: "Sleek, avant-garde house grooves and hyper-precise electronic sound design.",
   socials: { spotify: "https://open.spotify.com/artist/5kPhAZL6iV8iDywUmIPC3g" },
   whySee: [
@@ -2234,7 +2234,7 @@ const calderAllen: Artist = {
   name: "Calder Allen",
   slug: "calder-allen",
   genres: ["Americana", "Alternative Folk", "Indie Rock"],
-  origin: "Austin, Texas",
+  location: "Austin, Texas",
   tagline:
     "Gravel-voiced Texas americana and driving alternative folk built on raw generational songwriting.",
   socials: { spotify: "https://open.spotify.com/artist/1XlVbGlQaBoESaJ43y2sCD" },
@@ -2296,7 +2296,7 @@ const natMyers: Artist = {
   name: "Nat Myers",
   slug: "nat-myers",
   genres: ["Country Blues", "Alternative Folk", "Americana"],
-  origin: "Kenton County, Kentucky",
+  location: "Kenton County, Kentucky",
   tagline:
     "Stark, lightning-fast pre-war country blues delivered with raw, poetic street authority.",
   socials: { spotify: "https://open.spotify.com/artist/2QMlNryks9wyxBCsBGciTS" },
@@ -2352,7 +2352,7 @@ const ink: Artist = {
   name: "Ink",
   slug: "ink",
   genres: ["Alternative Rock", "Post-Punk", "Indie Rock"],
-  origin: "Chicago, Illinois",
+  location: "Chicago, Illinois",
   tagline: "A fuzzed-out, blistering hometown alternative rock engine built on pure garage grit.",
   socials: { spotify: "https://open.spotify.com/artist/4ZhFCxPekpmV12n2xMeF2z" },
   whySee: [
@@ -2403,7 +2403,7 @@ const peaceControl: Artist = {
   name: "Peace Control",
   slug: "peace-control",
   genres: ["Tech House", "Dark Techno", "Electronic"],
-  origin: "Chicago, Illinois",
+  location: "Chicago, Illinois",
   tagline: "Dark, hypnotic hometown tech-house grooves built for early afternoon warehouse raves.",
   socials: { spotify: "https://open.spotify.com/artist/3rzbheJbLKamFWE8v9fPRh" },
   whySee: [
@@ -2463,7 +2463,7 @@ const theCreekers: Artist = {
   name: "The Creekers",
   slug: "the-creekers",
   genres: ["Alternative Rock", "Folk Rock", "Indie Rock"],
-  origin: "Chicago, Illinois",
+  location: "Chicago, Illinois",
   tagline:
     "Hometown indie-rock anthems fusing driving alternative grit with timeless folk-rock storytelling.",
   socials: { spotify: "https://open.spotify.com/artist/2Ee2dvrxHJvnpWgaqC5T0i" },
@@ -2507,7 +2507,7 @@ const nextOfKin: Artist = {
   name: "Next of Kin",
   slug: "next-of-kin",
   genres: ["Indie Pop", "Singer-Songwriter", "Chamber Pop"],
-  origin: "Los Angeles, California",
+  location: "Los Angeles, California",
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like real voice memos.",
   socials: { spotify: "https://open.spotify.com/artist/668OF7yLpmsPIL10HHKPFC" },
   whySee: [
@@ -2554,7 +2554,7 @@ const cyso: Artist = {
   name: "Chicago Youth Symphony Orchestra",
   slug: "cyso",
   genres: ["Classical", "Symphonic Rock", "Cinematic Orchestral"],
-  origin: "Chicago, Illinois",
+  location: "Chicago, Illinois",
   tagline:
     "A monumental, high-visibility symphonic powerhouse re-engineering modern festival soundscapes.",
   socials: { spotify: "https://open.spotify.com/artist/38F4eptEGZAvPhZEjWS46W" },

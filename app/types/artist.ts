@@ -21,7 +21,7 @@ export type Artist = {
   liveVideoId?: string;
   liveVideoLabel?: string;
   genres: Genre[];
-  origin: string;
+  location: string;
   tagline: string;
   socials: {
     spotify?: string;
