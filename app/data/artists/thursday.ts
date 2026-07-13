@@ -1025,11 +1025,11 @@ const littleSimz: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Bud Light",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "6:30 PM",
-    endTime: "7:30 PM",
+    stage: "Tito's",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "5:45 PM",
+    endTime: "6:45 PM",
   },
 };
 
@@ -1094,11 +1094,11 @@ const cmat: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Tito's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "2:30 PM",
-    endTime: "3:30 PM",
+    stage: "Airbnb",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "6:30 PM",
+    endTime: "7:15 PM",
   },
 };
 
@@ -1144,10 +1144,10 @@ const boysNoize: Artist = {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
     stage: "Perry's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "7:15 PM",
-    endTime: "8:15 PM",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "4:15 PM",
+    endTime: "5:15 PM",
   },
 };
 
@@ -1205,11 +1205,11 @@ const betweenFriends: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "BMI",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "4:00 PM",
-    endTime: "4:45 PM",
+    stage: "Bud Light",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "2:45 PM",
+    endTime: "3:45 PM",
   },
 };
 
@@ -1268,10 +1268,10 @@ const mph: Artist = {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
     stage: "Perry's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "1:45 PM",
-    endTime: "2:45 PM",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "3:00 PM",
+    endTime: "4:00 PM",
   },
 };
 
@@ -1319,11 +1319,11 @@ const amble: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Allianz",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "12:45 PM",
-    endTime: "1:30 PM",
+    stage: "Airbnb",
+    day: "Thursday",
+    date: "Jul 30",
+    startTime: "5:15 PM",
+    endTime: "6:00 PM",
   },
 };
 
