@@ -402,7 +402,15 @@ interface InterestState {
 
 ### Festival Scoping
 
-`decisionsByArtist` is keyed by artist ID (slug), which is currently implicitly festival-specific—each artist record belongs to exactly one festival (Lollapalooza 2026) since the app only supports one festival today. If multi-festival support is added later, this assumption must be revisited: either artist IDs need to become globally unique across festivals in a way that naturally preserves this scoping, or `decisionsByArtist` itself needs an explicit festival-keyed layer (e.g., `decisionsByFestivalAndArtist`). Do not assume artist IDs are safe to reuse or collide across festivals without addressing this scoping first.
+**Current limitation:** `decisionsByArtist` is keyed by artist ID (slug) alone, with no festival-level scoping. This is safe only because exactly one festival's data exists today (Lollapalooza 2026). Artist IDs themselves are not inherently festival-unique — the same artist can and will appear on multiple festivals' lineups.
+
+**Before adding multi-festival support, this MUST change.** Without festival scoping, a decision made for an artist at one festival would silently and incorrectly apply to every festival that artist appears on. For example: if a user marks "Taylor Swift" as "Must See" at Lollapalooza, the store would later incorrectly mark that user as intending to see Taylor Swift at Coachella, despite never having made that choice.
+
+**Migration path:** Either:
+1. **Compound key:** Rekey `decisionsByArtist` to use `{festivalId}:{artistSlug}` as the dictionary key.
+2. **Nested structure:** Restructure to `decisionsByFestival[festivalId][artistSlug]` for explicit per-festival scoping.
+
+**Do not add a second festival without addressing this first.** It will silently corrupt user decisions across festival contexts.
 
 ### State Boundaries
 
