@@ -285,7 +285,38 @@ Two distinct algorithms power carousel rows, chosen based on the row's editorial
 **Data Consistency Note:**
 Both functions call `sortByDay()` defensively at the start. This prevents silent bugs if artist data ever gets shuffled or if upstream filters reorder artists unexpectedly. The sort is cheap and provides defensive consistency.
 
-### Implementation Pattern
+---
+
+## Carousel "See All" Full View
+
+Clicking "See all" on any carousel row enters a full-page grid view of that row's artists. The design follows these principles:
+
+### Design Specs
+
+1. **Full grid view, not modal** — "See all" navigates to a full page view, not an overlay. The carousel row's artists display in a standard ArtistResultsGrid.
+
+2. **Stable sort order** — Display order is deterministic and differs from the carousel's shuffled presentation:
+   - **Festival Favorites:** day → billing tier → appearance time → artist name
+   - **All other rows:** day → appearance time → artist name
+   
+   This provides consistent reference ordering for browsing, distinct from the carousel's curatorial shuffle.
+
+3. **Header with row name + count + back button** — Shows "Hidden Gems · 24 artists" plus a clear "Back to Explore" button. Heading is visible at top of page on entry.
+
+4. **Row criteria as locked filter** — The row's filter is implicit but fixed (e.g., "International Picks" = non-US artists). Reuse the existing filter/search UI and ArtistResultsGrid on top of it. Users can add additional filters (by genre, day, stage) but cannot remove the row's base criteria.
+
+5. **State reset bidirectionally** — Filters and search do not persist between contexts:
+   - Entering "See all" clears any active filters/search from the main Explore view. The row's criteria becomes the sole starting filter.
+   - Exiting back to Explore from a carousel view clears any filters/search applied within that carousel. The user returns to a clean Explore state.
+   
+   This ensures "See all" means "show me everyone in this row" and prevents confusion from filters carrying over between distinct discovery contexts.
+
+### Implementation
+
+- `viewingCarousel` state tracks which carousel is being viewed (null = main Explore, string = carousel ID)
+- `handleSeeAll()` clears filters/search, sets carousel ID, and scrolls main element to top
+- `handleBackToExplore()` clears filters/search and sets `viewingCarousel` to null, returning to clean Explore state
+- Carousel data is keyed in `carouselMap` for use by both carousel rows (State 1) and full view (State 5)
 
 The following is a **simplified illustration** of how each carousel is computed in `app/explore/page.tsx`. See that file for the actual implementation, including memoization, dependency arrays, and ESLint overrides. The patterns here show the filter + presentation logic only:
 

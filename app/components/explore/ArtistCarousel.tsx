@@ -9,12 +9,15 @@ interface ArtistCarouselProps {
   title: string;
   artists: Artist[];
   cardSize?: "default" | "large";
+  carouselType?: "festival-favorites" | "hidden-gems" | "international-picks" | "chicagos-own" | "cinematic-visuals";
+  onSeeAll?: () => void;
 }
 
 export default function ArtistCarousel({
   title,
   artists,
   cardSize = "default",
+  onSeeAll,
 }: ArtistCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -27,7 +30,10 @@ export default function ArtistCarousel({
       {/* Header */}
       <div className="flex items-center justify-between px-8 mb-5">
         <h2 className="text-lg font-bold text-white">{title}</h2>
-        <button className="text-sm text-white/30 hover:text-white/55 transition-colors">
+        <button
+          onClick={onSeeAll}
+          className="text-sm text-white/30 hover:text-white/55 transition-colors"
+        >
           See all
         </button>
       </div>

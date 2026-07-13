@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { allArtists } from "@/app/data/artists";
 import Sidebar from "@/app/components/Sidebar";
 import ArtistCarousel from "@/app/components/explore/ArtistCarousel";
@@ -11,9 +11,11 @@ import { filterArtists } from "@/app/lib/filters";
 import { shuffleDayBlocks, interleaveByDayShuffled } from "@/app/lib/carousel";
 import ArtistResultsGrid from "@/app/components/explore/ArtistResultsGrid";
 import ActiveFilters from "@/app/components/explore/ActiveFilters";
-import { Shuffle } from "lucide-react";
+import { Shuffle, ChevronLeft } from "lucide-react";
 import { createSeededRandom } from "@/app/lib/random";
+import { sortForFullCarouselView, sortFestivalFavoritesForFullView } from "@/app/lib/sort";
 import type { Genre, Stage } from "@/app/data/categories";
+import type { Artist } from "@/app/types/artist";
 
 interface ExploreContentProps {
   seed: number;
@@ -24,6 +26,28 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
   const [activeDay, setActiveDay] = useState<string>("");
   const [activeStages, setActiveStages] = useState<Stage[]>([]);
+  const [viewingCarousel, setViewingCarousel] = useState<string | null>(null);
+  const mainRef = useRef<HTMLElement>(null);
+
+  // Helper: Reset search/filter state and enter carousel view
+  const handleSeeAll = (carouselName: string) => {
+    setSearchQuery("");
+    setActiveGenres([]);
+    setActiveDay("");
+    setActiveStages([]);
+    setViewingCarousel(carouselName);
+    // Scroll to top so user sees the carousel header
+    mainRef.current?.scrollTo(0, 0);
+  };
+
+  // Helper: Reset search/filter state and return to main explore (symmetric with handleSeeAll)
+  const handleBackToExplore = () => {
+    setSearchQuery("");
+    setActiveGenres([]);
+    setActiveDay("");
+    setActiveStages([]);
+    setViewingCarousel(null);
+  };
 
   // Create separate seeded RNGs for each carousel with derived seeds.
   // Each gets a unique seed (seed + offset) so shuffles are genuinely independent,
@@ -103,25 +127,59 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     [cinematicVisualsRandom]
   );
 
+  // Carousel data map — computed after all carousels are ready, for use in both header and view
+  const carouselMap: Record<string, { title: string; artists: Artist[] }> = {
+    "festival-favorites": { title: "Festival Favorites", artists: festivalFavorites },
+    "hidden-gems": { title: "Hidden Gems", artists: hiddenGems },
+    "international-picks": { title: "International Picks", artists: internationalPicks },
+    "chicagos-own": { title: "Chicago's Own", artists: chicagosOwn },
+    "cinematic-visuals": { title: "Cinematic Visuals", artists: cinematicVisuals },
+  };
+
+  // Get current carousel data if viewing a carousel
+  const currentCarousel = viewingCarousel ? carouselMap[viewingCarousel] : null;
+
   return (
     <div className="flex h-screen overflow-hidden bg-[#110D24]">
       <Sidebar />
-      <main className="flex-1 min-w-0 overflow-y-auto">
-        {/* Page header */}
-        <div className="px-8 pt-10 pb-0">
-          <div className="flex items-start justify-between mb-7">
-            <div>
-              <h1 className="text-3xl font-extrabold text-white tracking-tight">Explore Artists</h1>
-              <p className="text-sm text-white/45 mt-1.5">
-                Discover new artists and build your perfect lineup.
-              </p>
+      <main ref={mainRef} className="flex-1 min-w-0 overflow-y-auto">
+        {/* Page header — only show when viewing carousels */}
+        {!viewingCarousel && (
+          <div className="px-8 pt-10 pb-0">
+            <div className="flex items-start justify-between mb-7">
+              <div>
+                <h1 className="text-3xl font-extrabold text-white tracking-tight">Explore Artists</h1>
+                <p className="text-sm text-white/45 mt-1.5">
+                  Discover new artists and build your perfect lineup.
+                </p>
+              </div>
+              <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#00E5FF] text-[#110D24] text-sm font-bold hover:bg-[#00E5FF]/90 transition-colors mt-1 flex-shrink-0">
+                <Shuffle size={14} strokeWidth={2} />
+                Surprise Me
+              </button>
             </div>
-            <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#00E5FF] text-[#110D24] text-sm font-bold hover:bg-[#00E5FF]/90 transition-colors mt-1 flex-shrink-0">
-              <Shuffle size={14} strokeWidth={2} />
-              Surprise Me
-            </button>
           </div>
+        )}
 
+        {/* Carousel back header — only show when viewing a carousel */}
+        {viewingCarousel && currentCarousel && (
+          <div className="px-8 pt-10 pb-0">
+            <button
+              onClick={handleBackToExplore}
+              className="flex items-center gap-2 text-white/50 hover:text-white/70 transition-colors mb-7"
+            >
+              <ChevronLeft size={18} strokeWidth={2} />
+              Back to Explore
+            </button>
+            <h1 className="text-3xl font-extrabold text-white tracking-tight">
+              {currentCarousel.title}
+              <span className="text-white/50 font-normal ml-2">· {currentCarousel.artists.length} artists</span>
+            </h1>
+          </div>
+        )}
+
+        {/* Filters — always show */}
+        <div className="px-8 pt-6 pb-0">
           <ExploreFilters
             searchQuery={searchQuery}
             selectedGenres={activeGenres}
@@ -134,8 +192,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
           />
         </div>
 
-        {/* Result count summary */}
-        {(() => {
+        {/* Result count summary — only show when viewing carousels, not in carousel detail view */}
+        {!viewingCarousel && (() => {
           const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0;
           const hasSearch = searchQuery.trim().length > 0;
 
@@ -169,8 +227,74 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
           );
         })()}
 
+        {/* Carousel full view */}
+        {currentCarousel && (() => {
+          // Apply stable sort order: Festival Favorites uses day → tier → time → name,
+          // all other carousels use day → time → name
+          const sortedArtists = viewingCarousel === "festival-favorites"
+            ? sortFestivalFavoritesForFullView(currentCarousel.artists)
+            : sortForFullCarouselView(currentCarousel.artists);
+
+          // Apply additional filters and search if any
+          const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0;
+          const hasSearch = searchQuery.trim().length > 0;
+
+          const filtered = filterArtists(sortedArtists, {
+            genres: activeGenres.length > 0 ? activeGenres : undefined,
+            day: activeDay || undefined,
+            stages: activeStages.length > 0 ? activeStages : undefined,
+          });
+
+          const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
+
+          return (
+            <>
+              {/* Active filters bar with Clear all button */}
+              {hasFilters && (
+                <ActiveFilters
+                  genres={activeGenres}
+                  day={activeDay}
+                  stages={activeStages}
+                  onClearGenre={(genre) =>
+                    setActiveGenres(activeGenres.filter((g) => g !== genre))
+                  }
+                  onClearDay={() => setActiveDay("")}
+                  onClearStage={(stage) =>
+                    setActiveStages(activeStages.filter((s) => s !== stage))
+                  }
+                  onClearAll={() => {
+                    setActiveGenres([]);
+                    setActiveDay("");
+                    setActiveStages([]);
+                  }}
+                />
+              )}
+
+              {/* Filtered count summary — simplified since total is shown in header */}
+              {(hasFilters || hasSearch) && (
+                <div className="px-8 pt-6 pb-3 text-sm text-white/50">
+                  {results.length === 0
+                    ? "No artists match your filters"
+                    : `${results.length} result${results.length === 1 ? "" : "s"}`}
+                </div>
+              )}
+
+              {/* Grid */}
+              <div className="pt-10 pb-16">
+                {results.length === 0 ? (
+                  <div className="px-8 text-center py-12">
+                    <p className="text-white/60">No artists match your filters.</p>
+                  </div>
+                ) : (
+                  <ArtistResultsGrid results={results} />
+                )}
+              </div>
+            </>
+          );
+        })()}
+
         {/* Four-state rendering */}
-        {(() => {
+        {!viewingCarousel && (() => {
           const hasFilters = activeGenres.length > 0 || activeDay || activeStages.length > 0;
           const hasSearch = searchQuery.trim().length > 0;
 
@@ -184,20 +308,46 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
           const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
 
           // State 1: No search, no filters → curated carousels
-          if (!hasFilters && !hasSearch) {
+          if (!hasFilters && !hasSearch && !viewingCarousel) {
             return (
               <div className="pt-10 pb-16 space-y-12">
-                <ArtistCarousel title="Festival Favorites" artists={festivalFavorites} cardSize="large" />
+                <ArtistCarousel
+                  title="Festival Favorites"
+                  artists={festivalFavorites}
+                  cardSize="large"
+                  carouselType="festival-favorites"
+                  onSeeAll={() => handleSeeAll("festival-favorites")}
+                />
 
                 <QuickPicksBanner />
 
-                <ArtistCarousel title="Hidden Gems" artists={hiddenGems} />
+                <ArtistCarousel
+                  title="Hidden Gems"
+                  artists={hiddenGems}
+                  carouselType="hidden-gems"
+                  onSeeAll={() => handleSeeAll("hidden-gems")}
+                />
 
-                <ArtistCarousel title="International Picks" artists={internationalPicks} />
+                <ArtistCarousel
+                  title="International Picks"
+                  artists={internationalPicks}
+                  carouselType="international-picks"
+                  onSeeAll={() => handleSeeAll("international-picks")}
+                />
 
-                <ArtistCarousel title="Chicago's Own" artists={chicagosOwn} />
+                <ArtistCarousel
+                  title="Chicago's Own"
+                  artists={chicagosOwn}
+                  carouselType="chicagos-own"
+                  onSeeAll={() => handleSeeAll("chicagos-own")}
+                />
 
-                <ArtistCarousel title="Cinematic Visuals" artists={cinematicVisuals} />
+                <ArtistCarousel
+                  title="Cinematic Visuals"
+                  artists={cinematicVisuals}
+                  carouselType="cinematic-visuals"
+                  onSeeAll={() => handleSeeAll("cinematic-visuals")}
+                />
               </div>
             );
           }
