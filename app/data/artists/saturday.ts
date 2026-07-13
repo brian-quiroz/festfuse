@@ -24,11 +24,7 @@ const oliviaDean: Artist = {
     "Warm, joyful stage presence that turns a festival crowd into a community",
     "British soul at its finest: witty, specific, and deeply felt",
   ],
-  whatToExpect: [
-    "Live Band Performance",
-    "Crowd Atmosphere",
-    "Intimate Performance",
-  ],
+  whatToExpect: ["Live Band Performance", "Crowd Atmosphere", "Intimate Performance"],
   bestFor: [],
   similarArtists: [
     {
@@ -113,9 +109,7 @@ const jennie: Artist = {
     "Massive Singalongs",
     "Fashion Visual",
   ],
-  bestFor: [
-    "Dance Floor Seekers",
-  ],
+  bestFor: ["Dance Floor Seekers"],
   similarArtists: [
     {
       name: "CORTIS",
@@ -192,10 +186,7 @@ const theNeighbourhood: Artist = {
     "Massive Singalongs",
     "Production Style Approach",
   ],
-  bestFor: [
-    "Dance Floor Seekers",
-    "Legacy & Milestone Hunters",
-  ],
+  bestFor: ["Dance Floor Seekers", "Legacy & Milestone Hunters"],
   similarArtists: [
     {
       name: "Bella Kay",
@@ -270,10 +261,7 @@ const ethelCain: Artist = {
     "Dark Mood Visuals",
     "Crowd Atmosphere",
   ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Dance Floor Seekers",
-  ],
+  bestFor: ["Lyric & Narrative Obsessives", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Not for Radio",
@@ -339,9 +327,7 @@ const discoLines: Artist = {
     "Afternoon Vibes",
     "High-Energy Pacing",
   ],
-  bestFor: [
-    "Dance Floor Seekers",
-  ],
+  bestFor: ["Dance Floor Seekers"],
   similarArtists: [
     {
       name: "INJI",
@@ -414,13 +400,8 @@ const leonThomas: Artist = {
     "An industry insider finally in the spotlight: he's written for Ariana Grande, Ty Dolla $ign, and more",
     "The rare artist who sounds better live — raw, unhurried, completely at ease",
   ],
-  whatToExpect: [
-    "Crowd Atmosphere",
-    "Lush Sound",
-  ],
-  bestFor: [
-    "Sound Design & Production Nerds",
-  ],
+  whatToExpect: ["Crowd Atmosphere", "Lush Sound"],
+  bestFor: ["Sound Design & Production Nerds"],
   similarArtists: [
     {
       name: "Destin Conrad",
@@ -486,14 +467,8 @@ const clipse: Artist = {
     "Experience the raw, stark instrumentation of early-2000s Neptunes-produced street masterpieces like 'Grindin' live at monumental scale",
     "An absolute elite option for hip-hop traditionalists looking for pure lyrical muscle and effortless mic authority over modern commercial pop trap",
   ],
-  whatToExpect: [
-    "Cinematic Visuals",
-    "Intense Fan Connection",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Sound Design & Production Nerds",
-  ],
+  whatToExpect: ["Cinematic Visuals", "Intense Fan Connection"],
+  bestFor: ["Lyric & Narrative Obsessives", "Sound Design & Production Nerds"],
   similarArtists: [
     { name: "Chicago Made", slug: "chicago-made" },
     {
@@ -561,15 +536,8 @@ const geese: Artist = {
     "A masterclass in traditional analog power band energy, delivering jagged dual-guitar riffs and complex progressive rhythmic patterns",
     "A blistering, high-octane early evening rock catalyst designed to leave music traditionalists completely floored by the live talent",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Choreography",
-    "Rhythm Complexity",
-    "Energetic Mosh Pits",
-  ],
-  bestFor: [
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Choreography", "Rhythm Complexity", "Energetic Mosh Pits"],
+  bestFor: ["Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Wet Leg",
@@ -635,15 +603,8 @@ const alisonWonderland: Artist = {
     "An absolute wildfire crowd environment packed with blinding, high-production visual arrays and massive park-wide mosh pits",
     "Experience a legendary catalog of multi-platinum festival-proven crossover weapons designed to push crowds to terminal velocity",
   ],
-  whatToExpect: [
-    "Cinematic Visuals",
-    "High-Energy Pacing",
-  ],
-  bestFor: [
-    "Bass & Groove Lovers",
-    "Dance Floor Seekers",
-    "Sound Design & Production Nerds",
-  ],
+  whatToExpect: ["Cinematic Visuals", "High-Energy Pacing"],
+  bestFor: ["Bass & Groove Lovers", "Dance Floor Seekers", "Sound Design & Production Nerds"],
   similarArtists: [
     {
       name: "LYNY",
@@ -717,9 +678,7 @@ const djTrixieMattel: Artist = {
     "Massive Singalongs",
     "Crowd Atmosphere",
   ],
-  bestFor: [
-    "Dance Floor Seekers",
-  ],
+  bestFor: ["Dance Floor Seekers"],
   similarArtists: [
     {
       name: "The Chainsmokers",
@@ -773,13 +732,8 @@ const bbno_dollar: Artist = {
     "Experience the earth-shaking live execution of massive global internet streaming milestones like 'Lalala' at scale",
     "A loose, remarkably fun and high-energy crowd environment designed purely to get groups of friends dancing together",
   ],
-  whatToExpect: [
-    "Massive Singalongs",
-  ],
-  bestFor: [
-    "Hometown & Local Supporters",
-    "Tent & Club Venue Seekers",
-  ],
+  whatToExpect: ["Massive Singalongs"],
+  bestFor: ["Hometown & Local Supporters", "Tent & Club Venue Seekers"],
   similarArtists: [
     {
       name: "ADÉLA",
@@ -839,16 +793,8 @@ const kwn: Artist = {
     "A beautiful, early afternoon oasis that pairs delicate, close-mic'd vocal layers with unexpectedly heavy baseline drops",
     "The official premier festival tour run showcasing her highly celebrated independent studio catalog to an international crowd",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "Intimate Performance",
-    "Dark Mood Visuals",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Early Afternoon Discovery",
-    "Lyric & Narrative Obsessives",
-  ],
+  whatToExpect: ["Bass & Groove", "Intimate Performance", "Dark Mood Visuals", "Crowd Atmosphere"],
+  bestFor: ["Early Afternoon Discovery", "Lyric & Narrative Obsessives"],
   similarArtists: [
     {
       name: "Chezile",
@@ -902,15 +848,8 @@ const siennaSpiro: Artist = {
     "A beautifully dramatic, orchestrally layered sonic experience that seamlessly fuses contemporary pop with traditional soul",
     "Experience the raw, bone-chilling crowd connection driven by intense, massive dark-pop stadium singalongs",
   ],
-  whatToExpect: [
-    "Technical Vocal Range",
-    "Lush Sound",
-    "Theatrical Staging",
-  ],
-  bestFor: [
-    "Early Afternoon Discovery",
-    "Storytelling Lovers",
-  ],
+  whatToExpect: ["Technical Vocal Range", "Lush Sound", "Theatrical Staging"],
+  bestFor: ["Early Afternoon Discovery", "Storytelling Lovers"],
   similarArtists: [
     {
       name: "Valencia Grace",
@@ -966,11 +905,7 @@ const maxStyler: Artist = {
     "High-Energy Pacing",
     "Intense Fan Connection",
   ],
-  bestFor: [
-    "Tent & Club Venue Seekers",
-    "Dance Floor Seekers",
-    "Bass & Groove Lovers",
-  ],
+  bestFor: ["Tent & Club Venue Seekers", "Dance Floor Seekers", "Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Peace Control",
@@ -1036,14 +971,8 @@ const spaceyJane: Artist = {
     "Experience the live execution of massive global breakout anthems like 'Booster Seat' that perfectly bottle up youth anxieties",
     "A flawlessly tight live show built on years of relentless arena touring, delivering an absolute masterclass in sun-drenched camaraderie",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Massive Singalongs",
-    "Afternoon Vibes",
-  ],
-  bestFor: [
-    "Bass & Groove Lovers",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Massive Singalongs", "Afternoon Vibes"],
+  bestFor: ["Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Marlon Funaki",
@@ -1112,9 +1041,7 @@ const wolfAlice: Artist = {
     "Crowd Atmosphere",
     "Production Style Approach",
   ],
-  bestFor: [
-    "Storytelling Lovers",
-  ],
+  bestFor: ["Storytelling Lovers"],
   similarArtists: [
     { name: "The Bends", slug: "the-bends" },
     {
@@ -1167,15 +1094,8 @@ const whethan: Artist = {
     "An absolute masterclass in party curation, blending heavy future bass drops with incredibly bright, infectious vocal loops",
     "The ultimate early-evening crowd catalyst designed purely to get massive groups of friends dancing together as the skyline shifts",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "High-Production Visuals",
-    "High-Energy Pacing",
-  ],
-  bestFor: [
-    "Hometown & Local Supporters",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Bass & Groove", "High-Production Visuals", "High-Energy Pacing"],
+  bestFor: ["Hometown & Local Supporters", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "The Chainsmokers",
@@ -1226,16 +1146,8 @@ const cortis: Artist = {
     "Experience their viral, 100-million stream breakout anthem 'GO!' live as an absolute high-velocity afternoon catalyst",
     "Witness the high-fashion performance swagger of 'FaSHioN', fresh off its massive live showcase at the NBA Crossover concert",
   ],
-  whatToExpect: [
-    "Choreography",
-    "Bass & Groove",
-    "Cinematic Visuals",
-    "Intense Fan Connection",
-  ],
-  bestFor: [
-    "Dance Floor Seekers",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Choreography", "Bass & Groove", "Cinematic Visuals", "Intense Fan Connection"],
+  bestFor: ["Dance Floor Seekers", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Jennie",
@@ -1307,14 +1219,8 @@ const cameronWhitcomb: Artist = {
     "A masterclass in traditional analog live energy, performing backflips across the stage while maintaining perfect mic command",
     "Experience razor-sharp country lyrics that trade on absolute emotional honesty, modern wit, and incredible acoustic hooks",
   ],
-  whatToExpect: [
-    "Choreography",
-    "Guitar-Driven Sound",
-    "Conversational Delivery",
-  ],
-  bestFor: [
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Choreography", "Guitar-Driven Sound", "Conversational Delivery"],
+  bestFor: ["Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Waylon Wyatt",
@@ -1374,11 +1280,7 @@ const ayybo: Artist = {
     "High-Energy Pacing",
     "Intense Fan Connection",
   ],
-  bestFor: [
-    "Tent & Club Venue Seekers",
-    "Dance Floor Seekers",
-    "Bass & Groove Lovers",
-  ],
+  bestFor: ["Tent & Club Venue Seekers", "Dance Floor Seekers", "Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "INJI",
@@ -1432,17 +1334,8 @@ const khamari: Artist = {
     "A beautiful, early afternoon oasis that pairs delicate vocal textures with unexpectedly heavy baseline drops",
     "The official premier festival tour run showcasing his highly celebrated independent studio catalog to an international crowd",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "Intimate Performance",
-    "Dark Mood Visuals",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Tent & Club Venue Seekers",
-    "Dance Floor Seekers",
-    "Bass & Groove Lovers",
-  ],
+  whatToExpect: ["Bass & Groove", "Intimate Performance", "Dark Mood Visuals", "Crowd Atmosphere"],
+  bestFor: ["Tent & Club Venue Seekers", "Dance Floor Seekers", "Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Destin Conrad",
@@ -1498,16 +1391,8 @@ const quadeca: Artist = {
     "Experience the live, towering execution of tracks from his genre-shattering masterpiece, I Didn't Mean to Haunt You",
     "A blistering live rock engine that transforms traditional festival crowds into deeply emotional performance art spaces",
   ],
-  whatToExpect: [
-    "Cinematic Visuals",
-    "Lush Sound",
-    "Rhythm Complexity",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Sound Design & Production Nerds",
-    "Lyric & Narrative Obsessives",
-  ],
+  whatToExpect: ["Cinematic Visuals", "Lush Sound", "Rhythm Complexity", "Crowd Atmosphere"],
+  bestFor: ["Sound Design & Production Nerds", "Lyric & Narrative Obsessives"],
   similarArtists: [
     { name: "After", slug: "after" },
     {
@@ -1559,15 +1444,8 @@ const momma: Artist = {
     "A masterclass in traditional analog power band energy, delivering jagged dual-guitar riffs and complex progressive rhythmic patterns",
     "The official festival tour run highlighting their highly celebrated independent studio catalog to a massive live audience",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Conversational Delivery",
-    "Energetic Mosh Pits",
-  ],
-  bestFor: [
-    "Mosh Pit Lovers",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Conversational Delivery", "Energetic Mosh Pits"],
+  bestFor: ["Mosh Pit Lovers", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "The Braymores",
@@ -1633,13 +1511,8 @@ const frostChildren: Artist = {
     "Experience a cult-favorite internet pioneer running through a stacked, multi-million stream catalog of futuristic pop anthems",
     "An absolute wildfire crowd environment packed with chaotic, high-energy teenage mosh pits early in the day",
   ],
-  whatToExpect: [
-    "Retro-Futuristic Aesthetic",
-    "Intense Fan Connection",
-  ],
-  bestFor: [
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Retro-Futuristic Aesthetic", "Intense Fan Connection"],
+  bestFor: ["Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Ninajirachi",
@@ -1763,14 +1636,8 @@ const dieSpitz: Artist = {
     "Experience a cult-favorite underground phenomenon renowned for transforming standard festival fields into pure mosh-pit chaos",
     "A non-stop, high-octane alternative catalyst built around raw analog band chemistry and severe sub-cultural authority",
   ],
-  whatToExpect: [
-    "Raw Vocal Delivery",
-    "Energetic Mosh Pits",
-    "High-Energy Pacing",
-  ],
-  bestFor: [
-    "Mosh Pit Lovers",
-  ],
+  whatToExpect: ["Raw Vocal Delivery", "Energetic Mosh Pits", "High-Energy Pacing"],
+  bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
     {
       name: "Bad Nerves",
@@ -1826,10 +1693,7 @@ const lucyBedroque: Artist = {
     "Conversational Delivery",
     "Dreamy Atmosphere",
   ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Emi Grace",
@@ -1889,11 +1753,7 @@ const omnom: Artist = {
     "High-Energy Pacing",
     "Intense Fan Connection",
   ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-    "Chill Summer Vibes",
-  ],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery", "Chill Summer Vibes"],
   similarArtists: [
     {
       name: "Westend",
@@ -1954,11 +1814,7 @@ const jimLegxacy: Artist = {
     "A beautifully intimate, storytelling sonic oasis designed perfectly to completely escape standard commercial pop noise",
     "Hear the live execution of fresh, boundary-pushing narrative epics that explore identity and young romance with profound honesty",
   ],
-  whatToExpect: [
-    "Cinematic Visuals",
-    "Guitar-Driven Sound",
-    "Melodic Vocal Hooks",
-  ],
+  whatToExpect: ["Cinematic Visuals", "Guitar-Driven Sound", "Melodic Vocal Hooks"],
   bestFor: [
     "Sound Design & Production Nerds",
     "Lyric & Narrative Obsessives",
@@ -2013,16 +1869,8 @@ const chezile: Artist = {
     "A beautiful, sun-drenched early afternoon oasis that pairs delicate vocal textures with unexpectedly heavy baseline drops",
     "The official premier festival tour run showcasing a highly celebrated independent studio catalog to an international crowd",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "Intimate Performance",
-    "Dark Mood Visuals",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Early Afternoon Discovery",
-    "Lyric & Narrative Obsessives",
-  ],
+  whatToExpect: ["Bass & Groove", "Intimate Performance", "Dark Mood Visuals", "Crowd Atmosphere"],
+  bestFor: ["Early Afternoon Discovery", "Lyric & Narrative Obsessives"],
   similarArtists: [
     {
       name: "Destin Conrad",
@@ -2072,15 +1920,8 @@ const jaeStephens: Artist = {
     "Experience a chic, hyper-stylized dance floor environment that translates underground club ethos onto an enormous scale",
     "The ultimate high-energy afternoon catalyst designed perfectly to unify a massive, moving festival crowd under the sun",
   ],
-  whatToExpect: [
-    "Production Style Approach",
-    "Synth & Atmospheric",
-    "Intimate Performance",
-  ],
-  bestFor: [
-    "Dance Floor Seekers",
-    "Bass & Groove Lovers",
-  ],
+  whatToExpect: ["Production Style Approach", "Synth & Atmospheric", "Intimate Performance"],
+  bestFor: ["Dance Floor Seekers", "Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Jade",
@@ -2134,16 +1975,8 @@ const ryman: Artist = {
     "A stunning early afternoon oasis that pairs delicate vocal patterns with incredibly catchy, jazz-infused indie guitar lines",
     "The official festival tour run highlighting his highly celebrated independent studio catalog to an international crowd",
   ],
-  whatToExpect: [
-    "Conversational Delivery",
-    "Guitar-Driven Sound",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-    "Chill Summer Vibes",
-  ],
+  whatToExpect: ["Conversational Delivery", "Guitar-Driven Sound", "Crowd Atmosphere"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery", "Chill Summer Vibes"],
   similarArtists: [
     {
       name: "Emi Grace",
@@ -2197,14 +2030,8 @@ const villanelle: Artist = {
     "A blistering, high-octane early afternoon rock catalyst designed to leave music traditionalists completely floored by the live talent",
     "Experience an exceptionally raw, fuzzed-out guitar infrastructure that completely bypasses processed backing tracks",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Rhythm Complexity",
-    "Energetic Mosh Pits",
-  ],
-  bestFor: [
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Rhythm Complexity", "Energetic Mosh Pits"],
+  bestFor: ["Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Wunderhorse",
@@ -2258,16 +2085,8 @@ const sunday1994: Artist = {
     "A masterclass in traditional analog power band energy, delivering jagged dual-guitar riffs and complex progressive rhythmic patterns",
     "The official festival tour run highlighting their highly celebrated independent studio catalog to a massive live audience",
   ],
-  whatToExpect: [
-    "Lush Sound",
-    "Dreamy Atmosphere",
-    "Conversational Delivery",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Hometown & Local Supporters",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Lush Sound", "Dreamy Atmosphere", "Conversational Delivery", "Crowd Atmosphere"],
+  bestFor: ["Hometown & Local Supporters", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Wolf Alice",
@@ -2318,11 +2137,7 @@ const mc4d: Artist = {
     "An absolute wildfire crowd environment packed with high-energy singalongs and uplifting, stadium-scale vocal drops",
     "The perfect high-visibility afternoon catalyst designed purely to get massive groups of friends dancing under the sun",
   ],
-  whatToExpect: [
-    "Melodic Vocal Hooks",
-    "High-Production Visuals",
-    "High-Energy Pacing",
-  ],
+  whatToExpect: ["Melodic Vocal Hooks", "High-Production Visuals", "High-Energy Pacing"],
   bestFor: [
     "Hometown & Local Supporters",
     "Groups & Social Experience",
@@ -2373,16 +2188,8 @@ const chace: Artist = {
     "Experience a chic, hyper-stylized dancefloor environment that values raw analog swing over commercial EDM clichés",
     "A relentless masterclass in dance floor tension and release, delivered by one of Asia's most prominent electronic vanguards",
   ],
-  whatToExpect: [
-    "Production Style Approach",
-    "Synth & Atmospheric",
-    "Cinematic Visuals",
-  ],
-  bestFor: [
-    "Tent & Club Venue Seekers",
-    "Dance Floor Seekers",
-    "Sound Design & Production Nerds",
-  ],
+  whatToExpect: ["Production Style Approach", "Synth & Atmospheric", "Cinematic Visuals"],
+  bestFor: ["Tent & Club Venue Seekers", "Dance Floor Seekers", "Sound Design & Production Nerds"],
   similarArtists: [
     {
       name: "Duke Dumont",
@@ -2437,15 +2244,8 @@ const calderAllen: Artist = {
     "The official festival tour run highlighting his highly celebrated, Charlie Sexton-produced independent studio catalog",
     "A loose, remarkably charismatic live performance that treats giant open festival fields like an intimate Austin listening room",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Conversational Delivery",
-    "Lyrical Storytelling",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Conversational Delivery", "Lyrical Storytelling"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Nat Myers",
@@ -2506,14 +2306,8 @@ const natMyers: Artist = {
     "Experience deeply evocative, historical narrative poetry tracking the raw vulnerabilities of modern labor and traveling life",
     "A gorgeous, stripped-back early afternoon oasis that commands absolute, pin-drop silence from a festival crowd",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Intimate Performance",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Intimate Performance"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Cameron Whitcomb",
@@ -2567,13 +2361,8 @@ const ink: Artist = {
     "An intense live rock performance that completely bypasses processed backing tracks for pure analog adrenaline",
     "The absolute perfect early afternoon catalyst designed to leave rock traditionalists completely floored by the talent",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-  ],
-  bestFor: [
-    "Hometown & Local Supporters",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Guitar-Driven Sound"],
+  bestFor: ["Hometown & Local Supporters", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Villanelle",
@@ -2629,11 +2418,7 @@ const peaceControl: Artist = {
     "High-Production Visuals",
     "High-Energy Pacing",
   ],
-  bestFor: [
-    "Hometown & Local Supporters",
-    "Dance Floor Seekers",
-    "Tent & Club Venue Seekers",
-  ],
+  bestFor: ["Hometown & Local Supporters", "Dance Floor Seekers", "Tent & Club Venue Seekers"],
   similarArtists: [
     {
       name: "Eli Brown",
@@ -2688,14 +2473,8 @@ const theCreekers: Artist = {
     "A loose, remarkably fun and high-energy live performance built specifically to celebrate carefree youth culture",
     "The absolute perfect midday catalyst designed to unify a massive, supportive hometown crowd under the sun",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Lyrical Storytelling",
-  ],
-  bestFor: [
-    "Hometown & Local Supporters",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Lyrical Storytelling"],
+  bestFor: ["Hometown & Local Supporters", "Dance Floor Seekers"],
   similarArtists: [
     { name: "Whatmore", slug: "whatmore" },
     {
@@ -2737,15 +2516,8 @@ const nextOfKin: Artist = {
     "A stunning afternoon oasis that pairs delicate, close-mic'd vocal patterns with unexpectedly catchy acoustic and electronic hooks",
     "The official premier festival tour run showcasing a highly celebrated independent studio catalog to an international crowd",
   ],
-  whatToExpect: [
-    "Lyrical Storytelling",
-    "Conversational Delivery",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Lyrical Storytelling", "Conversational Delivery", "Crowd Atmosphere"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Ella Boh",
@@ -2792,16 +2564,8 @@ const cyso: Artist = {
     "A stunning, monumental afternoon oasis that commands absolute, pin-drop silence and deep crowd catharsis across the main field",
     "Witness world-class orchestral precision executed with a rare, fiery youthful energy unmatched anywhere else on the bill",
   ],
-  whatToExpect: [
-    "Live Band Performance",
-    "Cinematic Visuals",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Hometown & Local Supporters",
-    "Storytelling Lovers",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Live Band Performance", "Cinematic Visuals", "Crowd Atmosphere"],
+  bestFor: ["Hometown & Local Supporters", "Storytelling Lovers", "Early Afternoon Discovery"],
   similarArtists: [],
   tracks: [
     { name: "Symphony No. 5", album: "CYSO Live", duration: "" },

@@ -15,7 +15,10 @@ const path = require("path");
 
 const canonical = [
   { phrase: "Dreamy Atmosphere", keywords: ["dreamy", "ethereal", "shimmering"] },
-  { phrase: "Ensemble Format", keywords: ["sibling", "band chemistry", "family", "trio", "two-piece"] },
+  {
+    phrase: "Ensemble Format",
+    keywords: ["sibling", "band chemistry", "family", "trio", "two-piece"],
+  },
   { phrase: "Multilingual Performance", keywords: ["bilingual", "multilingual"] },
   {
     phrase: "Retro-Futuristic Aesthetic",
@@ -24,25 +27,49 @@ const canonical = [
       lower.includes("y2k") ||
       (lower.includes("glitchy") && lower.includes("visual")),
   },
-  { phrase: "Dark Mood Visuals", keywords: ["gothic", "dark visual", "shadow", "hazy psychedelic"] },
+  {
+    phrase: "Dark Mood Visuals",
+    keywords: ["gothic", "dark visual", "shadow", "hazy psychedelic"],
+  },
   { phrase: "Period-Specific Sound", keywords: ["90s", "nostalgia"] },
-  { phrase: "Conversational Delivery", keywords: ["banter", "conversational", "spoken-word", "deadpan"] },
+  {
+    phrase: "Conversational Delivery",
+    keywords: ["banter", "conversational", "spoken-word", "deadpan"],
+  },
   { phrase: "Raw Vocal Delivery", keywords: ["raw vocal", "screaming", "snarl", "vocal snarl"] },
-  { phrase: "Technical Vocal Range", keywords: ["octave", "operatic", "baritone", "multi-octave", "three-octave"] },
+  {
+    phrase: "Technical Vocal Range",
+    keywords: ["octave", "operatic", "baritone", "multi-octave", "three-octave"],
+  },
   { phrase: "Energetic Mosh Pits", keywords: ["mosh", "pit"] },
   { phrase: "Massive Singalongs", keywords: ["singalong", "group sing", "stadium sing"] },
   { phrase: "Dance Floor Energy", keywords: ["dancing", "dance floor", "dance groove"] },
   { phrase: "Crowd Atmosphere", keywords: ["crowd", "atmosphere", "joyful"] },
-  { phrase: "Intense Fan Connection", keywords: ["intense", "fan energy", "roaring", "unadulterated"] },
-  { phrase: "High-Energy Pacing", keywords: ["nonstop", "relentless", "peak-time", "velocity", "maximum"] },
-  { phrase: "Afternoon Vibes", keywords: ["afternoon", "daytime", "sun-drenched", "sunset", "upbeat sun"] },
+  {
+    phrase: "Intense Fan Connection",
+    keywords: ["intense", "fan energy", "roaring", "unadulterated"],
+  },
+  {
+    phrase: "High-Energy Pacing",
+    keywords: ["nonstop", "relentless", "peak-time", "velocity", "maximum"],
+  },
+  {
+    phrase: "Afternoon Vibes",
+    keywords: ["afternoon", "daytime", "sun-drenched", "sunset", "upbeat sun"],
+  },
   { phrase: "Late-Night Energy", keywords: ["late-night", "nocturnal"] },
-  { phrase: "Lyrical Storytelling", keywords: ["storytelling", "lyricism", "narrative", "poetic narrative"] },
+  {
+    phrase: "Lyrical Storytelling",
+    keywords: ["storytelling", "lyricism", "narrative", "poetic narrative"],
+  },
   { phrase: "Melodic Vocal Hooks", keywords: ["vocal hook", "vocal chop", "vocal melody"] },
   { phrase: "Guitar-Driven Sound", keywords: ["guitar", "riff", "fuzzed"] },
   { phrase: "Bass & Groove", keywords: ["bass", "bassline", "bass pocket", "groove", "sub-bass"] },
   { phrase: "Synth & Atmospheric", keywords: ["synth", "pad", "soundscape"] },
-  { phrase: "Live Band Performance", keywords: ["live band", "horn", "saxophone", "instrumentation", "banjo"] },
+  {
+    phrase: "Live Band Performance",
+    keywords: ["live band", "horn", "saxophone", "instrumentation", "banjo"],
+  },
   { phrase: "Choreography", keywords: ["choreography", "acrobatic", "synchronized"] },
   { phrase: "High-Production Visuals", keywords: ["blinding", "laser", "strobe"] },
   { phrase: "Cinematic Visuals", keywords: ["cinematic", "visual", "loop"] },
@@ -51,11 +78,23 @@ const canonical = [
   { phrase: "Intimate Performance", keywords: ["intimate", "understated"] },
   { phrase: "Lush Sound", keywords: ["lush", "layered", "rich"] },
   { phrase: "Minimal Production", keywords: ["minimal", "sparse", "stripped"] },
-  { phrase: "Large-Scale Production", keywords: ["arena", "festival", "stadium", "headliner scale"] },
-  { phrase: "Lyrical Emotional Depth", keywords: ["heartbreak", "emotional specificity", "deeply emotional", "emotional crowd"] },
-  { phrase: "Rhythm Complexity", keywords: ["complex", "progressive", "bouncy", "driving", "groove"] },
+  {
+    phrase: "Large-Scale Production",
+    keywords: ["arena", "festival", "stadium", "headliner scale"],
+  },
+  {
+    phrase: "Lyrical Emotional Depth",
+    keywords: ["heartbreak", "emotional specificity", "deeply emotional", "emotional crowd"],
+  },
+  {
+    phrase: "Rhythm Complexity",
+    keywords: ["complex", "progressive", "bouncy", "driving", "groove"],
+  },
   { phrase: "Spectacle Moments", keywords: ["confetti", "pyrotechnics", "viral"] },
-  { phrase: "Production Style Approach", keywords: ["polished", "pristine", "sleek", "gritty", "stripped"] },
+  {
+    phrase: "Production Style Approach",
+    keywords: ["polished", "pristine", "sleek", "gritty", "stripped"],
+  },
 ];
 
 function mapToCanonical(rawItem) {
@@ -128,9 +167,7 @@ function processFile(filePath) {
     let stringMatch;
 
     while ((stringMatch = stringPattern.exec(arrayContent)) !== null) {
-      const unescaped = stringMatch[1]
-        .replace(/\\"/g, '"')
-        .replace(/\\\\/g, "\\");
+      const unescaped = stringMatch[1].replace(/\\"/g, '"').replace(/\\\\/g, "\\");
       rawItems.push(unescaped);
     }
 

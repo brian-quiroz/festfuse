@@ -24,14 +24,8 @@ const lorde: Artist = {
     "A rare performer who chooses emotional impact over spectacle — no gimmicks, just songs",
     "Three distinct eras across Pure Heroine, Melodrama, and Solar Power — all essential, all in one set",
   ],
-  whatToExpect: [
-    "Minimal Production",
-    "Massive Singalongs",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-  ],
+  whatToExpect: ["Minimal Production", "Massive Singalongs", "Crowd Atmosphere"],
+  bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
     {
       name: "MUNA",
@@ -114,9 +108,7 @@ const johnSummit: Artist = {
     "High-Energy Pacing",
     "Large-Scale Production",
   ],
-  bestFor: [
-    "Dance Floor Seekers",
-  ],
+  bestFor: ["Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Omnom",
@@ -281,10 +273,7 @@ const empireOfTheSun: Artist = {
     "Cinematic Visuals",
     "Large-Scale Production",
   ],
-  bestFor: [
-    "Dance Floor Seekers",
-    "Legacy & Milestone Hunters",
-  ],
+  bestFor: ["Dance Floor Seekers", "Legacy & Milestone Hunters"],
   similarArtists: [
     {
       name: "YOASOBI",
@@ -346,14 +335,8 @@ const wetLeg: Artist = {
     "A masterclass in dry, sarcastic British wit matched with massive, fuzzed-out indie rock guitar riffs",
     "Unrivaled crowd momentum fueled by explosive, viral indie staples like 'Chaise Longue' and 'Wet Dream'",
   ],
-  whatToExpect: [
-    "Conversational Delivery",
-    "Intense Fan Connection",
-    "Dance Floor Energy",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-  ],
+  whatToExpect: ["Conversational Delivery", "Intense Fan Connection", "Dance Floor Energy"],
+  bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
     {
       name: "Villanelle",
@@ -426,16 +409,8 @@ const worship: Artist = {
     "Sub Focus, Dimension, Culture Shock, and 1991 are individually festival headliners — together they're something else entirely",
     "An absolute adrenaline-fueled masterclass in hyper-precise electronic sound design, tension, and massive structural bass releases",
   ],
-  whatToExpect: [
-    "High-Energy Pacing",
-    "Bass & Groove",
-    "High-Production Visuals",
-  ],
-  bestFor: [
-    "Bass & Groove Lovers",
-    "Dance Floor Seekers",
-    "Sound Design & Production Nerds",
-  ],
+  whatToExpect: ["High-Energy Pacing", "Bass & Groove", "High-Production Visuals"],
+  bestFor: ["Bass & Groove Lovers", "Dance Floor Seekers", "Sound Design & Production Nerds"],
   similarArtists: [
     {
       name: "Empire of the Sun",
@@ -490,14 +465,8 @@ const bloodOrange: Artist = {
     "Experience the genre-fluid genius of an avant-garde mastermind who has written and produced for pop's top tier royalty",
     "Deeply cinematic, soulful indie arrangements that act as a gorgeous, intimate emotional oasis amid festival chaos",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "Cinematic Visuals",
-    "Intimate Performance",
-  ],
-  bestFor: [
-    "Sound Design & Production Nerds",
-  ],
+  whatToExpect: ["Bass & Groove", "Cinematic Visuals", "Intimate Performance"],
+  bestFor: ["Sound Design & Production Nerds"],
   similarArtists: [
     {
       name: "Jae Stephens",
@@ -565,10 +534,7 @@ const fiveSecondsOfSummer: Artist = {
     "Unrivaled crowd singalongs driven by massive global generation-defining radio chart-toppers like 'Youngblood'",
     "High-energy pop-punk grit seamlessly married to exceptionally tight, polished modern rock musicianship",
   ],
-  whatToExpect: [
-    "Massive Singalongs",
-    "Large-Scale Production",
-  ],
+  whatToExpect: ["Massive Singalongs", "Large-Scale Production"],
   bestFor: [],
   similarArtists: [
     {
@@ -648,10 +614,7 @@ const kettama: Artist = {
     "High-Energy Pacing",
     "Intense Fan Connection",
   ],
-  bestFor: [
-    "Tent & Club Venue Seekers",
-    "Bass & Groove Lovers",
-  ],
+  bestFor: ["Tent & Club Venue Seekers", "Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Westend",
@@ -718,13 +681,8 @@ const viagraBoys: Artist = {
     "Frontman Sebastian Murphy's unmatched, completely unhinged deadpan swagger and theatrical crowd command",
     "A blistering, saxophone-fueled rock engine that transforms traditional mosh pits into performance art spectacles",
   ],
-  whatToExpect: [
-    "Live Band Performance",
-    "Guitar-Driven Sound",
-  ],
-  bestFor: [
-    "Mosh Pit Lovers",
-  ],
+  whatToExpect: ["Live Band Performance", "Guitar-Driven Sound"],
+  bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
     {
       name: "Bad Nerves",
@@ -794,14 +752,8 @@ const audreyHobert: Artist = {
     "The rare songwriter who can make a lyric feel like a voice memo you sent at 2am — instantly relatable, painfully specific",
     "Sharp, self-aware stage banter that makes a big outdoor crowd feel like a small living room show",
   ],
-  whatToExpect: [
-    "Lyrical Storytelling",
-    "Conversational Delivery",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-  ],
+  whatToExpect: ["Lyrical Storytelling", "Conversational Delivery", "Crowd Atmosphere"],
+  bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
     {
       name: "Asha Banks",
@@ -858,14 +810,8 @@ const snowStrippers: Artist = {
     "Experience a cult-favorite internet phenomenon that has rapidly grown into one of the most talked-about live underground projects",
     "A blistering, unapologetic wall of fuzzed-out industrial energy that makes standard club sets look soft by comparison",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "High-Production Visuals",
-  ],
-  bestFor: [
-    "Tent & Club Venue Seekers",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Bass & Groove", "High-Production Visuals"],
+  bestFor: ["Tent & Club Venue Seekers", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Empire of the Sun",
@@ -926,15 +872,8 @@ const borisBrejcha: Artist = {
     "A rare festival appearance from a global techno titan renowned for playing massive, multi-hour headline arena sets across Europe",
     "Experience incredibly patient, complex minimal techno infrastructure that delivers massive, earth-shaking low-end bass pay-offs",
   ],
-  whatToExpect: [
-    "Minimal Production",
-    "Theatrical Staging",
-    "Bass & Groove",
-  ],
-  bestFor: [
-    "Tent & Club Venue Seekers",
-    "Sound Design & Production Nerds",
-  ],
+  whatToExpect: ["Minimal Production", "Theatrical Staging", "Bass & Groove"],
+  bestFor: ["Tent & Club Venue Seekers", "Sound Design & Production Nerds"],
   similarArtists: [
     {
       name: "Boys Noize",
@@ -975,14 +914,8 @@ const parisPaloma: Artist = {
     "Stunning, rich chamber-pop arrangements tracking complex themes of grief, bodily autonomy, and mythological fury",
     "The official festival tour run introducing her highly anticipated, deeply personal debut studio statement, Cacophony",
   ],
-  whatToExpect: [
-    "Technical Vocal Range",
-    "Crowd Atmosphere",
-    "Dark Mood Visuals",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-  ],
+  whatToExpect: ["Technical Vocal Range", "Crowd Atmosphere", "Dark Mood Visuals"],
+  bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
     { name: "Porch Light", slug: "porch-light" },
     {
@@ -1040,14 +973,8 @@ const littleSimz: Artist = {
     "Unmatched theatrical stage command that shifts effortlessly from aggressive, rapid-fire flows to introspective soul grooves",
     "A legendary performer operating at the absolute absolute peak of her powers, commanding mainstage festival authority",
   ],
-  whatToExpect: [
-    "Live Band Performance",
-    "Cinematic Visuals",
-    "Intense Fan Connection",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-  ],
+  whatToExpect: ["Live Band Performance", "Cinematic Visuals", "Intense Fan Connection"],
+  bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
     {
       name: "Mustard",
@@ -1126,10 +1053,7 @@ const cmat: Artist = {
     "Conversational Delivery",
     "Massive Singalongs",
   ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     { name: "Will Swinton", slug: "will-swinton" },
     {
@@ -1194,15 +1118,8 @@ const boysNoize: Artist = {
     "A relentless masterclass in modular hardware manipulation, metallic techno grooves, and distorted punk rock pacing",
     "The absolute ultimate alternative electronic set for ravers looking for raw industrial muscle over commercial pop EDM",
   ],
-  whatToExpect: [
-    "Cinematic Visuals",
-    "High-Production Visuals",
-    "High-Energy Pacing",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Bass & Groove Lovers",
-  ],
+  whatToExpect: ["Cinematic Visuals", "High-Production Visuals", "High-Energy Pacing"],
+  bestFor: ["Lyric & Narrative Obsessives", "Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Boris Brejcha",
@@ -1255,9 +1172,7 @@ const betweenFriends: Artist = {
     "Synth & Atmospheric",
     "Ensemble Format",
   ],
-  bestFor: [
-    "Bass & Groove Lovers",
-  ],
+  bestFor: ["Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Love Spells",
@@ -1312,16 +1227,8 @@ const mph: Artist = {
     "Catch a pioneer of the current international electronic groove resurgence during a prime, highly anticipated tent slot",
     "An absolute, non-stop dance accelerator designed perfectly to turn a festival crowd into a boiling warehouse rave",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "Melodic Vocal Hooks",
-    "High-Energy Pacing",
-  ],
-  bestFor: [
-    "Bass & Groove Lovers",
-    "Tent & Club Venue Seekers",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Bass & Groove", "Melodic Vocal Hooks", "High-Energy Pacing"],
+  bestFor: ["Bass & Groove Lovers", "Tent & Club Venue Seekers", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Notion",
@@ -1382,14 +1289,8 @@ const amble: Artist = {
     "A stunningly quiet, emotionally enormous oasis on the bill that commands absolute, pin-drop silence from a crowd",
     "The premier festival tour run showcasing the rich, stark instrumentation of their highly celebrated studio catalog",
   ],
-  whatToExpect: [
-    "Live Band Performance",
-    "Lyrical Storytelling",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-  ],
+  whatToExpect: ["Live Band Performance", "Lyrical Storytelling", "Crowd Atmosphere"],
+  bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
     { name: "Will Swinton", slug: "will-swinton" },
     {
@@ -1439,15 +1340,8 @@ const kingfishr: Artist = {
     "Experience a rapidly escalating independent phenomenon that has built a fierce cult reputation for emotionally overwhelming live sets",
     "A gorgeous, towering wall of acoustic guitar and masterfully layered banjo hooks that makes standard folk acts feel quiet by comparison",
   ],
-  whatToExpect: [
-    "Technical Vocal Range",
-    "Live Band Performance",
-    "Intense Fan Connection",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Technical Vocal Range", "Live Band Performance", "Intense Fan Connection"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Elizabeth Nichols",
@@ -1520,10 +1414,7 @@ const ninajirachi: Artist = {
     "High-Energy Pacing",
     "High-Production Visuals",
   ],
-  bestFor: [
-    "Tent & Club Venue Seekers",
-    "Sound Design & Production Nerds",
-  ],
+  bestFor: ["Tent & Club Venue Seekers", "Sound Design & Production Nerds"],
   similarArtists: [
     {
       name: "bradeazy",
@@ -1580,15 +1471,8 @@ const hauteAndFreddy: Artist = {
     "Experience a chic, hyper-stylized dance floor environment that translates European underground club ethos onto an enormous scale",
     "The ultimate high-energy afternoon catalyst designed perfectly to unify a massive, moving festival crowd under the sun",
   ],
-  whatToExpect: [
-    "Production Style Approach",
-    "Cinematic Visuals",
-    "Synth & Atmospheric",
-  ],
-  bestFor: [
-    "Dance Floor Seekers",
-    "Bass & Groove Lovers",
-  ],
+  whatToExpect: ["Production Style Approach", "Cinematic Visuals", "Synth & Atmospheric"],
+  bestFor: ["Dance Floor Seekers", "Bass & Groove Lovers"],
   similarArtists: [
     { name: "DJ Trixie Mattel", slug: "dj-trixie-mattel" },
     {
@@ -1638,15 +1522,8 @@ const bellaKay: Artist = {
     "A stunning afternoon oasis that pairs delicate, close-mic'd vocal textures with unexpectedly heavy electronic drops",
     "The official festival tour run introducing her highly celebrated independent studio catalog to a massive live audience",
   ],
-  whatToExpect: [
-    "Dark Mood Visuals",
-    "Conversational Delivery",
-    "Lyrical Storytelling",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Bass & Groove Lovers",
-  ],
+  whatToExpect: ["Dark Mood Visuals", "Conversational Delivery", "Lyrical Storytelling"],
+  bestFor: ["Lyric & Narrative Obsessives", "Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Claire Rosinkranz",
@@ -1700,13 +1577,8 @@ const marlonFunaki: Artist = {
     "Experience an intensely passionate, high-energy live rock engine that completely bypasses processed backing tracks",
     "A rare, guitar-driven underground discovery set that will leave music traditionalists completely floored by the talent",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Ensemble Format",
-  ],
-  bestFor: [
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Ensemble Format"],
+  bestFor: ["Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Spacey Jane",
@@ -1753,15 +1625,8 @@ const devault: Artist = {
     "Experience a masterclass in gothic electronic ambiance, metallic midtempo techno structures, and dark vocal samples",
     "The absolute premier alternative option for electronic fans hunting heavy, stylized atmospheric warehouse tension",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "Dark Mood Visuals",
-  ],
-  bestFor: [
-    "Bass & Groove Lovers",
-    "Tent & Club Venue Seekers",
-    "Sound Design & Production Nerds",
-  ],
+  whatToExpect: ["Bass & Groove", "Dark Mood Visuals"],
+  bestFor: ["Bass & Groove Lovers", "Tent & Club Venue Seekers", "Sound Design & Production Nerds"],
   similarArtists: [
     {
       name: "Eli Brown",
@@ -1818,10 +1683,7 @@ const sb19: Artist = {
     "Cinematic Visuals",
     "Intense Fan Connection",
   ],
-  bestFor: [
-    "Dance Floor Seekers",
-    "Legacy & Milestone Hunters",
-  ],
+  bestFor: ["Dance Floor Seekers", "Legacy & Milestone Hunters"],
   similarArtists: [
     {
       name: "aespa",
@@ -1887,13 +1749,8 @@ const eccaVandal: Artist = {
     "Experience a brilliant, boundary-pushing soundscape that channels the raw energy of Beastie Boys and the heavy distortion of electronic rock",
     "Blistering live vocal delivery backed by razor-sharp instrumentation designed purely to shock and awaken the senses",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Energetic Mosh Pits",
-  ],
-  bestFor: [
-    "Mosh Pit Lovers",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Energetic Mosh Pits"],
+  bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
     { name: "Sunshine", slug: "sunshine" },
     {
@@ -1940,13 +1797,8 @@ const badNerves: Artist = {
     "A masterclass in traditional analog band energy that channels the rapid-fire hooks of The Ramones with a sharp, modern indie rock snarl",
     "A non-stop, high-octane rock catalyst built around sharp distortion, massive group choruses, and pure adrenaline",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "High-Energy Pacing",
-  ],
-  bestFor: [
-    "Scene Trend Spotters",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "High-Energy Pacing"],
+  bestFor: ["Scene Trend Spotters"],
   similarArtists: [
     {
       name: "Kim Theory",
@@ -2018,10 +1870,7 @@ const asha_banks: Artist = {
     "Conversational Delivery",
     "Dreamy Atmosphere",
   ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     { name: "Porch Light", slug: "porch-light" },
     {
@@ -2072,16 +1921,8 @@ const faouzia: Artist = {
     "A beautifully dramatic, orchestrally layered sonic experience that seamlessly fuses contemporary pop with traditional Moroccan modal textures",
     "Experience the raw, bone-chilling crowd energy driven by intense, massive dark-pop stadium singalongs",
   ],
-  whatToExpect: [
-    "Technical Vocal Range",
-    "Cinematic Visuals",
-    "Theatrical Staging",
-    "Lush Sound",
-  ],
-  bestFor: [
-    "Early Afternoon Discovery",
-    "Storytelling Lovers",
-  ],
+  whatToExpect: ["Technical Vocal Range", "Cinematic Visuals", "Theatrical Staging", "Lush Sound"],
+  bestFor: ["Early Afternoon Discovery", "Storytelling Lovers"],
   similarArtists: [
     {
       name: "Paloma Morphy",
@@ -2142,14 +1983,8 @@ const eveningElephants: Artist = {
     "A loose, remarkably fun and charismatic live performance built specifically to celebrate carefree youth culture",
     "The ultimate sunset groove opportunity designed to get groups of friends dancing as the skyline begins to light up",
   ],
-  whatToExpect: [
-    "Dreamy Atmosphere",
-    "Afternoon Vibes",
-  ],
-  bestFor: [
-    "Dance Floor Seekers",
-    "Chill Summer Vibes",
-  ],
+  whatToExpect: ["Dreamy Atmosphere", "Afternoon Vibes"],
+  bestFor: ["Dance Floor Seekers", "Chill Summer Vibes"],
   similarArtists: [
     {
       name: "Water From Your Eyes",
@@ -2209,10 +2044,7 @@ const pearlyDrops: Artist = {
     "Cinematic Visuals",
     "Intimate Performance",
   ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Suki Waterhouse",
@@ -2274,11 +2106,7 @@ const bixby: Artist = {
     "A seamless vocal display trading between soulful, low-slung R&B runs and explosive, fuzzed-out indie rock guitar choruses",
     "An absolute catalyst of youthful energy, complete with intense, localized crowd mosh pits on the Bud Light lawn",
   ],
-  whatToExpect: [
-    "Retro-Futuristic Aesthetic",
-    "Guitar-Driven Sound",
-    "Energetic Mosh Pits",
-  ],
+  whatToExpect: ["Retro-Futuristic Aesthetic", "Guitar-Driven Sound", "Energetic Mosh Pits"],
   bestFor: [],
   similarArtists: [
     {
@@ -2340,14 +2168,8 @@ const penelopeRoad: Artist = {
     "Experience deeply poetic storytelling that functions like a stark, emotional essay on the complex vulnerabilities of youth",
     "The official festival tour run highlighting their widely discussed new studio material under the Nettwerk Music banner",
   ],
-  whatToExpect: [
-    "Lush Sound",
-    "Intimate Performance",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Lush Sound", "Intimate Performance"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Faouzia",
@@ -2401,10 +2223,7 @@ const knowGood: Artist = {
     "Experience a genre-defying performance that pulses with rolling low frequencies woven through alternative rock and hip-hop samples",
     "An absolute, non-stop dance accelerator designed purely to push underground trap culture into massive festival spaces",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "High-Energy Pacing",
-  ],
+  whatToExpect: ["Bass & Groove", "High-Energy Pacing"],
   bestFor: [
     "Bass & Groove Lovers",
     "Tent & Club Venue Seekers",
@@ -2460,14 +2279,8 @@ const elizabethNichols: Artist = {
     "Razor-sharp country lyrics that trade on absolute emotional honesty, modern wit, and incredible acoustic guitar hooks",
     "A stunning afternoon oasis that pairs traditional acoustic instrumentation with a truly monumental, timeless singing voice",
   ],
-  whatToExpect: [
-    "Lyrical Storytelling",
-    "Conversational Delivery",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Lyrical Storytelling", "Conversational Delivery"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Waylon Wyatt",
@@ -2518,11 +2331,7 @@ const klo: Artist = {
     "A masterclass in technical deck manipulation, heavy syncopated basslines, and chaotic, bass-heavy club paces",
     "The absolute perfect early-day adrenaline booster for ravers looking for heavy bass muscle from the very first minute",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "High-Production Visuals",
-    "High-Energy Pacing",
-  ],
+  whatToExpect: ["Bass & Groove", "High-Production Visuals", "High-Energy Pacing"],
   bestFor: [
     "Hometown & Local Supporters",
     "Bass & Groove Lovers",
@@ -2583,14 +2392,8 @@ const theBraymores: Artist = {
     "Experience the live, energetic debuts of new music from their highly anticipated upcoming studio project, When The Lights Went Out",
     "An absolute masterclass in traditional analog band chemistry that treats giant festival fields like intimate local basement clubs",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Lyrical Storytelling",
-  ],
-  bestFor: [
-    "Hometown & Local Supporters",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Lyrical Storytelling"],
+  bestFor: ["Hometown & Local Supporters", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "The Creekers",
@@ -2645,9 +2448,7 @@ const chalk: Artist = {
     "Conversational Delivery",
     "High-Production Visuals",
   ],
-  bestFor: [
-    "Mosh Pit Lovers",
-  ],
+  bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
     {
       name: "YUNGBLUD",
@@ -2701,13 +2502,8 @@ const simonGrossmann: Artist = {
     "Experience a cult-favorite singer-songwriter celebrated for crafting laid-back, deeply nostalgic anthems that connect across borders",
     "A gorgeously breezy, rhythmic afternoon set designed perfectly to get a crowd moving smoothly under the open sun",
   ],
-  whatToExpect: [
-    "Multilingual Performance",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Bass & Groove Lovers",
-  ],
+  whatToExpect: ["Multilingual Performance"],
+  bestFor: ["Lyric & Narrative Obsessives", "Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Penelope Road",
@@ -2758,14 +2554,8 @@ const kimTheory: Artist = {
     "A glorious display of untamed, garage-rock distortion that echoes underground legends like Kim Gordon and Bratmobile",
     "Catch a meteoric, fast-rising live force running on pure analog adrenaline before they completely explode globally",
   ],
-  whatToExpect: [
-    "Raw Vocal Delivery",
-    "Energetic Mosh Pits",
-    "High-Energy Pacing",
-  ],
-  bestFor: [
-    "Scene Trend Spotters",
-  ],
+  whatToExpect: ["Raw Vocal Delivery", "Energetic Mosh Pits", "High-Energy Pacing"],
+  bestFor: ["Scene Trend Spotters"],
   similarArtists: [
     {
       name: "Die Spitz",

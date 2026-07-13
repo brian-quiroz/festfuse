@@ -70,7 +70,7 @@ export const WHAT_TO_EXPECT = [
   "Production Style Approach",
 ] as const;
 
-export type WhatToExpectTag = typeof WHAT_TO_EXPECT[number];
+export type WhatToExpectTag = (typeof WHAT_TO_EXPECT)[number];
 
 // ============================================================================
 // BESTFOR: Who should attend (15 canonical phrases)
@@ -99,7 +99,7 @@ export const BEST_FOR = [
   "Groups & Social Experience",
 ] as const;
 
-export type BestForTag = typeof BEST_FOR[number];
+export type BestForTag = (typeof BEST_FOR)[number];
 
 // ============================================================================
 // GENRES: Musical genres and styles (expandable, currently 124 entries)
@@ -235,7 +235,7 @@ export const GENRES = [
   "Witch House",
 ] as const;
 
-export type Genre = typeof GENRES[number];
+export type Genre = (typeof GENRES)[number];
 
 // ============================================================================
 // US_STATES: United States state names (50 entries)
@@ -294,7 +294,7 @@ export const US_STATES = [
   "Wyoming",
 ] as const;
 
-export type USState = typeof US_STATES[number];
+export type USState = (typeof US_STATES)[number];
 
 // ============================================================================
 // COUNTRIES: Artist origin country (32 entries, UK constituent nations separate)
@@ -337,7 +337,7 @@ export const COUNTRIES = [
   "Wales",
 ] as const;
 
-export type Country = typeof COUNTRIES[number];
+export type Country = (typeof COUNTRIES)[number];
 
 /**
  * Origin: Structured representation of where an artist is from.

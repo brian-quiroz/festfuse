@@ -54,9 +54,7 @@ function extractArtistsFromTypeScriptFile(filePath) {
     let stringMatch;
 
     while ((stringMatch = stringPattern.exec(arrayContent)) !== null) {
-      const unescaped = stringMatch[1]
-        .replace(/\\"/g, '"')
-        .replace(/\\\\/g, "\\");
+      const unescaped = stringMatch[1].replace(/\\"/g, '"').replace(/\\\\/g, "\\");
       items.push(unescaped);
     }
 
@@ -75,7 +73,10 @@ function extractArtistsFromTypeScriptFile(filePath) {
 
 const canonical = [
   // [Interest] + [Fan-noun] (8 phrases)
-  { phrase: "Lyric & Narrative Obsessives", keywords: ["lyric", "narrative", "songwriting obsessive"] },
+  {
+    phrase: "Lyric & Narrative Obsessives",
+    keywords: ["lyric", "narrative", "songwriting obsessive"],
+  },
   { phrase: "Storytelling Lovers", keywords: ["storytelling"] },
   { phrase: "Sound Design & Production Nerds", keywords: ["sound design", "production", "gear"] },
   { phrase: "Producer & Songwriter Obsessives", keywords: ["production credit"] },
@@ -169,9 +170,7 @@ function formatBestForArray(phrases) {
   if (phrases.length === 0) {
     return "bestFor: []";
   }
-  const formatted = phrases
-    .map((phrase) => `    "${phrase}"`)
-    .join(",\n");
+  const formatted = phrases.map((phrase) => `    "${phrase}"`).join(",\n");
   return `bestFor: [\n${formatted},\n  ]`;
 }
 

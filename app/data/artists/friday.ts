@@ -24,11 +24,7 @@ const charliXcx: Artist = {
     "A live show that's equal parts chaotic, gorgeous, and completely unhinged — in the best way",
     "She's been ahead of the curve for a decade. The rest of the world finally caught up.",
   ],
-  whatToExpect: [
-    "Fashion Visual",
-    "Massive Singalongs",
-    "Crowd Atmosphere",
-  ],
+  whatToExpect: ["Fashion Visual", "Massive Singalongs", "Crowd Atmosphere"],
   bestFor: [],
   similarArtists: [
     {
@@ -108,10 +104,7 @@ const smashingPumpkins: Artist = {
     "Siamese Dream and Mellon Collie live: the songs that shaped a generation of alternative music fans",
     "Epic, marathon sets — they have nothing to prove and everything to perform",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Period-Specific Sound",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Period-Specific Sound"],
   bestFor: [],
   similarArtists: [
     { name: "The Bends", slug: "the-bends" },
@@ -181,10 +174,7 @@ const lilUziVert: Artist = {
     "Choreography",
     "High-Production Visuals",
   ],
-  bestFor: [
-    "Mosh Pit Lovers",
-    "Dance Floor Seekers",
-  ],
+  bestFor: ["Mosh Pit Lovers", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Beno",
@@ -258,14 +248,8 @@ const yungblud: Artist = {
     "Hear the live premiere of massive, fuzzed-out modern punk rock anthems delivered with flawless stadium-scale pacing",
     "A deeply passionate live environment fueled by collective crowd catharsis, relentless guitar riffs, and heavy basslines",
   ],
-  whatToExpect: [
-    "Theatrical Staging",
-    "Energetic Mosh Pits",
-    "Massive Singalongs",
-  ],
-  bestFor: [
-    "Mosh Pit Lovers",
-  ],
+  whatToExpect: ["Theatrical Staging", "Energetic Mosh Pits", "Massive Singalongs"],
+  bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
     {
       name: "The Story So Far",
@@ -338,15 +322,8 @@ const majorLazer: Artist = {
     "Legendary late-night party set with a decade of festival-proven bangers",
     "You will not stop dancing. This is not a threat.",
   ],
-  whatToExpect: [
-    "Crowd Atmosphere",
-    "Spectacle Moments",
-    "Bass & Groove",
-    "Dance Floor Energy",
-  ],
-  bestFor: [
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Crowd Atmosphere", "Spectacle Moments", "Bass & Groove", "Dance Floor Energy"],
+  bestFor: ["Dance Floor Seekers"],
   similarArtists: [
     {
       name: "aespa",
@@ -424,10 +401,7 @@ const notForRadio: Artist = {
     "Dreamy Atmosphere",
     "Synth & Atmospheric",
   ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Bass & Groove Lovers",
-  ],
+  bestFor: ["Lyric & Narrative Obsessives", "Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Ethel Cain",
@@ -494,13 +468,8 @@ const zaraLarsson: Artist = {
     "Experience the thrilling live debuts of fresh, trendsetting R&B-infused tracks from her current 2026 studio era",
     "An absolute stadium-scale pop celebration packed with massive group singalongs and blinding, high-production staging",
   ],
-  whatToExpect: [
-    "Choreography",
-    "Cinematic Visuals",
-  ],
-  bestFor: [
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Choreography", "Cinematic Visuals"],
+  bestFor: ["Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Tate McRae",
@@ -562,10 +531,7 @@ const freddieGibbs: Artist = {
     "Experience the gritty, soul-sampled cinematic textures of underground milestones like Piñata performed live at scale",
     "The ultimate late-night underground option for hip-hop purists looking for raw lyrical muscle over commercial pop trap",
   ],
-  whatToExpect: [
-    "Cinematic Visuals",
-    "Intense Fan Connection",
-  ],
+  whatToExpect: ["Cinematic Visuals", "Intense Fan Connection"],
   bestFor: [
     "Lyric & Narrative Obsessives",
     "Tent & Club Venue Seekers",
@@ -636,11 +602,7 @@ const sukiWaterhouse: Artist = {
     "A gorgeously cinematic, late-afternoon sunset oasis that plays out like a classic 1970s Hollywood noir movie soundtrack",
     "Experience an elite independent pop darling whose project masterfully balances raw emotional intimacy with massive stage style",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Cinematic Visuals",
-    "Afternoon Vibes",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Cinematic Visuals", "Afternoon Vibes"],
   bestFor: [
     "Sound Design & Production Nerds",
     "Lyric & Narrative Obsessives",
@@ -708,14 +670,8 @@ const i_dle: Artist = {
     "Experience an exceptional blend of heavy hip-hop rhythm blocks, alternative rock guitars, and massive global pop hooks",
     "A deeply passionate, high-energy afternoon crowd environment fueled by intense stadium-scale fan chants and choreography",
   ],
-  whatToExpect: [
-    "Choreography",
-    "Cinematic Visuals",
-    "Intense Fan Connection",
-  ],
-  bestFor: [
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Choreography", "Cinematic Visuals", "Intense Fan Connection"],
+  bestFor: ["Dance Floor Seekers"],
   similarArtists: [
     {
       name: "aespa",
@@ -870,9 +826,7 @@ const oklou: Artist = {
     "Retro-Futuristic Aesthetic",
     "Afternoon Vibes",
   ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-  ],
+  bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
     {
       name: "AYYBO",
@@ -932,10 +886,7 @@ const horsegiirL: Artist = {
     "High-Production Visuals",
     "High-Energy Pacing",
   ],
-  bestFor: [
-    "Tent & Club Venue Seekers",
-    "Dance Floor Seekers",
-  ],
+  bestFor: ["Tent & Club Venue Seekers", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "MC4D",
@@ -996,14 +947,8 @@ const theStorySoFar: Artist = {
     "Parker Cannon's uniquely intense vocal delivery commanding massive, park-wide crowd singalongs and explosive mosh pits",
     "A masterclass in traditional analog band energy that balances raw, aggressive punk speed with pristine melodic hooks",
   ],
-  whatToExpect: [
-    "Massive Singalongs",
-    "Energetic Mosh Pits",
-    "Guitar-Driven Sound",
-  ],
-  bestFor: [
-    "Mosh Pit Lovers",
-  ],
+  whatToExpect: ["Massive Singalongs", "Energetic Mosh Pits", "Guitar-Driven Sound"],
+  bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
     {
       name: "YUNGBLUD",
@@ -1072,16 +1017,8 @@ const loathe: Artist = {
     "Experience the live, towering execution of tracks from their genre-shattering masterpiece, I Let It In and It Took Everything",
     "A blistering live rock engine that transforms traditional festival mosh pits into deeply emotional performance art",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Lush Sound",
-    "Raw Vocal Delivery",
-    "Energetic Mosh Pits",
-  ],
-  bestFor: [
-    "Mosh Pit Lovers",
-    "Sound Design & Production Nerds",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Lush Sound", "Raw Vocal Delivery", "Energetic Mosh Pits"],
+  bestFor: ["Mosh Pit Lovers", "Sound Design & Production Nerds"],
   similarArtists: [
     {
       name: "Sunday (1994)",
@@ -1143,16 +1080,8 @@ const nettspend: Artist = {
     "An absolute wildfire crowd environment packed with chaotic, high-energy teenage mosh pits on the Tito's stage",
     "Catch a lightning-fast underground trendsetter running on pure digital clout before he completely alters pop infrastructure",
   ],
-  whatToExpect: [
-    "Cinematic Visuals",
-    "Energetic Mosh Pits",
-    "Intense Fan Connection",
-  ],
-  bestFor: [
-    "Scene Trend Spotters",
-    "Mosh Pit Lovers",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Cinematic Visuals", "Energetic Mosh Pits", "Intense Fan Connection"],
+  bestFor: ["Scene Trend Spotters", "Mosh Pit Lovers", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Lil Uzi Vert",
@@ -1212,15 +1141,8 @@ const sidepiece: Artist = {
     "An absolute masterclass in party curation, blending heavy, rolling basslines with incredibly infectious vocal chops",
     "The ultimate mid-afternoon crowd catalyst under the Perry's tent designed purely to get thousands of people moving",
   ],
-  whatToExpect: [
-    "Afternoon Vibes",
-    "High-Energy Pacing",
-  ],
-  bestFor: [
-    "Tent & Club Venue Seekers",
-    "Bass & Groove Lovers",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Afternoon Vibes", "High-Energy Pacing"],
+  bestFor: ["Tent & Club Venue Seekers", "Bass & Groove Lovers", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Westend",
@@ -1287,10 +1209,7 @@ const skyeNewman: Artist = {
     "Conversational Delivery",
     "Dreamy Atmosphere",
   ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     { name: "Stella Lefty", slug: "stella-lefty" },
     {
@@ -1337,16 +1256,8 @@ const notion: Artist = {
     "Catch a pioneer of the current international electronic groove resurgence during a prime, highly anticipated Friday slot",
     "An absolute, non-stop dance accelerator designed perfectly to turn a festival crowd into a boiling warehouse rave",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "Melodic Vocal Hooks",
-    "High-Energy Pacing",
-  ],
-  bestFor: [
-    "Bass & Groove Lovers",
-    "Tent & Club Venue Seekers",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Bass & Groove", "Melodic Vocal Hooks", "High-Energy Pacing"],
+  bestFor: ["Bass & Groove Lovers", "Tent & Club Venue Seekers", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "MPH",
@@ -1406,16 +1317,8 @@ const roz: Artist = {
     "Experience a dark, hyper-stylized dancefloor environment that brings a distinct West Coast warehouse energy to the park",
     "The absolute perfect afternoon groove engine designed specifically to get thousands of people moving early under the tent",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "Afternoon Vibes",
-    "High-Energy Pacing",
-  ],
-  bestFor: [
-    "Tent & Club Venue Seekers",
-    "Dance Floor Seekers",
-    "Bass & Groove Lovers",
-  ],
+  whatToExpect: ["Bass & Groove", "Afternoon Vibes", "High-Energy Pacing"],
+  bestFor: ["Tent & Club Venue Seekers", "Dance Floor Seekers", "Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Max Styler",
@@ -1481,9 +1384,7 @@ const baluBrigada: Artist = {
     "Ensemble Format",
     "Production Style Approach",
   ],
-  bestFor: [
-    "Bass & Groove Lovers",
-  ],
+  bestFor: ["Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Ryman",
@@ -1537,15 +1438,8 @@ const lyny: Artist = {
     "A masterclass in technical deck manipulation, fusing deep hip-hop vocal samples with punishing, minimalist bass weight",
     "An absolute early-day adrenaline accelerator built purely to push soundcloud underground design to massive scales",
   ],
-  whatToExpect: [
-    "Minimal Production",
-    "Bass & Groove",
-    "Energetic Mosh Pits",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Minimal Production", "Bass & Groove", "Energetic Mosh Pits"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Know Good",
@@ -1608,14 +1502,8 @@ const motherMother: Artist = {
     "Experience a massive, multi-generational cult favorite renowned for turning festival fields into roaring indie rock choirs",
     "Hear the live premiere of towering, theatrical rock cuts from their highly celebrated recent studio masterpieces",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Massive Singalongs",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Massive Singalongs", "Crowd Atmosphere"],
+  bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
     {
       name: "The Braymores",
@@ -1683,14 +1571,8 @@ const juliaWolf: Artist = {
     "A beautiful, early afternoon oasis that pairs delicate, close-mic'd vocal layers with unexpectedly heavy baseline drops",
     "The official premier festival tour run showcasing her highly celebrated independent studio catalog to an international crowd",
   ],
-  whatToExpect: [
-    "Lyrical Storytelling",
-    "Conversational Delivery",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Lyrical Storytelling", "Conversational Delivery"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Ryman",
@@ -1750,9 +1632,7 @@ const slayyyter: Artist = {
     "Massive Singalongs",
     "Crowd Atmosphere",
   ],
-  bestFor: [
-    "Dance Floor Seekers",
-  ],
+  bestFor: ["Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Charli XCX",
@@ -1824,16 +1704,8 @@ const claireRosinkranz: Artist = {
     "A stunning early afternoon oasis that pairs delicate vocal patterns with incredibly catchy, jazz-infused indie guitar lines",
     "The official festival tour run highlighting her highly celebrated Republic Records studio catalog to an international crowd",
   ],
-  whatToExpect: [
-    "Conversational Delivery",
-    "Guitar-Driven Sound",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-    "Chill Summer Vibes",
-  ],
+  whatToExpect: ["Conversational Delivery", "Guitar-Driven Sound", "Crowd Atmosphere"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery", "Chill Summer Vibes"],
   similarArtists: [
     {
       name: "Lucy Bedroque",
@@ -1893,9 +1765,7 @@ const fiftyFourUltra: Artist = {
     "Energetic Mosh Pits",
     "High-Energy Pacing",
   ],
-  bestFor: [
-    "Mosh Pit Lovers",
-  ],
+  bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
     {
       name: "Turnstile",
@@ -1949,16 +1819,8 @@ const highVis: Artist = {
     "Experience a stunning combination of crushing post-punk guitar grit and soaring, 1990s-styled Madchester melodic hooks",
     "A blistering live band performance that transforms aggressive mosh pits into powerful moments of communal unity",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Massive Singalongs",
-    "Energetic Mosh Pits",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Mosh Pit Lovers",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Massive Singalongs", "Energetic Mosh Pits"],
+  bestFor: ["Lyric & Narrative Obsessives", "Mosh Pit Lovers", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Ink",
@@ -2026,14 +1888,8 @@ const finnWolfhard: Artist = {
     "A masterclass in unadulterated live fun from a natural performer who treats massive festival fields like a local house party",
     "Hear the live premiere of fresh, highly anticipated guitar-driven solo project cuts making an exclusive festival debut",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Conversational Delivery",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Conversational Delivery", "Crowd Atmosphere"],
+  bestFor: ["Early Afternoon Discovery"],
   similarArtists: [
     { name: "Cruz Beckham and the Breakers", slug: "cruz-beckham-and-the-breakers" },
     {
@@ -2084,15 +1940,8 @@ const avello: Artist = {
     "Experience a relentless daytime adrenaline accelerator that completely transforms the Perry's tent into a boiling rave floor",
     "The absolute perfect high-velocity option for electronic fans hunting heavy structural drops early in the schedule",
   ],
-  whatToExpect: [
-    "Bass & Groove",
-    "Synth & Atmospheric",
-    "High-Energy Pacing",
-  ],
-  bestFor: [
-    "Bass & Groove Lovers",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Bass & Groove", "Synth & Atmospheric", "High-Energy Pacing"],
+  bestFor: ["Bass & Groove Lovers", "Dance Floor Seekers"],
   similarArtists: [
     { name: "KLO", slug: "klo" },
     {
@@ -2148,16 +1997,8 @@ const partyof2: Artist = {
     "A perfectly curated early afternoon vibe catalyst that translates modern digital sub-culture into a massive live statement",
     "An absolute wildfire crowd environment packed with chaotic, high-energy teenage mosh pits early in the day",
   ],
-  whatToExpect: [
-    "Cinematic Visuals",
-    "Energetic Mosh Pits",
-    "Synth & Atmospheric",
-  ],
-  bestFor: [
-    "Scene Trend Spotters",
-    "Early Afternoon Discovery",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Cinematic Visuals", "Energetic Mosh Pits", "Synth & Atmospheric"],
+  bestFor: ["Scene Trend Spotters", "Early Afternoon Discovery", "Dance Floor Seekers"],
   similarArtists: [
     { name: "After", slug: "after" },
     {
@@ -2203,16 +2044,8 @@ const theArmyTheNavy: Artist = {
     "A gorgeous, sun-drenched early afternoon oasis designed perfectly to completely escape standard commercial pop noise",
     "The official premier festival tour run showcasing the rich melodic textures of their highly praised independent catalog",
   ],
-  whatToExpect: [
-    "Dreamy Atmosphere",
-    "Conversational Delivery",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-    "Chill Summer Vibes",
-  ],
+  whatToExpect: ["Dreamy Atmosphere", "Conversational Delivery", "Crowd Atmosphere"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery", "Chill Summer Vibes"],
   similarArtists: [
     {
       name: "Spacey Jane",
@@ -2266,15 +2099,8 @@ const loveSpells: Artist = {
     "Experience a beautifully curated afternoon vibe check that translates internet aesthetic culture into a tactile live space",
     "The perfect low-pressure opportunity to completely zone out to intricate, low-slung bass pockets and dreamy synth pads",
   ],
-  whatToExpect: [
-    "Dark Mood Visuals",
-    "Dreamy Atmosphere",
-    "Synth & Atmospheric",
-    "Bass & Groove",
-  ],
-  bestFor: [
-    "Bass & Groove Lovers",
-  ],
+  whatToExpect: ["Dark Mood Visuals", "Dreamy Atmosphere", "Synth & Atmospheric", "Bass & Groove"],
+  bestFor: ["Bass & Groove Lovers"],
   similarArtists: [
     {
       name: "Between Friends",
@@ -2328,15 +2154,8 @@ const ellaRed: Artist = {
     "A stunning afternoon catalyst that pairs delicate, raw vocal verses with unexpectedly heavy, fuzzed-out guitar choruses",
     "The official premier festival tour run showcasing her highly celebrated independent studio catalog to a live crowd",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-    "Conversational Delivery",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Guitar-Driven Sound", "Conversational Delivery", "Crowd Atmosphere"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "The Army, The Navy",
@@ -2392,10 +2211,7 @@ const palomaMorphy: Artist = {
     "Theatrical Staging",
     "Cinematic Visuals",
   ],
-  bestFor: [
-    "Early Afternoon Discovery",
-    "Storytelling Lovers",
-  ],
+  bestFor: ["Early Afternoon Discovery", "Storytelling Lovers"],
   similarArtists: [
     {
       name: "Faouzia",
@@ -2449,9 +2265,7 @@ const dayWeRan: Artist = {
     "Experience an intensely passionate, high-energy live rock engine that completely bypasses processed backing tracks",
     "An absolute masterclass in traditional analog band chemistry that treats giant festival fields like an intimate local club",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-  ],
+  whatToExpect: ["Guitar-Driven Sound"],
   bestFor: [
     "Tent & Club Venue Seekers",
     "Early Afternoon Discovery",
@@ -2506,12 +2320,7 @@ const ivri: Artist = {
     "A beautiful, early afternoon tent oasis that pairs delicate vocal textures with unexpectedly heavy, industrial basslines",
     "The official festival tour run highlighting her highly celebrated independent studio catalog to a massive live audience",
   ],
-  whatToExpect: [
-    "Dark Mood Visuals",
-    "Intimate Performance",
-    "Bass & Groove",
-    "Cinematic Visuals",
-  ],
+  whatToExpect: ["Dark Mood Visuals", "Intimate Performance", "Bass & Groove", "Cinematic Visuals"],
   bestFor: [
     "Tent & Club Venue Seekers",
     "Early Afternoon Discovery",
@@ -2571,15 +2380,8 @@ const ellaBoh: Artist = {
     "A stunning afternoon oasis that pairs delicate, close-mic'd vocal patterns with unexpectedly catchy acoustic and electronic hooks",
     "The official premier festival tour run showcasing her highly celebrated independent studio catalog to an international crowd",
   ],
-  whatToExpect: [
-    "Lyrical Storytelling",
-    "Conversational Delivery",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Lyrical Storytelling", "Conversational Delivery", "Crowd Atmosphere"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     { name: "Stella Lefty", slug: "stella-lefty" },
     { name: "Porch Light", slug: "porch-light" },
@@ -2625,16 +2427,8 @@ const bradeazy: Artist = {
     "Experience a wildfire crowd environment packed with carefree, high-energy dance floors under the Perry's tent",
     "The absolute perfect early-evening adrenaline booster designed to get large groups of friends moving together",
   ],
-  whatToExpect: [
-    "Rhythm Complexity",
-    "Crowd Atmosphere",
-    "High-Energy Pacing",
-  ],
-  bestFor: [
-    "Scene Trend Spotters",
-    "Tent & Club Venue Seekers",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Rhythm Complexity", "Crowd Atmosphere", "High-Energy Pacing"],
+  bestFor: ["Scene Trend Spotters", "Tent & Club Venue Seekers", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Ninajirachi",
@@ -2691,11 +2485,7 @@ const emiGrace: Artist = {
     "Conversational Delivery",
     "Crowd Atmosphere",
   ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-    "Chill Summer Vibes",
-  ],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery", "Chill Summer Vibes"],
   similarArtists: [
     {
       name: "Lucy Bedroque",
@@ -2749,16 +2539,8 @@ const beno: Artist = {
     "An absolute wildfire crowd environment packed with chaotic, high-energy teenage mosh pits on the alternative stage",
     "Catch a lightning-fast underground trendsetter running on pure digital clout before he completely alters pop infrastructure",
   ],
-  whatToExpect: [
-    "Cinematic Visuals",
-    "Energetic Mosh Pits",
-    "Intense Fan Connection",
-  ],
-  bestFor: [
-    "Scene Trend Spotters",
-    "Mosh Pit Lovers",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Cinematic Visuals", "Energetic Mosh Pits", "Intense Fan Connection"],
+  bestFor: ["Scene Trend Spotters", "Mosh Pit Lovers", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Nettspend",
@@ -2813,13 +2595,8 @@ const chicagoMade: Artist = {
     "An intense, high-energy live performance built specifically to celebrate carefree youth culture and local heritage",
     "The absolute perfect midday catalyst designed to unify a massive, supportive hometown crowd under the sun",
   ],
-  whatToExpect: [
-    "Guitar-Driven Sound",
-  ],
-  bestFor: [
-    "Hometown & Local Supporters",
-    "Dance Floor Seekers",
-  ],
+  whatToExpect: ["Guitar-Driven Sound"],
+  bestFor: ["Hometown & Local Supporters", "Dance Floor Seekers"],
   similarArtists: [
     {
       name: "Clipse",
@@ -2869,15 +2646,8 @@ const valenciaGrace: Artist = {
     "A beautifully dramatic, orchestrally layered sonic experience that seamlessly fuses contemporary R&B with traditional soul",
     "Experience the raw, bone-chilling crowd connection driven by intense, massive dark-pop stadium singalongs",
   ],
-  whatToExpect: [
-    "Technical Vocal Range",
-    "Lush Sound",
-    "Theatrical Staging",
-  ],
-  bestFor: [
-    "Early Afternoon Discovery",
-    "Storytelling Lovers",
-  ],
+  whatToExpect: ["Technical Vocal Range", "Lush Sound", "Theatrical Staging"],
+  bestFor: ["Early Afternoon Discovery", "Storytelling Lovers"],
   similarArtists: [
     {
       name: "Sienna Spiro",
@@ -2933,15 +2703,8 @@ const whitneyWhitney: Artist = {
     "A stunning afternoon oasis that pairs delicate, close-mic'd vocal patterns with unexpectedly catchy acoustic and electronic hooks",
     "The official premier festival tour run showcasing her highly celebrated independent studio catalog to an international crowd",
   ],
-  whatToExpect: [
-    "Lyrical Storytelling",
-    "Conversational Delivery",
-    "Crowd Atmosphere",
-  ],
-  bestFor: [
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Lyrical Storytelling", "Conversational Delivery", "Crowd Atmosphere"],
+  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
       name: "Ella Boh",

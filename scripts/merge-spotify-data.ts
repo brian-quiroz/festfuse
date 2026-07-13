@@ -3,10 +3,7 @@ import { allArtists } from "../app/data/artists/index.ts";
 import * as fs from "fs";
 
 const spotifyData = JSON.parse(
-  fs.readFileSync(
-    new URL("./spotify-fetched-data.json", import.meta.url).pathname,
-    "utf-8"
-  )
+  fs.readFileSync(new URL("./spotify-fetched-data.json", import.meta.url).pathname, "utf-8")
 );
 
 // Only successfully matched artists
