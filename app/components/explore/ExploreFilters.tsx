@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Search, ChevronDown, SlidersHorizontal } from "lucide-react";
+import { Search, SlidersHorizontal } from "lucide-react";
 import type { Genre, Stage } from "@/app/data/categories";
 import { GENRES } from "@/app/data/categories";
 import { ACTIVE_FESTIVAL_ID, FESTIVAL_STAGES } from "@/app/data/festivals";
 import { allArtists } from "@/app/data/artists";
+import MultiSelectDropdown from "@/app/components/explore/MultiSelectDropdown";
+import SingleSelectDropdown from "@/app/components/explore/SingleSelectDropdown";
 
 interface ExploreFiltersProps {
   onSearchChange?: (query: string) => void;
@@ -88,6 +90,22 @@ export default function ExploreFilters({
 
   return (
     <div className="space-y-3">
+      <style>{`
+        .dropdown-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .dropdown-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .dropdown-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 2px;
+        }
+        .dropdown-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.2);
+        }
+      `}</style>
+
       {/* Search */}
       <div className="relative">
         <Search
@@ -114,112 +132,35 @@ export default function ExploreFilters({
           All
         </button>
 
-        {/* Genre Dropdown */}
-        <div className="relative">
-          <button
-            onClick={() => setOpenDropdown(openDropdown === "Genre" ? null : "Genre")}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-              selectedGenres.length > 0
-                ? "border-[#00E5FF]/40 text-[#00E5FF] bg-[#00E5FF]/8"
-                : "border-white/15 text-white/50 hover:border-white/25 hover:text-white/70"
-            }`}
-          >
-            Genre
-            <ChevronDown
-              size={13}
-              strokeWidth={2}
-              className={`transition-transform ${openDropdown === "Genre" ? "rotate-180" : ""}`}
-            />
-          </button>
+        {/* Genre Dropdown (Multi-select) */}
+        <MultiSelectDropdown
+          title="Genre"
+          options={availableGenres}
+          selected={selectedGenres}
+          onToggle={handleGenreToggle}
+          isOpen={openDropdown === "Genre"}
+          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Genre" : null)}
+        />
 
-          {openDropdown === "Genre" && (
-            <div className="absolute top-full left-0 mt-2 bg-[#1B1535] border border-[#2D2556] rounded-lg p-3 z-50 min-w-48 max-h-64 overflow-y-auto">
-              {availableGenres.map((genre) => (
-                <label key={genre} className="flex items-center gap-2 p-2 cursor-pointer hover:bg-white/5 rounded">
-                  <input
-                    type="checkbox"
-                    checked={selectedGenres.includes(genre)}
-                    onChange={() => handleGenreToggle(genre)}
-                    className="w-4 h-4 rounded border-white/30 bg-[#110D24] cursor-pointer"
-                  />
-                  <span className="text-sm text-white/70">{genre}</span>
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* Day Dropdown (Single-select) */}
+        <SingleSelectDropdown
+          title="Day"
+          options={days as any}
+          selected={selectedDay}
+          onSelect={handleDaySelect}
+          isOpen={openDropdown === "Day"}
+          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Day" : null)}
+        />
 
-        {/* Day Dropdown */}
-        <div className="relative">
-          <button
-            onClick={() => setOpenDropdown(openDropdown === "Day" ? null : "Day")}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-              selectedDay
-                ? "border-[#00E5FF]/40 text-[#00E5FF] bg-[#00E5FF]/8"
-                : "border-white/15 text-white/50 hover:border-white/25 hover:text-white/70"
-            }`}
-          >
-            Day
-            <ChevronDown
-              size={13}
-              strokeWidth={2}
-              className={`transition-transform ${openDropdown === "Day" ? "rotate-180" : ""}`}
-            />
-          </button>
-
-          {openDropdown === "Day" && (
-            <div className="absolute top-full left-0 mt-2 bg-[#1B1535] border border-[#2D2556] rounded-lg p-2 z-50 min-w-40">
-              {days.map((day) => (
-                <button
-                  key={day}
-                  onClick={() => handleDaySelect(day)}
-                  className={`block w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                    selectedDay === day
-                      ? "bg-[#00E5FF]/20 text-[#00E5FF]"
-                      : "text-white/70 hover:bg-white/5"
-                  }`}
-                >
-                  {day}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Stage Dropdown */}
-        <div className="relative">
-          <button
-            onClick={() => setOpenDropdown(openDropdown === "Stage" ? null : "Stage")}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
-              selectedStages.length > 0
-                ? "border-[#00E5FF]/40 text-[#00E5FF] bg-[#00E5FF]/8"
-                : "border-white/15 text-white/50 hover:border-white/25 hover:text-white/70"
-            }`}
-          >
-            Stage
-            <ChevronDown
-              size={13}
-              strokeWidth={2}
-              className={`transition-transform ${openDropdown === "Stage" ? "rotate-180" : ""}`}
-            />
-          </button>
-
-          {openDropdown === "Stage" && (
-            <div className="absolute top-full left-0 mt-2 bg-[#1B1535] border border-[#2D2556] rounded-lg p-3 z-50 min-w-48 max-h-64 overflow-y-auto">
-              {availableStages.map((stage) => (
-                <label key={stage} className="flex items-center gap-2 p-2 cursor-pointer hover:bg-white/5 rounded">
-                  <input
-                    type="checkbox"
-                    checked={selectedStages.includes(stage)}
-                    onChange={() => handleStageToggle(stage)}
-                    className="w-4 h-4 rounded border-white/30 bg-[#110D24] cursor-pointer"
-                  />
-                  <span className="text-sm text-white/70">{stage}</span>
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* Stage Dropdown (Multi-select) */}
+        <MultiSelectDropdown
+          title="Stage"
+          options={availableStages}
+          selected={selectedStages}
+          onToggle={handleStageToggle}
+          isOpen={openDropdown === "Stage"}
+          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Stage" : null)}
+        />
 
         {/* More Filters button */}
         <button className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border border-white/15 text-white/50 hover:border-white/25 hover:text-white/70 transition-colors">
