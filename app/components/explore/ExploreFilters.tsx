@@ -4,12 +4,16 @@ import { useState, useRef, useEffect } from "react";
 import { Search, X, SlidersHorizontal } from "lucide-react";
 import type { Genre, Stage } from "@/app/data/categories";
 import { GENRES } from "@/app/data/categories";
-import { ACTIVE_FESTIVAL_ID, FESTIVAL_STAGES } from "@/app/data/festivals";
+import { getDaysForActiveFestival, getStagesForActiveFestival } from "@/app/data/festivals";
 import { allArtists } from "@/app/data/artists";
 import MultiSelectDropdown from "@/app/components/explore/MultiSelectDropdown";
 import SingleSelectDropdown from "@/app/components/explore/SingleSelectDropdown";
 
 interface ExploreFiltersProps {
+  searchQuery?: string;
+  selectedGenres?: Genre[];
+  selectedDay?: string;
+  selectedStages?: Stage[];
   onSearchChange?: (query: string) => void;
   onGenresChange?: (genres: Genre[]) => void;
   onDayChange?: (day: string) => void;
@@ -17,17 +21,30 @@ interface ExploreFiltersProps {
 }
 
 export default function ExploreFilters({
+  searchQuery: externalSearchQuery = "",
+  selectedGenres: externalGenres = [],
+  selectedDay: externalDay = "",
+  selectedStages: externalStages = [],
   onSearchChange,
   onGenresChange,
   onDayChange,
   onStagesChange,
 }: ExploreFiltersProps) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
-  const [selectedDay, setSelectedDay] = useState<string>("");
-  const [selectedStages, setSelectedStages] = useState<Stage[]>([]);
+  const [searchQuery, setSearchQuery] = useState(externalSearchQuery);
+  const [selectedGenres, setSelectedGenres] = useState<Genre[]>(externalGenres);
+  const [selectedDay, setSelectedDay] = useState<string>(externalDay);
+  const [selectedStages, setSelectedStages] = useState<Stage[]>(externalStages);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [allButtonPressed, setAllButtonPressed] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Sync local state with external props (for controlled component behavior)
+  useEffect(() => {
+    setSearchQuery(externalSearchQuery);
+    setSelectedGenres(externalGenres);
+    setSelectedDay(externalDay);
+    setSelectedStages(externalStages);
+  }, [externalSearchQuery, externalGenres, externalDay, externalStages]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -45,11 +62,9 @@ export default function ExploreFilters({
     allArtists.some((artist) => artist.genres.includes(genre))
   );
 
-  // Days of the week
-  const days = ["Thursday", "Friday", "Saturday", "Sunday"];
-
-  // Available stages for this festival
-  const availableStages = (FESTIVAL_STAGES[ACTIVE_FESTIVAL_ID] || []) as Stage[];
+  // Festival days and stages (sourced from festival configuration)
+  const days = getDaysForActiveFestival() as string[];
+  const availableStages = getStagesForActiveFestival() as Stage[];
 
   const handleSearchChange = (value: string) => {
     setSearchQuery(value);
@@ -80,6 +95,8 @@ export default function ExploreFilters({
   };
 
   const handleClearAll = () => {
+    setAllButtonPressed(true);
+    setTimeout(() => setAllButtonPressed(false), 300);
     setSearchQuery("");
     setSelectedGenres([]);
     setSelectedDay("");
@@ -140,7 +157,11 @@ export default function ExploreFilters({
         {/* All button */}
         <button
           onClick={handleClearAll}
-          className="px-4 py-1.5 rounded-full text-sm font-semibold border border-white/15 text-white/50 hover:border-white/25 hover:text-white/70 transition-colors"
+          className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-all duration-200 ease-out ${
+            allButtonPressed
+              ? "border-[#00E5FF]/40 text-[#00E5FF] bg-[#00E5FF]/8"
+              : "border-white/15 text-white/50 hover:border-white/25 hover:text-white/70"
+          }`}
         >
           All
         </button>

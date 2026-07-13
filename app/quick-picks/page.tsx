@@ -7,6 +7,7 @@ import DecisionScreen from "@/app/components/quick-picks/DecisionScreen";
 import DayCompleteScreen from "@/app/components/quick-picks/DayCompleteScreen";
 import FestivalCompleteScreen from "@/app/components/quick-picks/FestivalCompleteScreen";
 import { allArtists } from "@/app/data/artists";
+import { getDaysForActiveFestival } from "@/app/data/festivals";
 import type {
   QuickPicksStep,
   QuickPicksSession,
@@ -15,7 +16,7 @@ import type {
   QuickPicksVerdict,
 } from "@/app/types/quick-picks";
 
-const DAY_ORDER = ["Thursday", "Friday", "Saturday", "Sunday"];
+const DAY_ORDER = getDaysForActiveFestival();
 
 function parseTime(t: string): number {
   const [time, period] = t.split(" ");

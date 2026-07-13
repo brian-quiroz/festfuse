@@ -41,14 +41,30 @@ export default function MultiSelectDropdown<T extends string>({
       {isOpen && (
         <div className="absolute top-full left-0 mt-2 bg-[#1B1535] border border-[#2D2556] rounded-lg overflow-hidden z-50 min-w-56 max-h-80 dropdown-scrollbar overflow-y-auto">
           {options.map((option) => (
-            <button
+            <div
               key={option}
               onClick={() => onToggle(option)}
-              className="flex items-center gap-4 w-full px-4 py-3 text-sm hover:bg-white/5 transition-colors border-b border-white/5 last:border-b-0"
+              className="flex items-center gap-4 w-full px-4 py-3 text-sm hover:bg-white/5 transition-colors border-b border-white/5 last:border-b-0 cursor-pointer"
             >
-              <Checkbox checked={selected.includes(option)} onChange={() => {}} />
+              <div
+                className={`relative w-4 h-4 rounded border transition-all flex-shrink-0 ${
+                  selected.includes(option)
+                    ? "bg-[#00E5FF] border-[#00E5FF]"
+                    : "bg-[#1B1535] border border-white/20"
+                }`}
+              >
+                {selected.includes(option) && (
+                  <svg
+                    className="absolute inset-0 m-auto w-3 h-3 text-[#110D24]"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                )}
+              </div>
               <span className="truncate text-white/70">{option}</span>
-            </button>
+            </div>
           ))}
         </div>
       )}

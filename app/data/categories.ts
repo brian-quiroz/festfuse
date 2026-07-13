@@ -290,6 +290,14 @@ import { FESTIVAL_STAGES } from "./festivals";
 export type Stage = typeof FESTIVAL_STAGES[keyof typeof FESTIVAL_STAGES][number];
 
 // ============================================================================
+// BILLING_TIER: Artist prominence tier (ordered highest to lowest)
+// ============================================================================
+
+export const BILLING_TIERS = ["Headliner", "Sub-headliner", "Undercard"] as const;
+
+export type BillingTier = (typeof BILLING_TIERS)[number];
+
+// ============================================================================
 // US_STATES: United States state names (50 entries)
 // ============================================================================
 
