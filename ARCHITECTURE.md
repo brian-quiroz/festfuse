@@ -490,6 +490,69 @@ When implementing the store, `app/types/quick-picks.ts` currently defines `Quick
 
 ---
 
+### Status Filtering: Verdict vs. StatusFilterValue
+
+The Status filter (Explore page) displays four options—Must See, Interested, Passed, Undecided—but these are not all stored verdict values.
+
+**Stored verdicts** (`app/types/decision.ts`):
+- `Verdict = "mustSee" | "interested" | "passed"`
+- Represents an actual decision a user has made and persisted to the store
+
+**Undecided** is not a stored verdict—it represents the *absence* of a decision (no entry in `decisionsByArtist`). To filter by it, the Status filter uses an extended type:
+
+```typescript
+type StatusFilterValue = Verdict | "undecided"
+```
+
+This distinction is important:
+- User decisions always use `Verdict`, never `"undecided"`. You cannot call `setDecision(artistId, "undecided", source)`.
+- The Status filter can use `StatusFilterValue` because filtering is read-only. When the filter includes `"undecided"`, it matches artists where `decisionsByArtist[artistId]` is undefined.
+- This prevents a bug where someone accidentally passes `"undecided"` to `setDecision()`, which would try to persist a meaningless value to localStorage.
+
+**Filter logic** (`app/lib/filters.ts`):
+- If `StatusFilterValue[]` includes `"undecided"`, also include artists with no entry in `decisionsByArtist`
+- If it includes actual verdicts, match artists whose stored verdict is in the list
+- Combined with OR logic: "Show me artists that are mustSee OR interested OR undecided"
+
+**UI** (`STATUS_FILTER_LABELS` in `app/data/categories.ts`):
+- Maps all four options to human-readable labels for the dropdown and pill display
+- Separates `VERDICT_LABELS` (for undo toast, sidebar counts, etc.) from `STATUS_FILTER_LABELS` (filter UI only)
+
+### Sidebar Filter Shortcuts
+
+The Explore page Status filter can be pre-selected by clicking sidebar links ("Must See", "Interested") without requiring URL state or navigation to a different page.
+
+**Design:**
+
+1. **Temporary filter store** (`app/store/exploreFilterStore.ts`):
+   - Lightweight Zustand store that holds `preAppliedStatus: StatusFilterValue[] | null`
+   - **Intentionally in-memory-only** — does NOT use Zustand's persist middleware (unlike `useDecisionStore`). Stale pre-applied filters cannot survive a page refresh or browser restart via localStorage. This is deliberate: if a user refreshes mid-navigation, the filters are cleared, preventing silent unexpected state on return.
+   - Only used to bridge sidebar navigation to Explore component state
+   - Cleared after filters are applied (one-time use)
+
+2. **Sidebar click handler** (`app/components/Sidebar.tsx`):
+   - When "Must See" or "Interested" is clicked:
+     - `setPreAppliedStatus(["mustSee"])` or `setPreAppliedStatus(["interested"])`
+     - `router.push("/explore")`
+   - Navigation completes before any rendering
+
+3. **Explore mount logic** (`app/components/explore/ExploreContent.tsx`):
+   - On mount or whenever `preAppliedStatus` changes:
+     - Read `preAppliedStatus` from the temporary store
+     - Apply it to `activeStatus` state (triggers immediate filter)
+     - Clear the store (so it doesn't persist across navigations)
+
+**Why this approach over alternatives:**
+
+- **Not URL state:** Consistent with how search and other filters currently work (no query params). Filters reset on page load from a fresh URL.
+- **Not persistent global state:** The store is cleared after use, so clicking a different sidebar link while already on Explore works correctly (the new pre-applied status is set and immediately applied).
+- **Reuses existing logic:** No separate filter code path. Once `activeStatus` is set, the existing Explore state machine and filter rendering all work normally.
+- **No restrictions:** Users can freely modify filters after landing (add more Status options, apply Genre/Day/Stage alongside it, search, clear everything). Nothing is locked or read-only.
+
+**Deferred:** "Scheduled" sidebar link is not yet wired (awaits Schedule feature implementation).
+
+---
+
 ## Future Consideration: Festival-Agnostic Bookmarking
 
 The current model (mustSee, interested, passed) is intentionally festival-scoped — all three verdicts describe a user's relationship to an artist within the context of one specific festival's lineup and schedule. This is correct for the current single-festival MVP and should not change.
