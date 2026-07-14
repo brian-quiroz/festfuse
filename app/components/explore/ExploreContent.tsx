@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { allArtists } from "@/app/data/artists";
 import Sidebar from "@/app/components/Sidebar";
 import ArtistCarousel from "@/app/components/explore/ArtistCarousel";
@@ -15,6 +15,7 @@ import { Shuffle, ChevronLeft } from "lucide-react";
 import { createSeededRandom } from "@/app/lib/random";
 import { sortChronologically, sortFestivalFavoritesForFullView } from "@/app/lib/sort";
 import { useDecisionStore } from "@/app/store/decisionStore";
+import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import type { Genre, Stage } from "@/app/data/categories";
 import type { Artist } from "@/app/types/artist";
 import type { StatusFilterValue } from "@/app/types/decision";
@@ -25,6 +26,7 @@ interface ExploreContentProps {
 
 export default function ExploreContent({ seed }: ExploreContentProps) {
   const { decisionsByArtist } = useDecisionStore();
+  const { preAppliedStatus, clearPreAppliedStatus } = useExploreFilterStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
   const [activeDay, setActiveDay] = useState<string>("");
@@ -32,6 +34,14 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const [activeStatus, setActiveStatus] = useState<StatusFilterValue[]>([]);
   const [viewingCarousel, setViewingCarousel] = useState<string | null>(null);
   const mainRef = useRef<HTMLElement>(null);
+
+  // Apply pre-applied filters from sidebar navigation (on mount or when sidebar link clicked)
+  useEffect(() => {
+    if (preAppliedStatus) {
+      setActiveStatus(preAppliedStatus);
+      clearPreAppliedStatus();
+    }
+  }, [preAppliedStatus, clearPreAppliedStatus]);
 
   // Helper: Reset search/filter state and enter carousel view
   const handleSeeAll = (carouselName: string) => {
