@@ -665,7 +665,7 @@ const djTrixieMattel: Artist = {
   genres: ["Dance Pop", "Electro-Pop", "Electronic"],
   location: { city: "Milwaukee", state: "Wisconsin", country: "United States" },
   tagline: "High-camp pop choreography and glittering, retro-fueled electro-pop club parties.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/33hAj1SghVYxDAxZxNDcyc" },
   whySee: [
     "The undisputed high priestess of drag pop bringing an explosive, completely unhinged celebratory club party directly to the park",
     "Brian Firkus' magnetic, larger-than-life stage command delivering sharp, high-fashion choreography alongside massive electronic drops",
@@ -786,7 +786,7 @@ const kwn: Artist = {
   genres: ["Alternative R&B", "Soul", "Electronic Pop"],
   location: { city: "London", country: "England" },
   tagline: "Sultry, nocturnal alternative R&B tracking the raw vulnerabilities of modern romance.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/2KnhnL8zuqLhIhGk601fsb" },
   whySee: [
     "Catch an exceptional independent UK lyricist executing a deeply atmospheric, confessional performance on the alternative stage",
     "Songwriting that lands like an intense, unguarded voice memo tracking the complex, messy textures of young identity",

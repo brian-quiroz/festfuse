@@ -1870,7 +1870,7 @@ const theBends: Artist = {
   genres: ["Post-Punk", "Shoegaze", "Alternative Rock"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline: "A fuzzed-out hometown alternative rock engine built on towering shoegaze walls.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/2xBejdNon0VS3Egq8he7sb" },
   whySee: [
     "A massive, highly anticipated hometown showcase performance on the alternative stage celebrating a rapid local scene ascent",
     "Experience a blistering display of dual-guitar distortion, heavy post-punk tempos, and raw, confrontational vocal delivery",
@@ -1926,7 +1926,7 @@ const after: Artist = {
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
     "Glitchy, high-velocity internet rap and bounce-driven trap from a hometown breakout project.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/7KfMR05zRrWyhQimnYa8li" },
   whySee: [
     "A massive hometown showcase performance on the alternative stage celebrating a rapid ascent in the local independent scene",
     "Experience an intense, rapid-fire vocal workout gliding effortlessly over incredibly crisp, low-slung alternative electronic bass pockets",
@@ -1978,7 +1978,7 @@ const whatmore: Artist = {
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
     "Hometown indie-rock anthems fusing driving alternative grit with timeless folk-rock storytelling.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/2y4kS2ljmS41pNDNA01P2Q" },
   whySee: [
     "A massive, highly anticipated hometown showcase performance on the alternative stage celebrating a rapid local ascent",
     "Experience a brilliant, traditional analog band chemistry that treats giant festival fields like intimate local clubs",
@@ -2029,7 +2029,7 @@ const porchLight: Artist = {
   genres: ["Indie Pop", "Singer-Songwriter", "Chamber Pop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like real voice memos.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/71gxkPYviG8kwEzEZGM1FH" },
   whySee: [
     "Catch an exceptional independent pop writer executing a beautifully warm, storyteller performance on the alternative stage",
     "Razor-sharp lyricism that lands like an intense, unguarded diary entry tracking the complex textures of youth and romance",
@@ -2080,7 +2080,7 @@ const easyHoney: Artist = {
   genres: ["Indie Rock", "Surf Rock", "Neo-Psychedelia"],
   location: { city: "Charleston", state: "South Carolina", country: "United States" },
   tagline: "Sun-drenched, witty surf rock and fuzzed-out psych grooves built for festival fields.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/5fKAYiCIzDsV8OqQDl8Erj" },
   whySee: [
     "A perfectly curated afternoon vibe catalyst bringing their hyper-catchy brand of surf rock distortion straight to the BMI stage",
     "Experience an exceptional dual-guitar workout, low-slung bass rhythm pockets, and flawless analog band chemistry",
@@ -2109,7 +2109,7 @@ const easyHoney: Artist = {
   ],
   tracks: [
     { name: "Steady", album: "Peach State", duration: "" },
-    { name: "Spells", album: "Peach State", duration: "" },
+    { spotifyId: "1JlQELi7lVpeBeR9mFaZyV", name: "Spells", album: "Peach State", duration: "3:08", artworkUrl: "https://i.scdn.co/image/ab67616d00001e021103de4ee6de12960aa72c6b" },
     { name: "Gotta Tree", album: "Gotta Tree", duration: "" },
   ],
   about:
@@ -2130,7 +2130,7 @@ const jackieHollander: Artist = {
   genres: ["Tech House", "Deep House", "Electronic"],
   location: { city: "San Francisco", state: "California", country: "United States" },
   tagline: "Sleek, low-slung deep tech house grooves packed with heavy underground attitude.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/5ykY9Uweo3gl5VFpb6z6pQ" },
   whySee: [
     "Catch one of the electronic underground's most fiercely watched tech-house selectors commanding a prime mid-afternoon tent session",
     "An elite display of rolling sub-bass steps, crisp percussion accents, and flawlessly mixed independent club tracks",
@@ -2184,7 +2184,7 @@ const stellaLefty: Artist = {
   genres: ["Indie Pop", "Singer-Songwriter", "Chamber Pop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like real voice memos.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/6hp2uD84OrQ3u3ukmTjLz2" },
   whySee: [
     "Catch an exceptional independent pop writer executing a beautifully warm, storyteller performance on the alternative stage",
     "Razor-sharp lyricism that lands like an intense, unguarded diary entry tracking the complex textures of youth and romance",
@@ -2235,7 +2235,7 @@ const justineSkye: Artist = {
   genres: ["R&B", "Pop", "Soul"],
   location: { city: "Brooklyn", state: "New York", country: "United States" },
   tagline: "Sleek, high-gloss contemporary R&B driven by multi-platinum vocal confidence.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/0jUQSUOcM7lxVn5eVGTkzQ" },
   whySee: [
     "A world-class pop and R&B stylist bringing an exceptionally polished, high-visibility vocal showcase to the mainstage",
     "Experience a massive, stadium-scale performance packed with deep, low-slung electronic baseline grooves and glittering hooks",
@@ -2268,8 +2268,8 @@ const justineSkye: Artist = {
   ],
   tracks: [
     { name: "Collide", album: "Bare With Me", duration: "" },
-    { name: "Build", album: "Bare With Me", duration: "" },
-    { name: "In My Bag", album: "Space & Time", duration: "" },
+    { spotifyId: "0G3qCSe4KcWFc0EKlXCEo8", name: "Build", album: "Bare With Me", duration: "4:07", artworkUrl: "https://i.scdn.co/image/ab67616d00001e0299bfdb8c3573c8db0c457478" },
+    { spotifyId: "5aKvdpWyjO14xB04CTEpEw", name: "In My Bag", album: "Space & Time", duration: "3:28", artworkUrl: "https://i.scdn.co/image/ab67616d00001e023cb656dd067ce27a38b50886" },
   ],
   about:
     "Justine Skye is a Brooklyn-born global pop-R&B powerhouse whose sharp combination of multi-platinum vocal authority, trendsetting fashion style, and commanding stage presence has earned her massive international acclaim. Breaking onto charts as an independent internet phenom before collaborating with the genre's top production elite, she has spent over a decade refining a sound that bridges timeless soul structures with contemporary electronic club syncopation. Backed by an exceptionally polished live band, her late afternoon mainstage slot provides an undeniable clinic in world-class pop showmanship.",
@@ -2291,7 +2291,7 @@ const willSwinton: Artist = {
   location: { city: "Auckland", country: "New Zealand" },
   tagline:
     "Gravel-voiced, cinematic indie pop tracking the raw, intimate vulnerabilities of youth.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/1fUcXY3KcnNvCP2dnF7XCh" },
   whySee: [
     "Catch an exceptional international songwriting talent making a highly anticipated debut on the American festival circuit",
     "Swinton's distinctly raspy, gravel-voiced vocal delivery wrapping seamlessly around rich, close-mic'd acoustic arrangements",
@@ -2321,7 +2321,7 @@ const willSwinton: Artist = {
   tracks: [
     { name: "Wasted On You", album: "Will Swinton", duration: "" },
     { name: "Leave Me Dead", album: "Will Swinton", duration: "" },
-    { name: "Better Days", album: "Better Days", duration: "" },
+    { spotifyId: "3oCorEb2RJOrGlpRcUy3Bn", name: "Better Days", album: "Better Days", duration: "2:47", artworkUrl: "https://i.scdn.co/image/ab67616d00001e02bee403db120105a7e9a4f38c" },
   ],
   about:
     "Will Swinton is a New Zealand-born singer-songwriter whose brilliant combination of nostalgic indie pop, breezy acoustic folk, and an intensely raw vocal rasp has garnered a deeply passionate international community. Writing with the specific narrative precision of a classic bedroom diary, he explores the vulnerabilities of youth, modern isolation, and heartbreak with profound emotional honesty. Handpicked for massive global breakout tour blocks, his early afternoon performance transforms a sprawling festival lawn into an intimate, shared backyard listening session.",
@@ -2395,7 +2395,7 @@ const caseOats: Artist = {
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
     "Hometown indie-rock anthems fusing driving alternative grit with timeless folk-rock storytelling.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/5Ml0QbIoj7bneIUJDCoMx8" },
   whySee: [
     "A massive, highly anticipated hometown showcase performance on the alternative stage celebrating a rapid local ascent",
     "Experience a brilliant, traditional analog band chemistry that treats giant festival fields like intimate local clubs",
@@ -2446,7 +2446,7 @@ const surfingForDaisy: Artist = {
   genres: ["Indie Rock", "Surf Rock", "Neo-Psychedelia"],
   location: { city: "Charleston", state: "South Carolina", country: "United States" },
   tagline: "Sun-drenched, witty surf rock and fuzzed-out psych grooves built for festival fields.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/3zwFtNNRxR23FVS8jueGK9" },
   whySee: [
     "A perfectly curated afternoon vibe catalyst bringing their hyper-catchy brand of surf rock distortion straight to the BMI stage",
     "Experience an exceptional dual-guitar workout, low-slung bass rhythm pockets, and flawless analog band chemistry",
@@ -2496,7 +2496,7 @@ const snacktime: Artist = {
   genres: ["Funk", "Brass Band", "Soul"],
   location: { city: "Philadelphia", state: "Pennsylvania", country: "United States" },
   tagline: "High-octane, intense brass-heavy funk and soul built purely for outdoor block parties.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/4Dz610GESZQXsYHxaS73Wk" },
   whySee: [
     "The absolute ultimate raw live wildcard of the afternoon lineup, delivering an unadulterated brass-heavy funk explosion",
     "An exceptional multi-instrumental ensemble executing hyper-precise syncopated rhythms and soaring horn lines completely live",
@@ -2550,7 +2550,7 @@ const zackMartino: Artist = {
   genres: ["Melodic House", "Dance Pop", "Electronic"],
   location: { city: "New York City", state: "New York", country: "United States" },
   tagline: "Sleek, high-gloss electronic dance pop and euphoric, stadium-scale house anthems.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/2US2mjK9hW7QGSBNpprlbu" },
   whySee: [
     "A premier high-visibility afternoon tent session highlighting one of the electronic circuit's finest crossover selectors",
     "An exceptionally polished live blend of soaring melodic house structures, multi-platinum radio hooks, and pristine drops",
@@ -2582,7 +2582,7 @@ const zackMartino: Artist = {
     },
   ],
   tracks: [
-    { name: "Hold On To Me", album: "Hold On To Me", duration: "" },
+    { spotifyId: "7KwOXnN06yiUeGDCk3PQYW", name: "Hold On To Me", album: "Hold On To Me", duration: "2:55", artworkUrl: "https://i.scdn.co/image/ab67616d00001e0277245f24f78b9b8c8bdffc0b" },
     { name: "Craving", album: "Craving", duration: "" },
     { name: "Do Type", album: "Do Type", duration: "" },
   ],
