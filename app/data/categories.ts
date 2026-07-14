@@ -298,6 +298,28 @@ export const BILLING_TIERS = ["Headliner", "Sub-headliner", "Undercard"] as cons
 export type BillingTier = (typeof BILLING_TIERS)[number];
 
 // ============================================================================
+// VERDICT_LABELS: Human-readable labels for verdict enum values
+// ============================================================================
+// Import Verdict type from app/types/decision and use this map to display verdicts in UI
+
+import type { Verdict, StatusFilterValue } from "@/app/types/decision";
+
+export const VERDICT_LABELS: Record<Verdict, string> = {
+  mustSee: "Must See",
+  interested: "Interested",
+  passed: "Passed",
+};
+
+// STATUS_FILTER_LABELS: Labels for the Status filter, including "undecided"
+// "undecided" is not a stored verdict — it represents the absence of a decision
+export const STATUS_FILTER_LABELS: Record<StatusFilterValue, string> = {
+  mustSee: "Must See",
+  interested: "Interested",
+  passed: "Passed",
+  undecided: "Undecided",
+};
+
+// ============================================================================
 // US_STATES: United States state names (50 entries)
 // ============================================================================
 

@@ -44,11 +44,11 @@ export function sortByBillingTier(artists: Artist[]): Artist[] {
 }
 
 /**
- * Sort artists for "See all" grid view: day → appearance time → artist name.
- * Provides a stable, predictable ordering for carousel full views.
- * Use this for all carousels except Festival Favorites.
+ * Sort artists chronologically: day → appearance time → artist name.
+ * Provides a stable, predictable ordering when time sequence matters.
+ * Used by carousel full views and Quick Picks queue building.
  */
-export function sortForFullCarouselView(artists: Artist[]): Artist[] {
+export function sortChronologically(artists: Artist[]): Artist[] {
   return [...artists].sort((a, b) => {
     // First: sort by day
     const dayA = DAY_ORDER.indexOf(a.appearance.day);

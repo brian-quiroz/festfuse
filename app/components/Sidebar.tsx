@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Home,
   Search,
@@ -11,8 +11,9 @@ import {
   Star,
   Heart,
   CircleCheck,
-  TriangleAlert,
 } from "lucide-react";
+import { useDecisionStore } from "@/app/store/decisionStore";
+import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 
 const navItems = [
   { label: "Home", href: "/", Icon: Home },
@@ -22,9 +23,7 @@ const navItems = [
   { label: "Schedule", href: "/schedule", Icon: Calendar },
 ];
 
-const myFestivalItems = [
-  { label: "Must See", count: 18, Icon: Star, color: "#E8FF47", bg: "rgba(232,255,71,0.10)" },
-  { label: "Saved", count: 42, Icon: Heart, color: "#E8FF47", bg: "rgba(232,255,71,0.10)" },
+const staticFestivalItems = [
   {
     label: "Scheduled",
     count: 29,
@@ -32,17 +31,28 @@ const myFestivalItems = [
     color: "#00E5FF",
     bg: "rgba(0,229,255,0.10)",
   },
-  {
-    label: "Conflicts",
-    count: 3,
-    Icon: TriangleAlert,
-    color: "#FF6B6B",
-    bg: "rgba(255,107,107,0.12)",
-  },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { decisionsByArtist } = useDecisionStore();
+  const { setPreAppliedStatus } = useExploreFilterStore();
+
+  // Derive counts from store
+  const mustSeeCount = Object.values(decisionsByArtist).filter(
+    (decision) => decision.verdict === "mustSee"
+  ).length;
+
+  const interestedCount = Object.values(decisionsByArtist).filter(
+    (decision) => decision.verdict === "interested"
+  ).length;
+
+  const myFestivalItems = [
+    { label: "Must See", count: mustSeeCount, Icon: Star, color: "#E8FF47", bg: "rgba(232,255,71,0.10)" },
+    { label: "Interested", count: interestedCount, Icon: Heart, color: "#E8FF47", bg: "rgba(232,255,71,0.10)" },
+    ...staticFestivalItems,
+  ];
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
@@ -90,24 +100,39 @@ export default function Sidebar() {
         </div>
 
         <div className="px-3 space-y-0.5">
-          {myFestivalItems.map(({ label, count, Icon, color, bg }) => (
-            <button
-              key={label}
-              type="button"
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#6B6893] hover:text-white hover:bg-[#231C45] transition-colors"
-            >
-              <span style={{ color }}>
-                <Icon size={15} strokeWidth={2} />
-              </span>
-              <span className="flex-1 text-left">{label}</span>
-              <span
-                className="text-[10px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full"
-                style={{ background: bg, color }}
+          {myFestivalItems.map(({ label, count, Icon, color, bg }) => {
+            const handleFestivalItemClick = () => {
+              if (label === "Must See") {
+                setPreAppliedStatus(["mustSee"]);
+                router.push("/explore");
+              } else if (label === "Interested") {
+                setPreAppliedStatus(["interested"]);
+                router.push("/explore");
+              } else if (label === "Scheduled") {
+                // TODO: Implement Schedule feature and link (deferred)
+              }
+            };
+
+            return (
+              <button
+                key={label}
+                type="button"
+                onClick={handleFestivalItemClick}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#6B6893] hover:text-white hover:bg-[#231C45] transition-colors"
               >
-                {count}
-              </span>
-            </button>
-          ))}
+                <span style={{ color }}>
+                  <Icon size={15} strokeWidth={2} />
+                </span>
+                <span className="flex-1 text-left">{label}</span>
+                <span
+                  className="text-[10px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full"
+                  style={{ background: bg, color }}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Festival card */}

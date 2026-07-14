@@ -365,3 +365,215 @@ const cinematicVisuals = interleaveByDayShuffled(
   allArtists.filter((a) => a.whatToExpect.includes("Cinematic Visuals"))
 );
 ```
+
+---
+
+## Interest State
+
+User decisions (Must See, Interested, Passed) are centralized in a Zustand store with localStorage persistence. This serves as the single source of truth across Explore, Artist Detail, Quick Picks, and future features. Decisions also track their source and timestamp for potential use by features like Festival Artifact.
+
+### Store Shape
+
+```typescript
+type Verdict = "mustSee" | "interested" | "passed";
+
+interface ArtistDecision {
+  verdict: Verdict;
+  source: "explore" | "artist" | "quickPicks";
+  updatedAt: number; // millisecond timestamp
+}
+
+interface InterestState {
+  decisionsByArtist: Record<string, ArtistDecision>;
+  setDecision: (
+    artistId: string,
+    verdict: Verdict | null,
+    source: ArtistDecision["source"]
+  ) => void;
+}
+```
+
+**Key design choices:**
+
+- **Three verdict states, not two:** "passed" is distinct from unset/null. Allows Quick Picks re-runs to differentiate "never considered" from "actively rejected," and lets Surprise Me treat "passed" as eligible for second-chance while excluding "mustSee"/"interested".
+- **Missing key = undecided:** No entry in `decisionsByArtist` means the artist has never received a verdict.
+- **Decision metadata:** Source and timestamp are captured at write-time. No features consume these yet, but Festival Artifact (planned near-term) may reference decision provenance (e.g., "most of your Must Sees came from Quick Picks"). Capturing now avoids data loss—this information cannot be reconstructed after the fact.
+- **Note on Surprise Me:** Surprise Me only navigates to a random artist's detail page—it doesn't present a decision UI. Any verdict set after landing on that page correctly uses `source: "artist"`, the same as any other artist-page decision.
+
+### Interest State: Must See / Interested Selection Model
+
+#### Design
+
+Must See and Interested are displayed as two independent, always-visible controls (star and heart), but they represent a **single underlying field**: `verdict`, which holds exactly one of `"mustSee" | "interested" | "passed" | null` (missing key = `null`/undecided) per artist.
+
+The two controls are **mutually exclusive** in the UI:
+
+- Clicking **Must See** sets `verdict` to `"mustSee"` directly. If `verdict` is already `"mustSee"`, clicking again clears it to `null`.
+- Clicking **Interested** sets `verdict` to `"interested"` directly. If `verdict` is already `"interested"`, clicking again clears it to `null`.
+- Only one icon is ever shown active at a time. Selecting one always fully deselects the other, since both are values of the same field, not independent flags.
+
+There is no cascade (Must See does not also visually activate Interested) and no cycling order between the two buttons — each is a direct-access control for its own value.
+
+#### Why this model, not the alternatives
+
+**Why not two independent flags?** An artist cannot simultaneously be "Must See" and "not Interested" — that combination doesn't correspond to anything meaningful, and more importantly, it's a state Quick Picks can never produce (Quick Picks presents Pass / Interested / Must See as one discrete choice). Two independent flags would let Explore and the artist page create states that don't exist anywhere else in the app.
+
+**Why not a visual cascade (Must See implies Interested, both icons light up)?** This was the original design and was replaced. It correctly modeled the single-field data, but visually implied a hierarchy that didn't match how the icons were interacted with — clicking felt like operating two related-but-separate toggles, not one shared choice. This mismatch caused two concrete problems: `heartVisible` required local state kept in sync with `verdict` via delayed animation and cascade logic, which produced multiple real bugs (stale state on mount, stale state after in-place edits, animation timing races); and sidebar counts moving in pairs (Must See count down, Interested count up) when downgrading a decision, which was correct but visually confusing without understanding the underlying cascade rule.
+
+**Why not a single cycling button (Pass → Interested → Must See → …)?** This makes the implicit ranking explicit, but forces users through unwanted intermediate states to reach a specific one — e.g., moving from Interested to Passed would require cycling through or past Must See. Two direct-access buttons let a user reach any state in exactly one click.
+
+**Why not a dropdown or labeled radio group?** Functionally equivalent to the discrete-buttons model, but heavier UI — hides options behind an extra interaction (dropdown) or requires a labeled group treatment that doesn't fit the existing icon-button placement on artist cards and the artist detail page.
+
+#### Why mutual exclusivity is the right visual language
+
+Since Must See and Interested are the same field, showing only one icon active at a time **is** the hierarchy — a user doesn't need cascade animation or explanatory copy to understand "these are exclusive choices," because the UI never allows both to appear active simultaneously. This is a more honest representation of the data than implying Must See is additive on top of Interested.
+
+#### Interaction with Quick Picks re-eligibility
+
+Clearing a verdict (clicking an active button to deselect it) sets `verdict` back to `null`. Since Quick Picks' default queue excludes any artist with an entry in `decisionsByArtist`, clearing a decision on Explore or the artist page makes that artist eligible to reappear in a future Quick Picks session. This is intentional — it is the app's only "undo history" mechanism, and it works at the level of a single artist rather than requiring a bulk reset. No separate "reset all decisions" feature is needed for this reason: any decision, anywhere, can be individually cleared, and doing so naturally re-opens that artist to Quick Picks.
+
+### Festival Scoping
+
+**Current limitation:** `decisionsByArtist` is keyed by artist ID (slug) alone, with no festival-level scoping. This is safe only because exactly one festival's data exists today (Lollapalooza 2026). Artist IDs themselves are not inherently festival-unique — the same artist can and will appear on multiple festivals' lineups.
+
+**Before adding multi-festival support, this MUST change.** Without festival scoping, a decision made for an artist at one festival would silently and incorrectly apply to every festival that artist appears on. For example: if a user marks "Taylor Swift" as "Must See" at Lollapalooza, the store would later incorrectly mark that user as intending to see Taylor Swift at Coachella, despite never having made that choice.
+
+**Migration path:** Either:
+1. **Compound key:** Rekey `decisionsByArtist` to use `{festivalId}:{artistSlug}` as the dictionary key.
+2. **Nested structure:** Restructure to `decisionsByFestival[festivalId][artistSlug]` for explicit per-festival scoping.
+
+**Do not add a second festival without addressing this first.** It will silently corrupt user decisions across festival contexts.
+
+### State Boundaries
+
+**In shared store (persisted to localStorage):**
+- `ArtistDecision` per artist — the verdict, where it came from, and when it was decided.
+
+**In local component state:**
+- `heartVisible` — animation/display detail and visual sync state. The heart icon's fill/color is driven by heartVisible, not by verdict directly, so its *initial value* on mount must be derived from the store (`heartVisible = verdict === "interested" || verdict === "mustSee"`). Only the *ongoing* cascade-delay behavior (the 100ms timeout when Must See is tapped from neutral) is truly local and session-only. Without this initialization, "Interested" silently fails to visually sync across pages while "Must See" (which reads directly from the store) works fine.
+
+Keeps the store focused (one decision fact per artist) while preserving all existing UI cascade behavior and ensuring visual state stays consistent across navigation.
+
+### Quick Picks Session vs. Shared Store
+
+Quick Picks maintains two separate, coherent pieces of state:
+
+**Session state (ephemeral):**
+- Queue position, verdicts recorded during this session, undo eligibility, day boundaries
+
+**Shared store (persistent):**
+- Current decision (verdict, source, timestamp) for each artist
+
+**Critical rule:** When a Quick Picks verdict is recorded (mustSee/interested/passed), it must call `setDecision()` immediately with `source: "quickPicks"`. The session state tracks verdicts for undo and progress; the shared store makes the decision visible across the app. Verdicts should not wait until Quick Picks completes.
+
+### Filtering Rules by Feature
+
+- **Quick Picks default queue:** Only artists with no entry in `decisionsByArtist` (fully undecided).
+- **Quick Picks re-runs:** Same as above—only undecided artists, skipping those with any prior verdict.
+- **Surprise Me:** Exclude artists with verdict "mustSee" or "interested"; include artists with verdict "passed" (second-chance discovery).
+- **Explore / Artist page:** Can freely set/overwrite any current verdict.
+
+### Undo Requirement
+
+Undoing a Quick Picks decision has two effects:
+
+1. **Session undo:** Remove the verdict from the session's `decisions` object and rewind queue position for the animation.
+2. **Store undo:** Restore the artist's previous verdict from the store (or remove the key entirely if there was no prior verdict).
+
+This prevents inconsistency where Quick Picks shows "undo worked" but Explore or the Artist page still shows the old decision.
+
+**Example:** If an artist was previously marked "mustSee" on the artist page, then Quick Picks marks them "passed," undoing the Quick Picks verdict restores "mustSee" in the store and UI.
+
+### Migration Note
+
+When implementing the store, `app/types/quick-picks.ts` currently defines `QuickPicksVerdict = "pass" | InterestLevel` using "pass" (old spelling). After this architecture is implemented, `QuickPicksVerdict` should become an alias to `Verdict` from `app/types/interest.ts`, and all uses of the string "pass" in DecisionScreen and quick-picks/page.tsx should be updated to "passed" for consistency. After the change, run `npx tsc --noEmit` to confirm zero errors across the whole project, not just the files directly touched.
+
+---
+
+### Status Filtering: Verdict vs. StatusFilterValue
+
+The Status filter (Explore page) displays four options—Must See, Interested, Passed, Undecided—but these are not all stored verdict values.
+
+**Stored verdicts** (`app/types/decision.ts`):
+- `Verdict = "mustSee" | "interested" | "passed"`
+- Represents an actual decision a user has made and persisted to the store
+
+**Undecided** is not a stored verdict—it represents the *absence* of a decision (no entry in `decisionsByArtist`). To filter by it, the Status filter uses an extended type:
+
+```typescript
+type StatusFilterValue = Verdict | "undecided"
+```
+
+This distinction is important:
+- User decisions always use `Verdict`, never `"undecided"`. You cannot call `setDecision(artistId, "undecided", source)`.
+- The Status filter can use `StatusFilterValue` because filtering is read-only. When the filter includes `"undecided"`, it matches artists where `decisionsByArtist[artistId]` is undefined.
+- This prevents a bug where someone accidentally passes `"undecided"` to `setDecision()`, which would try to persist a meaningless value to localStorage.
+
+**Filter logic** (`app/lib/filters.ts`):
+- If `StatusFilterValue[]` includes `"undecided"`, also include artists with no entry in `decisionsByArtist`
+- If it includes actual verdicts, match artists whose stored verdict is in the list
+- Combined with OR logic: "Show me artists that are mustSee OR interested OR undecided"
+
+**UI** (`STATUS_FILTER_LABELS` in `app/data/categories.ts`):
+- Maps all four options to human-readable labels for the dropdown and pill display
+- Separates `VERDICT_LABELS` (for undo toast, sidebar counts, etc.) from `STATUS_FILTER_LABELS` (filter UI only)
+
+### Sidebar Filter Shortcuts
+
+The Explore page Status filter can be pre-selected by clicking sidebar links ("Must See", "Interested") without requiring URL state or navigation to a different page.
+
+**Design:**
+
+1. **Temporary filter store** (`app/store/exploreFilterStore.ts`):
+   - Lightweight Zustand store that holds `preAppliedStatus: StatusFilterValue[] | null`
+   - **Intentionally in-memory-only** — does NOT use Zustand's persist middleware (unlike `useDecisionStore`). Stale pre-applied filters cannot survive a page refresh or browser restart via localStorage. This is deliberate: if a user refreshes mid-navigation, the filters are cleared, preventing silent unexpected state on return.
+   - Only used to bridge sidebar navigation to Explore component state
+   - Cleared after filters are applied (one-time use)
+
+2. **Sidebar click handler** (`app/components/Sidebar.tsx`):
+   - When "Must See" or "Interested" is clicked:
+     - `setPreAppliedStatus(["mustSee"])` or `setPreAppliedStatus(["interested"])`
+     - `router.push("/explore")`
+   - Navigation completes before any rendering
+
+3. **Explore mount logic** (`app/components/explore/ExploreContent.tsx`):
+   - On mount or whenever `preAppliedStatus` changes:
+     - Read `preAppliedStatus` from the temporary store
+     - Apply it to `activeStatus` state (triggers immediate filter)
+     - Clear the store (so it doesn't persist across navigations)
+
+**Why this approach over alternatives:**
+
+- **Not URL state:** Consistent with how search and other filters currently work (no query params). Filters reset on page load from a fresh URL.
+- **Not persistent global state:** The store is cleared after use, so clicking a different sidebar link while already on Explore works correctly (the new pre-applied status is set and immediately applied).
+- **Reuses existing logic:** No separate filter code path. Once `activeStatus` is set, the existing Explore state machine and filter rendering all work normally.
+- **No restrictions:** Users can freely modify filters after landing (add more Status options, apply Genre/Day/Stage alongside it, search, clear everything). Nothing is locked or read-only.
+
+**Deferred:** "Scheduled" sidebar link is not yet wired (awaits Schedule feature implementation).
+
+---
+
+## Future Consideration: Festival-Agnostic Bookmarking
+
+The current model (mustSee, interested, passed) is intentionally festival-scoped — all three verdicts describe a user's relationship to an artist within the context of one specific festival's lineup and schedule. This is correct for the current single-festival MVP and should not change.
+
+If multi-festival support is added later, there may be value in a fourth, separate concept: a festival-agnostic "I like this artist in general" signal (working name: bookmarked or following) — independent of any specific festival's decision-making. For example, a user might want to note "I like this artist" even when browsing a festival where that artist isn't currently playing, or carry that signal forward across multiple festivals over time.
+
+This should be introduced as an entirely NEW, additional field — never by redefining or repurposing "interested." Reasoning: "interested" already has an established, understood meaning in the current UI (a festival-specific decision), and users' existing localStorage data already reflects that meaning. Silently changing what "interested" means later would break the implicit contract with existing data and confuse users who already understand the current model.
+
+If/when this is built, it needs its own distinct visual treatment — not another star or heart — since it represents a categorically different kind of fact (general taste, not a festival-specific decision), similar to how "Scheduled" was deliberately given a different visual treatment than "Must See"/"Interested" earlier in this project, since it's also a different kind of fact (a plan commitment, not an interest level).
+
+**Do not implement this now.** This section exists so the option is preserved and clearly scoped for future consideration, not lost or forgotten.
+
+---
+
+## Future Consideration: Visible "Passed" Indicator
+
+Currently, "Passed" has no visual representation anywhere in the UI outside the Status filter — cards don't show any distinction between an artist that's been passed on versus one that's fully undecided. This is a deliberate asymmetry, not an oversight: Must See and Interested get persistent icons because they represent a positive, actively-curated list the user wants reinforced everywhere they browse. Passed was never designed to carry that same visual weight — it's a lower-salience state, consistent with the decision not to give it a dedicated sidebar entry.
+
+If this becomes worth revisiting later, two options were considered and explicitly deferred:
+
+1. **A dedicated fourth icon/button on cards** (parallel to star/heart) — rejected for now due to real added complexity: a new interactive control, a new visual language, and risk of reintroducing the "too many discrete signals" clutter that was deliberately avoided when the Must See/Interested button design was simplified.
+2. **A lightweight, read-only visual treatment** (e.g., reduced card opacity, or a small "Passed" text label) for artists with verdict "passed" — lower complexity than option 1 since it requires no new interactive control, just a passive display state.
+
+Neither is being built for MVP. Passed remains reachable only via the Status filter's "Passed" option, which is considered sufficient for the state's intended low visibility. Revisit only if real usage shows people want to casually distinguish "passed" from "undecided" while browsing, not just when deliberately reviewing via the filter.

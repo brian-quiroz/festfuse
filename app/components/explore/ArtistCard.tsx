@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Heart, Star } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
-import type { InterestLevel } from "@/app/types/interest";
+import { useDecisionStore } from "@/app/store/decisionStore";
 
 interface ArtistCardProps {
   artist: Artist;
@@ -15,47 +14,25 @@ interface ArtistCardProps {
 
 export default function ArtistCard({ artist, size = "default", responsive = false }: ArtistCardProps) {
   const router = useRouter();
+  const { decisionsByArtist, setDecision } = useDecisionStore();
 
-  // Single stored tier; Must See visually implies Interested.
-  const [interestLevel, setInterestLevel] = useState<InterestLevel | null>(null);
-  // Display-only: heart lights up immediately on direct tap, or after cascade delay when Must See is tapped from neutral.
-  const [heartVisible, setHeartVisible] = useState(false);
-  const cascadeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Read from store
+  const decision = decisionsByArtist[artist.slug];
+  const verdict = decision?.verdict ?? null;
 
-  useEffect(
-    () => () => {
-      if (cascadeRef.current) clearTimeout(cascadeRef.current);
-    },
-    []
-  );
+  // Single verdict field, mutually exclusive. Each button sets its own value directly (or clears if already set).
+  const mustSee = verdict === "mustSee";
+  const interested = verdict === "interested";
 
   const handleMustSee = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (cascadeRef.current) clearTimeout(cascadeRef.current);
-    if (interestLevel === "mustSee") {
-      setInterestLevel("interested");
-    } else {
-      const wasEmpty = interestLevel === null;
-      setInterestLevel("mustSee");
-      if (wasEmpty) {
-        cascadeRef.current = setTimeout(() => setHeartVisible(true), 100);
-      }
-    }
+    setDecision(artist.slug, verdict === "mustSee" ? null : "mustSee", "explore");
   };
 
   const handleInterested = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (cascadeRef.current) clearTimeout(cascadeRef.current);
-    if (interestLevel === null) {
-      setInterestLevel("interested");
-      setHeartVisible(true);
-    } else {
-      setInterestLevel(null);
-      setHeartVisible(false);
-    }
+    setDecision(artist.slug, verdict === "interested" ? null : "interested", "explore");
   };
-
-  const mustSee = interestLevel === "mustSee";
 
   const isLarge = size === "large";
   const cardW = responsive ? "w-full" : (isLarge ? "w-60" : "w-48");
@@ -115,12 +92,12 @@ export default function ArtistCard({ artist, size = "default", responsive = fals
           <button
             onClick={handleInterested}
             className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
-              heartVisible
+              interested
                 ? "bg-[#E8FF47]/18 border-[#E8FF47]/50 text-[#E8FF47]"
                 : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
             }`}
           >
-            <Heart size={11} fill={heartVisible ? "currentColor" : "none"} strokeWidth={2} />
+            <Heart size={11} fill={interested ? "currentColor" : "none"} strokeWidth={2} />
           </button>
         </div>
       </div>
