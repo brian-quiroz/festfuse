@@ -1,0 +1,1575 @@
+{
+  "schema_version": 1,
+  "source": "Spotify Web API",
+  "generated_at": "2026-07-14T01:40:19.347777+00:00",
+  "market": "US",
+  "artists": [
+    {
+      "requested_value": "Sub Focus",
+      "matched_by": "exact_name",
+      "spotify_id": "0QaSiI5TLA4N7mcsdxShDO",
+      "name": "Sub Focus",
+      "spotify_uri": "spotify:artist:0QaSiI5TLA4N7mcsdxShDO",
+      "spotify_url": "https://open.spotify.com/artist/0QaSiI5TLA4N7mcsdxShDO",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb26fd464ae2464f49024dfdbd",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000517426fd464ae2464f49024dfdbd",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f17826fd464ae2464f49024dfdbd",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "7DCdoJx9mCpdxcyk5CtbBM",
+          "name": "Ready To Fly",
+          "requested_name": "Ready to Fly",
+          "spotify_url": "https://open.spotify.com/track/7DCdoJx9mCpdxcyk5CtbBM",
+          "spotify_uri": "spotify:track:7DCdoJx9mCpdxcyk5CtbBM",
+          "album_name": "Evolve",
+          "expected_album": "Evolve",
+          "album_spotify_id": "6N2cAL092Va3dLV4wKWd6Y",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2737254cbdd38715a0a822b577f"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e027254cbdd38715a0a822b577f"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d000048517254cbdd38715a0a822b577f"
+            }
+          ],
+          "duration_ms": 205480,
+          "duration": "3:25",
+          "album_match_type": "exact"
+        }
+      ]
+    },
+    {
+      "requested_value": "Marlon Hoffstadt",
+      "matched_by": "exact_name",
+      "spotify_id": "0HHa7ZJZxUQlg5l2mB0N0f",
+      "name": "Marlon Hoffstadt",
+      "spotify_uri": "spotify:artist:0HHa7ZJZxUQlg5l2mB0N0f",
+      "spotify_url": "https://open.spotify.com/artist/0HHa7ZJZxUQlg5l2mB0N0f",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb2744c0aa6cccfab6120ef015",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab676161000051742744c0aa6cccfab6120ef015",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f1782744c0aa6cccfab6120ef015",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "76x1mIsCz46excW50sehDt",
+          "name": "It's That Time - Dimension Remix",
+          "requested_name": "It's That Time (Dimension Remix)",
+          "spotify_url": "https://open.spotify.com/track/76x1mIsCz46excW50sehDt",
+          "spotify_uri": "spotify:track:76x1mIsCz46excW50sehDt",
+          "album_name": "It's That Time (Dimension Remix)",
+          "expected_album": "It's That Time (Dimension Remix)",
+          "album_spotify_id": "1jf13J2HTGFllbhJH5Pozr",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2733e90e129870600a8c1fb9eab"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e023e90e129870600a8c1fb9eab"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d000048513e90e129870600a8c1fb9eab"
+            }
+          ],
+          "duration_ms": 215172,
+          "duration": "3:35",
+          "album_match_type": "exact"
+        }
+      ]
+    },
+    {
+      "requested_value": "Culture Shock",
+      "matched_by": "exact_name",
+      "spotify_id": "6lp2VnIRXXpC9Wz7hSX6RE",
+      "name": "Culture Shock",
+      "spotify_uri": "spotify:artist:6lp2VnIRXXpC9Wz7hSX6RE",
+      "spotify_url": "https://open.spotify.com/artist/6lp2VnIRXXpC9Wz7hSX6RE",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5ebd97893f89495718236451af0",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab67616100005174d97893f89495718236451af0",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f178d97893f89495718236451af0",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "5u9J4efhSEo5Bx5euYOtAD",
+          "name": "Bunker",
+          "requested_name": "Bunker",
+          "spotify_url": "https://open.spotify.com/track/5u9J4efhSEo5Bx5euYOtAD",
+          "spotify_uri": "spotify:track:5u9J4efhSEo5Bx5euYOtAD",
+          "album_name": "Sequence",
+          "expected_album": "Sequence",
+          "album_spotify_id": "2c0UqgOAHBLeHggL36Y535",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2731cbdf6e04a64c34bbb5f62f5"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e021cbdf6e04a64c34bbb5f62f5"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d000048511cbdf6e04a64c34bbb5f62f5"
+            }
+          ],
+          "duration_ms": 281706,
+          "duration": "4:41",
+          "album_match_type": "exact"
+        }
+      ]
+    },
+    {
+      "requested_value": "2QlABGwVVmqOu8SHMyyZMq",
+      "matched_by": "spotify_id",
+      "spotify_id": "2QlABGwVVmqOu8SHMyyZMq",
+      "name": "Klo",
+      "spotify_uri": "spotify:artist:2QlABGwVVmqOu8SHMyyZMq",
+      "spotify_url": "https://open.spotify.com/artist/2QlABGwVVmqOu8SHMyyZMq",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb72fd41926fbf75fc0111efd9",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000517472fd41926fbf75fc0111efd9",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f17872fd41926fbf75fc0111efd9",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "2Ua1gdg52itBvIelrsR0lj",
+          "name": "SAY SOMETHING",
+          "requested_name": "SAY SOMETHING",
+          "spotify_url": "https://open.spotify.com/track/2Ua1gdg52itBvIelrsR0lj",
+          "spotify_uri": "spotify:track:2Ua1gdg52itBvIelrsR0lj",
+          "album_name": "SAY SOMETHING",
+          "expected_album": "",
+          "album_spotify_id": "5GpGiO6KJyRuk73MEqsPdr",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b27383da7dafb92fa40f8bbd6101"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e0283da7dafb92fa40f8bbd6101"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000485183da7dafb92fa40f8bbd6101"
+            }
+          ],
+          "duration_ms": 171428,
+          "duration": "2:51",
+          "album_match_type": "none"
+        },
+        {
+          "spotify_id": "4Rp88QaQ5jSzT1MXkHFtm7",
+          "name": "HOLD BACK",
+          "requested_name": "HOLD BACK",
+          "spotify_url": "https://open.spotify.com/track/4Rp88QaQ5jSzT1MXkHFtm7",
+          "spotify_uri": "spotify:track:4Rp88QaQ5jSzT1MXkHFtm7",
+          "album_name": "HOLD BACK",
+          "expected_album": "",
+          "album_spotify_id": "3V3AwkY5W62e6e7Lfw701s",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273ce41b9908703deb9b3ddd64b"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02ce41b9908703deb9b3ddd64b"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851ce41b9908703deb9b3ddd64b"
+            }
+          ],
+          "duration_ms": 133000,
+          "duration": "2:13",
+          "album_match_type": "none"
+        },
+        {
+          "spotify_id": "7AoZ39tdZt9OLEsfQ6bdiA",
+          "name": "SAVE U",
+          "requested_name": "SAVE U",
+          "spotify_url": "https://open.spotify.com/track/7AoZ39tdZt9OLEsfQ6bdiA",
+          "spotify_uri": "spotify:track:7AoZ39tdZt9OLEsfQ6bdiA",
+          "album_name": "SAVE U",
+          "expected_album": "",
+          "album_spotify_id": "1p2cM5KI8zCFBcKwzwdNlM",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273af9952e7d23533ca32e0cc5f"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02af9952e7d23533ca32e0cc5f"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851af9952e7d23533ca32e0cc5f"
+            }
+          ],
+          "duration_ms": 161142,
+          "duration": "2:41",
+          "album_match_type": "none"
+        }
+      ]
+    },
+    {
+      "requested_value": "Queen Key",
+      "matched_by": "exact_name",
+      "spotify_id": "3IhYHKVt0Q9vxCCwiCHahR",
+      "name": "Queen Key",
+      "spotify_uri": "spotify:artist:3IhYHKVt0Q9vxCCwiCHahR",
+      "spotify_url": "https://open.spotify.com/artist/3IhYHKVt0Q9vxCCwiCHahR",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5ebe2540e8c19215a2089950e60",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab67616100005174e2540e8c19215a2089950e60",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f178e2540e8c19215a2089950e60",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "58m8PfUcEhHv6pAwfPcOsj",
+          "name": "Went Queenshit",
+          "requested_name": "Went Queenshit",
+          "spotify_url": "https://open.spotify.com/track/58m8PfUcEhHv6pAwfPcOsj",
+          "spotify_uri": "spotify:track:58m8PfUcEhHv6pAwfPcOsj",
+          "album_name": "Went Queenshit",
+          "expected_album": "",
+          "album_spotify_id": "3dATaQkYTt1ZBbEeOo7uxs",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2734d7bb1ab7be0e5be76dd590a"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e024d7bb1ab7be0e5be76dd590a"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d000048514d7bb1ab7be0e5be76dd590a"
+            }
+          ],
+          "duration_ms": 194795,
+          "duration": "3:14",
+          "album_match_type": "none"
+        }
+      ]
+    },
+    {
+      "requested_value": "Lil M.U.",
+      "matched_by": "exact_name",
+      "spotify_id": "1FqtduZDVtxwzIL1vkGOVn",
+      "name": "Lil M.U.",
+      "spotify_uri": "spotify:artist:1FqtduZDVtxwzIL1vkGOVn",
+      "spotify_url": "https://open.spotify.com/artist/1FqtduZDVtxwzIL1vkGOVn",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5ebc8884bc703bc511bbea677b2",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab67616100005174c8884bc703bc511bbea677b2",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f178c8884bc703bc511bbea677b2",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "6KhAY6HMsbKbv68VT4c35p",
+          "name": "Top Of Cars",
+          "requested_name": "Top of Cars",
+          "spotify_url": "https://open.spotify.com/track/6KhAY6HMsbKbv68VT4c35p",
+          "spotify_uri": "spotify:track:6KhAY6HMsbKbv68VT4c35p",
+          "album_name": "Handful",
+          "expected_album": "",
+          "album_spotify_id": "6Jt7B3f6UkWvvP71hjuTl1",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2739d3a1119b5d49076ef486a09"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e029d3a1119b5d49076ef486a09"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d000048519d3a1119b5d49076ef486a09"
+            }
+          ],
+          "duration_ms": 136411,
+          "duration": "2:16",
+          "album_match_type": "none"
+        }
+      ]
+    },
+    {
+      "requested_value": "Trixie Mattel",
+      "matched_by": "exact_name",
+      "spotify_id": "33hAj1SghVYxDAxZxNDcyc",
+      "name": "Trixie Mattel",
+      "spotify_uri": "spotify:artist:33hAj1SghVYxDAxZxNDcyc",
+      "spotify_url": "https://open.spotify.com/artist/33hAj1SghVYxDAxZxNDcyc",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb555f68ddea459146e29f2728",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab67616100005174555f68ddea459146e29f2728",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f178555f68ddea459146e29f2728",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "3e0e28MoXsqZcWa3aiJOE6",
+          "name": "Free to Love - Trixie Mattel Remix",
+          "requested_name": "Free to Love - Trixie Mattel Remix",
+          "spotify_url": "https://open.spotify.com/track/3e0e28MoXsqZcWa3aiJOE6",
+          "spotify_uri": "spotify:track:3e0e28MoXsqZcWa3aiJOE6",
+          "album_name": "Free to Love: Hot Star Remixes",
+          "expected_album": "Free to Love: Hot Star Remixes",
+          "album_spotify_id": "1MMaSC7Je6Yo4GRxIEfjJj",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273f2b72f2f1943e36b8af31208"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02f2b72f2f1943e36b8af31208"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851f2b72f2f1943e36b8af31208"
+            }
+          ],
+          "duration_ms": 220312,
+          "duration": "3:40",
+          "album_match_type": "exact"
+        },
+        {
+          "spotify_id": "1vVIXtVoe7jaM4R01KkdDU",
+          "name": "Hung Up",
+          "requested_name": "Hung Up",
+          "spotify_url": "https://open.spotify.com/track/1vVIXtVoe7jaM4R01KkdDU",
+          "spotify_uri": "spotify:track:1vVIXtVoe7jaM4R01KkdDU",
+          "album_name": "Hung Up",
+          "expected_album": "Hung Up",
+          "album_spotify_id": "1Q6CnTldfULkslmZ42PT9K",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273f6fc2cbdacfa50ca76b1bc6e"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02f6fc2cbdacfa50ca76b1bc6e"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851f6fc2cbdacfa50ca76b1bc6e"
+            }
+          ],
+          "duration_ms": 184615,
+          "duration": "3:04",
+          "album_match_type": "exact"
+        },
+        {
+          "spotify_id": "6GE4fcrDAF5hF170xMzxq8",
+          "name": "Video Games",
+          "requested_name": "Video Games",
+          "spotify_url": "https://open.spotify.com/track/6GE4fcrDAF5hF170xMzxq8",
+          "spotify_uri": "spotify:track:6GE4fcrDAF5hF170xMzxq8",
+          "album_name": "Video Games",
+          "expected_album": "",
+          "album_spotify_id": "6uZsds0yJIBkTqnXuBJau6",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273815cb21e96c7c8b9df8fda01"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02815cb21e96c7c8b9df8fda01"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851815cb21e96c7c8b9df8fda01"
+            }
+          ],
+          "duration_ms": 225882,
+          "duration": "3:45",
+          "album_match_type": "none"
+        }
+      ]
+    },
+    {
+      "requested_value": "2KnhnL8zuqLhIhGk601fsb",
+      "matched_by": "spotify_id",
+      "spotify_id": "2KnhnL8zuqLhIhGk601fsb",
+      "name": "kwn",
+      "spotify_uri": "spotify:artist:2KnhnL8zuqLhIhGk601fsb",
+      "spotify_url": "https://open.spotify.com/artist/2KnhnL8zuqLhIhGk601fsb",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb4be2ad9cc15685f53dfd6fc7",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab676161000051744be2ad9cc15685f53dfd6fc7",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f1784be2ad9cc15685f53dfd6fc7",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "3tyDv1Qwsr7MSZB45ywgj7",
+          "name": "touch myself",
+          "requested_name": "touch myself",
+          "spotify_url": "https://open.spotify.com/track/3tyDv1Qwsr7MSZB45ywgj7",
+          "spotify_uri": "spotify:track:3tyDv1Qwsr7MSZB45ywgj7",
+          "album_name": "and all pride aside",
+          "expected_album": "and all pride aside",
+          "album_spotify_id": "3WInudF8Setm33NN23BxYH",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b27381d2da23c57c785baeb49339"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e0281d2da23c57c785baeb49339"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000485181d2da23c57c785baeb49339"
+            }
+          ],
+          "duration_ms": 249218,
+          "duration": "4:09",
+          "album_match_type": "exact"
+        },
+        {
+          "spotify_id": "4Efkz2fw4BgqFaWfLReqKN",
+          "name": "risk it all",
+          "requested_name": "risk it all",
+          "spotify_url": "https://open.spotify.com/track/4Efkz2fw4BgqFaWfLReqKN",
+          "spotify_uri": "spotify:track:4Efkz2fw4BgqFaWfLReqKN",
+          "album_name": "and all pride aside",
+          "expected_album": "and all pride aside",
+          "album_spotify_id": "3WInudF8Setm33NN23BxYH",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b27381d2da23c57c785baeb49339"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e0281d2da23c57c785baeb49339"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000485181d2da23c57c785baeb49339"
+            }
+          ],
+          "duration_ms": 182257,
+          "duration": "3:02",
+          "album_match_type": "exact"
+        }
+      ]
+    },
+    {
+      "requested_value": "The Bends",
+      "matched_by": "exact_name",
+      "spotify_id": "2xBejdNon0VS3Egq8he7sb",
+      "name": "The Bends",
+      "spotify_uri": "spotify:artist:2xBejdNon0VS3Egq8he7sb",
+      "spotify_url": "https://open.spotify.com/artist/2xBejdNon0VS3Egq8he7sb",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb95c91c1903cc54e56c54e6f4",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000517495c91c1903cc54e56c54e6f4",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f17895c91c1903cc54e56c54e6f4",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": []
+    },
+    {
+      "requested_value": "After",
+      "matched_by": "exact_name",
+      "spotify_id": "7KfMR05zRrWyhQimnYa8li",
+      "name": "After",
+      "spotify_uri": "spotify:artist:7KfMR05zRrWyhQimnYa8li",
+      "spotify_url": "https://open.spotify.com/artist/7KfMR05zRrWyhQimnYa8li",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb8c86a64417f7ffa0263515fb",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab676161000051748c86a64417f7ffa0263515fb",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f1788c86a64417f7ffa0263515fb",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "2uUas52tPNgo8eJUQpe4No",
+          "name": "After Everything Went Quiet",
+          "requested_name": "After",
+          "spotify_url": "https://open.spotify.com/track/2uUas52tPNgo8eJUQpe4No",
+          "spotify_uri": "spotify:track:2uUas52tPNgo8eJUQpe4No",
+          "album_name": "After Everything Went Quiet",
+          "expected_album": "After",
+          "album_spotify_id": "6W3rDHn0xMDBVSWBceM6Yu",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273b77becf2fa11c901f834f06e"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02b77becf2fa11c901f834f06e"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851b77becf2fa11c901f834f06e"
+            }
+          ],
+          "duration_ms": 162800,
+          "duration": "2:42",
+          "album_match_type": "partial"
+        },
+        {
+          "spotify_id": "47pIdfwVppx9bWNs2FHnDO",
+          "name": "Static Horizon",
+          "requested_name": "Static",
+          "spotify_url": "https://open.spotify.com/track/47pIdfwVppx9bWNs2FHnDO",
+          "spotify_uri": "spotify:track:47pIdfwVppx9bWNs2FHnDO",
+          "album_name": "Static Horizon",
+          "expected_album": "After",
+          "album_spotify_id": "4CwbYwAw7lixI1oiiiPNAe",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b27393181637037aa1ca8978f866"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e0293181637037aa1ca8978f866"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000485193181637037aa1ca8978f866"
+            }
+          ],
+          "duration_ms": 132000,
+          "duration": "2:12",
+          "album_match_type": "none"
+        },
+        {
+          "spotify_id": "288iKThiiAR9bhCA4YVidp",
+          "name": "fade into you",
+          "requested_name": "Fade",
+          "spotify_url": "https://open.spotify.com/track/288iKThiiAR9bhCA4YVidp",
+          "spotify_uri": "spotify:track:288iKThiiAR9bhCA4YVidp",
+          "album_name": "fade into you",
+          "expected_album": "Fade",
+          "album_spotify_id": "0hxAIwqwqSoL87qRzgfnU8",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273792064fe2b49802cd5a0ba8a"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02792064fe2b49802cd5a0ba8a"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851792064fe2b49802cd5a0ba8a"
+            }
+          ],
+          "duration_ms": 120000,
+          "duration": "2:00",
+          "album_match_type": "partial"
+        }
+      ]
+    },
+    {
+      "requested_value": "Whatmore",
+      "matched_by": "exact_name",
+      "spotify_id": "2y4kS2ljmS41pNDNA01P2Q",
+      "name": "WHATMORE",
+      "spotify_uri": "spotify:artist:2y4kS2ljmS41pNDNA01P2Q",
+      "spotify_url": "https://open.spotify.com/artist/2y4kS2ljmS41pNDNA01P2Q",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb8e518045decd21097c8c76c9",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab676161000051748e518045decd21097c8c76c9",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f1788e518045decd21097c8c76c9",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "7Ekhdkc1fkXYfoxSReGtLV",
+          "name": "never let go",
+          "requested_name": "Whatmore",
+          "spotify_url": "https://open.spotify.com/track/7Ekhdkc1fkXYfoxSReGtLV",
+          "spotify_uri": "spotify:track:7Ekhdkc1fkXYfoxSReGtLV",
+          "album_name": "WHATMORE",
+          "expected_album": "Whatmore",
+          "album_spotify_id": "0UZHxpIihS68mjFPTcyu7A",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b27342449dc8d72faa3e65b147d0"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e0242449dc8d72faa3e65b147d0"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000485142449dc8d72faa3e65b147d0"
+            }
+          ],
+          "duration_ms": 154874,
+          "duration": "2:34",
+          "album_match_type": "exact"
+        }
+      ]
+    },
+    {
+      "requested_value": "Porch Light",
+      "matched_by": "exact_name",
+      "spotify_id": "71gxkPYviG8kwEzEZGM1FH",
+      "name": "Porch Light",
+      "spotify_uri": "spotify:artist:71gxkPYviG8kwEzEZGM1FH",
+      "spotify_url": "https://open.spotify.com/artist/71gxkPYviG8kwEzEZGM1FH",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb8a8f0f5f7bd574f4dc1f60c5",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab676161000051748a8f0f5f7bd574f4dc1f60c5",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f1788a8f0f5f7bd574f4dc1f60c5",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": []
+    },
+    {
+      "requested_value": "Easy Honey",
+      "matched_by": "exact_name",
+      "spotify_id": "5fKAYiCIzDsV8OqQDl8Erj",
+      "name": "Easy Honey",
+      "spotify_uri": "spotify:artist:5fKAYiCIzDsV8OqQDl8Erj",
+      "spotify_url": "https://open.spotify.com/artist/5fKAYiCIzDsV8OqQDl8Erj",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb82e03f0c021c499a9b88944d",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000517482e03f0c021c499a9b88944d",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f17882e03f0c021c499a9b88944d",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "53O30HK9TzT7S5uFdE1Frc",
+          "name": "Steady in Vertigo",
+          "requested_name": "Steady",
+          "spotify_url": "https://open.spotify.com/track/53O30HK9TzT7S5uFdE1Frc",
+          "spotify_uri": "spotify:track:53O30HK9TzT7S5uFdE1Frc",
+          "album_name": "Steady in Vertigo",
+          "expected_album": "Peach State",
+          "album_spotify_id": "6s8SASq1CzcNlZxxp6vZCR",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273288cc871bc2e457880800c9e"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02288cc871bc2e457880800c9e"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851288cc871bc2e457880800c9e"
+            }
+          ],
+          "duration_ms": 174894,
+          "duration": "2:54",
+          "album_match_type": "none"
+        },
+        {
+          "spotify_id": "1JlQELi7lVpeBeR9mFaZyV",
+          "name": "Spells",
+          "requested_name": "Spells",
+          "spotify_url": "https://open.spotify.com/track/1JlQELi7lVpeBeR9mFaZyV",
+          "spotify_uri": "spotify:track:1JlQELi7lVpeBeR9mFaZyV",
+          "album_name": "Spells",
+          "expected_album": "Peach State",
+          "album_spotify_id": "5GLQZjsxw6tixC2HRIxfOq",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2731103de4ee6de12960aa72c6b"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e021103de4ee6de12960aa72c6b"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d000048511103de4ee6de12960aa72c6b"
+            }
+          ],
+          "duration_ms": 188862,
+          "duration": "3:08",
+          "album_match_type": "none"
+        }
+      ]
+    },
+    {
+      "requested_value": "Jackie Hollander",
+      "matched_by": "exact_name",
+      "spotify_id": "5ykY9Uweo3gl5VFpb6z6pQ",
+      "name": "Jackie Hollander",
+      "spotify_uri": "spotify:artist:5ykY9Uweo3gl5VFpb6z6pQ",
+      "spotify_url": "https://open.spotify.com/artist/5ykY9Uweo3gl5VFpb6z6pQ",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5ebf0e99d6f6b67dd3e7a9bd905",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab67616100005174f0e99d6f6b67dd3e7a9bd905",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f178f0e99d6f6b67dd3e7a9bd905",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": []
+    },
+    {
+      "requested_value": "Stella Lefty",
+      "matched_by": "exact_name",
+      "spotify_id": "6hp2uD84OrQ3u3ukmTjLz2",
+      "name": "STELLA LEFTY",
+      "spotify_uri": "spotify:artist:6hp2uD84OrQ3u3ukmTjLz2",
+      "spotify_url": "https://open.spotify.com/artist/6hp2uD84OrQ3u3ukmTjLz2",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5ebcbcd28b97defa1ada8c06d6c",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab67616100005174cbcd28b97defa1ada8c06d6c",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f178cbcd28b97defa1ada8c06d6c",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": []
+    },
+    {
+      "requested_value": "Justine Skye",
+      "matched_by": "exact_name",
+      "spotify_id": "0jUQSUOcM7lxVn5eVGTkzQ",
+      "name": "Justine Skye",
+      "spotify_uri": "spotify:artist:0jUQSUOcM7lxVn5eVGTkzQ",
+      "spotify_url": "https://open.spotify.com/artist/0jUQSUOcM7lxVn5eVGTkzQ",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb520fd1d970fb8275b656eb88",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab67616100005174520fd1d970fb8275b656eb88",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f178520fd1d970fb8275b656eb88",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "22I3h5AOENlH4CqXJsEbFR",
+          "name": "Collide (feat. Tyga)",
+          "requested_name": "Collide",
+          "spotify_url": "https://open.spotify.com/track/22I3h5AOENlH4CqXJsEbFR",
+          "spotify_uri": "spotify:track:22I3h5AOENlH4CqXJsEbFR",
+          "album_name": "Collide (feat. Tyga)",
+          "expected_album": "Bare With Me",
+          "album_spotify_id": "2LbrGt2oc08xV8IDJvLzYi",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273adadb86bf3555eb27a383c76"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02adadb86bf3555eb27a383c76"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851adadb86bf3555eb27a383c76"
+            }
+          ],
+          "duration_ms": 260169,
+          "duration": "4:20",
+          "album_match_type": "none"
+        },
+        {
+          "spotify_id": "0G3qCSe4KcWFc0EKlXCEo8",
+          "name": "Build",
+          "requested_name": "Build",
+          "spotify_url": "https://open.spotify.com/track/0G3qCSe4KcWFc0EKlXCEo8",
+          "spotify_uri": "spotify:track:0G3qCSe4KcWFc0EKlXCEo8",
+          "album_name": "Build",
+          "expected_album": "Bare With Me",
+          "album_spotify_id": "6ASizE9wRKuBUsgARpMrkh",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b27399bfdb8c3573c8db0c457478"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e0299bfdb8c3573c8db0c457478"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000485199bfdb8c3573c8db0c457478"
+            }
+          ],
+          "duration_ms": 247333,
+          "duration": "4:07",
+          "album_match_type": "none"
+        },
+        {
+          "spotify_id": "5aKvdpWyjO14xB04CTEpEw",
+          "name": "In My Bag",
+          "requested_name": "In My Bag",
+          "spotify_url": "https://open.spotify.com/track/5aKvdpWyjO14xB04CTEpEw",
+          "spotify_uri": "spotify:track:5aKvdpWyjO14xB04CTEpEw",
+          "album_name": "Space and Time",
+          "expected_album": "Space & Time",
+          "album_spotify_id": "3FsgJirEdTynPXLGvct53E",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2733cb656dd067ce27a38b50886"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e023cb656dd067ce27a38b50886"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d000048513cb656dd067ce27a38b50886"
+            }
+          ],
+          "duration_ms": 208591,
+          "duration": "3:28",
+          "album_match_type": "none"
+        }
+      ]
+    },
+    {
+      "requested_value": "Will Swinton",
+      "matched_by": "exact_name",
+      "spotify_id": "1fUcXY3KcnNvCP2dnF7XCh",
+      "name": "Will Swinton",
+      "spotify_uri": "spotify:artist:1fUcXY3KcnNvCP2dnF7XCh",
+      "spotify_url": "https://open.spotify.com/artist/1fUcXY3KcnNvCP2dnF7XCh",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5ebab9c8bc21eb6b3b9e5a9eae9",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab67616100005174ab9c8bc21eb6b3b9e5a9eae9",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f178ab9c8bc21eb6b3b9e5a9eae9",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "3oCorEb2RJOrGlpRcUy3Bn",
+          "name": "Better Days",
+          "requested_name": "Better Days",
+          "spotify_url": "https://open.spotify.com/track/3oCorEb2RJOrGlpRcUy3Bn",
+          "spotify_uri": "spotify:track:3oCorEb2RJOrGlpRcUy3Bn",
+          "album_name": "Better Days",
+          "expected_album": "Better Days",
+          "album_spotify_id": "5QC8ECRS0aZK0Vpoo1AorE",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273bee403db120105a7e9a4f38c"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02bee403db120105a7e9a4f38c"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851bee403db120105a7e9a4f38c"
+            }
+          ],
+          "duration_ms": 167865,
+          "duration": "2:47",
+          "album_match_type": "exact"
+        }
+      ]
+    },
+    {
+      "requested_value": "Case Oats",
+      "matched_by": "exact_name",
+      "spotify_id": "5Ml0QbIoj7bneIUJDCoMx8",
+      "name": "Case Oats",
+      "spotify_uri": "spotify:artist:5Ml0QbIoj7bneIUJDCoMx8",
+      "spotify_url": "https://open.spotify.com/artist/5Ml0QbIoj7bneIUJDCoMx8",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb7a0dd820dc1048ad38bf8938",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab676161000051747a0dd820dc1048ad38bf8938",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f1787a0dd820dc1048ad38bf8938",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": []
+    },
+    {
+      "requested_value": "Surfing for Daisy",
+      "matched_by": "exact_name",
+      "spotify_id": "3zwFtNNRxR23FVS8jueGK9",
+      "name": "Surfing For Daisy",
+      "spotify_uri": "spotify:artist:3zwFtNNRxR23FVS8jueGK9",
+      "spotify_url": "https://open.spotify.com/artist/3zwFtNNRxR23FVS8jueGK9",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb1dc3708aadc8c1e4aec429bd",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab676161000051741dc3708aadc8c1e4aec429bd",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f1781dc3708aadc8c1e4aec429bd",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": []
+    },
+    {
+      "requested_value": "SNACKTIME",
+      "matched_by": "exact_name",
+      "spotify_id": "4Dz610GESZQXsYHxaS73Wk",
+      "name": "Snacktime",
+      "spotify_uri": "spotify:artist:4Dz610GESZQXsYHxaS73Wk",
+      "spotify_url": "https://open.spotify.com/artist/4Dz610GESZQXsYHxaS73Wk",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb6fb6810ae2ff14955483fc6e",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab676161000051746fb6810ae2ff14955483fc6e",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f1786fb6810ae2ff14955483fc6e",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "4U7WNGITP6pP6xahNsvzaI",
+          "name": "TOGETHER (With Devon Gilfillian)",
+          "requested_name": "Together",
+          "spotify_url": "https://open.spotify.com/track/4U7WNGITP6pP6xahNsvzaI",
+          "spotify_uri": "spotify:track:4U7WNGITP6pP6xahNsvzaI",
+          "album_name": "TOGETHER (With Devon Gilfillian)",
+          "expected_album": "Together",
+          "album_spotify_id": "5ucp6xSvkJMNfwRT9Sc5Uh",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273880fc9edfbde6e8e6e987f9e"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02880fc9edfbde6e8e6e987f9e"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851880fc9edfbde6e8e6e987f9e"
+            }
+          ],
+          "duration_ms": 207800,
+          "duration": "3:27",
+          "album_match_type": "partial"
+        }
+      ]
+    },
+    {
+      "requested_value": "Zack Martino",
+      "matched_by": "exact_name",
+      "spotify_id": "2US2mjK9hW7QGSBNpprlbu",
+      "name": "Zack Martino",
+      "spotify_uri": "spotify:artist:2US2mjK9hW7QGSBNpprlbu",
+      "spotify_url": "https://open.spotify.com/artist/2US2mjK9hW7QGSBNpprlbu",
+      "genres": [],
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb3dad4fdeafb60ac0deee033f",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab676161000051743dad4fdeafb60ac0deee033f",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f1783dad4fdeafb60ac0deee033f",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "tracks": [
+        {
+          "spotify_id": "7KwOXnN06yiUeGDCk3PQYW",
+          "name": "Hold On To Me",
+          "requested_name": "Hold On To Me",
+          "spotify_url": "https://open.spotify.com/track/7KwOXnN06yiUeGDCk3PQYW",
+          "spotify_uri": "spotify:track:7KwOXnN06yiUeGDCk3PQYW",
+          "album_name": "Hold On To Me",
+          "expected_album": "Hold On To Me",
+          "album_spotify_id": "3n6ptw4b3ZeDoRkkgvv4w7",
+          "album_images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b27377245f24f78b9b8c8bdffc0b"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e0277245f24f78b9b8c8bdffc0b"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000485177245f24f78b9b8c8bdffc0b"
+            }
+          ],
+          "duration_ms": 175378,
+          "duration": "2:55",
+          "album_match_type": "exact"
+        }
+      ]
+    }
+  ],
+  "failures": [
+    {
+      "requested_value": "Petter ConttonTale",
+      "error": "No exact Spotify artist match for \"Petter ConttonTale\" (results: none). Use the artist's 22-character Spotify ID to disambiguate."
+    },
+    {
+      "requested_value": "Cruz Beckham and the Breakers",
+      "error": "No exact Spotify artist match for \"Cruz Beckham and the Breakers\" (results: none). Use the artist's 22-character Spotify ID to disambiguate."
+    },
+    {
+      "requested_value": "Sunshine",
+      "error": "No exact Spotify artist match for \"Sunshine\" (results: SUNSHINE BENZI, Bipolar Sunshine, Sunshine Anderson, Tony Sunshine, Avery*Sunshine). Use the artist's 22-character Spotify ID to disambiguate."
+    }
+  ],
+  "not_found": [
+    {
+      "artist": "Petter ConttonTale",
+      "track": "Windy City Rollers",
+      "expected_album": "Forever Always",
+      "error": "Artist resolution failed: No exact Spotify artist match for \"Petter ConttonTale\" (results: none). Use the artist's 22-character Spotify ID to disambiguate."
+    },
+    {
+      "artist": "2KnhnL8zuqLhIhGk601fsb",
+      "track": "worst behavior (feat. Kelhani)",
+      "expected_album": "with all due respect",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Cruz Beckham and the Breakers",
+      "track": "The Breakers",
+      "expected_album": "The Breakers",
+      "error": "Artist resolution failed: No exact Spotify artist match for \"Cruz Beckham and the Breakers\" (results: none). Use the artist's 22-character Spotify ID to disambiguate."
+    },
+    {
+      "artist": "Cruz Beckham and the Breakers",
+      "track": "Running",
+      "expected_album": "Running",
+      "error": "Artist resolution failed: No exact Spotify artist match for \"Cruz Beckham and the Breakers\" (results: none). Use the artist's 22-character Spotify ID to disambiguate."
+    },
+    {
+      "artist": "Cruz Beckham and the Breakers",
+      "track": "Chamber",
+      "expected_album": "Chamber",
+      "error": "Artist resolution failed: No exact Spotify artist match for \"Cruz Beckham and the Breakers\" (results: none). Use the artist's 22-character Spotify ID to disambiguate."
+    },
+    {
+      "artist": "The Bends",
+      "track": "Static",
+      "expected_album": "The Bends",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "The Bends",
+      "track": "Fallen",
+      "expected_album": "The Bends",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "The Bends",
+      "track": "Chamber",
+      "expected_album": "Chamber",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Whatmore",
+      "track": "Under the Skyline",
+      "expected_album": "Whatmore",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Whatmore",
+      "track": "Closer Now",
+      "expected_album": "Closer Now",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Porch Light",
+      "track": "Voice Memos",
+      "expected_album": "Porch Light",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Porch Light",
+      "track": "Overthinking",
+      "expected_album": "Porch Light",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Porch Light",
+      "track": "Seventeen",
+      "expected_album": "Seventeen",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Easy Honey",
+      "track": "Gotta Tree",
+      "expected_album": "Gotta Tree",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Jackie Hollander",
+      "track": "Resist",
+      "expected_album": "Resist",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Jackie Hollander",
+      "track": "Distortion",
+      "expected_album": "Distortion",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Jackie Hollander",
+      "track": "Control",
+      "expected_album": "Control",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Stella Lefty",
+      "track": "Voice Memos",
+      "expected_album": "Stella Lefty",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Stella Lefty",
+      "track": "Overthinking",
+      "expected_album": "Stella Lefty",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Stella Lefty",
+      "track": "Seventeen",
+      "expected_album": "Seventeen",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Will Swinton",
+      "track": "Wasted On You",
+      "expected_album": "Will Swinton",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Will Swinton",
+      "track": "Leave Me Dead",
+      "expected_album": "Will Swinton",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Sunshine",
+      "track": "Hot Days",
+      "expected_album": "Sunshine",
+      "error": "Artist resolution failed: No exact Spotify artist match for \"Sunshine\" (results: SUNSHINE BENZI, Bipolar Sunshine, Sunshine Anderson, Tony Sunshine, Avery*Sunshine). Use the artist's 22-character Spotify ID to disambiguate."
+    },
+    {
+      "artist": "Sunshine",
+      "track": "Caught in the Rain",
+      "expected_album": "Sunshine",
+      "error": "Artist resolution failed: No exact Spotify artist match for \"Sunshine\" (results: SUNSHINE BENZI, Bipolar Sunshine, Sunshine Anderson, Tony Sunshine, Avery*Sunshine). Use the artist's 22-character Spotify ID to disambiguate."
+    },
+    {
+      "artist": "Sunshine",
+      "track": "Fade",
+      "expected_album": "Fade",
+      "error": "Artist resolution failed: No exact Spotify artist match for \"Sunshine\" (results: SUNSHINE BENZI, Bipolar Sunshine, Sunshine Anderson, Tony Sunshine, Avery*Sunshine). Use the artist's 22-character Spotify ID to disambiguate."
+    },
+    {
+      "artist": "Case Oats",
+      "track": "Oats",
+      "expected_album": "Case Oats",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Case Oats",
+      "track": "Under the Skyline",
+      "expected_album": "Case Oats",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Case Oats",
+      "track": "Closer Now",
+      "expected_album": "Closer Now",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Surfing for Daisy",
+      "track": "Steady",
+      "expected_album": "Peach State",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Surfing for Daisy",
+      "track": "Spells",
+      "expected_album": "Peach State",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Surfing for Daisy",
+      "track": "Gotta Tree",
+      "expected_album": "Gotta Tree",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "SNACKTIME",
+      "track": "Eat That Snack",
+      "expected_album": "SNACKTIME",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "SNACKTIME",
+      "track": "Gumbo",
+      "expected_album": "SNACKTIME",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Zack Martino",
+      "track": "Craving",
+      "expected_album": "Craving",
+      "error": "No Spotify track search results"
+    },
+    {
+      "artist": "Zack Martino",
+      "track": "Do Type",
+      "expected_album": "Do Type",
+      "error": "No Spotify track search results"
+    }
+  ],
+  "summary": {
+    "artists_resolved": 21,
+    "artist_failures": 3,
+    "tracks_resolved": 25,
+    "track_album_matches_exact": 10,
+    "track_album_matches_partial": 3,
+    "track_album_matches_none": 12,
+    "tracks_unresolved": 35
+  }
+}

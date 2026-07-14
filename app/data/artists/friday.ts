@@ -2588,7 +2588,7 @@ const chicagoMade: Artist = {
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
     "A massive local showcase celebrating the absolute vanguard of the city's independent renaissance.",
-  socials: {},
+  socials: { spotify: "https://open.spotify.com/artist/1FqtduZDVtxwzIL1vkGOVn" },
   whySee: [
     "A historic, highly anticipated hometown showcase performance on the Tito's stage celebrating the rapid local scene ascent",
     "Experience an exceptional, multi-artist collection of raw lyrical flows and fuzzed-out dual-guitar indie rock riffs",
