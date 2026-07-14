@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { allArtists } from "@/app/data/artists";
 import Sidebar from "@/app/components/Sidebar";
 import ArtistCarousel from "@/app/components/explore/ArtistCarousel";
@@ -25,6 +26,7 @@ interface ExploreContentProps {
 }
 
 export default function ExploreContent({ seed }: ExploreContentProps) {
+  const router = useRouter();
   const { decisionsByArtist } = useDecisionStore();
   const { preAppliedStatus, clearPreAppliedStatus } = useExploreFilterStore();
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,7 +35,22 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const [activeStages, setActiveStages] = useState<Stage[]>([]);
   const [activeStatus, setActiveStatus] = useState<StatusFilterValue[]>([]);
   const [viewingCarousel, setViewingCarousel] = useState<string | null>(null);
+  const [showSurpriseTooltip, setShowSurpriseTooltip] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
+
+  // Calculate eligible artists for Surprise Me: only those with no entry in decisionsByArtist
+  const eligibleArtists = useMemo(
+    () => allArtists.filter((artist) => !decisionsByArtist[artist.slug]),
+    [decisionsByArtist]
+  );
+
+  // Handle Surprise Me click: pick random eligible artist and navigate
+  const handleSurpriseMe = () => {
+    if (eligibleArtists.length === 0) return;
+    const randomIndex = Math.floor(Math.random() * eligibleArtists.length);
+    const selectedArtist = eligibleArtists[randomIndex];
+    router.push(`/artist/${selectedArtist.slug}`);
+  };
 
   // Apply pre-applied filters from sidebar navigation (on mount or when sidebar link clicked)
   useEffect(() => {
@@ -169,10 +186,29 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                   Discover new artists and build your perfect lineup.
                 </p>
               </div>
-              <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#00E5FF] text-[#110D24] text-sm font-bold hover:bg-[#00E5FF]/90 transition-colors mt-1 flex-shrink-0">
-                <Shuffle size={14} strokeWidth={2} />
-                Surprise Me
-              </button>
+              <div
+                className="relative"
+                onMouseEnter={() => eligibleArtists.length === 0 && setShowSurpriseTooltip(true)}
+                onMouseLeave={() => setShowSurpriseTooltip(false)}
+              >
+                <button
+                  onClick={handleSurpriseMe}
+                  disabled={eligibleArtists.length === 0}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-bold flex-shrink-0 transition-colors mt-1 ${
+                    eligibleArtists.length === 0
+                      ? "bg-[#00E5FF]/30 text-[#110D24]/50 cursor-not-allowed"
+                      : "bg-[#00E5FF] text-[#110D24] hover:bg-[#00E5FF]/90"
+                  }`}
+                >
+                  <Shuffle size={14} strokeWidth={2} />
+                  Surprise Me
+                </button>
+                {showSurpriseTooltip && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 text-xs text-white/60 whitespace-nowrap pointer-events-none">
+                    All artists reviewed
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
