@@ -580,6 +580,22 @@ Neither is being built for MVP. Passed remains reachable only via the Status fil
 
 ---
 
+## Future Consideration: Festival Story — Day of Week Signal
+
+**Deferred signal:** Festival Story currently computes 11 candidate signals for its revelation sequence. A 12th candidate (Day of Week concentration: Thu/Fri vs. Sat/Sun skew) was deliberately omitted, pending a prerequisite Quick Picks feature.
+
+**Why deferred:** The signal cannot be computed honestly without knowing whether a user's Thursday-heavy picks reflect genuine preference or simply that they only attended Thursday and skipped Friday/Saturday/Sunday. Currently, Quick Picks has no "I'm only attending these days" input — it presents the entire lineup to every user regardless of attendance.
+
+**Prerequisites to implement this signal:**
+1. **Quick Picks feature:** Add day-selection UI to Quick Picks intro (e.g., "Which days are you attending?") so users can explicitly mark days they're skipping
+2. **Filter upstream:** Filter the Quick Picks queue to only artists performing on selected days
+3. **Store attendance plan:** Persist which days the user selected to localStorage (alongside decision data) for reference by Festival Story and future Schedule feature
+4. **Then compute signal:** Compare user's day-of-week distribution (of their attended days) against the lineup's distribution (of those same days only)
+
+Once Quick Picks gains day selection, this signal can be reintroduced without ambiguity.
+
+---
+
 ## Future Consideration: Onboarding / How It Works Explainer
 
 Throughout development, the idea of a lightweight explainer has come up multiple times — something that briefly walks a new user through how the app's core concepts connect: the difference between Must See / Interested / Passed, what Quick Picks does, and what the Festival Story/Snapshot reveal is and how you get there. Right now, this understanding is only conveyed implicitly, scattered across UI copy on individual screens (button labels, the Quick Picks intro screen, etc.) — there's no single place a new user could go to understand the whole system at a glance.
