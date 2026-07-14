@@ -564,3 +564,16 @@ This should be introduced as an entirely NEW, additional field — never by rede
 If/when this is built, it needs its own distinct visual treatment — not another star or heart — since it represents a categorically different kind of fact (general taste, not a festival-specific decision), similar to how "Scheduled" was deliberately given a different visual treatment than "Must See"/"Interested" earlier in this project, since it's also a different kind of fact (a plan commitment, not an interest level).
 
 **Do not implement this now.** This section exists so the option is preserved and clearly scoped for future consideration, not lost or forgotten.
+
+---
+
+## Future Consideration: Visible "Passed" Indicator
+
+Currently, "Passed" has no visual representation anywhere in the UI outside the Status filter — cards don't show any distinction between an artist that's been passed on versus one that's fully undecided. This is a deliberate asymmetry, not an oversight: Must See and Interested get persistent icons because they represent a positive, actively-curated list the user wants reinforced everywhere they browse. Passed was never designed to carry that same visual weight — it's a lower-salience state, consistent with the decision not to give it a dedicated sidebar entry.
+
+If this becomes worth revisiting later, two options were considered and explicitly deferred:
+
+1. **A dedicated fourth icon/button on cards** (parallel to star/heart) — rejected for now due to real added complexity: a new interactive control, a new visual language, and risk of reintroducing the "too many discrete signals" clutter that was deliberately avoided when the Must See/Interested button design was simplified.
+2. **A lightweight, read-only visual treatment** (e.g., reduced card opacity, or a small "Passed" text label) for artists with verdict "passed" — lower complexity than option 1 since it requires no new interactive control, just a passive display state.
+
+Neither is being built for MVP. Passed remains reachable only via the Status filter's "Passed" option, which is considered sufficient for the state's intended low visibility. Revisit only if real usage shows people want to casually distinguish "passed" from "undecided" while browsing, not just when deliberately reviewing via the filter.
