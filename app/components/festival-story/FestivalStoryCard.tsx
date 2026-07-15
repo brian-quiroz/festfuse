@@ -8,6 +8,7 @@ interface FestivalStoryCardProps {
   progress: number; // 0–1
   isLastCard: boolean;
   isIntroCard?: boolean;
+  imageUrl: string;
   onRevealNext: () => void;
 }
 
@@ -16,9 +17,9 @@ export function FestivalStoryCard({
   progress,
   isLastCard,
   isIntroCard,
+  imageUrl,
   onRevealNext,
 }: FestivalStoryCardProps) {
-  const placeholderImageUrl = "/festivals/story/festival-daylight.avif";
   const progressPercent = progress * 100;
   const hotPink = "#FF2D78";
 
@@ -28,7 +29,7 @@ export function FestivalStoryCard({
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('${placeholderImageUrl}')`,
+          backgroundImage: `url('${imageUrl}')`,
         }}
       ></div>
 

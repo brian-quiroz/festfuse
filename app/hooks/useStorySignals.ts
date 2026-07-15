@@ -27,7 +27,9 @@ export function useStorySignals(
   return useMemo(() => {
     // Build picked artists list
     const pickedSlugs = Object.entries(decisionsByArtist)
-      .filter(([_, decision]) => decision.verdict === "mustSee" || decision.verdict === "interested")
+      .filter(
+        ([_, decision]) => decision.verdict === "mustSee" || decision.verdict === "interested"
+      )
       .map(([slug]) => slug);
 
     if (pickedSlugs.length === 0) {
@@ -68,8 +70,8 @@ export function useStorySignals(
       userValue: userFamilyRate,
       lineupValue: lineupFamilyRate,
       deviation: genreDeviation,
-      headlineTemplate: `Your taste leans heavily toward ${topFamilyName}`,
-      supportingText: `${userFamilyRate.toFixed(0)}% of your picks touch ${topFamilyName} vs. ${lineupFamilyRate.toFixed(0)}% of the lineup.`,
+      headlineTemplate: `Your heart beat to the rhythm of ${topFamilyName}`,
+      supportingText: `You didn't just dip your toes in - ${userFamilyRate.toFixed(0)}% of your picks are ${topFamilyName} artists.`,
     });
 
     // ===== SIGNAL 2: Hometown/Local Concentration =====
@@ -88,17 +90,19 @@ export function useStorySignals(
       userValue: userChicagoRate,
       lineupValue: lineupChicagoRate,
       deviation: chicagoDeviation,
-      headlineTemplate: `Your hometown favorites stole the show`,
-      supportingText: `${userChicagoRate.toFixed(0)}% of your picks are from Chicago vs. ${lineupChicagoRate.toFixed(0)}% of the lineup.`,
+      headlineTemplate: `A hometown hero's biggest fan`,
+      supportingText: `Reppin' hard: ${userChicagoRate.toFixed(0)}% of your picks are straight out of Chicago.`,
     });
 
     // ===== SIGNAL 3: Headliner/Sub-headliner vs. Undercard =====
     const headlinerCount = pickedArtists.filter(
-      (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+      (a) =>
+        a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
     ).length;
     const userHeadlinerRate = (headlinerCount / pickedArtists.length) * 100;
     const lineupHeadlinerCount = allArtists.filter(
-      (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+      (a) =>
+        a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
     ).length;
     const lineupHeadlinerRate = (lineupHeadlinerCount / allArtists.length) * 100;
     const headlinerDeviation = Math.abs(userHeadlinerRate - lineupHeadlinerRate);
@@ -110,17 +114,18 @@ export function useStorySignals(
       deviation: headlinerDeviation,
       headlineTemplate:
         userHeadlinerRate > lineupHeadlinerRate
-          ? `You're all about the big names`
-          : `You found the hidden gems`,
+          ? `You came for the main stage spectacle`
+          : `An elite tier gatekeeper`,
       supportingText:
         userHeadlinerRate > lineupHeadlinerRate
-          ? `${userHeadlinerRate.toFixed(0)}% of your picks are headliners/sub-headliners vs. ${lineupHeadlinerRate.toFixed(0)}% of the lineup.`
-          : `${(100 - userHeadlinerRate).toFixed(0)}% of your picks are undercard artists vs. ${(100 - lineupHeadlinerRate).toFixed(0)}% of the lineup.`,
+          ? `Go big or go home. ${userHeadlinerRate.toFixed(0)}% of your picks are headliners and sub-headliners.`
+          : `${(100 - userHeadlinerRate).toFixed(0)}% of your picks features rising undercard artists. You're catching them now so you can say "I knew them when...`,
     });
 
     // ===== SIGNAL 4: International/Domestic Mix =====
-    const internationalCount = pickedArtists.filter((a) => a.location.country !== "United States")
-      .length;
+    const internationalCount = pickedArtists.filter(
+      (a) => a.location.country !== "United States"
+    ).length;
     const userInternationalRate = (internationalCount / pickedArtists.length) * 100;
     const lineupInternationalCount = allArtists.filter(
       (a) => a.location.country !== "United States"
@@ -133,8 +138,8 @@ export function useStorySignals(
       userValue: userInternationalRate,
       lineupValue: lineupInternationalRate,
       deviation: internationalDeviation,
-      headlineTemplate: `You reached across the globe`,
-      supportingText: `${userInternationalRate.toFixed(0)}% of your picks are international vs. ${lineupInternationalRate.toFixed(0)}% of the lineup.`,
+      headlineTemplate: `Great music knows no borders`,
+      supportingText: `${userInternationalRate.toFixed(0)}% of your picks are artists who crossed oceans to get here.`,
     });
 
     // ===== SIGNAL 5: High-Energy/Crowd Participation =====
@@ -156,8 +161,8 @@ export function useStorySignals(
         userValue: userHighEnergyRate,
         lineupValue: lineupHighEnergyRate,
         deviation: highEnergyDeviation,
-        headlineTemplate: `You crave the energy and the crowds`,
-        supportingText: `${userHighEnergyRate.toFixed(0)}% of your picks feature high-energy performances vs. ${lineupHighEnergyRate.toFixed(0)}% of the lineup.`,
+        headlineTemplate: `We hope you're packing comfortable shoes`,
+        supportingText: `${userHighEnergyRate.toFixed(0)}% of your roster are high-octane energy zones.`,
       });
     }
 
@@ -180,8 +185,8 @@ export function useStorySignals(
         userValue: userSpectacleRate,
         lineupValue: lineupSpectacleRate,
         deviation: spectacleDeviation,
-        headlineTemplate: `You're drawn to visual spectacle and production`,
-        supportingText: `${userSpectacleRate.toFixed(0)}% of your picks emphasize visuals/production vs. ${lineupSpectacleRate.toFixed(0)}% of the lineup.`,
+        headlineTemplate: `The biggest productions are your jam`,
+        supportingText: `Lasers, pyro, and massive art direction. ${userSpectacleRate.toFixed(0)}% of your picks are known for mind-blowing spectacles.`,
       });
     }
 
@@ -204,8 +209,8 @@ export function useStorySignals(
         userValue: userIntimateRate,
         lineupValue: lineupIntimateRate,
         deviation: intimateDeviation,
-        headlineTemplate: `You value intimacy and rawness`,
-        supportingText: `${userIntimateRate.toFixed(0)}% of your picks prioritize intimate/minimal aesthetics vs. ${lineupIntimateRate.toFixed(0)}% of the lineup.`,
+        headlineTemplate: `No gimmicks, just pure soul`,
+        supportingText: `You let the music speak for itself. ${userIntimateRate.toFixed(0)}% of your roster leans into raw, intimate, or minimalist magic.`,
       });
     }
 
@@ -228,8 +233,8 @@ export function useStorySignals(
         userValue: userLyricsRate,
         lineupValue: lineupLyricsRate,
         deviation: lyricsDeviation,
-        headlineTemplate: `You're captivated by words and storytelling`,
-        supportingText: `${userLyricsRate.toFixed(0)}% of your picks emphasize lyrics/storytelling vs. ${lineupLyricsRate.toFixed(0)}% of the lineup.`,
+        headlineTemplate: `You came for the poetry, not just the party`,
+        supportingText: `You're hanging on every syllable. ${userLyricsRate.toFixed(0)}% of your selected artists put storytelling and lyricism first.`,
       });
     }
 
@@ -262,9 +267,12 @@ export function useStorySignals(
       deviation: stageDeviation,
       headlineTemplate:
         userStageCount > expectedStageCount
-          ? `You explored every corner of the festival`
-          : `You stayed in familiar territory`,
-      supportingText: `You visited ${userStageCount.toFixed(1)} distinct stages vs. ${expectedStageCount.toFixed(1)} expected for your picks.`,
+          ? `The festival's ultimate marathon runner`
+          : `Loyalty is your middle name (or at least your festival strategy)`,
+      supportingText:
+        userStageCount > expectedStageCount
+          ? `The festival will be your cardio for the month. You are hitting ${userStageCount.toFixed(1)} different stages.`
+          : `You are sticking to ${userStageCount.toFixed(1)} stages. Quality over quantity.`,
     });
 
     // ===== SIGNAL 10: Genre Diversity =====
@@ -297,9 +305,12 @@ export function useStorySignals(
       deviation: genreDiversityDeviation,
       headlineTemplate:
         userGenreDiversityCount > expectedGenreCount
-          ? `You're a genre adventurer`
-          : `You found your lane and stuck with it`,
-      supportingText: `Your picks span ${userGenreDiversityCount} distinct genres vs. ${expectedGenreCount.toFixed(1)} expected.`,
+          ? `A certified sonic chameleon`
+          : `You know exactly what you like`,
+      supportingText:
+        userGenreDiversityCount > expectedGenreCount
+          ? `Your ears refuse to settle. Your picks span ${userGenreDiversityCount.toFixed(1)} distinct genres.`
+          : `Why fix what's not broken? Your roster covers only ${userGenreDiversityCount.toFixed(1)} genres.`,
     });
 
     // ===== SIGNAL 11: Geographic Diversity =====
@@ -329,9 +340,12 @@ export function useStorySignals(
       deviation: countryDiversityDeviation,
       headlineTemplate:
         userCountryCount > expectedCountryCount
-          ? `Your taste is truly global`
+          ? `Your ears live in the fast lane of global travel`
           : `You have strong regional preferences`,
-      supportingText: `Your picks represent ${userCountryCount} countries vs. ${expectedCountryCount.toFixed(1)} expected.`,
+      supportingText:
+        userCountryCount > expectedCountryCount
+          ? `Your picks represent artists from ${userCountryCount} different countries.`
+          : `You curated a tight-knit regional vibe. Your picks represent ${userCountryCount} countries.`,
     });
 
     // ===== RANKING & SELECTION =====

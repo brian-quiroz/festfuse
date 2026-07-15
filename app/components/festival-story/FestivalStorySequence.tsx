@@ -4,6 +4,8 @@ import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { allArtists } from "@/app/data/artists";
+import { ACTIVE_FESTIVAL_ID, festivals } from "@/app/data/festivals";
+import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
 import { useStorySignals, type StorySignal } from "@/app/hooks/useStorySignals";
 import { FestivalStoryCard } from "./FestivalStoryCard";
 
@@ -19,6 +21,9 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
   // Compute story signals
   const signals = useStorySignals(decisionsByArtist, allArtists);
 
+  const activeFestival = festivals[ACTIVE_FESTIVAL_ID];
+  const festivalName = activeFestival?.name || "Festival";
+
   // Add intro card (hero photo + title sequence headline, no stats)
   const introCard: StorySignal = useMemo(
     () => ({
@@ -26,10 +31,10 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
       userValue: 0,
       lineupValue: 0,
       deviation: 0,
-      headlineTemplate: "This is your Lollapalooza",
+      headlineTemplate: `This is your ${festivalName}`,
       supportingText: "A weekend built around discovery, hometown pride, and unforgettable nights.",
     }),
-    []
+    [festivalName]
   );
 
   // Add final card (same template, celebration-focused, share-focused)
@@ -66,6 +71,7 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
   const progress = (currentIndex + 1) / allCards.length;
   const isLastCard = currentIndex === allCards.length - 1;
   const isIntroCard = currentCard.type === "intro";
+  const imageUrl = FESTIVAL_STORY_IMAGES[currentCard.type] || FESTIVAL_STORY_IMAGES.intro;
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden bg-slate-900">
@@ -84,6 +90,7 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
         progress={progress}
         isLastCard={isLastCard}
         isIntroCard={isIntroCard}
+        imageUrl={imageUrl}
         onRevealNext={handleRevealNext}
       />
     </div>
