@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X, Heart, Star, Calendar, Layers, Clock, Play, Undo2 } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
+import { COLORS } from "@/app/data/colors";
 
 /*
  * DecisionScreen — moving parts overview
@@ -205,10 +206,19 @@ export default function DecisionScreen({
 
   const isFlashing = (verdict: QuickPicksVerdict) => restoredFlashing && priorVerdict === verdict;
 
-  const passClass =
-    confirming === "passed" || isFlashing("passed")
-      ? "border-red-400/70 bg-red-400/15 text-red-400"
-      : "border-red-400/45 text-red-400/80 hover:bg-red-400/10 hover:border-red-400/65 hover:text-red-400";
+  const getPassStyle = () => {
+    if (confirming === "passed" || isFlashing("passed")) {
+      return {
+        borderColor: COLORS.pass,
+        backgroundColor: `${COLORS.pass}26`, // 15% opacity
+        color: COLORS.pass,
+      };
+    }
+    return {
+      borderColor: `${COLORS.pass}72`, // 45% opacity
+      color: `${COLORS.pass}cc`, // 80% opacity
+    };
+  };
 
   const interestedClass =
     confirming === "interested" || isFlashing("interested")
@@ -448,7 +458,8 @@ export default function DecisionScreen({
             <div className="grid grid-cols-3 gap-3">
               <button
                 onClick={() => handleDecisionClick("passed")}
-                className={`flex items-center justify-center gap-2 py-4 rounded-xl border text-sm font-semibold transition-all duration-150 ${passClass}`}
+                style={getPassStyle()}
+                className="flex items-center justify-center gap-2 py-4 rounded-xl border text-sm font-semibold transition-all duration-150 hover:opacity-80"
               >
                 <X size={15} strokeWidth={2.5} />
                 Pass

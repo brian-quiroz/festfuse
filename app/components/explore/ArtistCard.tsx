@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Heart, Star } from "lucide-react";
+import { COLORS } from "@/app/data/colors";
 import type { Artist } from "@/app/types/artist";
 import { useDecisionStore } from "@/app/store/decisionStore";
 
@@ -71,7 +72,14 @@ export default function ArtistCard({ artist, size = "default", responsive = fals
         {/* Headliner badge — bottom-right, balances action icons on the left */}
         {artist.appearance.billingTier === "Headliner" && (
           <div className="absolute bottom-3 right-3">
-            <span className="px-2 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/18 border border-[#FF2D78]/32 text-[#FF2D78]">
+            <span
+              className="px-2 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase border"
+              style={{
+                backgroundColor: `${COLORS.celebration}2e`,
+                borderColor: `${COLORS.celebration}51`,
+                color: COLORS.celebration,
+              }}
+            >
               Headliner
             </span>
           </div>

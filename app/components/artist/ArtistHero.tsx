@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { FaSpotify, FaYoutube, FaTiktok } from "react-icons/fa6";
+import { COLORS } from "@/app/data/colors";
 import type { Artist } from "@/app/types/artist";
 import ArtistActions from "./ArtistActions";
 
@@ -82,7 +83,14 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
                 {artist.name}
               </h1>
               {artist.appearance.billingTier === "Headliner" && (
-                <span className="mb-2 flex-shrink-0 px-2.5 py-0.5 rounded-md bg-[#FF2D78]/8 border border-[#FF2D78]/20 text-[#FF2D78] text-[9px] font-semibold tracking-widest uppercase">
+                <span
+                  className="mb-2 flex-shrink-0 px-2.5 py-0.5 rounded-md text-[9px] font-semibold tracking-widest uppercase border"
+                  style={{
+                    backgroundColor: `${COLORS.celebration}14`,
+                    borderColor: `${COLORS.celebration}33`,
+                    color: COLORS.celebration,
+                  }}
+                >
                   Headliner
                 </span>
               )}

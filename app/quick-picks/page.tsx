@@ -7,6 +7,7 @@ import DecisionScreen from "@/app/components/quick-picks/DecisionScreen";
 import DayCompleteScreen from "@/app/components/quick-picks/DayCompleteScreen";
 import FestivalCompleteScreen from "@/app/components/quick-picks/FestivalCompleteScreen";
 import { FestivalStorySequence } from "@/app/components/festival-story/FestivalStorySequence";
+import { COLORS } from "@/app/data/colors";
 import { allArtists } from "@/app/data/artists";
 import { useDecisionStore, type ArtistDecision } from "@/app/store/decisionStore";
 import { interleaveByTierWithinDay } from "@/app/lib/quick-picks-queue";
@@ -235,9 +236,11 @@ export default function QuickPicksPage() {
     completedDayStats = { mustSee, interested, passed, total: dayItems.length };
   }
 
+  const showSidebar = step === "start";
+
   return (
     <div className="flex h-screen overflow-hidden bg-[#110D24]">
-      <Sidebar />
+      {showSidebar && <Sidebar />}
       <main className="relative flex-1 min-w-0 overflow-y-auto overflow-x-hidden flex flex-col">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <svg
@@ -262,7 +265,10 @@ export default function QuickPicksPage() {
                 "radial-gradient(ellipse 85% 75% at 50% 45%, transparent 35%, rgba(17,13,36,0.6) 100%)",
             }}
           />
-          <div className="absolute bottom-[-80px] right-[-80px] w-[640px] h-[520px] rounded-full bg-[#FF2D78]/12 blur-[130px]" />
+          <div
+            className="absolute bottom-[-80px] right-[-80px] w-[640px] h-[520px] rounded-full blur-[130px]"
+            style={{ backgroundColor: `${COLORS.celebration}1f` }}
+          />
           <div className="absolute top-[-60px] left-[-60px] w-[500px] h-[400px] rounded-full bg-[#A78BFA]/10 blur-[110px]" />
         </div>
 
