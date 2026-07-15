@@ -297,7 +297,7 @@ export default function QuickPicksPage() {
           <>
             <FestivalCompleteScreen
               context={step === "festivalComplete" ? "sessionComplete" : "nothingToReview"}
-              onGoToBlueprint={() => setShowFestivalStory(true)}
+              onGoToFestivalStory={() => setShowFestivalStory(true)}
               onGoToSchedule={handleExit}
             />
             <FestivalStorySequence

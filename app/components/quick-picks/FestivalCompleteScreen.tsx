@@ -6,20 +6,20 @@ import { ArrowRight } from "lucide-react";
 
 interface Props {
   context: "sessionComplete" | "nothingToReview";
-  onGoToBlueprint: () => void;
+  onGoToFestivalStory: () => void;
   onGoToSchedule: () => void;
 }
 
-export default function FestivalCompleteScreen({ context, onGoToBlueprint, onGoToSchedule }: Props) {
-  const [pressingBlueprint, setPressingBlueprint] = useState(false);
+export default function FestivalCompleteScreen({ context, onGoToFestivalStory, onGoToSchedule }: Props) {
+  const [pressingFestivalStory, setPressingFestivalStory] = useState(false);
   const [pressingSchedule, setPressingSchedule] = useState(false);
 
-  function handleBlueprint() {
-    if (pressingBlueprint) return;
-    setPressingBlueprint(true);
+  function handleFestivalStory() {
+    if (pressingFestivalStory) return;
+    setPressingFestivalStory(true);
     setTimeout(() => {
-      setPressingBlueprint(false);
-      onGoToBlueprint();
+      setPressingFestivalStory(false);
+      onGoToFestivalStory();
     }, 100);
   }
 
@@ -67,14 +67,14 @@ export default function FestivalCompleteScreen({ context, onGoToBlueprint, onGoT
           <p className="text-white/70 text-base">Your festival is starting to take shape.</p>
 
           <div className="grid grid-cols-2 gap-4 w-full">
-            {/* Festival Blueprint — yellow: user intent / personalization */}
+            {/* Festival Story — yellow: user intent / personalization */}
             <button
-              onClick={handleBlueprint}
-              className={`flex flex-col justify-between p-6 rounded-xl border border-[#E8FF47]/48 bg-[#E8FF47]/[0.09] text-left hover:border-[#E8FF47]/65 hover:bg-[#E8FF47]/[0.13] transition duration-150 ${pressingBlueprint ? "scale-[0.97]" : ""}`}
+              onClick={handleFestivalStory}
+              className={`flex flex-col justify-between p-6 rounded-xl border border-[#E8FF47]/48 bg-[#E8FF47]/[0.09] text-left hover:border-[#E8FF47]/65 hover:bg-[#E8FF47]/[0.13] transition duration-150 ${pressingFestivalStory ? "scale-[0.97]" : ""}`}
             >
               <div className="flex flex-col gap-2">
                 <p className="text-[#E8FF47] text-xs uppercase tracking-widest font-bold">
-                  Festival Blueprint
+                  Festival Story
                 </p>
                 <p className="text-white/80 text-sm leading-relaxed">
                   Discover what your lineup says about you.

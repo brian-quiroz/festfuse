@@ -79,7 +79,7 @@ Favor forward progress over exhaustive review. Provide lightweight error recover
 
 The button confirmation is the emotional hierarchy. The card transition is the flow hierarchy. The direction already carries meaning. Don’t add personality on top of geometry.
 
-### Festival Artifact
+### Festival Story
 
 Celebrate the user's festival journey.
 Summarize their taste, discoveries, and decisions in a memorable, shareable format.
@@ -128,7 +128,7 @@ Examples:
 - Personalized recommendations
 - Best For
 - User-created collections
-- Festival Artifact highlights
+- Festival Story highlights
 
 Yellow should communicate:
 
@@ -145,7 +145,7 @@ Examples:
 - Festival branding
 - Decorative gradients
 - Celebration states
-- Wrapped / Festival Artifact accents
+- Wrapped / Festival Story accents
 - Limited promotional moments
 
 Avoid using hot pink for standard navigation or persistent actions.
@@ -240,7 +240,7 @@ Core workflow:
 1. Discover artists
 2. Learn about artists
 3. Build interest through Quick Picks
-4. Produce a shareable festival "artifact" summarizing the user's taste and picks
+4. Produce a shareable festival story summarizing the user's taste and picks
 
 Planning, conflict detection, and scheduling will be expanded after the core discovery experience feels polished.
 
@@ -284,6 +284,6 @@ Next priorities:
 
 1. Explore
 2. Quick Picks
-3. Festival Artifact / Wrapped-style summary
+3. Festival Story / Wrapped-style summary
 4. Compare
 5. Schedule

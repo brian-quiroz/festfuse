@@ -370,7 +370,7 @@ const cinematicVisuals = interleaveByDayShuffled(
 
 ## Interest State
 
-User decisions (Must See, Interested, Passed) are centralized in a Zustand store with localStorage persistence. This serves as the single source of truth across Explore, Artist Detail, Quick Picks, and future features. Decisions also track their source and timestamp for potential use by features like Festival Artifact.
+User decisions (Must See, Interested, Passed) are centralized in a Zustand store with localStorage persistence. This serves as the single source of truth across Explore, Artist Detail, Quick Picks, and future features. Decisions also track their source and timestamp for potential use by features like Festival Story.
 
 ### Store Shape
 
@@ -397,7 +397,7 @@ interface InterestState {
 
 - **Three verdict states, not two:** "passed" is distinct from unset/null. Allows Quick Picks re-runs to differentiate "never considered" from "actively rejected," and lets Surprise Me treat "passed" as eligible for second-chance while excluding "mustSee"/"interested".
 - **Missing key = undecided:** No entry in `decisionsByArtist` means the artist has never received a verdict.
-- **Decision metadata:** Source and timestamp are captured at write-time. No features consume these yet, but Festival Artifact (planned near-term) may reference decision provenance (e.g., "most of your Must Sees came from Quick Picks"). Capturing now avoids data loss—this information cannot be reconstructed after the fact.
+- **Decision metadata:** Source and timestamp are captured at write-time. No features consume these yet, but Festival Story (planned near-term) may reference decision provenance (e.g., "most of your Must Sees came from Quick Picks"). Capturing now avoids data loss—this information cannot be reconstructed after the fact.
 - **Note on Surprise Me:** Surprise Me only navigates to a random artist's detail page—it doesn't present a decision UI. Any verdict set after landing on that page correctly uses `source: "artist"`, the same as any other artist-page decision.
 
 ### Interest State: Must See / Interested Selection Model
