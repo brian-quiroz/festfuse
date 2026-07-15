@@ -6,7 +6,6 @@ import {
   Home,
   Search,
   Zap,
-  BarChart2,
   Calendar,
   Star,
   Heart,
@@ -19,7 +18,6 @@ const navItems = [
   { label: "Home", href: "/", Icon: Home },
   { label: "Explore", href: "/explore", Icon: Search },
   { label: "Quick Picks", href: "/quick-picks", Icon: Zap },
-  { label: "Compare", href: "/compare", Icon: BarChart2 },
   { label: "Schedule", href: "/schedule", Icon: Calendar },
 ];
 
