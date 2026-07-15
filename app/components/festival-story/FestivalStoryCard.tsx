@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { ArrowRight, Film } from "lucide-react";
 import type { StorySignal } from "@/app/hooks/useStorySignals";
 
@@ -10,6 +11,7 @@ interface FestivalStoryCardProps {
   isIntroCard?: boolean;
   imageUrl: string;
   onRevealNext: () => void;
+  isInitialLoad?: boolean;
 }
 
 export function FestivalStoryCard({
@@ -19,12 +21,41 @@ export function FestivalStoryCard({
   isIntroCard,
   imageUrl,
   onRevealNext,
+  isInitialLoad = false,
 }: FestivalStoryCardProps) {
   const progressPercent = progress * 100;
   const hotPink = "#FF2D78";
 
+  // Simple unified animation: fade + subtle scale for premium feel
+  const cardVariants = {
+    initial: { opacity: 0, scale: 0.98 },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.3, ease: "easeOut" as const },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.98,
+      transition: { duration: 0.2, ease: "easeIn" as const },
+    },
+  };
+
   return (
-    <div className="relative w-full" style={{ height: "100vh" }}>
+    <motion.div
+      className="w-full"
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        height: "100vh",
+        zIndex: 1,
+      }}
+      variants={cardVariants}
+      initial={isInitialLoad ? "animate" : "initial"}
+      animate="animate"
+      exit="exit"
+    >
       {/* Full-bleed image: fills entire viewport */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -81,14 +112,16 @@ export function FestivalStoryCard({
         <div className="mt-8">
           {/* Progress bar */}
           <div className="mb-4 h-1 w-full overflow-hidden rounded-full bg-slate-700">
-            <div
-              className="h-full transition-all duration-500"
+            <motion.div
+              className="h-full"
+              initial={{ width: `${progressPercent}%` }}
+              animate={{ width: `${progressPercent}%` }}
+              transition={{ duration: 0.5, ease: "easeOut" as const }}
               style={{
-                width: `${progressPercent}%`,
                 background: isLastCard ? `linear-gradient(to right, ${hotPink}, #A78BFA)` : hotPink,
                 opacity: 0.85,
               }}
-            ></div>
+            ></motion.div>
           </div>
 
           {/* Button */}
@@ -111,6 +144,6 @@ export function FestivalStoryCard({
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

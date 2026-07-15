@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { AnimatePresence } from "framer-motion";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { allArtists } from "@/app/data/artists";
@@ -22,6 +23,18 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
 
   // Compute story signals
   const signals = useStorySignals(decisionsByArtist, allArtists);
+
+  // Preload intro image for instant first card load
+  useEffect(() => {
+    const introImageUrl = FESTIVAL_STORY_IMAGES.intro;
+    if (introImageUrl) {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "image";
+      link.href = introImageUrl;
+      document.head.appendChild(link);
+    }
+  }, []);
 
   const activeFestival = festivals[ACTIVE_FESTIVAL_ID];
   const festivalName = activeFestival?.name || "Festival";
@@ -61,7 +74,6 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
     } else {
       // Last card clicked → view picks filtered by mustSee and interested
       setPreAppliedStatus(["mustSee", "interested"]);
-      onClose?.();
       router.push("/explore");
     }
   };
@@ -77,25 +89,29 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
   const imageUrl = FESTIVAL_STORY_IMAGES[currentCard.type] || FESTIVAL_STORY_IMAGES.intro;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-slate-900">
+    <div className="fixed inset-0 z-50 overflow-hidden bg-black">
       {/* Close button (top-right) */}
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 z-10 text-slate-400 hover:text-white transition"
+        className="absolute top-6 right-6 z-10 p-2 text-white/65 hover:text-white transition-colors duration-200"
         aria-label="Close story"
       >
         ✕
       </button>
 
-      {/* Card carousel (no vertical scroll, just horizontal card swap) */}
-      <FestivalStoryCard
-        signal={currentCard}
-        progress={progress}
-        isLastCard={isLastCard}
-        isIntroCard={isIntroCard}
-        imageUrl={imageUrl}
-        onRevealNext={handleRevealNext}
-      />
+      {/* Card carousel with animated transitions */}
+      <AnimatePresence mode="popLayout">
+        <FestivalStoryCard
+          key={currentCard.type}
+          signal={currentCard}
+          progress={progress}
+          isLastCard={isLastCard}
+          isIntroCard={isIntroCard}
+          imageUrl={imageUrl}
+          onRevealNext={handleRevealNext}
+          isInitialLoad={currentIndex === 0}
+        />
+      </AnimatePresence>
     </div>
   );
 }
