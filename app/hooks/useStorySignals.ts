@@ -91,7 +91,7 @@ export function useStorySignals(
       lineupValue: lineupChicagoRate,
       deviation: chicagoDeviation,
       headlineTemplate: `A hometown hero's biggest fan`,
-      supportingText: `Reppin' hard: ${userChicagoRate.toFixed(0)}% of your picks are straight out of Chicago.`,
+      supportingText: `Keeping it local: ${userChicagoRate.toFixed(0)}% of your picks are straight out of Chicago.`,
     });
 
     // ===== SIGNAL 3: Headliner/Sub-headliner vs. Undercard =====

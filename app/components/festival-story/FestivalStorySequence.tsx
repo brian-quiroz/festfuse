@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useDecisionStore } from "@/app/store/decisionStore";
+import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { allArtists } from "@/app/data/artists";
 import { ACTIVE_FESTIVAL_ID, festivals } from "@/app/data/festivals";
 import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
@@ -17,6 +18,7 @@ interface FestivalStorySequenceProps {
 export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequenceProps) {
   const router = useRouter();
   const decisionsByArtist = useDecisionStore((state) => state.decisionsByArtist);
+  const { setPreAppliedStatus } = useExploreFilterStore();
 
   // Compute story signals
   const signals = useStorySignals(decisionsByArtist, allArtists);
@@ -37,15 +39,15 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
     [festivalName]
   );
 
-  // Add final card (same template, celebration-focused, share-focused)
+  // Add final card (celebration-focused, action-focused on viewing picks)
   const finalCard: StorySignal = useMemo(
     () => ({
       type: "final",
       userValue: 100,
       lineupValue: 100,
       deviation: 0,
-      headlineTemplate: "Your festival awaits",
-      supportingText: "Share your discoveries and build excitement with your friends.",
+      headlineTemplate: "Your lineup is locked in",
+      supportingText: "Time to dive into your picks and get hyped for what's ahead.",
     }),
     []
   );
@@ -57,9 +59,10 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
     if (currentIndex < allCards.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      // Last card clicked → navigate home or close
+      // Last card clicked → view picks filtered by mustSee and interested
+      setPreAppliedStatus(["mustSee", "interested"]);
       onClose?.();
-      router.push("/");
+      router.push("/explore");
     }
   };
 

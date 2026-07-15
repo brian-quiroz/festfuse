@@ -1,6 +1,6 @@
 "use client";
 
-import { Share2, ArrowRight, Film } from "lucide-react";
+import { ArrowRight, Film } from "lucide-react";
 import type { StorySignal } from "@/app/hooks/useStorySignals";
 
 interface FestivalStoryCardProps {
@@ -101,11 +101,11 @@ export function FestivalStoryCard({
           >
             {isLastCard ? (
               <>
-                Share your festival <Share2 size={18} strokeWidth={2} />
+                View My Picks <ArrowRight size={18} strokeWidth={2} />
               </>
             ) : (
               <>
-                Reveal next <ArrowRight size={18} strokeWidth={2} />
+                Reveal Next <ArrowRight size={18} strokeWidth={2} />
               </>
             )}
           </button>
