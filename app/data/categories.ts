@@ -102,6 +102,40 @@ export const BEST_FOR = [
 export type BestForTag = (typeof BEST_FOR)[number];
 
 // ============================================================================
+// STORY_SIGNAL_TAGS: Tag groupings for festival story signal computation
+// ============================================================================
+// These define which whatToExpect tags constitute each performance dimension.
+// Used by useStorySignals to compute signals 5-8 (High-Energy, Spectacle, Intimate, Lyrical).
+
+export const HIGH_ENERGY_TAGS: readonly WhatToExpectTag[] = [
+  "Energetic Mosh Pits",
+  "Massive Singalongs",
+  "Dance Floor Energy",
+  "Crowd Atmosphere",
+  "High-Energy Pacing",
+];
+
+export const SPECTACLE_TAGS: readonly WhatToExpectTag[] = [
+  "High-Production Visuals",
+  "Cinematic Visuals",
+  "Theatrical Staging",
+  "Large-Scale Production",
+  "Fashion Visual",
+];
+
+export const INTIMATE_TAGS: readonly WhatToExpectTag[] = [
+  "Intimate Performance",
+  "Minimal Production",
+  "Dreamy Atmosphere",
+];
+
+export const LYRICAL_TAGS: readonly WhatToExpectTag[] = [
+  "Lyrical Storytelling",
+  "Conversational Delivery",
+  "Lyrical Emotional Depth",
+];
+
+// ============================================================================
 // GENRES: Musical genres and styles (expandable, currently 124 entries)
 // ============================================================================
 // Guidelines for adding new genres:
@@ -237,57 +271,13 @@ export const GENRES = [
 
 export type Genre = (typeof GENRES)[number];
 
-/**
- * Genre Parent Categories (11 total)
- * The 124 genres above are grouped into these broader categories for organizational reference.
- * This is for understanding only — filters and search use the detailed 124-genre list.
- *
- * Rock/Alternative: 90s Alternative, Alternative Rock, Art Rock, Blues Rock, Electronic Rock,
- *   Garage Rock, Gothic Rock, Grunge, Indie Rock, Industrial Rock, Madchester, Neo-Psychedelia,
- *   Post-Punk, Shoegaze, Surf Rock, etc. (tracks alternative and rock-adjacent styles)
- *
- * Pop: Alt-Pop, Ambient Pop, Art Pop, Chamber Pop, Cinematic Pop, Dance Pop, Dark Pop, Electro-Pop,
- *   Electropop, Experimental Pop, Groove Pop, Hyperpop, Latin Pop, Power Pop, Psychedelic Pop,
- *   Subversive Pop, Synth-Pop, etc. (any subgenre of pop)
- *
- * Folk/Americana/Country: Alternative Folk, Americana, Americana-Pop, Brass Band, Contemporary Folk,
- *   Country, Country Blues, Country Pop, Dark Folk, Folk Rock, Gothic Folk, Indie Folk,
- *   Singer-Songwriter, Traditional Irish Folk, etc. (folk, country, and americana styles)
- *
- * Hip-Hop/Rap: Alternative Hip-Hop, Boom Bap, Conscious Rap, Emo-Rap, Gangsta Rap, Hip-Hop,
- *   Hip-Hop-Pop, Korean Hip-Hop, Plugg, Rage Rap, Southern Rap, Trap, Underground Rap,
- *   West Coast Rap, etc. (all rap and hip-hop variants)
- *
- * R&B/Soul: Alternative R&B, Chicano Soul, Funk, Neo-Soul, R&B, Soul, etc.
- *   (R&B, soul, funk, and contemporary variations)
- *
- * Indie/Bedroom/Shoegaze: Bedroom Pop, Dream Pop, Indie Electronica, Indie Folk, Indie Pop,
- *   Indie Rock, Lo-Fi Indie, Slowcore, Shoegaze, etc. (lo-fi, bedroom, indie, and dream pop styles)
- *
- * Electronic/Dance: Bass House, Bassline, Club, Dark Techno, Deep House, Digital Hardcore,
- *   Disco House, Drum and Bass, Dubstep, Electro House, Electroclash, Eurodance, Folktronica,
- *   Future Bass, G-House, Happy Hardcore, House, House-Pop, Industrial Electronic, Industrial House,
- *   Industrial Techno, Melodic Bass, Melodic House, Minimal Tech, Speed Garage, Tech House, Techno,
- *   UK Garage, Witch House, etc. (all electronic and dance-oriented styles)
- *
- * K-Pop/J-Pop/P-Pop: J-Pop, K-Pop, P-Pop (Asian pop and pop-influenced styles)
- *
- * Punk/Hardcore/Metal: Alternative Metal, Emo, Hardcore Punk, Metalcore, Pop-Punk, Post-Hardcore,
- *   Punk Rock, Riot Grrrl, etc. (punk, metalcore, hardcore, and related high-intensity styles)
- *
- * Classical/Orchestral: Classical, Cinematic Orchestral, Symphonic Rock, etc.
- *   (orchestral and classical-influenced styles)
- *
- * Global Pop: Afroswing, Tropicalia, etc. (regional pop and world music styles)
- */
-
 // ============================================================================
 // STAGE: Festival stage names (derived from festival-specific mappings)
 // ============================================================================
 // Import FESTIVAL_STAGES to derive the union type — ensures single source of truth.
 import { FESTIVAL_STAGES } from "./festivals";
 
-export type Stage = typeof FESTIVAL_STAGES[keyof typeof FESTIVAL_STAGES][number];
+export type Stage = (typeof FESTIVAL_STAGES)[keyof typeof FESTIVAL_STAGES][number];
 
 // ============================================================================
 // BILLING_TIER: Artist prominence tier (ordered highest to lowest)
@@ -296,6 +286,151 @@ export type Stage = typeof FESTIVAL_STAGES[keyof typeof FESTIVAL_STAGES][number]
 export const BILLING_TIERS = ["Headliner", "Sub-headliner", "Undercard"] as const;
 
 export type BillingTier = (typeof BILLING_TIERS)[number];
+
+// ============================================================================
+// GENRE_FAMILIES: Parent genre categories (11 total)
+// ============================================================================
+
+export const GENRE_FAMILIES = {
+  "Rock/Alternative": [
+    "90s Alternative",
+    "Alternative Rock",
+    "Art Rock",
+    "Blues Rock",
+    "Electronic Rock",
+    "Garage Rock",
+    "Gothic Rock",
+    "Grunge",
+    "Indie Rock",
+    "Industrial Rock",
+    "Madchester",
+    "Neo-Psychedelia",
+    "Post-Punk",
+    "Shoegaze",
+    "Surf Rock",
+    "Rock",
+    "Symphonic Rock",
+  ],
+  Pop: [
+    "Alt-Pop",
+    "Ambient Pop",
+    "Art Pop",
+    "Chamber Pop",
+    "Dance Pop",
+    "Dark Pop",
+    "Electro-Pop",
+    "Electropop",
+    "Experimental Pop",
+    "Groove Pop",
+    "Hyperpop",
+    "Latin Pop",
+    "Power Pop",
+    "Psychedelic Pop",
+    "Subversive Pop",
+    "Synth-Pop",
+    "Pop",
+    "House-Pop",
+    "Hip-Hop-Pop",
+    "Electronic Pop",
+  ],
+  "Folk/Americana/Country": [
+    "Alternative Folk",
+    "Americana",
+    "Americana-Pop",
+    "Brass Band",
+    "Contemporary Folk",
+    "Country",
+    "Country Blues",
+    "Country Pop",
+    "Dark Folk",
+    "Folk Rock",
+    "Gothic Folk",
+    "Indie Folk",
+    "Singer-Songwriter",
+    "Traditional Irish Folk",
+  ],
+  "Hip-Hop/Rap": [
+    "Alternative Hip-Hop",
+    "Boom Bap",
+    "Conscious Rap",
+    "Emo-Rap",
+    "Gangsta Rap",
+    "Hip-Hop",
+    "Korean Hip-Hop",
+    "Plugg",
+    "Rage Rap",
+    "Southern Rap",
+    "Trap",
+    "Underground Rap",
+    "West Coast Rap",
+  ],
+  "R&B/Soul": ["Alternative R&B", "Chicano Soul", "Funk", "Neo-Soul", "R&B", "Soul"],
+  "Indie/Bedroom": [
+    "Bedroom Pop",
+    "Dream Pop",
+    "Indie Electronica",
+    "Indie Pop",
+    "Lo-Fi Indie",
+    "Slowcore",
+  ],
+  "Electronic/Dance": [
+    "Bass House",
+    "Bassline",
+    "Club",
+    "Dark Techno",
+    "Deep House",
+    "Digital Hardcore",
+    "Disco House",
+    "Drum and Bass",
+    "Dubstep",
+    "Electro House",
+    "Electroclash",
+    "Electronic",
+    "Eurodance",
+    "Folktronica",
+    "Future Bass",
+    "G-House",
+    "Happy Hardcore",
+    "High-Tech Minimal",
+    "House",
+    "Industrial Electronic",
+    "Industrial House",
+    "Industrial Techno",
+    "Melodic Bass",
+    "Melodic House",
+    "Minimal Tech",
+    "Speed Garage",
+    "Tech House",
+    "Techno",
+    "UK Garage",
+    "Witch House",
+  ],
+  "K-Pop/J-Pop/P-Pop": ["J-Pop", "K-Pop", "P-Pop"],
+  "Punk/Hardcore/Metal": [
+    "Alternative Metal",
+    "Emo",
+    "Hardcore Punk",
+    "Metalcore",
+    "Pop-Punk",
+    "Post-Hardcore",
+    "Punk Rock",
+    "Riot Grrrl",
+  ],
+  "Classical/Orchestral": ["Classical", "Cinematic Orchestral"],
+  "Global Pop": ["Afroswing", "Tropicalia", "Dancehall"],
+} as const;
+
+export type GenreFamily = keyof typeof GENRE_FAMILIES;
+
+export const GENRE_TO_FAMILY: Record<Genre, GenreFamily> = Object.entries(GENRE_FAMILIES).reduce(
+  (acc, [family, genres]) => {
+    genres.forEach((g) => {
+      acc[g as Genre] = family as GenreFamily;
+    });
+    return acc;
+  },
+  {} as Record<Genre, GenreFamily>
+);
 
 // ============================================================================
 // VERDICT_LABELS: Human-readable labels for verdict enum values

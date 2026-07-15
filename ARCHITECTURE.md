@@ -370,7 +370,7 @@ const cinematicVisuals = interleaveByDayShuffled(
 
 ## Interest State
 
-User decisions (Must See, Interested, Passed) are centralized in a Zustand store with localStorage persistence. This serves as the single source of truth across Explore, Artist Detail, Quick Picks, and future features. Decisions also track their source and timestamp for potential use by features like Festival Artifact.
+User decisions (Must See, Interested, Passed) are centralized in a Zustand store with localStorage persistence. This serves as the single source of truth across Explore, Artist Detail, Quick Picks, and future features. Decisions also track their source and timestamp for potential use by features like Festival Story.
 
 ### Store Shape
 
@@ -397,7 +397,7 @@ interface InterestState {
 
 - **Three verdict states, not two:** "passed" is distinct from unset/null. Allows Quick Picks re-runs to differentiate "never considered" from "actively rejected," and lets Surprise Me treat "passed" as eligible for second-chance while excluding "mustSee"/"interested".
 - **Missing key = undecided:** No entry in `decisionsByArtist` means the artist has never received a verdict.
-- **Decision metadata:** Source and timestamp are captured at write-time. No features consume these yet, but Festival Artifact (planned near-term) may reference decision provenance (e.g., "most of your Must Sees came from Quick Picks"). Capturing now avoids data loss—this information cannot be reconstructed after the fact.
+- **Decision metadata:** Source and timestamp are captured at write-time. No features consume these yet, but Festival Story (planned near-term) may reference decision provenance (e.g., "most of your Must Sees came from Quick Picks"). Capturing now avoids data loss—this information cannot be reconstructed after the fact.
 - **Note on Surprise Me:** Surprise Me only navigates to a random artist's detail page—it doesn't present a decision UI. Any verdict set after landing on that page correctly uses `source: "artist"`, the same as any other artist-page decision.
 
 ### Interest State: Must See / Interested Selection Model
@@ -577,3 +577,41 @@ If this becomes worth revisiting later, two options were considered and explicit
 2. **A lightweight, read-only visual treatment** (e.g., reduced card opacity, or a small "Passed" text label) for artists with verdict "passed" — lower complexity than option 1 since it requires no new interactive control, just a passive display state.
 
 Neither is being built for MVP. Passed remains reachable only via the Status filter's "Passed" option, which is considered sufficient for the state's intended low visibility. Revisit only if real usage shows people want to casually distinguish "passed" from "undecided" while browsing, not just when deliberately reviewing via the filter.
+
+---
+
+## Future Consideration: Festival Story — Day of Week Signal
+
+**Deferred signal:** Festival Story currently computes 11 candidate signals for its revelation sequence. A 12th candidate (Day of Week concentration: Thu/Fri vs. Sat/Sun skew) was deliberately omitted, pending a prerequisite Quick Picks feature.
+
+**Why deferred:** The signal cannot be computed honestly without knowing whether a user's Thursday-heavy picks reflect genuine preference or simply that they only attended Thursday and skipped Friday/Saturday/Sunday. Currently, Quick Picks has no "I'm only attending these days" input — it presents the entire lineup to every user regardless of attendance.
+
+**Prerequisites to implement this signal:**
+1. **Quick Picks feature:** Add day-selection UI to Quick Picks intro (e.g., "Which days are you attending?") so users can explicitly mark days they're skipping
+2. **Filter upstream:** Filter the Quick Picks queue to only artists performing on selected days
+3. **Store attendance plan:** Persist which days the user selected to localStorage (alongside decision data) for reference by Festival Story and future Schedule feature
+4. **Then compute signal:** Compare user's day-of-week distribution (of their attended days) against the lineup's distribution (of those same days only)
+
+Once Quick Picks gains day selection, this signal can be reintroduced without ambiguity.
+
+---
+
+## Future Consideration: Onboarding / How It Works Explainer
+
+Throughout development, the idea of a lightweight explainer has come up multiple times — something that briefly walks a new user through how the app's core concepts connect: the difference between Must See / Interested / Passed, what Quick Picks does, and what the Festival Story/Snapshot reveal is and how you get there. Right now, this understanding is only conveyed implicitly, scattered across UI copy on individual screens (button labels, the Quick Picks intro screen, etc.) — there's no single place a new user could go to understand the whole system at a glance.
+
+**Not built because:**
+1. Schedule remains a higher-priority unbuilt feature
+2. It's not yet clear whether this should be a full page, a first-visit modal, or something else entirely
+
+**If revisited:** Keep it short — not full documentation, just enough to connect the dots between the app's core concepts (interest states, Quick Picks, Explore, Festival Story). A first-visit modal is probably lower-effort than a dedicated page and may be sufficient.
+
+---
+
+## Future Consideration: Usage Analytics
+
+There is currently no usage tracking of any kind (no backend, no analytics pipeline). This means decisions like "should Festival Story be reachable before full Quick Picks completion" currently cannot be informed by real user behavior (e.g., drop-off rates) — only by product reasoning.
+
+**If this becomes worth knowing:** A lightweight approximation is possible without a real backend: logging simple events (e.g., "started Quick Picks," "reached Festival Complete") to the same localStorage-backed store already used for decisions. This would not require a backend or third-party analytics service, just an additional small piece of local state.
+
+**Not built now** — noted here so the option isn't forgotten if the question resurfaces later.

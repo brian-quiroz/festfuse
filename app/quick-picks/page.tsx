@@ -6,6 +6,7 @@ import StartScreen from "@/app/components/quick-picks/StartScreen";
 import DecisionScreen from "@/app/components/quick-picks/DecisionScreen";
 import DayCompleteScreen from "@/app/components/quick-picks/DayCompleteScreen";
 import FestivalCompleteScreen from "@/app/components/quick-picks/FestivalCompleteScreen";
+import { FestivalStorySequence } from "@/app/components/festival-story/FestivalStorySequence";
 import { allArtists } from "@/app/data/artists";
 import { useDecisionStore, type ArtistDecision } from "@/app/store/decisionStore";
 import { interleaveByTierWithinDay } from "@/app/lib/quick-picks-queue";
@@ -78,6 +79,7 @@ export default function QuickPicksPage() {
   const [undoneVerdict, setUndoneVerdict] = useState<QuickPicksVerdict | null>(null);
   const [undoToast, setUndoToast] = useState<{ message: string; key: number } | null>(null);
   const [isScreenExiting, setIsScreenExiting] = useState(false);
+  const [showFestivalStory, setShowFestivalStory] = useState(false);
 
   function handleStart(config: QuickPicksSessionConfig) {
     setHasUndone(false);
@@ -292,11 +294,17 @@ export default function QuickPicksPage() {
         )}
 
         {(step === "festivalComplete" || step === "allDecided") && (
-          <FestivalCompleteScreen
-            context={step === "festivalComplete" ? "sessionComplete" : "nothingToReview"}
-            onGoToBlueprint={handleExit}
-            onGoToSchedule={handleExit}
-          />
+          <>
+            <FestivalCompleteScreen
+              context={step === "festivalComplete" ? "sessionComplete" : "nothingToReview"}
+              onGoToFestivalStory={() => setShowFestivalStory(true)}
+              onGoToSchedule={handleExit}
+            />
+            <FestivalStorySequence
+              isOpen={showFestivalStory}
+              onClose={() => setShowFestivalStory(false)}
+            />
+          </>
         )}
       </main>
     </div>
