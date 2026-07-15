@@ -19,12 +19,12 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
   // Compute story signals
   const signals = useStorySignals(decisionsByArtist, allArtists);
 
-  // Add final card (same template, celebration-focused)
-  const finalCard: StorySignal = useMemo(
+  // Add intro card (hero photo + title sequence headline, no stats)
+  const introCard: StorySignal = useMemo(
     () => ({
-      type: "final",
-      userValue: 100,
-      lineupValue: 100,
+      type: "intro",
+      userValue: 0,
+      lineupValue: 0,
       deviation: 0,
       headlineTemplate: "This is your Lollapalooza",
       supportingText: "A weekend built around discovery, hometown pride, and unforgettable nights.",
@@ -32,7 +32,20 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
     []
   );
 
-  const allCards = [...signals, finalCard];
+  // Add final card (same template, celebration-focused, share-focused)
+  const finalCard: StorySignal = useMemo(
+    () => ({
+      type: "final",
+      userValue: 100,
+      lineupValue: 100,
+      deviation: 0,
+      headlineTemplate: "Your festival awaits",
+      supportingText: "Share your discoveries and build excitement with your friends.",
+    }),
+    []
+  );
+
+  const allCards = [introCard, ...signals, finalCard];
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleRevealNext = () => {
@@ -52,6 +65,7 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
   const currentCard = allCards[currentIndex];
   const progress = (currentIndex + 1) / allCards.length;
   const isLastCard = currentIndex === allCards.length - 1;
+  const isIntroCard = currentCard.type === "intro";
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden bg-slate-900">
@@ -69,6 +83,7 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
         signal={currentCard}
         progress={progress}
         isLastCard={isLastCard}
+        isIntroCard={isIntroCard}
         onRevealNext={handleRevealNext}
       />
     </div>

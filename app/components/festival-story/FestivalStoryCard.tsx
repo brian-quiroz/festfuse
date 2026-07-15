@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
+import { Share2, ArrowRight, Film } from "lucide-react";
 import type { StorySignal } from "@/app/hooks/useStorySignals";
 
 interface FestivalStoryCardProps {
   signal: StorySignal;
   progress: number; // 0–1
   isLastCard: boolean;
+  isIntroCard?: boolean;
   onRevealNext: () => void;
 }
 
@@ -14,61 +15,100 @@ export function FestivalStoryCard({
   signal,
   progress,
   isLastCard,
+  isIntroCard,
   onRevealNext,
 }: FestivalStoryCardProps) {
-  // Placeholder image URL (marked for later replacement)
-  const placeholderImageUrl = "/festivals/story/festival-daylight.avif"; // Replace with actual image URL
-
+  const placeholderImageUrl = "/festivals/story/festival-daylight.avif";
   const progressPercent = progress * 100;
-  const buttonGradient = isLastCard
-    ? "bg-gradient-to-r from-pink-500 to-purple-500"
-    : "bg-pink-500";
-  const progressBarGradient = isLastCard
-    ? "bg-gradient-to-r from-pink-500 to-purple-500"
-    : "bg-pink-500";
+  const hotPink = "#FF2D78";
 
   return (
-    <div className="relative flex h-screen w-full flex-col bg-slate-900">
-      {/* Full-bleed image (top ~70%) */}
+    <div className="relative w-full" style={{ height: "100vh" }}>
+      {/* Full-bleed image: fills entire viewport */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage: `url('${placeholderImageUrl}')`,
-          height: "65%",
         }}
-      >
-        {/* Gradient overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-900"></div>
-      </div>
+      ></div>
 
       {/* Content: Eyebrow, Headline, Supporting Text, Progress Bar, Button */}
-      <div className="relative mt-auto flex flex-col gap-6 px-6 pb-8">
-        {/* Eyebrow label */}
-        <div className="text-xs font-semibold tracking-widest text-pink-500 uppercase">
-          Festival Story —
-        </div>
-
-        {/* Headline (supports color spans) */}
-        <h1 className="text-4xl font-bold leading-tight text-white">{signal.headlineTemplate}</h1>
-
-        {/* Supporting text (stat sentence) */}
-        <p className="text-sm text-slate-300">{signal.supportingText}</p>
-
-        {/* Thin progress bar */}
-        <div className="h-1 w-full overflow-hidden rounded-full bg-slate-700">
+      {/* Anchored to bottom of viewport, grows upward naturally based on content height */}
+      {/* Single gradient overlay: fade from transparent to black for text legibility */}
+      <div
+        className="absolute left-0 right-0 px-6 bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col"
+        style={{
+          bottom: 0,
+          paddingTop: "3rem",
+          paddingBottom: "2rem",
+        }}
+      >
+        {/* Eyebrow label (skip for intro card) */}
+        {!isIntroCard && (
           <div
-            className={`h-full ${progressBarGradient} transition-all duration-500`}
-            style={{ width: `${progressPercent}%` }}
-          ></div>
-        </div>
+            className="text-sm font-bold tracking-widest uppercase mb-2 w-fit px-3 py-1.5 rounded-full flex items-center gap-1"
+            style={{
+              color: hotPink,
+              backgroundColor: "rgba(0,0,0,0.4)",
+            }}
+          >
+            — <Film size={16} strokeWidth={2} /> FESTIVAL STORY —
+          </div>
+        )}
 
-        {/* Reveal Next button */}
-        <button
-          onClick={onRevealNext}
-          className={`${buttonGradient} self-start px-6 py-3 font-semibold text-white transition-all hover:opacity-90 active:scale-95`}
+        {/* Headline: responsive sizing with clamp (scales with viewport width) */}
+        <h1
+          className="mt-4 font-bold leading-tight text-white drop-shadow-lg"
+          style={{
+            fontSize: "clamp(1.875rem, 5vw, 3.5rem)",
+          }}
         >
-          {isLastCard ? "See your festival" : "Reveal next"} →
-        </button>
+          {signal.headlineTemplate}
+        </h1>
+
+        {/* Supporting text: responsive sizing with clamp */}
+        <p
+          className="mt-3 text-slate-300 drop-shadow-md"
+          style={{
+            fontSize: "clamp(0.875rem, 2vw, 1.125rem)",
+          }}
+        >
+          {signal.supportingText}
+        </p>
+
+        {/* Progress bar + Button: flow immediately after text content, no gap */}
+        <div className="mt-8">
+          {/* Progress bar */}
+          <div className="mb-4 h-1 w-full overflow-hidden rounded-full bg-slate-700">
+            <div
+              className="h-full transition-all duration-500"
+              style={{
+                width: `${progressPercent}%`,
+                background: isLastCard ? `linear-gradient(to right, ${hotPink}, #A78BFA)` : hotPink,
+                opacity: 0.85,
+              }}
+            ></div>
+          </div>
+
+          {/* Button */}
+          <button
+            onClick={onRevealNext}
+            className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-white transition-all hover:opacity-90 active:scale-95 rounded-xl"
+            style={{
+              background: isLastCard ? `linear-gradient(to right, ${hotPink}, #A78BFA)` : hotPink,
+            }}
+          >
+            {isLastCard ? (
+              <>
+                Share your festival <Share2 size={18} strokeWidth={2} />
+              </>
+            ) : (
+              <>
+                Reveal next <ArrowRight size={18} strokeWidth={2} />
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
