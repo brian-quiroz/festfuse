@@ -32,7 +32,12 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const router = useRouter();
   const { decisionsByArtist } = useDecisionStore();
   const { scheduledArtists } = useScheduleStore();
-  const { preAppliedPickStatus, clearPreAppliedPickStatus, preAppliedScheduleStatus, clearPreAppliedScheduleStatus } = useExploreFilterStore();
+  const {
+    preAppliedPickStatus,
+    clearPreAppliedPickStatus,
+    preAppliedScheduleStatus,
+    clearPreAppliedScheduleStatus,
+  } = useExploreFilterStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
   const [activeDay, setActiveDay] = useState<string>("");

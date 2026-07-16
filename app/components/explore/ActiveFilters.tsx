@@ -26,7 +26,12 @@ export default function ActiveFilters({
   onClearStage,
   onClearAll,
 }: ActiveFiltersProps) {
-  const hasActiveFilters = genres.length > 0 || day || stages.length > 0 || pickStatus.length > 0 || scheduleStatus.length > 0;
+  const hasActiveFilters =
+    genres.length > 0 ||
+    day ||
+    stages.length > 0 ||
+    pickStatus.length > 0 ||
+    scheduleStatus.length > 0;
 
   if (!hasActiveFilters) return null;
 

@@ -44,8 +44,10 @@ export default function ExploreFilters({
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>(externalGenres);
   const [selectedDay, setSelectedDay] = useState<string>(externalDay);
   const [selectedStages, setSelectedStages] = useState<Stage[]>(externalStages);
-  const [selectedPickStatus, setSelectedPickStatus] = useState<PickStatusFilterValue[]>(externalPickStatus);
-  const [selectedScheduleStatus, setSelectedScheduleStatus] = useState<ScheduleStatusValue[]>(externalScheduleStatus);
+  const [selectedPickStatus, setSelectedPickStatus] =
+    useState<PickStatusFilterValue[]>(externalPickStatus);
+  const [selectedScheduleStatus, setSelectedScheduleStatus] =
+    useState<ScheduleStatusValue[]>(externalScheduleStatus);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [allButtonPressed, setAllButtonPressed] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -58,7 +60,14 @@ export default function ExploreFilters({
     setSelectedStages(externalStages);
     setSelectedPickStatus(externalPickStatus);
     setSelectedScheduleStatus(externalScheduleStatus);
-  }, [externalSearchQuery, externalGenres, externalDay, externalStages, externalPickStatus, externalScheduleStatus]);
+  }, [
+    externalSearchQuery,
+    externalGenres,
+    externalDay,
+    externalStages,
+    externalPickStatus,
+    externalScheduleStatus,
+  ]);
 
   // Close dropdown when clicking outside
   useEffect(() => {

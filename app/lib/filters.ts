@@ -21,7 +21,8 @@ export function filterArtists(
   },
   decisionsByArtist?: Record<string, { verdict: Verdict }>
 ): Artist[] {
-  const { genres, day, stages, verdicts, scheduleStatus, scheduledArtists, conflictingArtists } = options;
+  const { genres, day, stages, verdicts, scheduleStatus, scheduledArtists, conflictingArtists } =
+    options;
 
   return artists.filter((artist) => {
     // Genre filter: artist must have at least one of the selected genres

@@ -32,10 +32,8 @@ export function getConflictingArtists(
 
         // Time overlap check: A.start < B.end && B.start < A.end
         if (
-          timeStringToMinutes(a.appearance.startTime) <
-            timeStringToMinutes(b.appearance.endTime) &&
-          timeStringToMinutes(b.appearance.startTime) <
-            timeStringToMinutes(a.appearance.endTime)
+          timeStringToMinutes(a.appearance.startTime) < timeStringToMinutes(b.appearance.endTime) &&
+          timeStringToMinutes(b.appearance.startTime) < timeStringToMinutes(a.appearance.endTime)
         ) {
           conflicting.add(a.slug);
           conflicting.add(b.slug);
