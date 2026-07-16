@@ -2,32 +2,26 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Search, Zap, Calendar, Star, Heart, CircleCheck } from "lucide-react";
+import { Home, Search, Zap, Calendar, Star, Heart, CircleCheck, AlertCircle } from "lucide-react";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
+import { useScheduleStore } from "@/app/store/scheduleStore";
+import { allArtists } from "@/app/data/artists";
+import { getConflictingArtists } from "@/app/lib/schedule";
 
 const navItems = [
   { label: "Home", href: "/", Icon: Home },
   { label: "Explore", href: "/explore", Icon: Search },
   { label: "Quick Picks", href: "/quick-picks", Icon: Zap },
-  { label: "Schedule", href: "/schedule", Icon: Calendar },
-];
-
-const staticFestivalItems = [
-  {
-    label: "Scheduled",
-    count: 29,
-    Icon: CircleCheck,
-    color: "#00E5FF",
-    bg: "rgba(0,229,255,0.10)",
-  },
+  { label: "Planner", href: "/planner", Icon: Calendar },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { decisionsByArtist } = useDecisionStore();
-  const { setPreAppliedStatus } = useExploreFilterStore();
+  const { scheduledArtists } = useScheduleStore();
+  const { setPreAppliedPickStatus, setPreAppliedScheduleStatus } = useExploreFilterStore();
 
   // Derive counts from store
   const mustSeeCount = Object.values(decisionsByArtist).filter(
@@ -38,7 +32,19 @@ export default function Sidebar() {
     (decision) => decision.verdict === "interested"
   ).length;
 
+  const myPicksCount = mustSeeCount + interestedCount;
+  const scheduledCount = scheduledArtists.size;
+  const conflictingArtists = getConflictingArtists(scheduledArtists, allArtists);
+  const conflictCount = conflictingArtists.size;
+
   const myFestivalItems = [
+    {
+      label: "My Picks",
+      count: myPicksCount,
+      Icon: Star,
+      color: "#00E5FF",
+      bg: "rgba(0,229,255,0.10)",
+    },
     {
       label: "Must See",
       count: mustSeeCount,
@@ -53,13 +59,55 @@ export default function Sidebar() {
       color: "#E8FF47",
       bg: "rgba(232,255,71,0.10)",
     },
-    ...staticFestivalItems,
+    {
+      label: "Scheduled",
+      count: scheduledCount,
+      Icon: CircleCheck,
+      color: "#00E5FF",
+      bg: "rgba(0,229,255,0.10)",
+    },
+    ...(conflictCount > 0
+      ? [
+          {
+            label: "Conflicts",
+            count: conflictCount,
+            Icon: AlertCircle,
+            color: "#FF0000",
+            bg: "rgba(255,0,0,0.10)",
+          },
+        ]
+      : []),
   ];
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
   }
+
+  const handleFestivalItemClick = (label: string) => {
+    switch (label) {
+      case "My Picks":
+        setPreAppliedPickStatus(["mustSee", "interested"]);
+        router.push("/explore");
+        break;
+      case "Must See":
+        setPreAppliedPickStatus(["mustSee"]);
+        router.push("/explore");
+        break;
+      case "Interested":
+        setPreAppliedPickStatus(["interested"]);
+        router.push("/explore");
+        break;
+      case "Scheduled":
+        setPreAppliedScheduleStatus(["scheduled"]);
+        router.push("/explore");
+        break;
+      case "Conflicts":
+        setPreAppliedScheduleStatus(["conflicting"]);
+        router.push("/explore");
+        break;
+    }
+  };
 
   return (
     <aside className="w-60 flex-shrink-0 h-full bg-[#1B1535] border-r border-[#2D2556] flex flex-col">
@@ -102,39 +150,25 @@ export default function Sidebar() {
         </div>
 
         <div className="px-3 space-y-0.5">
-          {myFestivalItems.map(({ label, count, Icon, color, bg }) => {
-            const handleFestivalItemClick = () => {
-              if (label === "Must See") {
-                setPreAppliedStatus(["mustSee"]);
-                router.push("/explore");
-              } else if (label === "Interested") {
-                setPreAppliedStatus(["interested"]);
-                router.push("/explore");
-              } else if (label === "Scheduled") {
-                // TODO: Implement Schedule feature and link (deferred)
-              }
-            };
-
-            return (
-              <button
-                key={label}
-                type="button"
-                onClick={handleFestivalItemClick}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#6B6893] hover:text-white hover:bg-[#231C45] transition-colors"
+          {myFestivalItems.map(({ label, count, Icon, color, bg }) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => handleFestivalItemClick(label)}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#6B6893] hover:text-white hover:bg-[#231C45] transition-colors"
+            >
+              <span style={{ color }}>
+                <Icon size={15} strokeWidth={2} />
+              </span>
+              <span className="flex-1 text-left">{label}</span>
+              <span
+                className="text-[10px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full"
+                style={{ background: bg, color }}
               >
-                <span style={{ color }}>
-                  <Icon size={15} strokeWidth={2} />
-                </span>
-                <span className="flex-1 text-left">{label}</span>
-                <span
-                  className="text-[10px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full"
-                  style={{ background: bg, color }}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+                {count}
+              </span>
+            </button>
+          ))}
         </div>
       </div>
 

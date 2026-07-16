@@ -2,6 +2,7 @@
 
 import { Plus, Star, Heart, BarChart2 } from "lucide-react";
 import { useDecisionStore } from "@/app/store/decisionStore";
+import { useScheduleStore } from "@/app/store/scheduleStore";
 
 interface ArtistActionsProps {
   artistId: string;
@@ -9,9 +10,11 @@ interface ArtistActionsProps {
 
 export default function ArtistActions({ artistId }: ArtistActionsProps) {
   const { decisionsByArtist, setDecision } = useDecisionStore();
+  const { scheduledArtists, toggleScheduled } = useScheduleStore();
 
   const decision = decisionsByArtist[artistId];
   const verdict = decision?.verdict ?? null;
+  const isScheduled = scheduledArtists.has(artistId);
 
   // Single verdict field, mutually exclusive. Each button sets its own value directly (or clears if already set).
   const mustSee = verdict === "mustSee";
@@ -25,11 +28,22 @@ export default function ArtistActions({ artistId }: ArtistActionsProps) {
     setDecision(artistId, verdict === "interested" ? null : "interested", "artist");
   };
 
+  const handleScheduleToggle = () => {
+    toggleScheduled(artistId);
+  };
+
   return (
     <div className="flex items-center gap-2.5 flex-wrap">
-      <button className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-[#00E5FF] text-[#110D24] text-sm font-bold hover:bg-[#00E5FF]/90 transition-colors duration-200">
+      <button
+        onClick={handleScheduleToggle}
+        className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-bold transition-colors duration-200 ${
+          isScheduled
+            ? "bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/50"
+            : "bg-[#00E5FF] text-[#110D24] hover:bg-[#00E5FF]/90"
+        }`}
+      >
         <Plus size={14} strokeWidth={2.5} />
-        Add to Schedule
+        {isScheduled ? "Scheduled" : "Add to Schedule"}
       </button>
 
       <button

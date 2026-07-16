@@ -17,9 +17,12 @@ import { createSeededRandom } from "@/app/lib/random";
 import { sortChronologically, sortFestivalFavoritesForFullView } from "@/app/lib/sort";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
+import { useScheduleStore } from "@/app/store/scheduleStore";
+import { getConflictingArtists } from "@/app/lib/schedule";
 import type { Genre, Stage } from "@/app/data/categories";
 import type { Artist } from "@/app/types/artist";
-import type { StatusFilterValue } from "@/app/types/decision";
+import type { PickStatusFilterValue } from "@/app/types/decision";
+import type { ScheduleStatusValue } from "@/app/types/schedule";
 
 interface ExploreContentProps {
   seed: number;
@@ -28,15 +31,23 @@ interface ExploreContentProps {
 export default function ExploreContent({ seed }: ExploreContentProps) {
   const router = useRouter();
   const { decisionsByArtist } = useDecisionStore();
-  const { preAppliedStatus, clearPreAppliedStatus } = useExploreFilterStore();
+  const { scheduledArtists } = useScheduleStore();
+  const { preAppliedPickStatus, clearPreAppliedPickStatus, preAppliedScheduleStatus, clearPreAppliedScheduleStatus } = useExploreFilterStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
   const [activeDay, setActiveDay] = useState<string>("");
   const [activeStages, setActiveStages] = useState<Stage[]>([]);
-  const [activeStatus, setActiveStatus] = useState<StatusFilterValue[]>([]);
+  const [activePickStatus, setActivePickStatus] = useState<PickStatusFilterValue[]>([]);
+  const [activeScheduleStatus, setActiveScheduleStatus] = useState<ScheduleStatusValue[]>([]);
   const [viewingCarousel, setViewingCarousel] = useState<string | null>(null);
   const [showSurpriseTooltip, setShowSurpriseTooltip] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
+
+  // Compute conflicting artists once
+  const conflictingArtists = useMemo(
+    () => getConflictingArtists(scheduledArtists, allArtists),
+    [scheduledArtists]
+  );
 
   // Calculate eligible artists for Surprise Me: only those with no entry in decisionsByArtist
   const eligibleArtists = useMemo(
@@ -54,11 +65,18 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
 
   // Apply pre-applied filters from sidebar navigation (on mount or when sidebar link clicked)
   useEffect(() => {
-    if (preAppliedStatus) {
-      setActiveStatus(preAppliedStatus);
-      clearPreAppliedStatus();
+    if (preAppliedPickStatus) {
+      setActivePickStatus(preAppliedPickStatus);
+      clearPreAppliedPickStatus();
     }
-  }, [preAppliedStatus, clearPreAppliedStatus]);
+  }, [preAppliedPickStatus, clearPreAppliedPickStatus]);
+
+  useEffect(() => {
+    if (preAppliedScheduleStatus) {
+      setActiveScheduleStatus(preAppliedScheduleStatus);
+      clearPreAppliedScheduleStatus();
+    }
+  }, [preAppliedScheduleStatus, clearPreAppliedScheduleStatus]);
 
   // Helper: Reset search/filter state and enter carousel view
   const handleSeeAll = (carouselName: string) => {
@@ -66,7 +84,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     setActiveGenres([]);
     setActiveDay("");
     setActiveStages([]);
-    setActiveStatus([]);
+    setActivePickStatus([]);
+    setActiveScheduleStatus([]);
     setViewingCarousel(carouselName);
     // Scroll to top so user sees the carousel header
     mainRef.current?.scrollTo(0, 0);
@@ -78,7 +97,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     setActiveGenres([]);
     setActiveDay("");
     setActiveStages([]);
-    setActiveStatus([]);
+    setActivePickStatus([]);
+    setActiveScheduleStatus([]);
     setViewingCarousel(null);
   };
 
@@ -236,12 +256,14 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
             selectedGenres={activeGenres}
             selectedDay={activeDay}
             selectedStages={activeStages}
-            selectedStatus={activeStatus}
+            selectedPickStatus={activePickStatus}
+            selectedScheduleStatus={activeScheduleStatus}
             onSearchChange={setSearchQuery}
             onGenresChange={setActiveGenres}
             onDayChange={setActiveDay}
             onStagesChange={setActiveStages}
-            onStatusChange={setActiveStatus}
+            onPickStatusChange={setActivePickStatus}
+            onScheduleStatusChange={setActiveScheduleStatus}
           />
         </div>
 
@@ -252,7 +274,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
               activeGenres.length > 0 ||
               activeDay ||
               activeStages.length > 0 ||
-              activeStatus.length > 0;
+              activePickStatus.length > 0 ||
+              activeScheduleStatus.length > 0;
             const hasSearch = searchQuery.trim().length > 0;
 
             if (!hasFilters && !hasSearch) return null;
@@ -263,7 +286,10 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 genres: activeGenres.length > 0 ? activeGenres : undefined,
                 day: activeDay || undefined,
                 stages: activeStages.length > 0 ? activeStages : undefined,
-                verdicts: activeStatus.length > 0 ? activeStatus : undefined,
+                verdicts: activePickStatus.length > 0 ? activePickStatus : undefined,
+                scheduleStatus: activeScheduleStatus.length > 0 ? activeScheduleStatus : undefined,
+                scheduledArtists,
+                conflictingArtists,
               },
               decisionsByArtist
             );
@@ -303,7 +329,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
               activeGenres.length > 0 ||
               activeDay ||
               activeStages.length > 0 ||
-              activeStatus.length > 0;
+              activePickStatus.length > 0 ||
+              activeScheduleStatus.length > 0;
             const hasSearch = searchQuery.trim().length > 0;
 
             const filtered = filterArtists(
@@ -312,7 +339,10 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 genres: activeGenres.length > 0 ? activeGenres : undefined,
                 day: activeDay || undefined,
                 stages: activeStages.length > 0 ? activeStages : undefined,
-                verdicts: activeStatus.length > 0 ? activeStatus : undefined,
+                verdicts: activePickStatus.length > 0 ? activePickStatus : undefined,
+                scheduleStatus: activeScheduleStatus.length > 0 ? activeScheduleStatus : undefined,
+                scheduledArtists,
+                conflictingArtists,
               },
               decisionsByArtist
             );
@@ -334,13 +364,16 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                     onClearStage={(stage) =>
                       setActiveStages(activeStages.filter((s) => s !== stage))
                     }
-                    status={activeStatus}
-                    onClearStatus={() => setActiveStatus([])}
+                    pickStatus={activePickStatus}
+                    scheduleStatus={activeScheduleStatus}
+                    onClearPickStatus={() => setActivePickStatus([])}
+                    onClearScheduleStatus={() => setActiveScheduleStatus([])}
                     onClearAll={() => {
                       setActiveGenres([]);
                       setActiveDay("");
                       setActiveStages([]);
-                      setActiveStatus([]);
+                      setActivePickStatus([]);
+                      setActiveScheduleStatus([]);
                     }}
                   />
                 )}
@@ -375,7 +408,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
               activeGenres.length > 0 ||
               activeDay ||
               activeStages.length > 0 ||
-              activeStatus.length > 0;
+              activePickStatus.length > 0 ||
+              activeScheduleStatus.length > 0;
             const hasSearch = searchQuery.trim().length > 0;
 
             // Apply filters first, then search within filtered results
@@ -385,7 +419,10 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 genres: activeGenres.length > 0 ? activeGenres : undefined,
                 day: activeDay || undefined,
                 stages: activeStages.length > 0 ? activeStages : undefined,
-                verdicts: activeStatus.length > 0 ? activeStatus : undefined,
+                verdicts: activePickStatus.length > 0 ? activePickStatus : undefined,
+                scheduleStatus: activeScheduleStatus.length > 0 ? activeScheduleStatus : undefined,
+                scheduledArtists,
+                conflictingArtists,
               },
               decisionsByArtist
             );
@@ -445,7 +482,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                     genres={activeGenres}
                     day={activeDay}
                     stages={activeStages}
-                    status={activeStatus}
                     onClearGenre={(genre) =>
                       setActiveGenres(activeGenres.filter((g) => g !== genre))
                     }
@@ -453,12 +489,16 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                     onClearStage={(stage) =>
                       setActiveStages(activeStages.filter((s) => s !== stage))
                     }
-                    onClearStatus={() => setActiveStatus([])}
+                    pickStatus={activePickStatus}
+                    scheduleStatus={activeScheduleStatus}
+                    onClearPickStatus={() => setActivePickStatus([])}
+                    onClearScheduleStatus={() => setActiveScheduleStatus([])}
                     onClearAll={() => {
                       setActiveGenres([]);
                       setActiveDay("");
                       setActiveStages([]);
-                      setActiveStatus([]);
+                      setActivePickStatus([]);
+                      setActiveScheduleStatus([]);
                     }}
                   />
                   <div className="pt-10 pb-16">

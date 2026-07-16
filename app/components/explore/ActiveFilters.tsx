@@ -1,16 +1,17 @@
 import { X } from "lucide-react";
 import type { Genre, Stage } from "@/app/data/categories";
-import type { StatusFilterValue } from "@/app/types/decision";
+import type { PickStatusFilterValue } from "@/app/types/decision";
+import type { ScheduleStatusValue } from "@/app/types/schedule";
 
 interface ActiveFiltersProps {
   genres?: Genre[];
   day?: string;
   stages?: Stage[];
-  status?: StatusFilterValue[];
+  pickStatus?: PickStatusFilterValue[];
+  scheduleStatus?: ScheduleStatusValue[];
   onClearGenre?: (genre: Genre) => void;
   onClearDay?: () => void;
   onClearStage?: (stage: Stage) => void;
-  onClearStatus?: () => void;
   onClearAll?: () => void;
 }
 
@@ -18,14 +19,14 @@ export default function ActiveFilters({
   genres = [],
   day,
   stages = [],
-  status = [],
+  pickStatus = [],
+  scheduleStatus = [],
   onClearGenre,
   onClearDay,
   onClearStage,
-  onClearStatus,
   onClearAll,
 }: ActiveFiltersProps) {
-  const hasActiveFilters = genres.length > 0 || day || stages.length > 0 || status.length > 0;
+  const hasActiveFilters = genres.length > 0 || day || stages.length > 0 || pickStatus.length > 0 || scheduleStatus.length > 0;
 
   if (!hasActiveFilters) return null;
 

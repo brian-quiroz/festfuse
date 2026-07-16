@@ -2,9 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-export type Verdict = "mustSee" | "interested" | "passed";
-export type DecisionSource = "explore" | "artist" | "quickPicks";
+import type { Verdict, DecisionSource } from "@/app/types/decision";
 
 export interface ArtistDecision {
   verdict: Verdict;

@@ -3,10 +3,11 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, X } from "lucide-react";
 import type { Genre, Stage } from "@/app/data/categories";
-import { GENRES, STATUS_FILTER_LABELS } from "@/app/data/categories";
+import { GENRES, PICK_STATUS_FILTER_LABELS, SCHEDULE_STATUS_LABELS } from "@/app/data/categories";
 import { getDaysForActiveFestival, getStagesForActiveFestival } from "@/app/data/festivals";
 import { allArtists } from "@/app/data/artists";
-import type { StatusFilterValue } from "@/app/types/decision";
+import type { PickStatusFilterValue } from "@/app/types/decision";
+import type { ScheduleStatusValue } from "@/app/types/schedule";
 import MultiSelectDropdown from "@/app/components/explore/MultiSelectDropdown";
 import SingleSelectDropdown from "@/app/components/explore/SingleSelectDropdown";
 
@@ -15,12 +16,14 @@ interface ExploreFiltersProps {
   selectedGenres?: Genre[];
   selectedDay?: string;
   selectedStages?: Stage[];
-  selectedStatus?: StatusFilterValue[];
+  selectedPickStatus?: PickStatusFilterValue[];
+  selectedScheduleStatus?: ScheduleStatusValue[];
   onSearchChange?: (query: string) => void;
   onGenresChange?: (genres: Genre[]) => void;
   onDayChange?: (day: string) => void;
   onStagesChange?: (stages: Stage[]) => void;
-  onStatusChange?: (status: StatusFilterValue[]) => void;
+  onPickStatusChange?: (status: PickStatusFilterValue[]) => void;
+  onScheduleStatusChange?: (scheduleStatus: ScheduleStatusValue[]) => void;
 }
 
 export default function ExploreFilters({
@@ -28,18 +31,21 @@ export default function ExploreFilters({
   selectedGenres: externalGenres = [],
   selectedDay: externalDay = "",
   selectedStages: externalStages = [],
-  selectedStatus: externalStatus = [],
+  selectedPickStatus: externalPickStatus = [],
+  selectedScheduleStatus: externalScheduleStatus = [],
   onSearchChange,
   onGenresChange,
   onDayChange,
   onStagesChange,
-  onStatusChange,
+  onPickStatusChange,
+  onScheduleStatusChange,
 }: ExploreFiltersProps) {
   const [searchQuery, setSearchQuery] = useState(externalSearchQuery);
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>(externalGenres);
   const [selectedDay, setSelectedDay] = useState<string>(externalDay);
   const [selectedStages, setSelectedStages] = useState<Stage[]>(externalStages);
-  const [selectedStatus, setSelectedStatus] = useState<StatusFilterValue[]>(externalStatus);
+  const [selectedPickStatus, setSelectedPickStatus] = useState<PickStatusFilterValue[]>(externalPickStatus);
+  const [selectedScheduleStatus, setSelectedScheduleStatus] = useState<ScheduleStatusValue[]>(externalScheduleStatus);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [allButtonPressed, setAllButtonPressed] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -50,8 +56,9 @@ export default function ExploreFilters({
     setSelectedGenres(externalGenres);
     setSelectedDay(externalDay);
     setSelectedStages(externalStages);
-    setSelectedStatus(externalStatus);
-  }, [externalSearchQuery, externalGenres, externalDay, externalStages, externalStatus]);
+    setSelectedPickStatus(externalPickStatus);
+    setSelectedScheduleStatus(externalScheduleStatus);
+  }, [externalSearchQuery, externalGenres, externalDay, externalStages, externalPickStatus, externalScheduleStatus]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -101,12 +108,20 @@ export default function ExploreFilters({
     onStagesChange?.(updated);
   };
 
-  const handleStatusToggle = (status: StatusFilterValue) => {
-    const updated = selectedStatus.includes(status)
-      ? selectedStatus.filter((s) => s !== status)
-      : [...selectedStatus, status];
-    setSelectedStatus(updated);
-    onStatusChange?.(updated);
+  const handlePickStatusToggle = (status: PickStatusFilterValue) => {
+    const updated = selectedPickStatus.includes(status)
+      ? selectedPickStatus.filter((s) => s !== status)
+      : [...selectedPickStatus, status];
+    setSelectedPickStatus(updated);
+    onPickStatusChange?.(updated);
+  };
+
+  const handleScheduleStatusToggle = (status: ScheduleStatusValue) => {
+    const updated = selectedScheduleStatus.includes(status)
+      ? selectedScheduleStatus.filter((s) => s !== status)
+      : [...selectedScheduleStatus, status];
+    setSelectedScheduleStatus(updated);
+    onScheduleStatusChange?.(updated);
   };
 
   const handleClearAll = () => {
@@ -116,12 +131,14 @@ export default function ExploreFilters({
     setSelectedGenres([]);
     setSelectedDay("");
     setSelectedStages([]);
-    setSelectedStatus([]);
+    setSelectedPickStatus([]);
+    setSelectedScheduleStatus([]);
     onSearchChange?.("");
     onGenresChange?.([]);
     onDayChange?.("");
     onStagesChange?.([]);
-    onStatusChange?.([]);
+    onPickStatusChange?.([]);
+    onScheduleStatusChange?.([]);
   };
 
   return (
@@ -214,21 +231,38 @@ export default function ExploreFilters({
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Stage" : null)}
         />
 
-        {/* Status Dropdown (Multi-select, labels mode) */}
+        {/* Pick Status Dropdown (Multi-select, labels mode) */}
         <MultiSelectDropdown
-          title="Status"
+          title="Pick Status"
           options={[
-            "mustSee" as StatusFilterValue,
-            "interested" as StatusFilterValue,
-            "passed" as StatusFilterValue,
-            "undecided" as StatusFilterValue,
+            "mustSee" as PickStatusFilterValue,
+            "interested" as PickStatusFilterValue,
+            "passed" as PickStatusFilterValue,
+            "undecided" as PickStatusFilterValue,
           ]}
-          selected={selectedStatus}
-          onToggle={handleStatusToggle}
-          isOpen={openDropdown === "Status"}
-          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Status" : null)}
+          selected={selectedPickStatus}
+          onToggle={handlePickStatusToggle}
+          isOpen={openDropdown === "Pick Status"}
+          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Pick Status" : null)}
           displayMode="labels"
-          displayLabels={STATUS_FILTER_LABELS}
+          displayLabels={PICK_STATUS_FILTER_LABELS}
+          showAllWhenComplete
+        />
+
+        {/* Schedule Status Dropdown (Multi-select, labels mode) */}
+        <MultiSelectDropdown
+          title="Schedule Status"
+          options={[
+            "scheduled" as ScheduleStatusValue,
+            "unscheduled" as ScheduleStatusValue,
+            "conflicting" as ScheduleStatusValue,
+          ]}
+          selected={selectedScheduleStatus}
+          onToggle={handleScheduleStatusToggle}
+          isOpen={openDropdown === "Schedule Status"}
+          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Schedule Status" : null)}
+          displayMode="labels"
+          displayLabels={SCHEDULE_STATUS_LABELS}
           showAllWhenComplete
         />
       </div>
