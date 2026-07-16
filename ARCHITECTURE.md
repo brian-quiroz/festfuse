@@ -553,6 +553,340 @@ The Explore page Status filter can be pre-selected by clicking sidebar links ("M
 
 ---
 
+## Schedule Feature (MVP)
+
+**Confirmed** — Overall feature scope and approach.
+
+### Product Context
+
+**Confirmed** — From CLAUDE.md:
+- Schedule is a separate feature from Quick Picks decisions (Must See / Interested / Passed)
+- "Organize a finalized festival plan after decisions have already been made"
+- Planning, conflict detection, and scheduling were deferred until the core discovery experience felt polished
+- Artist Detail page "should inspire rather than compare" — no conflict warnings on that page per design philosophy
+
+### Data Model
+
+#### Store: `scheduleStore` (Zustand + persist)
+
+**Confirmed** — New store, completely independent of `decisionStore`.
+
+```typescript
+interface ScheduleState {
+  scheduledArtists: Set<string>;
+  toggleScheduled: (artistId: string) => void;
+  isScheduled: (artistId: string) => boolean;
+}
+```
+
+**Location:** `app/store/scheduleStore.ts`
+
+- `scheduledArtists`: Set of artist slug IDs that the user has scheduled (committed to attending)
+- `toggleScheduled(artistId)`: Add artist to scheduled set if not present; remove if already present
+- `isScheduled(artistId)`: Query if a given artist is scheduled
+
+Persisted to localStorage under key `schedule-store` via Zustand's `persist` middleware. Data survives page reloads and browser restarts, independent of the decision store.
+
+#### Pure Function: `getConflictingArtists()`
+
+**Confirmed** — Single source of truth for conflict detection. No side effects — accepts scheduledArtists and allArtists as inputs, returns a Set of conflicting artist IDs.
+
+**Location:** `app/utils/schedule.ts`
+
+```typescript
+function getConflictingArtists(
+  scheduledIds: Set<string>,
+  allArtists: Artist[]
+): Set<string> {
+  const conflicting = new Set<string>();
+  
+  // Group scheduled artists by day for efficiency
+  const scheduledByDay = new Map<string, Artist[]>();
+  for (const artist of allArtists) {
+    if (scheduledIds.has(artist.slug)) {
+      const day = artist.appearance.day;
+      if (!scheduledByDay.has(day)) {
+        scheduledByDay.set(day, []);
+      }
+      scheduledByDay.get(day)!.push(artist);
+    }
+  }
+  
+  // Check for conflicts within each day only
+  for (const dayArtists of scheduledByDay.values()) {
+    for (let i = 0; i < dayArtists.length; i++) {
+      for (let j = i + 1; j < dayArtists.length; j++) {
+        const a = dayArtists[i];
+        const b = dayArtists[j];
+        
+        // Time overlap check: A.start < B.end && B.start < A.end
+        if (timeStringToMinutes(a.appearance.startTime) < timeStringToMinutes(b.appearance.endTime) &&
+            timeStringToMinutes(b.appearance.startTime) < timeStringToMinutes(a.appearance.endTime)) {
+          conflicting.add(a.slug);
+          conflicting.add(b.slug);
+        }
+      }
+    }
+  }
+  
+  return conflicting;
+}
+```
+
+**Design rationale:**
+- Group by day first, then compare pairwise within each day (reduces comparisons vs. checking all pairs unconditionally)
+- Pairwise comparison prevents false positives (Artist A conflicts with B, B with C, but A and C don't overlap)
+- Uses `HH:MM` string format via `timeStringToMinutes()` helper (lexicographic sorting works for 24-hour time)
+- No caching — computed fresh when needed; the data set is small enough that computation cost is negligible
+
+### Entry Points for Scheduling
+
+#### 1. Artist Detail Page (`/artist/[slug]`)
+
+**Confirmed** — Wire existing "Schedule" button to `toggleScheduled(artist.slug)`.
+
+**File:** `app/components/artist/ArtistActions.tsx`
+
+- Show toggle state (scheduled vs. not scheduled) via button styling (e.g., filled vs. outlined)
+- No conflict warning shown per CLAUDE.md ("should inspire rather than compare")
+- Behavior: click toggles between scheduled and unscheduled
+- Label: "Schedule" (consistent across Artist Detail and Explore cards)
+
+#### 2. Explore Page (`/explore`)
+
+**Confirmed** — Extend existing Must See / Interested action buttons with scheduling support.
+
+**File:** `app/components/explore/ArtistCard.tsx`
+
+- **Schedule toggle icon** (calendar icon, cyan per CLAUDE.md "Primary workflow actions")
+  - Click toggles artist into/out of schedule
+  - Filled/highlighted state when artist is scheduled (toggle icon itself is the state indicator)
+  - Shows tooltip on hover: "Add to schedule" or "Remove from schedule"
+  - The filled/highlighted icon is the only visual indicator needed — no separate badge
+
+- **Conflict highlight** (red border/highlight only if conflicting)
+  - Only shown if artist is both scheduled AND in the conflict set returned by `getConflictingArtists()`
+  - Uses red per CLAUDE.md ("Schedule conflicts" → Red)
+  - Example: thin red border, or subtle background tint
+  - Subtle styling — not aggressive, doesn't distract from the card itself
+
+#### 3. Sidebar (`app/components/Sidebar.tsx`)
+
+**Confirmed** — Sidebar navigation and "My Festival" section structure.
+
+**Top-level nav items (before "My Festival" section):**
+1. Home
+2. Explore
+3. Quick Picks
+4. **Planner** — RENAMED from "Schedule"
+   - Links to `/schedule` (the Planner grid view page)
+   - No count shown
+
+**"My Festival" section (below main nav):**
+1. **My Picks** — NEW
+   - Calls `setPreAppliedPickStatus(["mustSee", "interested"])`, then navigates to `/explore`
+   - Shows count: "My Picks (X)" where X = count of Must See + count of Interested
+   - Cyan color per CLAUDE.md ("Primary workflow actions")
+
+2. **Must See** — Existing link (no change)
+   - Calls `setPreAppliedPickStatus("mustSee")` then navigates to `/explore`
+   - Shows count
+
+3. **Interested** — Existing link (no change)
+   - Calls `setPreAppliedPickStatus("interested")` then navigates to `/explore`
+   - Shows count
+
+4. **Scheduled** — NEW
+   - Calls `setPreAppliedScheduleStatus("scheduled")`, then navigates to `/explore`
+   - Filters Explore to show all scheduled artists
+   - Shows count: "Scheduled (X)"
+   - Cyan color per CLAUDE.md ("Primary workflow actions")
+
+5. **Conflicts** — NEW, conditionally rendered
+   - Only shown if conflict count > 0
+   - Calls `setPreAppliedScheduleStatus("conflicting")`, then navigates to `/explore`
+   - Filters Explore to show ONLY conflicting artists (strict subset of scheduled)
+   - Shows count: "Conflicts (X)"
+   - Red color per CLAUDE.md ("Schedule conflicts")
+
+**Technical implementation:**
+- Extend `useExploreFilterStore()` to track **two independent filter facets**:
+  - `pickStatus`: Must See / Interested / Passed / Undecided — multi-select, no "All" value (deselecting everything shows the unfiltered list)
+  - `scheduleStatus`: Scheduled / Unscheduled / Conflicting — multi-select, same pattern, no "All" value
+- The two facets combine with AND logic between them; within a single facet, multiple selected values combine with OR logic (e.g., My Picks = mustSee OR interested, both within the pickStatus facet)
+- Sidebar links call `setPreAppliedPickStatus(...)` and/or `setPreAppliedScheduleStatus(...)` as needed, then navigate to `/explore`
+- ExploreContent reads both pre-applied values on mount, applies them to local filter state, then clears the pre-applied values from the store
+- Sidebar derives counts from `decisionStore`, `scheduleStore`, and conflict detection
+
+### Explore Page Filter Extensions
+
+**Confirmed** — Extend existing filter handling with two independent filter facets.
+
+**File:** `app/components/explore/ExploreContent.tsx` (existing file)
+
+**Two independent filter facets:**
+
+**Facet 1: Pick Status** (replaces existing "Status" filter)
+- Values: Must See / Interested / Passed / Undecided
+- Multi-select within facet (OR logic)
+- Represents user's discovery/decision state per CLAUDE.md
+
+**Facet 2: Schedule Status** (new facet)
+- Values: Scheduled / Unscheduled / Conflicting
+- Multi-select within facet (OR logic)
+- Represents scheduling commitment and conflict state
+
+**Filter combination:**
+- Between facets: AND logic (must match Pick Status AND Schedule Status)
+- Within facet: OR logic (My Picks = mustSee OR interested within Pick Status facet)
+- No "All" value — deselecting everything in a facet shows unfiltered results for that facet
+
+**How pre-applied filters work** (reuses existing Sidebar pattern):
+1. Sidebar calls `setPreAppliedPickStatus()` and/or `setPreAppliedScheduleStatus()` and navigates to `/explore`
+2. ExploreContent mounts and reads both from `useExploreFilterStore()`
+3. Sets local state for both `activePickStatus` and `activeScheduleStatus`
+4. Clears the pre-applied values from store
+5. Filtering logic in `filterArtists()` applies both filters with AND logic
+
+**Display behavior** (all cases):
+- Page title remains: "Explore" (no change)
+- Cards show all action buttons (Must See, Interested, Schedule)
+- Users can add additional filters (Genre, Day, Stage) on top of the pre-applied statuses
+
+**Default behavior** (no pre-applied status):
+- No filter applied, display full lineup (existing behavior)
+
+### Schedule View (`/schedule`)
+
+**Confirmed** — New route and full-page component for day-by-day grid scheduling.
+
+**File:** `app/schedule/page.tsx`
+
+#### Layout & Presentation
+
+**Confirmed** — Grid structure, day organization, and time row design:
+
+**Grid columns and rows:**
+- **Columns:** Festival stages (e.g., "Airbnb Stage", "T-Mobile Stage", etc., imported from `FESTIVAL_STAGES`)
+- **Time rows:** Hour-based anchors with proportional artist blocks
+  - Left column shows fixed hour labels (e.g., "2:00 PM", "3:00 PM", etc.)
+  - Each artist's block size is proportional to their actual set duration within that hour
+  - Artist blocks are NOT uniform fixed-height rows — they scale based on set duration
+  - Hour lines are the fixed structure; artist blocks flow within them
+
+**Days:** Separate grid per day (Thursday through Sunday)
+- Tabbed interface for switching between days (not scrollable section headers)
+- User can click tab to switch between days
+- Only one day's grid visible at a time
+
+**Data:** Full lineup for each day rendered by default (all artists, not pre-filtered)
+- Artist name and start/end time displayed in each grid cell
+- No lazy-loading/code-splitting for MVP — just conditionally render the active day's content
+
+#### Visual Treatment (Per CLAUDE.md Color Semantics)
+
+**Confirmed** — Color application per CLAUDE.md semantics:
+- **Scheduled artists:** Cyan background or accent border per CLAUDE.md ("Primary workflow actions")
+- **Conflicting scheduled artists:** Red border/highlight per CLAUDE.md ("Schedule conflicts")
+- **Unscheduled artists:** Neutral presentation (no accent)
+- **Must See/Interested (if visible with "My Picks" toggle enabled):** Yellow per CLAUDE.md ("User Intent & Personalization")
+
+All colors layered appropriately so conflicts (red) take visual priority over scheduling state (cyan).
+
+#### Interactions
+
+**Confirmed** — Two independent toggles at the top of the Planner grid:
+
+**Toggle 1: "My Picks"** (cyan styling)
+- Filters grid to display only artists with verdict === "mustSee" OR verdict === "interested"
+- Independent of the "Scheduled" toggle
+- When enabled, hides all other artists (Pass, Undecided)
+
+**Toggle 2: "Scheduled"** (cyan styling)
+- Filters grid to display only scheduled artists (`isScheduled(artist) === true`)
+- Independent of the "My Picks" toggle
+- When enabled, hides all unscheduled artists
+
+**Combined behavior (AND logic):**
+- Both toggles can be enabled simultaneously to show artists that are both in Must See/Interested AND scheduled
+- When both enabled, displays the intersection of the two filters
+- Conflict artists remain visible and highlighted (red border/accent) regardless of toggle state
+- Toggle state persists within this page visit; resets on navigation away
+
+**Artist cell interactions:**
+- **Confirmed** — Click to navigate to artist detail page (existing pattern)
+- **Confirmed** — Schedule toggle within the cell to add/remove from schedule
+  - Toggling scheduled state updates the grid cell appearance immediately
+
+**Confirmed** — No drag-and-drop rescheduling for MVP
+- Set times are fixed festival data, not user-editable
+- Users can only schedule/unschedule artists, not move them to different times
+- Future expansions: Compare, Auto-Optimize, Add Travel Time, Custom Time Edits
+
+#### Performance Notes
+
+**Confirmed** — Optimization requirements:
+- Memoize `getConflictingArtists()` result at page level
+- Cache conflict set in local state to avoid recomputation on every render
+- **Proposed — needs review:** Lazy-load day tabs if lineup is large (only render visible day's grid)
+
+### State Summary for Schedule Feature
+
+**Confirmed** — Store design and data flow:
+
+#### Stores
+
+1. **decisionStore** (existing, unchanged)
+   - Must See / Interested / Passed decisions
+   - Completely independent from scheduling
+
+2. **scheduleStore** (new)
+   - Scheduled artists
+   - Completely independent from decisions
+   - Persisted to localStorage
+
+#### Derived State
+
+- **Conflict set** — computed from scheduleStore + allArtists via `getConflictingArtists()`
+- **Sidebar counts** — Must See count, Interested count, Scheduled count, Conflict count (0 or more)
+- **Filtered lineups** — Explore with status filters (via `preAppliedStatus`), Schedule with independent "My Picks" and "Scheduled" toggles
+
+#### Data Flow
+
+```
+User actions
+├── Explore card: click Schedule toggle → toggleScheduled() → scheduleStore updates
+├── Explore card: click Must See/Interested → setDecision() → decisionStore updates
+├── Artist Detail: click Schedule button → toggleScheduled() → scheduleStore updates
+├── Sidebar: click My Picks → setPreAppliedStatus(["mustSee", "interested"]) → /explore
+├── Sidebar: click Scheduled → setPreAppliedStatus(["scheduled"]) → /explore
+├── Sidebar: click Conflicts → setPreAppliedStatus([...]) → /explore
+└── Schedule page: day tabs, independent "My Picks" & "Scheduled" toggles, etc.
+
+Reactive computations
+├── Sidebar counts: read from decisionStore + scheduleStore
+├── Conflict set: computed via getConflictingArtists(scheduleStore, allArtists)
+├── Explore cards: show Schedule toggle state, conflict highlight (if applicable)
+└── Schedule grid: render scheduled/conflicting artists with appropriate styling
+```
+
+### Out of Scope (MVP)
+
+**Confirmed** — The following features are explicitly deferred and should not be implemented:
+- Compare (n-way comparison of artists)
+- Auto-Optimize (algorithmic schedule suggestions)
+- Add Travel Time (time padding between artists on different stages)
+- Map View (stage location visualization)
+- Drag-and-drop rescheduling
+- Custom time edits (user changing artist set times)
+- Gamification / XP / Leveling
+- Quick Picks sidebar visibility toggle
+- Color/palette rework (Pass color, celebration magenta refinements)
+
+These are separate, later features and should not influence the Schedule MVP design.
+
+---
+
 ## Future Consideration: Festival-Agnostic Bookmarking
 
 The current model (mustSee, interested, passed) is intentionally festival-scoped — all three verdicts describe a user's relationship to an artist within the context of one specific festival's lineup and schedule. This is correct for the current single-festival MVP and should not change.
