@@ -435,8 +435,20 @@ const worship: Artist = {
   ],
   tracks: [
     { name: "Ready to Fly", album: "Evolve", duration: "" },
-    { spotifyId: "76x1mIsCz46excW50sehDt", name: "It's That Time - Dimension Remix", album: "It's That Time (Remixes)", duration: "3:35", artworkUrl: "https://i.scdn.co/image/ab67616d00001e023e90e129870600a8c1fb9eab" },
-    { spotifyId: "5u9J4efhSEo5Bx5euYOtAD", name: "Bunker", album: "Sequel", duration: "4:41", artworkUrl: "https://i.scdn.co/image/ab67616d00001e021cbdf6e04a64c34bbb5f62f5" },
+    {
+      spotifyId: "76x1mIsCz46excW50sehDt",
+      name: "It's That Time - Dimension Remix",
+      album: "It's That Time (Remixes)",
+      duration: "3:35",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e023e90e129870600a8c1fb9eab",
+    },
+    {
+      spotifyId: "5u9J4efhSEo5Bx5euYOtAD",
+      name: "Bunker",
+      album: "Sequel",
+      duration: "4:41",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e021cbdf6e04a64c34bbb5f62f5",
+    },
   ],
   about:
     "Formed as a live collective touring concept in 2020, WORSHIP officially solidified their four-way B2B supergroup format during their massive breakout 2024 North American tour, before graduating to global festival mainstages as a unified recording project in 2026.",

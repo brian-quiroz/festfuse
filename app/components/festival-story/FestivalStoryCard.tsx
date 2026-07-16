@@ -118,7 +118,9 @@ export function FestivalStoryCard({
               animate={{ width: `${progressPercent}%` }}
               transition={{ duration: 0.5, ease: "easeOut" as const }}
               style={{
-                background: isLastCard ? `linear-gradient(to right, ${COLORS.celebration}, #A78BFA)` : COLORS.celebration,
+                background: isLastCard
+                  ? `linear-gradient(to right, ${COLORS.celebration}, #A78BFA)`
+                  : COLORS.celebration,
                 opacity: 0.85,
               }}
             ></motion.div>
@@ -129,7 +131,9 @@ export function FestivalStoryCard({
             onClick={onRevealNext}
             className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-white transition-all hover:opacity-90 active:scale-95 rounded-xl"
             style={{
-              background: isLastCard ? `linear-gradient(to right, ${COLORS.celebration}, #A78BFA)` : COLORS.celebration,
+              background: isLastCard
+                ? `linear-gradient(to right, ${COLORS.celebration}, #A78BFA)`
+                : COLORS.celebration,
             }}
           >
             {isLastCard ? (

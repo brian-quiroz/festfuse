@@ -14,11 +14,7 @@ export interface ArtistDecision {
 
 export interface DecisionState {
   decisionsByArtist: Record<string, ArtistDecision>;
-  setDecision: (
-    artistId: string,
-    verdict: Verdict | null,
-    source: DecisionSource
-  ) => void;
+  setDecision: (artistId: string, verdict: Verdict | null, source: DecisionSource) => void;
 }
 
 export const useDecisionStore = create<DecisionState>()(

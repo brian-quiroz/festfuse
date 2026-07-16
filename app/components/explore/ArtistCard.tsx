@@ -13,7 +13,11 @@ interface ArtistCardProps {
   responsive?: boolean;
 }
 
-export default function ArtistCard({ artist, size = "default", responsive = false }: ArtistCardProps) {
+export default function ArtistCard({
+  artist,
+  size = "default",
+  responsive = false,
+}: ArtistCardProps) {
   const router = useRouter();
   const { decisionsByArtist, setDecision } = useDecisionStore();
 
@@ -36,7 +40,7 @@ export default function ArtistCard({ artist, size = "default", responsive = fals
   };
 
   const isLarge = size === "large";
-  const cardW = responsive ? "w-full" : (isLarge ? "w-60" : "w-48");
+  const cardW = responsive ? "w-full" : isLarge ? "w-60" : "w-48";
   const photoH = isLarge ? "h-72" : "h-60";
 
   return (

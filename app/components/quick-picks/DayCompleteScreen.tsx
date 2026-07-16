@@ -92,7 +92,10 @@ export default function DayCompleteScreen({
         {/* Eyebrow */}
         <div className="flex items-center gap-3">
           <span className="h-px w-12" style={{ backgroundColor: `${COLORS.celebration}99` }} />
-          <p className="text-sm uppercase tracking-widest font-extrabold" style={{ color: COLORS.celebration }}>
+          <p
+            className="text-sm uppercase tracking-widest font-extrabold"
+            style={{ color: COLORS.celebration }}
+          >
             Day Complete
           </p>
           <span className="h-px w-12" style={{ backgroundColor: `${COLORS.celebration}99` }} />

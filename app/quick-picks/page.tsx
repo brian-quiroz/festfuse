@@ -75,7 +75,9 @@ export default function QuickPicksPage() {
   const { decisionsByArtist, setDecision } = useDecisionStore();
   const [step, setStep] = useState<QuickPicksStep>("start");
   const [session, setSession] = useState<QuickPicksSession | null>(null);
-  const [initialDecisions, setInitialDecisions] = useState<Record<string, QuickPicksVerdict | null>>({});
+  const [initialDecisions, setInitialDecisions] = useState<
+    Record<string, QuickPicksVerdict | null>
+  >({});
   const [hasUndone, setHasUndone] = useState(false);
   const [undoneVerdict, setUndoneVerdict] = useState<QuickPicksVerdict | null>(null);
   const [undoToast, setUndoToast] = useState<{ message: string; key: number } | null>(null);

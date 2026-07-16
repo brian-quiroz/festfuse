@@ -2109,7 +2109,13 @@ const easyHoney: Artist = {
   ],
   tracks: [
     { name: "Steady", album: "Peach State", duration: "" },
-    { spotifyId: "1JlQELi7lVpeBeR9mFaZyV", name: "Spells", album: "Peach State", duration: "3:08", artworkUrl: "https://i.scdn.co/image/ab67616d00001e021103de4ee6de12960aa72c6b" },
+    {
+      spotifyId: "1JlQELi7lVpeBeR9mFaZyV",
+      name: "Spells",
+      album: "Peach State",
+      duration: "3:08",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e021103de4ee6de12960aa72c6b",
+    },
     { name: "Gotta Tree", album: "Gotta Tree", duration: "" },
   ],
   about:
@@ -2268,8 +2274,20 @@ const justineSkye: Artist = {
   ],
   tracks: [
     { name: "Collide", album: "Bare With Me", duration: "" },
-    { spotifyId: "0G3qCSe4KcWFc0EKlXCEo8", name: "Build", album: "Bare With Me", duration: "4:07", artworkUrl: "https://i.scdn.co/image/ab67616d00001e0299bfdb8c3573c8db0c457478" },
-    { spotifyId: "5aKvdpWyjO14xB04CTEpEw", name: "In My Bag", album: "Space & Time", duration: "3:28", artworkUrl: "https://i.scdn.co/image/ab67616d00001e023cb656dd067ce27a38b50886" },
+    {
+      spotifyId: "0G3qCSe4KcWFc0EKlXCEo8",
+      name: "Build",
+      album: "Bare With Me",
+      duration: "4:07",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0299bfdb8c3573c8db0c457478",
+    },
+    {
+      spotifyId: "5aKvdpWyjO14xB04CTEpEw",
+      name: "In My Bag",
+      album: "Space & Time",
+      duration: "3:28",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e023cb656dd067ce27a38b50886",
+    },
   ],
   about:
     "Justine Skye is a Brooklyn-born global pop-R&B powerhouse whose sharp combination of multi-platinum vocal authority, trendsetting fashion style, and commanding stage presence has earned her massive international acclaim. Breaking onto charts as an independent internet phenom before collaborating with the genre's top production elite, she has spent over a decade refining a sound that bridges timeless soul structures with contemporary electronic club syncopation. Backed by an exceptionally polished live band, her late afternoon mainstage slot provides an undeniable clinic in world-class pop showmanship.",
@@ -2321,7 +2339,13 @@ const willSwinton: Artist = {
   tracks: [
     { name: "Wasted On You", album: "Will Swinton", duration: "" },
     { name: "Leave Me Dead", album: "Will Swinton", duration: "" },
-    { spotifyId: "3oCorEb2RJOrGlpRcUy3Bn", name: "Better Days", album: "Better Days", duration: "2:47", artworkUrl: "https://i.scdn.co/image/ab67616d00001e02bee403db120105a7e9a4f38c" },
+    {
+      spotifyId: "3oCorEb2RJOrGlpRcUy3Bn",
+      name: "Better Days",
+      album: "Better Days",
+      duration: "2:47",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02bee403db120105a7e9a4f38c",
+    },
   ],
   about:
     "Will Swinton is a New Zealand-born singer-songwriter whose brilliant combination of nostalgic indie pop, breezy acoustic folk, and an intensely raw vocal rasp has garnered a deeply passionate international community. Writing with the specific narrative precision of a classic bedroom diary, he explores the vulnerabilities of youth, modern isolation, and heartbreak with profound emotional honesty. Handpicked for massive global breakout tour blocks, his early afternoon performance transforms a sprawling festival lawn into an intimate, shared backyard listening session.",
@@ -2582,7 +2606,13 @@ const zackMartino: Artist = {
     },
   ],
   tracks: [
-    { spotifyId: "7KwOXnN06yiUeGDCk3PQYW", name: "Hold On To Me", album: "Hold On To Me", duration: "2:55", artworkUrl: "https://i.scdn.co/image/ab67616d00001e0277245f24f78b9b8c8bdffc0b" },
+    {
+      spotifyId: "7KwOXnN06yiUeGDCk3PQYW",
+      name: "Hold On To Me",
+      album: "Hold On To Me",
+      duration: "2:55",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0277245f24f78b9b8c8bdffc0b",
+    },
     { name: "Craving", album: "Craving", duration: "" },
     { name: "Do Type", album: "Do Type", duration: "" },
   ],

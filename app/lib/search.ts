@@ -41,67 +41,43 @@ export function searchArtists(query: string, artists: Artist[]): Artist[] {
       }
 
       // Priority 2: Genre
-      if (
-        artist.genres.some((genre) =>
-          genre.toLowerCase().includes(normalizedQuery)
-        )
-      ) {
+      if (artist.genres.some((genre) => genre.toLowerCase().includes(normalizedQuery))) {
         return { artist, priority: 2 };
       }
 
       // Priority 3: Country
-      if (
-        artist.location.country.toLowerCase().includes(normalizedQuery)
-      ) {
+      if (artist.location.country.toLowerCase().includes(normalizedQuery)) {
         return { artist, priority: 3 };
       }
 
       // Priority 4: State (optional field)
-      if (
-        artist.location.state &&
-        artist.location.state.toLowerCase().includes(normalizedQuery)
-      ) {
+      if (artist.location.state && artist.location.state.toLowerCase().includes(normalizedQuery)) {
         return { artist, priority: 4 };
       }
 
       // Priority 5: City
-      if (
-        artist.location.city.toLowerCase().includes(normalizedQuery)
-      ) {
+      if (artist.location.city.toLowerCase().includes(normalizedQuery)) {
         return { artist, priority: 5 };
       }
 
       // Priority 6: Stage
-      if (
-        artist.appearance.stage.toLowerCase().includes(normalizedQuery)
-      ) {
+      if (artist.appearance.stage.toLowerCase().includes(normalizedQuery)) {
         return { artist, priority: 6 };
       }
 
       // Priority 7: Best For tags
-      if (
-        artist.bestFor.some((tag) =>
-          tag.toLowerCase().includes(normalizedQuery)
-        )
-      ) {
+      if (artist.bestFor.some((tag) => tag.toLowerCase().includes(normalizedQuery))) {
         return { artist, priority: 7 };
       }
 
       // Priority 8: What to Expect tags
-      if (
-        artist.whatToExpect.some((tag) =>
-          tag.toLowerCase().includes(normalizedQuery)
-        )
-      ) {
+      if (artist.whatToExpect.some((tag) => tag.toLowerCase().includes(normalizedQuery))) {
         return { artist, priority: 8 };
       }
 
       return null;
     })
-    .filter(
-      (result): result is { artist: Artist; priority: number } =>
-        result !== null
-    )
+    .filter((result): result is { artist: Artist; priority: number } => result !== null)
     .sort((a, b) => a.priority - b.priority)
     .map((result) => result.artist);
 

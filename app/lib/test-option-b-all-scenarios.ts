@@ -96,7 +96,14 @@ export function runOptionBAllScenarios(allArtists: Artist[]) {
       "West Coast Rap",
     ],
     "R&B/Soul": ["Alternative R&B", "Chicano Soul", "Funk", "Neo-Soul", "R&B", "Soul"],
-    "Indie/Bedroom": ["Bedroom Pop", "Dream Pop", "Indie Electronica", "Indie Pop", "Lo-Fi Indie", "Slowcore"],
+    "Indie/Bedroom": [
+      "Bedroom Pop",
+      "Dream Pop",
+      "Indie Electronica",
+      "Indie Pop",
+      "Lo-Fi Indie",
+      "Slowcore",
+    ],
     "Electronic/Dance": [
       "Bass House",
       "Bassline",
@@ -220,11 +227,13 @@ export function runOptionBAllScenarios(allArtists: Artist[]) {
     // Signal 3: Headliner
     {
       const headlinerCount = pickedArtists.filter(
-        (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+        (a) =>
+          a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
       ).length;
       const userHeadlinerRate = (headlinerCount / pickedArtists.length) * 100;
       const lineupHeadlinerCount = allArtists.filter(
-        (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+        (a) =>
+          a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
       ).length;
       const lineupHeadlinerRate = (lineupHeadlinerCount / allArtists.length) * 100;
       signals.push({
@@ -237,8 +246,9 @@ export function runOptionBAllScenarios(allArtists: Artist[]) {
 
     // Signal 4: International
     {
-      const internationalCount = pickedArtists.filter((a) => a.location.country !== "United States")
-        .length;
+      const internationalCount = pickedArtists.filter(
+        (a) => a.location.country !== "United States"
+      ).length;
       const userInternationalRate = (internationalCount / pickedArtists.length) * 100;
       const lineupInternationalCount = allArtists.filter(
         (a) => a.location.country !== "United States"

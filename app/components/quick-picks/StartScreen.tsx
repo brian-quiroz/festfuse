@@ -29,7 +29,12 @@ export default function StartScreen({ onStart }: Props) {
         {/* Hero title */}
         <div className="flex flex-col items-center gap-3 text-center">
           <div className="flex items-center gap-3">
-            <Zap size={40} fill="currentColor" strokeWidth={0} style={{ color: COLORS.celebration }} />
+            <Zap
+              size={40}
+              fill="currentColor"
+              strokeWidth={0}
+              style={{ color: COLORS.celebration }}
+            />
             <h1
               className="text-6xl font-extrabold tracking-tight bg-clip-text text-transparent"
               style={{

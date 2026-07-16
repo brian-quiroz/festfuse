@@ -178,13 +178,9 @@ export function validateOptionB(allArtists: Artist[]) {
     "\n✓ With 7 guaranteed non-tag signals, even if ALL 4 tag-based signals are skipped,"
   );
   console.log("  we still have 7 available signals — well above the required 5.");
-  console.log(
-    "\n✓ In practice, real users almost never miss all 4 tag groupings (High-Energy,"
-  );
+  console.log("\n✓ In practice, real users almost never miss all 4 tag groupings (High-Energy,");
   console.log("  Spectacle, Intimate, Lyrical are broad enough that most users hit most).");
-  console.log(
-    "\n✓ Even if a user happens to miss 2-3 tag signals, we still have 5+ total,"
-  );
+  console.log("\n✓ Even if a user happens to miss 2-3 tag signals, we still have 5+ total,");
   console.log("  allowing top-5 ranking to proceed normally with no gating logic needed.");
   console.log("\n✓ Option B is safe: no signal drought risk.\n");
 }

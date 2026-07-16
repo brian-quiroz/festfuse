@@ -217,7 +217,12 @@ export default function ExploreFilters({
         {/* Status Dropdown (Multi-select, labels mode) */}
         <MultiSelectDropdown
           title="Status"
-          options={["mustSee" as StatusFilterValue, "interested" as StatusFilterValue, "passed" as StatusFilterValue, "undecided" as StatusFilterValue]}
+          options={[
+            "mustSee" as StatusFilterValue,
+            "interested" as StatusFilterValue,
+            "passed" as StatusFilterValue,
+            "undecided" as StatusFilterValue,
+          ]}
           selected={selectedStatus}
           onToggle={handleStatusToggle}
           isOpen={openDropdown === "Status"}

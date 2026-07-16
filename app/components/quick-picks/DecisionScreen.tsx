@@ -250,7 +250,6 @@ export default function DecisionScreen({
 
       {/* Main content */}
       <div className="flex-1 flex flex-col items-center justify-center px-8 py-5">
-
         <div
           className="relative w-full flex flex-col gap-3"
           style={{

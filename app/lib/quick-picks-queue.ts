@@ -41,9 +41,7 @@ export function interleaveByTierWithinDay(artists: Artist[]): Artist[] {
   const headliners = artists.filter((a) => a.appearance.billingTier === "Headliner");
   const subHeadliners = artists.filter((a) => a.appearance.billingTier === "Sub-headliner");
   const undercard = artists.filter(
-    (a) =>
-      a.appearance.billingTier !== "Headliner" &&
-      a.appearance.billingTier !== "Sub-headliner"
+    (a) => a.appearance.billingTier !== "Headliner" && a.appearance.billingTier !== "Sub-headliner"
   );
 
   // Shuffle within each tier to break clustering and file-order bias

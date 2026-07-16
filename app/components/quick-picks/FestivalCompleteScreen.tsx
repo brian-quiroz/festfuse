@@ -11,7 +11,11 @@ interface Props {
   onGoToSchedule: () => void;
 }
 
-export default function FestivalCompleteScreen({ context, onGoToFestivalStory, onGoToSchedule }: Props) {
+export default function FestivalCompleteScreen({
+  context,
+  onGoToFestivalStory,
+  onGoToSchedule,
+}: Props) {
   const [pressingFestivalStory, setPressingFestivalStory] = useState(false);
   const [pressingSchedule, setPressingSchedule] = useState(false);
 
@@ -44,7 +48,10 @@ export default function FestivalCompleteScreen({ context, onGoToFestivalStory, o
         {/* Eyebrow */}
         <div className="flex items-center gap-3">
           <span className="h-px w-12" style={{ backgroundColor: `${COLORS.celebration}99` }} />
-          <p className="text-sm uppercase tracking-widest font-extrabold" style={{ color: COLORS.celebration }}>
+          <p
+            className="text-sm uppercase tracking-widest font-extrabold"
+            style={{ color: COLORS.celebration }}
+          >
             {context === "sessionComplete" ? "Festival Complete" : "All Caught Up"}
           </p>
           <span className="h-px w-12" style={{ backgroundColor: `${COLORS.celebration}99` }} />

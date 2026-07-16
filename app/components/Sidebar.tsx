@@ -2,15 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  Home,
-  Search,
-  Zap,
-  Calendar,
-  Star,
-  Heart,
-  CircleCheck,
-} from "lucide-react";
+import { Home, Search, Zap, Calendar, Star, Heart, CircleCheck } from "lucide-react";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 
@@ -47,8 +39,20 @@ export default function Sidebar() {
   ).length;
 
   const myFestivalItems = [
-    { label: "Must See", count: mustSeeCount, Icon: Star, color: "#E8FF47", bg: "rgba(232,255,71,0.10)" },
-    { label: "Interested", count: interestedCount, Icon: Heart, color: "#E8FF47", bg: "rgba(232,255,71,0.10)" },
+    {
+      label: "Must See",
+      count: mustSeeCount,
+      Icon: Star,
+      color: "#E8FF47",
+      bg: "rgba(232,255,71,0.10)",
+    },
+    {
+      label: "Interested",
+      count: interestedCount,
+      Icon: Heart,
+      color: "#E8FF47",
+      bg: "rgba(232,255,71,0.10)",
+    },
     ...staticFestivalItems,
   ];
 
@@ -132,7 +136,6 @@ export default function Sidebar() {
             );
           })}
         </div>
-
       </div>
 
       {/* Profile */}
