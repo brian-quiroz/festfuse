@@ -22,6 +22,16 @@ interface ExploreFilterStore {
   preAppliedScheduleStatus: ScheduleStatusValue[] | null;
   setPreAppliedScheduleStatus: (status: ScheduleStatusValue[] | null) => void;
 
+  // Live pickStatus/scheduleStatus filter state — distinct from preAppliedPickStatus/
+  // preAppliedScheduleStatus above, which are a one-shot navigation signal consumed once.
+  // These reflect what's actually being shown right now, so Sidebar can validate
+  // activeNavItem against them without needing a separate mirroring mechanism.
+  pickStatus: PickStatusFilterValue[];
+  setPickStatus: (status: PickStatusFilterValue[]) => void;
+
+  scheduleStatus: ScheduleStatusValue[];
+  setScheduleStatus: (status: ScheduleStatusValue[]) => void;
+
   sidebarNavigationCount: number;
   clearAllPreAppliedFilters: () => void;
   incrementSidebarNavigation: () => void;
@@ -48,6 +58,12 @@ export const useExploreFilterStore = create<ExploreFilterStore>((set) => ({
 
   preAppliedScheduleStatus: null,
   setPreAppliedScheduleStatus: (status) => set({ preAppliedScheduleStatus: status }),
+
+  pickStatus: [],
+  setPickStatus: (status) => set({ pickStatus: status }),
+
+  scheduleStatus: [],
+  setScheduleStatus: (status) => set({ scheduleStatus: status }),
 
   sidebarNavigationCount: 0,
   clearAllPreAppliedFilters: () =>

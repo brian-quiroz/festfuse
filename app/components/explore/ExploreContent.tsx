@@ -21,8 +21,6 @@ import { useScheduleStore } from "@/app/store/scheduleStore";
 import { getConflictingArtists } from "@/app/lib/schedule";
 import type { Genre, Stage } from "@/app/data/categories";
 import type { Artist } from "@/app/types/artist";
-import type { PickStatusFilterValue } from "@/app/types/decision";
-import type { ScheduleStatusValue } from "@/app/types/schedule";
 
 interface ExploreContentProps {
   seed: number;
@@ -38,6 +36,10 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     preAppliedStages,
     preAppliedPickStatus,
     preAppliedScheduleStatus,
+    pickStatus,
+    setPickStatus,
+    scheduleStatus,
+    setScheduleStatus,
     sidebarNavigationCount,
     clearAllPreAppliedFilters,
   } = useExploreFilterStore();
@@ -45,8 +47,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
   const [activeDay, setActiveDay] = useState<string>("");
   const [activeStages, setActiveStages] = useState<Stage[]>([]);
-  const [activePickStatus, setActivePickStatus] = useState<PickStatusFilterValue[]>([]);
-  const [activeScheduleStatus, setActiveScheduleStatus] = useState<ScheduleStatusValue[]>([]);
   const [viewingCarousel, setViewingCarousel] = useState<string | null>(null);
   const [showSurpriseTooltip, setShowSurpriseTooltip] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
@@ -88,11 +88,11 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   }, [preAppliedStages, sidebarNavigationCount]);
 
   useLayoutEffect(() => {
-    setActivePickStatus(preAppliedPickStatus || []);
+    setPickStatus(preAppliedPickStatus || []);
   }, [preAppliedPickStatus, sidebarNavigationCount]);
 
   useLayoutEffect(() => {
-    setActiveScheduleStatus(preAppliedScheduleStatus || []);
+    setScheduleStatus(preAppliedScheduleStatus || []);
   }, [preAppliedScheduleStatus, sidebarNavigationCount]);
 
   // Sidebar/Explore navigation always means "leave carousel detail view, back to top of results" —
@@ -112,8 +112,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     setActiveGenres([]);
     setActiveDay("");
     setActiveStages([]);
-    setActivePickStatus([]);
-    setActiveScheduleStatus([]);
+    setPickStatus([]);
+    setScheduleStatus([]);
     setViewingCarousel(carouselName);
     // Scroll to top so user sees the carousel header
     mainRef.current?.scrollTo(0, 0);
@@ -127,8 +127,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     setActiveGenres([]);
     setActiveDay("");
     setActiveStages([]);
-    setActivePickStatus([]);
-    setActiveScheduleStatus([]);
+    setPickStatus([]);
+    setScheduleStatus([]);
     setViewingCarousel(null);
   };
 
@@ -286,14 +286,14 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
             selectedGenres={activeGenres}
             selectedDay={activeDay}
             selectedStages={activeStages}
-            selectedPickStatus={activePickStatus}
-            selectedScheduleStatus={activeScheduleStatus}
+            selectedPickStatus={pickStatus}
+            selectedScheduleStatus={scheduleStatus}
             onSearchChange={setSearchQuery}
             onGenresChange={setActiveGenres}
             onDayChange={setActiveDay}
             onStagesChange={setActiveStages}
-            onPickStatusChange={setActivePickStatus}
-            onScheduleStatusChange={setActiveScheduleStatus}
+            onPickStatusChange={setPickStatus}
+            onScheduleStatusChange={setScheduleStatus}
           />
         </div>
 
@@ -304,8 +304,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
               activeGenres.length > 0 ||
               activeDay ||
               activeStages.length > 0 ||
-              activePickStatus.length > 0 ||
-              activeScheduleStatus.length > 0;
+              pickStatus.length > 0 ||
+              scheduleStatus.length > 0;
             const hasSearch = searchQuery.trim().length > 0;
 
             if (!hasFilters && !hasSearch) return null;
@@ -316,8 +316,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 genres: activeGenres.length > 0 ? activeGenres : undefined,
                 day: activeDay || undefined,
                 stages: activeStages.length > 0 ? activeStages : undefined,
-                verdicts: activePickStatus.length > 0 ? activePickStatus : undefined,
-                scheduleStatus: activeScheduleStatus.length > 0 ? activeScheduleStatus : undefined,
+                verdicts: pickStatus.length > 0 ? pickStatus : undefined,
+                scheduleStatus: scheduleStatus.length > 0 ? scheduleStatus : undefined,
                 scheduledArtists,
                 conflictingArtists,
               },
@@ -359,8 +359,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
               activeGenres.length > 0 ||
               activeDay ||
               activeStages.length > 0 ||
-              activePickStatus.length > 0 ||
-              activeScheduleStatus.length > 0;
+              pickStatus.length > 0 ||
+              scheduleStatus.length > 0;
             const hasSearch = searchQuery.trim().length > 0;
 
             const filtered = filterArtists(
@@ -369,8 +369,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 genres: activeGenres.length > 0 ? activeGenres : undefined,
                 day: activeDay || undefined,
                 stages: activeStages.length > 0 ? activeStages : undefined,
-                verdicts: activePickStatus.length > 0 ? activePickStatus : undefined,
-                scheduleStatus: activeScheduleStatus.length > 0 ? activeScheduleStatus : undefined,
+                verdicts: pickStatus.length > 0 ? pickStatus : undefined,
+                scheduleStatus: scheduleStatus.length > 0 ? scheduleStatus : undefined,
                 scheduledArtists,
                 conflictingArtists,
               },
@@ -394,14 +394,14 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                     onClearStage={(stage) =>
                       setActiveStages(activeStages.filter((s) => s !== stage))
                     }
-                    pickStatus={activePickStatus}
-                    scheduleStatus={activeScheduleStatus}
+                    pickStatus={pickStatus}
+                    scheduleStatus={scheduleStatus}
                     onClearAll={() => {
                       setActiveGenres([]);
                       setActiveDay("");
                       setActiveStages([]);
-                      setActivePickStatus([]);
-                      setActiveScheduleStatus([]);
+                      setPickStatus([]);
+                      setScheduleStatus([]);
                     }}
                   />
                 )}
@@ -436,8 +436,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
               activeGenres.length > 0 ||
               activeDay ||
               activeStages.length > 0 ||
-              activePickStatus.length > 0 ||
-              activeScheduleStatus.length > 0;
+              pickStatus.length > 0 ||
+              scheduleStatus.length > 0;
             const hasSearch = searchQuery.trim().length > 0;
 
             // Apply filters first, then search within filtered results
@@ -447,8 +447,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 genres: activeGenres.length > 0 ? activeGenres : undefined,
                 day: activeDay || undefined,
                 stages: activeStages.length > 0 ? activeStages : undefined,
-                verdicts: activePickStatus.length > 0 ? activePickStatus : undefined,
-                scheduleStatus: activeScheduleStatus.length > 0 ? activeScheduleStatus : undefined,
+                verdicts: pickStatus.length > 0 ? pickStatus : undefined,
+                scheduleStatus: scheduleStatus.length > 0 ? scheduleStatus : undefined,
                 scheduledArtists,
                 conflictingArtists,
               },
@@ -517,14 +517,14 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                     onClearStage={(stage) =>
                       setActiveStages(activeStages.filter((s) => s !== stage))
                     }
-                    pickStatus={activePickStatus}
-                    scheduleStatus={activeScheduleStatus}
+                    pickStatus={pickStatus}
+                    scheduleStatus={scheduleStatus}
                     onClearAll={() => {
                       setActiveGenres([]);
                       setActiveDay("");
                       setActiveStages([]);
-                      setActivePickStatus([]);
-                      setActiveScheduleStatus([]);
+                      setPickStatus([]);
+                      setScheduleStatus([]);
                     }}
                   />
                   <div className="pt-10 pb-16">

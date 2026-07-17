@@ -19,12 +19,28 @@ const navItems = [
 
 // Maps each My Festival label to its ActiveNavItem key — single source of truth used
 // by both the click handler (to set activeNavItem) and the render (to check it).
-const NAV_ITEM_BY_LABEL: Record<string, ActiveNavItem> = {
+const NAV_ITEM_BY_LABEL: Record<string, Exclude<ActiveNavItem, "explore">> = {
   "My Picks": "myPicks",
   "Must See": "mustSee",
   Interested: "interested",
   Scheduled: "scheduled",
   Conflicts: "conflicts",
+};
+
+// What each preset implies about the live pickStatus/scheduleStatus facets, and which
+// facet to check it against. Both facets are multi-select, so "valid" means at least one
+// of these values is still present in the live facet — not that the facet exactly equals
+// this set. An added value on top (e.g. Must See + also checking Interested) doesn't
+// invalidate it; only the preset's own value(s) being fully unchecked does.
+const PRESET_FACET_VALUES: Record<
+  Exclude<ActiveNavItem, "explore">,
+  { facet: "pick" | "schedule"; values: string[] }
+> = {
+  myPicks: { facet: "pick", values: ["mustSee", "interested"] },
+  mustSee: { facet: "pick", values: ["mustSee"] },
+  interested: { facet: "pick", values: ["interested"] },
+  scheduled: { facet: "schedule", values: ["scheduled"] },
+  conflicts: { facet: "schedule", values: ["conflicting"] },
 };
 
 export default function Sidebar() {
@@ -36,6 +52,8 @@ export default function Sidebar() {
     clearAllPreAppliedFilters,
     setPreAppliedPickStatus,
     setPreAppliedScheduleStatus,
+    pickStatus,
+    scheduleStatus,
     incrementSidebarNavigation,
     activeNavItem,
     setActiveNavItem,
@@ -207,9 +225,19 @@ export default function Sidebar() {
 
         <div className="px-3 space-y-0.5">
           {myFestivalItems.map(({ label, count, Icon, color, bg }) => {
-            // Must also confirm we're still on /explore — activeNavItem alone is stale
-            // once the user navigates elsewhere (e.g. Planner), same reasoning as Explore's check.
-            const active = isActive("/explore") && activeNavItem === NAV_ITEM_BY_LABEL[label];
+            const navKey = NAV_ITEM_BY_LABEL[label];
+            const preset = PRESET_FACET_VALUES[navKey];
+            const liveValues: string[] = preset.facet === "pick" ? pickStatus : scheduleStatus;
+            // Must also confirm we're still on /explore (activeNavItem alone is stale once the
+            // user navigates elsewhere, e.g. Planner) and that the live filters still contain
+            // what this preset implies (activeNavItem alone is stale once the user manually
+            // changes filters away from what they clicked — e.g. Scheduled lit while the
+            // Scheduled checkbox itself is unmarked). No fallback if invalid — just don't
+            // highlight anything.
+            const active =
+              isActive("/explore") &&
+              activeNavItem === navKey &&
+              preset.values.some((v) => liveValues.includes(v));
 
             return (
               <button
