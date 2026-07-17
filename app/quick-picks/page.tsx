@@ -298,6 +298,7 @@ export default function QuickPicksPage() {
             upcomingDay={upcomingDay}
             dayStats={completedDayStats}
             onContinue={handleDayContinue}
+            onExit={handleExit}
           />
         )}
 
@@ -307,6 +308,7 @@ export default function QuickPicksPage() {
               context={step === "festivalComplete" ? "sessionComplete" : "nothingToReview"}
               onGoToFestivalStory={() => setShowFestivalStory(true)}
               onGoToSchedule={handleExit}
+              onExit={handleExit}
             />
             <FestivalStorySequence
               isOpen={showFestivalStory}

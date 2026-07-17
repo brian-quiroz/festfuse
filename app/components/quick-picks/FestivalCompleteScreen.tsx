@@ -9,12 +9,14 @@ interface Props {
   context: "sessionComplete" | "nothingToReview";
   onGoToFestivalStory: () => void;
   onGoToSchedule: () => void;
+  onExit: () => void;
 }
 
 export default function FestivalCompleteScreen({
   context,
   onGoToFestivalStory,
   onGoToSchedule,
+  onExit,
 }: Props) {
   const [pressingFestivalStory, setPressingFestivalStory] = useState(false);
   const [pressingSchedule, setPressingSchedule] = useState(false);
@@ -44,6 +46,14 @@ export default function FestivalCompleteScreen({
       transition={{ duration: 0.3, ease: "easeOut" }}
       className="flex-1 flex flex-col items-center justify-center px-8 py-16"
     >
+      <button
+        onClick={onExit}
+        className="absolute top-6 right-6 z-10 p-2 text-white/30 hover:text-white/60 transition-colors duration-200"
+        aria-label="Exit Quick Picks"
+      >
+        ✕
+      </button>
+
       <div className="flex flex-col items-center gap-8 w-full max-w-xl text-center">
         {/* Eyebrow */}
         <div className="flex items-center gap-3">

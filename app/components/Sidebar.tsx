@@ -184,7 +184,9 @@ export default function Sidebar() {
             const isExplore = label === "Explore";
             // Explore and My Festival links share the same /explore pathname, so pathname
             // alone can't tell them apart — activeNavItem tracks which was actually clicked.
-            const active = isExplore ? isActive(href) && activeNavItem === "explore" : isActive(href);
+            const active = isExplore
+              ? isActive(href) && activeNavItem === "explore"
+              : isActive(href);
 
             return isExplore ? (
               <button
@@ -262,19 +264,6 @@ export default function Sidebar() {
               </button>
             );
           })}
-        </div>
-      </div>
-
-      {/* Profile */}
-      <div className="px-5 py-5 border-t border-[#2D2556] flex-shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[#00E5FF]/20 flex items-center justify-center flex-shrink-0">
-            <span className="text-xs font-bold text-[#00E5FF]">BQ</span>
-          </div>
-          <div className="min-w-0">
-            <div className="text-xs font-semibold text-white truncate">Brian Q</div>
-            <div className="text-xs text-[#6B6893]">Pro Plan</div>
-          </div>
         </div>
       </div>
     </aside>
