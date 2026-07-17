@@ -315,8 +315,8 @@ const empireOfTheSun: Artist = {
     stage: "Bud Light",
     day: "Thursday",
     date: "Jul 30",
-    startTime: "6:45 PM",
-    endTime: "7:45 PM",
+    startTime: "6:30 PM",
+    endTime: "7:30 PM",
   },
 };
 
@@ -1670,7 +1670,7 @@ const devault: Artist = {
     stage: "Tito's",
     day: "Thursday",
     date: "Jul 30",
-    startTime: "7:45 PM",
+    startTime: "7:30 PM",
     endTime: "8:30 PM",
   },
 };

@@ -878,7 +878,7 @@ const siennaSpiro: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Allianz",
+    stage: "Airbnb",
     day: "Saturday",
     date: "Aug 1",
     startTime: "5:15 PM",
@@ -1202,7 +1202,7 @@ const cortis: Artist = {
     day: "Saturday",
     date: "Aug 1",
     startTime: "2:55 PM",
-    endTime: "3:15 PM",
+    endTime: "3:45 PM",
   },
 };
 
@@ -1554,7 +1554,7 @@ const frostChildren: Artist = {
     stage: "Airbnb",
     day: "Saturday",
     date: "Aug 1",
-    startTime: "2:15 PM",
+    startTime: "2:50 PM",
     endTime: "3:30 PM",
   },
 };
@@ -2170,8 +2170,8 @@ const mc4d: Artist = {
     stage: "Perry's",
     day: "Saturday",
     date: "Aug 1",
-    startTime: "12:55 PM",
-    endTime: "1:40 PM",
+    startTime: "12:45 PM",
+    endTime: "1:30 PM",
   },
 };
 
@@ -2222,11 +2222,11 @@ const chace: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Perry's",
+    stage: "Bud Light",
     day: "Saturday",
     date: "Aug 1",
-    startTime: "1:50 PM",
-    endTime: "2:35 PM",
+    startTime: "1:30 PM",
+    endTime: "2:15 PM",
   },
 };
 
@@ -2284,11 +2284,11 @@ const calderAllen: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Tito's",
+    stage: "BMI",
     day: "Saturday",
     date: "Aug 1",
-    startTime: "12:15 PM",
-    endTime: "1:00 PM",
+    startTime: "4:30 PM",
+    endTime: "5:10 PM",
   },
 };
 
@@ -2340,11 +2340,11 @@ const natMyers: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Tito's",
+    stage: "Airbnb",
     day: "Saturday",
     date: "Aug 1",
-    startTime: "1:15 PM",
-    endTime: "2:00 PM",
+    startTime: "12:00 PM",
+    endTime: "12:30 PM",
   },
 };
 
@@ -2391,11 +2391,11 @@ const ink: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Airbnb",
+    stage: "BMI",
     day: "Saturday",
     date: "Aug 1",
-    startTime: "12:15 PM",
-    endTime: "1:00 PM",
+    startTime: "3:20 PM",
+    endTime: "4:00 PM",
   },
 };
 
@@ -2455,7 +2455,7 @@ const peaceControl: Artist = {
     day: "Saturday",
     date: "Aug 1",
     startTime: "12:00 PM",
-    endTime: "12:45 PM",
+    endTime: "12:30 PM",
   },
 };
 
@@ -2495,11 +2495,11 @@ const theCreekers: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Airbnb",
+    stage: "BMI",
     day: "Saturday",
     date: "Aug 1",
-    startTime: "1:15 PM",
-    endTime: "1:55 PM",
+    startTime: "1:00 PM",
+    endTime: "1:40 PM",
   },
 };
 
@@ -2545,8 +2545,8 @@ const nextOfKin: Artist = {
     stage: "BMI",
     day: "Saturday",
     date: "Aug 1",
-    startTime: "1:05 PM",
-    endTime: "1:45 PM",
+    startTime: "2:10 PM",
+    endTime: "2:50 PM",
   },
 };
 
@@ -2577,11 +2577,11 @@ const cyso: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Bud Light",
+    stage: "Tito's",
     day: "Saturday",
     date: "Aug 1",
-    startTime: "12:00 PM",
-    endTime: "12:45 PM",
+    startTime: "8:15 PM",
+    endTime: "9:00 PM",
   },
 };
 
