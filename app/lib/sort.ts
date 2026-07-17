@@ -1,6 +1,7 @@
 import type { Artist } from "@/app/types/artist";
 import { BILLING_TIERS } from "@/app/data/categories";
 import { getDaysForActiveFestival } from "@/app/data/festivals";
+import { timeStringToMinutes } from "@/app/lib/schedule";
 
 // Festival day order (defensive: don't rely on data file arrangement)
 // Sourced from festival configuration to enable multi-festival support
@@ -55,10 +56,10 @@ export function sortChronologically(artists: Artist[]): Artist[] {
     const dayB = DAY_ORDER.indexOf(b.appearance.day);
     if (dayA !== dayB) return dayA - dayB;
 
-    // Second: sort by appearance time (as string, lexical order works for HH:MM format)
-    const timeA = a.appearance.startTime;
-    const timeB = b.appearance.startTime;
-    if (timeA !== timeB) return timeA.localeCompare(timeB);
+    // Second: sort by appearance time
+    const timeA = timeStringToMinutes(a.appearance.startTime);
+    const timeB = timeStringToMinutes(b.appearance.startTime);
+    if (timeA !== timeB) return timeA - timeB;
 
     // Third: sort by artist name
     return a.name.localeCompare(b.name);
@@ -93,9 +94,9 @@ export function sortFestivalFavoritesForFullView(artists: Artist[]): Artist[] {
     }
 
     // Third: sort by appearance time
-    const timeA = a.appearance.startTime;
-    const timeB = b.appearance.startTime;
-    if (timeA !== timeB) return timeA.localeCompare(timeB);
+    const timeA = timeStringToMinutes(a.appearance.startTime);
+    const timeB = timeStringToMinutes(b.appearance.startTime);
+    if (timeA !== timeB) return timeA - timeB;
 
     // Fourth: sort by artist name
     return a.name.localeCompare(b.name);

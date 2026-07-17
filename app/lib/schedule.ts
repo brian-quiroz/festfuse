@@ -1,8 +1,12 @@
 import type { Artist } from "@/app/types/artist";
 
-function timeStringToMinutes(timeStr: string): number {
-  const [hours, minutes] = timeStr.split(":").map(Number);
-  return hours * 60 + (minutes || 0);
+// Artist data stores times as "H:MM AM/PM" (e.g. "12:00 PM", "1:30 PM"), not 24-hour "HH:MM".
+export function timeStringToMinutes(timeStr: string): number {
+  const [time, period] = timeStr.split(" ");
+  const [hoursStr, minutesStr] = time.split(":");
+  let hours = Number(hoursStr) % 12;
+  if (period === "PM") hours += 12;
+  return hours * 60 + Number(minutesStr);
 }
 
 export function getConflictingArtists(

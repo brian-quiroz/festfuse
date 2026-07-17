@@ -854,9 +854,11 @@ All colors layered appropriately so conflicts (red) take visual priority over sc
 
 **Artist cell interactions:**
 
-- **Confirmed** — Click to navigate to artist detail page (existing pattern)
-- **Confirmed** — Schedule toggle within the cell to add/remove from schedule
+- **Confirmed** — Clicking anywhere on a cell toggles that artist's scheduled status directly, in place — no navigation. This is the primary action for this screen, matching what the Planner is actually for.
   - Toggling scheduled state updates the grid cell appearance immediately
+- **Confirmed** — A small secondary affordance within the cell (an icon or short link, not the whole cell) navigates to Artist Detail, for anyone who wants to see more before deciding.
+- **Confirmed** — No click-count-based shortcuts for setting Must See/Interested/Passed from this screen — decisions stay confined to Quick Picks and Explore.
+- **Confirmed** — No preview modal — Artist Detail (via the secondary affordance) already covers that need.
 
 **Confirmed** — No drag-and-drop rescheduling for MVP
 
