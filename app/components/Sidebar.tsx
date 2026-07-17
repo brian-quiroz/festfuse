@@ -21,7 +21,14 @@ export default function Sidebar() {
   const router = useRouter();
   const { decisionsByArtist } = useDecisionStore();
   const { scheduledArtists } = useScheduleStore();
-  const { setPreAppliedPickStatus, setPreAppliedScheduleStatus } = useExploreFilterStore();
+  const {
+    clearAllPreAppliedFilters,
+    setPreAppliedPickStatus,
+    setPreAppliedScheduleStatus,
+    incrementSidebarNavigation,
+    isExploreActive,
+    setIsExploreActive,
+  } = useExploreFilterStore();
 
   // Derive counts from store
   const mustSeeCount = Object.values(decisionsByArtist).filter(
@@ -84,28 +91,49 @@ export default function Sidebar() {
     return pathname.startsWith(href);
   }
 
+  const handleExploreClick = () => {
+    // Explore link clears all filters (like a sidebar link with no filters of its own)
+    clearAllPreAppliedFilters();
+    setIsExploreActive(true);
+    incrementSidebarNavigation();
+    // Skip navigation if already on /explore — avoids an unnecessary server refetch
+    // (new seed, new RSC payload) racing behind the store-driven local state fix
+    if (pathname !== "/explore") {
+      router.push("/explore");
+    }
+  };
+
   const handleFestivalItemClick = (label: string) => {
+    // Clear all filters first, then apply only the filter owned by this link
+    // This ensures sidebar navigation provides clean, focused preset views
+    clearAllPreAppliedFilters();
+    setIsExploreActive(false);
+
     switch (label) {
       case "My Picks":
         setPreAppliedPickStatus(["mustSee", "interested"]);
-        router.push("/explore");
         break;
       case "Must See":
         setPreAppliedPickStatus(["mustSee"]);
-        router.push("/explore");
         break;
       case "Interested":
         setPreAppliedPickStatus(["interested"]);
-        router.push("/explore");
         break;
       case "Scheduled":
         setPreAppliedScheduleStatus(["scheduled"]);
-        router.push("/explore");
         break;
       case "Conflicts":
         setPreAppliedScheduleStatus(["conflicting"]);
-        router.push("/explore");
         break;
+    }
+
+    // Increment counter to signal that a sidebar navigation happened
+    // This ensures effects re-run even when pre-applied values don't change
+    incrementSidebarNavigation();
+    // Skip navigation if already on /explore — avoids an unnecessary server refetch
+    // (new seed, new RSC payload) racing behind the store-driven local state fix
+    if (pathname !== "/explore") {
+      router.push("/explore");
     }
   };
 
@@ -124,8 +152,25 @@ export default function Sidebar() {
         {/* Main nav */}
         <nav className="px-3 pb-2 space-y-0.5">
           {navItems.map(({ label, href, Icon }) => {
-            const active = isActive(href);
-            return (
+            const isExplore = label === "Explore";
+            // Explore and My Festival links share the same /explore pathname, so pathname
+            // alone can't tell them apart — isExploreActive tracks which was actually clicked.
+            const active = isExplore ? isActive(href) && isExploreActive : isActive(href);
+
+            return isExplore ? (
+              <button
+                key={label}
+                onClick={handleExploreClick}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  active
+                    ? "bg-[#00E5FF]/10 text-[#00E5FF]"
+                    : "text-[#6B6893] hover:text-white hover:bg-[#231C45]"
+                }`}
+              >
+                <Icon size={18} strokeWidth={2} />
+                {label}
+              </button>
+            ) : (
               <Link
                 key={label}
                 href={href}

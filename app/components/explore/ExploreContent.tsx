@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 import { allArtists } from "@/app/data/artists";
 import Sidebar from "@/app/components/Sidebar";
@@ -33,10 +33,13 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const { decisionsByArtist } = useDecisionStore();
   const { scheduledArtists } = useScheduleStore();
   const {
+    preAppliedGenres,
+    preAppliedDay,
+    preAppliedStages,
     preAppliedPickStatus,
-    clearPreAppliedPickStatus,
     preAppliedScheduleStatus,
-    clearPreAppliedScheduleStatus,
+    sidebarNavigationCount,
+    clearAllPreAppliedFilters,
   } = useExploreFilterStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
@@ -69,22 +72,42 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   };
 
   // Apply pre-applied filters from sidebar navigation (on mount or when sidebar link clicked)
-  useEffect(() => {
-    if (preAppliedPickStatus) {
-      setActivePickStatus(preAppliedPickStatus);
-      clearPreAppliedPickStatus();
-    }
-  }, [preAppliedPickStatus, clearPreAppliedPickStatus]);
+  // Must apply unconditionally (including null/empty values) to clear stale local state when switching between sidebar links
+  // sidebarNavigationCount in dependencies ensures effects re-run even when pre-applied values don't change (e.g., clearing from null to null)
+  // useLayoutEffect ensures clearing happens before paint, preventing view-mode flicker
+  useLayoutEffect(() => {
+    setActiveGenres(preAppliedGenres || []);
+  }, [preAppliedGenres, sidebarNavigationCount]);
 
-  useEffect(() => {
-    if (preAppliedScheduleStatus) {
-      setActiveScheduleStatus(preAppliedScheduleStatus);
-      clearPreAppliedScheduleStatus();
-    }
-  }, [preAppliedScheduleStatus, clearPreAppliedScheduleStatus]);
+  useLayoutEffect(() => {
+    setActiveDay(preAppliedDay || "");
+  }, [preAppliedDay, sidebarNavigationCount]);
+
+  useLayoutEffect(() => {
+    setActiveStages(preAppliedStages || []);
+  }, [preAppliedStages, sidebarNavigationCount]);
+
+  useLayoutEffect(() => {
+    setActivePickStatus(preAppliedPickStatus || []);
+  }, [preAppliedPickStatus, sidebarNavigationCount]);
+
+  useLayoutEffect(() => {
+    setActiveScheduleStatus(preAppliedScheduleStatus || []);
+  }, [preAppliedScheduleStatus, sidebarNavigationCount]);
+
+  // Sidebar/Explore navigation always means "leave carousel detail view, back to top of results" —
+  // viewingCarousel and scroll position have no store-backed pre-applied equivalent, so both must
+  // be reset directly here rather than via the preAppliedX sync pattern above. Same reasoning as
+  // handleSeeAll's explicit scrollTo: this container's scroll isn't touched by Next's own navigation.
+  useLayoutEffect(() => {
+    setViewingCarousel(null);
+    mainRef.current?.scrollTo(0, 0);
+  }, [sidebarNavigationCount]);
 
   // Helper: Reset search/filter state and enter carousel view
   const handleSeeAll = (carouselName: string) => {
+    // Clear any unapplied sidebar filters (defensive: guards against sidebar navigation + See All race)
+    clearAllPreAppliedFilters();
     setSearchQuery("");
     setActiveGenres([]);
     setActiveDay("");
@@ -98,6 +121,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
 
   // Helper: Reset search/filter state and return to main explore (symmetric with handleSeeAll)
   const handleBackToExplore = () => {
+    // Clear any unapplied sidebar filters (defensive: guards against sidebar navigation + Back race)
+    clearAllPreAppliedFilters();
     setSearchQuery("");
     setActiveGenres([]);
     setActiveDay("");
@@ -371,8 +396,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                     }
                     pickStatus={activePickStatus}
                     scheduleStatus={activeScheduleStatus}
-                    onClearPickStatus={() => setActivePickStatus([])}
-                    onClearScheduleStatus={() => setActiveScheduleStatus([])}
                     onClearAll={() => {
                       setActiveGenres([]);
                       setActiveDay("");
@@ -496,8 +519,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                     }
                     pickStatus={activePickStatus}
                     scheduleStatus={activeScheduleStatus}
-                    onClearPickStatus={() => setActivePickStatus([])}
-                    onClearScheduleStatus={() => setActiveScheduleStatus([])}
                     onClearAll={() => {
                       setActiveGenres([]);
                       setActiveDay("");

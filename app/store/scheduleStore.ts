@@ -1,13 +1,40 @@
 "use client";
 
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, type StorageValue } from "zustand/middleware";
 
 interface ScheduleState {
   scheduledArtists: Set<string>;
   toggleScheduled: (artistId: string) => void;
   isScheduled: (artistId: string) => boolean;
 }
+
+// Custom storage that converts Set to/from Array for JSON serialization
+const scheduleStorage = {
+  getItem: (name: string): StorageValue<ScheduleState> | null => {
+    const item = localStorage.getItem(name);
+    if (!item) return null;
+    const parsed = JSON.parse(item);
+    return {
+      ...parsed,
+      state: {
+        ...parsed.state,
+        scheduledArtists: new Set(parsed.state.scheduledArtists || []),
+      },
+    };
+  },
+  setItem: (name: string, value: StorageValue<ScheduleState>) => {
+    const toStore = {
+      ...value,
+      state: {
+        ...value.state,
+        scheduledArtists: Array.from(value.state.scheduledArtists),
+      },
+    };
+    localStorage.setItem(name, JSON.stringify(toStore));
+  },
+  removeItem: (name: string) => localStorage.removeItem(name),
+};
 
 export const useScheduleStore = create<ScheduleState>()(
   persist(
@@ -32,7 +59,7 @@ export const useScheduleStore = create<ScheduleState>()(
     }),
     {
       name: "schedule-store",
-      storage: typeof window !== "undefined" ? localStorage : undefined,
+      storage: scheduleStorage,
     }
   )
 );
