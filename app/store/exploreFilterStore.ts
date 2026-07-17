@@ -4,6 +4,7 @@ import { create } from "zustand";
 import type { Genre, Stage } from "@/app/data/categories";
 import type { PickStatusFilterValue } from "@/app/types/decision";
 import type { ScheduleStatusValue } from "@/app/types/schedule";
+import type { ActiveNavItem } from "@/app/types/navigation";
 
 interface ExploreFilterStore {
   preAppliedGenres: Genre[] | null;
@@ -25,11 +26,11 @@ interface ExploreFilterStore {
   clearAllPreAppliedFilters: () => void;
   incrementSidebarNavigation: () => void;
 
-  // Tracks whether the top-nav Explore link (vs. a My Festival preset link) was the
-  // most recent way into /explore, so the navbar can highlight the right item even
-  // though both land on the same pathname.
-  isExploreActive: boolean;
-  setIsExploreActive: (active: boolean) => void;
+  // Tracks which sidebar destination was most recently clicked, so the navbar can
+  // highlight the right item even though Explore and all five My Festival links
+  // land on the same /explore pathname.
+  activeNavItem: ActiveNavItem;
+  setActiveNavItem: (item: ActiveNavItem) => void;
 }
 
 export const useExploreFilterStore = create<ExploreFilterStore>((set) => ({
@@ -60,6 +61,6 @@ export const useExploreFilterStore = create<ExploreFilterStore>((set) => ({
   incrementSidebarNavigation: () =>
     set((state) => ({ sidebarNavigationCount: state.sidebarNavigationCount + 1 })),
 
-  isExploreActive: true,
-  setIsExploreActive: (active) => set({ isExploreActive: active }),
+  activeNavItem: "explore",
+  setActiveNavItem: (item) => set({ activeNavItem: item }),
 }));
