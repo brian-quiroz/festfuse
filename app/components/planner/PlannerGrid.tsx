@@ -14,7 +14,8 @@ import { sortChronologically } from "@/app/lib/sort";
 import PlannerArtistBlock from "@/app/components/planner/PlannerArtistBlock";
 
 interface PlannerGridProps {
-  dayArtists: Artist[];
+  allDayArtists: Artist[];
+  visibleArtists: Artist[];
   scheduledArtists: Set<string>;
   conflictingArtists: Set<string>;
   myPickSlugs: Set<string>;
@@ -23,7 +24,8 @@ interface PlannerGridProps {
 }
 
 export default function PlannerGrid({
-  dayArtists,
+  allDayArtists,
+  visibleArtists,
   scheduledArtists,
   conflictingArtists,
   myPickSlugs,
@@ -31,7 +33,9 @@ export default function PlannerGrid({
   onToggleScheduled,
 }: PlannerGridProps) {
   const stages = getStagesForActiveFestival();
-  const range = getPlannerHourRange(dayArtists);
+  // Range is always derived from the full day's lineup, never the filtered set — otherwise
+  // toggling a filter would rescale the whole timeline and every remaining block would jump.
+  const range = getPlannerHourRange(allDayArtists);
   const gridHeight = getPlannerGridHeight(range);
 
   const hourMarks: number[] = [];
@@ -42,7 +46,7 @@ export default function PlannerGrid({
   // Sorted chronologically so DOM/tab order matches visual (top-to-bottom) order —
   // block positioning itself is absolute and doesn't depend on this, but keyboard
   // navigation and screen readers do.
-  const sortedDayArtists = sortChronologically(dayArtists);
+  const sortedDayArtists = sortChronologically(visibleArtists);
 
   const artistsByStage = new Map<string, Artist[]>();
   for (const stage of stages) {

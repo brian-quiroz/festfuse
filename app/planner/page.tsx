@@ -103,7 +103,8 @@ export default function PlannerPage() {
 
         {/* Grid */}
         <PlannerGrid
-          dayArtists={visibleArtists}
+          allDayArtists={dayArtists}
+          visibleArtists={visibleArtists}
           scheduledArtists={scheduledArtists}
           conflictingArtists={conflictingArtists}
           myPickSlugs={myPickSlugs}
