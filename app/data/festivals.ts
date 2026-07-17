@@ -19,16 +19,18 @@ export const FESTIVAL_DAYS: Record<string, readonly string[]> = {
 /**
  * Festival-specific stage mappings.
  * Add new festivals here only when artist data is actually added for that festival.
+ * Array order is the display order (e.g. Planner grid columns) and matches the
+ * festival's official schedule's left-to-right stage order — not arbitrary, don't reorder casually.
  */
 export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
   "lollapalooza-2026": [
-    "Airbnb",
+    "T-Mobile",
+    "Perry's",
     "Allianz",
     "BMI",
-    "Bud Light",
-    "Perry's",
-    "T-Mobile",
+    "Airbnb",
     "Tito's",
+    "Bud Light",
   ] as const,
 };
 
