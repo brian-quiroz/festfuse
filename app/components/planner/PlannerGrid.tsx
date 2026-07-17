@@ -60,7 +60,7 @@ export default function PlannerGrid({
 
   return (
     <div className="flex-1 overflow-auto">
-      <div className="flex min-w-max">
+      <div className="flex w-full">
         {/* Hour label column */}
         <div className="sticky left-0 z-10 w-16 flex-shrink-0 bg-[#110D24]">
           {/* Spacer to align with stage header row */}
@@ -80,7 +80,7 @@ export default function PlannerGrid({
 
         {/* Stage columns */}
         {stages.map((stage) => (
-          <div key={stage} className="w-56 flex-shrink-0 border-l border-[#2D2556]">
+          <div key={stage} className="min-w-48 flex-1 border-l border-[#2D2556]">
             <div className="h-10 flex items-center px-3 border-b border-[#2D2556] bg-[#110D24] sticky top-0 z-[5]">
               <span className="text-xs font-bold text-[#00E5FF] uppercase tracking-wide truncate">
                 {stage}
