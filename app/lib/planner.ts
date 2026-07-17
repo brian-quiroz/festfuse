@@ -6,8 +6,8 @@ import { timeStringToMinutes } from "@/app/lib/schedule";
 export const PLANNER_PX_PER_MINUTE = 2.5;
 
 export interface PlannerHourRange {
-  startHour: number; // inclusive, 0-23
-  endHour: number; // exclusive, may exceed 24 if the day's lineup runs past midnight
+  startHour: number; // inclusive, 0–23
+  endHour: number; // exclusive, up to 24; post-midnight rollover is unsupported
 }
 
 /**
@@ -45,7 +45,7 @@ export function getPlannerGridHeight(range: PlannerHourRange): number {
   return (range.endHour - range.startHour) * 60 * PLANNER_PX_PER_MINUTE;
 }
 
-/** Formats an hour (0-23, or 24+ for past-midnight) as a festival-style label, e.g. "2 PM". */
+/** Formats an hour (0-23) as a festival-style label, e.g. "2 PM". */
 export function formatPlannerHour(hour: number): string {
   const normalized = ((hour % 24) + 24) % 24;
   const period = normalized < 12 ? "AM" : "PM";

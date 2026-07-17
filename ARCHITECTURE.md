@@ -614,7 +614,7 @@ Persisted to localStorage under key `schedule-store` via Zustand's `persist` mid
 
 **Confirmed** — Single source of truth for conflict detection. No side effects — accepts scheduledArtists and allArtists as inputs, returns a Set of conflicting artist IDs.
 
-**Location:** `app/utils/schedule.ts`
+**Location:** `app/lib/schedule.ts`
 
 ```typescript
 function getConflictingArtists(scheduledIds: Set<string>, allArtists: Artist[]): Set<string> {
@@ -659,8 +659,10 @@ function getConflictingArtists(scheduledIds: Set<string>, allArtists: Artist[]):
 
 - Group by day first, then compare pairwise within each day (reduces comparisons vs. checking all pairs unconditionally)
 - Pairwise comparison prevents false positives (Artist A conflicts with B, B with C, but A and C don't overlap)
-- Uses `HH:MM` string format via `timeStringToMinutes()` helper (lexicographic sorting works for 24-hour time)
+- Artist data stores times as `"H:MM AM/PM"` (e.g. `"12:00 PM"`), not 24-hour `"HH:MM"`. `timeStringToMinutes()` (`app/lib/schedule.ts`) parses this format explicitly and is the single shared helper — `sort.ts`'s chronological sorts and the Planner grid's block positioning both import it rather than re-parsing times themselves.
 - No caching — computed fresh when needed; the data set is small enough that computation cost is negligible
+
+**Known limitation — post-midnight sets:** `timeStringToMinutes()` has no way to distinguish a set happening late that festival night (e.g. `"12:30 AM"` after an evening of PM sets) from one happening early the next calendar day — it always maps AM times to the 0–719 minute range. A set spanning midnight (e.g. `11:30 PM`–`12:30 AM`) would compute a negative duration and break both conflict detection and the Planner grid's range/positioning math. The current dataset contains no AM times, so this isn't an active bug, but it should not be assumed to work. A correct fix would need to use `FestivalAppearance.date` to disambiguate which calendar day an AM time actually belongs to, rather than inferring it from AM/PM alone — not done now; revisit if festival data ever includes overnight sets.
 
 ### Entry Points for Scheduling
 
@@ -703,7 +705,7 @@ function getConflictingArtists(scheduledIds: Set<string>, allArtists: Artist[]):
 2. Explore
 3. Quick Picks
 4. **Planner** — RENAMED from "Schedule"
-   - Links to `/schedule` (the Planner grid view page)
+   - Links to `/planner` (the Planner grid view page)
    - No count shown
 
 **"My Festival" section (below main nav):**
@@ -788,11 +790,11 @@ function getConflictingArtists(scheduledIds: Set<string>, allArtists: Artist[]):
 
 - No filter applied, display full lineup (existing behavior)
 
-### Schedule View (`/schedule`)
+### Schedule View (`/planner`)
 
 **Confirmed** — New route and full-page component for day-by-day grid scheduling.
 
-**File:** `app/schedule/page.tsx`
+**File:** `app/planner/page.tsx`
 
 #### Layout & Presentation
 
@@ -837,13 +839,15 @@ All colors layered appropriately so conflicts (red) take visual priority over sc
 
 - Filters grid to display only artists with verdict === "mustSee" OR verdict === "interested"
 - Independent of the "Scheduled" toggle
-- When enabled, hides all other artists (Pass, Undecided)
+- When enabled, hides all other artists (Pass, Undecided) — except any that are part of a
+  schedule conflict, which stay visible regardless of toggle state (see Combined behavior below)
 
 **Toggle 2: "Scheduled"** (cyan styling)
 
 - Filters grid to display only scheduled artists (`isScheduled(artist) === true`)
 - Independent of the "My Picks" toggle
-- When enabled, hides all unscheduled artists
+- When enabled, hides all unscheduled artists — the conflict exception above doesn't apply
+  here since a conflicting artist is always scheduled by definition
 
 **Combined behavior (AND logic):**
 
