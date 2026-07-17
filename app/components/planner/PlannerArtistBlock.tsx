@@ -69,6 +69,7 @@ export default function PlannerArtistBlock({
         <p className="text-[11px] font-bold text-white truncate leading-tight">{artist.name}</p>
         <button
           onClick={handleViewDetails}
+          onKeyDown={(e) => e.stopPropagation()}
           className="flex-shrink-0 text-white/40 hover:text-white transition-colors"
           aria-label={`View ${artist.name} details`}
         >
