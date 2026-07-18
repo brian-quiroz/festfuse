@@ -6,8 +6,6 @@ import { Home, Search, Zap, Calendar, Star, Heart, CircleCheck, AlertCircle } fr
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
-import { allArtists } from "@/app/data/artists";
-import { getConflictingArtists } from "@/app/lib/schedule";
 import type { ActiveNavItem } from "@/app/types/navigation";
 
 const navItems = [
@@ -47,7 +45,7 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { decisionsByArtist } = useDecisionStore();
-  const { scheduledArtists } = useScheduleStore();
+  const { scheduledArtists, conflictingArtists } = useScheduleStore();
   const {
     clearAllPreAppliedFilters,
     setPreAppliedPickStatus,
@@ -70,7 +68,6 @@ export default function Sidebar() {
 
   const myPicksCount = mustSeeCount + interestedCount;
   const scheduledCount = scheduledArtists.size;
-  const conflictingArtists = getConflictingArtists(scheduledArtists, allArtists);
   const conflictCount = conflictingArtists.size;
 
   const myFestivalItems = [

@@ -7,8 +7,6 @@ import { COLORS } from "@/app/data/colors";
 import type { Artist } from "@/app/types/artist";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
-import { allArtists } from "@/app/data/artists";
-import { getConflictingArtists } from "@/app/lib/schedule";
 
 interface ArtistCardProps {
   artist: Artist;
@@ -23,7 +21,7 @@ export default function ArtistCard({
 }: ArtistCardProps) {
   const router = useRouter();
   const { decisionsByArtist, setDecision } = useDecisionStore();
-  const { scheduledArtists, toggleScheduled } = useScheduleStore();
+  const { scheduledArtists, conflictingArtists, toggleScheduled } = useScheduleStore();
 
   // Read from store
   const decision = decisionsByArtist[artist.slug];
@@ -34,7 +32,6 @@ export default function ArtistCard({
   const interested = verdict === "interested";
 
   const isScheduled = scheduledArtists.has(artist.slug);
-  const conflictingArtists = getConflictingArtists(scheduledArtists, allArtists);
   const isConflicting = conflictingArtists.has(artist.slug);
 
   const handleMustSee = (e: React.MouseEvent) => {

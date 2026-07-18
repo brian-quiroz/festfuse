@@ -18,7 +18,6 @@ import { sortChronologically, sortFestivalFavoritesForFullView } from "@/app/lib
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
-import { getConflictingArtists } from "@/app/lib/schedule";
 import type { Genre, Stage } from "@/app/data/categories";
 import type { Artist } from "@/app/types/artist";
 
@@ -29,7 +28,7 @@ interface ExploreContentProps {
 export default function ExploreContent({ seed }: ExploreContentProps) {
   const router = useRouter();
   const { decisionsByArtist } = useDecisionStore();
-  const { scheduledArtists } = useScheduleStore();
+  const { scheduledArtists, conflictingArtists } = useScheduleStore();
   const {
     preAppliedGenres,
     preAppliedDay,
@@ -51,12 +50,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const [showSurpriseTooltip, setShowSurpriseTooltip] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
 
-  // Compute conflicting artists once
-  const conflictingArtists = useMemo(
-    () => getConflictingArtists(scheduledArtists, allArtists),
-    [scheduledArtists]
-  );
-
   // Calculate eligible artists for Surprise Me: only those with no entry in decisionsByArtist
   const eligibleArtists = useMemo(
     () => allArtists.filter((artist) => !decisionsByArtist[artist.slug]),
@@ -71,37 +64,30 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     router.push(`/artist/${selectedArtist.slug}`);
   };
 
-  // Apply pre-applied filters from sidebar navigation (on mount or when sidebar link clicked)
-  // Must apply unconditionally (including null/empty values) to clear stale local state when switching between sidebar links
-  // sidebarNavigationCount in dependencies ensures effects re-run even when pre-applied values don't change (e.g., clearing from null to null)
-  // useLayoutEffect ensures clearing happens before paint, preventing view-mode flicker
+  // Applies pre-applied filters from a sidebar navigation, then clears the one-shot signal —
+  // consume-then-clear in a single effect, not six separate ones. Runs on every mount and
+  // every sidebarNavigationCount change, which is correct for all real navigation paths here:
+  // both the Explore link and every My Festival link are documented to clear-then-apply on
+  // arrival (including a fresh cross-page mount), so re-syncing on mount is the intended
+  // behavior, not something to guard against. Deliberately keyed only on sidebarNavigationCount
+  // (not preAppliedX) — clearAllPreAppliedFilters() below nulls preAppliedX but never touches
+  // sidebarNavigationCount, so this can't retrigger itself and wipe what it just applied.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useLayoutEffect(() => {
+    // All five must apply before clearAllPreAppliedFilters() runs, in this order — each
+    // reads its own preAppliedX, and clearing first would make every one of them consume null.
     setActiveGenres(preAppliedGenres || []);
-  }, [preAppliedGenres, sidebarNavigationCount]);
-
-  useLayoutEffect(() => {
     setActiveDay(preAppliedDay || "");
-  }, [preAppliedDay, sidebarNavigationCount]);
-
-  useLayoutEffect(() => {
     setActiveStages(preAppliedStages || []);
-  }, [preAppliedStages, sidebarNavigationCount]);
-
-  useLayoutEffect(() => {
     setPickStatus(preAppliedPickStatus || []);
-  }, [preAppliedPickStatus, sidebarNavigationCount]);
-
-  useLayoutEffect(() => {
     setScheduleStatus(preAppliedScheduleStatus || []);
-  }, [preAppliedScheduleStatus, sidebarNavigationCount]);
-
-  // Sidebar/Explore navigation always means "leave carousel detail view, back to top of results" —
-  // viewingCarousel and scroll position have no store-backed pre-applied equivalent, so both must
-  // be reset directly here rather than via the preAppliedX sync pattern above. Same reasoning as
-  // handleSeeAll's explicit scrollTo: this container's scroll isn't touched by Next's own navigation.
-  useLayoutEffect(() => {
+    // viewingCarousel and scroll position have no store-backed pre-applied equivalent, but a
+    // sidebar/Explore navigation always means "leave carousel detail view, back to top of
+    // results" too — same reasoning as handleSeeAll's explicit scrollTo: this container's
+    // scroll isn't touched by Next's own navigation.
     setViewingCarousel(null);
     mainRef.current?.scrollTo(0, 0);
+    clearAllPreAppliedFilters();
   }, [sidebarNavigationCount]);
 
   // Helper: Reset search/filter state and enter carousel view
