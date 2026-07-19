@@ -196,7 +196,10 @@ export default function ExploreFilters({
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Day" : null)}
         />
 
-        {/* Stage Dropdown (Multi-select) */}
+        {/* Stage Dropdown (Multi-select, count mode — matches Genre's trigger. Unlike Pick
+            Status/Schedule Status, its ActiveFilters representation stays one chip per
+            selected stage rather than one summary pill, since users remove specific stages
+            individually more often than they clear the whole facet at once) */}
         <MultiSelectDropdown
           title="Stage"
           options={availableStages}
@@ -204,6 +207,7 @@ export default function ExploreFilters({
           onToggle={handleStageToggle}
           isOpen={openDropdown === "Stage"}
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Stage" : null)}
+          displayMode="count"
         />
 
         {/* Pick Status Dropdown (Multi-select, count mode — the active-filter summary bar

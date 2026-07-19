@@ -42,8 +42,8 @@ export default function ActiveFilters({
 
   return (
     <div className="px-8 py-4 border-b border-white/10 bg-white/[0.02]">
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <div className="flex items-center gap-3 flex-wrap">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-1 min-w-0 items-center gap-3 flex-wrap">
           <span className="text-sm font-semibold text-white/60">Active filters:</span>
 
           {/* Genre tags */}
@@ -100,7 +100,7 @@ export default function ActiveFilters({
           {pickStatus.length > 0 && (
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20">
               <span className="text-sm text-white">
-                Pick status: {pickStatus.map((status) => PICK_STATUS_FILTER_LABELS[status]).join(" + ")}
+                Pick status: {pickStatus.map((status) => PICK_STATUS_FILTER_LABELS[status]).join(", ")}
               </span>
               <button
                 onClick={() => onClearPickStatus?.()}
@@ -116,7 +116,7 @@ export default function ActiveFilters({
           {scheduleStatus.length > 0 && (
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20">
               <span className="text-sm text-white">
-                Schedule: {scheduleStatus.map((status) => SCHEDULE_STATUS_LABELS[status]).join(" + ")}
+                Schedule: {scheduleStatus.map((status) => SCHEDULE_STATUS_LABELS[status]).join(", ")}
               </span>
               <button
                 onClick={() => onClearScheduleStatus?.()}
@@ -133,7 +133,7 @@ export default function ActiveFilters({
         {hasActiveFilters && (
           <button
             onClick={() => onClearAll?.()}
-            className="text-sm text-white/50 hover:text-white transition-colors whitespace-nowrap"
+            className="text-sm text-white/50 hover:text-white transition-colors whitespace-nowrap flex-shrink-0 py-1.5"
           >
             Clear all
           </button>
