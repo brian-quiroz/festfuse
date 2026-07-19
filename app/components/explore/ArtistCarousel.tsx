@@ -9,7 +9,12 @@ interface ArtistCarouselProps {
   title: string;
   artists: Artist[];
   cardSize?: "default" | "large";
-  carouselType?: "festival-favorites" | "hidden-gems" | "international-picks" | "chicagos-own" | "cinematic-visuals";
+  carouselType?:
+    | "festival-favorites"
+    | "hidden-gems"
+    | "international-picks"
+    | "chicagos-own"
+    | "cinematic-visuals";
   onSeeAll?: () => void;
 }
 

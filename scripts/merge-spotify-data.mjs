@@ -6,7 +6,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Read artist data
-const artistsModule = await import("../app/data/artists/index.ts", { assert: { type: "json" } }).catch(() => null);
+const artistsModule = await import("../app/data/artists/index.ts", {
+  assert: { type: "json" },
+}).catch(() => null);
 let allArtists = [];
 
 if (!artistsModule) {
@@ -18,7 +20,8 @@ if (!artistsModule) {
 
   // Extract artist names and slugs using better regex (finds main artist definitions)
   const extractArtists = (content) => {
-    const regex = /^const\s+\w+\s*:\s*Artist\s*=\s*\{[\s\S]*?name:\s*"([^"]+)"[\s\S]*?slug:\s*"([^"]+)"/gm;
+    const regex =
+      /^const\s+\w+\s*:\s*Artist\s*=\s*\{[\s\S]*?name:\s*"([^"]+)"[\s\S]*?slug:\s*"([^"]+)"/gm;
     const artists = [];
     let match;
     while ((match = regex.exec(content)) !== null) {
@@ -93,7 +96,10 @@ function extractStr(text, field) {
 function artistRegion(content, slug) {
   // Find the MAIN artist definition, not similar artist references
   // Look for: const <name>: Artist = { ... slug: "<slug>" ...
-  const pattern = new RegExp(`const\\s+\\w+\\s*:\\s*Artist\\s*=\\s*\\{[^}]*slug:\\s*"${slug}"`, "m");
+  const pattern = new RegExp(
+    `const\\s+\\w+\\s*:\\s*Artist\\s*=\\s*\\{[^}]*slug:\\s*"${slug}"`,
+    "m"
+  );
   const match = pattern.exec(content);
   if (!match) return null;
 
@@ -196,12 +202,9 @@ function patchSimilarImages(content, nameSubset) {
 
 const DRY_RUN = process.argv.includes("--dry-run");
 
-const files = [
-  "thursday.ts",
-  "friday.ts",
-  "saturday.ts",
-  "sunday.ts",
-].map((p) => join(__dirname, "../app/data/artists", p));
+const files = ["thursday.ts", "friday.ts", "saturday.ts", "sunday.ts"].map((p) =>
+  join(__dirname, "../app/data/artists", p)
+);
 
 let artistCount = 0;
 let trackCount = 0;

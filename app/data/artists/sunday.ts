@@ -230,11 +230,11 @@ const turnstile: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
-    stage: "T-Mobile",
+    stage: "Bud Light",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "6:30 PM",
-    endTime: "7:30 PM",
+    startTime: "7:00 PM",
+    endTime: "8:00 PM",
   },
 };
 
@@ -455,11 +455,11 @@ const theChainsmokers: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
-    stage: "Bud Light",
+    stage: "Perry's",
     day: "Sunday",
     date: "Aug 2",
     startTime: "8:30 PM",
-    endTime: "10:00 PM",
+    endTime: "9:45 PM",
   },
 };
 
@@ -528,11 +528,11 @@ const muna: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Sub-headliner",
-    stage: "Bud Light",
+    stage: "T-Mobile",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "6:15 PM",
-    endTime: "7:15 PM",
+    startTime: "4:45 PM",
+    endTime: "5:45 PM",
   },
 };
 
@@ -588,8 +588,8 @@ const hotMulligan: Artist = {
     stage: "Tito's",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "5:15 PM",
-    endTime: "6:15 PM",
+    startTime: "6:00 PM",
+    endTime: "7:00 PM",
   },
 };
 
@@ -732,11 +732,11 @@ const ado: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Bud Light",
+    stage: "Airbnb",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "4:45 PM",
-    endTime: "5:45 PM",
+    startTime: "9:15 PM",
+    endTime: "10:00 PM",
   },
 };
 
@@ -796,11 +796,11 @@ const jade: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "T-Mobile",
+    stage: "Allianz",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "4:45 PM",
-    endTime: "5:45 PM",
+    startTime: "5:45 PM",
+    endTime: "6:45 PM",
   },
 };
 
@@ -861,8 +861,8 @@ const eliBrown: Artist = {
     stage: "Perry's",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "7:15 PM",
-    endTime: "8:15 PM",
+    startTime: "7:00 PM",
+    endTime: "8:00 PM",
   },
 };
 
@@ -922,8 +922,8 @@ const dukeDumont: Artist = {
     stage: "Perry's",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "8:30 PM",
-    endTime: "9:45 PM",
+    startTime: "5:45 PM",
+    endTime: "6:45 PM",
   },
 };
 
@@ -970,8 +970,8 @@ const fakemink: Artist = {
     stage: "Airbnb",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "1:15 PM",
-    endTime: "1:55 PM",
+    startTime: "7:45 PM",
+    endTime: "8:30 PM",
   },
 };
 
@@ -1031,8 +1031,8 @@ const dombresky: Artist = {
     stage: "Perry's",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "2:30 PM",
-    endTime: "3:30 PM",
+    startTime: "4:15 PM",
+    endTime: "5:15 PM",
   },
 };
 
@@ -1080,11 +1080,11 @@ const monaleo: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Tito's",
+    stage: "Airbnb",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "4:00 PM",
-    endTime: "5:00 PM",
+    startTime: "6:30 PM",
+    endTime: "7:15 PM",
   },
 };
 
@@ -1135,11 +1135,11 @@ const adela: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Allianz",
+    stage: "T-Mobile",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "12:00 PM",
-    endTime: "12:45 PM",
+    startTime: "3:00 PM",
+    endTime: "3:45 PM",
   },
 };
 
@@ -1199,8 +1199,8 @@ const riordan: Artist = {
     stage: "Perry's",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "1:45 PM",
-    endTime: "2:30 PM",
+    startTime: "3:00 PM",
+    endTime: "4:00 PM",
   },
 };
 
@@ -1274,11 +1274,11 @@ const wunderhorse: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Allianz",
+    stage: "Tito's",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "4:15 PM",
-    endTime: "5:15 PM",
+    startTime: "4:00 PM",
+    endTime: "5:00 PM",
   },
 };
 
@@ -1332,11 +1332,11 @@ const amberMark: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "T-Mobile",
+    stage: "Allianz",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "2:45 PM",
-    endTime: "3:45 PM",
+    startTime: "3:45 PM",
+    endTime: "4:45 PM",
   },
 };
 
@@ -1401,8 +1401,8 @@ const westend: Artist = {
     stage: "Perry's",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "3:45 PM",
-    endTime: "4:45 PM",
+    startTime: "1:45 PM",
+    endTime: "2:45 PM",
   },
 };
 
@@ -1455,11 +1455,11 @@ const destinConrad: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Tito's",
+    stage: "Allianz",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "2:30 PM",
-    endTime: "3:30 PM",
+    startTime: "2:00 PM",
+    endTime: "3:00 PM",
   },
 };
 
@@ -1519,11 +1519,11 @@ const inji: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Perry's",
+    stage: "Airbnb",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "12:55 PM",
-    endTime: "1:40 PM",
+    startTime: "4:00 PM",
+    endTime: "4:45 PM",
   },
 };
 
@@ -1574,11 +1574,11 @@ const waylonWyatt: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Tito's",
+    stage: "Bud Light",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "12:50 PM",
-    endTime: "1:35 PM",
+    startTime: "3:00 PM",
+    endTime: "4:00 PM",
   },
 };
 
@@ -1647,11 +1647,11 @@ const waterFromYourEyes: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Allianz",
+    stage: "Airbnb",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "1:40 PM",
-    endTime: "2:40 PM",
+    startTime: "2:50 PM",
+    endTime: "3:30 PM",
   },
 };
 
@@ -1702,11 +1702,11 @@ const losRetros: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Tito's",
+    stage: "Airbnb",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "1:45 PM",
-    endTime: "2:30 PM",
+    startTime: "5:15 PM",
+    endTime: "6:00 PM",
   },
 };
 
@@ -1753,11 +1753,11 @@ const vandelux: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Perry's",
+    stage: "Tito's",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "2:45 PM",
-    endTime: "3:45 PM",
+    startTime: "8:00 PM",
+    endTime: "8:45 PM",
   },
 };
 
@@ -1805,11 +1805,11 @@ const newConstellations: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "BMI",
+    stage: "T-Mobile",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "12:00 PM",
-    endTime: "12:40 PM",
+    startTime: "1:15 PM",
+    endTime: "2:00 PM",
   },
 };
 
@@ -1856,11 +1856,11 @@ const cruzBeckhamAndTheBreakers: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Bud Light",
+    stage: "Tito's",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "1:45 PM",
-    endTime: "2:30 PM",
+    startTime: "2:15 PM",
+    endTime: "3:00 PM",
   },
 };
 
@@ -1966,8 +1966,8 @@ const after: Artist = {
     stage: "Airbnb",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "1:55 PM",
-    endTime: "2:35 PM",
+    startTime: "1:50 PM",
+    endTime: "2:30 PM",
   },
 };
 
@@ -2015,11 +2015,11 @@ const whatmore: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Airbnb",
+    stage: "Bud Light",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "12:00 PM",
-    endTime: "12:35 PM",
+    startTime: "1:30 PM",
+    endTime: "2:15 PM",
   },
 };
 
@@ -2069,8 +2069,8 @@ const porchLight: Artist = {
     stage: "BMI",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "1:05 PM",
-    endTime: "1:45 PM",
+    startTime: "5:40 PM",
+    endTime: "6:20 PM",
   },
 };
 
@@ -2109,7 +2109,13 @@ const easyHoney: Artist = {
   ],
   tracks: [
     { name: "Steady", album: "Peach State", duration: "" },
-    { spotifyId: "1JlQELi7lVpeBeR9mFaZyV", name: "Spells", album: "Peach State", duration: "3:08", artworkUrl: "https://i.scdn.co/image/ab67616d00001e021103de4ee6de12960aa72c6b" },
+    {
+      spotifyId: "1JlQELi7lVpeBeR9mFaZyV",
+      name: "Spells",
+      album: "Peach State",
+      duration: "3:08",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e021103de4ee6de12960aa72c6b",
+    },
     { name: "Gotta Tree", album: "Gotta Tree", duration: "" },
   ],
   about:
@@ -2117,11 +2123,11 @@ const easyHoney: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "BMI",
+    stage: "Tito's",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "2:10 PM",
-    endTime: "2:50 PM",
+    startTime: "12:45 PM",
+    endTime: "1:30 PM",
   },
 };
 const jackieHollander: Artist = {
@@ -2174,8 +2180,8 @@ const jackieHollander: Artist = {
     stage: "Perry's",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "12:00 PM",
-    endTime: "12:45 PM",
+    startTime: "12:45 PM",
+    endTime: "1:30 PM",
   },
 };
 const stellaLefty: Artist = {
@@ -2221,11 +2227,11 @@ const stellaLefty: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "BMI",
+    stage: "Allianz",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "3:20 PM",
-    endTime: "4:00 PM",
+    startTime: "12:30 PM",
+    endTime: "1:15 PM",
   },
 };
 
@@ -2268,19 +2274,31 @@ const justineSkye: Artist = {
   ],
   tracks: [
     { name: "Collide", album: "Bare With Me", duration: "" },
-    { spotifyId: "0G3qCSe4KcWFc0EKlXCEo8", name: "Build", album: "Bare With Me", duration: "4:07", artworkUrl: "https://i.scdn.co/image/ab67616d00001e0299bfdb8c3573c8db0c457478" },
-    { spotifyId: "5aKvdpWyjO14xB04CTEpEw", name: "In My Bag", album: "Space & Time", duration: "3:28", artworkUrl: "https://i.scdn.co/image/ab67616d00001e023cb656dd067ce27a38b50886" },
+    {
+      spotifyId: "0G3qCSe4KcWFc0EKlXCEo8",
+      name: "Build",
+      album: "Bare With Me",
+      duration: "4:07",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0299bfdb8c3573c8db0c457478",
+    },
+    {
+      spotifyId: "5aKvdpWyjO14xB04CTEpEw",
+      name: "In My Bag",
+      album: "Space & Time",
+      duration: "3:28",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e023cb656dd067ce27a38b50886",
+    },
   ],
   about:
     "Justine Skye is a Brooklyn-born global pop-R&B powerhouse whose sharp combination of multi-platinum vocal authority, trendsetting fashion style, and commanding stage presence has earned her massive international acclaim. Breaking onto charts as an independent internet phenom before collaborating with the genre's top production elite, she has spent over a decade refining a sound that bridges timeless soul structures with contemporary electronic club syncopation. Backed by an exceptionally polished live band, her late afternoon mainstage slot provides an undeniable clinic in world-class pop showmanship.",
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "T-Mobile",
+    stage: "BMI",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "5:30 PM",
-    endTime: "6:30 PM",
+    startTime: "4:30 PM",
+    endTime: "5:10 PM",
   },
 };
 
@@ -2321,7 +2339,13 @@ const willSwinton: Artist = {
   tracks: [
     { name: "Wasted On You", album: "Will Swinton", duration: "" },
     { name: "Leave Me Dead", album: "Will Swinton", duration: "" },
-    { spotifyId: "3oCorEb2RJOrGlpRcUy3Bn", name: "Better Days", album: "Better Days", duration: "2:47", artworkUrl: "https://i.scdn.co/image/ab67616d00001e02bee403db120105a7e9a4f38c" },
+    {
+      spotifyId: "3oCorEb2RJOrGlpRcUy3Bn",
+      name: "Better Days",
+      album: "Better Days",
+      duration: "2:47",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02bee403db120105a7e9a4f38c",
+    },
   ],
   about:
     "Will Swinton is a New Zealand-born singer-songwriter whose brilliant combination of nostalgic indie pop, breezy acoustic folk, and an intensely raw vocal rasp has garnered a deeply passionate international community. Writing with the specific narrative precision of a classic bedroom diary, he explores the vulnerabilities of youth, modern isolation, and heartbreak with profound emotional honesty. Handpicked for massive global breakout tour blocks, his early afternoon performance transforms a sprawling festival lawn into an intimate, shared backyard listening session.",
@@ -2331,8 +2355,8 @@ const willSwinton: Artist = {
     stage: "BMI",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "1:00 PM",
-    endTime: "1:40 PM",
+    startTime: "6:50 PM",
+    endTime: "7:30 PM",
   },
 };
 
@@ -2380,11 +2404,11 @@ const sunshine: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "BMI",
+    stage: "Airbnb",
     day: "Sunday",
     date: "Aug 2",
     startTime: "12:00 PM",
-    endTime: "12:40 PM",
+    endTime: "12:30 PM",
   },
 };
 
@@ -2432,11 +2456,11 @@ const caseOats: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Airbnb",
+    stage: "BMI",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "12:00 PM",
-    endTime: "12:35 PM",
+    startTime: "3:20 PM",
+    endTime: "4:00 PM",
   },
 };
 
@@ -2537,11 +2561,11 @@ const snacktime: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Tito's",
+    stage: "BMI",
     day: "Sunday",
     date: "Aug 2",
     startTime: "1:00 PM",
-    endTime: "1:45 PM",
+    endTime: "1:40 PM",
   },
 };
 const zackMartino: Artist = {
@@ -2582,7 +2606,13 @@ const zackMartino: Artist = {
     },
   ],
   tracks: [
-    { spotifyId: "7KwOXnN06yiUeGDCk3PQYW", name: "Hold On To Me", album: "Hold On To Me", duration: "2:55", artworkUrl: "https://i.scdn.co/image/ab67616d00001e0277245f24f78b9b8c8bdffc0b" },
+    {
+      spotifyId: "7KwOXnN06yiUeGDCk3PQYW",
+      name: "Hold On To Me",
+      album: "Hold On To Me",
+      duration: "2:55",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0277245f24f78b9b8c8bdffc0b",
+    },
     { name: "Craving", album: "Craving", duration: "" },
     { name: "Do Type", album: "Do Type", duration: "" },
   ],
@@ -2594,8 +2624,8 @@ const zackMartino: Artist = {
     stage: "Perry's",
     day: "Sunday",
     date: "Aug 2",
-    startTime: "12:55 PM",
-    endTime: "1:40 PM",
+    startTime: "12:00 PM",
+    endTime: "12:30 PM",
   },
 };
 

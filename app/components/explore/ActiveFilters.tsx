@@ -1,16 +1,20 @@
 import { X } from "lucide-react";
 import type { Genre, Stage } from "@/app/data/categories";
-import type { StatusFilterValue } from "@/app/types/decision";
+import { PICK_STATUS_FILTER_LABELS, SCHEDULE_STATUS_LABELS } from "@/app/data/categories";
+import type { PickStatusFilterValue } from "@/app/types/decision";
+import type { ScheduleStatusValue } from "@/app/types/schedule";
 
 interface ActiveFiltersProps {
   genres?: Genre[];
   day?: string;
   stages?: Stage[];
-  status?: StatusFilterValue[];
+  pickStatus?: PickStatusFilterValue[];
+  scheduleStatus?: ScheduleStatusValue[];
   onClearGenre?: (genre: Genre) => void;
   onClearDay?: () => void;
   onClearStage?: (stage: Stage) => void;
-  onClearStatus?: () => void;
+  onClearPickStatus?: () => void;
+  onClearScheduleStatus?: () => void;
   onClearAll?: () => void;
 }
 
@@ -18,22 +22,29 @@ export default function ActiveFilters({
   genres = [],
   day,
   stages = [],
-  status = [],
+  pickStatus = [],
+  scheduleStatus = [],
   onClearGenre,
   onClearDay,
   onClearStage,
-  onClearStatus,
+  onClearPickStatus,
+  onClearScheduleStatus,
   onClearAll,
 }: ActiveFiltersProps) {
-  const hasActiveFilters = genres.length > 0 || day || stages.length > 0 || status.length > 0;
+  const hasActiveFilters =
+    genres.length > 0 ||
+    day ||
+    stages.length > 0 ||
+    pickStatus.length > 0 ||
+    scheduleStatus.length > 0;
 
   if (!hasActiveFilters) return null;
 
   return (
     <div className="px-8 py-4 border-b border-white/10 bg-white/[0.02]">
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <div className="flex items-center gap-3 flex-wrap">
-          <span className="text-sm font-semibold text-white/60">Filters:</span>
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-1 min-w-0 items-center gap-3 flex-wrap">
+          <span className="text-sm font-semibold text-white/60">Active filters:</span>
 
           {/* Genre tags */}
           {genres.map((genre) => (
@@ -82,13 +93,47 @@ export default function ActiveFilters({
               </button>
             </div>
           ))}
+
+          {/* Pick Status summary — one pill per facet (not per value), since the dropdown
+              trigger itself is count-only now; this pill is where the actual selected
+              values are shown, and its × clears the whole facet at once */}
+          {pickStatus.length > 0 && (
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20">
+              <span className="text-sm text-white">
+                Pick status: {pickStatus.map((status) => PICK_STATUS_FILTER_LABELS[status]).join(", ")}
+              </span>
+              <button
+                onClick={() => onClearPickStatus?.()}
+                className="text-white/50 hover:text-white transition-colors"
+                aria-label="Clear pick status filter"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          )}
+
+          {/* Schedule Status summary — same one-pill-per-facet pattern as Pick Status above */}
+          {scheduleStatus.length > 0 && (
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20">
+              <span className="text-sm text-white">
+                Schedule: {scheduleStatus.map((status) => SCHEDULE_STATUS_LABELS[status]).join(", ")}
+              </span>
+              <button
+                onClick={() => onClearScheduleStatus?.()}
+                className="text-white/50 hover:text-white transition-colors"
+                aria-label="Clear schedule status filter"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Clear all button */}
         {hasActiveFilters && (
           <button
             onClick={() => onClearAll?.()}
-            className="text-sm text-white/50 hover:text-white transition-colors whitespace-nowrap"
+            className="text-sm text-white/50 hover:text-white transition-colors whitespace-nowrap flex-shrink-0 py-1.5"
           >
             Clear all
           </button>

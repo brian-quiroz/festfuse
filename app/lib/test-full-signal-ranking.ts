@@ -10,7 +10,13 @@ import type { ArtistDecision } from "@/app/store/decisionStore";
 export function computeAllSignalsTestable(
   decisionsByArtist: Record<string, ArtistDecision>,
   allArtists: Artist[]
-): Array<{ name: string; type: string; userValue: number; lineupValue: number; deviation: number }> {
+): Array<{
+  name: string;
+  type: string;
+  userValue: number;
+  lineupValue: number;
+  deviation: number;
+}> {
   const pickedSlugs = Object.entries(decisionsByArtist)
     .filter(([_, decision]) => decision.verdict === "mustSee" || decision.verdict === "interested")
     .map(([slug]) => slug);
@@ -23,7 +29,13 @@ export function computeAllSignalsTestable(
     .map((slug) => allArtists.find((a) => a.slug === slug))
     .filter(Boolean) as Artist[];
 
-  const signals: Array<{ name: string; type: string; userValue: number; lineupValue: number; deviation: number }> = [];
+  const signals: Array<{
+    name: string;
+    type: string;
+    userValue: number;
+    lineupValue: number;
+    deviation: number;
+  }> = [];
   const totalArtists = allArtists.length;
 
   // ===== SIGNAL 1: Genre Family Dominance =====
@@ -102,7 +114,14 @@ export function computeAllSignalsTestable(
         "West Coast Rap",
       ],
       "R&B/Soul": ["Alternative R&B", "Chicano Soul", "Funk", "Neo-Soul", "R&B", "Soul"],
-      "Indie/Bedroom": ["Bedroom Pop", "Dream Pop", "Indie Electronica", "Indie Pop", "Lo-Fi Indie", "Slowcore"],
+      "Indie/Bedroom": [
+        "Bedroom Pop",
+        "Dream Pop",
+        "Indie Electronica",
+        "Indie Pop",
+        "Lo-Fi Indie",
+        "Slowcore",
+      ],
       "Electronic/Dance": [
         "Bass House",
         "Bassline",
@@ -209,11 +228,13 @@ export function computeAllSignalsTestable(
   // ===== SIGNAL 3: Headliner =====
   {
     const headlinerCount = pickedArtists.filter(
-      (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+      (a) =>
+        a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
     ).length;
     const userHeadlinerRate = (headlinerCount / pickedArtists.length) * 100;
     const lineupHeadlinerCount = allArtists.filter(
-      (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+      (a) =>
+        a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
     ).length;
     const lineupHeadlinerRate = (lineupHeadlinerCount / allArtists.length) * 100;
     const headlinerDeviation = Math.abs(userHeadlinerRate - lineupHeadlinerRate);
@@ -229,8 +250,9 @@ export function computeAllSignalsTestable(
 
   // ===== SIGNAL 4: International =====
   {
-    const internationalCount = pickedArtists.filter((a) => a.location.country !== "United States")
-      .length;
+    const internationalCount = pickedArtists.filter(
+      (a) => a.location.country !== "United States"
+    ).length;
     const userInternationalRate = (internationalCount / pickedArtists.length) * 100;
     const lineupInternationalCount = allArtists.filter(
       (a) => a.location.country !== "United States"
@@ -492,7 +514,9 @@ export function runFullRankingTest(allArtists: Artist[]) {
 
     console.log(`\n✨ TOP 5 SIGNALS:`);
     ranked.slice(0, 5).forEach((sig, i) => {
-      console.log(`  ${i + 1}. ${sig.name.padEnd(30, " ")} ${sig.deviation.toFixed(1)}pp deviation`);
+      console.log(
+        `  ${i + 1}. ${sig.name.padEnd(30, " ")} ${sig.deviation.toFixed(1)}pp deviation`
+      );
     });
   }
 
@@ -525,7 +549,9 @@ export function runFullRankingTest(allArtists: Artist[]) {
 
     console.log(`\n✨ TOP 5 SIGNALS:`);
     ranked.slice(0, 5).forEach((sig, i) => {
-      console.log(`  ${i + 1}. ${sig.name.padEnd(30, " ")} ${sig.deviation.toFixed(1)}pp deviation`);
+      console.log(
+        `  ${i + 1}. ${sig.name.padEnd(30, " ")} ${sig.deviation.toFixed(1)}pp deviation`
+      );
     });
   }
 
@@ -569,7 +595,9 @@ export function runFullRankingTest(allArtists: Artist[]) {
 
     console.log(`\n✨ TOP 5 SIGNALS:`);
     ranked.slice(0, 5).forEach((sig, i) => {
-      console.log(`  ${i + 1}. ${sig.name.padEnd(30, " ")} ${sig.deviation.toFixed(1)}pp deviation`);
+      console.log(
+        `  ${i + 1}. ${sig.name.padEnd(30, " ")} ${sig.deviation.toFixed(1)}pp deviation`
+      );
     });
   }
 

@@ -36,7 +36,11 @@ export function runDiversitySignalTests(allArtists: Artist[]) {
 
   const concentratedDecisions: Record<string, ArtistDecision> = {};
   concentratedArtists.forEach((a) => {
-    concentratedDecisions[a.slug] = { verdict: "mustSee", source: "quickPicks", updatedAt: Date.now() };
+    concentratedDecisions[a.slug] = {
+      verdict: "mustSee",
+      source: "quickPicks",
+      updatedAt: Date.now(),
+    };
   });
 
   const conStages = new Set(concentratedArtists.map((a) => a.appearance.stage));
@@ -199,7 +203,11 @@ export function runDiversitySignalTests(allArtists: Artist[]) {
     if (!usedStages.has(artist.appearance.stage)) {
       hyperArtists.push(artist);
       usedStages.add(artist.appearance.stage);
-      hyperDecisions[artist.slug] = { verdict: "mustSee", source: "quickPicks", updatedAt: Date.now() };
+      hyperDecisions[artist.slug] = {
+        verdict: "mustSee",
+        source: "quickPicks",
+        updatedAt: Date.now(),
+      };
     }
   }
 
@@ -208,7 +216,11 @@ export function runDiversitySignalTests(allArtists: Artist[]) {
     if (hyperArtists.length >= 15) break;
     if (!hyperArtists.includes(artist)) {
       hyperArtists.push(artist);
-      hyperDecisions[artist.slug] = { verdict: "mustSee", source: "quickPicks", updatedAt: Date.now() };
+      hyperDecisions[artist.slug] = {
+        verdict: "mustSee",
+        source: "quickPicks",
+        updatedAt: Date.now(),
+      };
     }
   }
 
@@ -249,7 +261,9 @@ export function runDiversitySignalTests(allArtists: Artist[]) {
   console.log(
     `  Actual: ${hyperStages.size} stages (${hyperStageRate.toFixed(1)}%) | Expected: ${expectedHyperStages.toFixed(1)} stages (${hyperExpectedStageRate.toFixed(1)}%)`
   );
-  console.log(`  Deviation: ${hyperStageDev.toFixed(1)}pp (spread out — should be positive/moderate)`);
+  console.log(
+    `  Deviation: ${hyperStageDev.toFixed(1)}pp (spread out — should be positive/moderate)`
+  );
 
   console.log(`\nGENRE DIVERSITY:`);
   console.log(
@@ -281,8 +295,12 @@ export function runDiversitySignalTests(allArtists: Artist[]) {
   console.log("  • Country Deviation: NEAR 0 (actual ≈ expected for random sample)");
 
   console.log("\nScenario 3 (Hyper-Diverse):");
-  console.log("  • Stage Deviation: POSITIVE or HIGHER (user spread across more stages than random)");
-  console.log("  • Genre Deviation: POSITIVE or MODERATE (more genres than random sampling would give)");
+  console.log(
+    "  • Stage Deviation: POSITIVE or HIGHER (user spread across more stages than random)"
+  );
+  console.log(
+    "  • Genre Deviation: POSITIVE or MODERATE (more genres than random sampling would give)"
+  );
   console.log("  • Country Deviation: POSITIVE (intentionally global)");
 
   console.log("\n");

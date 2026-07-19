@@ -437,7 +437,8 @@ export const GENRE_TO_FAMILY: Record<Genre, GenreFamily> = Object.entries(GENRE_
 // ============================================================================
 // Import Verdict type from app/types/decision and use this map to display verdicts in UI
 
-import type { Verdict, StatusFilterValue } from "@/app/types/decision";
+import type { Verdict, PickStatusFilterValue } from "@/app/types/decision";
+import type { ScheduleStatusValue } from "@/app/types/schedule";
 
 export const VERDICT_LABELS: Record<Verdict, string> = {
   mustSee: "Must See",
@@ -445,13 +446,21 @@ export const VERDICT_LABELS: Record<Verdict, string> = {
   passed: "Passed",
 };
 
-// STATUS_FILTER_LABELS: Labels for the Status filter, including "undecided"
-// "undecided" is not a stored verdict — it represents the absence of a decision
-export const STATUS_FILTER_LABELS: Record<StatusFilterValue, string> = {
+// PICK_STATUS_FILTER_LABELS: Labels for Pick Status filtering
+// "undecided" is not a stored verdict — it represents absence of a decision, a filter-only concept
+export const PICK_STATUS_FILTER_LABELS: Record<PickStatusFilterValue, string> = {
   mustSee: "Must See",
   interested: "Interested",
   passed: "Passed",
   undecided: "Undecided",
+};
+
+// SCHEDULE_STATUS_LABELS: Labels for Schedule Status filtering
+// Derived from scheduled artists and conflict detection, purely a filter concept
+export const SCHEDULE_STATUS_LABELS: Record<ScheduleStatusValue, string> = {
+  scheduled: "Scheduled",
+  unscheduled: "Unscheduled",
+  conflicting: "Conflicting",
 };
 
 // ============================================================================

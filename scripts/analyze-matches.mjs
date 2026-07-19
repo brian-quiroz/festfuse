@@ -12,7 +12,8 @@ const saturday = fs.readFileSync(join(__dirname, "../app/data/artists/saturday.t
 const sunday = fs.readFileSync(join(__dirname, "../app/data/artists/sunday.ts"), "utf-8");
 
 const extractArtists = (content) => {
-  const regex = /^const\s+(\w+)\s*:\s*Artist\s*=\s*\{[\s\S]*?name:\s*"([^"]+)"[\s\S]*?slug:\s*"([^"]+)"[\s\S]*?tracks:\s*\[([\s\S]*?)\]/gm;
+  const regex =
+    /^const\s+(\w+)\s*:\s*Artist\s*=\s*\{[\s\S]*?name:\s*"([^"]+)"[\s\S]*?slug:\s*"([^"]+)"[\s\S]*?tracks:\s*\[([\s\S]*?)\]/gm;
   const artists = [];
   let match;
   while ((match = regex.exec(content)) !== null) {
@@ -58,29 +59,39 @@ for (const entry of matched) {
   const fetchedName = entry.name;
   const targetArtistName = ARTIST_NAME_OVERRIDES[fetchedName] || fetchedName;
   const artist = allArtists.find((a) => a.name.toLowerCase() === targetArtistName.toLowerCase());
-  
+
   if (!artist) continue;
 
   for (const track of entry.tracks) {
     const dbTrackNames = artist.tracks;
     const spotifyTrackName = track.name;
-    
-    const exact = dbTrackNames.some(t => t.toLowerCase() === spotifyTrackName.toLowerCase());
-    
+
+    const exact = dbTrackNames.some((t) => t.toLowerCase() === spotifyTrackName.toLowerCase());
+
     if (!exact) {
-      const partial = dbTrackNames.some(dbName => 
-        dbName.toLowerCase().includes(spotifyTrackName.toLowerCase()) || 
-        spotifyTrackName.toLowerCase().includes(dbName.toLowerCase())
+      const partial = dbTrackNames.some(
+        (dbName) =>
+          dbName.toLowerCase().includes(spotifyTrackName.toLowerCase()) ||
+          spotifyTrackName.toLowerCase().includes(dbName.toLowerCase())
       );
 
       if (partial) {
-        const matchedDbTrack = dbTrackNames.find(dbName => 
-          dbName.toLowerCase().includes(spotifyTrackName.toLowerCase()) || 
-          spotifyTrackName.toLowerCase().includes(dbName.toLowerCase())
+        const matchedDbTrack = dbTrackNames.find(
+          (dbName) =>
+            dbName.toLowerCase().includes(spotifyTrackName.toLowerCase()) ||
+            spotifyTrackName.toLowerCase().includes(dbName.toLowerCase())
         );
-        partialMatches.push({ artist: targetArtistName, dbTrack: matchedDbTrack, spotifyTrack: spotifyTrackName });
+        partialMatches.push({
+          artist: targetArtistName,
+          dbTrack: matchedDbTrack,
+          spotifyTrack: spotifyTrackName,
+        });
       } else {
-        noMatches.push({ artist: targetArtistName, dbTracks: dbTrackNames, spotifyTrack: spotifyTrackName });
+        noMatches.push({
+          artist: targetArtistName,
+          dbTracks: dbTrackNames,
+          spotifyTrack: spotifyTrackName,
+        });
       }
     }
   }
@@ -101,5 +112,5 @@ console.log("=".repeat(70));
 noMatches.forEach((m, i) => {
   console.log(`\n${i + 1}. ${m.artist}`);
   console.log(`   Spotify:  "${m.spotifyTrack}"`);
-  console.log(`   Database has: ${m.dbTracks.map(t => `"${t}"`).join(", ")}`);
+  console.log(`   Database has: ${m.dbTracks.map((t) => `"${t}"`).join(", ")}`);
 });

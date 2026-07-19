@@ -9,6 +9,7 @@ System design decisions and data structure rationale for FestFuse.
 ### Storage
 
 Artist records live in `app/data/artists/`, organized by festival day for easier editing:
+
 - `thursday.ts`, `friday.ts`, `saturday.ts`, `sunday.ts` — storage only
 - `index.ts` — combines all four and exports `allArtists` and `artistsBySlug`
 
@@ -36,11 +37,13 @@ All categories are typed constants with `as const` for perfect type sync.
 ### Why Normalized Categories?
 
 Raw artist data contained overlapping, redundant, and inconsistent values:
+
 - **whatToExpect:** 448 unique raw phrases → 36 canonical
 - **bestFor:** 285 unique raw phrases → 15 canonical
 - **genres:** 124 distinct values, grouped into 11 parent categories for reference
 
 Normalization ensures:
+
 - Type safety (TypeScript derivation from constants)
 - Single source of truth (`app/data/categories.ts`)
 - Consistent filtering and search behavior
@@ -150,9 +153,7 @@ Festival-specific data lives in `app/data/festivals.ts`:
 export const ACTIVE_FESTIVAL_ID = "lollapalooza-2026";
 
 export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
-  "lollapalooza-2026": [
-    "Airbnb", "Allianz", "BMI", "Bud Light", "Perry's", "T-Mobile", "Tito's"
-  ]
+  "lollapalooza-2026": ["Airbnb", "Allianz", "BMI", "Bud Light", "Perry's", "T-Mobile", "Tito's"],
 };
 ```
 
@@ -165,6 +166,7 @@ export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
 **Order matters:** Filters apply first, then search within the filtered set.
 
 **Search matching hierarchy** (stops at first match):
+
 1. Artist name (exact)
 2. Artist name (partial/substring)
 3. Genre
@@ -176,6 +178,7 @@ export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
 9. What to Expect
 
 **Minimum query length:**
+
 - Artist name: no minimum (allows "V" to match "V" or "Vince Staples")
 - All other fields: 2-character minimum (prevents overly broad single-character matches)
 
@@ -210,6 +213,7 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 ### Row Classification
 
 **Factual/Criteria-Based Rows** (answer checkable, objective questions):
+
 - Festival Favorites — "Is this artist a headliner/sub-headliner?" (objective fact)
 - International Picks — "Is this artist from outside the US?" (objective fact)
 - Chicago's Own — "Is this artist from Chicago?" (objective fact)
@@ -217,6 +221,7 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 - Future rows: Larger Than Life, etc.
 
 **Curatorial/Discovery Rows** (answer subjective "is this worth surfacing" questions):
+
 - Hidden Gems — "Is this artist overlooked/underrated?" (editorial judgment)
 
 ### Suppression Rules
@@ -224,14 +229,15 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 **Rule A: Factual rows never suppress against each other or Festival Favorites.**
 
 An artist can legitimately be:
-- A headliner *and* international *and* have Cinematic Visuals simultaneously
-- From Chicago *and* a sub-headliner *and* have great lyrics
+
+- A headliner _and_ international _and_ have Cinematic Visuals simultaneously
+- From Chicago _and_ a sub-headliner _and_ have great lyrics
 
 All three facts are simultaneously true. Hiding an artist from one row because they appear in another would make each row factually incomplete or misleading.
 
 **Rule B: Hidden Gems suppresses only against Festival Favorites.**
 
-Hidden Gems' premise is "overlooked," which is contradicted if a headliner appears in it. This is the *only* suppression relationship in the current system.
+Hidden Gems' premise is "overlooked," which is contradicted if a headliner appears in it. This is the _only_ suppression relationship in the current system.
 
 **Rule C: If you had two curatorial rows, they'd suppress against each other** (currently hypothetical).
 
@@ -250,6 +256,7 @@ Two distinct algorithms power carousel rows, chosen based on the row's editorial
 **Intent:** Maintain billing tier hierarchy within each day, vary which day appears first.
 
 **Algorithm:**
+
 1. Filter artists (headliners/sub-headliners)
 2. Sort by day (defensive)
 3. Group by day, sort within each group by billing tier (explicit enforcement)
@@ -259,6 +266,7 @@ Two distinct algorithms power carousel rows, chosen based on the row's editorial
 **Why this pattern:** Billing prominence matters for Festival Favorites — headliners should appear before sub-headliners within a day. But showing Thursday first every page load is boring. Day-block shuffling varies the sequence while preserving the billboard poster order within each day. Avoids the "headliner-clumping" problem that artist-level interleaving would cause.
 
 **Example:**
+
 - Input (after filtering): Thu=[H1, S1], Fri=[H1, S1], Sat=[H1, S1], Sun=[H1, S1]
 - After shuffle: [Sat=[H1, S1], Thu=[H1, S1], Sun=[H1, S1], Fri=[H1, S1]]
 - Result: Each day's block is contiguous and tier-ordered, day sequence varies
@@ -268,6 +276,7 @@ Two distinct algorithms power carousel rows, chosen based on the row's editorial
 **Intent:** Break file-order bias, distribute artists across days evenly, no tier enforcement.
 
 **Algorithm:**
+
 1. Filter artists (apply row-specific criteria)
 2. Sort by day (defensive)
 3. Group by day, shuffle within each group (breaks bias)
@@ -277,6 +286,7 @@ Two distinct algorithms power carousel rows, chosen based on the row's editorial
 **Why this pattern:** All other rows (International Picks, Chicago's Own, Cinematic Visuals, Hidden Gems) don't care about billing prominence — they're answering a different question ("Is this artist from outside the US?" not "Is this artist famous?"). File-order bias is a hazard: if the data file happens to list headliners first, every row would inherit that prominence bias without editing work. Shuffling within days breaks that bias. Round-robin interleaving distributes artists across visible viewport positions evenly (first visible artist comes from each day in order) rather than front-loading any single day.
 
 **Example:**
+
 - Input: Thu=[A, B], Fri=[C, D], Sat=[E], Sun=[F]
 - After shuffle within days: Thu=[B, A], Fri=[D, C], Sat=[E], Sun=[F]
 - Interleaved (one from each day): [B, D, E, F, A, C]
@@ -298,7 +308,7 @@ Clicking "See all" on any carousel row enters a full-page grid view of that row'
 2. **Stable sort order** — Display order is deterministic and differs from the carousel's shuffled presentation:
    - **Festival Favorites:** day → billing tier → appearance time → artist name
    - **All other rows:** day → appearance time → artist name
-   
+
    This provides consistent reference ordering for browsing, distinct from the carousel's curatorial shuffle.
 
 3. **Header with row name + count + back button** — Shows "Hidden Gems · 24 artists" plus a clear "Back to Explore" button. Heading is visible at top of page on entry.
@@ -308,17 +318,18 @@ Clicking "See all" on any carousel row enters a full-page grid view of that row'
 5. **State reset bidirectionally** — Filters and search do not persist between contexts:
    - Entering "See all" clears any active filters/search from the main Explore view. The row's criteria becomes the sole starting filter.
    - Exiting back to Explore from a carousel view clears any filters/search applied within that carousel. The user returns to a clean Explore state.
-   
+
    This ensures "See all" means "show me everyone in this row" and prevents confusion from filters carrying over between distinct discovery contexts.
 
 ### Implementation
 
-- `viewingCarousel` state tracks which carousel is being viewed (null = main Explore, string = carousel ID)
-- `handleSeeAll()` clears filters/search, sets carousel ID, and scrolls main element to top
-- `handleBackToExplore()` clears filters/search and sets `viewingCarousel` to null, returning to clean Explore state
+- `viewingCarousel` lives in `exploreFilterStore` (`null` = main Explore, string = carousel ID) — see "Sidebar Filter Shortcuts" below for why it's store-resident rather than local state.
+- `handleSeeAll()` calls `showCarousel()`, which atomically clears filters/search, enters the carousel view, and bumps `navigationRevision`.
+- `handleBackToExplore()` calls `clearFilters()`, which returns to clean Explore and bumps `navigationRevision`.
+- `ExploreContent` scrolls the results container to the top in a `useLayoutEffect` keyed on `navigationRevision`.
 - Carousel data is keyed in `carouselMap` for use by both carousel rows (State 1) and full view (State 5)
 
-The following is a **simplified illustration** of how each carousel is computed in `app/explore/page.tsx`. See that file for the actual implementation, including memoization, dependency arrays, and ESLint overrides. The patterns here show the filter + presentation logic only:
+The following is a **simplified illustration** of how each carousel is computed in `app/components/explore/ExploreContent.tsx`. See that file for the actual implementation, including memoization, dependency arrays, and ESLint overrides. The patterns here show the filter + presentation logic only:
 
 ```typescript
 // Festival Favorites: factual, no upstream suppression
@@ -326,7 +337,9 @@ The following is a **simplified illustration** of how each carousel is computed 
 // → shuffle day-block order → concatenate (see shuffleDayBlocks in app/lib/carousel.ts)
 // Result: each day's billing tier order is explicit & consistent, but day sequence varies per load
 const festivalFavorites = shuffleDayBlocks(
-  allArtists.filter((a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner")
+  allArtists.filter(
+    (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+  )
 );
 
 // Hidden Gems: curatorial, suppress only against Festival Favorites (Rule B)
@@ -334,11 +347,14 @@ const festivalFavorites = shuffleDayBlocks(
 // → sort by day → shuffle within days → interleave across days (see interleaveByDayShuffled)
 const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
 const hiddenGems = interleaveByDayShuffled(
-  allArtists.filter((a) =>
-    a.genres.some(g => ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)) &&
-    a.appearance.billingTier !== "Headliner" &&
-    a.appearance.billingTier !== "Sub-headliner" &&
-    !shownInFestival.has(a.slug) // Rule B suppression: don't show already-featured artists
+  allArtists.filter(
+    (a) =>
+      a.genres.some((g) =>
+        ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)
+      ) &&
+      a.appearance.billingTier !== "Headliner" &&
+      a.appearance.billingTier !== "Sub-headliner" &&
+      !shownInFestival.has(a.slug) // Rule B suppression: don't show already-featured artists
   )
 );
 
@@ -353,9 +369,7 @@ const internationalPicks = interleaveByDayShuffled(
 // Pipeline: filter to Chicago/Illinois → sort by day → shuffle within days → interleave
 // Result: represents all qualifying artists, shuffled presentation breaks file-order bias
 const chicagosOwn = interleaveByDayShuffled(
-  allArtists.filter((a) =>
-    a.location.city === "Chicago" || a.location.state === "Illinois"
-  )
+  allArtists.filter((a) => a.location.city === "Chicago" || a.location.state === "Illinois")
 );
 
 // Cinematic Visuals: factual, no suppression (Rule A)
@@ -439,6 +453,7 @@ Clearing a verdict (clicking an active button to deselect it) sets `verdict` bac
 **Before adding multi-festival support, this MUST change.** Without festival scoping, a decision made for an artist at one festival would silently and incorrectly apply to every festival that artist appears on. For example: if a user marks "Taylor Swift" as "Must See" at Lollapalooza, the store would later incorrectly mark that user as intending to see Taylor Swift at Coachella, despite never having made that choice.
 
 **Migration path:** Either:
+
 1. **Compound key:** Rekey `decisionsByArtist` to use `{festivalId}:{artistSlug}` as the dictionary key.
 2. **Nested structure:** Restructure to `decisionsByFestival[festivalId][artistSlug]` for explicit per-festival scoping.
 
@@ -447,10 +462,12 @@ Clearing a verdict (clicking an active button to deselect it) sets `verdict` bac
 ### State Boundaries
 
 **In shared store (persisted to localStorage):**
+
 - `ArtistDecision` per artist — the verdict, where it came from, and when it was decided.
 
 **In local component state:**
-- `heartVisible` — animation/display detail and visual sync state. The heart icon's fill/color is driven by heartVisible, not by verdict directly, so its *initial value* on mount must be derived from the store (`heartVisible = verdict === "interested" || verdict === "mustSee"`). Only the *ongoing* cascade-delay behavior (the 100ms timeout when Must See is tapped from neutral) is truly local and session-only. Without this initialization, "Interested" silently fails to visually sync across pages while "Must See" (which reads directly from the store) works fine.
+
+- `heartVisible` — animation/display detail and visual sync state. The heart icon's fill/color is driven by heartVisible, not by verdict directly, so its _initial value_ on mount must be derived from the store (`heartVisible = verdict === "interested" || verdict === "mustSee"`). Only the _ongoing_ cascade-delay behavior (the 100ms timeout when Must See is tapped from neutral) is truly local and session-only. Without this initialization, "Interested" silently fails to visually sync across pages while "Must See" (which reads directly from the store) works fine.
 
 Keeps the store focused (one decision fact per artist) while preserving all existing UI cascade behavior and ensuring visual state stays consistent across navigation.
 
@@ -459,9 +476,11 @@ Keeps the store focused (one decision fact per artist) while preserving all exis
 Quick Picks maintains two separate, coherent pieces of state:
 
 **Session state (ephemeral):**
+
 - Queue position, verdicts recorded during this session, undo eligibility, day boundaries
 
 **Shared store (persistent):**
+
 - Current decision (verdict, source, timestamp) for each artist
 
 **Critical rule:** When a Quick Picks verdict is recorded (mustSee/interested/passed), it must call `setDecision()` immediately with `source: "quickPicks"`. The session state tracks verdicts for undo and progress; the shared store makes the decision visible across the app. Verdicts should not wait until Quick Picks completes.
@@ -495,61 +514,515 @@ When implementing the store, `app/types/quick-picks.ts` currently defines `Quick
 The Status filter (Explore page) displays four options—Must See, Interested, Passed, Undecided—but these are not all stored verdict values.
 
 **Stored verdicts** (`app/types/decision.ts`):
+
 - `Verdict = "mustSee" | "interested" | "passed"`
 - Represents an actual decision a user has made and persisted to the store
 
-**Undecided** is not a stored verdict—it represents the *absence* of a decision (no entry in `decisionsByArtist`). To filter by it, the Status filter uses an extended type:
+**Undecided** is not a stored verdict—it represents the _absence_ of a decision (no entry in `decisionsByArtist`). To filter by it, the Status filter uses an extended type:
 
 ```typescript
-type StatusFilterValue = Verdict | "undecided"
+type StatusFilterValue = Verdict | "undecided";
 ```
 
 This distinction is important:
+
 - User decisions always use `Verdict`, never `"undecided"`. You cannot call `setDecision(artistId, "undecided", source)`.
 - The Status filter can use `StatusFilterValue` because filtering is read-only. When the filter includes `"undecided"`, it matches artists where `decisionsByArtist[artistId]` is undefined.
 - This prevents a bug where someone accidentally passes `"undecided"` to `setDecision()`, which would try to persist a meaningless value to localStorage.
 
 **Filter logic** (`app/lib/filters.ts`):
+
 - If `StatusFilterValue[]` includes `"undecided"`, also include artists with no entry in `decisionsByArtist`
 - If it includes actual verdicts, match artists whose stored verdict is in the list
 - Combined with OR logic: "Show me artists that are mustSee OR interested OR undecided"
 
 **UI** (`STATUS_FILTER_LABELS` in `app/data/categories.ts`):
+
 - Maps all four options to human-readable labels for the dropdown and pill display
 - Separates `VERDICT_LABELS` (for undo toast, sidebar counts, etc.) from `STATUS_FILTER_LABELS` (filter UI only)
 
 ### Sidebar Filter Shortcuts
 
-The Explore page Status filter can be pre-selected by clicking sidebar links ("Must See", "Interested") without requiring URL state or navigation to a different page.
+The Explore page's five filter facets (`genres`, `day`, `stages`, `pickStatus`,
+`scheduleStatus`) can be pre-selected by clicking sidebar links ("My Picks", "Must See",
+"Interested", "Scheduled", "Conflicts") without requiring URL state or navigation to a
+different page.
 
 **Design:**
 
-1. **Temporary filter store** (`app/store/exploreFilterStore.ts`):
-   - Lightweight Zustand store that holds `preAppliedStatus: StatusFilterValue[] | null`
-   - **Intentionally in-memory-only** — does NOT use Zustand's persist middleware (unlike `useDecisionStore`). Stale pre-applied filters cannot survive a page refresh or browser restart via localStorage. This is deliberate: if a user refreshes mid-navigation, the filters are cleared, preventing silent unexpected state on return.
-   - Only used to bridge sidebar navigation to Explore component state
-   - Cleared after filters are applied (one-time use)
+1. **Live filter store** (`app/store/exploreFilterStore.ts`):
+   - Zustand store holding all five filter facets directly — `genres`, `day`, `stages`,
+     `pickStatus`, `scheduleStatus` — plus `searchQuery`, `viewingCarousel` (which carousel,
+     if any, is showing its "See all" full view), and `activeNavItem` (which sidebar
+     destination is current, since Explore and all five My Festival links share the
+     `/explore` pathname). `searchQuery` and `viewingCarousel` live here rather than as
+     local state in `ExploreContent` for the same reason the five facets do: Sidebar-driven
+     navigation needs to be able to reset them as part of landing on a clean preset view,
+     and only the store is reachable from both `Sidebar.tsx` and `ExploreContent.tsx`.
+   - **Intentionally in-memory-only** — does NOT use Zustand's persist middleware (unlike
+     `useDecisionStore`/`useScheduleStore`). A full page refresh resets everything to empty,
+     since nothing is written to localStorage. Browser back/forward is a separate case —
+     see the manual test checklist below — it's been observed to restore whatever state was
+     active rather than resetting.
+   - No separate "pre-applied" representation and no one-shot consume-then-clear signal —
+     the store IS what Explore currently shows, always. Callers set it directly and
+     synchronously, before navigating, so a freshly-mounted Explore reads an already-
+     correct store on its very first render.
+   - `NAV_PRESETS`: a `Record<Exclude<ActiveNavItem, "explore">, NavPreset>` map (a
+     `{facet: "pick", values: PickStatusFilterValue[]} | {facet: "schedule", values:
+     ScheduleStatusValue[]}` discriminated union, built with `satisfies` so a typo in a
+     value fails to compile) — the single source of truth for what each My Festival preset
+     means in terms of `pickStatus`/`scheduleStatus`. Exported so `Sidebar.tsx` can reuse it
+     for highlight validation instead of keeping a second, driftable copy.
+   - `navigationRevision`: a counter bumped by all three actions below. It's a pure
+     trigger — `ExploreContent` uses it only to know "scroll the results container back to
+     top," never as data — which is a narrower, safer use of a counter than this store's
+     old `sidebarNavigationCount` (removed earlier in this refactor). That one gated
+     *application of filter values*, so which value was "current" depended on timing
+     relative to the counter — the exact mechanism behind this session's stale-filter
+     bugs. `navigationRevision` only re-triggers an idempotent DOM action, so there's no
+     staleness for it to introduce.
+   - `applyPreset(preset)`: resets `genres`/`day`/`stages`/`searchQuery` to empty, leaves
+     carousel view, sets `pickStatus`/`scheduleStatus` per `NAV_PRESETS[preset]`, sets
+     `activeNavItem`, and bumps `navigationRevision` — one atomic `set()` call.
+   - `clearFilters()`: resets every facet, `searchQuery`, and `viewingCarousel` to empty,
+     sets `activeNavItem` to `"explore"`, and bumps `navigationRevision` — used by the
+     Explore link and "Back to Explore."
+   - `showCarousel(carouselName)`: same reset as `clearFilters()`, but lands in a
+     carousel's full view instead of the unfiltered grid — used by a carousel's "See all."
 
 2. **Sidebar click handler** (`app/components/Sidebar.tsx`):
-   - When "Must See" or "Interested" is clicked:
-     - `setPreAppliedStatus(["mustSee"])` or `setPreAppliedStatus(["interested"])`
-     - `router.push("/explore")`
-   - Navigation completes before any rendering
+   - Explore link: `clearFilters()`, then `router.push("/explore")` (skipped if already on
+     `/explore`).
+   - Each My Festival link: `applyPreset(NAV_ITEM_BY_LABEL[label])`, then the same
+     navigate-if-needed check.
+   - Both calls happen synchronously in the click handler, before `router.push` — this
+     matters for cross-page navigation (e.g. Quick Picks → Explore), where Next's
+     transition machinery means a layout effect on the freshly-mounted Explore can't be
+     relied on to beat first paint. Setting the store before the navigation even starts
+     means there's no stale value for that first paint to show.
 
-3. **Explore mount logic** (`app/components/explore/ExploreContent.tsx`):
-   - On mount or whenever `preAppliedStatus` changes:
-     - Read `preAppliedStatus` from the temporary store
-     - Apply it to `activeStatus` state (triggers immediate filter)
-     - Clear the store (so it doesn't persist across navigations)
+3. **Explore reads the store directly** (`app/components/explore/ExploreContent.tsx`):
+   - `genres`/`day`/`stages`/`pickStatus`/`scheduleStatus`/`searchQuery`/`viewingCarousel`
+     are all read straight from `useExploreFilterStore()` — no local mirror, no sync effect.
+   - `viewingCarousel` is deliberately *not* reset from an effect keyed on `activeNavItem`.
+     An earlier version did that, and it broke when `activeNavItem` didn't actually change
+     value — e.g. clicking "Explore" while already on the unfiltered view left a carousel's
+     full view stuck open, since a same-value dependency doesn't retrigger a `useLayoutEffect`.
+     It also violates the `react-hooks/set-state-in-effect` lint rule (effects are for
+     synchronizing with external systems, not calling React setters). Setting
+     `viewingCarousel` directly and unconditionally inside `clearFilters()`/`applyPreset()`/
+     `showCarousel()` — the same atomic action that changes `activeNavItem` — removes the
+     failure mode entirely rather than patching the effect's dependency list again.
+   - The one thing still handled by a `useLayoutEffect` is scrolling the results container
+     back to top, keyed on `navigationRevision` (not `activeNavItem`/`viewingCarousel` —
+     those can both stay the same value across a click, e.g. re-clicking the already-active
+     My Festival link, where a scroll reset is still the right call). This is a plain DOM
+     side effect, not a React state update, so it's exempt from the
+     `react-hooks/set-state-in-effect` concern above.
+
+4. **Festival Story's "view your picks" exit** (`app/components/festival-story/FestivalStorySequence.tsx`):
+   - Calls `applyPreset("myPicks")` then `router.push("/explore")` — same mechanism as a
+     Sidebar My Festival click, just triggered from a different UI.
 
 **Why this approach over alternatives:**
 
-- **Not URL state:** Consistent with how search and other filters currently work (no query params). Filters reset on page load from a fresh URL.
-- **Not persistent global state:** The store is cleared after use, so clicking a different sidebar link while already on Explore works correctly (the new pre-applied status is set and immediately applied).
-- **Reuses existing logic:** No separate filter code path. Once `activeStatus` is set, the existing Explore state machine and filter rendering all work normally.
-- **No restrictions:** Users can freely modify filters after landing (add more Status options, apply Genre/Day/Stage alongside it, search, clear everything). Nothing is locked or read-only.
+- **Not URL state:** Consistent with how search and other filters currently work (no
+  query params). Filters reset on page load from a fresh URL.
+- **No one-shot "pre-applied" indirection:** An earlier version of this design used a
+  separate `preAppliedX` signal consumed-then-cleared by an effect on Explore's mount,
+  synchronized against live `activeX` state via a navigation counter. That produced a
+  string of hard-to-diagnose bugs (stale filters reapplying, same-page flash-then-clear,
+  a ref-guard that broke fresh cross-page navigation) because three representations of
+  the same filter existed at once. Removing the indirection — the store IS the live
+  filter state, set directly by callers — removed the class of bug, not just individual
+  instances of it.
+- **Reuses existing logic:** No separate filter code path. Once the store's facets are
+  set, the existing Explore state machine and filter rendering all work normally.
+- **No restrictions:** Users can freely modify filters after landing (add more filters on
+  top, search, clear everything). Nothing is locked or read-only.
 
-**Deferred:** "Scheduled" sidebar link is not yet wired (awaits Schedule feature implementation).
+**Manual test checklist** (re-run whenever this area changes — these are the exact
+navigation paths that broke in different ways during development):
+
+1. Sidebar link → different sidebar link → Explore (same-page, no remount) — filter
+   updates instantly, no flash of the previous filter or previous carousel-detail view.
+2. My Festival link from a different page (Quick Picks/Planner) → Explore (cross-page,
+   fresh mount) — lands with exactly that preset applied, no stale leftover facet from
+   whatever was set before leaving Explore last time.
+3. Festival Story's last-card "view your picks" exit → Explore — lands with My Picks
+   applied (`pickStatus` = mustSee + interested).
+4. Browser back/forward — manually verified in the target browser to restore the active
+   Explore state without flashing, e.g. Scheduled → back → forward still shows Scheduled
+   selected. The exact restoration mechanism is owned by the browser and Next.js's routing
+   (possibly bfcache, possibly Next/React route-level state preservation) and can differ by
+   environment — an earlier headless-Playwright check in this same investigation saw a full
+   document reload for the same navigation instead of a restore, and a full reload always
+   resets the in-memory store, since `exploreFilterStore` has no `persist` middleware. The
+   contract this implementation can actually guarantee isn't "always restored" — it's that
+   the page renders one stable state, restored or freshly reset, without ever flashing
+   stale filters first. A full page *refresh* (as opposed to back/forward) reliably resets
+   the in-memory Explore state to empty.
+
+---
+
+## Schedule Feature (MVP)
+
+**Confirmed** — Overall feature scope and approach.
+
+### Product Context
+
+**Confirmed** — From CLAUDE.md:
+
+- Schedule is a separate feature from Quick Picks decisions (Must See / Interested / Passed)
+- "Organize a finalized festival plan after decisions have already been made"
+- Planning, conflict detection, and scheduling were deferred until the core discovery experience felt polished
+- Artist Detail page "should inspire rather than compare" — no conflict warnings on that page per design philosophy
+
+### Data Model
+
+#### Store: `scheduleStore` (Zustand + persist)
+
+**Confirmed** — New store, completely independent of `decisionStore`.
+
+```typescript
+interface ScheduleState {
+  scheduledArtists: Set<string>;
+  toggleScheduled: (artistId: string) => void;
+  isScheduled: (artistId: string) => boolean;
+}
+```
+
+**Location:** `app/store/scheduleStore.ts`
+
+- `scheduledArtists`: Set of artist slug IDs that the user has scheduled (committed to attending)
+- `toggleScheduled(artistId)`: Add artist to scheduled set if not present; remove if already present
+- `isScheduled(artistId)`: Query if a given artist is scheduled
+
+Persisted to localStorage under key `schedule-store` via Zustand's `persist` middleware. Data survives page reloads and browser restarts, independent of the decision store.
+
+#### Pure Function: `getConflictingArtists()`
+
+**Confirmed** — Single source of truth for conflict detection. No side effects — accepts scheduledArtists and allArtists as inputs, returns a Set of conflicting artist IDs.
+
+**Location:** `app/lib/schedule.ts`
+
+```typescript
+function getConflictingArtists(scheduledIds: Set<string>, allArtists: Artist[]): Set<string> {
+  const conflicting = new Set<string>();
+
+  // Group scheduled artists by day for efficiency
+  const scheduledByDay = new Map<string, Artist[]>();
+  for (const artist of allArtists) {
+    if (scheduledIds.has(artist.slug)) {
+      const day = artist.appearance.day;
+      if (!scheduledByDay.has(day)) {
+        scheduledByDay.set(day, []);
+      }
+      scheduledByDay.get(day)!.push(artist);
+    }
+  }
+
+  // Check for conflicts within each day only
+  for (const dayArtists of scheduledByDay.values()) {
+    for (let i = 0; i < dayArtists.length; i++) {
+      for (let j = i + 1; j < dayArtists.length; j++) {
+        const a = dayArtists[i];
+        const b = dayArtists[j];
+
+        // Time overlap check: A.start < B.end && B.start < A.end
+        if (
+          timeStringToMinutes(a.appearance.startTime) < timeStringToMinutes(b.appearance.endTime) &&
+          timeStringToMinutes(b.appearance.startTime) < timeStringToMinutes(a.appearance.endTime)
+        ) {
+          conflicting.add(a.slug);
+          conflicting.add(b.slug);
+        }
+      }
+    }
+  }
+
+  return conflicting;
+}
+```
+
+**Design rationale:**
+
+- Group by day first, then compare pairwise within each day (reduces comparisons vs. checking all pairs unconditionally)
+- Pairwise comparison prevents false positives (Artist A conflicts with B, B with C, but A and C don't overlap)
+- Artist data stores times as `"H:MM AM/PM"` (e.g. `"12:00 PM"`), not 24-hour `"HH:MM"`. `timeStringToMinutes()` (`app/lib/schedule.ts`) parses this format explicitly and is the single shared helper — `sort.ts`'s chronological sorts and the Planner grid's block positioning both import it rather than re-parsing times themselves.
+- No caching — computed fresh when needed; the data set is small enough that computation cost is negligible
+
+**Known limitation — post-midnight sets:** `timeStringToMinutes()` has no way to distinguish a set happening late that festival night (e.g. `"12:30 AM"` after an evening of PM sets) from one happening early the next calendar day — it always maps AM times to the 0–719 minute range. A set spanning midnight (e.g. `11:30 PM`–`12:30 AM`) would compute a negative duration and break both conflict detection and the Planner grid's range/positioning math. The current dataset contains no AM times, so this isn't an active bug, but it should not be assumed to work. A correct fix would need to use `FestivalAppearance.date` to disambiguate which calendar day an AM time actually belongs to, rather than inferring it from AM/PM alone — not done now; revisit if festival data ever includes overnight sets.
+
+### Entry Points for Scheduling
+
+#### 1. Artist Detail Page (`/artist/[slug]`)
+
+**Confirmed** — Wire existing "Schedule" button to `toggleScheduled(artist.slug)`.
+
+**File:** `app/components/artist/ArtistActions.tsx`
+
+- Show toggle state (scheduled vs. not scheduled) via button styling (e.g., filled vs. outlined)
+- No conflict warning shown per CLAUDE.md ("should inspire rather than compare")
+- Behavior: click toggles between scheduled and unscheduled
+- Label: "Schedule" (consistent across Artist Detail and Explore cards)
+
+#### 2. Explore Page (`/explore`)
+
+**Confirmed** — Extend existing Must See / Interested action buttons with scheduling support.
+
+**File:** `app/components/explore/ArtistCard.tsx`
+
+- **Schedule toggle icon** (calendar icon, cyan per CLAUDE.md "Primary workflow actions")
+  - Click toggles artist into/out of schedule
+  - Filled/highlighted state when artist is scheduled (toggle icon itself is the state indicator)
+  - Shows tooltip on hover: "Add to schedule" or "Remove from schedule"
+  - The filled/highlighted icon is the only visual indicator needed — no separate badge
+
+- **Conflict highlight** (red border/highlight only if conflicting)
+  - Only shown if artist is both scheduled AND in the conflict set returned by `getConflictingArtists()`
+  - Uses red per CLAUDE.md ("Schedule conflicts" → Red)
+  - Example: thin red border, or subtle background tint
+  - Subtle styling — not aggressive, doesn't distract from the card itself
+
+#### 3. Sidebar (`app/components/Sidebar.tsx`)
+
+**Confirmed** — Sidebar navigation and "My Festival" section structure.
+
+**Top-level nav items (before "My Festival" section):**
+
+1. Home
+2. Explore
+3. Quick Picks
+4. **Planner** — RENAMED from "Schedule"
+   - Links to `/planner` (the Planner grid view page)
+   - No count shown
+
+**"My Festival" section (below main nav):**
+
+1. **My Picks** — NEW
+   - Calls `applyPreset("myPicks")`, then navigates to `/explore`
+   - Shows count: "My Picks (X)" where X = count of Must See + count of Interested
+   - Cyan color per CLAUDE.md ("Primary workflow actions")
+
+2. **Must See** — Existing link (no change)
+   - Calls `applyPreset("mustSee")` then navigates to `/explore`
+   - Shows count
+
+3. **Interested** — Existing link (no change)
+   - Calls `applyPreset("interested")` then navigates to `/explore`
+   - Shows count
+
+4. **Scheduled** — NEW
+   - Calls `applyPreset("scheduled")`, then navigates to `/explore`
+   - Filters Explore to show all scheduled artists
+   - Shows count: "Scheduled (X)"
+   - Cyan color per CLAUDE.md ("Primary workflow actions")
+
+5. **Conflicts** — NEW, conditionally rendered
+   - Only shown if conflict count > 0
+   - Calls `applyPreset("conflicts")`, then navigates to `/explore`
+   - Filters Explore to show ONLY conflicting artists (strict subset of scheduled)
+   - Shows count: "Conflicts (X)"
+   - Red color per CLAUDE.md ("Schedule conflicts")
+
+**Technical implementation:**
+
+- `useExploreFilterStore()` tracks **two independent filter facets** among its five live
+  facets:
+  - `pickStatus`: Must See / Interested / Passed / Undecided — multi-select, no "All" value (deselecting everything shows the unfiltered list)
+  - `scheduleStatus`: Scheduled / Unscheduled / Conflicting — multi-select, same pattern, no "All" value
+- The two facets combine with AND logic between them; within a single facet, multiple selected values combine with OR logic (e.g., My Picks = mustSee OR interested, both within the pickStatus facet)
+- Sidebar links call `applyPreset(...)` (or `clearFilters()` for the plain Explore link), which sets `pickStatus`/`scheduleStatus`/`genres`/`day`/`stages` synchronously, then navigate to `/explore`
+- ExploreContent reads all five facets directly from `useExploreFilterStore()` — no local mirror, no mount effect to reconcile anything (see "Sidebar Filter Shortcuts" above for the full design and its manual test checklist)
+- Sidebar derives counts from `decisionStore`, `scheduleStore`, and conflict detection
+
+### Explore Page Filter Extensions
+
+**Confirmed** — Extend existing filter handling with two independent filter facets.
+
+**File:** `app/components/explore/ExploreContent.tsx` (existing file)
+
+**Two independent filter facets:**
+
+**Facet 1: Pick Status** (replaces existing "Status" filter)
+
+- Values: Must See / Interested / Passed / Undecided
+- Multi-select within facet (OR logic)
+- Represents user's discovery/decision state per CLAUDE.md
+
+**Facet 2: Schedule Status** (new facet)
+
+- Values: Scheduled / Unscheduled / Conflicting
+- Multi-select within facet (OR logic)
+- Represents scheduling commitment and conflict state
+
+**Filter combination:**
+
+- Between facets: AND logic (must match Pick Status AND Schedule Status)
+- Within facet: OR logic (My Picks = mustSee OR interested within Pick Status facet)
+- No "All" value — deselecting everything in a facet shows unfiltered results for that facet
+
+**How Sidebar presets work** (see "Sidebar Filter Shortcuts" above for full design):
+
+1. Sidebar calls `applyPreset(...)` (or `clearFilters()`), which sets `pickStatus`/`scheduleStatus` (and resets `genres`/`day`/`stages`) directly in `exploreFilterStore`, then navigates to `/explore`
+2. ExploreContent reads `pickStatus`/`scheduleStatus` straight from `useExploreFilterStore()` — no local state, no mount effect
+3. Filtering logic in `filterArtists()` applies both filters with AND logic
+
+**Display behavior** (all cases):
+
+- Page title remains: "Explore" (no change)
+- Cards show all action buttons (Must See, Interested, Schedule)
+- Users can add additional filters (Genre, Day, Stage) on top of the applied preset
+
+**Default behavior** (no preset applied):
+
+- No filter applied, display full lineup (existing behavior)
+
+### Schedule View (`/planner`)
+
+**Confirmed** — New route and full-page component for day-by-day grid scheduling.
+
+**File:** `app/planner/page.tsx`
+
+#### Layout & Presentation
+
+**Confirmed** — Grid structure, day organization, and time row design:
+
+**Grid columns and rows:**
+
+- **Columns:** Festival stages (e.g., "Airbnb Stage", "T-Mobile Stage", etc., imported from `FESTIVAL_STAGES`)
+- **Time rows:** Hour-based anchors with proportional artist blocks
+  - Left column shows fixed hour labels (e.g., "2:00 PM", "3:00 PM", etc.)
+  - Each artist's block size is proportional to their actual set duration within that hour
+  - Artist blocks are NOT uniform fixed-height rows — they scale based on set duration
+  - Hour lines are the fixed structure; artist blocks flow within them
+
+**Days:** Separate grid per day (Thursday through Sunday)
+
+- Tabbed interface for switching between days (not scrollable section headers)
+- User can click tab to switch between days
+- Only one day's grid visible at a time
+
+**Data:** Full lineup for each day rendered by default (all artists, not pre-filtered)
+
+- Artist name and start/end time displayed in each grid cell
+- No lazy-loading/code-splitting for MVP — just conditionally render the active day's content
+
+#### Visual Treatment (Per CLAUDE.md Color Semantics)
+
+**Confirmed** — Color application per CLAUDE.md semantics:
+
+- **Scheduled artists:** Cyan background or accent border per CLAUDE.md ("Primary workflow actions")
+- **Conflicting scheduled artists:** Red border/highlight per CLAUDE.md ("Schedule conflicts")
+- **Unscheduled artists:** Neutral presentation (no accent)
+- **Must See/Interested (if visible with "My Picks" toggle enabled):** Yellow per CLAUDE.md ("User Intent & Personalization")
+
+All colors layered appropriately so conflicts (red) take visual priority over scheduling state (cyan).
+
+#### Interactions
+
+**Confirmed** — Two independent toggles at the top of the Planner grid:
+
+**Toggle 1: "My Picks"** (cyan styling)
+
+- Filters grid to display only artists with verdict === "mustSee" OR verdict === "interested"
+- Independent of the "Scheduled" toggle
+- When enabled, hides all other artists (Pass, Undecided) — except any that are part of a
+  schedule conflict, which stay visible regardless of toggle state (see Combined behavior below)
+
+**Toggle 2: "Scheduled"** (cyan styling)
+
+- Filters grid to display only scheduled artists (`isScheduled(artist) === true`)
+- Independent of the "My Picks" toggle
+- When enabled, hides all unscheduled artists — the conflict exception above doesn't apply
+  here since a conflicting artist is always scheduled by definition
+
+**Combined behavior (AND logic):**
+
+- Both toggles can be enabled simultaneously to show artists that are both in Must See/Interested AND scheduled
+- When both enabled, displays the intersection of the two filters
+- Conflict artists remain visible and highlighted (red border/accent) regardless of toggle state
+- Toggle state persists within this page visit; resets on navigation away
+
+**Artist cell interactions:**
+
+- **Confirmed** — Clicking anywhere on a cell toggles that artist's scheduled status directly, in place — no navigation. This is the primary action for this screen, matching what the Planner is actually for.
+  - Toggling scheduled state updates the grid cell appearance immediately
+- **Confirmed** — A small secondary affordance within the cell (an icon or short link, not the whole cell) navigates to Artist Detail, for anyone who wants to see more before deciding.
+- **Confirmed** — No click-count-based shortcuts for setting Must See/Interested/Passed from this screen — decisions stay confined to Quick Picks and Explore.
+- **Confirmed** — No preview modal — Artist Detail (via the secondary affordance) already covers that need.
+
+**Confirmed** — No drag-and-drop rescheduling for MVP
+
+- Set times are fixed festival data, not user-editable
+- Users can only schedule/unschedule artists, not move them to different times
+- Future expansions: Compare, Auto-Optimize, Add Travel Time, Custom Time Edits
+
+#### Performance Notes
+
+**Confirmed** — Optimization requirements:
+
+- Memoize `getConflictingArtists()` result at page level
+- Cache conflict set in local state to avoid recomputation on every render
+- **Proposed — needs review:** Lazy-load day tabs if lineup is large (only render visible day's grid)
+
+### State Summary for Schedule Feature
+
+**Confirmed** — Store design and data flow:
+
+#### Stores
+
+1. **decisionStore** (existing, unchanged)
+   - Must See / Interested / Passed decisions
+   - Completely independent from scheduling
+
+2. **scheduleStore** (new)
+   - Scheduled artists
+   - Completely independent from decisions
+   - Persisted to localStorage
+
+#### Derived State
+
+- **Conflict set** — computed from scheduleStore + allArtists via `getConflictingArtists()`
+- **Sidebar counts** — Must See count, Interested count, Scheduled count, Conflict count (0 or more)
+- **Filtered lineups** — Explore with its five live filter facets (`exploreFilterStore`), Schedule with independent "My Picks" and "Scheduled" toggles
+
+#### Data Flow
+
+```
+User actions
+├── Explore card: click Schedule toggle → toggleScheduled() → scheduleStore updates
+├── Explore card: click Must See/Interested → setDecision() → decisionStore updates
+├── Artist Detail: click Schedule button → toggleScheduled() → scheduleStore updates
+├── Sidebar: click My Picks → applyPreset("myPicks") → /explore
+├── Sidebar: click Scheduled → applyPreset("scheduled") → /explore
+├── Sidebar: click Conflicts → applyPreset("conflicts") → /explore
+└── Schedule page: day tabs, independent "My Picks" & "Scheduled" toggles, etc.
+
+Reactive computations
+├── Sidebar counts: read from decisionStore + scheduleStore
+├── Conflict set: computed via getConflictingArtists(scheduleStore, allArtists)
+├── Explore cards: show Schedule toggle state, conflict highlight (if applicable)
+└── Schedule grid: render scheduled/conflicting artists with appropriate styling
+```
+
+### Out of Scope (MVP)
+
+**Confirmed** — The following features are explicitly deferred and should not be implemented:
+
+- Compare (n-way comparison of artists)
+- Auto-Optimize (algorithmic schedule suggestions)
+- Add Travel Time (time padding between artists on different stages)
+- Map View (stage location visualization)
+- Drag-and-drop rescheduling
+- Custom time edits (user changing artist set times)
+- Gamification / XP / Leveling
+- Quick Picks sidebar visibility toggle
+- Color/palette rework (Pass color, celebration magenta refinements)
+
+These are separate, later features and should not influence the Schedule MVP design.
 
 ---
 
@@ -587,6 +1060,7 @@ Neither is being built for MVP. Passed remains reachable only via the Status fil
 **Why deferred:** The signal cannot be computed honestly without knowing whether a user's Thursday-heavy picks reflect genuine preference or simply that they only attended Thursday and skipped Friday/Saturday/Sunday. Currently, Quick Picks has no "I'm only attending these days" input — it presents the entire lineup to every user regardless of attendance.
 
 **Prerequisites to implement this signal:**
+
 1. **Quick Picks feature:** Add day-selection UI to Quick Picks intro (e.g., "Which days are you attending?") so users can explicitly mark days they're skipping
 2. **Filter upstream:** Filter the Quick Picks queue to only artists performing on selected days
 3. **Store attendance plan:** Persist which days the user selected to localStorage (alongside decision data) for reference by Festival Story and future Schedule feature
@@ -601,6 +1075,7 @@ Once Quick Picks gains day selection, this signal can be reintroduced without am
 Throughout development, the idea of a lightweight explainer has come up multiple times — something that briefly walks a new user through how the app's core concepts connect: the difference between Must See / Interested / Passed, what Quick Picks does, and what the Festival Story/Snapshot reveal is and how you get there. Right now, this understanding is only conveyed implicitly, scattered across UI copy on individual screens (button labels, the Quick Picks intro screen, etc.) — there's no single place a new user could go to understand the whole system at a glance.
 
 **Not built because:**
+
 1. Schedule remains a higher-priority unbuilt feature
 2. It's not yet clear whether this should be a full page, a first-visit modal, or something else entirely
 

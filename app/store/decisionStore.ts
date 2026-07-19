@@ -2,9 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-export type Verdict = "mustSee" | "interested" | "passed";
-export type DecisionSource = "explore" | "artist" | "quickPicks";
+import type { Verdict, DecisionSource } from "@/app/types/decision";
 
 export interface ArtistDecision {
   verdict: Verdict;
@@ -14,11 +12,7 @@ export interface ArtistDecision {
 
 export interface DecisionState {
   decisionsByArtist: Record<string, ArtistDecision>;
-  setDecision: (
-    artistId: string,
-    verdict: Verdict | null,
-    source: DecisionSource
-  ) => void;
+  setDecision: (artistId: string, verdict: Verdict | null, source: DecisionSource) => void;
 }
 
 export const useDecisionStore = create<DecisionState>()(

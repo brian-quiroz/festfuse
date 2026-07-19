@@ -85,11 +85,13 @@ export function computeStorySignalsTestable(
   const eveningDeviation = Math.abs(userEveningRate - lineupEveningRate);
 
   // International
-  const internationalCount = pickedArtists.filter((a) => a.location.country !== "United States")
-    .length;
+  const internationalCount = pickedArtists.filter(
+    (a) => a.location.country !== "United States"
+  ).length;
   const userInternationalRate = (internationalCount / pickedArtists.length) * 100;
-  const lineupInternationalCount = allArtists.filter((a) => a.location.country !== "United States")
-    .length;
+  const lineupInternationalCount = allArtists.filter(
+    (a) => a.location.country !== "United States"
+  ).length;
   const lineupInternationalRate = (lineupInternationalCount / allArtists.length) * 100;
   const internationalDeviation = Math.abs(userInternationalRate - lineupInternationalRate);
 
@@ -137,9 +139,7 @@ export function formatSignalReport(
   scenario: string,
   signals: ReturnType<typeof computeStorySignalsTestable>
 ) {
-  console.log(
-    `\n${"=".repeat(70)}\nSCENARIO: ${scenario}\n${"=".repeat(70)}`
-  );
+  console.log(`\n${"=".repeat(70)}\nSCENARIO: ${scenario}\n${"=".repeat(70)}`);
   console.log(`Picks: ${signals.pickedCount} artists | Lineup: ${signals.lineupCount} total`);
   console.log(`\nSignals ranked by deviation (highest deviation first):\n`);
 
@@ -149,6 +149,8 @@ export function formatSignalReport(
     console.log(
       `${i + 1}. ${signal.name}${genre} — Deviation: ${signal.deviation.toFixed(1)}pp${filtered}`
     );
-    console.log(`   User: ${signal.userRate.toFixed(1)}% | Lineup: ${signal.lineupRate.toFixed(1)}%`);
+    console.log(
+      `   User: ${signal.userRate.toFixed(1)}% | Lineup: ${signal.lineupRate.toFixed(1)}%`
+    );
   });
 }

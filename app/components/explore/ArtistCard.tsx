@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Heart, Star } from "lucide-react";
+import { Heart, Star, Calendar } from "lucide-react";
+import { COLORS } from "@/app/data/colors";
 import type { Artist } from "@/app/types/artist";
 import { useDecisionStore } from "@/app/store/decisionStore";
+import { useScheduleStore } from "@/app/store/scheduleStore";
 
 interface ArtistCardProps {
   artist: Artist;
@@ -12,9 +14,14 @@ interface ArtistCardProps {
   responsive?: boolean;
 }
 
-export default function ArtistCard({ artist, size = "default", responsive = false }: ArtistCardProps) {
+export default function ArtistCard({
+  artist,
+  size = "default",
+  responsive = false,
+}: ArtistCardProps) {
   const router = useRouter();
   const { decisionsByArtist, setDecision } = useDecisionStore();
+  const { scheduledArtists, conflictingArtists, toggleScheduled } = useScheduleStore();
 
   // Read from store
   const decision = decisionsByArtist[artist.slug];
@@ -23,6 +30,9 @@ export default function ArtistCard({ artist, size = "default", responsive = fals
   // Single verdict field, mutually exclusive. Each button sets its own value directly (or clears if already set).
   const mustSee = verdict === "mustSee";
   const interested = verdict === "interested";
+
+  const isScheduled = scheduledArtists.has(artist.slug);
+  const isConflicting = conflictingArtists.has(artist.slug);
 
   const handleMustSee = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -34,13 +44,20 @@ export default function ArtistCard({ artist, size = "default", responsive = fals
     setDecision(artist.slug, verdict === "interested" ? null : "interested", "explore");
   };
 
+  const handleScheduleToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleScheduled(artist.slug);
+  };
+
   const isLarge = size === "large";
-  const cardW = responsive ? "w-full" : (isLarge ? "w-60" : "w-48");
+  const cardW = responsive ? "w-full" : isLarge ? "w-60" : "w-48";
   const photoH = isLarge ? "h-72" : "h-60";
 
   return (
     <div
-      className={`${cardW} flex-shrink-0 rounded-2xl overflow-hidden bg-[#1B1535] cursor-pointer group select-none`}
+      className={`${cardW} flex-shrink-0 rounded-2xl overflow-hidden bg-[#1B1535] cursor-pointer group select-none transition-colors ${
+        isConflicting ? "ring-2 ring-red-500" : ""
+      }`}
       onClick={() => router.push(`/artist/${artist.slug}`)}
       role="article"
     >
@@ -71,7 +88,14 @@ export default function ArtistCard({ artist, size = "default", responsive = fals
         {/* Headliner badge — bottom-right, balances action icons on the left */}
         {artist.appearance.billingTier === "Headliner" && (
           <div className="absolute bottom-3 right-3">
-            <span className="px-2 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/18 border border-[#FF2D78]/32 text-[#FF2D78]">
+            <span
+              className="px-2 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase border"
+              style={{
+                backgroundColor: `${COLORS.celebration}2e`,
+                borderColor: `${COLORS.celebration}51`,
+                color: COLORS.celebration,
+              }}
+            >
               Headliner
             </span>
           </div>
@@ -86,6 +110,7 @@ export default function ArtistCard({ artist, size = "default", responsive = fals
                 ? "bg-[#E8FF47] border-[#E8FF47] text-[#110D24]"
                 : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
             }`}
+            title="Must See"
           >
             <Star size={11} fill={mustSee ? "currentColor" : "none"} strokeWidth={2} />
           </button>
@@ -96,8 +121,20 @@ export default function ArtistCard({ artist, size = "default", responsive = fals
                 ? "bg-[#E8FF47]/18 border-[#E8FF47]/50 text-[#E8FF47]"
                 : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
             }`}
+            title="Interested"
           >
             <Heart size={11} fill={interested ? "currentColor" : "none"} strokeWidth={2} />
+          </button>
+          <button
+            onClick={handleScheduleToggle}
+            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
+              isScheduled
+                ? "bg-[#00E5FF] border-[#00E5FF] text-[#110D24]"
+                : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
+            }`}
+            title={isScheduled ? "Remove from schedule" : "Add to schedule"}
+          >
+            <Calendar size={11} strokeWidth={2} />
           </button>
         </div>
       </div>

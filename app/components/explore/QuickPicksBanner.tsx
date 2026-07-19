@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Zap, ArrowRight } from "lucide-react";
+import { COLORS } from "@/app/data/colors";
 
 export default function QuickPicksBanner() {
   return (
@@ -10,7 +11,8 @@ export default function QuickPicksBanner() {
             size={18}
             fill="currentColor"
             strokeWidth={0}
-            className="text-[#FF2D78] flex-shrink-0 mt-1"
+            className="flex-shrink-0 mt-1"
+            style={{ color: COLORS.celebration }}
           />
           <div>
             <p className="text-lg font-bold text-white">Quick Picks</p>
@@ -22,7 +24,10 @@ export default function QuickPicksBanner() {
 
         <Link
           href="/quick-picks"
-          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-[#FF2D78] text-white text-sm font-bold hover:bg-[#FF2D78]/90 transition-colors flex-shrink-0"
+          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-white text-sm font-bold transition-all hover:opacity-90 flex-shrink-0"
+          style={{
+            backgroundColor: COLORS.celebration,
+          }}
         >
           Start Quick Picks
           <ArrowRight size={13} strokeWidth={2.5} />

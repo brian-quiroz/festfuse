@@ -3,6 +3,7 @@
 import { useState } from "react";
 import StartOptions from "@/app/components/quick-picks/StartOptions";
 import { ArrowRight, Zap, Lock } from "lucide-react";
+import { COLORS } from "@/app/data/colors";
 import type { QuickPicksSessionConfig } from "@/app/types/quick-picks";
 
 interface Props {
@@ -28,15 +29,27 @@ export default function StartScreen({ onStart }: Props) {
         {/* Hero title */}
         <div className="flex flex-col items-center gap-3 text-center">
           <div className="flex items-center gap-3">
-            <Zap size={40} fill="currentColor" strokeWidth={0} className="text-[#FF2D78]" />
-            <h1 className="text-6xl font-extrabold tracking-tight bg-gradient-to-r from-[#FF2D78] to-[#A78BFA] bg-clip-text text-transparent">
+            <Zap
+              size={40}
+              fill="currentColor"
+              strokeWidth={0}
+              style={{ color: COLORS.celebration }}
+            />
+            <h1
+              className="text-6xl font-extrabold tracking-tight bg-clip-text text-transparent"
+              style={{
+                backgroundImage: `linear-gradient(to right, ${COLORS.celebration}, #A78BFA)`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
               Quick Picks
             </h1>
           </div>
           <div className="text-base text-white/50 text-center leading-relaxed">
             <p>One artist. One decision.</p>
             <p>
-              Build your <span className="text-[#FF2D78]">perfect</span> lineup.
+              Build your <span style={{ color: COLORS.celebration }}>perfect</span> lineup.
             </p>
           </div>
         </div>

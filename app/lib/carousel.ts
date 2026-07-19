@@ -70,9 +70,9 @@ export function shuffleDayBlocks(artists: Artist[], random?: () => number): Arti
   });
 
   // Get day blocks in festival order (with billing tier sorting applied)
-  const dayBlocks = DAY_ORDER
-    .filter((day) => sortedByDay.has(day))
-    .map((day) => sortedByDay.get(day)!);
+  const dayBlocks = DAY_ORDER.filter((day) => sortedByDay.has(day)).map((day) =>
+    sortedByDay.get(day)!
+  );
 
   // Shuffle the order of day-blocks
   const shuffledBlockOrder = shuffleArray(dayBlocks, random);

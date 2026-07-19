@@ -1918,11 +1918,11 @@ const finnWolfhard: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Bud Light",
+    stage: "Airbnb",
     day: "Friday",
     date: "Jul 31",
-    startTime: "2:40 PM",
-    endTime: "3:40 PM",
+    startTime: "4:00 PM",
+    endTime: "4:45 PM",
   },
 };
 
@@ -2682,7 +2682,7 @@ const valenciaGrace: Artist = {
   appearance: {
     festivalId: "lollapalooza-2026",
     billingTier: "Undercard",
-    stage: "Allianz",
+    stage: "BMI",
     day: "Friday",
     date: "Jul 31",
     startTime: "1:00 PM",

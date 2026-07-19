@@ -1,4 +1,11 @@
-import type { WhatToExpectTag, BestForTag, Genre, Location, Stage, BillingTier } from "@/app/data/categories";
+import type {
+  WhatToExpectTag,
+  BestForTag,
+  Genre,
+  Location,
+  Stage,
+  BillingTier,
+} from "@/app/data/categories";
 
 export type FestivalAppearance = {
   festivalId: string;

@@ -3,14 +3,21 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { COLORS } from "@/app/data/colors";
 
 interface Props {
   context: "sessionComplete" | "nothingToReview";
   onGoToFestivalStory: () => void;
   onGoToSchedule: () => void;
+  onExit: () => void;
 }
 
-export default function FestivalCompleteScreen({ context, onGoToFestivalStory, onGoToSchedule }: Props) {
+export default function FestivalCompleteScreen({
+  context,
+  onGoToFestivalStory,
+  onGoToSchedule,
+  onExit,
+}: Props) {
   const [pressingFestivalStory, setPressingFestivalStory] = useState(false);
   const [pressingSchedule, setPressingSchedule] = useState(false);
 
@@ -39,21 +46,32 @@ export default function FestivalCompleteScreen({ context, onGoToFestivalStory, o
       transition={{ duration: 0.3, ease: "easeOut" }}
       className="flex-1 flex flex-col items-center justify-center px-8 py-16"
     >
+      <button
+        onClick={onExit}
+        className="absolute top-6 right-6 z-10 p-2 text-white/30 hover:text-white/60 transition-colors duration-200"
+        aria-label="Exit Quick Picks"
+      >
+        ✕
+      </button>
+
       <div className="flex flex-col items-center gap-8 w-full max-w-xl text-center">
         {/* Eyebrow */}
         <div className="flex items-center gap-3">
-          <span className="h-px w-12 bg-[#FF2D78]/60" />
-          <p className="text-[#FF2D78] text-sm uppercase tracking-widest font-extrabold">
+          <span className="h-px w-12" style={{ backgroundColor: `${COLORS.celebration}99` }} />
+          <p
+            className="text-sm uppercase tracking-widest font-extrabold"
+            style={{ color: COLORS.celebration }}
+          >
             {context === "sessionComplete" ? "Festival Complete" : "All Caught Up"}
           </p>
-          <span className="h-px w-12 bg-[#FF2D78]/60" />
+          <span className="h-px w-12" style={{ backgroundColor: `${COLORS.celebration}99` }} />
         </div>
 
         {/* Celebration + closure */}
         <div className="flex flex-col items-center gap-2">
           <h1 className="text-6xl font-extrabold tracking-tight leading-none">
             <span className="text-white">All </span>
-            <span className="text-[#FF2D78]">done!</span>
+            <span style={{ color: COLORS.celebration }}>done!</span>
           </h1>
           <p className="text-white/50 text-base">
             {context === "sessionComplete"

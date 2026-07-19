@@ -136,9 +136,9 @@ Yellow should communicate:
 
 ---
 
-#### Hot Pink — Festival Energy & Celebration
+#### Celebration (#D946EF) — Festival Energy & Celebration
 
-Use hot pink sparingly to reinforce the festival atmosphere and moments of delight.
+Use celebration magenta sparingly to reinforce the festival atmosphere and moments of delight.
 
 Examples:
 
@@ -148,9 +148,9 @@ Examples:
 - Wrapped / Festival Story accents
 - Limited promotional moments
 
-Avoid using hot pink for standard navigation or persistent actions.
+Avoid using celebration magenta for standard navigation or persistent actions.
 
-Hot pink should communicate:
+Celebration magenta should communicate:
 
 > "This is exciting."
 
@@ -173,6 +173,21 @@ Avoid decorative use of red.
 Red should communicate:
 
 > "Pay attention."
+
+---
+
+#### Pass (#6B7080) — Neutral Dismissal
+
+Use neutral gray for low-stakes skip actions that do not require attention or emphasis.
+
+Examples:
+
+- Pass / Skip button in Quick Picks
+- Neutral decision that implies "not interested, no issue"
+
+Pass gray should communicate:
+
+> "This is a neutral choice."
 
 ---
 

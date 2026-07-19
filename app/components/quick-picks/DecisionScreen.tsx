@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X, Heart, Star, Calendar, Layers, Clock, Play, Undo2 } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
+import { COLORS } from "@/app/data/colors";
 
 /*
  * DecisionScreen — moving parts overview
@@ -205,10 +206,19 @@ export default function DecisionScreen({
 
   const isFlashing = (verdict: QuickPicksVerdict) => restoredFlashing && priorVerdict === verdict;
 
-  const passClass =
-    confirming === "passed" || isFlashing("passed")
-      ? "border-red-400/70 bg-red-400/15 text-red-400"
-      : "border-red-400/45 text-red-400/80 hover:bg-red-400/10 hover:border-red-400/65 hover:text-red-400";
+  const getPassStyle = () => {
+    if (confirming === "passed" || isFlashing("passed")) {
+      return {
+        borderColor: COLORS.pass,
+        backgroundColor: `${COLORS.pass}26`, // 15% opacity
+        color: COLORS.pass,
+      };
+    }
+    return {
+      borderColor: `${COLORS.pass}72`, // 45% opacity
+      color: `${COLORS.pass}cc`, // 80% opacity
+    };
+  };
 
   const interestedClass =
     confirming === "interested" || isFlashing("interested")
@@ -227,9 +237,25 @@ export default function DecisionScreen({
 
   return (
     <>
+      {/* Radial glow — fades out with card, never orphaned */}
+      <motion.div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          zIndex: 0,
+          background: `radial-gradient(ellipse clamp(900px, 70vw, 1400px) clamp(600px, 50vw, 900px) at 50% 35%, ${COLORS.celebration}99 0%, ${COLORS.celebration}4d 40%, transparent 75%)`,
+        }}
+        animate={{ opacity: isScreenExiting ? 0 : 1 }}
+        transition={shouldReduceMotion ? REDUCED_TRANSITION : EXIT_TRANSITION}
+      />
+
       {/* Main content */}
       <div className="flex-1 flex flex-col items-center justify-center px-8 py-5">
-        <div className="w-full max-w-[900px] flex flex-col gap-3">
+        <div
+          className="relative w-full flex flex-col gap-3"
+          style={{
+            maxWidth: "clamp(700px, 62vw, 1600px)",
+          }}
+        >
           {/* Top bar — sits above the card during exit transitions */}
           <div className="relative z-10 flex items-center gap-2">
             {dayLabel && (
@@ -268,8 +294,13 @@ export default function DecisionScreen({
 
           {/* Hero + metadata + buttons */}
           <div className="flex flex-col gap-2">
-            {/* Hero card — fixed-height wrapper keeps layout stable during sync transition */}
-            <div className="relative h-[400px]">
+            {/* Hero card — responsive height scales with viewport */}
+            <div
+              className="relative"
+              style={{
+                height: "calc(100vh - 220px)",
+              }}
+            >
               <AnimatePresence mode="sync" custom={animCustom} initial={false}>
                 <motion.div
                   key={artist.slug}
@@ -278,7 +309,7 @@ export default function DecisionScreen({
                   initial="enter"
                   animate={isScreenExiting ? "exit" : "center"}
                   exit="exit"
-                  className="absolute inset-0 rounded-2xl overflow-hidden bg-[#1B1535]"
+                  className="absolute inset-0 rounded-xl overflow-hidden bg-[#1B1535]"
                 >
                   {artist.imageUrl ? (
                     <Image
@@ -297,7 +328,7 @@ export default function DecisionScreen({
                     className="absolute inset-0"
                     style={{
                       background:
-                        "linear-gradient(to right, #110D24 0%, rgba(17,13,36,0.85) 20%, rgba(17,13,36,0.48) 45%, rgba(17,13,36,0.08) 100%)",
+                        "linear-gradient(to right, rgba(17,13,36,0.3) 0%, rgba(17,13,36,0.4) 20%, rgba(17,13,36,0.3) 45%, rgba(17,13,36,0.08) 100%)",
                     }}
                   />
                   <div
@@ -333,7 +364,14 @@ export default function DecisionScreen({
 
                   {artist.appearance.billingTier === "Headliner" && (
                     <div className="absolute top-4 left-4">
-                      <span className="px-2.5 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase bg-[#FF2D78]/18 border border-[#FF2D78]/32 text-[#FF2D78]">
+                      <span
+                        className="px-2.5 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase border"
+                        style={{
+                          backgroundColor: `${COLORS.celebration}2e`,
+                          borderColor: `${COLORS.celebration}51`,
+                          color: COLORS.celebration,
+                        }}
+                      >
                         Headliner
                       </span>
                     </div>
@@ -448,7 +486,8 @@ export default function DecisionScreen({
             <div className="grid grid-cols-3 gap-3">
               <button
                 onClick={() => handleDecisionClick("passed")}
-                className={`flex items-center justify-center gap-2 py-4 rounded-xl border text-sm font-semibold transition-all duration-150 ${passClass}`}
+                style={getPassStyle()}
+                className="flex items-center justify-center gap-2 py-4 rounded-xl border text-sm font-semibold transition-all duration-150 hover:opacity-80"
               >
                 <X size={15} strokeWidth={2.5} />
                 Pass
