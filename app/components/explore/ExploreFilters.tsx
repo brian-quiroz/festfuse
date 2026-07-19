@@ -189,7 +189,7 @@ export default function ExploreFilters({
         {/* Day Dropdown (Single-select) */}
         <SingleSelectDropdown
           title="Day"
-          options={days as any}
+          options={days}
           selected={externalDay}
           onSelect={handleDaySelect}
           isOpen={openDropdown === "Day"}

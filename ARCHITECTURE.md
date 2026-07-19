@@ -323,12 +323,13 @@ Clicking "See all" on any carousel row enters a full-page grid view of that row'
 
 ### Implementation
 
-- `viewingCarousel` state tracks which carousel is being viewed (null = main Explore, string = carousel ID)
-- `handleSeeAll()` clears filters/search, sets carousel ID, and scrolls main element to top
-- `handleBackToExplore()` clears filters/search and sets `viewingCarousel` to null, returning to clean Explore state
+- `viewingCarousel` lives in `exploreFilterStore` (`null` = main Explore, string = carousel ID) — see "Sidebar Filter Shortcuts" below for why it's store-resident rather than local state.
+- `handleSeeAll()` calls `showCarousel()`, which atomically clears filters/search, enters the carousel view, and bumps `navigationRevision`.
+- `handleBackToExplore()` calls `clearFilters()`, which returns to clean Explore and bumps `navigationRevision`.
+- `ExploreContent` scrolls the results container to the top in a `useLayoutEffect` keyed on `navigationRevision`.
 - Carousel data is keyed in `carouselMap` for use by both carousel rows (State 1) and full view (State 5)
 
-The following is a **simplified illustration** of how each carousel is computed in `app/explore/page.tsx`. See that file for the actual implementation, including memoization, dependency arrays, and ESLint overrides. The patterns here show the filter + presentation logic only:
+The following is a **simplified illustration** of how each carousel is computed in `app/components/explore/ExploreContent.tsx`. See that file for the actual implementation, including memoization, dependency arrays, and ESLint overrides. The patterns here show the filter + presentation logic only:
 
 ```typescript
 // Festival Favorites: factual, no upstream suppression
@@ -550,27 +551,45 @@ different page.
 **Design:**
 
 1. **Live filter store** (`app/store/exploreFilterStore.ts`):
-   - Zustand store holding all five facets directly — `genres`, `day`, `stages`,
-     `pickStatus`, `scheduleStatus` — plus `activeNavItem` (which sidebar destination is
-     current, since Explore and all five My Festival links share the `/explore` pathname).
+   - Zustand store holding all five filter facets directly — `genres`, `day`, `stages`,
+     `pickStatus`, `scheduleStatus` — plus `searchQuery`, `viewingCarousel` (which carousel,
+     if any, is showing its "See all" full view), and `activeNavItem` (which sidebar
+     destination is current, since Explore and all five My Festival links share the
+     `/explore` pathname). `searchQuery` and `viewingCarousel` live here rather than as
+     local state in `ExploreContent` for the same reason the five facets do: Sidebar-driven
+     navigation needs to be able to reset them as part of landing on a clean preset view,
+     and only the store is reachable from both `Sidebar.tsx` and `ExploreContent.tsx`.
    - **Intentionally in-memory-only** — does NOT use Zustand's persist middleware (unlike
-     `useDecisionStore`/`useScheduleStore`). A page refresh resets all five facets to
-     empty, since nothing is written to localStorage. Browser back/forward is a separate
-     case — see the manual test checklist below — it typically restores whatever state
-     was active via the browser's back-forward cache (bfcache) rather than resetting.
+     `useDecisionStore`/`useScheduleStore`). A full page refresh resets everything to empty,
+     since nothing is written to localStorage. Browser back/forward is a separate case —
+     see the manual test checklist below — it's been observed to restore whatever state was
+     active rather than resetting.
    - No separate "pre-applied" representation and no one-shot consume-then-clear signal —
      the store IS what Explore currently shows, always. Callers set it directly and
      synchronously, before navigating, so a freshly-mounted Explore reads an already-
      correct store on its very first render.
-   - `NAV_PRESETS`: a `Record<Exclude<ActiveNavItem, "explore">, {facet, values}>` map —
-     the single source of truth for what each My Festival preset means in terms of
-     `pickStatus`/`scheduleStatus`. Exported so `Sidebar.tsx` can reuse it for highlight
-     validation instead of keeping a second, driftable copy.
-   - `applyPreset(preset)`: resets `genres`/`day`/`stages` to empty, sets `pickStatus`/
-     `scheduleStatus` per `NAV_PRESETS[preset]`, and sets `activeNavItem` — one atomic
-     `set()` call.
-   - `clearFilters()`: resets all five facets to empty and sets `activeNavItem` to
-     `"explore"`.
+   - `NAV_PRESETS`: a `Record<Exclude<ActiveNavItem, "explore">, NavPreset>` map (a
+     `{facet: "pick", values: PickStatusFilterValue[]} | {facet: "schedule", values:
+     ScheduleStatusValue[]}` discriminated union, built with `satisfies` so a typo in a
+     value fails to compile) — the single source of truth for what each My Festival preset
+     means in terms of `pickStatus`/`scheduleStatus`. Exported so `Sidebar.tsx` can reuse it
+     for highlight validation instead of keeping a second, driftable copy.
+   - `navigationRevision`: a counter bumped by all three actions below. It's a pure
+     trigger — `ExploreContent` uses it only to know "scroll the results container back to
+     top," never as data — which is a narrower, safer use of a counter than this store's
+     old `sidebarNavigationCount` (removed earlier in this refactor). That one gated
+     *application of filter values*, so which value was "current" depended on timing
+     relative to the counter — the exact mechanism behind this session's stale-filter
+     bugs. `navigationRevision` only re-triggers an idempotent DOM action, so there's no
+     staleness for it to introduce.
+   - `applyPreset(preset)`: resets `genres`/`day`/`stages`/`searchQuery` to empty, leaves
+     carousel view, sets `pickStatus`/`scheduleStatus` per `NAV_PRESETS[preset]`, sets
+     `activeNavItem`, and bumps `navigationRevision` — one atomic `set()` call.
+   - `clearFilters()`: resets every facet, `searchQuery`, and `viewingCarousel` to empty,
+     sets `activeNavItem` to `"explore"`, and bumps `navigationRevision` — used by the
+     Explore link and "Back to Explore."
+   - `showCarousel(carouselName)`: same reset as `clearFilters()`, but lands in a
+     carousel's full view instead of the unfiltered grid — used by a carousel's "See all."
 
 2. **Sidebar click handler** (`app/components/Sidebar.tsx`):
    - Explore link: `clearFilters()`, then `router.push("/explore")` (skipped if already on
@@ -584,11 +603,23 @@ different page.
      means there's no stale value for that first paint to show.
 
 3. **Explore reads the store directly** (`app/components/explore/ExploreContent.tsx`):
-   - `genres`/`day`/`stages`/`pickStatus`/`scheduleStatus` are read straight from
-     `useExploreFilterStore()` — no local mirror, no sync effect.
-   - A small `useLayoutEffect` keyed on `activeNavItem` resets `viewingCarousel` (local
-     state, carousel detail view) and scroll position — the only two pieces of navigation
-     state not already covered by the store being source of truth.
+   - `genres`/`day`/`stages`/`pickStatus`/`scheduleStatus`/`searchQuery`/`viewingCarousel`
+     are all read straight from `useExploreFilterStore()` — no local mirror, no sync effect.
+   - `viewingCarousel` is deliberately *not* reset from an effect keyed on `activeNavItem`.
+     An earlier version did that, and it broke when `activeNavItem` didn't actually change
+     value — e.g. clicking "Explore" while already on the unfiltered view left a carousel's
+     full view stuck open, since a same-value dependency doesn't retrigger a `useLayoutEffect`.
+     It also violates the `react-hooks/set-state-in-effect` lint rule (effects are for
+     synchronizing with external systems, not calling React setters). Setting
+     `viewingCarousel` directly and unconditionally inside `clearFilters()`/`applyPreset()`/
+     `showCarousel()` — the same atomic action that changes `activeNavItem` — removes the
+     failure mode entirely rather than patching the effect's dependency list again.
+   - The one thing still handled by a `useLayoutEffect` is scrolling the results container
+     back to top, keyed on `navigationRevision` (not `activeNavItem`/`viewingCarousel` —
+     those can both stay the same value across a click, e.g. re-clicking the already-active
+     My Festival link, where a scroll reset is still the right call). This is a plain DOM
+     side effect, not a React state update, so it's exempt from the
+     `react-hooks/set-state-in-effect` concern above.
 
 4. **Festival Story's "view your picks" exit** (`app/components/festival-story/FestivalStorySequence.tsx`):
    - Calls `applyPreset("myPicks")` then `router.push("/explore")` — same mechanism as a
@@ -621,16 +652,17 @@ navigation paths that broke in different ways during development):
    whatever was set before leaving Explore last time.
 3. Festival Story's last-card "view your picks" exit → Explore — lands with My Picks
    applied (`pickStatus` = mustSee + interested).
-4. Browser back/forward — verified (manually, in a real browser) to restore whatever
-   filter state was active when you navigated away, e.g. Scheduled → back → forward still
-   shows Scheduled selected. This is the browser's back-forward cache (bfcache) freezing
-   and restoring the whole page, JS state included, without re-running any code — expected
-   and desirable (no data loss across back/forward), not a bug. Note this differs from an
-   earlier finding in this same investigation based on a headless-Playwright script, which
-   saw a full reload instead of a bfcache restore for the same navigation; real browsers
-   evidently bfcache this case more readily than that automated environment did. A plain
-   page *refresh* (not back/forward) still clears all five facets to empty, since
-   `exploreFilterStore` has no `persist` middleware.
+4. Browser back/forward — manually verified in the target browser to restore the active
+   Explore state without flashing, e.g. Scheduled → back → forward still shows Scheduled
+   selected. The exact restoration mechanism is owned by the browser and Next.js's routing
+   (possibly bfcache, possibly Next/React route-level state preservation) and can differ by
+   environment — an earlier headless-Playwright check in this same investigation saw a full
+   document reload for the same navigation instead of a restore, and a full reload always
+   resets the in-memory store, since `exploreFilterStore` has no `persist` middleware. The
+   contract this implementation can actually guarantee isn't "always restored" — it's that
+   the page renders one stable state, restored or freshly reset, without ever flashing
+   stale filters first. A full page *refresh* (as opposed to back/forward) reliably resets
+   the in-memory Explore state to empty.
 
 ---
 

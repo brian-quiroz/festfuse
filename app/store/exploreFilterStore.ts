@@ -8,17 +8,20 @@ import type { ActiveNavItem } from "@/app/types/navigation";
 
 // Single source of truth for what each My Festival preset means in terms of the live
 // facets below — shared by applyPreset() and by Sidebar's highlight-validation logic,
-// so the two can't drift apart the way they did when Sidebar kept its own copy.
-export const NAV_PRESETS: Record<
-  Exclude<ActiveNavItem, "explore">,
-  { facet: "pick" | "schedule"; values: string[] }
-> = {
+// so the two can't drift apart the way they did when Sidebar kept its own copy. A
+// discriminated union (rather than a bare `values: string[]`) means a typo like
+// "mustsee" fails to compile instead of silently matching nothing.
+type NavPreset =
+  | { facet: "pick"; values: PickStatusFilterValue[] }
+  | { facet: "schedule"; values: ScheduleStatusValue[] };
+
+export const NAV_PRESETS = {
   myPicks: { facet: "pick", values: ["mustSee", "interested"] },
   mustSee: { facet: "pick", values: ["mustSee"] },
   interested: { facet: "pick", values: ["interested"] },
   scheduled: { facet: "schedule", values: ["scheduled"] },
   conflicts: { facet: "schedule", values: ["conflicting"] },
-};
+} satisfies Record<Exclude<ActiveNavItem, "explore">, NavPreset>;
 
 interface ExploreFilterStore {
   // Live filter facets — the single source of truth for what Explore currently shows.
@@ -40,19 +43,51 @@ interface ExploreFilterStore {
   scheduleStatus: ScheduleStatusValue[];
   setScheduleStatus: (status: ScheduleStatusValue[]) => void;
 
+  // Free-text search. Lives here (not local to ExploreContent) for the same reason the
+  // five facets above do: Sidebar-driven navigation needs to be able to clear it as part
+  // of landing on a clean preset view, and only the store is reachable from both places.
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+
+  // Which carousel (if any) is showing its "See all" full view. Also store-resident, not
+  // local to ExploreContent — same reason as searchQuery: a Sidebar-driven navigation (or
+  // re-clicking the current Explore link while already viewing a carousel) needs to be
+  // able to leave carousel view, and a bare useState only ExploreContent can see can't be
+  // reset by an action that fires from Sidebar. Set only via clearFilters()/applyPreset()/
+  // showCarousel() below — never directly — so it can't drift out of sync with the rest
+  // of "what Explore currently shows."
+  viewingCarousel: string | null;
+
   // Tracks which sidebar destination was most recently clicked, so the navbar can
   // highlight the right item even though Explore and all five My Festival links
-  // land on the same /explore pathname.
+  // land on the same /explore pathname. No standalone setter — only changes as part of
+  // applyPreset()/clearFilters()/showCarousel() below, so it can't drift out of sync with
+  // the facets/viewingCarousel/searchQuery those same actions reset atomically.
   activeNavItem: ActiveNavItem;
-  setActiveNavItem: (item: ActiveNavItem) => void;
 
-  // Atomically apply a My Festival preset: resets genres/day/stages, sets pickStatus/
-  // scheduleStatus per NAV_PRESETS, and sets activeNavItem — one set() call, one render.
+  // Bumped by every action below (applyPreset/clearFilters/showCarousel) — a pure trigger
+  // ExploreContent uses to scroll its results container back to top, never read as data.
+  // This is a narrower, safer use of a counter than the sidebarNavigationCount this store
+  // used to have: that one gated *application of filter values* (which value is "current"
+  // depends on when you read it relative to the counter), which is exactly what caused
+  // this session's stale-filter bugs. This one only re-triggers an idempotent DOM action
+  // ("scroll to top" is correct to run again even if nothing else changed), so there's no
+  // staleness for it to have.
+  navigationRevision: number;
+
+  // Atomically apply a My Festival preset: resets genres/day/stages/searchQuery, leaves
+  // carousel view, sets pickStatus/scheduleStatus per NAV_PRESETS, sets activeNavItem, and
+  // bumps navigationRevision — one set() call, one render.
   applyPreset: (preset: Exclude<ActiveNavItem, "explore">) => void;
 
-  // Reset all five facets and return activeNavItem to "explore" — used by the Explore
-  // link itself, and anywhere else that means "show the unfiltered lineup."
+  // Reset all filter facets/search, leave carousel view, and return activeNavItem to
+  // "explore" — used by the Explore link itself and "Back to Explore," and anywhere else
+  // that means "show the unfiltered lineup."
   clearFilters: () => void;
+
+  // Same reset as clearFilters(), but lands in a carousel's full view instead of the
+  // unfiltered grid — used by a carousel's "See all."
+  showCarousel: (carouselName: string) => void;
 }
 
 export const useExploreFilterStore = create<ExploreFilterStore>((set) => ({
@@ -71,28 +106,53 @@ export const useExploreFilterStore = create<ExploreFilterStore>((set) => ({
   scheduleStatus: [],
   setScheduleStatus: (status) => set({ scheduleStatus: status }),
 
+  searchQuery: "",
+  setSearchQuery: (query) => set({ searchQuery: query }),
+
+  viewingCarousel: null,
+
   activeNavItem: "explore",
-  setActiveNavItem: (item) => set({ activeNavItem: item }),
+
+  navigationRevision: 0,
 
   applyPreset: (preset) => {
     const config = NAV_PRESETS[preset];
-    set({
+    set((state) => ({
       genres: [],
       day: "",
       stages: [],
-      pickStatus: (config.facet === "pick" ? config.values : []) as PickStatusFilterValue[],
-      scheduleStatus: (config.facet === "schedule" ? config.values : []) as ScheduleStatusValue[],
+      searchQuery: "",
+      viewingCarousel: null,
+      pickStatus: config.facet === "pick" ? config.values : [],
+      scheduleStatus: config.facet === "schedule" ? config.values : [],
       activeNavItem: preset,
-    });
+      navigationRevision: state.navigationRevision + 1,
+    }));
   },
 
   clearFilters: () =>
-    set({
+    set((state) => ({
       genres: [],
       day: "",
       stages: [],
       pickStatus: [],
       scheduleStatus: [],
+      searchQuery: "",
+      viewingCarousel: null,
       activeNavItem: "explore",
-    }),
+      navigationRevision: state.navigationRevision + 1,
+    })),
+
+  showCarousel: (carouselName) =>
+    set((state) => ({
+      genres: [],
+      day: "",
+      stages: [],
+      pickStatus: [],
+      scheduleStatus: [],
+      searchQuery: "",
+      viewingCarousel: carouselName,
+      activeNavItem: "explore",
+      navigationRevision: state.navigationRevision + 1,
+    })),
 }));

@@ -39,11 +39,13 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     setPickStatus,
     scheduleStatus,
     setScheduleStatus,
-    activeNavItem,
+    searchQuery,
+    setSearchQuery,
+    viewingCarousel,
+    navigationRevision,
     clearFilters,
+    showCarousel,
   } = useExploreFilterStore();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [viewingCarousel, setViewingCarousel] = useState<string | null>(null);
   const [showSurpriseTooltip, setShowSurpriseTooltip] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
 
@@ -61,35 +63,30 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     router.push(`/artist/${selectedArtist.slug}`);
   };
 
-  // genres/day/stages/pickStatus/scheduleStatus now live directly in exploreFilterStore and
-  // are always current by the time this component reads them — Sidebar and FestivalStorySequence
-  // set them synchronously before navigating, so there's nothing to reconcile here.
+  // genres/day/stages/pickStatus/scheduleStatus/searchQuery/viewingCarousel all live
+  // directly in exploreFilterStore and are always current by the time this component reads
+  // them — clearFilters()/applyPreset()/showCarousel() set every one of them atomically, so
+  // there's nothing left to reconcile via an effect.
   //
-  // activeNavItem only changes via clearFilters()/applyPreset() (Sidebar links or Festival
-  // Story's "view your picks"), i.e. exactly the moments a navigation should also leave
-  // carousel detail view and return to the top of the results. useLayoutEffect so a same-page
-  // sidebar click (no remount) can't paint one frame of the old carousel view with newly-
-  // filtered results before snapping back to grid view. On a fresh cross-page mount this
-  // just no-ops harmlessly (already null / already at top).
+  // Reset the results container's scroll position whenever navigation changes the active
+  // Explore view. Keyed on navigationRevision (bumped by every one of the three actions
+  // above) rather than activeNavItem/viewingCarousel — those can both stay the same value
+  // across a click (e.g. re-clicking the already-active My Festival link), where a scroll
+  // reset is still the right call. navigationRevision only ever drives this idempotent DOM
+  // action, never gates a filter value, so unlike this store's old sidebarNavigationCount
+  // there's no staleness for it to introduce.
   useLayoutEffect(() => {
-    setViewingCarousel(null);
     mainRef.current?.scrollTo(0, 0);
-  }, [activeNavItem]);
+  }, [navigationRevision]);
 
-  // Helper: Reset search/filter state and enter carousel view
+  // Helper: enter a carousel's full view (resets search/filters via the store)
   const handleSeeAll = (carouselName: string) => {
-    clearFilters();
-    setSearchQuery("");
-    setViewingCarousel(carouselName);
-    // Scroll to top so user sees the carousel header
-    mainRef.current?.scrollTo(0, 0);
+    showCarousel(carouselName);
   };
 
-  // Helper: Reset search/filter state and return to main explore (symmetric with handleSeeAll)
+  // Helper: return to main explore (resets search/filters via the store, symmetric with handleSeeAll)
   const handleBackToExplore = () => {
     clearFilters();
-    setSearchQuery("");
-    setViewingCarousel(null);
   };
 
   // Create separate seeded RNGs for each carousel with derived seeds.
@@ -104,7 +101,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   // Carousel rows computed with seeded RNG for deterministic, identical server/client rendering
   // See ARCHITECTURE.md § Carousel Presentation Strategies for algorithm details.
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const festivalFavorites = useMemo(
     () =>
       shuffleDayBlocks(
@@ -118,7 +114,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   );
 
   // Suppress against Festival Favorites (Hidden Gems' premise is "overlooked")
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const hiddenGems = useMemo(() => {
     const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
     return interleaveByDayShuffled(
@@ -135,7 +130,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     );
   }, [festivalFavorites, hiddenGemsRandom]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const internationalPicks = useMemo(
     () =>
       interleaveByDayShuffled(
@@ -145,7 +139,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     [internationalPicksRandom]
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const chicagosOwn = useMemo(
     () =>
       interleaveByDayShuffled(
@@ -155,7 +148,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     [chicagosOwnRandom]
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const cinematicVisuals = useMemo(
     () =>
       interleaveByDayShuffled(
