@@ -542,36 +542,95 @@ This distinction is important:
 
 ### Sidebar Filter Shortcuts
 
-The Explore page Status filter can be pre-selected by clicking sidebar links ("Must See", "Interested") without requiring URL state or navigation to a different page.
+The Explore page's five filter facets (`genres`, `day`, `stages`, `pickStatus`,
+`scheduleStatus`) can be pre-selected by clicking sidebar links ("My Picks", "Must See",
+"Interested", "Scheduled", "Conflicts") without requiring URL state or navigation to a
+different page.
 
 **Design:**
 
-1. **Temporary filter store** (`app/store/exploreFilterStore.ts`):
-   - Lightweight Zustand store that holds `preAppliedStatus: StatusFilterValue[] | null`
-   - **Intentionally in-memory-only** — does NOT use Zustand's persist middleware (unlike `useDecisionStore`). Stale pre-applied filters cannot survive a page refresh or browser restart via localStorage. This is deliberate: if a user refreshes mid-navigation, the filters are cleared, preventing silent unexpected state on return.
-   - Only used to bridge sidebar navigation to Explore component state
-   - Cleared after filters are applied (one-time use)
+1. **Live filter store** (`app/store/exploreFilterStore.ts`):
+   - Zustand store holding all five facets directly — `genres`, `day`, `stages`,
+     `pickStatus`, `scheduleStatus` — plus `activeNavItem` (which sidebar destination is
+     current, since Explore and all five My Festival links share the `/explore` pathname).
+   - **Intentionally in-memory-only** — does NOT use Zustand's persist middleware (unlike
+     `useDecisionStore`/`useScheduleStore`). A page refresh resets all five facets to
+     empty, since nothing is written to localStorage. Browser back/forward is a separate
+     case — see the manual test checklist below — it typically restores whatever state
+     was active via the browser's back-forward cache (bfcache) rather than resetting.
+   - No separate "pre-applied" representation and no one-shot consume-then-clear signal —
+     the store IS what Explore currently shows, always. Callers set it directly and
+     synchronously, before navigating, so a freshly-mounted Explore reads an already-
+     correct store on its very first render.
+   - `NAV_PRESETS`: a `Record<Exclude<ActiveNavItem, "explore">, {facet, values}>` map —
+     the single source of truth for what each My Festival preset means in terms of
+     `pickStatus`/`scheduleStatus`. Exported so `Sidebar.tsx` can reuse it for highlight
+     validation instead of keeping a second, driftable copy.
+   - `applyPreset(preset)`: resets `genres`/`day`/`stages` to empty, sets `pickStatus`/
+     `scheduleStatus` per `NAV_PRESETS[preset]`, and sets `activeNavItem` — one atomic
+     `set()` call.
+   - `clearFilters()`: resets all five facets to empty and sets `activeNavItem` to
+     `"explore"`.
 
 2. **Sidebar click handler** (`app/components/Sidebar.tsx`):
-   - When "Must See" or "Interested" is clicked:
-     - `setPreAppliedStatus(["mustSee"])` or `setPreAppliedStatus(["interested"])`
-     - `router.push("/explore")`
-   - Navigation completes before any rendering
+   - Explore link: `clearFilters()`, then `router.push("/explore")` (skipped if already on
+     `/explore`).
+   - Each My Festival link: `applyPreset(NAV_ITEM_BY_LABEL[label])`, then the same
+     navigate-if-needed check.
+   - Both calls happen synchronously in the click handler, before `router.push` — this
+     matters for cross-page navigation (e.g. Quick Picks → Explore), where Next's
+     transition machinery means a layout effect on the freshly-mounted Explore can't be
+     relied on to beat first paint. Setting the store before the navigation even starts
+     means there's no stale value for that first paint to show.
 
-3. **Explore mount logic** (`app/components/explore/ExploreContent.tsx`):
-   - On mount or whenever `preAppliedStatus` changes:
-     - Read `preAppliedStatus` from the temporary store
-     - Apply it to `activeStatus` state (triggers immediate filter)
-     - Clear the store (so it doesn't persist across navigations)
+3. **Explore reads the store directly** (`app/components/explore/ExploreContent.tsx`):
+   - `genres`/`day`/`stages`/`pickStatus`/`scheduleStatus` are read straight from
+     `useExploreFilterStore()` — no local mirror, no sync effect.
+   - A small `useLayoutEffect` keyed on `activeNavItem` resets `viewingCarousel` (local
+     state, carousel detail view) and scroll position — the only two pieces of navigation
+     state not already covered by the store being source of truth.
+
+4. **Festival Story's "view your picks" exit** (`app/components/festival-story/FestivalStorySequence.tsx`):
+   - Calls `applyPreset("myPicks")` then `router.push("/explore")` — same mechanism as a
+     Sidebar My Festival click, just triggered from a different UI.
 
 **Why this approach over alternatives:**
 
-- **Not URL state:** Consistent with how search and other filters currently work (no query params). Filters reset on page load from a fresh URL.
-- **Not persistent global state:** The store is cleared after use, so clicking a different sidebar link while already on Explore works correctly (the new pre-applied status is set and immediately applied).
-- **Reuses existing logic:** No separate filter code path. Once `activeStatus` is set, the existing Explore state machine and filter rendering all work normally.
-- **No restrictions:** Users can freely modify filters after landing (add more Status options, apply Genre/Day/Stage alongside it, search, clear everything). Nothing is locked or read-only.
+- **Not URL state:** Consistent with how search and other filters currently work (no
+  query params). Filters reset on page load from a fresh URL.
+- **No one-shot "pre-applied" indirection:** An earlier version of this design used a
+  separate `preAppliedX` signal consumed-then-cleared by an effect on Explore's mount,
+  synchronized against live `activeX` state via a navigation counter. That produced a
+  string of hard-to-diagnose bugs (stale filters reapplying, same-page flash-then-clear,
+  a ref-guard that broke fresh cross-page navigation) because three representations of
+  the same filter existed at once. Removing the indirection — the store IS the live
+  filter state, set directly by callers — removed the class of bug, not just individual
+  instances of it.
+- **Reuses existing logic:** No separate filter code path. Once the store's facets are
+  set, the existing Explore state machine and filter rendering all work normally.
+- **No restrictions:** Users can freely modify filters after landing (add more filters on
+  top, search, clear everything). Nothing is locked or read-only.
 
-**Deferred:** "Scheduled" sidebar link is not yet wired (awaits Schedule feature implementation).
+**Manual test checklist** (re-run whenever this area changes — these are the exact
+navigation paths that broke in different ways during development):
+
+1. Sidebar link → different sidebar link → Explore (same-page, no remount) — filter
+   updates instantly, no flash of the previous filter or previous carousel-detail view.
+2. My Festival link from a different page (Quick Picks/Planner) → Explore (cross-page,
+   fresh mount) — lands with exactly that preset applied, no stale leftover facet from
+   whatever was set before leaving Explore last time.
+3. Festival Story's last-card "view your picks" exit → Explore — lands with My Picks
+   applied (`pickStatus` = mustSee + interested).
+4. Browser back/forward — verified (manually, in a real browser) to restore whatever
+   filter state was active when you navigated away, e.g. Scheduled → back → forward still
+   shows Scheduled selected. This is the browser's back-forward cache (bfcache) freezing
+   and restoring the whole page, JS state included, without re-running any code — expected
+   and desirable (no data loss across back/forward), not a bug. Note this differs from an
+   earlier finding in this same investigation based on a headless-Playwright script, which
+   saw a full reload instead of a bfcache restore for the same navigation; real browsers
+   evidently bfcache this case more readily than that automated environment did. A plain
+   page *refresh* (not back/forward) still clears all five facets to empty, since
+   `exploreFilterStore` has no `persist` middleware.
 
 ---
 
@@ -711,39 +770,40 @@ function getConflictingArtists(scheduledIds: Set<string>, allArtists: Artist[]):
 **"My Festival" section (below main nav):**
 
 1. **My Picks** — NEW
-   - Calls `setPreAppliedPickStatus(["mustSee", "interested"])`, then navigates to `/explore`
+   - Calls `applyPreset("myPicks")`, then navigates to `/explore`
    - Shows count: "My Picks (X)" where X = count of Must See + count of Interested
    - Cyan color per CLAUDE.md ("Primary workflow actions")
 
 2. **Must See** — Existing link (no change)
-   - Calls `setPreAppliedPickStatus("mustSee")` then navigates to `/explore`
+   - Calls `applyPreset("mustSee")` then navigates to `/explore`
    - Shows count
 
 3. **Interested** — Existing link (no change)
-   - Calls `setPreAppliedPickStatus("interested")` then navigates to `/explore`
+   - Calls `applyPreset("interested")` then navigates to `/explore`
    - Shows count
 
 4. **Scheduled** — NEW
-   - Calls `setPreAppliedScheduleStatus("scheduled")`, then navigates to `/explore`
+   - Calls `applyPreset("scheduled")`, then navigates to `/explore`
    - Filters Explore to show all scheduled artists
    - Shows count: "Scheduled (X)"
    - Cyan color per CLAUDE.md ("Primary workflow actions")
 
 5. **Conflicts** — NEW, conditionally rendered
    - Only shown if conflict count > 0
-   - Calls `setPreAppliedScheduleStatus("conflicting")`, then navigates to `/explore`
+   - Calls `applyPreset("conflicts")`, then navigates to `/explore`
    - Filters Explore to show ONLY conflicting artists (strict subset of scheduled)
    - Shows count: "Conflicts (X)"
    - Red color per CLAUDE.md ("Schedule conflicts")
 
 **Technical implementation:**
 
-- Extend `useExploreFilterStore()` to track **two independent filter facets**:
+- `useExploreFilterStore()` tracks **two independent filter facets** among its five live
+  facets:
   - `pickStatus`: Must See / Interested / Passed / Undecided — multi-select, no "All" value (deselecting everything shows the unfiltered list)
   - `scheduleStatus`: Scheduled / Unscheduled / Conflicting — multi-select, same pattern, no "All" value
 - The two facets combine with AND logic between them; within a single facet, multiple selected values combine with OR logic (e.g., My Picks = mustSee OR interested, both within the pickStatus facet)
-- Sidebar links call `setPreAppliedPickStatus(...)` and/or `setPreAppliedScheduleStatus(...)` as needed, then navigate to `/explore`
-- ExploreContent reads both pre-applied values on mount, applies them to local filter state, then clears the pre-applied values from the store
+- Sidebar links call `applyPreset(...)` (or `clearFilters()` for the plain Explore link), which sets `pickStatus`/`scheduleStatus`/`genres`/`day`/`stages` synchronously, then navigate to `/explore`
+- ExploreContent reads all five facets directly from `useExploreFilterStore()` — no local mirror, no mount effect to reconcile anything (see "Sidebar Filter Shortcuts" above for the full design and its manual test checklist)
 - Sidebar derives counts from `decisionStore`, `scheduleStore`, and conflict detection
 
 ### Explore Page Filter Extensions
@@ -772,21 +832,19 @@ function getConflictingArtists(scheduledIds: Set<string>, allArtists: Artist[]):
 - Within facet: OR logic (My Picks = mustSee OR interested within Pick Status facet)
 - No "All" value — deselecting everything in a facet shows unfiltered results for that facet
 
-**How pre-applied filters work** (reuses existing Sidebar pattern):
+**How Sidebar presets work** (see "Sidebar Filter Shortcuts" above for full design):
 
-1. Sidebar calls `setPreAppliedPickStatus()` and/or `setPreAppliedScheduleStatus()` and navigates to `/explore`
-2. ExploreContent mounts and reads both from `useExploreFilterStore()`
-3. Sets local state for both `activePickStatus` and `activeScheduleStatus`
-4. Clears the pre-applied values from store
-5. Filtering logic in `filterArtists()` applies both filters with AND logic
+1. Sidebar calls `applyPreset(...)` (or `clearFilters()`), which sets `pickStatus`/`scheduleStatus` (and resets `genres`/`day`/`stages`) directly in `exploreFilterStore`, then navigates to `/explore`
+2. ExploreContent reads `pickStatus`/`scheduleStatus` straight from `useExploreFilterStore()` — no local state, no mount effect
+3. Filtering logic in `filterArtists()` applies both filters with AND logic
 
 **Display behavior** (all cases):
 
 - Page title remains: "Explore" (no change)
 - Cards show all action buttons (Must See, Interested, Schedule)
-- Users can add additional filters (Genre, Day, Stage) on top of the pre-applied statuses
+- Users can add additional filters (Genre, Day, Stage) on top of the applied preset
 
-**Default behavior** (no pre-applied status):
+**Default behavior** (no preset applied):
 
 - No filter applied, display full lineup (existing behavior)
 
@@ -897,7 +955,7 @@ All colors layered appropriately so conflicts (red) take visual priority over sc
 
 - **Conflict set** — computed from scheduleStore + allArtists via `getConflictingArtists()`
 - **Sidebar counts** — Must See count, Interested count, Scheduled count, Conflict count (0 or more)
-- **Filtered lineups** — Explore with status filters (via `preAppliedStatus`), Schedule with independent "My Picks" and "Scheduled" toggles
+- **Filtered lineups** — Explore with its five live filter facets (`exploreFilterStore`), Schedule with independent "My Picks" and "Scheduled" toggles
 
 #### Data Flow
 
@@ -906,9 +964,9 @@ User actions
 ├── Explore card: click Schedule toggle → toggleScheduled() → scheduleStore updates
 ├── Explore card: click Must See/Interested → setDecision() → decisionStore updates
 ├── Artist Detail: click Schedule button → toggleScheduled() → scheduleStore updates
-├── Sidebar: click My Picks → setPreAppliedStatus(["mustSee", "interested"]) → /explore
-├── Sidebar: click Scheduled → setPreAppliedStatus(["scheduled"]) → /explore
-├── Sidebar: click Conflicts → setPreAppliedStatus([...]) → /explore
+├── Sidebar: click My Picks → applyPreset("myPicks") → /explore
+├── Sidebar: click Scheduled → applyPreset("scheduled") → /explore
+├── Sidebar: click Conflicts → applyPreset("conflicts") → /explore
 └── Schedule page: day tabs, independent "My Picks" & "Scheduled" toggles, etc.
 
 Reactive computations

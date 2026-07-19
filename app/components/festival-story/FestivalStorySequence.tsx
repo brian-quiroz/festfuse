@@ -19,7 +19,7 @@ interface FestivalStorySequenceProps {
 export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequenceProps) {
   const router = useRouter();
   const decisionsByArtist = useDecisionStore((state) => state.decisionsByArtist);
-  const { setPreAppliedPickStatus } = useExploreFilterStore();
+  const { applyPreset } = useExploreFilterStore();
 
   // Compute story signals
   const signals = useStorySignals(decisionsByArtist, allArtists);
@@ -73,7 +73,7 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
       setCurrentIndex(currentIndex + 1);
     } else {
       // Last card clicked → view picks filtered by mustSee and interested
-      setPreAppliedPickStatus(["mustSee", "interested"]);
+      applyPreset("myPicks");
       router.push("/explore");
     }
   };

@@ -26,6 +26,9 @@ interface ExploreFiltersProps {
   onScheduleStatusChange?: (scheduleStatus: ScheduleStatusValue[]) => void;
 }
 
+// Fully controlled: every filter value is read directly from props and every change is
+// reported directly via the onXChange callbacks — no local mirror of any of the six
+// values, so there's no sync effect needed and nothing that can go stale for a frame.
 export default function ExploreFilters({
   searchQuery: externalSearchQuery = "",
   selectedGenres: externalGenres = [],
@@ -40,34 +43,9 @@ export default function ExploreFilters({
   onPickStatusChange,
   onScheduleStatusChange,
 }: ExploreFiltersProps) {
-  const [searchQuery, setSearchQuery] = useState(externalSearchQuery);
-  const [selectedGenres, setSelectedGenres] = useState<Genre[]>(externalGenres);
-  const [selectedDay, setSelectedDay] = useState<string>(externalDay);
-  const [selectedStages, setSelectedStages] = useState<Stage[]>(externalStages);
-  const [selectedPickStatus, setSelectedPickStatus] =
-    useState<PickStatusFilterValue[]>(externalPickStatus);
-  const [selectedScheduleStatus, setSelectedScheduleStatus] =
-    useState<ScheduleStatusValue[]>(externalScheduleStatus);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [allButtonPressed, setAllButtonPressed] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Sync local state with external props (for controlled component behavior)
-  useEffect(() => {
-    setSearchQuery(externalSearchQuery);
-    setSelectedGenres(externalGenres);
-    setSelectedDay(externalDay);
-    setSelectedStages(externalStages);
-    setSelectedPickStatus(externalPickStatus);
-    setSelectedScheduleStatus(externalScheduleStatus);
-  }, [
-    externalSearchQuery,
-    externalGenres,
-    externalDay,
-    externalStages,
-    externalPickStatus,
-    externalScheduleStatus,
-  ]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -90,58 +68,46 @@ export default function ExploreFilters({
   const availableStages = getStagesForActiveFestival() as Stage[];
 
   const handleSearchChange = (value: string) => {
-    setSearchQuery(value);
     onSearchChange?.(value);
   };
 
   const handleGenreToggle = (genre: Genre) => {
-    const updated = selectedGenres.includes(genre)
-      ? selectedGenres.filter((g) => g !== genre)
-      : [...selectedGenres, genre];
-    setSelectedGenres(updated);
+    const updated = externalGenres.includes(genre)
+      ? externalGenres.filter((g) => g !== genre)
+      : [...externalGenres, genre];
     onGenresChange?.(updated);
   };
 
   const handleDaySelect = (day: string) => {
-    const updated = selectedDay === day ? "" : day;
-    setSelectedDay(updated);
+    const updated = externalDay === day ? "" : day;
     onDayChange?.(updated);
     setOpenDropdown(null);
   };
 
   const handleStageToggle = (stage: Stage) => {
-    const updated = selectedStages.includes(stage)
-      ? selectedStages.filter((s) => s !== stage)
-      : [...selectedStages, stage];
-    setSelectedStages(updated);
+    const updated = externalStages.includes(stage)
+      ? externalStages.filter((s) => s !== stage)
+      : [...externalStages, stage];
     onStagesChange?.(updated);
   };
 
   const handlePickStatusToggle = (status: PickStatusFilterValue) => {
-    const updated = selectedPickStatus.includes(status)
-      ? selectedPickStatus.filter((s) => s !== status)
-      : [...selectedPickStatus, status];
-    setSelectedPickStatus(updated);
+    const updated = externalPickStatus.includes(status)
+      ? externalPickStatus.filter((s) => s !== status)
+      : [...externalPickStatus, status];
     onPickStatusChange?.(updated);
   };
 
   const handleScheduleStatusToggle = (status: ScheduleStatusValue) => {
-    const updated = selectedScheduleStatus.includes(status)
-      ? selectedScheduleStatus.filter((s) => s !== status)
-      : [...selectedScheduleStatus, status];
-    setSelectedScheduleStatus(updated);
+    const updated = externalScheduleStatus.includes(status)
+      ? externalScheduleStatus.filter((s) => s !== status)
+      : [...externalScheduleStatus, status];
     onScheduleStatusChange?.(updated);
   };
 
   const handleClearAll = () => {
     setAllButtonPressed(true);
     setTimeout(() => setAllButtonPressed(false), 300);
-    setSearchQuery("");
-    setSelectedGenres([]);
-    setSelectedDay("");
-    setSelectedStages([]);
-    setSelectedPickStatus([]);
-    setSelectedScheduleStatus([]);
     onSearchChange?.("");
     onGenresChange?.([]);
     onDayChange?.("");
@@ -178,11 +144,11 @@ export default function ExploreFilters({
         <input
           type="text"
           placeholder="Search artists, genres, or keywords..."
-          value={searchQuery}
+          value={externalSearchQuery}
           onChange={(e) => handleSearchChange(e.target.value)}
           className="w-full bg-[#1B1535] border border-[#2D2556] rounded-xl pl-11 pr-11 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#00E5FF]/30 transition-colors"
         />
-        {searchQuery.trim().length > 0 && (
+        {externalSearchQuery.trim().length > 0 && (
           <button
             onClick={() => {
               handleSearchChange("");
@@ -213,7 +179,7 @@ export default function ExploreFilters({
         <MultiSelectDropdown
           title="Genre"
           options={availableGenres}
-          selected={selectedGenres}
+          selected={externalGenres}
           onToggle={handleGenreToggle}
           isOpen={openDropdown === "Genre"}
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Genre" : null)}
@@ -224,7 +190,7 @@ export default function ExploreFilters({
         <SingleSelectDropdown
           title="Day"
           options={days as any}
-          selected={selectedDay}
+          selected={externalDay}
           onSelect={handleDaySelect}
           isOpen={openDropdown === "Day"}
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Day" : null)}
@@ -234,7 +200,7 @@ export default function ExploreFilters({
         <MultiSelectDropdown
           title="Stage"
           options={availableStages}
-          selected={selectedStages}
+          selected={externalStages}
           onToggle={handleStageToggle}
           isOpen={openDropdown === "Stage"}
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Stage" : null)}
@@ -249,7 +215,7 @@ export default function ExploreFilters({
             "passed" as PickStatusFilterValue,
             "undecided" as PickStatusFilterValue,
           ]}
-          selected={selectedPickStatus}
+          selected={externalPickStatus}
           onToggle={handlePickStatusToggle}
           isOpen={openDropdown === "Pick Status"}
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Pick Status" : null)}
@@ -266,7 +232,7 @@ export default function ExploreFilters({
             "unscheduled" as ScheduleStatusValue,
             "conflicting" as ScheduleStatusValue,
           ]}
-          selected={selectedScheduleStatus}
+          selected={externalScheduleStatus}
           onToggle={handleScheduleStatusToggle}
           isOpen={openDropdown === "Schedule Status"}
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Schedule Status" : null)}

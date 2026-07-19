@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Home, Search, Zap, Calendar, Star, Heart, CircleCheck, AlertCircle } from "lucide-react";
 import { useDecisionStore } from "@/app/store/decisionStore";
-import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
+import { useExploreFilterStore, NAV_PRESETS } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import type { ActiveNavItem } from "@/app/types/navigation";
 
@@ -25,37 +25,12 @@ const NAV_ITEM_BY_LABEL: Record<string, Exclude<ActiveNavItem, "explore">> = {
   Conflicts: "conflicts",
 };
 
-// What each preset implies about the live pickStatus/scheduleStatus facets, and which
-// facet to check it against. Both facets are multi-select, so "valid" means at least one
-// of these values is still present in the live facet — not that the facet exactly equals
-// this set. An added value on top (e.g. Must See + also checking Interested) doesn't
-// invalidate it; only the preset's own value(s) being fully unchecked does.
-const PRESET_FACET_VALUES: Record<
-  Exclude<ActiveNavItem, "explore">,
-  { facet: "pick" | "schedule"; values: string[] }
-> = {
-  myPicks: { facet: "pick", values: ["mustSee", "interested"] },
-  mustSee: { facet: "pick", values: ["mustSee"] },
-  interested: { facet: "pick", values: ["interested"] },
-  scheduled: { facet: "schedule", values: ["scheduled"] },
-  conflicts: { facet: "schedule", values: ["conflicting"] },
-};
-
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { decisionsByArtist } = useDecisionStore();
   const { scheduledArtists, conflictingArtists } = useScheduleStore();
-  const {
-    clearAllPreAppliedFilters,
-    setPreAppliedPickStatus,
-    setPreAppliedScheduleStatus,
-    pickStatus,
-    scheduleStatus,
-    incrementSidebarNavigation,
-    activeNavItem,
-    setActiveNavItem,
-  } = useExploreFilterStore();
+  const { pickStatus, scheduleStatus, activeNavItem, applyPreset, clearFilters } = useExploreFilterStore();
 
   // Derive counts from store
   const mustSeeCount = Object.values(decisionsByArtist).filter(
@@ -118,10 +93,11 @@ export default function Sidebar() {
   }
 
   const handleExploreClick = () => {
-    // Explore link clears all filters (like a sidebar link with no filters of its own)
-    clearAllPreAppliedFilters();
-    setActiveNavItem("explore");
-    incrementSidebarNavigation();
+    // Explore link clears all filters (like a sidebar link with no filters of its own).
+    // clearFilters() sets the store directly and synchronously, before router.push ever
+    // fires — a freshly-mounted ExploreContent reads an already-correct store on its very
+    // first render, so there's nothing stale to reconcile after the fact.
+    clearFilters();
     // Skip navigation if already on /explore — avoids an unnecessary server refetch
     // (new seed, new RSC payload) racing behind the store-driven local state fix
     if (pathname !== "/explore") {
@@ -130,32 +106,9 @@ export default function Sidebar() {
   };
 
   const handleFestivalItemClick = (label: string) => {
-    // Clear all filters first, then apply only the filter owned by this link
-    // This ensures sidebar navigation provides clean, focused preset views
-    clearAllPreAppliedFilters();
-
-    switch (label) {
-      case "My Picks":
-        setPreAppliedPickStatus(["mustSee", "interested"]);
-        break;
-      case "Must See":
-        setPreAppliedPickStatus(["mustSee"]);
-        break;
-      case "Interested":
-        setPreAppliedPickStatus(["interested"]);
-        break;
-      case "Scheduled":
-        setPreAppliedScheduleStatus(["scheduled"]);
-        break;
-      case "Conflicts":
-        setPreAppliedScheduleStatus(["conflicting"]);
-        break;
-    }
-    setActiveNavItem(NAV_ITEM_BY_LABEL[label]);
-
-    // Increment counter to signal that a sidebar navigation happened
-    // This ensures effects re-run even when pre-applied values don't change
-    incrementSidebarNavigation();
+    // applyPreset() resets genres/day/stages and sets pickStatus/scheduleStatus per
+    // NAV_PRESETS in one synchronous call, same reasoning as handleExploreClick above.
+    applyPreset(NAV_ITEM_BY_LABEL[label]);
     // Skip navigation if already on /explore — avoids an unnecessary server refetch
     // (new seed, new RSC payload) racing behind the store-driven local state fix
     if (pathname !== "/explore") {
@@ -225,7 +178,7 @@ export default function Sidebar() {
         <div className="px-3 space-y-0.5">
           {myFestivalItems.map(({ label, count, Icon, color, bg }) => {
             const navKey = NAV_ITEM_BY_LABEL[label];
-            const preset = PRESET_FACET_VALUES[navKey];
+            const preset = NAV_PRESETS[navKey];
             const liveValues: string[] = preset.facet === "pick" ? pickStatus : scheduleStatus;
             // Must also confirm we're still on /explore (activeNavItem alone is stale once the
             // user navigates elsewhere, e.g. Planner) and that the live filters still contain

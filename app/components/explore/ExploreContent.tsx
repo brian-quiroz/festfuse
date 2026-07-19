@@ -18,7 +18,6 @@ import { sortChronologically, sortFestivalFavoritesForFullView } from "@/app/lib
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
-import type { Genre, Stage } from "@/app/data/categories";
 import type { Artist } from "@/app/types/artist";
 
 interface ExploreContentProps {
@@ -30,22 +29,20 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const { decisionsByArtist } = useDecisionStore();
   const { scheduledArtists, conflictingArtists } = useScheduleStore();
   const {
-    preAppliedGenres,
-    preAppliedDay,
-    preAppliedStages,
-    preAppliedPickStatus,
-    preAppliedScheduleStatus,
+    genres: activeGenres,
+    setGenres: setActiveGenres,
+    day: activeDay,
+    setDay: setActiveDay,
+    stages: activeStages,
+    setStages: setActiveStages,
     pickStatus,
     setPickStatus,
     scheduleStatus,
     setScheduleStatus,
-    sidebarNavigationCount,
-    clearAllPreAppliedFilters,
+    activeNavItem,
+    clearFilters,
   } = useExploreFilterStore();
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeGenres, setActiveGenres] = useState<Genre[]>([]);
-  const [activeDay, setActiveDay] = useState<string>("");
-  const [activeStages, setActiveStages] = useState<Stage[]>([]);
   const [viewingCarousel, setViewingCarousel] = useState<string | null>(null);
   const [showSurpriseTooltip, setShowSurpriseTooltip] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
@@ -64,42 +61,25 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     router.push(`/artist/${selectedArtist.slug}`);
   };
 
-  // Applies pre-applied filters from a sidebar navigation, then clears the one-shot signal —
-  // consume-then-clear in a single effect, not six separate ones. Runs on every mount and
-  // every sidebarNavigationCount change, which is correct for all real navigation paths here:
-  // both the Explore link and every My Festival link are documented to clear-then-apply on
-  // arrival (including a fresh cross-page mount), so re-syncing on mount is the intended
-  // behavior, not something to guard against. Deliberately keyed only on sidebarNavigationCount
-  // (not preAppliedX) — clearAllPreAppliedFilters() below nulls preAppliedX but never touches
-  // sidebarNavigationCount, so this can't retrigger itself and wipe what it just applied.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // genres/day/stages/pickStatus/scheduleStatus now live directly in exploreFilterStore and
+  // are always current by the time this component reads them — Sidebar and FestivalStorySequence
+  // set them synchronously before navigating, so there's nothing to reconcile here.
+  //
+  // activeNavItem only changes via clearFilters()/applyPreset() (Sidebar links or Festival
+  // Story's "view your picks"), i.e. exactly the moments a navigation should also leave
+  // carousel detail view and return to the top of the results. useLayoutEffect so a same-page
+  // sidebar click (no remount) can't paint one frame of the old carousel view with newly-
+  // filtered results before snapping back to grid view. On a fresh cross-page mount this
+  // just no-ops harmlessly (already null / already at top).
   useLayoutEffect(() => {
-    // All five must apply before clearAllPreAppliedFilters() runs, in this order — each
-    // reads its own preAppliedX, and clearing first would make every one of them consume null.
-    setActiveGenres(preAppliedGenres || []);
-    setActiveDay(preAppliedDay || "");
-    setActiveStages(preAppliedStages || []);
-    setPickStatus(preAppliedPickStatus || []);
-    setScheduleStatus(preAppliedScheduleStatus || []);
-    // viewingCarousel and scroll position have no store-backed pre-applied equivalent, but a
-    // sidebar/Explore navigation always means "leave carousel detail view, back to top of
-    // results" too — same reasoning as handleSeeAll's explicit scrollTo: this container's
-    // scroll isn't touched by Next's own navigation.
     setViewingCarousel(null);
     mainRef.current?.scrollTo(0, 0);
-    clearAllPreAppliedFilters();
-  }, [sidebarNavigationCount]);
+  }, [activeNavItem]);
 
   // Helper: Reset search/filter state and enter carousel view
   const handleSeeAll = (carouselName: string) => {
-    // Clear any unapplied sidebar filters (defensive: guards against sidebar navigation + See All race)
-    clearAllPreAppliedFilters();
+    clearFilters();
     setSearchQuery("");
-    setActiveGenres([]);
-    setActiveDay("");
-    setActiveStages([]);
-    setPickStatus([]);
-    setScheduleStatus([]);
     setViewingCarousel(carouselName);
     // Scroll to top so user sees the carousel header
     mainRef.current?.scrollTo(0, 0);
@@ -107,14 +87,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
 
   // Helper: Reset search/filter state and return to main explore (symmetric with handleSeeAll)
   const handleBackToExplore = () => {
-    // Clear any unapplied sidebar filters (defensive: guards against sidebar navigation + Back race)
-    clearAllPreAppliedFilters();
+    clearFilters();
     setSearchQuery("");
-    setActiveGenres([]);
-    setActiveDay("");
-    setActiveStages([]);
-    setPickStatus([]);
-    setScheduleStatus([]);
     setViewingCarousel(null);
   };
 

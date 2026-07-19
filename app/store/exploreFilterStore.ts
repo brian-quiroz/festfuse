@@ -6,58 +6,64 @@ import type { PickStatusFilterValue } from "@/app/types/decision";
 import type { ScheduleStatusValue } from "@/app/types/schedule";
 import type { ActiveNavItem } from "@/app/types/navigation";
 
+// Single source of truth for what each My Festival preset means in terms of the live
+// facets below — shared by applyPreset() and by Sidebar's highlight-validation logic,
+// so the two can't drift apart the way they did when Sidebar kept its own copy.
+export const NAV_PRESETS: Record<
+  Exclude<ActiveNavItem, "explore">,
+  { facet: "pick" | "schedule"; values: string[] }
+> = {
+  myPicks: { facet: "pick", values: ["mustSee", "interested"] },
+  mustSee: { facet: "pick", values: ["mustSee"] },
+  interested: { facet: "pick", values: ["interested"] },
+  scheduled: { facet: "schedule", values: ["scheduled"] },
+  conflicts: { facet: "schedule", values: ["conflicting"] },
+};
+
 interface ExploreFilterStore {
-  preAppliedGenres: Genre[] | null;
-  setPreAppliedGenres: (genres: Genre[] | null) => void;
+  // Live filter facets — the single source of truth for what Explore currently shows.
+  // No separate "pre-applied" representation: callers set these directly, synchronously,
+  // before navigating, so there's never a stale value for a freshly-mounted Explore to
+  // paint and no effect is needed to reconcile anything after the fact.
+  genres: Genre[];
+  setGenres: (genres: Genre[]) => void;
 
-  preAppliedDay: string | null;
-  setPreAppliedDay: (day: string | null) => void;
+  day: string;
+  setDay: (day: string) => void;
 
-  preAppliedStages: Stage[] | null;
-  setPreAppliedStages: (stages: Stage[] | null) => void;
+  stages: Stage[];
+  setStages: (stages: Stage[]) => void;
 
-  preAppliedPickStatus: PickStatusFilterValue[] | null;
-  setPreAppliedPickStatus: (status: PickStatusFilterValue[] | null) => void;
-
-  preAppliedScheduleStatus: ScheduleStatusValue[] | null;
-  setPreAppliedScheduleStatus: (status: ScheduleStatusValue[] | null) => void;
-
-  // Live pickStatus/scheduleStatus filter state — distinct from preAppliedPickStatus/
-  // preAppliedScheduleStatus above, which are a one-shot navigation signal consumed once.
-  // These reflect what's actually being shown right now, so Sidebar can validate
-  // activeNavItem against them without needing a separate mirroring mechanism.
   pickStatus: PickStatusFilterValue[];
   setPickStatus: (status: PickStatusFilterValue[]) => void;
 
   scheduleStatus: ScheduleStatusValue[];
   setScheduleStatus: (status: ScheduleStatusValue[]) => void;
 
-  sidebarNavigationCount: number;
-  clearAllPreAppliedFilters: () => void;
-  incrementSidebarNavigation: () => void;
-
   // Tracks which sidebar destination was most recently clicked, so the navbar can
   // highlight the right item even though Explore and all five My Festival links
   // land on the same /explore pathname.
   activeNavItem: ActiveNavItem;
   setActiveNavItem: (item: ActiveNavItem) => void;
+
+  // Atomically apply a My Festival preset: resets genres/day/stages, sets pickStatus/
+  // scheduleStatus per NAV_PRESETS, and sets activeNavItem — one set() call, one render.
+  applyPreset: (preset: Exclude<ActiveNavItem, "explore">) => void;
+
+  // Reset all five facets and return activeNavItem to "explore" — used by the Explore
+  // link itself, and anywhere else that means "show the unfiltered lineup."
+  clearFilters: () => void;
 }
 
 export const useExploreFilterStore = create<ExploreFilterStore>((set) => ({
-  preAppliedGenres: null,
-  setPreAppliedGenres: (genres) => set({ preAppliedGenres: genres }),
+  genres: [],
+  setGenres: (genres) => set({ genres }),
 
-  preAppliedDay: null,
-  setPreAppliedDay: (day) => set({ preAppliedDay: day }),
+  day: "",
+  setDay: (day) => set({ day }),
 
-  preAppliedStages: null,
-  setPreAppliedStages: (stages) => set({ preAppliedStages: stages }),
-
-  preAppliedPickStatus: null,
-  setPreAppliedPickStatus: (status) => set({ preAppliedPickStatus: status }),
-
-  preAppliedScheduleStatus: null,
-  setPreAppliedScheduleStatus: (status) => set({ preAppliedScheduleStatus: status }),
+  stages: [],
+  setStages: (stages) => set({ stages }),
 
   pickStatus: [],
   setPickStatus: (status) => set({ pickStatus: status }),
@@ -65,18 +71,28 @@ export const useExploreFilterStore = create<ExploreFilterStore>((set) => ({
   scheduleStatus: [],
   setScheduleStatus: (status) => set({ scheduleStatus: status }),
 
-  sidebarNavigationCount: 0,
-  clearAllPreAppliedFilters: () =>
-    set({
-      preAppliedGenres: null,
-      preAppliedDay: null,
-      preAppliedStages: null,
-      preAppliedPickStatus: null,
-      preAppliedScheduleStatus: null,
-    }),
-  incrementSidebarNavigation: () =>
-    set((state) => ({ sidebarNavigationCount: state.sidebarNavigationCount + 1 })),
-
   activeNavItem: "explore",
   setActiveNavItem: (item) => set({ activeNavItem: item }),
+
+  applyPreset: (preset) => {
+    const config = NAV_PRESETS[preset];
+    set({
+      genres: [],
+      day: "",
+      stages: [],
+      pickStatus: (config.facet === "pick" ? config.values : []) as PickStatusFilterValue[],
+      scheduleStatus: (config.facet === "schedule" ? config.values : []) as ScheduleStatusValue[],
+      activeNavItem: preset,
+    });
+  },
+
+  clearFilters: () =>
+    set({
+      genres: [],
+      day: "",
+      stages: [],
+      pickStatus: [],
+      scheduleStatus: [],
+      activeNavItem: "explore",
+    }),
 }));
