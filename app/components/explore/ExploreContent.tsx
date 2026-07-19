@@ -348,6 +348,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                     }
                     pickStatus={pickStatus}
                     scheduleStatus={scheduleStatus}
+                    onClearPickStatus={() => setPickStatus([])}
+                    onClearScheduleStatus={() => setScheduleStatus([])}
                     onClearAll={() => {
                       setActiveGenres([]);
                       setActiveDay("");
@@ -471,6 +473,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                     }
                     pickStatus={pickStatus}
                     scheduleStatus={scheduleStatus}
+                    onClearPickStatus={() => setPickStatus([])}
+                    onClearScheduleStatus={() => setScheduleStatus([])}
                     onClearAll={() => {
                       setActiveGenres([]);
                       setActiveDay("");

@@ -206,7 +206,9 @@ export default function ExploreFilters({
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Stage" : null)}
         />
 
-        {/* Pick Status Dropdown (Multi-select, labels mode) */}
+        {/* Pick Status Dropdown (Multi-select, count mode — the active-filter summary bar
+            below shows the actual selected labels, so the trigger itself just shows a count
+            to avoid repeating the same information in two places) */}
         <MultiSelectDropdown
           title="Pick Status"
           options={[
@@ -219,12 +221,12 @@ export default function ExploreFilters({
           onToggle={handlePickStatusToggle}
           isOpen={openDropdown === "Pick Status"}
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Pick Status" : null)}
-          displayMode="labels"
+          displayMode="count"
           displayLabels={PICK_STATUS_FILTER_LABELS}
-          showAllWhenComplete
         />
 
-        {/* Schedule Status Dropdown (Multi-select, labels mode) */}
+        {/* Schedule Status Dropdown (Multi-select, count mode — same reasoning as Pick
+            Status above) */}
         <MultiSelectDropdown
           title="Schedule Status"
           options={[
@@ -236,9 +238,8 @@ export default function ExploreFilters({
           onToggle={handleScheduleStatusToggle}
           isOpen={openDropdown === "Schedule Status"}
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Schedule Status" : null)}
-          displayMode="labels"
+          displayMode="count"
           displayLabels={SCHEDULE_STATUS_LABELS}
-          showAllWhenComplete
         />
       </div>
     </div>
