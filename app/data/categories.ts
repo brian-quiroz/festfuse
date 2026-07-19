@@ -438,6 +438,7 @@ export const GENRE_TO_FAMILY: Record<Genre, GenreFamily> = Object.entries(GENRE_
 // Import Verdict type from app/types/decision and use this map to display verdicts in UI
 
 import type { Verdict, PickStatusFilterValue } from "@/app/types/decision";
+import type { ScheduleStatusValue } from "@/app/types/schedule";
 
 export const VERDICT_LABELS: Record<Verdict, string> = {
   mustSee: "Must See",
@@ -456,7 +457,7 @@ export const PICK_STATUS_FILTER_LABELS: Record<PickStatusFilterValue, string> = 
 
 // SCHEDULE_STATUS_LABELS: Labels for Schedule Status filtering
 // Derived from scheduled artists and conflict detection, purely a filter concept
-export const SCHEDULE_STATUS_LABELS: Record<string, string> = {
+export const SCHEDULE_STATUS_LABELS: Record<ScheduleStatusValue, string> = {
   scheduled: "Scheduled",
   unscheduled: "Unscheduled",
   conflicting: "Conflicting",

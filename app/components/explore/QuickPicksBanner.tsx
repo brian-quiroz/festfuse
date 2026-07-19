@@ -24,12 +24,10 @@ export default function QuickPicksBanner() {
 
         <Link
           href="/quick-picks"
-          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-white text-sm font-bold transition-colors flex-shrink-0"
+          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-white text-sm font-bold transition-all hover:opacity-90 flex-shrink-0"
           style={{
             backgroundColor: COLORS.celebration,
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
         >
           Start Quick Picks
           <ArrowRight size={13} strokeWidth={2.5} />
