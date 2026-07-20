@@ -1,5 +1,5 @@
 // Storage only — do not import this file directly in product code.
-// To filter by day, import allArtists from index.ts and filter by appearance.day === "Friday".
+// To filter by day, import allArtists from index.ts and filter by getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).day === "Friday".
 import type { Artist } from "@/app/types/artist";
 
 const charliXcx: Artist = {
@@ -71,15 +71,18 @@ const charliXcx: Artist = {
   ],
   about:
     "Charli XCX has spent a decade operating at the bleeding edge of pop, writing massive hits for others while building one of the most adventurous solo catalogues in the genre. Her 2024 album 'BRAT' arrived as a cultural watershed—a neon-green, uncompromising collection that defined a global aesthetic and earned universal critical acclaim. Now, with the launch of her highly anticipated 2026 multimedia studio album 'Music, Fashion, Film', she performs like a true vanguard who continues to stay miles ahead of the pop curve.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Headliner",
-    stage: "T-Mobile",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "8:40 PM",
-    endTime: "10:00 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Headliner",
+      stage: "T-Mobile",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "8:40 PM",
+      endTime: "10:00 PM",
+    },
+  ],
 };
 
 const smashingPumpkins: Artist = {
@@ -142,15 +145,18 @@ const smashingPumpkins: Artist = {
   ],
   about:
     "The Smashing Pumpkins are one of the definitive rock bands of the 1990s. Formed in Chicago by Billy Corgan, the band built a sound that combined massively layered, distorted guitars with introspective lyricism and unexpected melodic beauty. Albums like Siamese Dream and Mellon Collie and the Infinite Sadness stand as milestones of alternative rock — dense, ambitious, and emotionally enormous. Their live shows are events: loud, long, and performed with the urgency of musicians who have spent decades earning their stage.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Headliner",
-    stage: "Bud Light",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "8:30 PM",
-    endTime: "10:00 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Headliner",
+      stage: "Bud Light",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "8:30 PM",
+      endTime: "10:00 PM",
+    },
+  ],
 };
 
 const lilUziVert: Artist = {
@@ -222,15 +228,18 @@ const lilUziVert: Artist = {
   ],
   about:
     "Symere Woods, performing under the iconic moniker Lil Uzi Vert, has spent a decade standing at the absolute vanguard of contemporary hip-hop, single-handedly bridging the gap between underground soundcloud rap and global stadium dominance. Characterized by a fierce rock-star aesthetic, rapid-fire flows, and an unyielding trap pulse, they completely re-wrote the rules of the genre with diamond-certified alternative masterpieces. Backed by an extensive catalog of boundary-pushing records, their high-visibility headlining sets are masterfully calculated, maximalist spectacles built to completely detonate festival lawns.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
-    stage: "T-Mobile",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "6:40 PM",
-    endTime: "7:40 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Sub-headliner",
+      stage: "T-Mobile",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "6:40 PM",
+      endTime: "7:40 PM",
+    },
+  ],
 };
 
 const yungblud: Artist = {
@@ -291,15 +300,18 @@ const yungblud: Artist = {
   ],
   about:
     "Dominic Harrison, operating under the moniker YUNGBLUD, has built a fierce global community through his sharp blend of aggressive pop-punk grit, alternative rock rebellion, and deeply honest lyricism. Channeling the raw theatricality of classic subversive rock legends, he crafts a high-tension sonic universe that acts as a powerful rallying cry for youth culture around the world. Backed by tight, seasoned live instrumentation and an uncompromising performance ethos, his late afternoon mainstage set delivers an undeniable, adrenaline-fueled celebration of modern rock velocity.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
-    stage: "Bud Light",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "6:30 PM",
-    endTime: "7:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Sub-headliner",
+      stage: "Bud Light",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "6:30 PM",
+      endTime: "7:30 PM",
+    },
+  ],
 };
 
 const majorLazer: Artist = {
@@ -370,15 +382,18 @@ const majorLazer: Artist = {
   ],
   about:
     "Major Lazer is the legendary, genre-blurring electronic music project led by Diplo alongside Walshy Fire and Ape Drums. Born from a deep reverence for Jamaican dancehall and global bass music, the trio has spent nearly two decades bridging cultures and redefining crossover electronic music with chart-topping mega-hits like 'Lean On'. Following their 2025 full-length album 'GYALGEBRA' and explosive 2026 single drops like 'pAPi wiTH tOKisCha', their live performances remain a chaotic, maximalist spectacle—deploying massive pyrotechnics, elite dancers, and a historic catalog of global dance anthems.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
-    stage: "Perry's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "8:30 PM",
-    endTime: "9:45 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Sub-headliner",
+      stage: "Perry's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "8:30 PM",
+      endTime: "9:45 PM",
+    },
+  ],
 };
 
 const notForRadio: Artist = {
@@ -443,15 +458,18 @@ const notForRadio: Artist = {
   ],
   about:
     "Not for Radio is the solo avant-garde project of María Zardoya, the lead vocalist and songwriter of the Grammy-nominated indie-pop band The Marías. Written in isolation amid the snowy hills of Upstate New York, the project steps completely out of pop comfort zones to craft intimate, tape-warped psychedelic ballads imbued with gothic romanticism. Following her chart-topping 2025 debut album 'Melt' and 2026's 'Bloom' EP, her live festival layout translates raw, close-mic'd emotional vulnerability into a beautifully rich, cinematic live performance.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
-    stage: "Allianz",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "7:40 PM",
-    endTime: "8:40 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Sub-headliner",
+      stage: "Allianz",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "7:40 PM",
+      endTime: "8:40 PM",
+    },
+  ],
 };
 
 const zaraLarsson: Artist = {
@@ -507,15 +525,18 @@ const zaraLarsson: Artist = {
   ],
   about:
     "Zara Larsson is a Stockholm-born global pop powerhouse whose sharp combination of multi-platinum vocal authority, sleek electronic production, and commanding choreography has earned her billions of streams worldwide. Breaking onto international charts as a teenage phenom, she has spent over a decade refining a sound that bridges Scandinavian pop precision with contemporary club-ready R&B grooves. Backed by an exceptionally polished live band and elite dancers, her late afternoon performance provides a high-energy masterclass in pure, unadulterated mainstage pop dominance.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
-    stage: "T-Mobile",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "4:40 PM",
-    endTime: "5:40 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Sub-headliner",
+      stage: "T-Mobile",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "4:40 PM",
+      endTime: "5:40 PM",
+    },
+  ],
 };
 
 const freddieGibbs: Artist = {
@@ -578,15 +599,18 @@ const freddieGibbs: Artist = {
   ],
   about:
     "Freddie Gibbs is a Gary, Indiana-born rapper whose uncompromising independent path and pristine, machine-gun lyrical delivery have established him as an essential vanguard of contemporary hip-hop. Celebrated for his uncanny ability to float effortlessly over complex, avant-garde production landscapes—most notably his classic collaborative records with Madlib and Alchemist—Gibbs writes stark, cinematic street journals with profound precision. Closing down the late-night slot, his live performance is a masterclass in pure, unadulterated mic control and underground authority.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Sub-headliner",
-    stage: "Airbnb",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "9:15 PM",
-    endTime: "10:00 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Sub-headliner",
+      stage: "Airbnb",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "9:15 PM",
+      endTime: "10:00 PM",
+    },
+  ],
 };
 
 const sukiWaterhouse: Artist = {
@@ -645,15 +669,18 @@ const sukiWaterhouse: Artist = {
   ],
   about:
     "Suki Waterhouse is a London-born singer-songwriter and actress whose meticulous combination of hazy 1960s girl-group pop melodies, driving indie rock, and smoky, melancholic storytelling has fostered a deeply passionate global community. Dissecting themes of public scrutiny, intense romance, and transient fame with profound lyrical wit, her Sub Pop-backed records have solidified her as a premier alternative auteur. Moving onto the Allianz stage for a high-profile slot, her live performance elevates raw bedroom vulnerability into an exceptionally stylish, widescreen cinematic diary entry.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Allianz",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "5:40 PM",
-    endTime: "6:40 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Allianz",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "5:40 PM",
+      endTime: "6:40 PM",
+    },
+  ],
 };
 
 const i_dle: Artist = {
@@ -719,15 +746,18 @@ const i_dle: Artist = {
   ],
   about:
     "Formed in Seoul, I-DLE stands out as an exceptional anomaly in the global K-pop landscape, widely celebrated for directly writing, arranging, and producing their own boundary-pushing material led by leader Soyeon. Shattering structural industry norms with multi-platinum conceptual masterpieces like 'TOMBOY' and 'Queencard', the group pairs bold, empowering feminist commentary with genre-fluid alternative textures. Making their highly anticipated debut on the T-Mobile stage, their mid-afternoon performance brings an absolute masterclass in live theatrical command and unbroken pop velocity.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "T-Mobile",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "2:40 PM",
-    endTime: "3:40 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "T-Mobile",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "2:40 PM",
+      endTime: "3:40 PM",
+    },
+  ],
 };
 
 const mustard: Artist = {
@@ -796,15 +826,18 @@ const mustard: Artist = {
   ],
   about:
     "Dijon McFarlane, performing under the iconic moniker Mustard, is a Grammy-winning multi-platinum producer and DJ who completely re-engineered the sonic blueprint of contemporary hip-hop with his signature 'ratchet' sound. Characterized by minimalist, high-tempo club synth loops and crisp, infectious clap-percussion, his production has anchored some of the largest radio hits of the past decade. Coming off a historic run cementing cultural anthems globally, his prime evening performance under the Perry's tent serves as a massive, high-velocity celebration of modern rap history.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Perry's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "7:00 PM",
-    endTime: "8:00 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Perry's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "7:00 PM",
+      endTime: "8:00 PM",
+    },
+  ],
 };
 
 const oklou: Artist = {
@@ -856,15 +889,18 @@ const oklou: Artist = {
   ],
   about:
     "Oklou is the moniker of French producer, singer, and multi-instrumentalist Marylou Mayniel, whose meticulous blend of hazy ambient pop, low-slung alternative R&B, and digital world-building has earned her widespread critical adoration. Originally breaking out of the European avant-garde club networks, she redefined the boundaries of bedroom electronica with her landmark mixtape 'Galore'. Commandingly delicate, her early afternoon live set translates raw, internet-age emotional vulnerability into an exceptionally stylish, widescreen cinematic diary entry.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Airbnb",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "5:30 PM",
-    endTime: "6:15 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Airbnb",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "5:30 PM",
+      endTime: "6:15 PM",
+    },
+  ],
 };
 
 const horsegiirL: Artist = {
@@ -922,15 +958,18 @@ const horsegiirL: Artist = {
   ],
   about:
     "the line-up outlier horsegiirL is the enigmatic, masked Berlin-based producer and DJ who completely re-engineered the contemporary electronic underground landscape with her hyper-stylized brand of Eurodance and happy hardcore. Defying strict club seriousness while maintaining flawless technical mixing skills, she weaponizes addictive vocal hooks and blistering, 160-plus BPM farmyard-themed parodies into genuine global rave anthems. Ready to detonate her evening slot, her live festival layout completely transforms the park into an uncompromising, high-velocity new rave paradise.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Airbnb",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "8:00 PM",
-    endTime: "8:45 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Airbnb",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "8:00 PM",
+      endTime: "8:45 PM",
+    },
+  ],
 };
 
 const theStorySoFar: Artist = {
@@ -992,15 +1031,18 @@ const theStorySoFar: Artist = {
   ],
   about:
     "The Story So Far is the Walnut Creek-born five-piece rock outfit whose hyper-aggressive blend of distorted pop-punk grit and raw, therapeutic lyricism has established them as foundational modern titans of the alternative scene. Writing with the heavy structural weight of classic post-hardcore but injected with exceptional melodic pacing, the band maps an intense sonic universe built around grief and forward momentum. Hot off their widely acclaimed studio return 'I Want to Disappear', their late afternoon performance brings a beautifully raw rock clinic to Grant Park.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Bud Light",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "4:30 PM",
-    endTime: "5:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Bud Light",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "4:30 PM",
+      endTime: "5:30 PM",
+    },
+  ],
 };
 
 const loathe: Artist = {
@@ -1056,15 +1098,18 @@ const loathe: Artist = {
   ],
   about:
     "Loathe is the award-winning Liverpool-born rock quartet whose uncompromising fusion of crushing metalcore architecture, cold industrial noise, and warm, cinematic dream-pop textures has sent massive shockwaves through the global underground. Commonly celebrated at the vanguard of the modern 'Deftones-core' movement, the group pairs raw interpersonal grief with profound, layered sound design. Backed by intense live musicianship and a fierce performance ethos, their early evening set stands as a thrilling masterclass in pure sonic tension.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Tito's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "5:30 PM",
-    endTime: "6:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Tito's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "5:30 PM",
+      endTime: "6:30 PM",
+    },
+  ],
 };
 
 const nettspend: Artist = {
@@ -1117,15 +1162,18 @@ const nettspend: Artist = {
   ],
   about:
     "Nettspend is the Virginia-born teenage rap phenom who rapidly vaulted from Soundcloud isolation into global pop attention, commanding an intensely passionate internet-cult following. Characterized by his unique choice of hazy, loop-heavy underground production and unstructured, stream-of-consciousness flows, he embodies the post-rage aesthetic of modern youth culture. Operating at the raw center of internet hip-hop debates, his early evening live execution completely flips traditional festival pacing for pure, energetic crowd chaos.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Tito's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "7:30 PM",
-    endTime: "8:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Tito's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "7:30 PM",
+      endTime: "8:30 PM",
+    },
+  ],
 };
 
 const sidepiece: Artist = {
@@ -1178,15 +1226,18 @@ const sidepiece: Artist = {
   ],
   about:
     "SIDEPIECE is the Grammy-nominated electronic collaboration of highly respected producers Party Favor and Nitti Gritti, whose meticulous combination of classic house grooves, heavy tech-house rolling basslines, and massive crossover pop appeal has earned them multi-platinum acclaim worldwide. Dominating mainstages globally, the duo has spent over half a decade refining a sound that pairs infectious underground club sensibilities with pristine radio hooks. Backed by a flawless touring setup, their high-velocity afternoon performance provides a definitive dancefloor clinic.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Perry's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "5:45 PM",
-    endTime: "6:45 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Perry's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "5:45 PM",
+      endTime: "6:45 PM",
+    },
+  ],
 };
 
 const skyeNewman: Artist = {
@@ -1231,15 +1282,18 @@ const skyeNewman: Artist = {
   ],
   about:
     "Skye Newman is a New York-born singer-songwriter who built an intensely passionate global community through her hyper-specific, beautifully diaristic brand of contemporary indie pop. Rooted in the emotional intimacy of close-mic'd acoustic infrastructure but elevated by bright, modern pop production, her tracks dissect the anxieties and shifting dynamics of young adulthood with profound precision. Handpicked for a massive global breakout tour cycle, her early mainstage set transforms a sprawling festival lawn into an intimate, shared bedroom listening session.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Allianz",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "3:40 PM",
-    endTime: "4:40 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Allianz",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "3:40 PM",
+      endTime: "4:40 PM",
+    },
+  ],
 };
 
 const notion: Artist = {
@@ -1293,15 +1347,18 @@ const notion: Artist = {
   ],
   about:
     "Notion is the artistic project of Bristol-born DJ and electronic producer who has rapidly solidified his position as one of the modern era's most prolific and essential UK Garage forces. Blending the nostalgic, soulful swing of late-90s garage with the crushing, heavy bassline weight of contemporary underground club culture, his landmark full-length project 'Forwards' earned widespread institutional praise. Behind the decks, Notion delivers a technically flawless, high-tempo masterclass in rhythm manipulation that sets the exact standard for modern club music.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Perry's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "4:15 PM",
-    endTime: "5:15 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Perry's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "4:15 PM",
+      endTime: "5:15 PM",
+    },
+  ],
 };
 
 const roz: Artist = {
@@ -1354,15 +1411,18 @@ const roz: Artist = {
   ],
   about:
     "RØZ is the artistic project of Los Angeles-born producer and DJ whose meticulous blend of moody tech-house infrastructure, deep bass rollers, and high-fashion aesthetics has captured intense dancefloor focus worldwide. Originally breaking out of the Southern California underground rave circuits, she has spent the modern era carving out a lane that values raw analog swing over commercial EDM clichés. Backed by a relentless touring calendar and heavy support from global dance titans, her live performance delivers a beautifully polished, high-velocity lesson in modern club mechanics.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Perry's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "3:00 PM",
-    endTime: "4:00 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Perry's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "3:00 PM",
+      endTime: "4:00 PM",
+    },
+  ],
 };
 
 const baluBrigada: Artist = {
@@ -1414,15 +1474,18 @@ const baluBrigada: Artist = {
   ],
   about:
     "Balu Brigada is the self-described 'groove-pop' project of Auckland-born brothers Henry and Pierre Beasley, whose sharp fusion of classic hip-hop rhythm blocks, vintage synths, and glossy pop hooks has earned them global critical acclaim. Forging an intensely playful sonic universe centered around modern relationship anxieties and transient youth culture, the duo crafts tracks that are simultaneously introspective and entirely danceable. Live, their project strips away traditional indie-pop solemnity, delivering an exceptionally stylish, high-energy clinic in modern pop songwriting.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Bud Light",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "2:30 PM",
-    endTime: "3:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Bud Light",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "2:30 PM",
+      endTime: "3:30 PM",
+    },
+  ],
 };
 
 const lyny: Artist = {
@@ -1477,15 +1540,18 @@ const lyny: Artist = {
   ],
   about:
     "Alec Lyney, operating under the singular moniker LYNY, is a Chicago-born electronic producer and DJ who has rapidly solidified his position as one of the modern bass landscape's most fiercely creative forces. Blending the heavy, rolling low-end infrastructure of classic trap with a remarkably clean, skeletal approach to sound design, his tracks possess an immediate physical weight that bypasses traditional EDM clutter. Backed by institutional praise from the electronic elite, his early afternoon Perry's homecoming set serves as an explosive celebration of underground bass architecture.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Perry's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "1:45 PM",
-    endTime: "2:45 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Perry's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "1:45 PM",
+      endTime: "2:45 PM",
+    },
+  ],
 };
 
 const motherMother: Artist = {
@@ -1547,15 +1613,18 @@ const motherMother: Artist = {
   ],
   about:
     "Mother Mother is the Canadian alternative rock powerhouse led by singer-songwriter Ryan Guldemond alongside Jasmin Parkin and Molly Guldemond, whose meticulous blend of jagged indie rock riffs, pop theatricality, and intricate multi-part harmonies has fostered a massive global community. Originally breaking out of the Pacific Northwest underground before exploding into a multi-billion stream generational phenomenon, the band writes sweeping tales of mortality, alienation, and modern identity. Backed by exceptionally tight live chemistry, their late afternoon performance provides a high-energy masterclass in alternative performance.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Tito's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "3:30 PM",
-    endTime: "4:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Tito's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "3:30 PM",
+      endTime: "4:30 PM",
+    },
+  ],
 };
 
 const juliaWolf: Artist = {
@@ -1602,15 +1671,18 @@ const juliaWolf: Artist = {
   ],
   about:
     "Julia Wolf is a Queens-born, indie alt-pop singer and songwriter who built an intensely passionate global community through her hyper-specific, beautifully blunt brand of hip-hop-infused pop storytelling. Rooted in the emotional intimacy of bedroom pop but elevated by deep, heavy urban rhythm pockets and sharp vocal deliveries, her tracks explore self-reliance and the modern anxieties of youth culture with profound precision. Handpicked for massive global breakout tour blocks, her early afternoon live set transforms a sprawling festival field into an intimate listening experience.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Tito's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "1:45 PM",
-    endTime: "2:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Tito's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "1:45 PM",
+      endTime: "2:30 PM",
+    },
+  ],
 };
 
 const slayyyter: Artist = {
@@ -1680,15 +1752,18 @@ const slayyyter: Artist = {
   ],
   about:
     "Catherine Slater, performing under the iconic moniker Slayyyter, has spent the modern pop era operating at the bleeding edge of the electronic underground, rewriting the blueprints of mainstream pop through an unapologetic independent filter. Seamlessly fusing the glossy, maximalist electronic textures of late-90s Eurodance with hyper-modern internet subversion, her landmark records like 'STARFUCKER' earned widespread critical adoration. Backed by an intensely passionate fanbase, her live performance strips away traditional indie rock solemnity for a world-class masterclass in high-fashion staging and pure pop dominance.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Airbnb",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "6:45 PM",
-    endTime: "7:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Airbnb",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "6:45 PM",
+      endTime: "7:30 PM",
+    },
+  ],
 };
 
 const claireRosinkranz: Artist = {
@@ -1735,15 +1810,18 @@ const claireRosinkranz: Artist = {
   ],
   about:
     "Claire Rosinkranz is a Southern California-born singer, songwriter, and multi-instrumentalist who built an intensely passionate global community through her hyper-vivid, beautifully conversational brand of contemporary alt-pop. Rooted in the emotional intimacy of bedroom pop recordings but elevated by incredibly bright, jazz-infused guitar lines and snappy rhythm structures, her tracks dissect young adulthood with profound precision. Backed by widely acclaimed full-length records like 'Just Because', her early afternoon live set transforms a sprawling festival field into a vibrant outdoor listening party.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Allianz",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "1:40 PM",
-    endTime: "2:40 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Allianz",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "1:40 PM",
+      endTime: "2:40 PM",
+    },
+  ],
 };
 
 const fiftyFourUltra: Artist = {
@@ -1795,15 +1873,18 @@ const fiftyFourUltra: Artist = {
   ],
   about:
     "54 Ultra is the London-born punk powerhouse whose uncompromising fusion of aggressive hardcore instrumentation, abrasive industrial noise layers, and visceral lyrical delivery has earned them critical acclaim from underground purists globally. Defying modern indie-rock templates, the outfit crafts a high-tension sonic universe built entirely around raw confrontation and deeply personal subtext. Coming off a series of widely discussed international support tours, their early afternoon performance stands as a fierce masterclass in pure counter-culture urgency.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Airbnb",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "2:50 PM",
-    endTime: "3:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Airbnb",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "2:50 PM",
+      endTime: "3:30 PM",
+    },
+  ],
 };
 
 const highVis: Artist = {
@@ -1864,15 +1945,18 @@ const highVis: Artist = {
   ],
   about:
     "High Vis is the London-born alternative rock outfit whose hyper-vivid blend of heavy post-punk instrumentation, jangly alternative guitars, and raw working-class narrative poetry has established them as essential vanguards of the global scene. Emerging from the ashes of the UK hardcore punk underground, the band anchors an emotionally massive sonic landscape that addresses trauma, identity, and class solidarity with staggering honesty. Backed by their highly acclaimed studio milestone 'Guided Tour', their early afternoon mainstage performance scales bedroom vulnerability into monumental field anthems.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Bud Light",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "1:00 PM",
-    endTime: "1:45 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Bud Light",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "1:00 PM",
+      endTime: "1:45 PM",
+    },
+  ],
 };
 
 const finnWolfhard: Artist = {
@@ -1915,15 +1999,18 @@ const finnWolfhard: Artist = {
   ],
   about:
     "Finn Wolfhard has spent his modern creative career effortlessly toggling between global screen acclaim and a deeply authentic, grassroots commitment to the alternative indie rock underground. Sourcing structural performance templates from early 90s garage noise and jangly lo-fi guitar pop, he channels an energetic analog snarl through projects like Calpurnia and The Aubreys. Stepping out onto the massive Bud Light stage, his high-noon live arrangement strips away corporate pretense to deliver a thrilling masterclass in pure, raw guitar-driven adrenaline.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Airbnb",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "4:00 PM",
-    endTime: "4:45 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Airbnb",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "4:00 PM",
+      endTime: "4:45 PM",
+    },
+  ],
 };
 
 const avello: Artist = {
@@ -1973,15 +2060,18 @@ const avello: Artist = {
   ],
   about:
     "Avello is the Florida-born electronic producer and DJ whose meticulous combination of earth-shaking dubstep architecture, pristine melodic arrangements, and cinematic vocal layers has earned him massive institutional support across the dance world. Breaking out of the hyper-competitive East Coast bass networks, his engineering balances absolute percussive aggression with deeply emotional melodic hooks. Commandeering an early afternoon slot under the iconic Perry's stage, his performance delivers a technical, strobe-lit blueprint for contemporary bass music.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Perry's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "12:45 PM",
-    endTime: "1:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Perry's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "12:45 PM",
+      endTime: "1:30 PM",
+    },
+  ],
 };
 
 const partyof2: Artist = {
@@ -2020,15 +2110,18 @@ const partyof2: Artist = {
   ],
   about:
     "partyof2 is the vanguard alternative hip-hop project whose sharp combination of glitchy internet loops, crisp West Coast clap percussion, and stream-of-consciousness micro-rap flows has forged a fierce global underground community. Stepping completely out of traditional rap industry templates, the duo crafts a hyper-kinetic sonic landscape that feels simultaneously nostalgic and deeply current. Making an immensely anticipated debut on the mainstage, their high-velocity set completely re-engineers traditional festival pacing for pure energetic crowd chaos.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "T-Mobile",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "12:55 PM",
-    endTime: "1:40 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "T-Mobile",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "12:55 PM",
+      endTime: "1:40 PM",
+    },
+  ],
 };
 
 const theArmyTheNavy: Artist = {
@@ -2075,15 +2168,18 @@ const theArmyTheNavy: Artist = {
   ],
   about:
     "The Army, The Navy is the independent alternative pop project whose meticulous combination of hazy, tape-warped guitar hooks, intimate dual-vocal narratives, and breezy arrangements has fostered a deeply dedicated global community. Dissecting the vulnerabilities of youth, identity, and modern relationship anxieties with profound poetic precision, the outfit crafts tracks that feel remarkably tactile. Performing a highly visibility midday slot on Allianz, their live execution transforms a sprawling festival lawn into an exceptionally comfortable, shared backyard listening party.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Allianz",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "12:10 PM",
-    endTime: "12:55 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Allianz",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "12:10 PM",
+      endTime: "12:55 PM",
+    },
+  ],
 };
 
 const loveSpells: Artist = {
@@ -2130,15 +2226,18 @@ const loveSpells: Artist = {
   ],
   about:
     "Love Spells is the alternative pop venture whose meticulous formula of hazy bedroom recordings, glistening retro-futuristic synths, and earnest, conversational songwriting has cultivated a passionate independent community. Drawing sharp atmospheric blueprints from late-80s new wave and low-slung garage pop, the project bottles up the precise textures of young isolation and late-night infatuation. Live, their configuration strips away traditional rock band noise, layering smooth, driving synthesizers over deep, hypnotic midtempo grooves.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Airbnb",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "1:50 PM",
-    endTime: "2:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Airbnb",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "1:50 PM",
+      endTime: "2:30 PM",
+    },
+  ],
 };
 
 const ellaRed: Artist = {
@@ -2181,15 +2280,18 @@ const ellaRed: Artist = {
   ],
   about:
     "Ella Red is a Texas-born singer and songwriter who built an intensely passionate independent community through her hyper-vivid, beautifully blunt brand of guitar-driven alt-pop. Rooted in the narrative vulnerability of close-mic'd acoustic storytellers but elevated by massive, distortion-heavy indie rock arrangements, her tracks dissect modern relationship breakdowns with profound precision. Operating completely free of major label machinery, her early afternoon live set transforms sprawling festival fields into high-energy, therapeutic guitar singalongs.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "BMI",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "5:40 PM",
-    endTime: "6:20 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "BMI",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "5:40 PM",
+      endTime: "6:20 PM",
+    },
+  ],
 };
 
 const palomaMorphy: Artist = {
@@ -2241,15 +2343,18 @@ const palomaMorphy: Artist = {
   ],
   about:
     "Paloma Morphy is a London-born singer, songwriter, and conceptual auteur whose extraordinary vocal range and tragi-comic cinematic pop anthems have earned her a fierce international cult community. Fusing traditional gothic romance themes with deep, heavy contemporary R&B rhythm sections and sharp string lines, she writes sweeping tales of personal identity and interpersonal grief. Commanding the stage with profound, operatic authority, her early afternoon set stands as an undeniable, spine-chilling showcase of pristine vocal power.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "BMI",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "6:50 PM",
-    endTime: "7:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "BMI",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "6:50 PM",
+      endTime: "7:30 PM",
+    },
+  ],
 };
 
 const dayWeRan: Artist = {
@@ -2296,15 +2401,18 @@ const dayWeRan: Artist = {
   ],
   about:
     "Day We Ran is the Chicago-born alternative rock quartet whose meticulous combination of fuzzed-out garage indie grit, driving rhythms, and emotionally honest lyricism has earned them a reputation as one of the city's most essential live rock vanguards. Writing sweeping tales of industrial midwestern isolation, identity, and personal history, the group relies entirely on raw analog band energy. Coming off a series of highly discussed local support slots, their early afternoon performance brings an absolute guitar clinic to Grant Park.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Airbnb",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "12:50 PM",
-    endTime: "1:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Airbnb",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "12:50 PM",
+      endTime: "1:30 PM",
+    },
+  ],
 };
 
 const ivri: Artist = {
@@ -2355,15 +2463,18 @@ const ivri: Artist = {
   ],
   about:
     "Ivri is a New York-based singer, songwriter, and electronic engineer who built an intensely passionate global community through her hyper-specific, beautifully haunting brand of contemporary alt-pop. Rooted in the emotional intimacy of close-mic'd vocal layers but elevated by deep, heavy industrial electronic rhythm sections and cold synthesizer loops, her tracks dissect modern anxieties with absolute precision. Handpicked for massive global breakout tour blocks, her early afternoon live set transforms a sprawling festival field into an immersive warehouse club experience.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "BMI",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "4:30 PM",
-    endTime: "5:10 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "BMI",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "4:30 PM",
+      endTime: "5:10 PM",
+    },
+  ],
 };
 
 const ellaBoh: Artist = {
@@ -2403,15 +2514,18 @@ const ellaBoh: Artist = {
   ],
   about:
     "Ella Boh is a Los Angeles-based singer-songwriter who built an intensely passionate internet community through her hyper-specific, beautifully conversational brand of contemporary indie pop. Rooted in the emotional intimacy of bedroom pop recordings but elevated by bright, modern pop production, rich chamber strings, and witty lyrical choices, her tracks explore young adulthood with profound precision. Handpicked for an extensive global tour cycle, her early afternoon live execution transforms the tree-lined perimeter of Grant Park into a vibrant outdoor listening party.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "BMI",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "2:10 PM",
-    endTime: "2:50 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "BMI",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "2:10 PM",
+      endTime: "2:50 PM",
+    },
+  ],
 };
 
 const bradeazy: Artist = {
@@ -2454,15 +2568,18 @@ const bradeazy: Artist = {
   ],
   about:
     "Brad Eazy, operating under the singular moniker bradeazy, has rapidly vaulted from viral internet skits into prominent global electronic billing, commanding a fiercely loyal, youth-driven digital community. Shifting his creative focus from online commentary to high-velocity tech-house production, he crafts a hyper-kinetic sonic landscape built entirely around heavy groove loops and nostalgic vocal chops. Ready to ignite his mid-afternoon slot, his live festival layout strips away traditional club pretension for a beautifully unadulterated, celebratory dance party.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Perry's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "12:00 PM",
-    endTime: "12:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Perry's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "12:00 PM",
+      endTime: "12:30 PM",
+    },
+  ],
 };
 
 const emiGrace: Artist = {
@@ -2515,15 +2632,18 @@ const emiGrace: Artist = {
   ],
   about:
     "Emi Grace is a Los Angeles-born singer, songwriter, and multi-instrumentalist who built an intensely passionate global community through her hyper-vivid, beautifully conversational brand of contemporary alt-pop. Rooted in the emotional intimacy of close-mic'd bedroom recordings but elevated by bright, modern pop production and snappy rhythm structures, her tracks dissect young adulthood with profound precision. Handpicked for an extensive global tour cycle, her early afternoon live execution transforms the tree-lined perimeter of Grant Park into a vibrant outdoor listening party.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "BMI",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "3:20 PM",
-    endTime: "4:00 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "BMI",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "3:20 PM",
+      endTime: "4:00 PM",
+    },
+  ],
 };
 
 const beno: Artist = {
@@ -2570,15 +2690,18 @@ const beno: Artist = {
   ],
   about:
     "Beno is the Atlanta-born rap phenom who rapidly vaulted from Soundcloud isolation into global pop attention, commanding an intensely passionate internet-cult following. Characterized by his unique choice of hazy, loop-heavy underground production and unstructured, stream-of-consciousness flows, he embodies the post-rage aesthetic of modern youth culture. Operating at the raw center of internet hip-hop debates, his early afternoon live execution completely flips traditional festival pacing for pure, energetic crowd chaos.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Airbnb",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "12:00 PM",
-    endTime: "12:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Airbnb",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "12:00 PM",
+      endTime: "12:30 PM",
+    },
+  ],
 };
 
 const chicagoMade: Artist = {
@@ -2622,15 +2745,18 @@ const chicagoMade: Artist = {
   ],
   about:
     "Chicago Made is the highly celebrated local artistic collective whose meticulous combination of fuzzed-out garage indie rock grit, crisp hip-hop rhythm pockets, and carefree lyricism has fostered a deeply dedicated regional community. Forging a distinctively laid-back, sun-drenched sonic universe, the showcase profiles a group of rising musicians tracking personal history, identity, and midwestern isolation. Performing a prime midday slot, their live execution transforms the sprawling field of Grant Park into a vibrant outdoor block party.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "Tito's",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "12:15 PM",
-    endTime: "1:00 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Tito's",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "12:15 PM",
+      endTime: "1:00 PM",
+    },
+  ],
 };
 
 const valenciaGrace: Artist = {
@@ -2679,15 +2805,18 @@ const valenciaGrace: Artist = {
   ],
   about:
     "Valencia Grace is a Dorset-born singer-songwriter whose extraordinary vocal range, rich neo-soul arrangements, and tragi-comic cinematic pop anthems have earned her widespread critical adoration. Fusing traditional Motown vocal ornamentation with heavy, contemporary dark-pop instrumentation and sharp piano lines, she writes sweeping tales of resilience, loss, and emotional autonomy. Commanding the stage with profound, operatic authority, her early afternoon set stands as an undeniable showcase of pristine musical power.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "BMI",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "1:00 PM",
-    endTime: "1:40 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "BMI",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "1:00 PM",
+      endTime: "1:40 PM",
+    },
+  ],
 };
 
 const whitneyWhitney: Artist = {
@@ -2726,15 +2855,18 @@ const whitneyWhitney: Artist = {
   ],
   about:
     "Whitney Whitney is a Los Angeles-based singer-songwriter who built an intensely passionate internet community through her hyper-specific, beautifully conversational brand of contemporary indie pop. Rooted in the emotional intimacy of bedroom pop recordings but elevated by bright, modern pop production, rich chamber strings, and witty lyrical choices, her tracks explore young adulthood with profound precision. Handpicked for an extensive global tour cycle, her early afternoon live execution transforms the tree-lined perimeter of Grant Park into a vibrant outdoor listening party.",
-  appearance: {
-    festivalId: "lollapalooza-2026",
-    billingTier: "Undercard",
-    stage: "BMI",
-    day: "Friday",
-    date: "Jul 31",
-    startTime: "12:00 PM",
-    endTime: "12:30 PM",
-  },
+  appearances: [
+    {
+      id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "BMI",
+      day: "Friday",
+      date: "Jul 31",
+      startTime: "12:00 PM",
+      endTime: "12:30 PM",
+    },
+  ],
 };
 
 export const fridayArtists: Artist[] = [

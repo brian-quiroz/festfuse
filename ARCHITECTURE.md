@@ -1088,10 +1088,15 @@ export type Artist = {
 };
 ```
 
-`id` is authored per appearance (convention: `"<slug>-1"`, `"<slug>-2"`) rather than
-derived from array position or from the day/time fields, so correcting an
-appearance's schedule details later never invalidates anything keyed on it. The
-non-empty tuple reflects that every lineup artist has at least one appearance.
+`id` is authored per appearance, scoped to that artist's own `appearances` array —
+just `"1"`, `"2"`, ... — rather than derived from array position or from the day/time
+fields, so correcting an appearance's schedule details later never invalidates
+anything keyed on it. It doesn't repeat the artist's slug: that's already part of the
+composite schedule key (`` `${festivalId}::${slug}::${appearanceId}` ``, see
+"Scheduling" below), so embedding it again here would be redundant — this also keeps
+the shape closer to how a real database table would separate an appearance's own
+primary key from its artist foreign key. The non-empty tuple reflects that every
+lineup artist has at least one appearance.
 
 ### Primary Appearance
 
@@ -1186,6 +1191,22 @@ an artist's data:
 - **Quick Picks** — exactly one card per artist, built from its primary appearance.
 - **Single-appearance regression** — every existing single-appearance artist is
   pixel/behavior-identical everywhere, before and after this change.
+
+---
+
+## Future Consideration: Date/Day Normalization
+
+`FestivalAppearance.day` (a weekday label, e.g. `"Thursday"`) and `.date` (e.g.
+`"Jul 30"`) currently duplicate calendar information authored independently — nothing
+enforces that they agree, so they can theoretically diverge (e.g. a data edit updates
+`date` but not `day`, or vice versa). Conflict detection groups by `` `${festivalId}::${date}` ``
+specifically to avoid the weekday-label ambiguity (see "Multi-Appearance Support →
+Conflict Detection"), but that only works if `date` itself is trustworthy.
+
+When festival data moves to a real database, store `date` as an ISO calendar date
+(`YYYY-MM-DD`) and derive the weekday label from it (using the festival's timezone)
+rather than authoring both independently. Until then, both fields must be kept
+consistent by hand whenever appearance data is added or edited.
 
 ---
 

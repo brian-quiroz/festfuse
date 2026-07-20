@@ -8,6 +8,9 @@ import type {
 } from "@/app/data/categories";
 
 export type FestivalAppearance = {
+  // Stable and independent of array position or the schedule-relevant fields below —
+  // correcting an appearance's day/time later must not invalidate anything keyed on it.
+  id: string;
   festivalId: string;
   billingTier?: BillingTier;
   stage: Stage;
@@ -45,5 +48,6 @@ export type Artist = {
     artworkUrl?: string;
   }>;
   about: string;
-  appearance: FestivalAppearance;
+  // Non-empty — every lineup artist has at least one appearance at the active festival.
+  appearances: [FestivalAppearance, ...FestivalAppearance[]];
 };
