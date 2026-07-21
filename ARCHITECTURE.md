@@ -1210,6 +1210,10 @@ an artist's data:
   the "N sets" chip appears only when that artist has more than one appearance at the
   active festival, and wraps naturally with the other metadata chips on narrow
   screens rather than overlapping them.
+- **Planner accessible names** — multiple appearances for the same artist expose
+  distinct accessible names containing their day, start time, and stage (e.g. "Add
+  Devault — Thursday, 1:45 PM at BMI Stage — to schedule" vs. "Remove Devault —
+  Thursday, 7:30 PM at Tito's Stage — from schedule"), not just the artist's name.
 - **Single-appearance regression** — every existing single-appearance artist is
   pixel/behavior-identical everywhere, before and after this change.
 

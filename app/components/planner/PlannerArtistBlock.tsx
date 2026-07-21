@@ -67,7 +67,7 @@ export default function PlannerArtistBlock({
       className={`absolute inset-x-1 rounded-md border px-2 py-1 overflow-hidden cursor-pointer transition-colors ${stateClasses[colorState]}`}
       style={{ top, height, minHeight: 30 }}
       aria-pressed={isScheduled}
-      aria-label={`${isScheduled ? "Remove" : "Add"} ${artist.name} ${isScheduled ? "from" : "to"} schedule`}
+      aria-label={`${isScheduled ? "Remove" : "Add"} ${artist.name} — ${appearance.day}, ${appearance.startTime} at ${appearance.stage} Stage — ${isScheduled ? "from" : "to"} schedule`}
     >
       <div className="flex items-start justify-between gap-1">
         <p className="text-[11px] font-bold text-white truncate leading-tight">{artist.name}</p>
