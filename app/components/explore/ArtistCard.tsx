@@ -7,6 +7,9 @@ import { COLORS } from "@/app/data/colors";
 import type { Artist } from "@/app/types/artist";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
+import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getPrimaryAppearance, getPrimaryBillingTier, getAppearancesForFestival } from "@/app/lib/appearances";
+import { getArtistScheduleState } from "@/app/lib/schedule";
 
 interface ArtistCardProps {
   artist: Artist;
@@ -21,7 +24,8 @@ export default function ArtistCard({
 }: ArtistCardProps) {
   const router = useRouter();
   const { decisionsByArtist, setDecision } = useDecisionStore();
-  const { scheduledArtists, conflictingArtists, toggleScheduled } = useScheduleStore();
+  const { scheduledAppearanceKeys, conflictingArtistSlugs, toggleAllAppearances } =
+    useScheduleStore();
 
   // Read from store
   const decision = decisionsByArtist[artist.slug];
@@ -31,8 +35,20 @@ export default function ArtistCard({
   const mustSee = verdict === "mustSee";
   const interested = verdict === "interested";
 
-  const isScheduled = scheduledArtists.has(artist.slug);
-  const isConflicting = conflictingArtists.has(artist.slug);
+  // Displays the artist's primary appearance — see app/lib/appearances.ts.
+  const primaryAppearance = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID);
+  const billingTier = getPrimaryBillingTier(artist, ACTIVE_FESTIVAL_ID);
+
+  // Aggregate schedule state across all of this artist's appearances at the active
+  // festival — "full" means every appearance is scheduled, "partial" means some were
+  // scheduled individually via the Planner, "none" means nothing scheduled. See
+  // ARCHITECTURE.md § Multi-Appearance Support.
+  const scheduleState = getArtistScheduleState(artist, ACTIVE_FESTIVAL_ID, scheduledAppearanceKeys);
+  const isScheduled = scheduleState === "full";
+  const isPartiallyScheduled = scheduleState === "partial";
+  const isConflicting = conflictingArtistSlugs.has(artist.slug);
+  const appearanceCount = getAppearancesForFestival(artist, ACTIVE_FESTIVAL_ID).length;
+  const isMultiAppearance = appearanceCount > 1;
 
   const handleMustSee = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -46,12 +62,22 @@ export default function ArtistCard({
 
   const handleScheduleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
-    toggleScheduled(artist.slug);
+    toggleAllAppearances(artist, ACTIVE_FESTIVAL_ID);
   };
 
   const isLarge = size === "large";
   const cardW = responsive ? "w-full" : isLarge ? "w-60" : "w-48";
   const photoH = isLarge ? "h-72" : "h-60";
+
+  const scheduleTitle = isMultiAppearance
+    ? isScheduled
+      ? `Scheduled · ${appearanceCount} sets`
+      : isPartiallyScheduled
+        ? `Complete Schedule · ${appearanceCount} sets`
+        : `Add to Schedule · ${appearanceCount} sets`
+    : isScheduled
+      ? "Remove from schedule"
+      : "Add to schedule";
 
   return (
     <div
@@ -86,7 +112,7 @@ export default function ArtistCard({
         </div>
 
         {/* Headliner badge — bottom-right, balances action icons on the left */}
-        {artist.appearance.billingTier === "Headliner" && (
+        {billingTier === "Headliner" && (
           <div className="absolute bottom-3 right-3">
             <span
               className="px-2 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase border"
@@ -130,9 +156,11 @@ export default function ArtistCard({
             className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
               isScheduled
                 ? "bg-[#00E5FF] border-[#00E5FF] text-[#110D24]"
-                : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
+                : isPartiallyScheduled
+                  ? "bg-[#00E5FF]/25 border-[#00E5FF]/60 text-[#00E5FF]"
+                  : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
             }`}
-            title={isScheduled ? "Remove from schedule" : "Add to schedule"}
+            title={scheduleTitle}
           >
             <Calendar size={11} strokeWidth={2} />
           </button>
@@ -144,10 +172,20 @@ export default function ArtistCard({
         <div className="font-bold text-white text-sm leading-tight truncate">{artist.name}</div>
         <div className="text-[12px] text-[#00E5FF] mt-1 truncate">{artist.genres[0]}</div>
         <div className="text-[11px] text-[#00E5FF]/60 mt-0.5">
-          {artist.appearance.day} · {artist.appearance.startTime}
+          {primaryAppearance.day} · {primaryAppearance.startTime}
         </div>
-        <div className="text-[11px] text-white/30 mt-0.5 truncate">
-          {artist.appearance.stage} Stage
+        <div className="flex items-center justify-between gap-1.5 mt-0.5">
+          <span className="text-[11px] text-white/30 truncate min-w-0">{primaryAppearance.stage} Stage</span>
+          {/* "N sets" — plain metadata text (not a pill), informational and noninteractive,
+              in the dark-card info area (reliable contrast, unlike the photo overlay).
+              Muted cyan, dimmer than the day/time line, so it's discoverable without
+              competing with the artist name or Schedule action. Distinct from the
+              Headliner badge above, which is billing status, not schedule metadata. */}
+          {isMultiAppearance && (
+            <span className="flex-shrink-0 text-[11px] text-[#00E5FF]/45">
+              {appearanceCount} sets
+            </span>
+          )}
         </div>
       </div>
     </div>

@@ -1703,7 +1703,7 @@ const devault: Artist = {
   slug: "devault",
   imageUrl: "/artists/heroes/devault.jpg",
   genres: ["Industrial House", "Dark Techno", "Electronic"],
-  location: { city: "Orange County", state: "California", country: "United States" },
+  location: { city: "Laguna Beach", state: "California", country: "United States" },
   tagline: "Dark, cinematic industrial techno that turns early evenings into warehouse raves.",
   socials: { spotify: "https://open.spotify.com/artist/1VBAKMui4zm5MnBWNn3NbL" },
   whySee: [
@@ -1742,6 +1742,16 @@ const devault: Artist = {
   appearances: [
     {
       id: "1",
+      festivalId: "lollapalooza-2026",
+      billingTier: "Undercard",
+      stage: "Perry's",
+      day: "Thursday",
+      date: "Jul 30",
+      startTime: "1:45 PM",
+      endTime: "2:45 PM",
+    },
+    {
+      id: "2",
       festivalId: "lollapalooza-2026",
       billingTier: "Undercard",
       stage: "Tito's",

@@ -10,6 +10,8 @@ import {
   LYRICAL_TAGS,
 } from "@/app/data/categories";
 import type { GenreFamily } from "@/app/data/categories";
+import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getPrimaryAppearance, getPrimaryBillingTier } from "@/app/lib/appearances";
 
 export interface StorySignal {
   type: string;
@@ -95,15 +97,16 @@ export function useStorySignals(
     });
 
     // ===== SIGNAL 3: Headliner/Sub-headliner vs. Undercard =====
-    const headlinerCount = pickedArtists.filter(
-      (a) =>
-        a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
-    ).length;
+    // Uses each artist's primary appearance/billing tier — see app/lib/appearances.ts.
+    const headlinerCount = pickedArtists.filter((a) => {
+      const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
+      return tier === "Headliner" || tier === "Sub-headliner";
+    }).length;
     const userHeadlinerRate = (headlinerCount / pickedArtists.length) * 100;
-    const lineupHeadlinerCount = allArtists.filter(
-      (a) =>
-        a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
-    ).length;
+    const lineupHeadlinerCount = allArtists.filter((a) => {
+      const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
+      return tier === "Headliner" || tier === "Sub-headliner";
+    }).length;
     const lineupHeadlinerRate = (lineupHeadlinerCount / allArtists.length) * 100;
     const headlinerDeviation = Math.abs(userHeadlinerRate - lineupHeadlinerRate);
 
@@ -243,7 +246,8 @@ export function useStorySignals(
     // Computed as sum of P(hit stage i) = 1 - ((total - count_on_stage_i) / total)^picks
     const stageCounts: Record<string, number> = {};
     allArtists.forEach((a) => {
-      stageCounts[a.appearance.stage] = (stageCounts[a.appearance.stage] || 0) + 1;
+      const stage = getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage;
+      stageCounts[stage] = (stageCounts[stage] || 0) + 1;
     });
     const lineupStageCount = Object.keys(stageCounts).length;
     const totalArtists = allArtists.length;
@@ -254,7 +258,9 @@ export function useStorySignals(
       expectedStageCount += 1 - pMiss;
     });
 
-    const pickedStages = new Set(pickedArtists.map((a) => a.appearance.stage));
+    const pickedStages = new Set(
+      pickedArtists.map((a) => getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage)
+    );
     const userStageCount = pickedStages.size;
     const userStageRate = (userStageCount / lineupStageCount) * 100;
     const expectedStageRate = (expectedStageCount / lineupStageCount) * 100;

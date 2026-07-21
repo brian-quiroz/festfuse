@@ -760,7 +760,7 @@ function getConflictingArtists(
 
 - Group by `(festivalId, date)` first, then compare pairwise within each group (reduces comparisons vs. checking all pairs unconditionally, and prevents cross-festival/cross-date false positives from a shared `day` label)
 - Pairwise comparison prevents false positives (Appearance A conflicts with B, B with C, but A and C don't overlap). The same artist's two scheduled appearances overlapping each other is correctly caught as a real conflict, not special-cased away.
-- Artist data stores times as `"H:MM AM/PM"` (e.g. `"12:00 PM"`), not 24-hour `"HH:MM"`. `timeStringToMinutes()` (`app/lib/schedule.ts`) parses this format explicitly and is the single shared helper — `sort.ts`'s chronological sorts and the Planner grid's block positioning both import it rather than re-parsing times themselves.
+- Artist data stores times as `"H:MM AM/PM"` (e.g. `"12:00 PM"`), not 24-hour `"HH:MM"`. `timeStringToMinutes()` (`app/lib/time.ts`) parses this format explicitly and is the single shared helper, kept in a neutral module with no dependencies of its own so it can't create an import cycle between `app/lib/schedule.ts` and `app/lib/appearances.ts` (the latter depends on it for primary-appearance selection, the former depends on the latter for festival-scoped appearance lookups). `app/lib/schedule.ts` (conflict detection), `app/lib/sort.ts` (chronological sorts), `app/lib/appearances.ts` (primary-appearance selection), and `app/lib/planner.ts`/`PlannerGrid.tsx` (Planner grid positioning) all import it from there rather than re-parsing times themselves.
 - Every lookup is forward-constructed (real appearance → key → `Set.has()`) — nothing iterates `scheduledAppearanceKeys` and tries to parse an entry, so a stale or unrecognized key is simply never matched, never an error.
 - No caching — computed fresh when needed; the data set is small enough that computation cost is negligible
 
@@ -803,9 +803,15 @@ function getConflictingArtists(
     "partial" identically to "none," which reads as data loss to a user who scheduled
     one of several appearances via the Planner
   - Shows tooltip on hover reflecting the current state
-  - **Multi-appearance artists get a small always-visible "N sets" pill**, styled like
-    the existing Headliner badge — not hover-only, since touch devices have no hover
-    state. Purely informational: never both set times, never a second control.
+  - **Multi-appearance artists get a small always-visible "N sets" disclosure**, as
+    plain metadata text (not a pill) in the info area below the photo, beside the
+    stage line — not the photo overlay, where contrast against the photograph isn't
+    reliable, and not styled like the Headliner badge, which is billing/artist status
+    rather than schedule metadata and keeps its own existing overlay position. Normal
+    casing, muted cyan dimmer than the day/time line, so it's discoverable without
+    competing with the artist name or Schedule action. Not hover-only, since touch
+    devices have no hover state. Purely informational: never both set times, never a
+    second control.
 
 - **Conflict highlight** (red border/highlight only if conflicting)
   - Shown if any of the artist's appearance keys is in the conflict set returned by
@@ -1036,7 +1042,7 @@ User actions
 Reactive computations
 ├── Sidebar counts: read from decisionStore + scheduleStore (Scheduled/Conflicts counts are artist counts, computed by mapping over allArtists)
 ├── Conflict set: computed via getConflictingArtists(scheduledAppearanceKeys, allArtists)
-├── Explore cards: show three-state Schedule toggle (none/partial/full) + "N sets" pill for multi-appearance artists, conflict highlight (if applicable)
+├── Explore cards: show three-state Schedule toggle (none/partial/full) + "N sets" metadata text for multi-appearance artists, conflict highlight (if applicable)
 └── Planner grid: render each appearance as its own block with independent scheduled/conflicting styling
 ```
 
@@ -1134,14 +1140,23 @@ Summary of what changed and why:
   Planner, never per-appearance. Three visual states (inactive / subtle indeterminate
   / fully active) matching the three schedule states — "partial" only becomes
   reachable when some of an artist's appearances were scheduled individually via the
-  Planner. Multi-appearance artists additionally get a small always-visible disclosure
-  (styled like the existing Headliner badge, not a hover tooltip — touch devices have
-  no hover state), purely informational, never both set times, never a second
-  control — but the copy differs by surface:
-  - `ArtistCard` (Explore): a standalone pill, just **"N sets"**.
+  Planner. Multi-appearance artists additionally get a small always-visible
+  disclosure (not a hover tooltip — touch devices have no hover state), purely
+  informational, never both set times, never a second control — but placement and
+  copy differ by surface:
+  - `ArtistCard` (Explore): plain metadata text, **"N sets"**, in the info area below
+    the photo beside the stage line — not the photo overlay, and not styled like the
+    Headliner badge (billing status, a different kind of fact, keeps its own overlay
+    position).
   - `ArtistActions` (Artist Detail): the button's own visible text communicates state
     *and* count together — **"Add to Schedule · 2 sets"** (none), **"Complete
     Schedule · 2 sets"** (partial), **"Scheduled · 2 sets"** (full).
+  - `DecisionScreen` (Quick Picks): a chip immediately after the date/time chip,
+    styled identically to the other neutral metadata chips (translucent background,
+    subtle white border, muted white text, no icon) — deliberately *not* emphasized,
+    since it's a minor fact rather than a decision input, and must not read as an
+    interactive or recurring-event control. Quick Picks still decides on the primary
+    appearance alone; the secondary appearance's own time/stage never appears here.
 - **Planner** is the only place appearances render and toggle independently — each
   appearance is its own block at its own real time/stage, keyed by its appearance key.
 
@@ -1183,12 +1198,18 @@ an artist's data:
   festivals/dates sharing a `day` label never falsely conflict.
 - **Sidebar counts** — "Scheduled"/"Conflicts" reflect artist counts, matching the
   number of cards Explore actually shows when that filter is applied.
-- **"N sets" disclosure** — for a multi-appearance artist, the pill appears on
-  `ArtistCard` ("N sets") and the equivalent state+count text appears on
-  `ArtistActions` ("Add to Schedule · N sets" / "Complete Schedule · N sets" /
-  "Scheduled · N sets"), on both surfaces, without ever displaying both appearance
-  times or adding an individual per-appearance control outside the Planner.
-- **Quick Picks** — exactly one card per artist, built from its primary appearance.
+- **"N sets" disclosure** — for a multi-appearance artist: `ArtistCard` shows plain
+  "N sets" metadata text below the photo beside the stage line (not on the photo,
+  not styled as a pill); `ArtistActions` shows the equivalent state+count text
+  ("Add to Schedule · N sets" / "Complete Schedule · N sets" / "Scheduled · N sets");
+  `DecisionScreen` (Quick Picks) shows a neutral-styled chip immediately after the
+  date/time chip. None of the three ever displays both appearance times, the
+  secondary appearance's own time/stage, or an individual per-appearance control
+  outside the Planner.
+- **Quick Picks** — exactly one card per artist, built from its primary appearance;
+  the "N sets" chip appears only when that artist has more than one appearance at the
+  active festival, and wraps naturally with the other metadata chips on narrow
+  screens rather than overlapping them.
 - **Single-appearance regression** — every existing single-appearance artist is
   pixel/behavior-identical everywhere, before and after this change.
 

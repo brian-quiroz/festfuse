@@ -1,4 +1,6 @@
 import type { Artist } from "@/app/types/artist";
+import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getPrimaryBillingTier } from "@/app/lib/appearances";
 
 /**
  * Fisher-Yates shuffle for deterministic randomness within Quick Picks session.
@@ -37,12 +39,17 @@ function shuffleArray<T>(arr: T[]): T[] {
 export function interleaveByTierWithinDay(artists: Artist[]): Artist[] {
   if (artists.length === 0) return [];
 
-  // Separate by tier
-  const headliners = artists.filter((a) => a.appearance.billingTier === "Headliner");
-  const subHeadliners = artists.filter((a) => a.appearance.billingTier === "Sub-headliner");
-  const undercard = artists.filter(
-    (a) => a.appearance.billingTier !== "Headliner" && a.appearance.billingTier !== "Sub-headliner"
+  // Separate by tier (using each artist's primary appearance — see app/lib/appearances.ts)
+  const headliners = artists.filter(
+    (a) => getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID) === "Headliner"
   );
+  const subHeadliners = artists.filter(
+    (a) => getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID) === "Sub-headliner"
+  );
+  const undercard = artists.filter((a) => {
+    const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
+    return tier !== "Headliner" && tier !== "Sub-headliner";
+  });
 
   // Shuffle within each tier to break clustering and file-order bias
   const shuffledHeadliners = shuffleArray(headliners);

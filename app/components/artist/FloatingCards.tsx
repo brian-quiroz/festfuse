@@ -4,7 +4,8 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { MapPin, Users, Pencil } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
-import { festivals } from "@/app/data/festivals";
+import { festivals, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getPrimaryAppearance } from "@/app/lib/appearances";
 import ArtistAvatar from "@/app/components/ui/ArtistAvatar";
 
 export default function FloatingCards({ artist }: { artist: Artist }) {
@@ -26,7 +27,11 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
     }, 800);
   }
 
-  const { appearance } = artist;
+  // Displays the artist's primary appearance — see app/lib/appearances.ts. For a
+  // multi-appearance artist, the aggregate Schedule control and its "N sets" disclosure
+  // live in ArtistActions (rendered elsewhere on this page, inside ArtistHero) — this
+  // card only ever shows one appearance's day/time/stage, never both.
+  const appearance = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID);
 
   return (
     <div className="space-y-4">

@@ -5,6 +5,8 @@
 
 import type { Artist } from "@/app/types/artist";
 import type { ArtistDecision } from "@/app/store/decisionStore";
+import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getPrimaryAppearance, getPrimaryBillingTier } from "@/app/lib/appearances";
 
 interface SignalResult {
   name: string;
@@ -228,12 +230,12 @@ export function runOptionBAllScenarios(allArtists: Artist[]) {
     {
       const headlinerCount = pickedArtists.filter(
         (a) =>
-          a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+          getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID) === "Headliner" || getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID) === "Sub-headliner"
       ).length;
       const userHeadlinerRate = (headlinerCount / pickedArtists.length) * 100;
       const lineupHeadlinerCount = allArtists.filter(
         (a) =>
-          a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+          getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID) === "Headliner" || getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID) === "Sub-headliner"
       ).length;
       const lineupHeadlinerRate = (lineupHeadlinerCount / allArtists.length) * 100;
       signals.push({
@@ -378,7 +380,7 @@ export function runOptionBAllScenarios(allArtists: Artist[]) {
     {
       const stageCounts: Record<string, number> = {};
       allArtists.forEach((a) => {
-        stageCounts[a.appearance.stage] = (stageCounts[a.appearance.stage] || 0) + 1;
+        stageCounts[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage] = (stageCounts[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage] || 0) + 1;
       });
       const lineupStageCount = Object.keys(stageCounts).length;
       let expectedStageCount = 0;
@@ -386,7 +388,7 @@ export function runOptionBAllScenarios(allArtists: Artist[]) {
         const pMiss = Math.pow((totalArtists - count) / totalArtists, pickedArtists.length);
         expectedStageCount += 1 - pMiss;
       });
-      const pickedStages = new Set(pickedArtists.map((a) => a.appearance.stage));
+      const pickedStages = new Set(pickedArtists.map((a) => getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage));
       const userStageCount = pickedStages.size;
       const userStageRate = (userStageCount / lineupStageCount) * 100;
       const expectedStageRate = (expectedStageCount / lineupStageCount) * 100;
@@ -459,10 +461,10 @@ export function runOptionBAllScenarios(allArtists: Artist[]) {
 
     const stageCounts: Record<string, Artist[]> = {};
     allArtists.forEach((a) => {
-      if (!stageCounts[a.appearance.stage]) {
-        stageCounts[a.appearance.stage] = [];
+      if (!stageCounts[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage]) {
+        stageCounts[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage] = [];
       }
-      stageCounts[a.appearance.stage].push(a);
+      stageCounts[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage].push(a);
     });
     const stagesByCount = Object.entries(stageCounts).sort((a, b) => b[1].length - a[1].length);
     const pickedArtists = stagesByCount[0][1].slice(0, 15);
@@ -531,9 +533,9 @@ export function runOptionBAllScenarios(allArtists: Artist[]) {
     const usedStages = new Set<string>();
     for (const artist of allArtists) {
       if (pickedArtists.length >= 15) break;
-      if (!usedStages.has(artist.appearance.stage)) {
+      if (!usedStages.has(getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).stage)) {
         pickedArtists.push(artist);
-        usedStages.add(artist.appearance.stage);
+        usedStages.add(getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).stage);
       }
     }
     for (const artist of allArtists) {

@@ -1,5 +1,5 @@
-import type { Artist } from "@/app/types/artist";
-import { timeStringToMinutes } from "@/app/lib/schedule";
+import type { AppearanceEntry } from "@/app/lib/schedule";
+import { timeStringToMinutes } from "@/app/lib/time";
 
 // Pixels per minute of festival time — determines how tall the grid is and how much
 // vertical room each artist block gets relative to its set duration.
@@ -15,16 +15,16 @@ export interface PlannerHourRange {
  * lineup rather than a fixed festival-wide window — floored/ceiled to whole hours
  * so gridlines land on clean hour boundaries.
  */
-export function getPlannerHourRange(dayArtists: Artist[]): PlannerHourRange {
-  if (dayArtists.length === 0) {
+export function getPlannerHourRange(dayEntries: AppearanceEntry[]): PlannerHourRange {
+  if (dayEntries.length === 0) {
     return { startHour: 12, endHour: 24 };
   }
 
   let minMinutes = Infinity;
   let maxMinutes = -Infinity;
-  for (const artist of dayArtists) {
-    const start = timeStringToMinutes(artist.appearance.startTime);
-    const end = timeStringToMinutes(artist.appearance.endTime);
+  for (const entry of dayEntries) {
+    const start = timeStringToMinutes(entry.appearance.startTime);
+    const end = timeStringToMinutes(entry.appearance.endTime);
     if (start < minMinutes) minMinutes = start;
     if (end > maxMinutes) maxMinutes = end;
   }

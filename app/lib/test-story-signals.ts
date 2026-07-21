@@ -6,6 +6,8 @@
 
 import type { Artist } from "@/app/types/artist";
 import type { ArtistDecision } from "@/app/store/decisionStore";
+import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getPrimaryAppearance, getPrimaryBillingTier } from "@/app/lib/appearances";
 
 // Mock computation (mirrors useStorySignals logic)
 export function computeStorySignalsTestable(
@@ -60,24 +62,24 @@ export function computeStorySignalsTestable(
 
   // Headliner
   const headlinerCount = pickedArtists.filter(
-    (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+    (a) => getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID) === "Headliner" || getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID) === "Sub-headliner"
   ).length;
   const userHeadlinerRate = (headlinerCount / pickedArtists.length) * 100;
   const lineupHeadlinerCount = allArtists.filter(
-    (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
+    (a) => getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID) === "Headliner" || getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID) === "Sub-headliner"
   ).length;
   const lineupHeadlinerRate = (lineupHeadlinerCount / allArtists.length) * 100;
   const headlinerDeviation = Math.abs(userHeadlinerRate - lineupHeadlinerRate);
 
   // Time of Day
   const eveningCount = pickedArtists.filter((a) => {
-    const startTime = a.appearance.startTime;
+    const startTime = getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).startTime;
     const hour = parseInt(startTime.split(":")[0], 10);
     return hour >= 16;
   }).length;
   const userEveningRate = (eveningCount / pickedArtists.length) * 100;
   const lineupEveningCount = allArtists.filter((a) => {
-    const startTime = a.appearance.startTime;
+    const startTime = getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).startTime;
     const hour = parseInt(startTime.split(":")[0], 10);
     return hour >= 16;
   }).length;

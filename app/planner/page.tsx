@@ -4,10 +4,15 @@ import { useMemo, useState } from "react";
 import Sidebar from "@/app/components/Sidebar";
 import PlannerGrid from "@/app/components/planner/PlannerGrid";
 import { allArtists } from "@/app/data/artists";
-import { getDaysForActiveFestival } from "@/app/data/festivals";
+import { getDaysForActiveFestival, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
-import { getConflictingArtists } from "@/app/lib/schedule";
+import { getAllAppearanceEntries, getAppearanceKey } from "@/app/lib/schedule";
+
+// Computed once at module scope — allArtists never changes at runtime, same as
+// allArtists/artistsBySlug themselves being plain module-level constants. Scoped to
+// the active festival — the Planner only ever renders one festival's grid at a time.
+const allAppearanceEntries = getAllAppearanceEntries(allArtists, ACTIVE_FESTIVAL_ID);
 
 export default function PlannerPage() {
   const days = getDaysForActiveFestival();
@@ -16,12 +21,10 @@ export default function PlannerPage() {
   const [showScheduled, setShowScheduled] = useState(false);
 
   const { decisionsByArtist } = useDecisionStore();
-  const { scheduledArtists, toggleScheduled } = useScheduleStore();
-
-  const conflictingArtists = useMemo(
-    () => getConflictingArtists(scheduledArtists, allArtists),
-    [scheduledArtists]
-  );
+  // scheduledAppearanceKeys/conflictingAppearanceKeys are computed once in the store
+  // itself (see scheduleStore.ts) — read directly rather than recomputed here.
+  const { scheduledAppearanceKeys, conflictingAppearanceKeys, toggleScheduled } =
+    useScheduleStore();
 
   const myPickSlugs = useMemo(() => {
     const slugs = new Set<string>();
@@ -33,22 +36,33 @@ export default function PlannerPage() {
     return slugs;
   }, [decisionsByArtist]);
 
-  const dayArtists = useMemo(
-    () => allArtists.filter((a) => a.appearance.day === activeDay),
+  // The Planner is the only place appearances render individually — an artist with a
+  // Thursday and a Friday appearance shows up on both day tabs, each showing only that
+  // day's block. See ARCHITECTURE.md § Multi-Appearance Support.
+  const dayEntries = useMemo(
+    () => allAppearanceEntries.filter((e) => e.appearance.day === activeDay),
     [activeDay]
   );
 
-  // Toggles combine with AND logic; conflicting artists stay visible regardless,
+  // Toggles combine with AND logic; conflicting appearances stay visible regardless,
   // since hiding a conflict behind a filter would defeat the point of surfacing it.
-  const visibleArtists = useMemo(() => {
-    if (!showMyPicks && !showScheduled) return dayArtists;
-    return dayArtists.filter((a) => {
-      if (conflictingArtists.has(a.slug)) return true;
-      const matchesMyPicks = !showMyPicks || myPickSlugs.has(a.slug);
-      const matchesScheduled = !showScheduled || scheduledArtists.has(a.slug);
+  const visibleEntries = useMemo(() => {
+    if (!showMyPicks && !showScheduled) return dayEntries;
+    return dayEntries.filter((entry) => {
+      const key = getAppearanceKey(entry.artist, entry.appearance);
+      if (conflictingAppearanceKeys.has(key)) return true;
+      const matchesMyPicks = !showMyPicks || myPickSlugs.has(entry.artist.slug);
+      const matchesScheduled = !showScheduled || scheduledAppearanceKeys.has(key);
       return matchesMyPicks && matchesScheduled;
     });
-  }, [dayArtists, showMyPicks, showScheduled, myPickSlugs, scheduledArtists, conflictingArtists]);
+  }, [
+    dayEntries,
+    showMyPicks,
+    showScheduled,
+    myPickSlugs,
+    scheduledAppearanceKeys,
+    conflictingAppearanceKeys,
+  ]);
 
   return (
     <div className="flex h-full">
@@ -103,10 +117,10 @@ export default function PlannerPage() {
 
         {/* Grid */}
         <PlannerGrid
-          allDayArtists={dayArtists}
-          visibleArtists={visibleArtists}
-          scheduledArtists={scheduledArtists}
-          conflictingArtists={conflictingArtists}
+          allDayEntries={dayEntries}
+          visibleEntries={visibleEntries}
+          scheduledAppearanceKeys={scheduledAppearanceKeys}
+          conflictingAppearanceKeys={conflictingAppearanceKeys}
           myPickSlugs={myPickSlugs}
           showMyPicks={showMyPicks}
           onToggleScheduled={toggleScheduled}

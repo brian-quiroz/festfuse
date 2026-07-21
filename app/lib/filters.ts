@@ -2,6 +2,8 @@ import type { Artist } from "@/app/types/artist";
 import type { Genre, Stage } from "@/app/data/categories";
 import type { Verdict, PickStatusFilterValue } from "@/app/types/decision";
 import type { ScheduleStatusValue } from "@/app/types/schedule";
+import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getPrimaryAppearance } from "@/app/lib/appearances";
 
 /**
  * Apply genre, day, stage, pick status, and schedule status filters to an artist array.
@@ -16,13 +18,23 @@ export function filterArtists(
     stages?: Stage[];
     verdicts?: PickStatusFilterValue[];
     scheduleStatus?: ScheduleStatusValue[];
-    scheduledArtists?: Set<string>;
-    conflictingArtists?: Set<string>;
+    // Artist-slug-keyed, precomputed by scheduleStore.ts — not the raw appearance-keyed
+    // Sets (those are Planner-only). See app/lib/schedule.ts's getScheduledArtistSlugs/
+    // getConflictingArtistSlugs.
+    scheduledArtistSlugs?: Set<string>;
+    conflictingArtistSlugs?: Set<string>;
   },
   decisionsByArtist?: Record<string, { verdict: Verdict }>
 ): Artist[] {
-  const { genres, day, stages, verdicts, scheduleStatus, scheduledArtists, conflictingArtists } =
-    options;
+  const {
+    genres,
+    day,
+    stages,
+    verdicts,
+    scheduleStatus,
+    scheduledArtistSlugs,
+    conflictingArtistSlugs,
+  } = options;
 
   return artists.filter((artist) => {
     // Genre filter: artist must have at least one of the selected genres
@@ -32,16 +44,21 @@ export function filterArtists(
       }
     }
 
+    // Day/Stage filters consider only the artist's primary appearance — see
+    // app/lib/appearances.ts. A secondary appearance never causes an artist to match
+    // a filter the rest of the UI isn't otherwise showing.
+    const primaryAppearance = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID);
+
     // Day filter: artist must perform on the selected day
     if (day) {
-      if (artist.appearance.day !== day) {
+      if (primaryAppearance.day !== day) {
         return false;
       }
     }
 
     // Stage filter: artist must perform on one of the selected stages
     if (stages && stages.length > 0) {
-      if (!stages.includes(artist.appearance.stage)) {
+      if (!stages.includes(primaryAppearance.stage)) {
         return false;
       }
     }
@@ -61,10 +78,18 @@ export function filterArtists(
       }
     }
 
-    // Schedule Status filter: artist's schedule state must match one of the selected statuses (OR logic)
-    if (scheduleStatus && scheduleStatus.length > 0 && scheduledArtists && conflictingArtists) {
-      const isScheduled = scheduledArtists.has(artist.slug);
-      const isConflicting = conflictingArtists.has(artist.slug);
+    // Schedule Status filter: artist's aggregate schedule state must match one of the
+    // selected statuses (OR logic). Reads the same precomputed, artist-slug-keyed Sets
+    // scheduleStore.ts derives for ArtistCard/Sidebar, so this facet and the card
+    // badges can never disagree.
+    if (
+      scheduleStatus &&
+      scheduleStatus.length > 0 &&
+      scheduledArtistSlugs &&
+      conflictingArtistSlugs
+    ) {
+      const isScheduled = scheduledArtistSlugs.has(artist.slug);
+      const isConflicting = conflictingArtistSlugs.has(artist.slug);
       const matchesSelection = scheduleStatus.some((status) => {
         if (status === "scheduled") return isScheduled;
         if (status === "unscheduled") return !isScheduled;

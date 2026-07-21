@@ -7,6 +7,8 @@ import { X, Heart, Star, Calendar, Layers, Clock, Play, Undo2 } from "lucide-rea
 import type { Artist } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 import { COLORS } from "@/app/data/colors";
+import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getPrimaryAppearance, getAppearancesForFestival } from "@/app/lib/appearances";
 
 /*
  * DecisionScreen — moving parts overview
@@ -118,6 +120,14 @@ export default function DecisionScreen({
   isScreenExiting = false,
 }: Props) {
   const pct = Math.round((progress.current / progress.total) * 100);
+  // Displays the artist's primary appearance — see app/lib/appearances.ts. Quick Picks
+  // always shows exactly one card per artist regardless of appearance count.
+  const primaryAppearance = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID);
+  // Disclosure only — Quick Picks always decides on the primary appearance alone; the
+  // secondary appearance's own time/stage never surfaces here. See ARCHITECTURE.md §
+  // Multi-Appearance Support.
+  const appearanceCount = getAppearancesForFestival(artist, ACTIVE_FESTIVAL_ID).length;
+  const isMultiAppearance = appearanceCount > 1;
   const [confirming, setConfirming] = useState<QuickPicksVerdict | null>(null);
   const confirmingRef = useRef<QuickPicksVerdict | null>(null);
   const [restoredFlashing, setRestoredFlashing] = useState(false);
@@ -362,7 +372,7 @@ export default function DecisionScreen({
                     </span>
                   </div>
 
-                  {artist.appearance.billingTier === "Headliner" && (
+                  {primaryAppearance.billingTier === "Headliner" && (
                     <div className="absolute top-4 left-4">
                       <span
                         className="px-2.5 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase border"
@@ -455,9 +465,27 @@ export default function DecisionScreen({
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}
                 >
-                  {artist.appearance.day}, {artist.appearance.date} · {artist.appearance.startTime}
+                  {primaryAppearance.day}, {primaryAppearance.date} · {primaryAppearance.startTime}
                 </motion.span>
               </span>
+              {/* "N sets" — informational disclosure only, never the secondary appearance's
+                  own time/stage. Styled as neutral metadata (matching the surrounding
+                  chips), not emphasized — this is a minor fact, not a decision input, so
+                  it must not compete visually with the day/time/stage chips or read as
+                  an interactive/recurring-event control. See ARCHITECTURE.md §
+                  Multi-Appearance Support. */}
+              {isMultiAppearance && (
+                <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
+                  <motion.span
+                    key={`${artist.slug}-sets`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}
+                  >
+                    {appearanceCount} sets
+                  </motion.span>
+                </span>
+              )}
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
                 <Clock size={11} strokeWidth={2} className="flex-shrink-0" />
                 <motion.span
@@ -466,7 +494,7 @@ export default function DecisionScreen({
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}
                 >
-                  {calcSetLength(artist.appearance.startTime, artist.appearance.endTime)}
+                  {calcSetLength(primaryAppearance.startTime, primaryAppearance.endTime)}
                 </motion.span>
               </span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
@@ -477,7 +505,7 @@ export default function DecisionScreen({
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}
                 >
-                  {artist.appearance.stage} Stage
+                  {primaryAppearance.stage} Stage
                 </motion.span>
               </span>
             </div>
