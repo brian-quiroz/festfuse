@@ -1,6 +1,5 @@
 "use client";
 
-import type { Artist } from "@/app/types/artist";
 import { getStagesForActiveFestival } from "@/app/data/festivals";
 import {
   getPlannerHourRange,
@@ -9,25 +8,29 @@ import {
   formatPlannerHour,
   PLANNER_PX_PER_MINUTE,
 } from "@/app/lib/planner";
-import { timeStringToMinutes } from "@/app/lib/schedule";
-import { sortChronologically } from "@/app/lib/sort";
+import {
+  getAppearanceKey,
+  sortAppearancesChronologically,
+  type AppearanceEntry,
+} from "@/app/lib/schedule";
+import { timeStringToMinutes } from "@/app/lib/time";
 import PlannerArtistBlock from "@/app/components/planner/PlannerArtistBlock";
 
 interface PlannerGridProps {
-  allDayArtists: Artist[];
-  visibleArtists: Artist[];
-  scheduledArtists: Set<string>;
-  conflictingArtists: Set<string>;
+  allDayEntries: AppearanceEntry[];
+  visibleEntries: AppearanceEntry[];
+  scheduledAppearanceKeys: Set<string>;
+  conflictingAppearanceKeys: Set<string>;
   myPickSlugs: Set<string>;
   showMyPicks: boolean;
-  onToggleScheduled: (artistId: string) => void;
+  onToggleScheduled: (appearanceKey: string) => void;
 }
 
 export default function PlannerGrid({
-  allDayArtists,
-  visibleArtists,
-  scheduledArtists,
-  conflictingArtists,
+  allDayEntries,
+  visibleEntries,
+  scheduledAppearanceKeys,
+  conflictingAppearanceKeys,
   myPickSlugs,
   showMyPicks,
   onToggleScheduled,
@@ -35,7 +38,7 @@ export default function PlannerGrid({
   const stages = getStagesForActiveFestival();
   // Range is always derived from the full day's lineup, never the filtered set — otherwise
   // toggling a filter would rescale the whole timeline and every remaining block would jump.
-  const range = getPlannerHourRange(allDayArtists);
+  const range = getPlannerHourRange(allDayEntries);
   const gridHeight = getPlannerGridHeight(range);
 
   const hourMarks: number[] = [];
@@ -46,14 +49,14 @@ export default function PlannerGrid({
   // Sorted chronologically so DOM/tab order matches visual (top-to-bottom) order —
   // block positioning itself is absolute and doesn't depend on this, but keyboard
   // navigation and screen readers do.
-  const sortedDayArtists = sortChronologically(visibleArtists);
+  const sortedEntries = sortAppearancesChronologically(visibleEntries);
 
-  const artistsByStage = new Map<string, Artist[]>();
+  const entriesByStage = new Map<string, AppearanceEntry[]>();
   for (const stage of stages) {
-    artistsByStage.set(stage, []);
+    entriesByStage.set(stage, []);
   }
-  for (const artist of sortedDayArtists) {
-    artistsByStage.get(artist.appearance.stage)?.push(artist);
+  for (const entry of sortedEntries) {
+    entriesByStage.get(entry.appearance.stage)?.push(entry);
   }
 
   const hourHeight = 60 * PLANNER_PX_PER_MINUTE;
@@ -95,18 +98,21 @@ export default function PlannerGrid({
                 backgroundSize: `100% ${hourHeight}px`,
               }}
             >
-              {(artistsByStage.get(stage) ?? []).map((artist) => {
-                const start = timeStringToMinutes(artist.appearance.startTime);
-                const end = timeStringToMinutes(artist.appearance.endTime);
+              {(entriesByStage.get(stage) ?? []).map((entry) => {
+                const start = timeStringToMinutes(entry.appearance.startTime);
+                const end = timeStringToMinutes(entry.appearance.endTime);
+                const key = getAppearanceKey(entry.artist, entry.appearance);
                 return (
                   <PlannerArtistBlock
-                    key={artist.slug}
-                    artist={artist}
+                    key={key}
+                    artist={entry.artist}
+                    appearance={entry.appearance}
+                    appearanceKey={key}
                     top={minutesToPlannerOffset(start, range)}
                     height={Math.max((end - start) * PLANNER_PX_PER_MINUTE, 30)}
-                    isScheduled={scheduledArtists.has(artist.slug)}
-                    isConflicting={conflictingArtists.has(artist.slug)}
-                    isMyPick={myPickSlugs.has(artist.slug)}
+                    isScheduled={scheduledAppearanceKeys.has(key)}
+                    isConflicting={conflictingAppearanceKeys.has(key)}
+                    isMyPick={myPickSlugs.has(entry.artist.slug)}
                     showMyPicks={showMyPicks}
                     onToggleScheduled={onToggleScheduled}
                   />

@@ -3,6 +3,8 @@ import { MapPin } from "lucide-react";
 import { FaSpotify, FaYoutube, FaTiktok } from "react-icons/fa6";
 import { COLORS } from "@/app/data/colors";
 import type { Artist } from "@/app/types/artist";
+import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getPrimaryBillingTier } from "@/app/lib/appearances";
 import ArtistActions from "./ArtistActions";
 
 export default function ArtistHero({ artist }: { artist: Artist }) {
@@ -82,7 +84,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
               <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none">
                 {artist.name}
               </h1>
-              {artist.appearance.billingTier === "Headliner" && (
+              {getPrimaryBillingTier(artist, ACTIVE_FESTIVAL_ID) === "Headliner" && (
                 <span
                   className="mb-2 flex-shrink-0 px-2.5 py-0.5 rounded-md text-[9px] font-semibold tracking-widest uppercase border"
                   style={{
@@ -144,7 +146,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
 
         {/* ── Group 3: Actions ──────────────────────────────────── */}
         <div className="mt-12">
-          <ArtistActions artistId={artist.slug} />
+          <ArtistActions artist={artist} />
         </div>
       </div>
     </div>

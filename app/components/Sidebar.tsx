@@ -29,7 +29,9 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { decisionsByArtist } = useDecisionStore();
-  const { scheduledArtists, conflictingArtists } = useScheduleStore();
+  // Artist-slug-keyed, precomputed in scheduleStore.ts — see ARCHITECTURE.md §
+  // Multi-Appearance Support ("Sidebar counts: artist counts, not appearance counts").
+  const { scheduledArtistSlugs, conflictingArtistSlugs } = useScheduleStore();
   const { pickStatus, scheduleStatus, activeNavItem, applyPreset, clearFilters } = useExploreFilterStore();
 
   // Derive counts from store
@@ -42,8 +44,8 @@ export default function Sidebar() {
   ).length;
 
   const myPicksCount = mustSeeCount + interestedCount;
-  const scheduledCount = scheduledArtists.size;
-  const conflictCount = conflictingArtists.size;
+  const scheduledCount = scheduledArtistSlugs.size;
+  const conflictCount = conflictingArtistSlugs.size;
 
   const myFestivalItems = [
     {

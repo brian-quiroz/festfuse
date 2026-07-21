@@ -8,6 +8,8 @@
 
 import type { Artist } from "@/app/types/artist";
 import type { ArtistDecision } from "@/app/store/decisionStore";
+import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getPrimaryAppearance } from "@/app/lib/appearances";
 
 export function runDiversitySignalTests(allArtists: Artist[]) {
   console.log("\n");
@@ -25,10 +27,10 @@ export function runDiversitySignalTests(allArtists: Artist[]) {
   // Get all artists on a single stage (take the first stage with most artists)
   const stageCounts: Record<string, Artist[]> = {};
   allArtists.forEach((a) => {
-    if (!stageCounts[a.appearance.stage]) {
-      stageCounts[a.appearance.stage] = [];
+    if (!stageCounts[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage]) {
+      stageCounts[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage] = [];
     }
-    stageCounts[a.appearance.stage].push(a);
+    stageCounts[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage].push(a);
   });
   const stagesByCount = Object.entries(stageCounts).sort((a, b) => b[1].length - a[1].length);
   const concentratedStage = stagesByCount[0][0];
@@ -43,13 +45,13 @@ export function runDiversitySignalTests(allArtists: Artist[]) {
     };
   });
 
-  const conStages = new Set(concentratedArtists.map((a) => a.appearance.stage));
+  const conStages = new Set(concentratedArtists.map((a) => getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage));
   const conGenres = new Set<string>();
   concentratedArtists.forEach((a) => a.genres.forEach((g) => conGenres.add(g)));
   const conCountries = new Set(concentratedArtists.map((a) => a.location.country));
 
   // Compute expected values
-  const totalStages = new Set(allArtists.map((a) => a.appearance.stage)).size;
+  const totalStages = new Set(allArtists.map((a) => getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage)).size;
   const allGenres = new Set<string>();
   allArtists.forEach((a) => a.genres.forEach((g) => allGenres.add(g)));
   const totalGenres = allGenres.size;
@@ -58,7 +60,7 @@ export function runDiversitySignalTests(allArtists: Artist[]) {
 
   const stageCounts2: Record<string, number> = {};
   allArtists.forEach((a) => {
-    stageCounts2[a.appearance.stage] = (stageCounts2[a.appearance.stage] || 0) + 1;
+    stageCounts2[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage] = (stageCounts2[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage] || 0) + 1;
   });
   let expectedConStages = 0;
   Object.values(stageCounts2).forEach((count) => {
@@ -136,7 +138,7 @@ export function runDiversitySignalTests(allArtists: Artist[]) {
     count++;
   }
 
-  const spreadStages = new Set(spreadArtists.map((a) => a.appearance.stage));
+  const spreadStages = new Set(spreadArtists.map((a) => getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage));
   const spreadGenres = new Set<string>();
   spreadArtists.forEach((a) => a.genres.forEach((g) => spreadGenres.add(g)));
   const spreadCountries = new Set(spreadArtists.map((a) => a.location.country));
@@ -200,9 +202,9 @@ export function runDiversitySignalTests(allArtists: Artist[]) {
   // Greedily pick artists that add new stages
   for (const artist of allArtists) {
     if (hyperArtists.length >= 15) break;
-    if (!usedStages.has(artist.appearance.stage)) {
+    if (!usedStages.has(getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).stage)) {
       hyperArtists.push(artist);
-      usedStages.add(artist.appearance.stage);
+      usedStages.add(getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).stage);
       hyperDecisions[artist.slug] = {
         verdict: "mustSee",
         source: "quickPicks",
@@ -224,7 +226,7 @@ export function runDiversitySignalTests(allArtists: Artist[]) {
     }
   }
 
-  const hyperStages = new Set(hyperArtists.map((a) => a.appearance.stage));
+  const hyperStages = new Set(hyperArtists.map((a) => getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage));
   const hyperGenres = new Set<string>();
   hyperArtists.forEach((a) => a.genres.forEach((g) => hyperGenres.add(g)));
   const hyperCountries = new Set(hyperArtists.map((a) => a.location.country));

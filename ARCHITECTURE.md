@@ -15,7 +15,7 @@ Artist records live in `app/data/artists/`, organized by festival day for easier
 
 **Rule: Always import from `index.ts`, never from individual day files.**
 
-The day files are an editing convenience, not a data boundary. Any feature that needs to filter by day must import `allArtists` from `index.ts` and filter by `artist.appearance.day === "Friday"`. This prevents silent bugs when artists are miscategorized or moved between days.
+The day files are an editing convenience, not a data boundary. Any feature that needs to filter by day must import `allArtists` from `index.ts` and filter using the artist's primary appearance — `getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).day === "Friday"` (see "Multi-Appearance Support" below for why the primary appearance, not `artist.appearance`, which no longer exists as a singular field). This prevents silent bugs when artists are miscategorized or moved between days.
 
 ### Types
 
@@ -337,9 +337,10 @@ The following is a **simplified illustration** of how each carousel is computed 
 // → shuffle day-block order → concatenate (see shuffleDayBlocks in app/lib/carousel.ts)
 // Result: each day's billing tier order is explicit & consistent, but day sequence varies per load
 const festivalFavorites = shuffleDayBlocks(
-  allArtists.filter(
-    (a) => a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
-  )
+  allArtists.filter((a) => {
+    const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
+    return tier === "Headliner" || tier === "Sub-headliner";
+  })
 );
 
 // Hidden Gems: curatorial, suppress only against Festival Favorites (Rule B)
@@ -347,15 +348,17 @@ const festivalFavorites = shuffleDayBlocks(
 // → sort by day → shuffle within days → interleave across days (see interleaveByDayShuffled)
 const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
 const hiddenGems = interleaveByDayShuffled(
-  allArtists.filter(
-    (a) =>
+  allArtists.filter((a) => {
+    const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
+    return (
       a.genres.some((g) =>
         ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)
       ) &&
-      a.appearance.billingTier !== "Headliner" &&
-      a.appearance.billingTier !== "Sub-headliner" &&
+      tier !== "Headliner" &&
+      tier !== "Sub-headliner" &&
       !shownInFestival.has(a.slug) // Rule B suppression: don't show already-featured artists
-  )
+    );
+  })
 );
 
 // International Picks: factual, no suppression (Rule A)
@@ -687,56 +690,63 @@ navigation paths that broke in different ways during development):
 
 ```typescript
 interface ScheduleState {
-  scheduledArtists: Set<string>;
-  toggleScheduled: (artistId: string) => void;
-  isScheduled: (artistId: string) => boolean;
+  scheduledAppearanceKeys: Set<string>; // composite appearance keys — see Multi-Appearance Support
+  toggleScheduled: (key: string) => void; // per-appearance; used only by the Planner
+  toggleAllAppearances: (artist: Artist, festivalId: string) => void; // aggregate control
 }
 ```
 
 **Location:** `app/store/scheduleStore.ts`
 
-- `scheduledArtists`: Set of artist slug IDs that the user has scheduled (committed to attending)
-- `toggleScheduled(artistId)`: Add artist to scheduled set if not present; remove if already present
-- `isScheduled(artistId)`: Query if a given artist is scheduled
+- `scheduledAppearanceKeys`: Set of appearance keys (`` `${festivalId}::${slug}::${appearanceId}` ``, see "Multi-Appearance Support" below) that the user has scheduled — named for what it actually stores, not artist slugs
+- `toggleScheduled(key)`: Add/remove a single appearance key — the Planner's per-block action
+- `toggleAllAppearances(artist, festivalId)`: Schedule every appearance the artist has at that festival if not all are already scheduled; unschedule all of them if they are — the aggregate action used everywhere outside the Planner
 
-Persisted to localStorage under key `schedule-store` via Zustand's `persist` middleware. Data survives page reloads and browser restarts, independent of the decision store.
+Persisted to localStorage under key `schedule-store` (unchanged) via Zustand's `persist` middleware — see "Multi-Appearance Support → Persistence" for why no version/migrate step was added despite the internal state shape changing.
 
 #### Pure Function: `getConflictingArtists()`
 
-**Confirmed** — Single source of truth for conflict detection. No side effects — accepts scheduledArtists and allArtists as inputs, returns a Set of conflicting artist IDs.
+**Confirmed** — Single source of truth for conflict detection. No side effects — accepts
+`scheduledAppearanceKeys` and `allArtists` as inputs, returns a Set of conflicting
+**appearance keys** (not artist IDs — see "Multi-Appearance Support" below).
 
 **Location:** `app/lib/schedule.ts`
 
 ```typescript
-function getConflictingArtists(scheduledIds: Set<string>, allArtists: Artist[]): Set<string> {
+function getConflictingArtists(
+  scheduledAppearanceKeys: Set<string>,
+  allArtists: Artist[]
+): Set<string> {
   const conflicting = new Set<string>();
 
-  // Group scheduled artists by day for efficiency
-  const scheduledByDay = new Map<string, Artist[]>();
+  // Group scheduled appearances by festival + calendar date (not the `day` weekday
+  // label alone — two appearances just sharing a "Thursday" label but belonging to
+  // different festivals, or different actual calendar dates, must never be compared).
+  const scheduledByDate = new Map<string, Array<{ appearance: FestivalAppearance; key: string }>>();
   for (const artist of allArtists) {
-    if (scheduledIds.has(artist.slug)) {
-      const day = artist.appearance.day;
-      if (!scheduledByDay.has(day)) {
-        scheduledByDay.set(day, []);
-      }
-      scheduledByDay.get(day)!.push(artist);
+    for (const appearance of artist.appearances) {
+      const key = getAppearanceKey(artist, appearance);
+      if (!scheduledAppearanceKeys.has(key)) continue; // forward-construct + check, never reverse-parse
+      const groupKey = `${appearance.festivalId}::${appearance.date}`;
+      if (!scheduledByDate.has(groupKey)) scheduledByDate.set(groupKey, []);
+      scheduledByDate.get(groupKey)!.push({ appearance, key });
     }
   }
 
-  // Check for conflicts within each day only
-  for (const dayArtists of scheduledByDay.values()) {
-    for (let i = 0; i < dayArtists.length; i++) {
-      for (let j = i + 1; j < dayArtists.length; j++) {
-        const a = dayArtists[i];
-        const b = dayArtists[j];
+  // Check for conflicts within each (festival, date) group only
+  for (const entries of scheduledByDate.values()) {
+    for (let i = 0; i < entries.length; i++) {
+      for (let j = i + 1; j < entries.length; j++) {
+        const a = entries[i];
+        const b = entries[j];
 
         // Time overlap check: A.start < B.end && B.start < A.end
         if (
           timeStringToMinutes(a.appearance.startTime) < timeStringToMinutes(b.appearance.endTime) &&
           timeStringToMinutes(b.appearance.startTime) < timeStringToMinutes(a.appearance.endTime)
         ) {
-          conflicting.add(a.slug);
-          conflicting.add(b.slug);
+          conflicting.add(a.key);
+          conflicting.add(b.key);
         }
       }
     }
@@ -748,25 +758,36 @@ function getConflictingArtists(scheduledIds: Set<string>, allArtists: Artist[]):
 
 **Design rationale:**
 
-- Group by day first, then compare pairwise within each day (reduces comparisons vs. checking all pairs unconditionally)
-- Pairwise comparison prevents false positives (Artist A conflicts with B, B with C, but A and C don't overlap)
-- Artist data stores times as `"H:MM AM/PM"` (e.g. `"12:00 PM"`), not 24-hour `"HH:MM"`. `timeStringToMinutes()` (`app/lib/schedule.ts`) parses this format explicitly and is the single shared helper — `sort.ts`'s chronological sorts and the Planner grid's block positioning both import it rather than re-parsing times themselves.
+- Group by `(festivalId, date)` first, then compare pairwise within each group (reduces comparisons vs. checking all pairs unconditionally, and prevents cross-festival/cross-date false positives from a shared `day` label)
+- Pairwise comparison prevents false positives (Appearance A conflicts with B, B with C, but A and C don't overlap). The same artist's two scheduled appearances overlapping each other is correctly caught as a real conflict, not special-cased away.
+- Artist data stores times as `"H:MM AM/PM"` (e.g. `"12:00 PM"`), not 24-hour `"HH:MM"`. `timeStringToMinutes()` (`app/lib/time.ts`) parses this format explicitly and is the single shared helper, kept in a neutral module with no dependencies of its own so it can't create an import cycle between `app/lib/schedule.ts` and `app/lib/appearances.ts` (the latter depends on it for primary-appearance selection, the former depends on the latter for festival-scoped appearance lookups). `app/lib/schedule.ts` (conflict detection), `app/lib/sort.ts` (chronological sorts), `app/lib/appearances.ts` (primary-appearance selection), and `app/lib/planner.ts`/`PlannerGrid.tsx` (Planner grid positioning) all import it from there rather than re-parsing times themselves.
+- Every lookup is forward-constructed (real appearance → key → `Set.has()`) — nothing iterates `scheduledAppearanceKeys` and tries to parse an entry, so a stale or unrecognized key is simply never matched, never an error.
 - No caching — computed fresh when needed; the data set is small enough that computation cost is negligible
 
-**Known limitation — post-midnight sets:** `timeStringToMinutes()` has no way to distinguish a set happening late that festival night (e.g. `"12:30 AM"` after an evening of PM sets) from one happening early the next calendar day — it always maps AM times to the 0–719 minute range. A set spanning midnight (e.g. `11:30 PM`–`12:30 AM`) would compute a negative duration and break both conflict detection and the Planner grid's range/positioning math. The current dataset contains no AM times, so this isn't an active bug, but it should not be assumed to work. A correct fix would need to use `FestivalAppearance.date` to disambiguate which calendar day an AM time actually belongs to, rather than inferring it from AM/PM alone — not done now; revisit if festival data ever includes overnight sets.
+**Known limitation — post-midnight sets:** `timeStringToMinutes()` has no way to distinguish a set happening late that festival night (e.g. `"12:30 AM"` after an evening of PM sets) from one happening early the next calendar day — it always maps AM times to the 0–719 minute range. A set spanning midnight (e.g. `11:30 PM`–`12:30 AM`) would compute a negative duration and break both conflict detection and the Planner grid's range/positioning math. The current dataset contains no AM times, so this isn't an active bug, but it should not be assumed to work. A correct fix would need to use `FestivalAppearance.date` to disambiguate which calendar day an AM time actually belongs to, rather than inferring it from AM/PM alone — not done now; revisit if festival data ever includes overnight sets. Applies per-appearance now, same as before.
 
 ### Entry Points for Scheduling
 
 #### 1. Artist Detail Page (`/artist/[slug]`)
 
-**Confirmed** — Wire existing "Schedule" button to `toggleScheduled(artist.slug)`.
+**Confirmed** — Wire existing "Schedule" button to `toggleAllAppearances(artist, festivalId)` — the aggregate control (see "Multi-Appearance Support" below).
 
 **File:** `app/components/artist/ArtistActions.tsx`
 
-- Show toggle state (scheduled vs. not scheduled) via button styling (e.g., filled vs. outlined)
+- Wired to `toggleAllAppearances(artist, festivalId)` — the aggregate control, not
+  per-appearance (see "Multi-Appearance Support" below for why per-appearance control
+  is Planner-only).
+- Three visual states driven by `getArtistScheduleState()`: inactive (none), subtle
+  indeterminate (partial — reachable if some of the artist's appearances were
+  scheduled individually via the Planner), fully active (full).
 - No conflict warning shown per CLAUDE.md ("should inspire rather than compare")
-- Behavior: click toggles between scheduled and unscheduled
-- Label: "Schedule" (consistent across Artist Detail and Explore cards)
+- Behavior: click schedules every appearance at the active festival unless all are
+  already scheduled, in which case it unschedules all of them
+- Label: "Schedule" for single-appearance artists (consistent across Artist Detail and
+  Explore cards); for multi-appearance artists, button text communicates state + a
+  small "N sets" disclosure together, e.g. "Add to Schedule · 2 sets" / "Complete
+  Schedule · 2 sets" / "Scheduled · 2 sets" — never exposes individual appearance
+  times, never a second control
 
 #### 2. Explore Page (`/explore`)
 
@@ -775,13 +796,26 @@ function getConflictingArtists(scheduledIds: Set<string>, allArtists: Artist[]):
 **File:** `app/components/explore/ArtistCard.tsx`
 
 - **Schedule toggle icon** (calendar icon, cyan per CLAUDE.md "Primary workflow actions")
-  - Click toggles artist into/out of schedule
-  - Filled/highlighted state when artist is scheduled (toggle icon itself is the state indicator)
-  - Shows tooltip on hover: "Add to schedule" or "Remove from schedule"
-  - The filled/highlighted icon is the only visual indicator needed — no separate badge
+  - Click calls `toggleAllAppearances(artist, festivalId)` — same aggregate action as
+    Artist Detail, never per-appearance
+  - Three visual states via `getArtistScheduleState()`: inactive (none), subtle
+    indeterminate (partial), filled/highlighted (full) — a binary icon would render
+    "partial" identically to "none," which reads as data loss to a user who scheduled
+    one of several appearances via the Planner
+  - Shows tooltip on hover reflecting the current state
+  - **Multi-appearance artists get a small always-visible "N sets" disclosure**, as
+    plain metadata text (not a pill) in the info area below the photo, beside the
+    stage line — not the photo overlay, where contrast against the photograph isn't
+    reliable, and not styled like the Headliner badge, which is billing/artist status
+    rather than schedule metadata and keeps its own existing overlay position. Normal
+    casing, muted cyan dimmer than the day/time line, so it's discoverable without
+    competing with the artist name or Schedule action. Not hover-only, since touch
+    devices have no hover state. Purely informational: never both set times, never a
+    second control.
 
 - **Conflict highlight** (red border/highlight only if conflicting)
-  - Only shown if artist is both scheduled AND in the conflict set returned by `getConflictingArtists()`
+  - Shown if any of the artist's appearance keys is in the conflict set returned by
+    `getConflictingArtists()` — independent of the three schedule states above
   - Uses red per CLAUDE.md ("Schedule conflicts" → Red)
   - Example: thin red border, or subtle background tint
   - Subtle styling — not aggressive, doesn't distract from the card itself
@@ -817,14 +851,17 @@ function getConflictingArtists(scheduledIds: Set<string>, allArtists: Artist[]):
 4. **Scheduled** — NEW
    - Calls `applyPreset("scheduled")`, then navigates to `/explore`
    - Filters Explore to show all scheduled artists
-   - Shows count: "Scheduled (X)"
+   - Shows count: "Scheduled (X)" — X is an **artist count** (artists with
+     `getArtistScheduleState(...) !== "none"`), not an appearance count, so it matches
+     the number of cards Explore actually shows when this filter is applied
    - Cyan color per CLAUDE.md ("Primary workflow actions")
 
 5. **Conflicts** — NEW, conditionally rendered
    - Only shown if conflict count > 0
    - Calls `applyPreset("conflicts")`, then navigates to `/explore`
    - Filters Explore to show ONLY conflicting artists (strict subset of scheduled)
-   - Shows count: "Conflicts (X)"
+   - Shows count: "Conflicts (X)" — X is likewise an **artist count** (artists with at
+     least one conflicting appearance), same reasoning as "Scheduled" above
    - Red color per CLAUDE.md ("Schedule conflicts")
 
 **Technical implementation:**
@@ -979,33 +1016,34 @@ All colors layered appropriately so conflicts (red) take visual priority over sc
    - Completely independent from scheduling
 
 2. **scheduleStore** (new)
-   - Scheduled artists
+   - `scheduledAppearanceKeys` — appearance keys, not artist slugs (see "Multi-Appearance Support")
    - Completely independent from decisions
-   - Persisted to localStorage
+   - Persisted to localStorage under the unchanged `schedule-store` key
 
 #### Derived State
 
-- **Conflict set** — computed from scheduleStore + allArtists via `getConflictingArtists()`
-- **Sidebar counts** — Must See count, Interested count, Scheduled count, Conflict count (0 or more)
+- **Conflict set** — computed from scheduleStore + allArtists via `getConflictingArtists()`, a Set of conflicting appearance keys
+- **Sidebar counts** — Must See count, Interested count, Scheduled count, Conflict count (the latter two are artist counts, not appearance counts — see "Multi-Appearance Support")
 - **Filtered lineups** — Explore with its five live filter facets (`exploreFilterStore`), Schedule with independent "My Picks" and "Scheduled" toggles
 
 #### Data Flow
 
 ```
 User actions
-├── Explore card: click Schedule toggle → toggleScheduled() → scheduleStore updates
+├── Explore card: click Schedule toggle → toggleAllAppearances(artist, festivalId) → scheduleStore updates
 ├── Explore card: click Must See/Interested → setDecision() → decisionStore updates
-├── Artist Detail: click Schedule button → toggleScheduled() → scheduleStore updates
+├── Artist Detail: click Schedule button → toggleAllAppearances(artist, festivalId) → scheduleStore updates
+├── Planner: click an appearance block → toggleScheduled(appearanceKey) → scheduleStore updates
 ├── Sidebar: click My Picks → applyPreset("myPicks") → /explore
 ├── Sidebar: click Scheduled → applyPreset("scheduled") → /explore
 ├── Sidebar: click Conflicts → applyPreset("conflicts") → /explore
 └── Schedule page: day tabs, independent "My Picks" & "Scheduled" toggles, etc.
 
 Reactive computations
-├── Sidebar counts: read from decisionStore + scheduleStore
-├── Conflict set: computed via getConflictingArtists(scheduleStore, allArtists)
-├── Explore cards: show Schedule toggle state, conflict highlight (if applicable)
-└── Schedule grid: render scheduled/conflicting artists with appropriate styling
+├── Sidebar counts: read from decisionStore + scheduleStore (Scheduled/Conflicts counts are artist counts, computed by mapping over allArtists)
+├── Conflict set: computed via getConflictingArtists(scheduledAppearanceKeys, allArtists)
+├── Explore cards: show three-state Schedule toggle (none/partial/full) + "N sets" metadata text for multi-appearance artists, conflict highlight (if applicable)
+└── Planner grid: render each appearance as its own block with independent scheduled/conflicting styling
 ```
 
 ### Out of Scope (MVP)
@@ -1023,6 +1061,177 @@ Reactive computations
 - Color/palette rework (Pass color, celebration magenta refinements)
 
 These are separate, later features and should not influence the Schedule MVP design.
+
+---
+
+## Multi-Appearance Support
+
+**Confirmed** — An artist can have more than one appearance at the active festival
+(different day or time — a real Lollapalooza pattern, not hypothetical). **Multi-appearance
+complexity is exposed only in the Planner.** Everywhere else — Explore, search,
+filters, carousels, Quick Picks, Artist Detail, sorting, Festival Story — an artist
+behaves as one entity represented by one deterministically-chosen primary appearance.
+
+### Data Model
+
+**Confirmed**
+
+```typescript
+export type FestivalAppearance = {
+  id: string; // stable, independent of array position or schedule fields
+  festivalId: string;
+  billingTier?: BillingTier;
+  stage: Stage;
+  day: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+};
+
+export type Artist = {
+  // ...other fields unchanged...
+  appearances: [FestivalAppearance, ...FestivalAppearance[]]; // non-empty tuple
+};
+```
+
+`id` is authored per appearance, scoped to that artist's own `appearances` array —
+just `"1"`, `"2"`, ... — rather than derived from array position or from the day/time
+fields, so correcting an appearance's schedule details later never invalidates
+anything keyed on it. It doesn't repeat the artist's slug: that's already part of the
+composite schedule key (`` `${festivalId}::${slug}::${appearanceId}` ``, see
+"Scheduling" below), so embedding it again here would be redundant — this also keeps
+the shape closer to how a real database table would separate an appearance's own
+primary key from its artist foreign key. The non-empty tuple reflects that every
+lineup artist has at least one appearance.
+
+### Primary Appearance
+
+**Confirmed** — `getPrimaryAppearance(artist, festivalId)` (`app/lib/appearances.ts`)
+is the single source of truth for "which appearance represents this artist" outside
+the Planner. Rule: the appearance with the **latest start time** (clock time) wins;
+ties are broken by the **earliest festival day**. Example: Thursday 8 PM / Friday 10
+PM / Saturday 10 PM → primary is Friday 10 PM.
+
+`getAppearancesForFestival(artist, festivalId)` and `getPrimaryBillingTier(artist,
+festivalId)` live alongside it in the same module. Every display, sort, filter, and
+search call site outside the Planner — including Day/Stage filters and search — reads
+through these and considers **only** the primary appearance, never "any" appearance;
+a secondary appearance never causes an artist to match something the UI isn't
+otherwise showing.
+
+### Scheduling
+
+**Confirmed** — See the updated `ScheduleState` interface and `getConflictingArtists()`
+under "Schedule Feature (MVP) → Data Model" above for the appearance-keyed shape.
+Summary of what changed and why:
+
+- **Appearance key**: `` `${festivalId}::${slug}::${appearanceId}` `` — festival-scoped
+  and ID-based, not derived from day/time.
+- **Two store actions**: `toggleScheduled(key)` (per-appearance, Planner-only) and
+  `toggleAllAppearances(artist, festivalId)` (the aggregate control used everywhere
+  else — none/partial scheduled → schedules every appearance at the active festival;
+  all scheduled → unschedules all).
+- **Three-state schedule status** — `getArtistScheduleState(artist, festivalId,
+  scheduledAppearanceKeys)` returns `"none" | "partial" | "full"`, shared by
+  `ArtistCard`, `ArtistActions`, and `filters.ts`'s `scheduleStatus` facet so they can
+  never disagree. Filter "Scheduled" = state !== "none"; "Unscheduled" = state ===
+  "none"; "Conflicting" = any appearance key in the conflict set.
+- **Aggregate control UI**: exactly one Schedule control per artist outside the
+  Planner, never per-appearance. Three visual states (inactive / subtle indeterminate
+  / fully active) matching the three schedule states — "partial" only becomes
+  reachable when some of an artist's appearances were scheduled individually via the
+  Planner. Multi-appearance artists additionally get a small always-visible
+  disclosure (not a hover tooltip — touch devices have no hover state), purely
+  informational, never both set times, never a second control — but placement and
+  copy differ by surface:
+  - `ArtistCard` (Explore): plain metadata text, **"N sets"**, in the info area below
+    the photo beside the stage line — not the photo overlay, and not styled like the
+    Headliner badge (billing status, a different kind of fact, keeps its own overlay
+    position).
+  - `ArtistActions` (Artist Detail): the button's own visible text communicates state
+    *and* count together — **"Add to Schedule · 2 sets"** (none), **"Complete
+    Schedule · 2 sets"** (partial), **"Scheduled · 2 sets"** (full).
+  - `DecisionScreen` (Quick Picks): a chip immediately after the date/time chip,
+    styled identically to the other neutral metadata chips (translucent background,
+    subtle white border, muted white text, no icon) — deliberately *not* emphasized,
+    since it's a minor fact rather than a decision input, and must not read as an
+    interactive or recurring-event control. Quick Picks still decides on the primary
+    appearance alone; the secondary appearance's own time/stage never appears here.
+- **Planner** is the only place appearances render and toggle independently — each
+  appearance is its own block at its own real time/stage, keyed by its appearance key.
+
+### Persistence
+
+**Confirmed** — The localStorage key stays exactly `"schedule-store"`; only the
+values inside the stored Set changed format (artist slug → appearance key), and the
+`scheduledArtists` state field was renamed `scheduledAppearanceKeys` to match what it
+actually stores. No version bump, no migrate step — this app has never been deployed,
+and an old bare-slug-keyed local schedule silently failing to match the new format
+(appearing empty) is acceptable, disposable dev-time behavior, not something to design
+around. Every lookup is forward-constructed (real appearance → key → `Set.has()`),
+so a stale or unrecognized key is simply never matched — inert, not an error.
+
+### Sidebar Counts
+
+**Confirmed** — See "Entry Points for Scheduling → Sidebar" and "State Summary →
+Derived State" above: "Scheduled" and "Conflicts" are **artist counts**, computed by
+mapping over `allArtists`, not `.size` on the raw appearance-key Sets — otherwise
+"3 Scheduled" could open Explore and show only 2 cards.
+
+### Manual Verification Checklist
+
+Re-run whenever this area changes, and whenever a real second appearance is added to
+an artist's data:
+
+- **Aggregate scheduling** — none/partial → schedules every appearance at the active
+  festival; full → unschedules all.
+- **Partial state** — scheduling one of an artist's appearances via the Planner shows
+  a distinct (not "none"-identical) state on the Explore card and Artist Detail.
+- **Planner independence** — two appearances render as two separate blocks at their
+  own real times/stages, independently toggleable, without affecting each other.
+- **Primary selection** — latest start time wins; equal start times resolve to the
+  earliest festival day (Thu-8PM/Fri-10PM/Sat-10PM → Fri-10PM, checked explicitly).
+- **Filters/search** — match only on the artist's primary appearance; a secondary
+  appearance never causes an unrelated-looking match.
+- **Conflict behavior** — appearances only conflict within the same festival +
+  calendar date; same-artist self-overlap is correctly flagged; different
+  festivals/dates sharing a `day` label never falsely conflict.
+- **Sidebar counts** — "Scheduled"/"Conflicts" reflect artist counts, matching the
+  number of cards Explore actually shows when that filter is applied.
+- **"N sets" disclosure** — for a multi-appearance artist: `ArtistCard` shows plain
+  "N sets" metadata text below the photo beside the stage line (not on the photo,
+  not styled as a pill); `ArtistActions` shows the equivalent state+count text
+  ("Add to Schedule · N sets" / "Complete Schedule · N sets" / "Scheduled · N sets");
+  `DecisionScreen` (Quick Picks) shows a neutral-styled chip immediately after the
+  date/time chip. None of the three ever displays both appearance times, the
+  secondary appearance's own time/stage, or an individual per-appearance control
+  outside the Planner.
+- **Quick Picks** — exactly one card per artist, built from its primary appearance;
+  the "N sets" chip appears only when that artist has more than one appearance at the
+  active festival, and wraps naturally with the other metadata chips on narrow
+  screens rather than overlapping them.
+- **Planner accessible names** — multiple appearances for the same artist expose
+  distinct accessible names containing their day, start time, and stage (e.g. "Add
+  Devault — Thursday, 1:45 PM at BMI Stage — to schedule" vs. "Remove Devault —
+  Thursday, 7:30 PM at Tito's Stage — from schedule"), not just the artist's name.
+- **Single-appearance regression** — every existing single-appearance artist is
+  pixel/behavior-identical everywhere, before and after this change.
+
+---
+
+## Future Consideration: Date/Day Normalization
+
+`FestivalAppearance.day` (a weekday label, e.g. `"Thursday"`) and `.date` (e.g.
+`"Jul 30"`) currently duplicate calendar information authored independently — nothing
+enforces that they agree, so they can theoretically diverge (e.g. a data edit updates
+`date` but not `day`, or vice versa). Conflict detection groups by `` `${festivalId}::${date}` ``
+specifically to avoid the weekday-label ambiguity (see "Multi-Appearance Support →
+Conflict Detection"), but that only works if `date` itself is trustworthy.
+
+When festival data moves to a real database, store `date` as an ISO calendar date
+(`YYYY-MM-DD`) and derive the weekday label from it (using the festival's timezone)
+rather than authoring both independently. Until then, both fields must be kept
+consistent by hand whenever appearance data is added or edited.
 
 ---
 

@@ -5,6 +5,8 @@
 
 import type { Artist } from "@/app/types/artist";
 import type { ArtistDecision } from "@/app/store/decisionStore";
+import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getPrimaryAppearance } from "@/app/lib/appearances";
 
 export function validateOptionB(allArtists: Artist[]) {
   console.log("\n");
@@ -62,10 +64,10 @@ export function validateOptionB(allArtists: Artist[]) {
       setup: () => {
         const stageCounts: Record<string, Artist[]> = {};
         allArtists.forEach((a) => {
-          if (!stageCounts[a.appearance.stage]) {
-            stageCounts[a.appearance.stage] = [];
+          if (!stageCounts[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage]) {
+            stageCounts[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage] = [];
           }
-          stageCounts[a.appearance.stage].push(a);
+          stageCounts[getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage].push(a);
         });
         const stagesByCount = Object.entries(stageCounts).sort((a, b) => b[1].length - a[1].length);
         return stagesByCount[0][1].slice(0, 15);
@@ -91,9 +93,9 @@ export function validateOptionB(allArtists: Artist[]) {
         const usedStages = new Set<string>();
         for (const artist of allArtists) {
           if (artists.length >= 15) break;
-          if (!usedStages.has(artist.appearance.stage)) {
+          if (!usedStages.has(getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).stage)) {
             artists.push(artist);
-            usedStages.add(artist.appearance.stage);
+            usedStages.add(getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).stage);
           }
         }
         for (const artist of allArtists) {

@@ -1,36 +1,59 @@
 "use client";
 
-import { Plus, Star, Heart, BarChart2 } from "lucide-react";
+import { Plus, Star, Heart } from "lucide-react";
+import type { Artist } from "@/app/types/artist";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
+import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getAppearancesForFestival } from "@/app/lib/appearances";
+import { getArtistScheduleState } from "@/app/lib/schedule";
 
 interface ArtistActionsProps {
-  artistId: string;
+  artist: Artist;
 }
 
-export default function ArtistActions({ artistId }: ArtistActionsProps) {
+export default function ArtistActions({ artist }: ArtistActionsProps) {
   const { decisionsByArtist, setDecision } = useDecisionStore();
-  const { scheduledArtists, toggleScheduled } = useScheduleStore();
+  const { scheduledAppearanceKeys, toggleAllAppearances } = useScheduleStore();
 
-  const decision = decisionsByArtist[artistId];
+  const decision = decisionsByArtist[artist.slug];
   const verdict = decision?.verdict ?? null;
-  const isScheduled = scheduledArtists.has(artistId);
+
+  // Aggregate schedule state across all of this artist's appearances at the active
+  // festival — see ARCHITECTURE.md § Multi-Appearance Support. "Add to Schedule" is a
+  // single control regardless of appearance count; the button text discloses the count
+  // for multi-appearance artists without exposing individual appearance times.
+  const scheduleState = getArtistScheduleState(artist, ACTIVE_FESTIVAL_ID, scheduledAppearanceKeys);
+  const isScheduled = scheduleState === "full";
+  const isPartiallyScheduled = scheduleState === "partial";
+  const appearanceCount = getAppearancesForFestival(artist, ACTIVE_FESTIVAL_ID).length;
+  const isMultiAppearance = appearanceCount > 1;
 
   // Single verdict field, mutually exclusive. Each button sets its own value directly (or clears if already set).
   const mustSee = verdict === "mustSee";
   const interested = verdict === "interested";
 
   const handleMustSee = () => {
-    setDecision(artistId, verdict === "mustSee" ? null : "mustSee", "artist");
+    setDecision(artist.slug, verdict === "mustSee" ? null : "mustSee", "artist");
   };
 
   const handleInterested = () => {
-    setDecision(artistId, verdict === "interested" ? null : "interested", "artist");
+    setDecision(artist.slug, verdict === "interested" ? null : "interested", "artist");
   };
 
   const handleScheduleToggle = () => {
-    toggleScheduled(artistId);
+    toggleAllAppearances(artist, ACTIVE_FESTIVAL_ID);
   };
+
+  const scheduleLabel = isMultiAppearance
+    ? isScheduled
+      ? `Scheduled · ${appearanceCount} sets`
+      : isPartiallyScheduled
+        ? `Complete Schedule · ${appearanceCount} sets`
+        : `Add to Schedule · ${appearanceCount} sets`
+    : isScheduled
+      ? "Scheduled"
+      : "Add to Schedule";
 
   return (
     <div className="flex items-center gap-2.5 flex-wrap">
@@ -39,11 +62,13 @@ export default function ArtistActions({ artistId }: ArtistActionsProps) {
         className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-bold transition-colors duration-200 ${
           isScheduled
             ? "bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/50"
-            : "bg-[#00E5FF] text-[#110D24] hover:bg-[#00E5FF]/90"
+            : isPartiallyScheduled
+              ? "bg-[#00E5FF]/10 text-[#00E5FF] border border-[#00E5FF]/30"
+              : "bg-[#00E5FF] text-[#110D24] hover:bg-[#00E5FF]/90"
         }`}
       >
         <Plus size={14} strokeWidth={2.5} />
-        {isScheduled ? "Scheduled" : "Add to Schedule"}
+        {scheduleLabel}
       </button>
 
       <button
@@ -68,11 +93,6 @@ export default function ArtistActions({ artistId }: ArtistActionsProps) {
       >
         <Heart size={14} fill={interested ? "currentColor" : "none"} strokeWidth={2} />
         Interested
-      </button>
-
-      <button className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg border border-white/15 text-white/40 text-sm font-medium hover:text-white/70 hover:border-white/25 transition-colors duration-200">
-        <BarChart2 size={14} strokeWidth={2} />
-        Compare
       </button>
     </div>
   );

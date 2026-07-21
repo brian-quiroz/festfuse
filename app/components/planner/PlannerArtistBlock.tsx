@@ -2,21 +2,25 @@
 
 import { useRouter } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
-import type { Artist } from "@/app/types/artist";
+import type { Artist, FestivalAppearance } from "@/app/types/artist";
 
 interface PlannerArtistBlockProps {
   artist: Artist;
+  appearance: FestivalAppearance;
+  appearanceKey: string;
   top: number;
   height: number;
   isScheduled: boolean;
   isConflicting: boolean;
   isMyPick: boolean;
   showMyPicks: boolean;
-  onToggleScheduled: (artistId: string) => void;
+  onToggleScheduled: (appearanceKey: string) => void;
 }
 
 export default function PlannerArtistBlock({
   artist,
+  appearance,
+  appearanceKey,
   top,
   height,
   isScheduled,
@@ -53,17 +57,17 @@ export default function PlannerArtistBlock({
     <div
       role="button"
       tabIndex={0}
-      onClick={() => onToggleScheduled(artist.slug)}
+      onClick={() => onToggleScheduled(appearanceKey)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          onToggleScheduled(artist.slug);
+          onToggleScheduled(appearanceKey);
         }
       }}
       className={`absolute inset-x-1 rounded-md border px-2 py-1 overflow-hidden cursor-pointer transition-colors ${stateClasses[colorState]}`}
       style={{ top, height, minHeight: 30 }}
       aria-pressed={isScheduled}
-      aria-label={`${isScheduled ? "Remove" : "Add"} ${artist.name} ${isScheduled ? "from" : "to"} schedule`}
+      aria-label={`${isScheduled ? "Remove" : "Add"} ${artist.name} — ${appearance.day}, ${appearance.startTime} at ${appearance.stage} Stage — ${isScheduled ? "from" : "to"} schedule`}
     >
       <div className="flex items-start justify-between gap-1">
         <p className="text-[11px] font-bold text-white truncate leading-tight">{artist.name}</p>
@@ -77,7 +81,7 @@ export default function PlannerArtistBlock({
         </button>
       </div>
       <p className="text-[10px] text-white/50 truncate mt-0.5">
-        {artist.appearance.startTime} – {artist.appearance.endTime}
+        {appearance.startTime} – {appearance.endTime}
       </p>
     </div>
   );

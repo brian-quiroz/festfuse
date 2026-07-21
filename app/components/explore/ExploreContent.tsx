@@ -18,6 +18,8 @@ import { sortChronologically, sortFestivalFavoritesForFullView } from "@/app/lib
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
+import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { getPrimaryBillingTier } from "@/app/lib/appearances";
 import type { Artist } from "@/app/types/artist";
 
 interface ExploreContentProps {
@@ -27,7 +29,9 @@ interface ExploreContentProps {
 export default function ExploreContent({ seed }: ExploreContentProps) {
   const router = useRouter();
   const { decisionsByArtist } = useDecisionStore();
-  const { scheduledArtists, conflictingArtists } = useScheduleStore();
+  // Artist-slug-keyed, precomputed in scheduleStore.ts — see ARCHITECTURE.md §
+  // Multi-Appearance Support.
+  const { scheduledArtistSlugs, conflictingArtistSlugs } = useScheduleStore();
   const {
     genres: activeGenres,
     setGenres: setActiveGenres,
@@ -104,10 +108,10 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const festivalFavorites = useMemo(
     () =>
       shuffleDayBlocks(
-        allArtists.filter(
-          (a) =>
-            a.appearance.billingTier === "Headliner" || a.appearance.billingTier === "Sub-headliner"
-        ),
+        allArtists.filter((a) => {
+          const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
+          return tier === "Headliner" || tier === "Sub-headliner";
+        }),
         festivalFavoritesRandom
       ),
     [festivalFavoritesRandom]
@@ -117,15 +121,17 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const hiddenGems = useMemo(() => {
     const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
     return interleaveByDayShuffled(
-      allArtists.filter(
-        (a) =>
+      allArtists.filter((a) => {
+        const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
+        return (
           a.genres.some((g) =>
             ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)
           ) &&
-          a.appearance.billingTier !== "Headliner" &&
-          a.appearance.billingTier !== "Sub-headliner" &&
+          tier !== "Headliner" &&
+          tier !== "Sub-headliner" &&
           !shownInFestival.has(a.slug)
-      ),
+        );
+      }),
       hiddenGemsRandom
     );
   }, [festivalFavorites, hiddenGemsRandom]);
@@ -270,8 +276,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 stages: activeStages.length > 0 ? activeStages : undefined,
                 verdicts: pickStatus.length > 0 ? pickStatus : undefined,
                 scheduleStatus: scheduleStatus.length > 0 ? scheduleStatus : undefined,
-                scheduledArtists,
-                conflictingArtists,
+                scheduledArtistSlugs,
+                conflictingArtistSlugs,
               },
               decisionsByArtist
             );
@@ -323,8 +329,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 stages: activeStages.length > 0 ? activeStages : undefined,
                 verdicts: pickStatus.length > 0 ? pickStatus : undefined,
                 scheduleStatus: scheduleStatus.length > 0 ? scheduleStatus : undefined,
-                scheduledArtists,
-                conflictingArtists,
+                scheduledArtistSlugs,
+                conflictingArtistSlugs,
               },
               decisionsByArtist
             );
@@ -403,8 +409,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 stages: activeStages.length > 0 ? activeStages : undefined,
                 verdicts: pickStatus.length > 0 ? pickStatus : undefined,
                 scheduleStatus: scheduleStatus.length > 0 ? scheduleStatus : undefined,
-                scheduledArtists,
-                conflictingArtists,
+                scheduledArtistSlugs,
+                conflictingArtistSlugs,
               },
               decisionsByArtist
             );
