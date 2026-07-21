@@ -1,23 +1,6 @@
 import { Eye, Headphones, Waves, Target, User } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
-import AlbumArtwork from "@/app/components/ui/AlbumArtwork";
-
-function TrackRow({ track, isLast }: { track: Artist["tracks"][number]; isLast: boolean }) {
-  return (
-    <div
-      className={`flex items-center gap-4 py-4 group ${!isLast ? "border-b border-white/5" : ""}`}
-    >
-      <button className="flex-shrink-0 rounded-md">
-        <AlbumArtwork artworkUrl={track.artworkUrl} alt={track.name} size={44} />
-      </button>
-      <div className="flex-1 min-w-0">
-        <div className="text-base font-semibold text-white truncate">{track.name}</div>
-        <div className="text-xs text-white/40 mt-0.5">{track.album}</div>
-      </div>
-      <span className="text-xs text-white/35 tabular-nums flex-shrink-0">{track.duration}</span>
-    </div>
-  );
-}
+import ListenFirstSection from "@/app/components/artist/ListenFirstSection";
 
 export default function OverviewTab({ artist }: { artist: Artist }) {
   return (
@@ -46,11 +29,7 @@ export default function OverviewTab({ artist }: { artist: Artist }) {
             <Headphones size={15} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />
             Listen First
           </h3>
-          <div>
-            {artist.tracks.map((track, i) => (
-              <TrackRow key={track.name} track={track} isLast={i === artist.tracks.length - 1} />
-            ))}
-          </div>
+          <ListenFirstSection tracks={artist.tracks} artistName={artist.name} />
         </section>
       </div>
 
