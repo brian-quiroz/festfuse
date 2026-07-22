@@ -102,40 +102,6 @@ export const BEST_FOR = [
 export type BestForTag = (typeof BEST_FOR)[number];
 
 // ============================================================================
-// STORY_SIGNAL_TAGS: Tag groupings for festival story signal computation
-// ============================================================================
-// These define which whatToExpect tags constitute each performance dimension.
-// Used by useStorySignals to compute signals 5-8 (High-Energy, Spectacle, Intimate, Lyrical).
-
-export const HIGH_ENERGY_TAGS: readonly WhatToExpectTag[] = [
-  "Energetic Mosh Pits",
-  "Massive Singalongs",
-  "Dance Floor Energy",
-  "Crowd Atmosphere",
-  "High-Energy Pacing",
-];
-
-export const SPECTACLE_TAGS: readonly WhatToExpectTag[] = [
-  "High-Production Visuals",
-  "Cinematic Visuals",
-  "Theatrical Staging",
-  "Large-Scale Production",
-  "Fashion Visual",
-];
-
-export const INTIMATE_TAGS: readonly WhatToExpectTag[] = [
-  "Intimate Performance",
-  "Minimal Production",
-  "Dreamy Atmosphere",
-];
-
-export const LYRICAL_TAGS: readonly WhatToExpectTag[] = [
-  "Lyrical Storytelling",
-  "Conversational Delivery",
-  "Lyrical Emotional Depth",
-];
-
-// ============================================================================
 // GENRES: Musical genres and styles (expandable, currently 124 entries)
 // ============================================================================
 // Guidelines for adding new genres:
