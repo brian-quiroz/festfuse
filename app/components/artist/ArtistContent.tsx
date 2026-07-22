@@ -21,6 +21,7 @@ export default function ArtistContent({ artist }: { artist: Artist }) {
               <User
                 size={15}
                 strokeWidth={2}
+                aria-hidden="true"
                 className="flex-shrink-0"
                 style={{ color: COLORS.cyan }}
               />

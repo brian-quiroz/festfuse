@@ -120,9 +120,10 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
                     href={artist.socials.spotify}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Spotify"
                     className="text-white/50 hover:text-[#1ED760] transition-colors"
                   >
-                    <FaSpotify size={16} />
+                    <FaSpotify size={16} aria-hidden="true" />
                   </a>
                 )}
                 {artist.socials.youtube && (
@@ -130,9 +131,10 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
                     href={artist.socials.youtube}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="YouTube"
                     className="text-white/50 hover:text-[#FF0000] transition-colors"
                   >
-                    <FaYoutube size={16} />
+                    <FaYoutube size={16} aria-hidden="true" />
                   </a>
                 )}
                 {artist.socials.tiktok && (
@@ -140,9 +142,10 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
                     href={artist.socials.tiktok}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="TikTok"
                     className="text-white/50 hover:text-white transition-colors"
                   >
-                    <FaTiktok size={16} />
+                    <FaTiktok size={16} aria-hidden="true" />
                   </a>
                 )}
               </div>

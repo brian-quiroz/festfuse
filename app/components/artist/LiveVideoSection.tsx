@@ -8,10 +8,18 @@ import { COLORS } from "@/app/data/colors";
 export default function LiveVideoSection({ artist }: { artist: Artist }) {
   if (!artist.liveVideoId) return null;
 
+  // Include the artist name so that when both a Spotify and a YouTube iframe are
+  // present on the same page, each has a distinct, meaningful title for screen readers
+  // and assistive technology. liveVideoLabel ("Live at Coachella 2025") is the most
+  // descriptive option when available; fall back to the artist name.
+  const iframeTitle = artist.liveVideoLabel
+    ? `${artist.name} — ${artist.liveVideoLabel}`
+    : `${artist.name} — Live Performance`;
+
   return (
     <section>
       <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">
-        <Music size={15} strokeWidth={2} className="flex-shrink-0" style={{ color: COLORS.cyan }} />
+        <Music size={15} strokeWidth={2} aria-hidden="true" className="flex-shrink-0" style={{ color: COLORS.cyan }} />
         Live Performance
       </h3>
       <div className="space-y-3">
@@ -19,7 +27,7 @@ export default function LiveVideoSection({ artist }: { artist: Artist }) {
           <iframe
             className="w-full h-full"
             src={`https://www.youtube.com/embed/${artist.liveVideoId}?rel=0`}
-            title="Live Performance"
+            title={iframeTitle}
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

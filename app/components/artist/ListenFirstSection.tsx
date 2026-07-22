@@ -17,7 +17,7 @@ export default function ListenFirstSection({ artist }: { artist: Artist }) {
   return (
     <section>
       <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-        <Headphones size={15} strokeWidth={2} className="flex-shrink-0" style={{ color: COLORS.cyan }} />
+        <Headphones size={15} strokeWidth={2} aria-hidden="true" className="flex-shrink-0" style={{ color: COLORS.cyan }} />
         Listen First
       </h3>
 
