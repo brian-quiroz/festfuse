@@ -83,14 +83,16 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
           </div>
 
           {/* Name + status badge. Tagline is intentionally hidden for this MVP
-              checkpoint — artist.tagline data is preserved, just unrendered here. */}
-          <div className="flex items-end gap-3">
-            <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none">
-              {artist.name}
-            </h1>
+              checkpoint — artist.tagline data is preserved, just unrendered here.
+              Badge lives inside the h1 (inline-block, not a flex sibling) so it flows
+              with the text itself — a flex-sibling badge stays pinned to the row's far
+              edge once a long name (e.g. "The Smashing Pumpkins") wraps, ending up far
+              from the actual last word instead of hugging it. */}
+          <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none">
+            {artist.name}
             {getPrimaryBillingTier(artist, ACTIVE_FESTIVAL_ID) === "Headliner" && (
               <span
-                className="mb-2 flex-shrink-0 px-2.5 py-0.5 rounded-md text-[9px] font-semibold tracking-widest uppercase border"
+                className="ml-3 inline-block align-middle px-2.5 py-0.5 rounded-md text-[9px] font-semibold tracking-widest uppercase border"
                 style={{
                   backgroundColor: `${COLORS.celebration}14`,
                   borderColor: `${COLORS.celebration}33`,
@@ -100,7 +102,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
                 Headliner
               </span>
             )}
-          </div>
+          </h1>
         </div>
 
         {/* ── Group 2: Metadata ─────────────────────────────────── */}

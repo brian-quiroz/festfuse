@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, Star, Heart } from "lucide-react";
+import { Calendar, Star, Heart } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
@@ -56,43 +56,45 @@ export default function ArtistActions({ artist }: ArtistActionsProps) {
       : "Add to Schedule";
 
   return (
-    <div className="flex items-center gap-2.5 flex-wrap">
+    <div className="flex flex-col items-start gap-2.5">
+      <div className="flex items-center gap-2.5 flex-wrap">
+        <button
+          onClick={handleMustSee}
+          className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
+            mustSee
+              ? "bg-[#E8FF47] text-[#110D24] border border-transparent"
+              : "border border-white/15 text-white/50 hover:border-[#E8FF47]/40 hover:text-[#E8FF47]"
+          }`}
+        >
+          <Star size={14} fill={mustSee ? "currentColor" : "none"} strokeWidth={2} />
+          Must See
+        </button>
+
+        <button
+          onClick={handleInterested}
+          className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
+            interested
+              ? "border border-[#E8FF47]/50 text-[#E8FF47] bg-[#E8FF47]/18"
+              : "border border-white/15 text-white/50 hover:border-[#E8FF47]/40 hover:text-[#E8FF47]"
+          }`}
+        >
+          <Heart size={14} fill={interested ? "currentColor" : "none"} strokeWidth={2} />
+          Interested
+        </button>
+      </div>
+
       <button
         onClick={handleScheduleToggle}
-        className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-bold transition-colors duration-200 ${
+        className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 border ${
           isScheduled
-            ? "bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/50"
+            ? "bg-[#00E5FF] border-[#00E5FF] text-[#110D24]"
             : isPartiallyScheduled
-              ? "bg-[#00E5FF]/10 text-[#00E5FF] border border-[#00E5FF]/30"
-              : "bg-[#00E5FF] text-[#110D24] hover:bg-[#00E5FF]/90"
+              ? "bg-[#00E5FF]/20 border-[#00E5FF]/55 text-[#00E5FF]"
+              : "bg-black/20 border-[#00E5FF]/30 text-[#00E5FF]/70 hover:border-[#00E5FF]/55 hover:text-[#00E5FF] hover:bg-[#00E5FF]/10"
         }`}
       >
-        <Plus size={14} strokeWidth={2.5} />
+        <Calendar size={14} strokeWidth={2.5} />
         {scheduleLabel}
-      </button>
-
-      <button
-        onClick={handleMustSee}
-        className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
-          mustSee
-            ? "bg-[#E8FF47] text-[#110D24] border border-transparent"
-            : "border border-white/15 text-white/50 hover:border-[#E8FF47]/40 hover:text-[#E8FF47]"
-        }`}
-      >
-        <Star size={14} fill={mustSee ? "currentColor" : "none"} strokeWidth={2} />
-        Must See
-      </button>
-
-      <button
-        onClick={handleInterested}
-        className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
-          interested
-            ? "border border-[#E8FF47]/50 text-[#E8FF47] bg-[#E8FF47]/18"
-            : "border border-white/15 text-white/50 hover:border-[#E8FF47]/40 hover:text-[#E8FF47]"
-        }`}
-      >
-        <Heart size={14} fill={interested ? "currentColor" : "none"} strokeWidth={2} />
-        Interested
       </button>
     </div>
   );
