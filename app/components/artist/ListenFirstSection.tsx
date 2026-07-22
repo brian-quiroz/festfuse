@@ -1,6 +1,7 @@
 import { Headphones } from "lucide-react";
 import { FaSpotify } from "react-icons/fa";
 import type { Artist } from "@/app/types/artist";
+import { COLORS } from "@/app/data/colors";
 import { resolveListenFirst } from "@/app/lib/listenFirst";
 import SpotifyArtistEmbed from "@/app/components/ui/SpotifyArtistEmbed";
 import SpotifyTrackEmbed from "@/app/components/ui/SpotifyTrackEmbed";
@@ -16,7 +17,7 @@ export default function ListenFirstSection({ artist }: { artist: Artist }) {
   return (
     <section>
       <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-        <Headphones size={15} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />
+        <Headphones size={15} strokeWidth={2} className="flex-shrink-0" style={{ color: COLORS.cyan }} />
         Listen First
       </h3>
 

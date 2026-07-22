@@ -13,11 +13,15 @@ interface SpotifyArtistEmbedProps {
 // no click-to-reveal — so callers should only mount this when a valid artist ID is
 // already known, keeping layout stable. No "use client": a static iframe + link needs
 // no hooks or handlers.
+//
+// Neutral outer border (matching Live Performance's embedded-media border), not cyan —
+// the Listen First heading's music icon already carries the cyan cue; the outer
+// container of embedded third-party media stays neutral per CLAUDE.md color hierarchy.
 export default function SpotifyArtistEmbed({ artistId, artistName }: SpotifyArtistEmbedProps) {
   const artistUrl = `https://open.spotify.com/artist/${artistId}`;
 
   return (
-    <div className="rounded-2xl overflow-hidden border border-[#00E5FF]/20 bg-black/30">
+    <div className="rounded-2xl overflow-hidden border border-white/25 bg-black/30">
       <iframe
         src={`https://open.spotify.com/embed/artist/${artistId}?utm_source=generator&theme=0`}
         title={`Spotify player — ${artistName}`}
@@ -33,7 +37,7 @@ export default function SpotifyArtistEmbed({ artistId, artistName }: SpotifyArti
           href={artistUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 text-xs font-medium text-[#00E5FF]/85 hover:text-[#00E5FF] transition-colors"
+          className="flex items-center gap-1.5 text-xs font-medium text-white/50 hover:text-white/80 transition-colors"
         >
           <FaSpotify size={13} aria-hidden="true" />
           Open in Spotify

@@ -1,5 +1,6 @@
 import { User } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
+import { COLORS } from "@/app/data/colors";
 import ListenFirstSection from "./ListenFirstSection";
 import LiveVideoSection from "./LiveVideoSection";
 import FloatingCards from "./FloatingCards";
@@ -17,7 +18,12 @@ export default function ArtistContent({ artist }: { artist: Artist }) {
 
           <section>
             <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-              <User size={15} strokeWidth={2} className="text-white/55 flex-shrink-0" />
+              <User
+                size={15}
+                strokeWidth={2}
+                className="flex-shrink-0"
+                style={{ color: COLORS.cyan }}
+              />
               About
             </h3>
             <p className="text-sm text-white/70 leading-relaxed">{artist.about}</p>

@@ -1,5 +1,6 @@
 import { Music } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
+import { COLORS } from "@/app/data/colors";
 
 // Self-contained, same as ListenFirstSection: returns null when there's no video, so
 // the parent can render it unconditionally. Same iframe/allow/loading behavior as the
@@ -10,7 +11,7 @@ export default function LiveVideoSection({ artist }: { artist: Artist }) {
   return (
     <section>
       <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">
-        <Music size={15} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />
+        <Music size={15} strokeWidth={2} className="flex-shrink-0" style={{ color: COLORS.cyan }} />
         Live Performance
       </h3>
       <div className="space-y-3">

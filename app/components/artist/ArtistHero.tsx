@@ -104,7 +104,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
         </div>
 
         {/* ── Group 2: Metadata ─────────────────────────────────── */}
-        <div className="mt-10 flex items-center gap-3">
+        <div className="mt-6 flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-white/40 text-sm">
             <MapPin size={13} strokeWidth={2.5} />
             {artist.location.state

@@ -17,7 +17,9 @@ interface SpotifyTrackEmbedProps {
 // the correct recording artist internally, so this title never guesses at one.
 export default function SpotifyTrackEmbed({ spotifyId, trackName }: SpotifyTrackEmbedProps) {
   return (
-    <div className="rounded-xl overflow-hidden border border-[#00E5FF]/20 bg-black/30">
+    // Neutral outer border (matching Live Performance's embedded-media border), not
+    // cyan — every current caller already has its own section-level cyan/label cue.
+    <div className="rounded-xl overflow-hidden border border-white/25 bg-black/30">
       <iframe
         src={`https://open.spotify.com/embed/track/${spotifyId}?utm_source=generator&theme=0`}
         title={trackName ? `Spotify player — ${trackName}` : "Spotify player"}

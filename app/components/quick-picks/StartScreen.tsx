@@ -49,7 +49,7 @@ export default function StartScreen({ onStart }: Props) {
           <div className="text-base text-white/50 text-center leading-relaxed">
             <p>Go with your gut.</p>
             <p>
-              <span style={{ color: COLORS.celebration }}>Quick Listen</span> when you need
+              <span className="font-semibold text-white/75">Quick Listen</span> when you need
               a first impression, then make your pick.
             </p>
           </div>

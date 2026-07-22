@@ -394,7 +394,11 @@ export default function DecisionScreen({
                   )}
 
                   <div className="absolute bottom-0 left-0 right-0 flex items-end gap-8 px-6 pb-6">
-                    <div className="flex-1 min-w-0 flex flex-col gap-3">
+                    {/* Extra bottom padding (on top of the row's own pb-6) lifts just
+                        this column ~32px higher, since items-end aligns both columns to
+                        the row's bottom edge — Quick Listen/Sounds Like on the right are
+                        unaffected. */}
+                    <div className="flex-1 min-w-0 flex flex-col gap-3 pb-8">
                       <div className="flex gap-2 flex-wrap">
                         {artist.genres.slice(0, 2).map((genre) => (
                           <span
