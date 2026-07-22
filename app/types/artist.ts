@@ -47,6 +47,15 @@ export type Artist = {
     duration: string;
     artworkUrl?: string;
   }>;
+  // Explicit override for special projects/showcases without a Spotify artist profile
+  // that actually represents the whole act (e.g. a multi-artist collective whose
+  // socials.spotify, if any, points to one member). Presence of this field is itself
+  // the signal that the tracks below were intentionally curated — no separate
+  // verified/reviewed flag; see app/lib/listenFirst.ts for how it's resolved.
+  listenFirst?: {
+    mode: "tracks";
+    note?: string;
+  };
   about: string;
   // Non-empty — every lineup artist has at least one appearance at the active festival.
   appearances: [FestivalAppearance, ...FestivalAppearance[]];

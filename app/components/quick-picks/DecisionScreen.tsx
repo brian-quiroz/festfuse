@@ -3,12 +3,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { X, Heart, Star, Calendar, Layers, Clock, Play, Undo2 } from "lucide-react";
+import { X, Heart, Star, Calendar, Layers, Clock, Undo2 } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 import { COLORS } from "@/app/data/colors";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance, getAppearancesForFestival } from "@/app/lib/appearances";
+import SpotifyTrackEmbed from "@/app/components/ui/SpotifyTrackEmbed";
 
 /*
  * DecisionScreen — moving parts overview
@@ -128,6 +129,11 @@ export default function DecisionScreen({
   // Multi-Appearance Support.
   const appearanceCount = getAppearancesForFestival(artist, ACTIVE_FESTIVAL_ID).length;
   const isMultiAppearance = appearanceCount > 1;
+  // Quick Listen convention: only artist.tracks[0] is ever eligible — never search later
+  // tracks for an available ID. This is the exact signal a data pass uses to choose the
+  // Quick Picks song (put it first), so a first track without a spotifyId means no
+  // player, even if a later track happens to have one.
+  const quickListenTrack = artist.tracks[0]?.spotifyId ? artist.tracks[0] : null;
   const [confirming, setConfirming] = useState<QuickPicksVerdict | null>(null);
   const confirmingRef = useRef<QuickPicksVerdict | null>(null);
   const [restoredFlashing, setRestoredFlashing] = useState(false);
@@ -388,7 +394,11 @@ export default function DecisionScreen({
                   )}
 
                   <div className="absolute bottom-0 left-0 right-0 flex items-end gap-8 px-6 pb-6">
-                    <div className="flex-1 min-w-0 flex flex-col gap-2">
+                    {/* Extra bottom padding (on top of the row's own pb-6) lifts just
+                        this column ~32px higher, since items-end aligns both columns to
+                        the row's bottom edge — Quick Listen/Sounds Like on the right are
+                        unaffected. */}
+                    <div className="flex-1 min-w-0 flex flex-col gap-3 pb-8">
                       <div className="flex gap-2 flex-wrap">
                         {artist.genres.slice(0, 2).map((genre) => (
                           <span
@@ -399,40 +409,28 @@ export default function DecisionScreen({
                           </span>
                         ))}
                       </div>
+                      {/* artist.tagline intentionally not rendered here — unverified
+                          AI-generated content, same MVP decision as Artist Detail's
+                          hero. Data untouched. */}
                       <h2 className="text-[2.75rem] font-extrabold text-white tracking-tight leading-none">
                         {artist.name}
                       </h2>
-                      <p className="text-sm text-white/55 leading-snug max-w-sm">
-                        {artist.tagline}
-                      </p>
                     </div>
 
-                    <div className="w-52 flex-shrink-0 flex flex-col gap-4 pb-0.5">
-                      {artist.tracks.length > 0 && (
+                    <div className="w-72 flex-shrink-0 flex flex-col gap-4 pb-0.5">
+                      {/* Quick Listen — one compact official Spotify embed, never a
+                          custom player. A lightweight sample, not a claim that this
+                          track represents the artist. See artist.tracks[0] convention
+                          in the component-level comment above. */}
+                      {quickListenTrack && (
                         <div className="flex flex-col gap-2">
                           <span className="text-white/35 text-[10px] font-semibold uppercase tracking-widest">
-                            Top Songs
+                            Quick Listen
                           </span>
-                          <div className="flex flex-col gap-2">
-                            {artist.tracks.slice(0, 3).map((track) => (
-                              <div key={track.name} className="flex items-center gap-2">
-                                <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                                  <Play
-                                    size={7}
-                                    fill="currentColor"
-                                    strokeWidth={0}
-                                    className="text-white/55 ml-px"
-                                  />
-                                </div>
-                                <span className="text-white/80 text-[11px] truncate flex-1">
-                                  {track.name}
-                                </span>
-                                <span className="text-white/30 text-[10px] flex-shrink-0">
-                                  {track.duration}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
+                          <SpotifyTrackEmbed
+                            spotifyId={quickListenTrack.spotifyId!}
+                            trackName={quickListenTrack.name}
+                          />
                         </div>
                       )}
 

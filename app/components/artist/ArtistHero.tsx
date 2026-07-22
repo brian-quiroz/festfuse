@@ -14,6 +14,10 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
     .join("")
     .slice(0, 2);
 
+  const hasSocials = Boolean(
+    artist.socials.spotify || artist.socials.youtube || artist.socials.tiktok
+  );
+
   return (
     <div className="relative h-[520px] overflow-hidden bg-[#110D24]">
       {/* Full-bleed artist photo */}
@@ -78,70 +82,75 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
             ))}
           </div>
 
-          {/* Name + status badge + tagline */}
-          <div>
-            <div className="flex items-end gap-3">
-              <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none">
-                {artist.name}
-              </h1>
-              {getPrimaryBillingTier(artist, ACTIVE_FESTIVAL_ID) === "Headliner" && (
-                <span
-                  className="mb-2 flex-shrink-0 px-2.5 py-0.5 rounded-md text-[9px] font-semibold tracking-widest uppercase border"
-                  style={{
-                    backgroundColor: `${COLORS.celebration}14`,
-                    borderColor: `${COLORS.celebration}33`,
-                    color: COLORS.celebration,
-                  }}
-                >
-                  Headliner
-                </span>
-              )}
-            </div>
-            <p className="text-sm text-white/60 mt-2 leading-relaxed">{artist.tagline}</p>
+          {/* Name + status badge. Tagline is intentionally hidden for this MVP
+              checkpoint — artist.tagline data is preserved, just unrendered here. */}
+          <div className="flex items-end gap-3">
+            <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none">
+              {artist.name}
+            </h1>
+            {getPrimaryBillingTier(artist, ACTIVE_FESTIVAL_ID) === "Headliner" && (
+              <span
+                className="mb-2 flex-shrink-0 px-2.5 py-0.5 rounded-md text-[9px] font-semibold tracking-widest uppercase border"
+                style={{
+                  backgroundColor: `${COLORS.celebration}14`,
+                  borderColor: `${COLORS.celebration}33`,
+                  color: COLORS.celebration,
+                }}
+              >
+                Headliner
+              </span>
+            )}
           </div>
         </div>
 
         {/* ── Group 2: Metadata ─────────────────────────────────── */}
-        <div className="mt-10 flex items-center gap-3">
+        <div className="mt-6 flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-white/40 text-sm">
             <MapPin size={13} strokeWidth={2.5} />
             {artist.location.state
               ? `${artist.location.city}, ${artist.location.state}`
               : `${artist.location.city}, ${artist.location.country}`}
           </span>
-          <div className="w-px h-3.5 bg-white/10" />
-          <div className="flex items-center gap-3.5">
-            {artist.socials.spotify && (
-              <a
-                href={artist.socials.spotify}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/50 hover:text-[#1ED760] transition-colors"
-              >
-                <FaSpotify size={16} />
-              </a>
-            )}
-            {artist.socials.youtube && (
-              <a
-                href={artist.socials.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/50 hover:text-[#FF0000] transition-colors"
-              >
-                <FaYoutube size={16} />
-              </a>
-            )}
-            {artist.socials.tiktok && (
-              <a
-                href={artist.socials.tiktok}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/50 hover:text-white transition-colors"
-              >
-                <FaTiktok size={16} />
-              </a>
-            )}
-          </div>
+          {hasSocials && (
+            <>
+              <div className="w-px h-3.5 bg-white/10" />
+              <div className="flex items-center gap-3.5">
+                {artist.socials.spotify && (
+                  <a
+                    href={artist.socials.spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Spotify"
+                    className="text-white/50 hover:text-[#1ED760] transition-colors"
+                  >
+                    <FaSpotify size={16} aria-hidden="true" />
+                  </a>
+                )}
+                {artist.socials.youtube && (
+                  <a
+                    href={artist.socials.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="YouTube"
+                    className="text-white/50 hover:text-[#FF0000] transition-colors"
+                  >
+                    <FaYoutube size={16} aria-hidden="true" />
+                  </a>
+                )}
+                {artist.socials.tiktok && (
+                  <a
+                    href={artist.socials.tiktok}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="TikTok"
+                    className="text-white/50 hover:text-white transition-colors"
+                  >
+                    <FaTiktok size={16} aria-hidden="true" />
+                  </a>
+                )}
+              </div>
+            </>
+          )}
         </div>
 
         {/* ── Group 3: Actions ──────────────────────────────────── */}

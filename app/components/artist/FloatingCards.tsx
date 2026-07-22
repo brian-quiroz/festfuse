@@ -1,32 +1,12 @@
-"use client";
-
-import { useRef, useState } from "react";
 import Link from "next/link";
-import { MapPin, Users, Pencil } from "lucide-react";
+import { MapPin, Users } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
+import { COLORS } from "@/app/data/colors";
 import { festivals, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance } from "@/app/lib/appearances";
 import ArtistAvatar from "@/app/components/ui/ArtistAvatar";
 
 export default function FloatingCards({ artist }: { artist: Artist }) {
-  const [notes, setNotes] = useState("");
-  const [savedVisible, setSavedVisible] = useState(false);
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const fadeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  function handleNotesChange(value: string) {
-    setNotes(value);
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      try {
-        localStorage.setItem(`notes:${artist.slug}`, value);
-      } catch {}
-      setSavedVisible(true);
-      if (fadeRef.current) clearTimeout(fadeRef.current);
-      fadeRef.current = setTimeout(() => setSavedVisible(false), 2000);
-    }, 800);
-  }
-
   // Displays the artist's primary appearance — see app/lib/appearances.ts. For a
   // multi-appearance artist, the aggregate Schedule control and its "N sets" disclosure
   // live in ArtistActions (rendered elsewhere on this page, inside ArtistHero) — this
@@ -35,10 +15,12 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
 
   return (
     <div className="space-y-4">
-      {/* Playing At */}
-      <div className="rounded-2xl border border-[#00E5FF]/20 bg-[#00E5FF]/6 p-5">
-        <h3 className="flex items-center gap-1.5 text-xs font-semibold text-[#00E5FF]/55 uppercase tracking-widest mb-3.5">
-          <MapPin size={14} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />
+      {/* Playing At — neutral container (matching Similar Artists below); cyan reserved
+          for the pin icon only. Heading and performance time are neutral, matching the
+          rest of Artist Detail's color-normalization pass. */}
+      <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
+        <h3 className="flex items-center gap-1.5 text-xs font-semibold text-white/40 uppercase tracking-widest mb-3.5">
+          <MapPin size={14} strokeWidth={2} aria-hidden="true" className="flex-shrink-0" style={{ color: COLORS.cyan }} />
           Playing At
         </h3>
         <div className="space-y-2.5">
@@ -53,7 +35,7 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs text-white/35">Time</span>
-            <span className="text-xs font-semibold text-[#00E5FF]">
+            <span className="text-xs font-semibold text-white/75">
               {appearance.startTime} – {appearance.endTime}
             </span>
           </div>
@@ -67,7 +49,7 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
       {/* Similar Artists */}
       <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
         <h3 className="flex items-center gap-1.5 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-          <Users size={14} strokeWidth={2} className="text-[#00E5FF]/60 flex-shrink-0" />
+          <Users size={14} strokeWidth={2} aria-hidden="true" className="flex-shrink-0" style={{ color: COLORS.cyan }} />
           Similar Artists
         </h3>
         <div className="grid grid-cols-2 gap-2">
@@ -82,30 +64,6 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
             </Link>
           ))}
         </div>
-      </div>
-
-      {/* Notes */}
-      <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
-        <div className="flex items-center justify-between mb-3.5">
-          <h3 className="flex items-center gap-1.5 text-xs font-semibold text-white/40 uppercase tracking-widest">
-            <Pencil size={14} strokeWidth={2} className="text-white/50 flex-shrink-0" />
-            Notes
-          </h3>
-          <span
-            className={`text-xs text-[#00E5FF]/60 transition-opacity duration-500 ${
-              savedVisible ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            Saved
-          </span>
-        </div>
-        <textarea
-          value={notes}
-          onChange={(e) => handleNotesChange(e.target.value)}
-          placeholder="Add a personal note..."
-          rows={4}
-          className="w-full bg-white/4 border border-white/8 rounded-xl px-3 py-2.5 text-sm text-white/80 placeholder-white/25 resize-none outline-none focus:border-[#00E5FF]/30 transition-colors leading-relaxed"
-        />
       </div>
     </div>
   );
