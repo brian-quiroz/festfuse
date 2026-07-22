@@ -78,26 +78,24 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
             ))}
           </div>
 
-          {/* Name + status badge + tagline */}
-          <div>
-            <div className="flex items-end gap-3">
-              <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none">
-                {artist.name}
-              </h1>
-              {getPrimaryBillingTier(artist, ACTIVE_FESTIVAL_ID) === "Headliner" && (
-                <span
-                  className="mb-2 flex-shrink-0 px-2.5 py-0.5 rounded-md text-[9px] font-semibold tracking-widest uppercase border"
-                  style={{
-                    backgroundColor: `${COLORS.celebration}14`,
-                    borderColor: `${COLORS.celebration}33`,
-                    color: COLORS.celebration,
-                  }}
-                >
-                  Headliner
-                </span>
-              )}
-            </div>
-            <p className="text-sm text-white/60 mt-2 leading-relaxed">{artist.tagline}</p>
+          {/* Name + status badge. Tagline is intentionally hidden for this MVP
+              checkpoint — artist.tagline data is preserved, just unrendered here. */}
+          <div className="flex items-end gap-3">
+            <h1 className="text-6xl font-extrabold text-white tracking-tight leading-none">
+              {artist.name}
+            </h1>
+            {getPrimaryBillingTier(artist, ACTIVE_FESTIVAL_ID) === "Headliner" && (
+              <span
+                className="mb-2 flex-shrink-0 px-2.5 py-0.5 rounded-md text-[9px] font-semibold tracking-widest uppercase border"
+                style={{
+                  backgroundColor: `${COLORS.celebration}14`,
+                  borderColor: `${COLORS.celebration}33`,
+                  color: COLORS.celebration,
+                }}
+              >
+                Headliner
+              </span>
+            )}
           </div>
         </div>
 

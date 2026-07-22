@@ -9,7 +9,6 @@ import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 import { COLORS } from "@/app/data/colors";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance, getAppearancesForFestival } from "@/app/lib/appearances";
-import QuickPicksListenFirst from "@/app/components/quick-picks/QuickPicksListenFirst";
 
 /*
  * DecisionScreen — moving parts overview
@@ -510,14 +509,6 @@ export default function DecisionScreen({
                 </motion.span>
               </span>
             </div>
-
-            {/* Listen First — keyed so switching artists remounts (and resets) this
-                control instead of relying on a reset-on-prop-change effect. */}
-            <QuickPicksListenFirst
-              key={artist.slug}
-              tracks={artist.tracks}
-              artistName={artist.name}
-            />
 
             {/* Decision buttons — anchored */}
             <div className="grid grid-cols-3 gap-3">

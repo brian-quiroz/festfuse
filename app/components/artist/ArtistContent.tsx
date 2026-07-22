@@ -1,46 +1,27 @@
-"use client";
-
-import { useState } from "react";
+import { User } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
-import OverviewTab from "./OverviewTab";
-import LiveTab from "./LiveTab";
+import ListenFirstSection from "./ListenFirstSection";
+import LiveVideoSection from "./LiveVideoSection";
 import FloatingCards from "./FloatingCards";
 
-type Tab = "Overview" | "Live";
-
+// No tabs — one continuous editorial page: Listen First, Live Performance (when
+// available), About, in that vertical order. Both section components self-omit when
+// their data is missing, so this file doesn't duplicate that conditional logic.
 export default function ArtistContent({ artist }: { artist: Artist }) {
-  const tabs: Tab[] = ["Overview"];
-  if (artist.liveVideoId) tabs.push("Live");
-
-  const [active, setActive] = useState<Tab>("Overview");
-  const hasMultipleTabs = tabs.length > 1;
-
   return (
     <div className="px-8 pt-2 pb-16">
-      {/* Tab bar — only show if multiple tabs */}
-      {hasMultipleTabs && (
-        <div className="flex border-b border-white/8 mb-8">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActive(tab)}
-              className={`px-5 py-3.5 text-sm font-semibold border-b-2 transition-colors -mb-px ${
-                active === tab
-                  ? "border-[#00E5FF] text-[#00E5FF]"
-                  : "border-transparent text-white/35 hover:text-white/70"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Content row: tab content left, floating cards right */}
       <div className="flex gap-10 items-start mt-8">
-        <div className="flex-1 min-w-0">
-          {active === "Overview" && <OverviewTab artist={artist} />}
-          {active === "Live" && <LiveTab artist={artist} />}
+        <div className="flex-1 min-w-0 space-y-12">
+          <ListenFirstSection artist={artist} />
+          <LiveVideoSection artist={artist} />
+
+          <section>
+            <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+              <User size={15} strokeWidth={2} className="text-white/55 flex-shrink-0" />
+              About
+            </h3>
+            <p className="text-sm text-white/70 leading-relaxed max-w-3xl">{artist.about}</p>
+          </section>
         </div>
 
         {/* Floating cards — sticky while content scrolls */}
