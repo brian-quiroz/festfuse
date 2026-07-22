@@ -19,7 +19,8 @@ import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
-import { getPrimaryBillingTier } from "@/app/lib/appearances";
+import { getPrimaryAppearance, getPrimaryBillingTier } from "@/app/lib/appearances";
+import { timeStringToMinutes } from "@/app/lib/time";
 import type { Artist } from "@/app/types/artist";
 
 interface ExploreContentProps {
@@ -100,7 +101,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const hiddenGemsRandom = useMemo(() => createSeededRandom(seed + 1), [seed]);
   const internationalPicksRandom = useMemo(() => createSeededRandom(seed + 2), [seed]);
   const chicagosOwnRandom = useMemo(() => createSeededRandom(seed + 3), [seed]);
-  const cinematicVisualsRandom = useMemo(() => createSeededRandom(seed + 4), [seed]);
+  const afterDarkRandom = useMemo(() => createSeededRandom(seed + 4), [seed]);
 
   // Carousel rows computed with seeded RNG for deterministic, identical server/client rendering
   // See ARCHITECTURE.md § Carousel Presentation Strategies for algorithm details.
@@ -148,19 +149,25 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const chicagosOwn = useMemo(
     () =>
       interleaveByDayShuffled(
-        allArtists.filter((a) => a.location.city === "Chicago" || a.location.state === "Illinois"),
+        allArtists.filter((a) => a.location.city === "Chicago"),
         chicagosOwnRandom
       ),
     [chicagosOwnRandom]
   );
 
-  const cinematicVisuals = useMemo(
+  // 8:00 PM threshold.
+  const AFTER_DARK_THRESHOLD_MINUTES = 20 * 60;
+  const afterDark = useMemo(
     () =>
       interleaveByDayShuffled(
-        allArtists.filter((a) => a.whatToExpect.includes("Cinematic Visuals")),
-        cinematicVisualsRandom
+        allArtists.filter(
+          (a) =>
+            timeStringToMinutes(getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).startTime) >=
+            AFTER_DARK_THRESHOLD_MINUTES
+        ),
+        afterDarkRandom
       ),
-    [cinematicVisualsRandom]
+    [afterDarkRandom]
   );
 
   // Carousel data map — computed after all carousels are ready, for use in both header and view
@@ -169,7 +176,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     "hidden-gems": { title: "Hidden Gems", artists: hiddenGems },
     "international-picks": { title: "International Picks", artists: internationalPicks },
     "chicagos-own": { title: "Chicago's Own", artists: chicagosOwn },
-    "cinematic-visuals": { title: "Cinematic Visuals", artists: cinematicVisuals },
+    "after-dark": { title: "After Dark", artists: afterDark },
   };
 
   // Get current carousel data if viewing a carousel
@@ -453,10 +460,10 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                   />
 
                   <ArtistCarousel
-                    title="Cinematic Visuals"
-                    artists={cinematicVisuals}
-                    carouselType="cinematic-visuals"
-                    onSeeAll={() => handleSeeAll("cinematic-visuals")}
+                    title="After Dark"
+                    artists={afterDark}
+                    carouselType="after-dark"
+                    onSeeAll={() => handleSeeAll("after-dark")}
                   />
                 </div>
               );

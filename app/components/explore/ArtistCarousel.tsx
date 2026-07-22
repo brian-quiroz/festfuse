@@ -14,7 +14,7 @@ interface ArtistCarouselProps {
     | "hidden-gems"
     | "international-picks"
     | "chicagos-own"
-    | "cinematic-visuals";
+    | "after-dark";
   onSeeAll?: () => void;
 }
 
