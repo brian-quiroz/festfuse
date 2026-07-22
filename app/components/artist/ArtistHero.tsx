@@ -14,6 +14,10 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
     .join("")
     .slice(0, 2);
 
+  const hasSocials = Boolean(
+    artist.socials.spotify || artist.socials.youtube || artist.socials.tiktok
+  );
+
   return (
     <div className="relative h-[520px] overflow-hidden bg-[#110D24]">
       {/* Full-bleed artist photo */}
@@ -107,39 +111,43 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
               ? `${artist.location.city}, ${artist.location.state}`
               : `${artist.location.city}, ${artist.location.country}`}
           </span>
-          <div className="w-px h-3.5 bg-white/10" />
-          <div className="flex items-center gap-3.5">
-            {artist.socials.spotify && (
-              <a
-                href={artist.socials.spotify}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/50 hover:text-[#1ED760] transition-colors"
-              >
-                <FaSpotify size={16} />
-              </a>
-            )}
-            {artist.socials.youtube && (
-              <a
-                href={artist.socials.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/50 hover:text-[#FF0000] transition-colors"
-              >
-                <FaYoutube size={16} />
-              </a>
-            )}
-            {artist.socials.tiktok && (
-              <a
-                href={artist.socials.tiktok}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/50 hover:text-white transition-colors"
-              >
-                <FaTiktok size={16} />
-              </a>
-            )}
-          </div>
+          {hasSocials && (
+            <>
+              <div className="w-px h-3.5 bg-white/10" />
+              <div className="flex items-center gap-3.5">
+                {artist.socials.spotify && (
+                  <a
+                    href={artist.socials.spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/50 hover:text-[#1ED760] transition-colors"
+                  >
+                    <FaSpotify size={16} />
+                  </a>
+                )}
+                {artist.socials.youtube && (
+                  <a
+                    href={artist.socials.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/50 hover:text-[#FF0000] transition-colors"
+                  >
+                    <FaYoutube size={16} />
+                  </a>
+                )}
+                {artist.socials.tiktok && (
+                  <a
+                    href={artist.socials.tiktok}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/50 hover:text-white transition-colors"
+                  >
+                    <FaTiktok size={16} />
+                  </a>
+                )}
+              </div>
+            </>
+          )}
         </div>
 
         {/* ── Group 3: Actions ──────────────────────────────────── */}

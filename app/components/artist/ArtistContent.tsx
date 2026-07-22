@@ -20,7 +20,7 @@ export default function ArtistContent({ artist }: { artist: Artist }) {
               <User size={15} strokeWidth={2} className="text-white/55 flex-shrink-0" />
               About
             </h3>
-            <p className="text-sm text-white/70 leading-relaxed max-w-3xl">{artist.about}</p>
+            <p className="text-sm text-white/70 leading-relaxed">{artist.about}</p>
           </section>
         </div>
 

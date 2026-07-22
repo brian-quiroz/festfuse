@@ -6,11 +6,13 @@ interface SpotifyArtistEmbedProps {
 }
 
 // Official Spotify artist embed via a plain iframe — no Web Playback SDK, no auth, no
-// runtime API calls. Height 352 (Spotify's own non-compact layout) so it shows the
-// artist's top tracks rather than collapsing into the 80px single-track compact view.
-// Permanently visible once rendered — no click-to-reveal — so callers should only
-// mount this when a valid artist ID is already known, keeping layout stable. No "use
-// client": a static iframe + link needs no hooks or handlers.
+// runtime API calls. Height 370 (Spotify's non-compact layout, nudged up from 352) so
+// the third track row isn't partially clipped, without letting the embed dominate the
+// page — Spotify's artist embed can list far more than three internally; users scroll
+// within it rather than FestFuse trying to cap it. Permanently visible once rendered —
+// no click-to-reveal — so callers should only mount this when a valid artist ID is
+// already known, keeping layout stable. No "use client": a static iframe + link needs
+// no hooks or handlers.
 export default function SpotifyArtistEmbed({ artistId, artistName }: SpotifyArtistEmbedProps) {
   const artistUrl = `https://open.spotify.com/artist/${artistId}`;
 
@@ -20,7 +22,7 @@ export default function SpotifyArtistEmbed({ artistId, artistName }: SpotifyArti
         src={`https://open.spotify.com/embed/artist/${artistId}?utm_source=generator&theme=0`}
         title={`Spotify player — ${artistName}`}
         width="100%"
-        height={352}
+        height={370}
         style={{ display: "block", border: 0 }}
         loading="lazy"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"

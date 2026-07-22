@@ -2711,7 +2711,7 @@ const chicagoMade: Artist = {
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
     "A massive local showcase celebrating the absolute vanguard of the city's independent renaissance.",
-  socials: { spotify: "https://open.spotify.com/artist/1FqtduZDVtxwzIL1vkGOVn" },
+  socials: {},
   whySee: [
     "A historic, highly anticipated hometown showcase performance on the Tito's stage celebrating the rapid local scene ascent",
     "Experience an exceptional, multi-artist collection of raw lyrical flows and fuzzed-out dual-guitar indie rock riffs",
@@ -2739,10 +2739,29 @@ const chicagoMade: Artist = {
     },
   ],
   tracks: [
-    { name: "Windy City Rollers", album: "Chicago Made", duration: "" },
-    { name: "Under the Skyline", album: "Chicago Made", duration: "" },
-    { name: "Lake Effect", album: "Lake Effect", duration: "" },
+    {
+      spotifyId: "58m8PfUcEhHv6pAwfPcOsj",
+      name: "Went Queenshit",
+      album: "Went Queenshit",
+      duration: "3:14",
+    },
+    {
+      spotifyId: "1Ioxy6OY4NwwxHFS7XLh8I",
+      name: "Forever Always",
+      album: "Catch",
+      duration: "3:35",
+    },
+    {
+      spotifyId: "6KhAY6HMsbKbv68VT4c35p",
+      name: "Top of Cars",
+      album: "Handful",
+      duration: "2:16",
+    },
   ],
+  listenFirst: {
+    mode: "tracks",
+    note: "Music from artists featured in Chicago Made",
+  },
   about:
     "Chicago Made is the highly celebrated local artistic collective whose meticulous combination of fuzzed-out garage indie rock grit, crisp hip-hop rhythm pockets, and carefree lyricism has fostered a deeply dedicated regional community. Forging a distinctively laid-back, sun-drenched sonic universe, the showcase profiles a group of rising musicians tracking personal history, identity, and midwestern isolation. Performing a prime midday slot, their live execution transforms the sprawling field of Grant Park into a vibrant outdoor block party.",
   appearances: [

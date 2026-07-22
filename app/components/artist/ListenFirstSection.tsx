@@ -1,15 +1,17 @@
 import { Headphones } from "lucide-react";
+import { FaSpotify } from "react-icons/fa";
 import type { Artist } from "@/app/types/artist";
-import { parseSpotifyArtistId } from "@/app/lib/spotify";
+import { resolveListenFirst } from "@/app/lib/listenFirst";
 import SpotifyArtistEmbed from "@/app/components/ui/SpotifyArtistEmbed";
+import SpotifyTrackEmbed from "@/app/components/ui/SpotifyTrackEmbed";
 
-// Self-contained: returns null when there's no valid Spotify artist URL, so the parent
-// can render it unconditionally. Prototype checkpoint — uses the artist-level embed via
-// artist.socials.spotify, not the curated per-track spotifyId data, while this artist-
-// embed approach is being visually evaluated against the prior curated-tracks version.
+// Self-contained: returns null when there's nothing to show, so the parent can render
+// it unconditionally. Branches on resolveListenFirst — see app/lib/listenFirst.ts for
+// the artist-embed vs. curated-tracks vs. omit decision itself; this component only
+// renders whichever resolution it's given.
 export default function ListenFirstSection({ artist }: { artist: Artist }) {
-  const spotifyArtistId = parseSpotifyArtistId(artist.socials.spotify);
-  if (!spotifyArtistId) return null;
+  const resolution = resolveListenFirst(artist);
+  if (resolution.mode === "none") return null;
 
   return (
     <section>
@@ -17,7 +19,33 @@ export default function ListenFirstSection({ artist }: { artist: Artist }) {
         <Headphones size={15} strokeWidth={2} className="text-[#00E5FF] flex-shrink-0" />
         Listen First
       </h3>
-      <SpotifyArtistEmbed artistId={spotifyArtistId} artistName={artist.name} />
+
+      {resolution.mode === "artist" && (
+        <SpotifyArtistEmbed artistId={resolution.artistId} artistName={artist.name} />
+      )}
+
+      {resolution.mode === "tracks" && (
+        <div className="space-y-3">
+          {resolution.note && (
+            <p className="text-xs text-white/40 leading-relaxed">{resolution.note}</p>
+          )}
+          <div className="space-y-2">
+            {resolution.tracks.map((track) => (
+              <SpotifyTrackEmbed
+                key={track.spotifyId}
+                spotifyId={track.spotifyId}
+                trackName={track.name}
+              />
+            ))}
+          </div>
+          {/* One section-level attribution line for the whole curated group, rather
+              than repeating a footer on every compact track embed. */}
+          <div className="flex items-center gap-1.5 text-[11px] text-white/30">
+            <FaSpotify size={11} aria-hidden="true" />
+            Playback via Spotify
+          </div>
+        </div>
+      )}
     </section>
   );
 }
