@@ -7,19 +7,31 @@ import { COLORS } from "@/app/data/colors";
 
 interface Props {
   context: "sessionComplete" | "nothingToReview";
+  // The session's captured attendance days — drives whether the completion copy
+  // refers to a single named day or "your selected days." Never claims the user
+  // explored the entire festival lineup unless every configured day was selected.
+  attendanceDays: string[];
   onGoToFestivalStory: () => void;
   onGoToSchedule: () => void;
   onExit: () => void;
 }
 
-export default function FestivalCompleteScreen({
+export default function QuickPicksCompleteScreen({
   context,
+  attendanceDays,
   onGoToFestivalStory,
   onGoToSchedule,
   onExit,
 }: Props) {
   const [pressingFestivalStory, setPressingFestivalStory] = useState(false);
   const [pressingSchedule, setPressingSchedule] = useState(false);
+
+  const isSingleDay = attendanceDays.length === 1;
+  const scope = isSingleDay ? `every artist playing ${attendanceDays[0]}` : "every artist playing on your selected days";
+  const eyebrow = context === "sessionComplete" ? "Quick Picks Complete" : "All Caught Up";
+  const headline = context === "sessionComplete" ? "All done!" : "All caught up!";
+  const supportingCopy =
+    context === "sessionComplete" ? `You've reviewed ${scope}.` : `You've already reviewed ${scope}.`;
 
   function handleFestivalStory() {
     if (pressingFestivalStory) return;
@@ -62,7 +74,7 @@ export default function FestivalCompleteScreen({
             className="text-sm uppercase tracking-widest font-extrabold"
             style={{ color: COLORS.celebration }}
           >
-            {context === "sessionComplete" ? "Festival Complete" : "All Caught Up"}
+            {eyebrow}
           </p>
           <span className="h-px w-12" style={{ backgroundColor: `${COLORS.celebration}99` }} />
         </div>
@@ -71,13 +83,11 @@ export default function FestivalCompleteScreen({
         <div className="flex flex-col items-center gap-2">
           <h1 className="text-6xl font-extrabold tracking-tight leading-none">
             <span className="text-white">All </span>
-            <span style={{ color: COLORS.celebration }}>done!</span>
+            <span style={{ color: COLORS.celebration }}>
+              {headline.replace(/^All /, "")}
+            </span>
           </h1>
-          <p className="text-white/50 text-base">
-            {context === "sessionComplete"
-              ? "You've explored the entire lineup."
-              : "You've already made a decision on every artist."}
-          </p>
+          <p className="text-white/50 text-base">{supportingCopy}</p>
         </div>
 
         {/* Transition flows into destination cards — grouped to signal connection */}

@@ -42,6 +42,10 @@ export function getDaysForActiveFestival(): readonly string[] {
   return FESTIVAL_DAYS[ACTIVE_FESTIVAL_ID];
 }
 
+export function getDaysForFestival(festivalId: string): readonly string[] {
+  return FESTIVAL_DAYS[festivalId] ?? [];
+}
+
 /**
  * Get the stages for the currently active festival.
  * Insulates callers from how active festival is resolved.

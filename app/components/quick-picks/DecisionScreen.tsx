@@ -4,11 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X, Heart, Star, Calendar, Layers, Clock, Undo2 } from "lucide-react";
-import type { Artist } from "@/app/types/artist";
+import type { Artist, FestivalAppearance } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 import { COLORS } from "@/app/data/colors";
-import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
-import { getPrimaryAppearance, getAppearancesForFestival } from "@/app/lib/appearances";
 import SpotifyTrackEmbed from "@/app/components/ui/SpotifyTrackEmbed";
 
 /*
@@ -95,6 +93,14 @@ function verdictToExitDir(verdict: QuickPicksVerdict): ExitDir {
 
 interface Props {
   artist: Artist;
+  // The session's chosen representative appearance for this artist (see
+  // getSelectedDayAppearance in app/lib/appearances.ts) — resolved by the parent from
+  // the queue item's appearanceId, never independently recomputed here.
+  appearance: FestivalAppearance;
+  // Count of this artist's appearances that fall on the session's selected attendance
+  // days — not their total appearance count. See ARCHITECTURE.md § Quick Picks
+  // Attendance.
+  selectedDaySetCount: number;
   dayLabel: string | null;
   progress: { current: number; total: number };
   onDecision: (verdict: QuickPicksVerdict) => void;
@@ -109,6 +115,8 @@ interface Props {
 
 export default function DecisionScreen({
   artist,
+  appearance: primaryAppearance,
+  selectedDaySetCount,
   dayLabel,
   progress,
   onDecision,
@@ -121,14 +129,10 @@ export default function DecisionScreen({
   isScreenExiting = false,
 }: Props) {
   const pct = Math.round((progress.current / progress.total) * 100);
-  // Displays the artist's primary appearance — see app/lib/appearances.ts. Quick Picks
-  // always shows exactly one card per artist regardless of appearance count.
-  const primaryAppearance = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID);
-  // Disclosure only — Quick Picks always decides on the primary appearance alone; the
-  // secondary appearance's own time/stage never surfaces here. See ARCHITECTURE.md §
-  // Multi-Appearance Support.
-  const appearanceCount = getAppearancesForFestival(artist, ACTIVE_FESTIVAL_ID).length;
-  const isMultiAppearance = appearanceCount > 1;
+  // Disclosure only — Quick Picks always decides on the session's selected-day
+  // appearance alone; any other appearance's own time/stage never surfaces here. See
+  // ARCHITECTURE.md § Multi-Appearance Support / Quick Picks Attendance.
+  const isMultiAppearance = selectedDaySetCount > 1;
   // Quick Listen convention: only artist.tracks[0] is ever eligible — never search later
   // tracks for an available ID. This is the exact signal a data pass uses to choose the
   // Quick Picks song (put it first), so a first track without a spotifyId means no
@@ -480,7 +484,7 @@ export default function DecisionScreen({
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}
                   >
-                    {appearanceCount} sets
+                    {selectedDaySetCount} sets
                   </motion.span>
                 </span>
               )}

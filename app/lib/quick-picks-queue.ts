@@ -1,6 +1,15 @@
-import type { Artist } from "@/app/types/artist";
-import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
-import { getPrimaryBillingTier } from "@/app/lib/appearances";
+import type { Artist, FestivalAppearance } from "@/app/types/artist";
+
+/**
+ * One eligible artist paired with the specific appearance chosen to represent them in
+ * this Quick Picks session (see getSelectedDayAppearance in app/lib/appearances.ts).
+ * Billing-tier classification and day-bucketing both read from `appearance` directly,
+ * never from a separately-recomputed global primary.
+ */
+export interface QueueEntry {
+  artist: Artist;
+  appearance: FestivalAppearance;
+}
 
 /**
  * Fisher-Yates shuffle for deterministic randomness within Quick Picks session.
@@ -14,70 +23,116 @@ function shuffleArray<T>(arr: T[]): T[] {
   return result;
 }
 
+function isRecognizable(entry: QueueEntry): boolean {
+  const tier = entry.appearance.billingTier;
+  return tier === "Headliner" || tier === "Sub-headliner";
+}
+
 /**
- * Interleave artists within a single day by billing tier.
- *
- * Recognizable artists (headliners + sub-headliners) are sprinkled throughout the day's queue,
- * with undercard artists filling most slots. This maintains momentum and discovery opportunities
- * during Quick Picks by mixing high-confidence picks with exploration chances.
- *
- * Within each tier, artists are shuffled (not sorted by time) to avoid schedule-driven clustering
- * and to break up any pre-existing data-file ordering patterns.
- *
- * Interleaving pattern: roughly 2 undercard per 1 recognizable artist.
- *
- * Example:
- *   Input: [Thu-Undercard-A, Thu-Headliner-B, Thu-Undercard-C, Thu-Sub-D]
- *   Separated: Headliners=[B], SubHeadliners=[D], Undercard=[A, C]
- *   Shuffled: Headliners=[B], SubHeadliners=[D], Undercard=[C, A]
- *   Recognizable: [B, D] (merged and shuffled)
- *   Output: [C, A, B, D] (interleaved ~2:1)
- *
- * @param artists - All artists for a single day
- * @returns Interleaved artists with recognizable names sprinkled throughout
+ * Merge a stream of undercard entries with a stream of recognizable entries at
+ * roughly 2 undercard : 1 recognizable, falling back to whichever stream still has
+ * entries once the other is exhausted. Shared by the within-day and cross-day
+ * interleaving strategies below so the "momentum" pacing can't drift between them.
  */
-export function interleaveByTierWithinDay(artists: Artist[]): Artist[] {
-  if (artists.length === 0) return [];
-
-  // Separate by tier (using each artist's primary appearance — see app/lib/appearances.ts)
-  const headliners = artists.filter(
-    (a) => getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID) === "Headliner"
-  );
-  const subHeadliners = artists.filter(
-    (a) => getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID) === "Sub-headliner"
-  );
-  const undercard = artists.filter((a) => {
-    const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
-    return tier !== "Headliner" && tier !== "Sub-headliner";
-  });
-
-  // Shuffle within each tier to break clustering and file-order bias
-  const shuffledHeadliners = shuffleArray(headliners);
-  const shuffledSubHeadliners = shuffleArray(subHeadliners);
-  const shuffledUndercard = shuffleArray(undercard);
-
-  // Merge recognizable tiers and shuffle
-  const recognizable = shuffleArray([...shuffledHeadliners, ...shuffledSubHeadliners]);
-
-  // Interleave: pick ~2 undercard, then 1 recognizable, repeat
-  const result: Artist[] = [];
+function mergeUndercardAndRecognizable(undercard: QueueEntry[], recognizable: QueueEntry[]): QueueEntry[] {
+  const result: QueueEntry[] = [];
   let undIdx = 0;
   let recIdx = 0;
-  let undercardCount = 0;
+  let undercardStreak = 0;
 
-  while (undIdx < shuffledUndercard.length || recIdx < recognizable.length) {
-    // After every 2 undercard, pick 1 recognizable (if available)
-    if (undercardCount >= 2 && recIdx < recognizable.length) {
+  while (undIdx < undercard.length || recIdx < recognizable.length) {
+    if (undercardStreak >= 2 && recIdx < recognizable.length) {
       result.push(recognizable[recIdx++]);
-      undercardCount = 0;
-    } else if (undIdx < shuffledUndercard.length) {
-      result.push(shuffledUndercard[undIdx++]);
-      undercardCount++;
+      undercardStreak = 0;
+    } else if (undIdx < undercard.length) {
+      result.push(undercard[undIdx++]);
+      undercardStreak++;
     } else if (recIdx < recognizable.length) {
-      // Fallback: if no more undercard, pick remaining recognizable
       result.push(recognizable[recIdx++]);
     }
   }
 
   return result;
+}
+
+/**
+ * Interleave a single day's eligible entries by billing tier.
+ *
+ * Recognizable artists (headliners + sub-headliners) are sprinkled throughout the
+ * day's queue, with undercard artists filling most slots, to maintain momentum and
+ * discovery opportunities. Within each tier, entries are shuffled (not sorted by
+ * time) to avoid schedule-driven clustering and break up file-order bias.
+ *
+ * Used for the grouped (Group by Festival Day) queue strategy — one day at a time.
+ */
+export function interleaveByTierWithinDay(entries: QueueEntry[]): QueueEntry[] {
+  if (entries.length === 0) return [];
+
+  const recognizable = shuffleArray(entries.filter(isRecognizable));
+  const undercard = shuffleArray(entries.filter((e) => !isRecognizable(e)));
+
+  return mergeUndercardAndRecognizable(undercard, recognizable);
+}
+
+/**
+ * Round-robin a per-day map of entry buckets into one flat, day-balanced stream —
+ * one entry from each day in turn, in festival order, until every bucket is drained.
+ */
+function roundRobinAcrossDays(byDay: Map<string, QueueEntry[]>, orderedDays: string[]): QueueEntry[] {
+  const result: QueueEntry[] = [];
+  const indices = new Map(orderedDays.map((day) => [day, 0]));
+
+  let hasMore = true;
+  while (hasMore) {
+    hasMore = false;
+    for (const day of orderedDays) {
+      const bucket = byDay.get(day) ?? [];
+      const idx = indices.get(day)!;
+      if (idx < bucket.length) {
+        result.push(bucket[idx]);
+        indices.set(day, idx + 1);
+        hasMore = true;
+      }
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Build the ungrouped (mixed-day) queue: genuinely interleave artists across all
+ * selected days while still preventing recognizable artists from clustering.
+ *
+ * Naively round-robining already-interleaved per-day queues can place every selected
+ * day's headliners beside one another (each day contributes its own headliner at
+ * roughly the same round), so tier separation happens *before* the cross-day
+ * round-robin, not after:
+ *
+ * 1. Split each day's entries into recognizable vs. undercard, shuffle within each
+ *    day-and-tier bucket.
+ * 2. Round-robin across days to build one day-balanced undercard stream, and
+ *    separately one day-balanced recognizable stream.
+ * 3. Merge those two global streams at ~2 undercard : 1 recognizable, same pacing as
+ *    the grouped strategy.
+ *
+ * A single selected day degenerates safely: both streams have exactly one bucket, so
+ * the cross-day round-robin is a no-op and this produces the same tier pacing as
+ * interleaveByTierWithinDay would for that day.
+ */
+export function buildUngroupedQueue(entries: QueueEntry[], orderedDays: string[]): QueueEntry[] {
+  if (entries.length === 0) return [];
+
+  const undercardByDay = new Map<string, QueueEntry[]>();
+  const recognizableByDay = new Map<string, QueueEntry[]>();
+
+  for (const day of orderedDays) {
+    const dayEntries = entries.filter((e) => e.appearance.day === day);
+    recognizableByDay.set(day, shuffleArray(dayEntries.filter(isRecognizable)));
+    undercardByDay.set(day, shuffleArray(dayEntries.filter((e) => !isRecognizable(e))));
+  }
+
+  const undercardStream = roundRobinAcrossDays(undercardByDay, orderedDays);
+  const recognizableStream = roundRobinAcrossDays(recognizableByDay, orderedDays);
+
+  return mergeUndercardAndRecognizable(undercardStream, recognizableStream);
 }
