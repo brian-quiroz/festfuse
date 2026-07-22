@@ -47,9 +47,10 @@ export default function StartScreen({ onStart }: Props) {
             </h1>
           </div>
           <div className="text-base text-white/50 text-center leading-relaxed">
-            <p>One artist. One decision.</p>
+            <p>Go with your gut.</p>
             <p>
-              Build your <span style={{ color: COLORS.celebration }}>perfect</span> lineup.
+              <span style={{ color: COLORS.celebration }}>Quick Listen</span> when you need
+              a first impression, then make your pick.
             </p>
           </div>
         </div>
