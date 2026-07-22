@@ -15,8 +15,9 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
 
   return (
     <div className="space-y-4">
-      {/* Playing At — neutral container (matching Similar Artists below), cyan reserved
-          for the pin icon, heading, and performance time. */}
+      {/* Playing At — neutral container (matching Similar Artists below); cyan reserved
+          for the pin icon only. Heading and performance time are neutral, matching the
+          rest of Artist Detail's color-normalization pass. */}
       <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
         <h3 className="flex items-center gap-1.5 text-xs font-semibold text-white/40 uppercase tracking-widest mb-3.5">
           <MapPin size={14} strokeWidth={2} className="flex-shrink-0" style={{ color: COLORS.cyan }} />

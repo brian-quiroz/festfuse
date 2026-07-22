@@ -6,8 +6,8 @@ interface SpotifyTrackEmbedProps {
 // Official Spotify track embed via a plain iframe — no Web Playback SDK, no auth, no
 // runtime API calls. Always Spotify's compact single-row layout (height <=80px), since
 // every current caller stacks up to three of these vertically (curated-track Listen
-// First; Quick Picks reuse planned separately). No attribution/link footer here on
-// purpose — callers that stack several of these should show one section-level Spotify
+// First; Quick Picks' Quick Listen). No attribution/link footer here on purpose —
+// callers that stack several of these should show one section-level Spotify
 // attribution rather than repeating it per track. No "use client": a static iframe
 // needs no hooks or handlers.
 //

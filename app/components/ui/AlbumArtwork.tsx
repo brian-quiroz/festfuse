@@ -11,6 +11,10 @@ interface AlbumArtworkProps {
 // Purely visual component — no interactive elements.
 // Wrap in a <button> in the parent to own play interaction.
 // Both states respond to the nearest ancestor group hover.
+//
+// Currently unused — its last caller (Artist Detail's old per-track selector) was
+// replaced by the Spotify artist/track embeds. Preserved rather than deleted in case
+// per-track artwork is useful again later.
 export default function AlbumArtwork({
   artworkUrl,
   alt = "Album artwork",

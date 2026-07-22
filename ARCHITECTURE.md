@@ -1219,6 +1219,98 @@ an artist's data:
 
 ---
 
+## Spotify Listen First & Quick Listen
+
+**Confirmed** — Artist Detail's "Listen First" and Quick Picks' "Quick Listen" play
+audio via official Spotify `<iframe>` embeds only: no Web Playback SDK, no Spotify Web
+API calls, no OAuth/client ID/secret, no data-fetching script. This is a hard
+boundary, not just an MVP shortcut — revisit deliberately, not by accretion.
+
+### Data Model
+
+```typescript
+export type Artist = {
+  // ...other fields unchanged...
+  tracks: Array<{ spotifyId?: string; name: string; album: string; duration: string; artworkUrl?: string }>;
+  // Presence of this field is itself the "curated, not auto-resolved" signal — no
+  // separate verified/reviewed flag.
+  listenFirst?: {
+    mode: "tracks";
+    note?: string;
+  };
+};
+```
+
+### Product decision: Spotify artist embed is the default
+
+**Confirmed** — The Spotify **artist** embed (`open.spotify.com/embed/artist/{id}`,
+via `artist.socials.spotify`) is the default Listen First experience for this MVP.
+`resolveListenFirst(artist)` (`app/lib/listenFirst.ts`) picks it whenever
+`socials.spotify` parses to a valid artist URL (`parseSpotifyArtistId`,
+`app/lib/spotify.ts` — tolerates query params/trailing slashes/locale prefixes,
+validates a 22-char base62 ID).
+
+The curated-tracks override (`listenFirst.mode: "tracks"`, up to 3 tracks with
+`spotifyId`, rendered as compact `SpotifyTrackEmbed`s) exists **only** for acts with no
+single Spotify artist page that represents them — showcases/collectives/supergroups
+like Chicago Made, where the "artist" URL on file is really one member's profile. It
+is not a general-purpose curation path for ordinary artists, and it always wins over
+`socials.spotify` when present, since its presence is a deliberate correction.
+
+Quick Picks' "Quick Listen" is simpler by design: only `artist.tracks[0]`, only when it
+has a `spotifyId` — never a search through later tracks. This makes the Quick Picks
+song a plain data-ordering convention (place the intended track first) rather than a
+new field.
+
+This artist-embed-as-default posture is the current product decision for the MVP, not
+a placeholder — treat it as confirmed until deliberately revisited.
+
+### Components
+
+**Confirmed** — `SpotifyArtistEmbed` and `SpotifyTrackEmbed` (`app/components/ui/`)
+are the two reusable embed primitives, shared across Artist Detail (curated tracks)
+and Quick Picks (Quick Listen). Both: `loading="lazy"`, no autoplay, informative
+`title`, standard Spotify `allow` list, never alter/crop/overlay Spotify's own iframe
+content. Artist embed height is 370 (Spotify's non-compact layout, tall enough that a
+third track row isn't clipped — Spotify's list can be longer; users scroll inside it,
+FestFuse doesn't cap it). Track embed height is fixed at 80 (Spotify's compact
+layout).
+
+### Playback lifecycle: key-based remount, not reset effects
+
+**Confirmed** — Both embeds live inside JSX already keyed by `artist.slug` (Quick
+Picks' animated hero, Artist Detail's per-artist `ListenFirstSection`), so switching
+artists — forward or via undo — unmounts the previous iframe through React's normal
+key-based remount. No `useEffect` reset, no global "currently playing" state. This was
+a deliberate choice, not an oversight: an early draft used a reset effect and tripped
+`react-hooks/set-state-in-effect`; switching to key-based remount removed that whole
+class of state.
+
+### Rejected alternatives
+
+- **Spotify iFrame API** — deferred. A plain iframe meets every current requirement;
+  the iFrame API would add complexity (and a package) for cross-embed playback
+  coordination nothing here currently needs. Multiple curated-track embeds can
+  technically play simultaneously today — accepted for the MVP.
+- **Broad per-artist track curation as the default** — rejected. Curating 3 trustworthy
+  tracks per artist is an editorial effort orthogonal to this feature; the artist
+  embed is the default specifically so curation stays scoped to the narrow case where
+  it's actually needed.
+- **`verified`/`reviewed`/`quickPickSpotifyId` fields** — rejected. `listenFirst.mode`
+  and `tracks[0]`'s position are themselves the signals; no parallel bookkeeping.
+
+### Deferred
+
+- Cross-embed playback coordination (pause-others-on-play) — not implemented, no
+  near-term plan (see Rejected alternatives).
+- `AlbumArtwork.tsx` (`app/components/ui/`) has no remaining callers since the old
+  per-track selector UI was replaced by these embeds — kept, not deleted, in case
+  per-track artwork is useful again.
+- Embed responsiveness was checked only for basic non-overflow, not redesigned for
+  mobile.
+
+---
+
 ## Future Consideration: Date/Day Normalization
 
 `FestivalAppearance.day` (a weekday label, e.g. `"Thursday"`) and `.date` (e.g.
