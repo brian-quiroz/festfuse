@@ -49,14 +49,10 @@ export function computeStorySignalsTestable(
   const lineupGenreRate = ((lineupGenreCounts[topGenreName] || 0) / allArtists.length) * 100;
   const genreDeviation = Math.abs(userGenreRate - lineupGenreRate);
 
-  // Hometown
-  const chicagoCount = pickedArtists.filter(
-    (a) => a.location.city === "Chicago" || a.location.state === "Illinois"
-  ).length;
+  // Hometown — city === "Chicago" only, matching the production definition.
+  const chicagoCount = pickedArtists.filter((a) => a.location.city === "Chicago").length;
   const userChicagoRate = (chicagoCount / pickedArtists.length) * 100;
-  const lineupChicagoCount = allArtists.filter(
-    (a) => a.location.city === "Chicago" || a.location.state === "Illinois"
-  ).length;
+  const lineupChicagoCount = allArtists.filter((a) => a.location.city === "Chicago").length;
   const lineupChicagoRate = (lineupChicagoCount / allArtists.length) * 100;
   const chicagoDeviation = Math.abs(userChicagoRate - lineupChicagoRate);
 
@@ -147,7 +143,7 @@ export function formatSignalReport(
 
   signals.signals.forEach((signal, i) => {
     const genre = (signal as any).genre ? ` (${(signal as any).genre})` : "";
-    const filtered = signal.deviation < 5 ? " [FILTERED: < 5pp noise floor]" : "";
+    const filtered = signal.deviation < 12 ? " [FILTERED: < 12pp noise floor]" : "";
     console.log(
       `${i + 1}. ${signal.name}${genre} — Deviation: ${signal.deviation.toFixed(1)}pp${filtered}`
     );

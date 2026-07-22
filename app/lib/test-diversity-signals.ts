@@ -1,5 +1,6 @@
 /**
- * Verification script for corrected diversity signals (9-11).
+ * Verification script for the diversity signals (stage, genre, geographic) among
+ * useStorySignals' 7 comparative signals.
  * Tests three scenarios: concentrated picks, spread-out picks, balanced picks.
  * Shows actual computed numbers so we can validate the math.
  *

@@ -11,7 +11,10 @@
  * Expected behavior:
  * - Scenario 1 (Heavy Chicago): hometown signal should rank #1 with high deviation
  * - Scenario 2 (Heavy International): international signal should rank #1 with high deviation
- * - Scenario 3 (Average): all deviations should be small; many filtered out by 5pp noise floor
+ * - Scenario 3 (Average): all deviations should be small; many filtered out by the noise
+ *   floor (12pp in production — see NOISE_THRESHOLD_PP in app/hooks/useStorySignals.ts;
+ *   this file's own 5-signal mirror below uses the same value purely for illustration,
+ *   it doesn't implement production's real 4-5 insight selection/fallback logic)
  */
 
 import type { Artist } from "@/app/types/artist";
@@ -26,18 +29,15 @@ export function buildTestScenarios(allArtists: Artist[]) {
     updatedAt: Date.now(),
   });
 
-  // Scenario 1: Heavy Chicago/local picks
-  const chicagoArtists = allArtists.filter(
-    (a) => a.location.city === "Chicago" || a.location.state === "Illinois"
-  );
+  // Scenario 1: Heavy Chicago/local picks. City === "Chicago" only, matching the
+  // production hometown definition — not the whole state of Illinois.
+  const chicagoArtists = allArtists.filter((a) => a.location.city === "Chicago");
   const scenario1Picks: Record<string, ArtistDecision> = {};
   chicagoArtists.slice(0, 12).forEach((a) => {
     scenario1Picks[a.slug] = decision("mustSee");
   });
   // Add 3 non-Chicago to make it 15 total (but mostly local)
-  const nonChicago = allArtists.filter(
-    (a) => a.location.city !== "Chicago" && a.location.state !== "Illinois"
-  );
+  const nonChicago = allArtists.filter((a) => a.location.city !== "Chicago");
   nonChicago.slice(0, 3).forEach((a) => {
     scenario1Picks[a.slug] = decision("interested");
   });
@@ -84,7 +84,7 @@ export function runAllTests(allArtists: Artist[]) {
   );
   result1.signals.forEach((signal, i) => {
     const genre = (signal as any).genre ? ` (${(signal as any).genre})` : "";
-    const filtered = signal.deviation < 5 ? " ⚠ FILTERED (< 5pp noise floor)" : " ✓";
+    const filtered = signal.deviation < 12 ? " ⚠ FILTERED (< 12pp noise floor)" : " ✓";
     console.log(`  ${i + 1}. ${signal.name}${genre}${filtered}`);
     console.log(
       `     User: ${signal.userRate.toFixed(1)}% | Lineup: ${signal.lineupRate.toFixed(1)}% | Deviation: ${signal.deviation.toFixed(1)}pp`
@@ -100,7 +100,7 @@ export function runAllTests(allArtists: Artist[]) {
   );
   result2.signals.forEach((signal, i) => {
     const genre = (signal as any).genre ? ` (${(signal as any).genre})` : "";
-    const filtered = signal.deviation < 5 ? " ⚠ FILTERED (< 5pp noise floor)" : " ✓";
+    const filtered = signal.deviation < 12 ? " ⚠ FILTERED (< 12pp noise floor)" : " ✓";
     console.log(`  ${i + 1}. ${signal.name}${genre}${filtered}`);
     console.log(
       `     User: ${signal.userRate.toFixed(1)}% | Lineup: ${signal.lineupRate.toFixed(1)}% | Deviation: ${signal.deviation.toFixed(1)}pp`
@@ -112,11 +112,11 @@ export function runAllTests(allArtists: Artist[]) {
   const result3 = computeStorySignalsTestable(scenario3Picks, allArtists);
   console.log(`SCENARIO 3: Average/Balanced Picks (${result3.pickedCount} picks)`);
   console.log(
-    `Expected: Most or all signals filtered out (all deviations < 5pp). No dramatic headlines from noise.\n`
+    `Expected: Most or all signals filtered out (all deviations < 12pp). No dramatic headlines from noise.\n`
   );
   result3.signals.forEach((signal, i) => {
     const genre = (signal as any).genre ? ` (${(signal as any).genre})` : "";
-    const filtered = signal.deviation < 5 ? " ⚠ FILTERED (< 5pp noise floor)" : " ✓";
+    const filtered = signal.deviation < 12 ? " ⚠ FILTERED (< 12pp noise floor)" : " ✓";
     console.log(`  ${i + 1}. ${signal.name}${genre}${filtered}`);
     console.log(
       `     User: ${signal.userRate.toFixed(1)}% | Lineup: ${signal.lineupRate.toFixed(1)}% | Deviation: ${signal.deviation.toFixed(1)}pp`
