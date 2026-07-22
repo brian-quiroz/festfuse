@@ -69,6 +69,13 @@ For organizational reference—filters and search use the full 124-genre list:
 
 ## What to Expect — Design Rationale
 
+**Current status:** `whatToExpect`, along with `tagline`, `whySee`, and `bestFor`, is
+unverified AI-generated content. None of the four drive any application behavior
+(search, filter, carousel, rank, recommend, or Festival Story signal) — they remain
+dormant in the type and artist data below as a taxonomy/content reference, not as
+something the app currently reads. `about` is the only AI-authored artist prose
+actually rendered in the UI (Artist Detail's About section).
+
 ### Overview
 
 The `whatToExpect` field describes what the audience will experience at a performance—observable, reusable, and orthogonal to genre when possible.
@@ -174,8 +181,10 @@ export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
 5. State
 6. City
 7. Stage
-8. Best For
-9. What to Expect
+
+Deliberately does not search `tagline`, `whySee`, `whatToExpect`, or `bestFor` —
+unverified AI-generated prose, excluded from every search/filter/rank/recommend path
+app-wide.
 
 **Minimum query length:**
 
@@ -192,7 +201,7 @@ export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
 
 The Explore page manages four distinct states:
 
-1. **No filters + no search** → Show curated carousels (Festival Favorites, Hidden Gems, International Picks, Chicago's Own, Cinematic Visuals)
+1. **No filters + no search** → Show curated carousels (Festival Favorites, Hidden Gems, International Picks, Chicago's Own, After Dark)
 2. **Filters only** → Show ActiveFilters bar + ArtistResultsGrid
 3. **Search only** → Show search heading + ArtistResultsGrid
 4. **Search + filters** → Show ActiveFilters bar + ArtistResultsGrid
@@ -216,8 +225,11 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 
 - Festival Favorites — "Is this artist a headliner/sub-headliner?" (objective fact)
 - International Picks — "Is this artist from outside the US?" (objective fact)
-- Chicago's Own — "Is this artist from Chicago?" (objective fact)
-- Cinematic Visuals — "Does this artist have this tag?" (objective fact)
+- Chicago's Own — "Is this artist from Chicago?" (objective fact; `location.city ===
+  "Chicago"` exactly, not the whole state of Illinois)
+- After Dark — "Does this artist's primary appearance start at 8:00 PM or later?"
+  (objective fact, via the shared `timeStringToMinutes` parser — see "Carousel
+  Presentation Strategies" below)
 - Future rows: Larger Than Life, etc.
 
 **Curatorial/Discovery Rows** (answer subjective "is this worth surfacing" questions):
@@ -230,7 +242,7 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 
 An artist can legitimately be:
 
-- A headliner _and_ international _and_ have Cinematic Visuals simultaneously
+- A headliner _and_ international _and_ playing After Dark simultaneously
 - From Chicago _and_ a sub-headliner _and_ have great lyrics
 
 All three facts are simultaneously true. Hiding an artist from one row because they appear in another would make each row factually incomplete or misleading.
@@ -243,7 +255,7 @@ Hidden Gems' premise is "overlooked," which is contradicted if a headliner appea
 
 If you added a second curatorial row (e.g., "Artists Worth Seeing Early"), you'd want the same editorially-chosen artist to not appear twice under different curatorial framings.
 
-Right now Rule C doesn't apply to anything — Cinematic Visuals is factual (Rule A), not curatorial, so there's no second curatorial row to protect.
+Right now Rule C doesn't apply to anything — After Dark is factual (Rule A), not curatorial, so there's no second curatorial row to protect.
 
 ---
 
@@ -283,7 +295,15 @@ Two distinct algorithms power carousel rows, chosen based on the row's editorial
 4. Round-robin interleave across shuffled groups
 5. Concatenate result
 
-**Why this pattern:** All other rows (International Picks, Chicago's Own, Cinematic Visuals, Hidden Gems) don't care about billing prominence — they're answering a different question ("Is this artist from outside the US?" not "Is this artist famous?"). File-order bias is a hazard: if the data file happens to list headliners first, every row would inherit that prominence bias without editing work. Shuffling within days breaks that bias. Round-robin interleaving distributes artists across visible viewport positions evenly (first visible artist comes from each day in order) rather than front-loading any single day.
+**Why this pattern:** All other rows (International Picks, Chicago's Own, After Dark, Hidden Gems) don't care about billing prominence — they're answering a different question ("Is this artist from outside the US?" not "Is this artist famous?"). File-order bias is a hazard: if the data file happens to list headliners first, every row would inherit that prominence bias without editing work. Shuffling within days breaks that bias. Round-robin interleaving distributes artists across visible viewport positions evenly (first visible artist comes from each day in order) rather than front-loading any single day.
+
+**After Dark's 8:00 PM threshold:** chosen from the actual lineup distribution, not a
+round-number guess. At 8:00 PM, 19 artists qualify, spread 4-5 per day across all four
+festival days — a well-populated, evenly-distributed row. 8:30 PM narrows this to 16
+(4/day); 9:00 PM drops to just 5 total, too sparse for a discovery row. Uses each
+artist's primary appearance (`getPrimaryAppearance`, consistent with every other
+carousel) and the shared `timeStringToMinutes` parser (`app/lib/time.ts`) rather than
+comparing time strings lexicographically.
 
 **Example:**
 
@@ -369,17 +389,19 @@ const internationalPicks = interleaveByDayShuffled(
 );
 
 // Chicago's Own: factual, no suppression (Rule A)
-// Pipeline: filter to Chicago/Illinois → sort by day → shuffle within days → interleave
+// Pipeline: filter to Chicago (city only) → sort by day → shuffle within days → interleave
 // Result: represents all qualifying artists, shuffled presentation breaks file-order bias
 const chicagosOwn = interleaveByDayShuffled(
-  allArtists.filter((a) => a.location.city === "Chicago" || a.location.state === "Illinois")
+  allArtists.filter((a) => a.location.city === "Chicago")
 );
 
-// Cinematic Visuals: factual, no suppression (Rule A)
-// Pipeline: filter by tag → sort by day → shuffle within days → interleave
+// After Dark: factual, no suppression (Rule A)
+// Pipeline: filter to primary appearance >= 8:00 PM → sort by day → shuffle within days → interleave
 // Result: represents all qualifying artists, shuffled presentation breaks file-order bias
-const cinematicVisuals = interleaveByDayShuffled(
-  allArtists.filter((a) => a.whatToExpect.includes("Cinematic Visuals"))
+const afterDark = interleaveByDayShuffled(
+  allArtists.filter(
+    (a) => timeStringToMinutes(getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).startTime) >= 20 * 60
+  )
 );
 ```
 
@@ -666,6 +688,65 @@ navigation paths that broke in different ways during development):
    the page renders one stable state, restored or freshly reset, without ever flashing
    stale filters first. A full page *refresh* (as opposed to back/forward) reliably resets
    the in-memory Explore state to empty.
+
+---
+
+## Festival Story
+
+**Confirmed** — `computeStorySignals(decisionsByArtist, allArtists)`
+(`app/hooks/useStorySignals.ts`) is the single source of truth for what Festival Story
+shows; the hook is a thin `useMemo` wrapper around it. Kept as one exported function
+rather than a hook-only implementation specifically so nothing needs a second,
+separately-maintained "testable" copy that can drift — the `test-*.ts` scratch
+scripts in `app/lib/` import and call this function directly.
+
+### Signal set
+
+Seven comparative signals (user's picks vs. the lineup baseline, ranked by deviation):
+genre family dominance, hometown concentration, headliner/undercard mix,
+international/domestic mix, stage diversity, genre diversity, geographic diversity.
+Hometown is `location.city === "Chicago"` exactly — not the whole state of Illinois;
+Explore's "Chicago's Own" carousel uses the same definition.
+
+The four signals previously derived from `whatToExpect` (High-Energy, Spectacle,
+Intimate, Lyrical) are removed, per the site-wide policy that unverified AI-generated
+artist fields (`tagline`, `whySee`, `whatToExpect`, `bestFor`) drive no application
+behavior — not filtered out at selection time, the computation itself is gone.
+
+### Decision confidence
+
+A separate, non-comparative signal based only on the user's own verdict counts (Must
+See vs. Interested) — deliberately not framed as a lineup-relative deviation, since
+there's no meaningful "expected" Must-See rate to compare against. Requires at least 3
+total positive decisions before classifying the user as any type (`mustSeeRate >= 0.6`
+→ "heavy", `<= 0.35` → Interested-heavy, otherwise "balanced") — below that floor, a
+single pick would swing the rate from 0% to 100% and read as a dramatic conclusion
+from almost no data.
+
+### Selection: noise threshold + guaranteed 4-5 insights
+
+Comparative signals must clear a **12 percentage-point** deviation floor
+(`NOISE_THRESHOLD_PP`) to be shown at all — below that, the gap is plausibly just
+sampling noise from picking a subset of a 170+ artist lineup, not a real taste signal.
+Decision confidence (when computable) always takes a slot first; qualifying
+comparative signals fill the rest, strongest first, capped at 5 total. If that's still
+under 4, a neutral "journey summary" fallback is added — purely descriptive counts
+(picks/Must-Sees/Interested), never another interpretive taste classification, and
+deliberately distinct from decision confidence's framing so the two cards never
+restate the same conclusion. The result is never fewer than 4 cards and never padded
+with sub-threshold signals just to reach 5.
+
+### Deferred
+
+- Day-of-week concentration signal — see "Future Consideration: Festival Story — Day
+  of Week Signal" below (still blocked on the same prerequisite: no attendance-day
+  input yet).
+- A discovery-source/Quick-Picks-provenance signal was considered and rejected —
+  Festival Story only unlocks after Quick Picks, so that signal would describe the
+  product funnel rather than the user.
+- Lineup scoping (`allArtists`) is passed explicitly into `computeStorySignals` rather
+  than assumed — intentional, so an attendance-filtered artist pool can be substituted
+  later without changing the function's shape.
 
 ---
 
@@ -1356,7 +1437,10 @@ Neither is being built for MVP. Passed remains reachable only via the Status fil
 
 ## Future Consideration: Festival Story — Day of Week Signal
 
-**Deferred signal:** Festival Story currently computes 11 candidate signals for its revelation sequence. A 12th candidate (Day of Week concentration: Thu/Fri vs. Sat/Sun skew) was deliberately omitted, pending a prerequisite Quick Picks feature.
+**Deferred signal:** Festival Story currently computes 7 comparative candidate signals
+plus decision confidence (see "Festival Story" above). An additional candidate (Day of
+Week concentration: Thu/Fri vs. Sat/Sun skew) was deliberately omitted, pending a
+prerequisite Quick Picks feature.
 
 **Why deferred:** The signal cannot be computed honestly without knowing whether a user's Thursday-heavy picks reflect genuine preference or simply that they only attended Thursday and skipped Friday/Saturday/Sunday. Currently, Quick Picks has no "I'm only attending these days" input — it presents the entire lineup to every user regardless of attendance.
 

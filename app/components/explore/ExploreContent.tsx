@@ -9,7 +9,11 @@ import QuickPicksBanner from "@/app/components/explore/QuickPicksBanner";
 import ExploreFilters from "@/app/components/explore/ExploreFilters";
 import { searchArtists } from "@/app/lib/search";
 import { filterArtists } from "@/app/lib/filters";
-import { shuffleDayBlocks, interleaveByDayShuffled } from "@/app/lib/carousel";
+import {
+  shuffleDayBlocks,
+  interleaveByDayShuffled,
+  AFTER_DARK_THRESHOLD_MINUTES,
+} from "@/app/lib/carousel";
 import ArtistResultsGrid from "@/app/components/explore/ArtistResultsGrid";
 import ActiveFilters from "@/app/components/explore/ActiveFilters";
 import { Shuffle, ChevronLeft } from "lucide-react";
@@ -155,8 +159,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     [chicagosOwnRandom]
   );
 
-  // 8:00 PM threshold.
-  const AFTER_DARK_THRESHOLD_MINUTES = 20 * 60;
   const afterDark = useMemo(
     () =>
       interleaveByDayShuffled(
