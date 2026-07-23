@@ -75,9 +75,9 @@ function findType(signals: ReturnType<typeof run>, type: string) {
   return signals.find((s) => s.type === type);
 }
 // Matches the interpretive (non-tied, qualifying) Taste Profile headline —
-// "{Family} connects many of your picks" — without hardcoding a specific family name.
+// "{Family} runs the show" — without hardcoding a specific family name.
 function isStrongTasteCopy(headline: string | undefined): boolean {
-  return !!headline && headline.endsWith("connects many of your picks");
+  return !!headline && headline.endsWith("runs the show");
 }
 
 // Fully synthetic fixture artist — used only where the real 172-artist lineup can't
@@ -281,12 +281,12 @@ console.log("\n========== DIRECTIONAL CORRECTNESS ==========\n");
   });
   const signals = run(ALL_DAYS, decisionsFor([...headliners.slice(0, 8), ...undercard.slice(0, 2)].map((a) => a.slug), "mustSee"));
   const billing = findType(signals, "billing");
-  check("headliner-heavy picks -> billing card, headliner-heavy copy", billing?.headlineTemplate === "Main-stage energy led the way", billing?.headlineTemplate);
+  check("headliner-heavy picks -> billing card, headliner-heavy copy", billing?.headlineTemplate === "Big names lead the way", billing?.headlineTemplate);
 
   const allUndercardPicks = shuffled(undercard, 23).slice(0, 20);
   const signals2 = run(ALL_DAYS, decisionsFor(allUndercardPicks.map((a) => a.slug), "mustSee"));
   const billing2 = findType(signals2, "billing");
-  check("undercard-heavy picks -> billing card, undercard-heavy copy", billing2?.headlineTemplate === "You found the next wave", billing2?.headlineTemplate ?? dims(signals2).join(","));
+  check("undercard-heavy picks -> billing card, undercard-heavy copy", billing2?.headlineTemplate === "Heavy on the undercard", billing2?.headlineTemplate ?? dims(signals2).join(","));
 }
 {
   const byStage = new Map<string, Artist[]>();
@@ -301,7 +301,7 @@ console.log("\n========== DIRECTIONAL CORRECTNESS ==========\n");
   const focusedStage = findType(focusedSignals, "stage");
   check(
     "focused stage picks (all same stage) -> stage card, focused copy (or safe, never broad)",
-    !focusedStage || focusedStage.headlineTemplate === "A focused festival footprint" || focusedStage.headlineTemplate === "Your festival footprint",
+    !focusedStage || focusedStage.headlineTemplate === "Anchored to a few stages" || focusedStage.headlineTemplate === "Your festival footprint",
     focusedStage?.headlineTemplate ?? "(none)"
   );
 
@@ -322,7 +322,7 @@ console.log("\n========== DIRECTIONAL CORRECTNESS ==========\n");
   const broadStage = findType(broadSignals, "stage");
   check(
     "broad stage picks (one per stage first) -> stage card, broad copy (or safe, never focused)",
-    !broadStage || broadStage.headlineTemplate === "Your picks go all over the map" || broadStage.headlineTemplate === "Your festival footprint",
+    !broadStage || broadStage.headlineTemplate === "Stages all across the park" || broadStage.headlineTemplate === "Your festival footprint",
     broadStage?.headlineTemplate ?? "(none)"
   );
 }
@@ -333,7 +333,7 @@ console.log("\n========== DIRECTIONAL CORRECTNESS ==========\n");
     const genreBreadth = findType(signals, "genreBreadth");
     check(
       "single-genre-only picks -> genreBreadth card (if present) is focused, never broad",
-      !genreBreadth || genreBreadth.headlineTemplate === "You found your lane",
+      !genreBreadth || genreBreadth.headlineTemplate === "In the zone",
       genreBreadth?.headlineTemplate ?? "(none)"
     );
   } else {
@@ -391,8 +391,8 @@ console.log("\n========== GENRE AFFINITY: SELECTION-ADJUSTED + TIES ==========\n
   const taste = findType(signals, "genreAffinity");
   check(
     "safe Taste Profile, single leading family (Electronic/Dance) -> corrected 'connect through' copy, no article",
-    taste?.headlineTemplate === "Electronic/Dance led your festival picks" &&
-      taste?.supportingText === "3 of your 6 picks (50%) connect through Electronic/Dance.",
+    taste?.headlineTemplate === "Electronic/Dance leads the mix" &&
+      taste?.supportingText === "More of your picks connect through Electronic/Dance than any other sound.",
     `${taste?.headlineTemplate} | ${taste?.supportingText}`
   );
 }
@@ -476,7 +476,7 @@ console.log("\n========== GENRE AFFINITY: SELECTION-ADJUSTED + TIES ==========\n
   check(
     "four-way leading-family tie -> capped at 3 named families plus 'and 1 more'",
     taste?.headlineTemplate === "Your leading sounds" &&
-      taste?.supportingText === "Electronic/Dance, Folk/Americana/Country, Hip-Hop/Rap, and 1 more shared the lead across your festival picks.",
+      taste?.supportingText === "Electronic/Dance, Folk/Americana/Country, Hip-Hop/Rap, and 1 more are running neck and neck across your festival picks.",
     taste?.supportingText
   );
 }
@@ -495,7 +495,7 @@ console.log("\n========== GENRE AFFINITY: SELECTION-ADJUSTED + TIES ==========\n
   check(
     "five-way leading-family tie -> still capped at 3 named families, 'and 2 more', headline stays readable",
     taste?.headlineTemplate === "Your leading sounds" &&
-      taste?.supportingText === "Electronic/Dance, Folk/Americana/Country, Hip-Hop/Rap, and 2 more shared the lead across your festival picks.",
+      taste?.supportingText === "Electronic/Dance, Folk/Americana/Country, Hip-Hop/Rap, and 2 more are running neck and neck across your festival picks.",
     taste?.supportingText
   );
 }
@@ -507,7 +507,7 @@ console.log("\n========== GENRE AFFINITY: SELECTION-ADJUSTED + TIES ==========\n
   const taste = findType(signals, "genreAffinity");
   check(
     "no genre data on any pick -> defensive fallback names the real condition (missing info, not a taste claim)",
-    taste?.headlineTemplate === "There isn't enough genre information to name a leading sound yet" &&
+    taste?.headlineTemplate === "Still tuning the frequency" &&
       taste?.supportingText === "Keep exploring and your taste profile will become clearer.",
     `${taste?.headlineTemplate} | ${taste?.supportingText}`
   );
@@ -565,7 +565,7 @@ console.log("\n========== DAY SIGNAL: SELECTION-ADJUSTED ==========\n");
   const day = findType(signals, "day");
   check(
     "raw-leading day (Thursday, 12 of 20 picks) under-indexes its 80% baseline; Friday (8 of 20 picks) over-indexes its 20% baseline -> Friday is selected, not Thursday",
-    day?.headlineTemplate === "Friday stands out",
+    day?.headlineTemplate === "Friday takes center stage",
     day?.headlineTemplate ?? dims(signals).join(",")
   );
 }
@@ -702,24 +702,24 @@ console.log("\n========== COPY: DECISION PROFILE BOUNDARIES ==========\n");
   check("7 picks (mixed) -> restrained copy", decisionProfileFor(4, 3)?.headlineTemplate === "Your picks are taking shape", decisionProfileFor(4, 3)?.headlineTemplate);
 
   // 8 picks at 25% (2/8), 40% (not achievable at exactly 8 with integers close: use 3/8=37.5%), 60% (5/8=62.5%... need exact boundary values)
-  check("8 picks at 25% Must See (2/8) -> Interested-heavy copy", decisionProfileFor(2, 6)?.headlineTemplate === "Keeping your options open", decisionProfileFor(2, 6)?.headlineTemplate);
-  check("8 picks at 75% Must See (6/8) -> Must-See-heavy copy", decisionProfileFor(6, 2)?.headlineTemplate === "Your Must See list leads the way", decisionProfileFor(6, 2)?.headlineTemplate);
+  check("8 picks at 25% Must See (2/8) -> Interested-heavy copy", decisionProfileFor(2, 6)?.headlineTemplate === "Scouting mode active", decisionProfileFor(2, 6)?.headlineTemplate);
+  check("8 picks at 75% Must See (6/8) -> Must-See-heavy copy", decisionProfileFor(6, 2)?.headlineTemplate === "Heavy on the non-negotiables", decisionProfileFor(6, 2)?.headlineTemplate);
 
   // Use a 10-pick pool for clean 40%/60% boundary values.
-  check("10 picks at 40% Must See (4/10, near-even boundary) -> near-even copy", decisionProfileFor(4, 6)?.headlineTemplate === "Certainty meets curiosity", decisionProfileFor(4, 6)?.headlineTemplate);
-  check("10 picks at 60% Must See (6/10, near-even boundary) -> near-even copy", decisionProfileFor(6, 4)?.headlineTemplate === "Certainty meets curiosity", decisionProfileFor(6, 4)?.headlineTemplate);
-  check("10 picks at 50% Must See -> near-even copy", decisionProfileFor(5, 5)?.headlineTemplate === "Certainty meets curiosity", decisionProfileFor(5, 5)?.headlineTemplate);
+  check("10 picks at 40% Must See (4/10, near-even boundary) -> near-even copy", decisionProfileFor(4, 6)?.headlineTemplate === "Balanced between priority and curiosity", decisionProfileFor(4, 6)?.headlineTemplate);
+  check("10 picks at 60% Must See (6/10, near-even boundary) -> near-even copy", decisionProfileFor(6, 4)?.headlineTemplate === "Balanced between priority and curiosity", decisionProfileFor(6, 4)?.headlineTemplate);
+  check("10 picks at 50% Must See -> near-even copy", decisionProfileFor(5, 5)?.headlineTemplate === "Balanced between priority and curiosity", decisionProfileFor(5, 5)?.headlineTemplate);
 
   // Middle-leaning branches: use a pool size that isn't a multiple of the extreme
   // floor's pick count coincidentally, e.g. 11 picks.
-  check("11 picks at ~64% Must See (7/11, Must-See-leaning middle) -> shortlist copy", decisionProfileFor(7, 4)?.headlineTemplate === "A shortlist with clear priorities", decisionProfileFor(7, 4)?.headlineTemplate);
+  check("11 picks at ~64% Must See (7/11, Must-See-leaning middle) -> shortlist copy", decisionProfileFor(7, 4)?.headlineTemplate === "Priorities set, curiosity intact", decisionProfileFor(7, 4)?.headlineTemplate);
   check("11 picks at ~36% Must See (4/11, Interested-leaning middle) -> discovery copy", decisionProfileFor(4, 7)?.headlineTemplate === "Room for discovery", decisionProfileFor(4, 7)?.headlineTemplate);
 
   const extreme9 = decisionProfileFor(8, 1); // 9 total, 88.9% -> heavy but not extreme (count<10)
-  check("9 picks at ~89% Must See -> heavy but NOT extreme (below the 10-pick floor)", extreme9?.headlineTemplate === "Your Must See list leads the way", extreme9?.headlineTemplate);
+  check("9 picks at ~89% Must See -> heavy but NOT extreme (below the 10-pick floor)", extreme9?.headlineTemplate === "Heavy on the non-negotiables", extreme9?.headlineTemplate);
 
   const extreme10 = decisionProfileFor(9, 1); // 10 total, 90% -> extreme
-  check("10 picks at 90% Must See -> extreme copy", extreme10?.headlineTemplate === "No hesitation, zero fluff", extreme10?.headlineTemplate);
+  check("10 picks at 90% Must See -> extreme copy", extreme10?.headlineTemplate === "Zero hesitation", extreme10?.headlineTemplate);
 
   const extremeInterested10 = decisionProfileFor(1, 9); // 10 total, 10% Must See -> extreme interested
   check("10 picks at 10% Must See -> extreme Interested copy", extremeInterested10?.headlineTemplate === "Keeping every door wide open", extremeInterested10?.headlineTemplate);
@@ -741,8 +741,8 @@ console.log("\n========== COPY: PLURALIZATION AND DEPRECATED PHRASES ==========\
   const signals = run(ALL_DAYS, decisionsFor(picks.map((a) => a.slug), "mustSee"));
   const billing = findType(signals, "billing");
   check(
-    "billing safe copy pluralizes each category independently (1 headliner pick, 1 sub-headliner pick, N undercard picks)",
-    (billing?.supportingText.includes("1 headliner pick,") ?? false) && (billing?.supportingText.includes("1 sub-headliner pick,") ?? false),
+    "billing safe copy pluralizes each category independently",
+    billing?.supportingText === "1 headliner, 1 sub-headliner, and 3 undercard acts make up your current list.",
     billing?.supportingText
   );
 }

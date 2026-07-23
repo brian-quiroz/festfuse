@@ -120,9 +120,13 @@ export default function QuickPicksCompleteScreen({
                   Festival Story
                 </p>
                 <p className={`text-sm leading-relaxed ${storyUnlocked ? "text-white/80" : "text-white/40"}`}>
+                  {/* This exact threshold copy is valid because the only expected
+                      user-facing Story lock condition is fewer than 5
+                      attendance-scoped positive picks. If another eligibility
+                      condition is introduced, use reason-specific locked copy. */}
                   {storyUnlocked
-                    ? "Discover what your picks say about you."
-                    : "Add a few picks to unlock your Festival Story."}
+                    ? "Your picks have a story to tell."
+                    : "Reach 5 picks to unlock your Festival Story."}
                 </p>
               </div>
               <div className="flex justify-end mt-4">

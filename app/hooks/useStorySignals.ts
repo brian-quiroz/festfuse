@@ -391,7 +391,7 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     // information to say anything about the picks' genre makeup.
     tasteCandidate = {
       type: "genreAffinity",
-      headlineTemplate: "There isn't enough genre information to name a leading sound yet",
+      headlineTemplate: "Still tuning the frequency",
       supportingText: "Keep exploring and your taste profile will become clearer.",
       extremeness: 1,
       practicalEffectPP: 0,
@@ -403,7 +403,7 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
       type: "genreAffinity",
       userValue: observed.maxFamilyRate,
       headlineTemplate: "Your leading sounds",
-      supportingText: `${formatFamilyList(leadingFamilies)} shared the lead across your festival picks.`,
+      supportingText: `${formatFamilyList(leadingFamilies)} are running neck and neck across your festival picks.`,
       extremeness: 1,
       practicalEffectPP: 0,
     };
@@ -415,8 +415,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
         userValue: observed.maxFamilyRate,
         lineupValue: familyEval.mean,
         deviation: familyEval.practicalEffectPP,
-        headlineTemplate: `${topFamilyName} connects many of your picks`,
-        supportingText: "That pattern is stronger than random picks from your selected-day lineup usually produce.",
+        headlineTemplate: `${topFamilyName} runs the show`,
+        supportingText: "That sound keeps showing up across your picks.",
         extremeness: familyEval.extremeness,
         practicalEffectPP: familyEval.practicalEffectPP,
       };
@@ -424,8 +424,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
       tasteCandidate = {
         type: "genreAffinity",
         userValue: observed.maxFamilyRate,
-        headlineTemplate: `${topFamilyName} led your festival picks`,
-        supportingText: `${topFamilyCount} of your ${totalPositive} picks (${round(observed.maxFamilyRate)}%) connect through ${topFamilyName}.`,
+        headlineTemplate: `${topFamilyName} leads the mix`,
+        supportingText: `More of your picks connect through ${topFamilyName} than any other sound.`,
         extremeness: 1,
         practicalEffectPP: 0,
       };
@@ -436,24 +436,22 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
   // Decision Profile — fixed anchor, always included, always the last insight.
   // ============================================================================
   const mustSeeTotal = pickedArtists.filter((a) => decisionsByArtist[a.slug].verdict === "mustSee").length;
-  const interestedTotal = totalPositive - mustSeeTotal;
   const mustSeeRate = mustSeeTotal / totalPositive;
-  const mustSeeRatePct = round(mustSeeRate * 100);
 
   let decisionProfile: Candidate;
   if (totalPositive <= DECISION_PROFILE_RESTRAINED_MAX_PICKS) {
     decisionProfile = {
       type: "decisionProfile",
       headlineTemplate: "Your picks are taking shape",
-      supportingText: `${mustSeeTotal} Must See and ${interestedTotal} Interested — your festival priorities are coming into focus.`,
+      supportingText: "With a handful of picks saved, your festival story is just getting started.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
   } else if (mustSeeRate >= DECISION_PROFILE_EXTREME_MUST_SEE && totalPositive >= DECISION_PROFILE_EXTREME_MIN_PICKS) {
     decisionProfile = {
       type: "decisionProfile",
-      headlineTemplate: "No hesitation, zero fluff",
-      supportingText: `${mustSeeRatePct}% of your picks landed in Must See (${mustSeeTotal} of ${totalPositive}). You made the call.`,
+      headlineTemplate: "Zero hesitation",
+      supportingText: "Almost everything you saved went straight into your Must See tier.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
@@ -464,23 +462,23 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     decisionProfile = {
       type: "decisionProfile",
       headlineTemplate: "Keeping every door wide open",
-      supportingText: `${interestedTotal} of your ${totalPositive} picks are Interested — you're leaving room to be surprised.`,
+      supportingText: "The vast majority of your picks are in Interested, leaving plenty of room to wander.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
   } else if (mustSeeRate >= DECISION_PROFILE_MUST_SEE_HEAVY) {
     decisionProfile = {
       type: "decisionProfile",
-      headlineTemplate: "Your Must See list leads the way",
-      supportingText: `${mustSeeTotal} of your ${totalPositive} picks (${mustSeeRatePct}%) are Must See — your priorities are clear.`,
+      headlineTemplate: "Heavy on the non-negotiables",
+      supportingText: "Your Must See tier is stacked, with just a few exploratory picks floating around.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
   } else if (mustSeeRate <= DECISION_PROFILE_INTERESTED_HEAVY) {
     decisionProfile = {
       type: "decisionProfile",
-      headlineTemplate: "Keeping your options open",
-      supportingText: `${interestedTotal} of your ${totalPositive} picks are Interested — discovery is still part of the plan.`,
+      headlineTemplate: "Scouting mode active",
+      supportingText: "Most of your lineup lives in Interested while you explore your options.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
@@ -488,8 +486,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     // > 60% and < 75% (the >= 75% branch above already handled the heavy case)
     decisionProfile = {
       type: "decisionProfile",
-      headlineTemplate: "A shortlist with clear priorities",
-      supportingText: `${mustSeeTotal} of your ${totalPositive} picks are Must See, with ${interestedTotal} still in the mix.`,
+      headlineTemplate: "Priorities set, curiosity intact",
+      supportingText: "A strong stack of Must Sees leads your list, with plenty of Interested acts keeping things interesting.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
@@ -498,7 +496,7 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     decisionProfile = {
       type: "decisionProfile",
       headlineTemplate: "Room for discovery",
-      supportingText: `${interestedTotal} of your ${totalPositive} picks are Interested, while ${mustSeeTotal} have already reached Must See.`,
+      supportingText: "Most of your picks are open for exploration, with Must Sees keeping the list anchored.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
@@ -506,8 +504,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     // 40% through 60% inclusive
     decisionProfile = {
       type: "decisionProfile",
-      headlineTemplate: "Certainty meets curiosity",
-      supportingText: `Your picks split ${mustSeeTotal} Must See to ${interestedTotal} Interested — a little certainty, a little room to explore.`,
+      headlineTemplate: "Balanced between priority and curiosity",
+      supportingText: "Your list lands in a steady mix of non-negotiable sets and open possibilities.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
@@ -550,8 +548,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
         userValue: observed.headlinerRate,
         lineupValue: highEval.mean,
         deviation: highEval.practicalEffectPP,
-        headlineTemplate: "Main-stage energy led the way",
-        supportingText: `${round(observed.headlinerRate)}% of your picks are headliners or sub-headliners — the festival's biggest stages pulled you in.`,
+        headlineTemplate: "Big names lead the way",
+        supportingText: `Headliners and sub-headliners make up ${round(observed.headlinerRate)}% of your selected acts.`,
         extremeness: highEval.extremeness,
         practicalEffectPP: highEval.practicalEffectPP,
       });
@@ -562,8 +560,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
         userValue: observed.headlinerRate,
         lineupValue: lowEval.mean,
         deviation: lowEval.practicalEffectPP,
-        headlineTemplate: "You found the next wave",
-        supportingText: `${round(undercardRate)}% of your picks are undercard artists — discovery drove your lineup.`,
+        headlineTemplate: "Heavy on the undercard",
+        supportingText: `Undercard artists account for ${round(undercardRate)}% of your overall picks.`,
         extremeness: lowEval.extremeness,
         practicalEffectPP: lowEval.practicalEffectPP,
       });
@@ -571,8 +569,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
       pool.push({
         type: "billing",
         userValue: observed.headlinerRate,
-        headlineTemplate: "Your picks span the lineup",
-        supportingText: `${headlinerOnlyCount} headliner ${pluralize(headlinerOnlyCount, "pick", "picks")}, ${subHeadlinerCount} sub-headliner ${pluralize(subHeadlinerCount, "pick", "picks")}, and ${undercardCount} undercard ${pluralize(undercardCount, "pick", "picks")}.`,
+        headlineTemplate: "Across the lineup",
+        supportingText: `${headlinerOnlyCount} ${pluralize(headlinerOnlyCount, "headliner", "headliners")}, ${subHeadlinerCount} ${pluralize(subHeadlinerCount, "sub-headliner", "sub-headliners")}, and ${undercardCount} undercard acts make up your current list.`,
         extremeness: 1,
         practicalEffectPP: 0,
       });
@@ -590,8 +588,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
         userValue: observed.stageRate,
         lineupValue: highEval.mean,
         deviation: highEval.practicalEffectPP,
-        headlineTemplate: "Your picks go all over the map",
-        supportingText: `Your picks cover ${observed.stageCount} different stages — you're exploring across the festival grounds.`,
+        headlineTemplate: "Stages all across the park",
+        supportingText: `Your picks span ${observed.stageCount} stages, pulling you all over the festival map.`,
         extremeness: highEval.extremeness,
         practicalEffectPP: highEval.practicalEffectPP,
       });
@@ -601,8 +599,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
         userValue: observed.stageRate,
         lineupValue: lowEval.mean,
         deviation: lowEval.practicalEffectPP,
-        headlineTemplate: "A focused festival footprint",
-        supportingText: `Your picks cluster across ${observed.stageCount} ${pluralize(observed.stageCount, "stage")} — a tighter route through the grounds.`,
+        headlineTemplate: "Anchored to a few stages",
+        supportingText: `Your picks stay concentrated around just ${observed.stageCount} ${pluralize(observed.stageCount, "stage")}.`,
         extremeness: lowEval.extremeness,
         practicalEffectPP: lowEval.practicalEffectPP,
       });
@@ -611,7 +609,7 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
         type: "stage",
         userValue: observed.stageRate,
         headlineTemplate: "Your festival footprint",
-        supportingText: `Your picks span ${observed.stageCount} of the festival's ${lineupStageCount} stages.`,
+        supportingText: `Your current list takes you across ${observed.stageCount} different stages.`,
         extremeness: 1,
         practicalEffectPP: 0,
       });
@@ -629,7 +627,7 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
         lineupValue: highEval.mean,
         deviation: highEval.practicalEffectPP,
         headlineTemplate: "Your taste refused to stay in one lane",
-        supportingText: `Your picks span ${observed.genreCount} distinct genres — you're not sticking to one sound.`,
+        supportingText: `Your picks jump between ${observed.genreCount} distinct genres.`,
         extremeness: highEval.extremeness,
         practicalEffectPP: highEval.practicalEffectPP,
       });
@@ -639,8 +637,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
         userValue: observed.genreRate,
         lineupValue: lowEval.mean,
         deviation: lowEval.practicalEffectPP,
-        headlineTemplate: "You found your lane",
-        supportingText: `Your picks cluster around ${observed.genreCount} ${pluralize(observed.genreCount, "genre")} — a focused musical direction.`,
+        headlineTemplate: "In the zone",
+        supportingText: `Your picks stay close to ${observed.genreCount} core ${pluralize(observed.genreCount, "genre")}.`,
         extremeness: lowEval.extremeness,
         practicalEffectPP: lowEval.practicalEffectPP,
       });
@@ -658,10 +656,10 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
           userValue: observed.chicagoRate,
           lineupValue: highEval.mean,
           deviation: highEval.practicalEffectPP,
-          headlineTemplate: strong ? "Chicago runs through your picks" : "Chicago showed up in your picks",
+          headlineTemplate: strong ? "Rooted in Chicago" : "Chicago in the mix",
           supportingText: strong
-            ? `${round(observed.chicagoRate)}% of your picks are Chicago artists — the city made its mark.`
-            : `${observed.chicagoCount} of your picks call Chicago home — local artists earned a place in your lineup.`,
+            ? `Local Chicago talent makes up ${round(observed.chicagoRate)}% of your festival selections.`
+            : `${observed.chicagoCount} of your picks call Chicago home. Local artists earned a place in your lineup.`,
           extremeness: highEval.extremeness,
           practicalEffectPP: highEval.practicalEffectPP,
         });
@@ -680,7 +678,7 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
           userValue: observed.internationalRate,
           lineupValue: highEval.mean,
           deviation: highEval.practicalEffectPP,
-          headlineTemplate: "Your picks went global",
+          headlineTemplate: "Beyond the borders",
           supportingText: `${round(observed.internationalRate)}% of your picks come from outside the United States.`,
           extremeness: highEval.extremeness,
           practicalEffectPP: highEval.practicalEffectPP,
@@ -711,8 +709,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
         userValue: observed.countryRate,
         lineupValue: lowEval.mean,
         deviation: lowEval.practicalEffectPP,
-        headlineTemplate: "A focused geographic mix",
-        supportingText: `Your picks represent artists from ${observed.countryCount} ${pluralize(observed.countryCount, "country", "countries")} — a concentrated part of your festival taste.`,
+        headlineTemplate: "Roots in focus",
+        supportingText: `Your picks draw from a tight group of ${observed.countryCount} ${pluralize(observed.countryCount, "country", "countries")}.`,
         extremeness: lowEval.extremeness,
         practicalEffectPP: lowEval.practicalEffectPP,
       };
@@ -779,8 +777,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
               userValue: observed.dayRate[winningDay],
               lineupValue: eligibleDayRate[winningDay],
               deviation: observedScore,
-              headlineTemplate: `${winningDay} stands out`,
-              supportingText: `${round(observed.dayRate[winningDay])}% of your picks play on ${winningDay} — a stronger concentration than the selected-day lineup would suggest.`,
+              headlineTemplate: `${winningDay} takes center stage`,
+              supportingText: "This day pulled in a surprising share of your picks.",
               extremeness,
               practicalEffectPP: observedScore,
             });

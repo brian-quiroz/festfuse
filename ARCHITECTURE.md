@@ -734,7 +734,7 @@ lineup.
 `MIN_POSITIVE_PICKS_FOR_STORY = 5`. Below 5 valid positive picks,
 `computeStorySignals` returns `[]`. Quick Picks completion
 (`QuickPicksCompleteScreen`) keeps the Festival Story card visible but semantically
-disabled (`disabled`/`aria-disabled`, "Add a few picks to unlock your Festival
+disabled (`disabled`/`aria-disabled`, "Reach 5 picks to unlock your Festival
 Story."), gated by the same `getValidPositivePicks` call — never a separate
 raw-decision count that could disagree with what the Story itself would compute.
 `FestivalStorySequence` has its own independent guard (`signals.length !== 4` →
@@ -821,8 +821,8 @@ A candidate qualifies only when **all** of:
    same-size subsets did as well.
 3. **Practical effect ≥ 10 percentage points** (`PRACTICAL_EFFECT_MIN_PP`) — a
    statistically rare but trivial gap (e.g. 1pp) still can't headline.
-4. **Signal-specific observed-count floor** — Chicago requires ≥2 picks (≥4 for the
-   "biggest fan" dramatic tier), genre-family affinity requires ≥2 picks in the
+4. **Signal-specific observed-count floor** — Chicago requires ≥2 picks (≥4 for its
+   stronger copy tier), genre-family affinity requires ≥2 picks in the
    leading family, International requires ≥1, the Day signal's top day requires ≥2
    picks on it and ≥2 selected attendance days total.
 
@@ -832,8 +832,8 @@ practical effect are internal ranking/eligibility fields, never rendered.
 
 ### Decision Profile thresholds
 
-- **5-7 total valid positive picks**: restrained, count-only copy — no personality
-  claim from a tiny sample.
+- **5-7 total valid positive picks**: restrained, provisional copy with no numerical
+  breakdown or personality claim from a tiny sample.
 - **8+ picks, outer heavy thresholds**: Must-See rate ≥75% → Must-See-heavy copy;
   ≤25% → Interested-heavy.
 - **8+ picks, middle range** (25%-75%, previously one undifferentiated "balanced"
@@ -857,10 +857,11 @@ is, since the observed side searched harder than each sample did.
 **Ties**: if two or more families are tied for the highest presence count among the
 picks, the tie is detected explicitly and the interpretive single-family copy is never
 used — an arbitrary "first in object order" family is never crowned sole leader. Tied
-results render "Your leading sounds" naming all tied families (alphabetically sorted,
-so the phrasing never depends on any internal object's key-iteration order), joined
-naturally ("Rock and Pop"; "Rock, Pop, and Electronic/Dance"). The `GENRE_AFFINITY_MIN_PICKS`
-floor still applies to the non-tied interpretive path.
+results render "Your leading sounds" with the tied families alphabetically sorted,
+so the phrasing never depends on any internal object's key-iteration order. Up to
+three families are named directly; larger ties name the first three followed by
+"and N more" to keep the card readable. The `GENRE_AFFINITY_MIN_PICKS` floor still
+applies to the non-tied interpretive path.
 
 ### Day concentration signal: selection-adjusted, strongest over-index (not raw share)
 
@@ -912,9 +913,12 @@ considered complete.**
 
 ### Copy status
 
-Every headline/supporting-text pair in `useStorySignals.ts` is a working draft pending
-product-owner review (see the copy matrix in the implementing session's final report).
-Passing validation confirms the *logic* is correct, not that the copy is approved.
+The Festival Story headline/supporting-text matrix has been reviewed and approved by
+the product owner. Copy changes should preserve the stable/interpretive strength of
+each branch, the no-em-dash style rule, and the general limit of at most one numeric
+value per card (with the safe Billing breakdown as the deliberate exception).
+Validation covers copy-dependent branch boundaries and key dynamic formatting, but
+future wording changes still require product review.
 
 ### Known limitations
 

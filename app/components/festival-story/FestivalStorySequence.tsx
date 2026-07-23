@@ -56,7 +56,7 @@ export function FestivalStorySequence({ isOpen, onClose, attendanceDays }: Festi
       lineupValue: 0,
       deviation: 0,
       headlineTemplate: `This is your ${festivalName}`,
-      supportingText: "Your picks, your priorities, your festival taking shape.",
+      supportingText: "A closer look at the sounds and priorities behind your picks.",
     }),
     [festivalName]
   );
@@ -70,7 +70,7 @@ export function FestivalStorySequence({ isOpen, onClose, attendanceDays }: Festi
       lineupValue: 100,
       deviation: 0,
       headlineTemplate: "Your festival is taking shape",
-      supportingText: "Revisit your picks, keep exploring, or start building your schedule.",
+      supportingText: "See the picks that brought your Festival Story to life.",
     }),
     []
   );
