@@ -3,6 +3,7 @@
 import { ChevronDown, Calendar, Check } from "lucide-react";
 import Image from "next/image";
 import { COLORS } from "@/app/data/colors";
+import Switch from "@/app/components/Switch";
 
 interface Props {
   festivalDays: readonly string[];
@@ -134,22 +135,12 @@ export default function StartOptions({
               </div>
             </div>
 
-            {/* Toggle — pill color transitions between states */}
-            <button
-              type="button"
+            <Switch
+              checked={groupByDay}
+              onChange={onGroupByDayChange}
               disabled={isGroupingLocked || disabled}
-              aria-pressed={groupByDay}
-              onClick={() => onGroupByDayChange(!groupByDay)}
-              className={`w-11 h-6 rounded-full relative p-0 flex-shrink-0 transition-colors duration-300 ease-in-out ${
-                isGroupingLocked || disabled ? "opacity-40 cursor-not-allowed" : ""
-              } ${groupByDay ? "bg-[#00E5FF]/75" : "bg-white/20"}`}
-            >
-              <div
-                className={`w-5 h-5 bg-white rounded-full absolute left-0.5 top-0.5 transition-transform duration-300 ease-in-out ${
-                  groupByDay ? "translate-x-5" : "translate-x-0"
-                }`}
-              />
-            </button>
+              aria-label="Group by Festival Day"
+            />
           </div>
         </div>
       </div>
