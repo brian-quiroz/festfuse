@@ -4,6 +4,7 @@ import type { ArtistDecision } from "@/app/store/decisionStore";
 import { GENRE_TO_FAMILY } from "@/app/data/categories";
 import type { GenreFamily } from "@/app/data/categories";
 import { getSelectedDayAppearance } from "@/app/lib/appearances";
+import { isChicago } from "@/app/lib/location";
 import {
   buildStorySeed,
   drawSamples,
@@ -249,7 +250,7 @@ function computeAggregateMetrics(
   for (const artist of artists) {
     const appearance = appearanceOf(artist);
     if (appearance.billingTier === "Headliner" || appearance.billingTier === "Sub-headliner") headliner++;
-    if (artist.location.city === "Chicago") chicago++;
+    if (isChicago(artist.location.city)) chicago++;
     if (artist.location.country !== "United States") international++;
     stages.add(appearance.stage);
     artist.genres.forEach((g) => genres.add(g));

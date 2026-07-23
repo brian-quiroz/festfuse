@@ -1,5 +1,5 @@
 import type { Artist, FestivalAppearance } from "@/app/types/artist";
-import { FESTIVAL_DAYS } from "@/app/data/festivals";
+import { getDaysForFestival } from "@/app/data/festivals";
 import { timeStringToMinutes } from "@/app/lib/time";
 
 export function getAppearancesForFestival(
@@ -38,7 +38,7 @@ export function getPrimaryAppearance(artist: Artist, festivalId: string): Festiv
   // festival's — this function is called with an explicit festivalId precisely so it
   // stays correct if a caller ever passes a non-active festival (future multi-festival
   // support), so it must not silently fall back to ACTIVE_FESTIVAL_ID here.
-  const primary = pickPrimaryFromCandidates(atFestival, FESTIVAL_DAYS[festivalId]);
+  const primary = pickPrimaryFromCandidates(atFestival, getDaysForFestival(festivalId));
   if (!primary) {
     // Invariant violation under the current lineup-only model — every artist in
     // allArtists is expected to have at least one appearance at the active festival.
@@ -68,7 +68,7 @@ export function getSelectedDayAppearance(
   const eligible = getAppearancesForFestival(artist, festivalId).filter((a) =>
     selectedDays.includes(a.day)
   );
-  return pickPrimaryFromCandidates(eligible, FESTIVAL_DAYS[festivalId]);
+  return pickPrimaryFromCandidates(eligible, getDaysForFestival(festivalId));
 }
 
 export function getSelectedDayBillingTier(

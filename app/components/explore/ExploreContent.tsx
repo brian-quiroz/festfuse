@@ -25,6 +25,7 @@ import { useScheduleStore } from "@/app/store/scheduleStore";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance, getPrimaryBillingTier } from "@/app/lib/appearances";
 import { timeStringToMinutes } from "@/app/lib/time";
+import { isChicago } from "@/app/lib/location";
 import type { Artist } from "@/app/types/artist";
 
 interface ExploreContentProps {
@@ -153,7 +154,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const chicagosOwn = useMemo(
     () =>
       interleaveByDayShuffled(
-        allArtists.filter((a) => a.location.city === "Chicago"),
+        allArtists.filter((a) => isChicago(a.location.city)),
         chicagosOwnRandom
       ),
     [chicagosOwnRandom]

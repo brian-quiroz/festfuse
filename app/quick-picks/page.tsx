@@ -375,7 +375,7 @@ export default function QuickPicksPage() {
                 because the completion screen is showing. Unmounting on close also
                 resets FestivalStorySequence's internal currentIndex for free — no
                 state to reset by hand, so reopening always starts at the intro. */}
-            {showFestivalStory && (
+            {showFestivalStory && storyUnlocked && (
               <FestivalStorySequence
                 isOpen={showFestivalStory}
                 onClose={() => setShowFestivalStory(false)}
