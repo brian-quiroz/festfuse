@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/app/components/Sidebar";
 import StartScreen from "@/app/components/quick-picks/StartScreen";
@@ -8,6 +8,7 @@ import DecisionScreen from "@/app/components/quick-picks/DecisionScreen";
 import DayCompleteScreen from "@/app/components/quick-picks/DayCompleteScreen";
 import QuickPicksCompleteScreen from "@/app/components/quick-picks/QuickPicksCompleteScreen";
 import { FestivalStorySequence } from "@/app/components/festival-story/FestivalStorySequence";
+import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
 import { COLORS } from "@/app/data/colors";
 import { allArtists } from "@/app/data/artists";
 import { useDecisionStore, type ArtistDecision } from "@/app/store/decisionStore";
@@ -18,6 +19,7 @@ import {
 } from "@/app/lib/quick-picks-queue";
 import { getDaysForFestival } from "@/app/data/festivals";
 import { getSelectedDayAppearance, getAppearanceById, getAppearancesForFestival } from "@/app/lib/appearances";
+import { getValidPositivePicks, MIN_POSITIVE_PICKS_FOR_STORY } from "@/app/hooks/useStorySignals";
 import type {
   QuickPicksStep,
   QuickPicksSession,
@@ -261,6 +263,31 @@ export default function QuickPicksPage() {
     completedDayStats = { mustSee, interested, passed, total: dayItems.length };
   }
 
+  // Festival Story unlock — attendance-scoped, using the same eligibility resolution
+  // computeStorySignals itself uses (never a separate raw-decision count). Recomputed
+  // from the live decision store, so a decision made mid-session already counts.
+  const storyUnlocked = session
+    ? getValidPositivePicks(session.config.festivalId, session.config.attendanceDays, allArtists, decisionsByArtist)
+        .length >= MIN_POSITIVE_PICKS_FOR_STORY
+    : false;
+
+  // Preload the Story's intro image while the completion screen is visible — this
+  // component stays mounted then, unlike FestivalStorySequence, which is only
+  // mounted once the user actually opens the Story (see below) and would be too late
+  // to preload anything useful. Only fires when Story is actually openable.
+  const isOnCompletionScreen = step === "festivalComplete" || step === "allDecided";
+  useEffect(() => {
+    if (!isOnCompletionScreen || !storyUnlocked) return;
+    const introImageUrl = FESTIVAL_STORY_IMAGES.intro;
+    if (!introImageUrl) return;
+    if (document.head.querySelector(`link[rel="preload"][href="${introImageUrl}"]`)) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = introImageUrl;
+    document.head.appendChild(link);
+  }, [isOnCompletionScreen, storyUnlocked]);
+
   const showSidebar = step === "start";
 
   return (
@@ -332,14 +359,23 @@ export default function QuickPicksPage() {
             <QuickPicksCompleteScreen
               context={step === "festivalComplete" ? "sessionComplete" : "nothingToReview"}
               attendanceDays={session?.config.attendanceDays ?? []}
+              storyUnlocked={storyUnlocked}
               onGoToFestivalStory={() => setShowFestivalStory(true)}
               onGoToSchedule={() => router.push("/planner")}
               onExit={handleExit}
             />
-            <FestivalStorySequence
-              isOpen={showFestivalStory}
-              onClose={() => setShowFestivalStory(false)}
-            />
+            {/* Conditionally mounted, not just isOpen-gated: mounting is what triggers
+                useStorySignals' ~500-sample computation, so it must not run merely
+                because the completion screen is showing. Unmounting on close also
+                resets FestivalStorySequence's internal currentIndex for free — no
+                state to reset by hand, so reopening always starts at the intro. */}
+            {showFestivalStory && (
+              <FestivalStorySequence
+                isOpen={showFestivalStory}
+                onClose={() => setShowFestivalStory(false)}
+                attendanceDays={session?.config.attendanceDays}
+              />
+            )}
           </>
         )}
       </main>

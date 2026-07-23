@@ -11,6 +11,11 @@ interface Props {
   // refers to a single named day or "your selected days." Never claims the user
   // explored the entire festival lineup unless every configured day was selected.
   attendanceDays: string[];
+  // Whether the attendance-scoped valid positive pick count clears Festival Story's
+  // product floor (see MIN_POSITIVE_PICKS_FOR_STORY in useStorySignals.ts). The card
+  // stays visible either way — semantically disabled below the floor, per product
+  // direction, rather than hidden.
+  storyUnlocked: boolean;
   onGoToFestivalStory: () => void;
   onGoToSchedule: () => void;
   onExit: () => void;
@@ -19,6 +24,7 @@ interface Props {
 export default function QuickPicksCompleteScreen({
   context,
   attendanceDays,
+  storyUnlocked,
   onGoToFestivalStory,
   onGoToSchedule,
   onExit,
@@ -34,7 +40,7 @@ export default function QuickPicksCompleteScreen({
     context === "sessionComplete" ? `You've reviewed ${scope}.` : `You've already reviewed ${scope}.`;
 
   function handleFestivalStory() {
-    if (pressingFestivalStory) return;
+    if (pressingFestivalStory || !storyUnlocked) return;
     setPressingFestivalStory(true);
     setTimeout(() => {
       setPressingFestivalStory(false);
@@ -95,21 +101,36 @@ export default function QuickPicksCompleteScreen({
           <p className="text-white/70 text-base">Your festival is starting to take shape.</p>
 
           <div className="grid grid-cols-2 gap-4 w-full">
-            {/* Festival Story — yellow: user intent / personalization */}
+            {/* Festival Story — yellow: user intent / personalization. Semantically
+                disabled (not hidden) below the valid-positive-pick floor. */}
             <button
               onClick={handleFestivalStory}
-              className={`flex flex-col justify-between p-6 rounded-xl border border-[#E8FF47]/48 bg-[#E8FF47]/[0.09] text-left hover:border-[#E8FF47]/65 hover:bg-[#E8FF47]/[0.13] transition duration-150 ${pressingFestivalStory ? "scale-[0.97]" : ""}`}
+              disabled={!storyUnlocked}
+              aria-disabled={!storyUnlocked}
+              className={`flex flex-col justify-between p-6 rounded-xl border text-left transition duration-150 ${
+                storyUnlocked
+                  ? `border-[#E8FF47]/48 bg-[#E8FF47]/[0.09] hover:border-[#E8FF47]/65 hover:bg-[#E8FF47]/[0.13] ${pressingFestivalStory ? "scale-[0.97]" : ""}`
+                  : "border-white/12 bg-white/[0.03] cursor-not-allowed"
+              }`}
             >
               <div className="flex flex-col gap-2">
-                <p className="text-[#E8FF47] text-xs uppercase tracking-widest font-bold">
+                <p
+                  className={`text-xs uppercase tracking-widest font-bold ${storyUnlocked ? "text-[#E8FF47]" : "text-white/35"}`}
+                >
                   Festival Story
                 </p>
-                <p className="text-white/80 text-sm leading-relaxed">
-                  Discover what your lineup says about you.
+                <p className={`text-sm leading-relaxed ${storyUnlocked ? "text-white/80" : "text-white/40"}`}>
+                  {storyUnlocked
+                    ? "Discover what your picks say about you."
+                    : "Add a few picks to unlock your Festival Story."}
                 </p>
               </div>
               <div className="flex justify-end mt-4">
-                <ArrowRight size={17} strokeWidth={2.5} className="text-[#E8FF47]/70" />
+                <ArrowRight
+                  size={17}
+                  strokeWidth={2.5}
+                  className={storyUnlocked ? "text-[#E8FF47]/70" : "text-white/20"}
+                />
               </div>
             </button>
 
