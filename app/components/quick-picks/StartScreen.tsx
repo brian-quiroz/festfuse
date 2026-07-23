@@ -56,7 +56,7 @@ export default function StartScreen({ onStart }: Props) {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-6 py-8 lg:py-10">
-      <div className="flex flex-col items-center gap-6 w-full max-w-3xl">
+      <div className="flex flex-col items-center gap-6 w-full max-w-xl">
         {/* Hero title */}
         <div className="flex flex-col items-center gap-3 text-center">
           <div className="flex items-center gap-3">
@@ -87,7 +87,7 @@ export default function StartScreen({ onStart }: Props) {
         </div>
 
         {/* Start Options + CTA */}
-        <div className="w-full flex flex-col items-center gap-4" aria-busy={pressing}>
+        <div className="w-full max-w-[544px] flex flex-col items-center gap-4" aria-busy={pressing}>
           <StartOptions
             festivalDays={festivalDays}
             datesByDay={datesByDay}
@@ -99,11 +99,15 @@ export default function StartScreen({ onStart }: Props) {
             disabled={pressing}
           />
 
-          <div className="w-full flex flex-col items-center gap-3">
+          {/* mt-3 on top of the parent's gap-4 gives the CTA extra separation from
+              Grouping, so it reads as the start of the experience rather than a
+              fourth form field — the Festival/Days/Grouping steps keep their
+              original, tighter gap-4 rhythm between each other. */}
+          <div className="w-full flex flex-col items-center gap-3 mt-[15px]">
             <button
               onClick={handleStart}
               disabled={noDaysSelected || pressing}
-              className={`flex w-full max-w-md items-center justify-center gap-2 px-4 py-4 rounded-lg bg-[#00E5FF] text-[#110D24] text-base font-bold hover:bg-[#00E5FF]/90 transition duration-100 ${
+              className={`flex w-full items-center justify-center gap-2 px-4 py-4 rounded-lg bg-[#00E5FF] text-[#110D24] text-base font-bold hover:bg-[#00E5FF]/90 transition duration-100 ${
                 noDaysSelected ? "opacity-40 cursor-not-allowed hover:bg-[#00E5FF]" : ""
               } ${pressing ? "scale-[0.97]" : ""}`}
             >

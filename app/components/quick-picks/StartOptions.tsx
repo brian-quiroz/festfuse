@@ -88,7 +88,7 @@ export default function StartOptions({
                 disabled={disabled}
                 aria-pressed={isSelected}
                 onClick={() => onToggleDay(day)}
-                className={`relative flex flex-col items-center justify-center gap-1 rounded-xl border px-4 py-4 min-h-[76px] transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-60 ${
+                className={`relative flex flex-col items-center justify-center gap-1 rounded-xl border px-2 py-3 min-h-[64px] transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-60 ${
                   isSelected
                     ? "border-[#E8FF47]/70 bg-[#E8FF47]/[0.12] text-[#E8FF47]"
                     : "border-white/12 bg-[#1B1535] text-white/45 hover:border-white/25 hover:text-white/70"
@@ -96,10 +96,10 @@ export default function StartOptions({
               >
                 {isSelected && (
                   <span
-                    className="absolute top-2 right-2 flex items-center justify-center w-4 h-4 rounded-full"
+                    className="absolute top-2 right-2 flex items-center justify-center w-3 h-3 rounded-full"
                     style={{ backgroundColor: COLORS.yellow }}
                   >
-                    <Check size={10} strokeWidth={3} className="text-[#110D24]" />
+                    <Check size={7} strokeWidth={3} className="text-[#110D24]" />
                   </span>
                 )}
                 <span className="text-sm font-semibold">{day}</span>

@@ -12,6 +12,7 @@ import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
 import { COLORS } from "@/app/data/colors";
 import { allArtists } from "@/app/data/artists";
 import { useDecisionStore, type ArtistDecision } from "@/app/store/decisionStore";
+import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import {
   interleaveByTierWithinDay,
   buildUngroupedQueue,
@@ -83,6 +84,7 @@ export function createSession(
 export default function QuickPicksPage() {
   const router = useRouter();
   const { decisionsByArtist, setDecision } = useDecisionStore();
+  const showPassedArtists = useExploreFilterStore((state) => state.showPassedArtists);
   const [step, setStep] = useState<QuickPicksStep>("start");
   const [session, setSession] = useState<QuickPicksSession | null>(null);
   const [initialDecisions, setInitialDecisions] = useState<
@@ -362,6 +364,10 @@ export default function QuickPicksPage() {
               storyUnlocked={storyUnlocked}
               onGoToFestivalStory={() => setShowFestivalStory(true)}
               onGoToSchedule={() => router.push("/planner")}
+              onExploreArtists={() => {
+                showPassedArtists();
+                router.push("/explore");
+              }}
               onExit={handleExit}
             />
             {/* Conditionally mounted, not just isOpen-gated: mounting is what triggers

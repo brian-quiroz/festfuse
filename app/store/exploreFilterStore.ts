@@ -88,6 +88,16 @@ interface ExploreFilterStore {
   // Same reset as clearFilters(), but lands in a carousel's full view instead of the
   // unfiltered grid — used by a carousel's "See all."
   showCarousel: (carouselName: string) => void;
+
+  // Same reset as clearFilters(), but lands on Status: Passed instead of unfiltered —
+  // the recovery path from a locked Festival Story completion screen (Quick Picks
+  // excludes any artist with an existing verdict, so once a session's queue is
+  // exhausted, Passed is the only status still eligible for reconsideration). Not a
+  // NAV_PRESETS entry: "passed" isn't a persistent Sidebar destination the way the
+  // five My Festival links are, so activeNavItem lands on "explore" — an honest
+  // reflection that this is a filtered view of Explore, not a distinct nav item.
+  // Never touches decisionStore — no verdict is changed or reset by navigating here.
+  showPassedArtists: () => void;
 }
 
 export const useExploreFilterStore = create<ExploreFilterStore>((set) => ({
@@ -152,6 +162,19 @@ export const useExploreFilterStore = create<ExploreFilterStore>((set) => ({
       scheduleStatus: [],
       searchQuery: "",
       viewingCarousel: carouselName,
+      activeNavItem: "explore",
+      navigationRevision: state.navigationRevision + 1,
+    })),
+
+  showPassedArtists: () =>
+    set((state) => ({
+      genres: [],
+      day: "",
+      stages: [],
+      pickStatus: ["passed"],
+      scheduleStatus: [],
+      searchQuery: "",
+      viewingCarousel: null,
       activeNavItem: "explore",
       navigationRevision: state.navigationRevision + 1,
     })),
