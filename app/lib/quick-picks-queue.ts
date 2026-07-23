@@ -1,4 +1,6 @@
 import type { Artist, FestivalAppearance } from "@/app/types/artist";
+import type { ArtistDecision } from "@/app/store/decisionStore";
+import { getSelectedDayAppearance } from "@/app/lib/appearances";
 
 /**
  * One eligible artist paired with the specific appearance chosen to represent them in
@@ -9,6 +11,29 @@ import type { Artist, FestivalAppearance } from "@/app/types/artist";
 export interface QueueEntry {
   artist: Artist;
   appearance: FestivalAppearance;
+}
+
+/**
+ * Undecided artists (no entry in decisionsByArtist, from any source) with an
+ * appearance on at least one of the given days, paired with that selected-day
+ * appearance. Shared by session creation and the start screen's "fully reviewed day"
+ * check so both agree on exactly what counts as eligible — see
+ * getSelectedDayAppearance in app/lib/appearances.ts for the day-representative rule.
+ */
+export function getEligibleEntries(
+  allArtists: Artist[],
+  festivalId: string,
+  days: readonly string[],
+  decisionsByArtist: Record<string, ArtistDecision>
+): QueueEntry[] {
+  const eligible: QueueEntry[] = [];
+  for (const artist of allArtists) {
+    if (decisionsByArtist[artist.slug]) continue; // exclude any prior verdict, any source
+    const appearance = getSelectedDayAppearance(artist, festivalId, days);
+    if (!appearance) continue; // no appearance on any of the given days
+    eligible.push({ artist, appearance });
+  }
+  return eligible;
 }
 
 /**

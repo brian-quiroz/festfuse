@@ -7,8 +7,19 @@ import { COLORS } from "@/app/data/colors";
 import { allArtists } from "@/app/data/artists";
 import { ACTIVE_FESTIVAL_ID, getDaysForActiveFestival } from "@/app/data/festivals";
 import { getDatesByDay } from "@/app/lib/appearances";
+import { getEligibleEntries } from "@/app/lib/quick-picks-queue";
 import { useAttendanceDays, useAttendanceStore } from "@/app/store/attendanceStore";
+import { useDecisionStore } from "@/app/store/decisionStore";
 import type { QuickPicksSessionConfig } from "@/app/types/quick-picks";
+
+// "Thursday" / "Thursday and Saturday" / "Thursday, Friday, and Sunday" — every day in
+// `days` is included; the indexing is just English list punctuation (last item gets
+// "and"), not a truncation or selection of which days to show.
+function formatDayList(days: string[]): string {
+  if (days.length === 1) return days[0];
+  if (days.length === 2) return `${days[0]} and ${days[1]}`;
+  return `${days.slice(0, -1).join(", ")}, and ${days[days.length - 1]}`;
+}
 
 interface Props {
   onStart: (config: QuickPicksSessionConfig) => void;
@@ -22,9 +33,25 @@ export default function StartScreen({ onStart }: Props) {
   const attendanceDays = useAttendanceDays(ACTIVE_FESTIVAL_ID);
   const setAttendanceDays = useAttendanceStore((state) => state.setAttendanceDays);
   const datesByDay = useMemo(() => getDatesByDay(allArtists, ACTIVE_FESTIVAL_ID), []);
+  const decisionsByArtist = useDecisionStore((state) => state.decisionsByArtist);
 
   const noDaysSelected = attendanceDays.length === 0;
   const isGroupingLocked = attendanceDays.length <= 1;
+
+  // Selected days with zero undecided artists — same eligibility rule createSession
+  // uses (see getEligibleEntries), checked one day at a time. Built from festivalDays
+  // (canonical Thu->Fri->Sat->Sun order), not attendanceDays directly, so the note
+  // below always lists days in festival order regardless of the order they were
+  // clicked/toggled.
+  const fullyReviewedDays = useMemo(
+    () =>
+      festivalDays.filter(
+        (day) =>
+          attendanceDays.includes(day) &&
+          getEligibleEntries(allArtists, ACTIVE_FESTIVAL_ID, [day], decisionsByArtist).length === 0
+      ),
+    [festivalDays, attendanceDays, decisionsByArtist]
+  );
 
   function handleToggleDay(day: string) {
     const next = attendanceDays.includes(day)
@@ -119,10 +146,19 @@ export default function StartScreen({ onStart }: Props) {
                 Select at least one day to start Quick Picks.
               </p>
             ) : (
-              <p className="flex items-center gap-1.5 text-xs text-white/30">
-                <Lock size={11} strokeWidth={2} />
-                Your picks are automatically saved
-              </p>
+              <>
+                {fullyReviewedDays.length > 0 && (
+                  <p className="text-xs text-white/30 text-center">
+                    {`${formatDayList(fullyReviewedDays)} ${
+                      fullyReviewedDays.length === 1 ? "is" : "are"
+                    } fully reviewed and won't appear this session.`}
+                  </p>
+                )}
+                <p className="flex items-center gap-1.5 text-xs text-white/30">
+                  <Lock size={11} strokeWidth={2} />
+                  Your picks are automatically saved.
+                </p>
+              </>
             )}
           </div>
         </div>

@@ -16,10 +16,11 @@ import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import {
   interleaveByTierWithinDay,
   buildUngroupedQueue,
+  getEligibleEntries,
   type QueueEntry,
 } from "@/app/lib/quick-picks-queue";
 import { getDaysForFestival } from "@/app/data/festivals";
-import { getSelectedDayAppearance, getAppearanceById, getAppearancesForFestival } from "@/app/lib/appearances";
+import { getAppearanceById, getAppearancesForFestival } from "@/app/lib/appearances";
 import { getValidPositivePicks, MIN_POSITIVE_PICKS_FOR_STORY } from "@/app/hooks/useStorySignals";
 import type {
   QuickPicksStep,
@@ -42,13 +43,12 @@ export function createSession(
 ): QuickPicksSession {
   const { festivalId, groupByDay, attendanceDays } = config;
 
-  const eligible: QueueEntry[] = [];
-  for (const artist of allArtists) {
-    if (decisionsByArtist[artist.slug]) continue; // exclude any prior verdict, any source
-    const appearance = getSelectedDayAppearance(artist, festivalId, attendanceDays);
-    if (!appearance) continue; // no appearance on any selected day
-    eligible.push({ artist, appearance });
-  }
+  const eligible: QueueEntry[] = getEligibleEntries(
+    allArtists,
+    festivalId,
+    attendanceDays,
+    decisionsByArtist
+  );
 
   const orderedDays = getDaysForFestival(festivalId).filter((day) =>
     attendanceDays.includes(day)
