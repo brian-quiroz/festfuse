@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { getStagesForActiveFestival } from "@/app/data/festivals";
 import {
   getPlannerHourRange,
@@ -59,69 +60,129 @@ export default function PlannerGrid({
     entriesByStage.get(entry.appearance.stage)?.push(entry);
   }
 
-  const hourHeight = 60 * PLANNER_PX_PER_MINUTE;
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  // Re-measured on scroll and on stage-count change (the only thing that affects
+  // total scrollable width) — not on every filter change, since toggling My
+  // Picks/Scheduled only hides rows, it never changes how many stage columns exist.
+  const updateScrollFade = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  };
+
+  useEffect(() => {
+    updateScrollFade();
+    window.addEventListener("resize", updateScrollFade);
+    const el = scrollRef.current;
+    const observer = el ? new ResizeObserver(updateScrollFade) : null;
+    if (el && observer) observer.observe(el);
+    return () => {
+      window.removeEventListener("resize", updateScrollFade);
+      observer?.disconnect();
+    };
+  }, [stages.length]);
 
   return (
-    <div className="flex-1 overflow-auto">
-      <div className="flex w-full">
-        {/* Hour label column */}
-        <div className="sticky left-0 z-10 w-16 flex-shrink-0 bg-[#110D24]">
-          {/* Spacer to align with stage header row */}
-          <div className="h-10 border-b border-[#2D2556]" />
-          <div className="relative" style={{ height: gridHeight }}>
-            {hourMarks.map((hour) => (
-              <div
-                key={hour}
-                className="absolute left-0 right-2 text-right text-[10px] text-white/40 -translate-y-1/2"
-                style={{ top: minutesToPlannerOffset(hour * 60, range) }}
-              >
-                {formatPlannerHour(hour)}
-              </div>
-            ))}
+    <div className="relative flex-1 overflow-hidden">
+      <div
+        ref={scrollRef}
+        onScroll={updateScrollFade}
+        tabIndex={0}
+        role="region"
+        aria-label="Festival schedule grid, scrollable horizontally"
+        className="h-full overflow-auto themed-scrollbar"
+      >
+        <div className="flex w-full">
+          {/* Hour label column */}
+          <div className="sticky left-0 z-10 w-16 flex-shrink-0 bg-[#110D24]">
+            {/* Corner cell — left uncolored (unlike the stage headers): it has no
+                label, just the hour column's own background, so tinting it the same
+                panel color as a real header would imply content that isn't there. */}
+            <div className="h-10 border-b border-[#2D2556]" />
+            {/* Breathing room below the header — safe now that no gridline is drawn
+                at the top of the grid to double up against. */}
+            <div className="h-4" />
+            <div className="relative" style={{ height: gridHeight }}>
+              {hourMarks.map((hour) => (
+                <div
+                  key={hour}
+                  className="absolute left-0 right-2 text-right text-[10px] text-white/40 -translate-y-1/2"
+                  style={{ top: minutesToPlannerOffset(hour * 60, range) }}
+                >
+                  {formatPlannerHour(hour)}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Stage columns */}
-        {stages.map((stage) => (
-          <div key={stage} className="min-w-48 flex-1 border-l border-[#2D2556]">
-            <div className="h-10 flex items-center px-3 border-b border-[#2D2556] bg-[#110D24] sticky top-0 z-[5]">
-              <span className="text-xs font-bold text-[#00E5FF] uppercase tracking-wide truncate">
-                {stage}
-              </span>
-            </div>
-            <div
-              className="relative"
-              style={{
-                height: gridHeight,
-                backgroundImage:
-                  "linear-gradient(to bottom, rgba(45,37,86,0.5) 1px, transparent 1px)",
-                backgroundSize: `100% ${hourHeight}px`,
-              }}
-            >
-              {(entriesByStage.get(stage) ?? []).map((entry) => {
-                const start = timeStringToMinutes(entry.appearance.startTime);
-                const end = timeStringToMinutes(entry.appearance.endTime);
-                const key = getAppearanceKey(entry.artist, entry.appearance);
-                return (
-                  <PlannerArtistBlock
-                    key={key}
-                    artist={entry.artist}
-                    appearance={entry.appearance}
-                    appearanceKey={key}
-                    top={minutesToPlannerOffset(start, range)}
-                    height={Math.max((end - start) * PLANNER_PX_PER_MINUTE, 30)}
-                    isScheduled={scheduledAppearanceKeys.has(key)}
-                    isConflicting={conflictingAppearanceKeys.has(key)}
-                    isMyPick={myPickSlugs.has(entry.artist.slug)}
-                    showMyPicks={showMyPicks}
-                    onToggleScheduled={onToggleScheduled}
+          {/* Stage columns — no vertical divider on the header row itself (panel tone
+              + spacing + bold labels separate them); the divider only starts in the
+              grid body below, so the header reads as one cohesive strip. */}
+          {stages.map((stage) => (
+            <div key={stage} className="min-w-48 flex-1">
+              <div className="h-10 flex items-center px-3 border-b border-[#2D2556] bg-[#1B1535] sticky top-0 z-[5]">
+                <span className="text-xs font-bold text-[#00E5FF] uppercase tracking-wide truncate">
+                  {stage}
+                </span>
+              </div>
+              {/* Breathing room below the header — safe now that no gridline is drawn
+                  at the top of the grid to double up against. */}
+              <div className="h-4" />
+              <div className="relative border-l border-[#2D2556]" style={{ height: gridHeight }}>
+                {/* Hour dividers — skip the first (hourMarks[0]): the header's own
+                    border-b already marks that boundary, so drawing a gridline there
+                    too produced two parallel lines right at the seam. */}
+                {hourMarks.slice(1).map((hour) => (
+                  <div
+                    key={hour}
+                    className="absolute left-0 right-0 border-t border-[#2D2556]/50"
+                    style={{ top: minutesToPlannerOffset(hour * 60, range) }}
                   />
-                );
-              })}
+                ))}
+                {(entriesByStage.get(stage) ?? []).map((entry) => {
+                  const start = timeStringToMinutes(entry.appearance.startTime);
+                  const end = timeStringToMinutes(entry.appearance.endTime);
+                  const key = getAppearanceKey(entry.artist, entry.appearance);
+                  return (
+                    <PlannerArtistBlock
+                      key={key}
+                      artist={entry.artist}
+                      appearance={entry.appearance}
+                      appearanceKey={key}
+                      top={minutesToPlannerOffset(start, range)}
+                      height={Math.max((end - start) * PLANNER_PX_PER_MINUTE, 30)}
+                      isScheduled={scheduledAppearanceKeys.has(key)}
+                      isConflicting={conflictingAppearanceKeys.has(key)}
+                      isMyPick={myPickSlugs.has(entry.artist.slug)}
+                      showMyPicks={showMyPicks}
+                      onToggleScheduled={onToggleScheduled}
+                    />
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
+
+      {/* Edge fades — scroll-aware, visible only when there's actually more content
+          off-screen in that direction. Same absolute-overlay-on-relative-wrapper
+          technique as ArtistCarousel's hover arrows, minus the click affordance:
+          the schedule is a canvas you pan, not a paged carousel. */}
+      <div
+        className={`pointer-events-none absolute inset-y-0 left-16 w-8 z-20 bg-gradient-to-r from-black/70 to-transparent transition-opacity duration-200 ${
+          canScrollLeft ? "opacity-100" : "opacity-0"
+        }`}
+      />
+      <div
+        className={`pointer-events-none absolute inset-y-0 right-0 w-8 z-20 bg-gradient-to-l from-black/70 to-transparent transition-opacity duration-200 ${
+          canScrollRight ? "opacity-100" : "opacity-0"
+        }`}
+      />
     </div>
   );
 }

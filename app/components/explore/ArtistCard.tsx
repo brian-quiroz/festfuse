@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Heart, Star, Calendar } from "lucide-react";
+import { Heart, Star, Calendar, AlertTriangle } from "lucide-react";
 import { COLORS } from "@/app/data/colors";
 import type { Artist } from "@/app/types/artist";
 import { useDecisionStore } from "@/app/store/decisionStore";
@@ -81,9 +81,7 @@ export default function ArtistCard({
 
   return (
     <div
-      className={`${cardW} flex-shrink-0 rounded-2xl overflow-hidden bg-[#1B1535] cursor-pointer group select-none transition-colors ${
-        isConflicting ? "ring-2 ring-red-500" : ""
-      }`}
+      className={`${cardW} flex-shrink-0 rounded-2xl overflow-hidden bg-[#1B1535] cursor-pointer group select-none transition-colors`}
       onClick={() => router.push(`/artist/${artist.slug}`)}
       role="article"
     >
@@ -111,7 +109,7 @@ export default function ArtistCard({
           />
         </div>
 
-        {/* Headliner badge — bottom-right, balances action icons on the left */}
+        {/* Headliner badge: bottom-right, balances icons on the left */}
         {billingTier === "Headliner" && (
           <div className="absolute bottom-3 right-3">
             <span
@@ -127,43 +125,68 @@ export default function ArtistCard({
           </div>
         )}
 
-        {/* Action icons — bottom-left */}
-        <div className="absolute bottom-3 left-3 flex items-center gap-1">
-          <button
-            onClick={handleMustSee}
-            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
-              mustSee
-                ? "bg-[#E8FF47] border-[#E8FF47] text-[#110D24]"
-                : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
-            }`}
-            title="Must See"
-          >
-            <Star size={11} fill={mustSee ? "currentColor" : "none"} strokeWidth={2} />
-          </button>
-          <button
-            onClick={handleInterested}
-            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
-              interested
-                ? "bg-[#E8FF47]/18 border-[#E8FF47]/50 text-[#E8FF47]"
-                : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
-            }`}
-            title="Interested"
-          >
-            <Heart size={11} fill={interested ? "currentColor" : "none"} strokeWidth={2} />
-          </button>
-          <button
-            onClick={handleScheduleToggle}
-            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
-              isScheduled
-                ? "bg-[#00E5FF] border-[#00E5FF] text-[#110D24]"
-                : isPartiallyScheduled
-                  ? "bg-[#00E5FF]/25 border-[#00E5FF]/60 text-[#00E5FF]"
+        {/* Action controls — bottom-left, two rows: Must See + Interested above,
+            Schedule alone below (with its conflict indicator, when applicable). */}
+        <div className="absolute bottom-3 left-3 flex flex-col items-start gap-1.5">
+          <div className="flex items-center gap-1">
+            <button
+              onClick={handleMustSee}
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
+                mustSee
+                  ? "bg-[#E8FF47] border-[#E8FF47] text-[#110D24]"
                   : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
-            }`}
-            title={scheduleTitle}
-          >
-            <Calendar size={11} strokeWidth={2} />
-          </button>
+              }`}
+              title="Must See"
+            >
+              <Star size={11} fill={mustSee ? "currentColor" : "none"} strokeWidth={2} />
+            </button>
+            <button
+              onClick={handleInterested}
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
+                interested
+                  ? "bg-[#E8FF47]/18 border-[#E8FF47]/50 text-[#E8FF47]"
+                  : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
+              }`}
+              title="Interested"
+            >
+              <Heart size={11} fill={interested ? "currentColor" : "none"} strokeWidth={2} />
+            </button>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="relative">
+              <button
+                onClick={handleScheduleToggle}
+                aria-describedby={isConflicting ? "schedule-conflict-badge" : undefined}
+                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
+                  isScheduled
+                    ? "bg-[#00E5FF] border-[#00E5FF] text-[#110D24]"
+                    : isPartiallyScheduled
+                      ? "bg-[#00E5FF]/25 border-[#00E5FF]/60 text-[#00E5FF]"
+                      : "bg-black/50 border-[#00E5FF]/25 text-[#00E5FF]/50 hover:text-[#00E5FF]/85 hover:border-[#00E5FF]/45 hover:bg-[#00E5FF]/10"
+                }`}
+                title={scheduleTitle}
+              >
+                <Calendar size={11} strokeWidth={2} />
+              </button>
+              {/* Small badge overlapping Schedule's upper-right edge — informational
+                  only, not a button, not in the tab order. pointer-events-none so a
+                  click in this corner still reaches the Schedule button underneath
+                  rather than being intercepted. Icon + accessible label communicate
+                  the conflict without relying on color alone. */}
+              {isConflicting && (
+                <span
+                  id="schedule-conflict-badge"
+                  role="img"
+                  aria-label="Schedule conflict"
+                  title="Schedule conflict"
+                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center border pointer-events-none"
+                  style={{ backgroundColor: COLORS.conflict, borderColor: COLORS.conflict }}
+                >
+                  <AlertTriangle size={8} strokeWidth={2.5} className="text-white" />
+                </span>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 

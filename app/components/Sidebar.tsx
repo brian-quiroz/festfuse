@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Search, Zap, Calendar, Star, Heart, CircleCheck, AlertCircle } from "lucide-react";
+import { Home, Search, Zap, Calendar, CalendarDays, ListChecks, Star, Heart, AlertCircle } from "lucide-react";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore, NAV_PRESETS } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
@@ -12,7 +12,7 @@ const navItems = [
   { label: "Home", href: "/", Icon: Home },
   { label: "Explore", href: "/explore", Icon: Search },
   { label: "Quick Picks", href: "/quick-picks", Icon: Zap },
-  { label: "Planner", href: "/planner", Icon: Calendar },
+  { label: "Planner", href: "/planner", Icon: CalendarDays },
 ];
 
 // Maps each My Festival label to its ActiveNavItem key — single source of truth used
@@ -51,7 +51,7 @@ export default function Sidebar() {
     {
       label: "My Picks",
       count: myPicksCount,
-      Icon: Star,
+      Icon: ListChecks,
       color: "#00E5FF",
       bg: "rgba(0,229,255,0.10)",
     },
@@ -72,7 +72,7 @@ export default function Sidebar() {
     {
       label: "Scheduled",
       count: scheduledCount,
-      Icon: CircleCheck,
+      Icon: Calendar,
       color: "#00E5FF",
       bg: "rgba(0,229,255,0.10)",
     },

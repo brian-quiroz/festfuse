@@ -69,6 +69,13 @@ For organizational reference—filters and search use the full 124-genre list:
 
 ## What to Expect — Design Rationale
 
+**Current status:** `whatToExpect`, along with `tagline`, `whySee`, and `bestFor`, is
+unverified AI-generated content. None of the four drive any application behavior
+(search, filter, carousel, rank, recommend, or Festival Story signal) — they remain
+dormant in the type and artist data below as a taxonomy/content reference, not as
+something the app currently reads. `about` is the only AI-authored artist prose
+actually rendered in the UI (Artist Detail's About section).
+
 ### Overview
 
 The `whatToExpect` field describes what the audience will experience at a performance—observable, reusable, and orthogonal to genre when possible.
@@ -174,8 +181,10 @@ export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
 5. State
 6. City
 7. Stage
-8. Best For
-9. What to Expect
+
+Deliberately does not search `tagline`, `whySee`, `whatToExpect`, or `bestFor` —
+unverified AI-generated prose, excluded from every search/filter/rank/recommend path
+app-wide.
 
 **Minimum query length:**
 
@@ -192,7 +201,7 @@ export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
 
 The Explore page manages four distinct states:
 
-1. **No filters + no search** → Show curated carousels (Festival Favorites, Hidden Gems, International Picks, Chicago's Own, Cinematic Visuals)
+1. **No filters + no search** → Show curated carousels (Festival Favorites, Hidden Gems, International Picks, Chicago's Own, After Dark)
 2. **Filters only** → Show ActiveFilters bar + ArtistResultsGrid
 3. **Search only** → Show search heading + ArtistResultsGrid
 4. **Search + filters** → Show ActiveFilters bar + ArtistResultsGrid
@@ -216,8 +225,11 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 
 - Festival Favorites — "Is this artist a headliner/sub-headliner?" (objective fact)
 - International Picks — "Is this artist from outside the US?" (objective fact)
-- Chicago's Own — "Is this artist from Chicago?" (objective fact)
-- Cinematic Visuals — "Does this artist have this tag?" (objective fact)
+- Chicago's Own — "Is this artist from Chicago?" (objective fact; `location.city ===
+  "Chicago"` exactly, not the whole state of Illinois)
+- After Dark — "Does this artist's primary appearance start at 8:00 PM or later?"
+  (objective fact, via the shared `timeStringToMinutes` parser — see "Carousel
+  Presentation Strategies" below)
 - Future rows: Larger Than Life, etc.
 
 **Curatorial/Discovery Rows** (answer subjective "is this worth surfacing" questions):
@@ -230,7 +242,7 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 
 An artist can legitimately be:
 
-- A headliner _and_ international _and_ have Cinematic Visuals simultaneously
+- A headliner _and_ international _and_ playing After Dark simultaneously
 - From Chicago _and_ a sub-headliner _and_ have great lyrics
 
 All three facts are simultaneously true. Hiding an artist from one row because they appear in another would make each row factually incomplete or misleading.
@@ -243,7 +255,7 @@ Hidden Gems' premise is "overlooked," which is contradicted if a headliner appea
 
 If you added a second curatorial row (e.g., "Artists Worth Seeing Early"), you'd want the same editorially-chosen artist to not appear twice under different curatorial framings.
 
-Right now Rule C doesn't apply to anything — Cinematic Visuals is factual (Rule A), not curatorial, so there's no second curatorial row to protect.
+Right now Rule C doesn't apply to anything — After Dark is factual (Rule A), not curatorial, so there's no second curatorial row to protect.
 
 ---
 
@@ -283,7 +295,15 @@ Two distinct algorithms power carousel rows, chosen based on the row's editorial
 4. Round-robin interleave across shuffled groups
 5. Concatenate result
 
-**Why this pattern:** All other rows (International Picks, Chicago's Own, Cinematic Visuals, Hidden Gems) don't care about billing prominence — they're answering a different question ("Is this artist from outside the US?" not "Is this artist famous?"). File-order bias is a hazard: if the data file happens to list headliners first, every row would inherit that prominence bias without editing work. Shuffling within days breaks that bias. Round-robin interleaving distributes artists across visible viewport positions evenly (first visible artist comes from each day in order) rather than front-loading any single day.
+**Why this pattern:** All other rows (International Picks, Chicago's Own, After Dark, Hidden Gems) don't care about billing prominence — they're answering a different question ("Is this artist from outside the US?" not "Is this artist famous?"). File-order bias is a hazard: if the data file happens to list headliners first, every row would inherit that prominence bias without editing work. Shuffling within days breaks that bias. Round-robin interleaving distributes artists across visible viewport positions evenly (first visible artist comes from each day in order) rather than front-loading any single day.
+
+**After Dark's 8:00 PM threshold:** chosen from the actual lineup distribution, not a
+round-number guess. At 8:00 PM, 19 artists qualify, spread 4-5 per day across all four
+festival days — a well-populated, evenly-distributed row. 8:30 PM narrows this to 16
+(4/day); 9:00 PM drops to just 5 total, too sparse for a discovery row. Uses each
+artist's primary appearance (`getPrimaryAppearance`, consistent with every other
+carousel) and the shared `timeStringToMinutes` parser (`app/lib/time.ts`) rather than
+comparing time strings lexicographically.
 
 **Example:**
 
@@ -369,17 +389,19 @@ const internationalPicks = interleaveByDayShuffled(
 );
 
 // Chicago's Own: factual, no suppression (Rule A)
-// Pipeline: filter to Chicago/Illinois → sort by day → shuffle within days → interleave
+// Pipeline: filter to Chicago (city only) → sort by day → shuffle within days → interleave
 // Result: represents all qualifying artists, shuffled presentation breaks file-order bias
 const chicagosOwn = interleaveByDayShuffled(
-  allArtists.filter((a) => a.location.city === "Chicago" || a.location.state === "Illinois")
+  allArtists.filter((a) => a.location.city === "Chicago")
 );
 
-// Cinematic Visuals: factual, no suppression (Rule A)
-// Pipeline: filter by tag → sort by day → shuffle within days → interleave
+// After Dark: factual, no suppression (Rule A)
+// Pipeline: filter to primary appearance >= 8:00 PM → sort by day → shuffle within days → interleave
 // Result: represents all qualifying artists, shuffled presentation breaks file-order bias
-const cinematicVisuals = interleaveByDayShuffled(
-  allArtists.filter((a) => a.whatToExpect.includes("Cinematic Visuals"))
+const afterDark = interleaveByDayShuffled(
+  allArtists.filter(
+    (a) => timeStringToMinutes(getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).startTime) >= 20 * 60
+  )
 );
 ```
 
@@ -666,6 +688,260 @@ navigation paths that broke in different ways during development):
    the page renders one stable state, restored or freshly reset, without ever flashing
    stale filters first. A full page *refresh* (as opposed to back/forward) reliably resets
    the in-memory Explore state to empty.
+
+---
+
+## Festival Story
+
+**Confirmed** — `computeStorySignals({ festivalId, attendanceDays, allArtists,
+decisionsByArtist })` (`app/hooks/useStorySignals.ts`) is the single source of truth;
+a pure function that never reads Zustand state itself — every input is explicit.
+`useStorySignals` is a thin `useMemo` wrapper. `app/lib/verify-story-signals.ts`
+imports and calls the real function directly — no mirrored/reimplemented copy. Run it
+with `npm run verify:story` (declares `tsx` as a devDependency — do not rely on `npx`
+downloading an undeclared package at validation time).
+
+`FestivalStorySequence` is only mounted by its parent (`app/quick-picks/page.tsx`)
+once the user actually opens Festival Story (`{showFestivalStory && <FestivalStorySequence ... />}`),
+not merely once Quick Picks completion is showing — mounting is what triggers
+`useStorySignals`' ~500-sample computation, so it must not run before the user asks
+for it. Unmounting on close also resets the sequence's internal `currentIndex` for
+free, so reopening always starts at the intro card without any manual state-reset
+effect.
+
+### Attendance scope
+
+Scoped to the *launching* Quick Picks session's captured `attendanceDays` snapshot,
+passed explicitly via `FestivalStorySequence`'s `attendanceDays` prop — never re-read
+from the persisted `attendanceStore` for a session that already completed, so a
+changed persisted selection afterward can't silently rescope a finished session. The
+prop is optional and falls back to `useAttendanceDays(ACTIVE_FESTIVAL_ID)` only for a
+future standalone Story entry point not launched from a specific session.
+
+`getEligibleArtists`/`getValidPositivePicks` (same file) are the shared eligibility
+resolution, used both by `computeStorySignals` and by Quick Picks completion's unlock
+check: eligible = has a `getSelectedDayAppearance` on a selected day; a valid positive
+pick = an eligible artist with a `mustSee`/`interested` verdict in
+`decisionsByArtist`, regardless of source (Quick Picks — any session — Explore, or
+Artist Detail) or of whether the artist's *global primary* appearance falls outside
+the selected days. Forward-constructed, so stale decision slugs and artists whose only
+appearances fall outside the selected days are silently excluded. An explicit
+zero-day attendance selection resolves to zero eligible artists, never the full
+lineup.
+
+### Unlock requirement
+
+`MIN_POSITIVE_PICKS_FOR_STORY = 5`. Below 5 valid positive picks,
+`computeStorySignals` returns `[]`. Quick Picks completion
+(`QuickPicksCompleteScreen`) keeps the Festival Story card visible but semantically
+disabled (`disabled`/`aria-disabled`, "Reach 5 picks to unlock your Festival
+Story."), gated by the same `getValidPositivePicks` call — never a separate
+raw-decision count that could disagree with what the Story itself would compute.
+`FestivalStorySequence` has its own independent guard (`signals.length !== 4` →
+render nothing) so no other caller can open an intro-and-final-only sequence.
+
+### Card structure: exactly 4 insights, two fixed anchors
+
+**Taste Profile** (`genreAffinity`) is always the first insight; **Decision Profile**
+(renamed from Decision Confidence) is always the last. The remaining 2 slots are
+filled by ranking a pool of {Billing Profile (`billing`), Festival Footprint
+(`stage`), Genre Breadth (`genreBreadth`), Hometown (`hometown`),
+International/Country Diversity (`international`/`countryDiversity`), Day (`day`)}.
+Billing and Footprint always contribute one pool entry — their interpretive form if it
+qualifies, otherwise a safe factual form — so the pool never has fewer than 2 entries.
+The rest only enter the pool when they qualify. There is no Journey Summary — deleted
+along with its image mapping; its old role (a fallback for when comparative signals
+ran short) is unnecessary now that the four stable dimensions are each always
+individually computable.
+
+### Stable vs. interpretive
+
+Four stable profile dimensions (Decision Profile, Taste Profile, Billing Profile,
+Festival Footprint) are always **available** — each can always produce at least a
+safe, factual, non-comparative candidate, never both a safe and an interpretive
+version at once. That is not the same as always **rendering**: Decision Profile and
+Taste Profile are fixed anchors and do always appear (slots 1 and 4), but Billing and
+Festival Footprint only guarantee that the competitive pool can fill its 2 remaining
+slots — they do not themselves guarantee a place in the final four. A qualifying
+distinct interpretive candidate (Genre Breadth, Hometown, International/Country
+Diversity, Day — none of which have a safe form of their own) can outrank and
+displace either or both of them. `international` and `countryDiversity` are treated
+as one potentially-duplicative "geographic story" — at most one is ever selected,
+keeping whichever is statistically stronger. Selection never lowers a threshold to
+fill a slot; the guaranteed 4-card outcome comes from the two fixed anchors plus the
+pool's two winners, and the pool is never empty because Billing/Footprint's safe
+forms are always in it.
+
+### Comparison method: deterministic sample-aware, not a fixed percentage-point floor
+
+Replaces the old fixed 12-percentage-point "noise floor," which was only accidentally
+protective because Chicago happens to be ~10.5% of the *full* lineup — attendance
+scoping breaks that accident (Saturday's eligible lineup alone is ~14% Chicago, so
+zero Chicago picks could have cleared the old 12pp bar once scoped to Saturday).
+
+`app/lib/story-sampling.ts` draws 500 deterministic same-size subsets (no
+replacement) from the attendance-scoped eligible lineup, seeded via
+`buildStorySeed(festivalId, attendanceDays, sampleSize, eligibleArtistSlugs)` —
+sorted inputs, so click order and array order never affect the seed — through the
+existing `createSeededRandom` (`app/lib/random.ts`). For each candidate dimension, the
+real picks' metric and the 500 samples' metrics are compared via
+`computeExtremeness`: the fraction of samples that did at least as well, in the
+tested direction, as the real picks.
+
+**The seed depends only on the comparison universe, never on which artists were
+picked.** It's built from festival ID, sorted attendance days, the pick *count*
+(sample size), and a sorted fingerprint of the eligible lineup's own artist slugs —
+deliberately not the identities of the picked artists themselves. Two users with the
+same festival, attendance scope, eligible lineup, and number of valid positive picks
+draw the exact same 500 samples even if they picked entirely different artists. This
+matters because the samples are the *ruler* a pick set is measured against; if the
+ruler itself flexed based on which specific artists were picked, a borderline
+qualification could tip one way or the other partly because the ruler changed rather
+than because the picks themselves did — a real risk at only 500 samples. The observed
+values are still, obviously, computed from the actual picks.
+
+**Selection-adjusted comparison for Taste Profile and Day.** Both of these signals
+pick their subject by *searching* — Taste Profile searches every genre family for the
+user's best-represented one; Day searches every selected attendance day for the
+strongest positive over-index. Production must apply that same search to every random
+sample, or the comparison is biased: checking only "how did this sample do in the
+family/day the user happened to win on" is an easier bar to clear than "how did this
+sample do at its *own* best family/day," which inflates how unusual the observed
+result looks. Both signals therefore compare **max-vs-max**: the observed picks'
+maximum family-presence-rate (or day-over-index) against the distribution of each
+sample's own maximum across the same candidate set. Every other comparative signal
+(Billing, Footprint, Genre Breadth, Hometown, International, Country Diversity) tests
+one fixed, unambiguous metric per set, so this correction doesn't apply to them.
+
+A candidate qualifies only when **all** of:
+
+1. **Direction** — the claimed direction is the one actually observed; one-directional
+   signals (Hometown, International, Day) never have an inverse/under-index copy path.
+2. **Extremeness ≤ 10%** (`EXTREMENESS_THRESHOLD`) — no more than 1 in 10 random
+   same-size subsets did as well.
+3. **Practical effect ≥ 10 percentage points** (`PRACTICAL_EFFECT_MIN_PP`) — a
+   statistically rare but trivial gap (e.g. 1pp) still can't headline.
+4. **Signal-specific observed-count floor** — Chicago requires ≥2 picks (≥4 for its
+   stronger copy tier), genre-family affinity requires ≥2 picks in the
+   leading family, International requires ≥1, the Day signal's top day requires ≥2
+   picks on it and ≥2 selected attendance days total.
+
+This is a **product-level lineup comparison, not a scientific significance test** — no
+p-values or "statistically significant" language surface in the UI; extremeness and
+practical effect are internal ranking/eligibility fields, never rendered.
+
+### Decision Profile thresholds
+
+- **5-7 total valid positive picks**: restrained, provisional copy with no numerical
+  breakdown or personality claim from a tiny sample.
+- **8+ picks, outer heavy thresholds**: Must-See rate ≥75% → Must-See-heavy copy;
+  ≤25% → Interested-heavy.
+- **8+ picks, middle range** (25%-75%, previously one undifferentiated "balanced"
+  bucket): split into three copy branches — 40%-60% inclusive is near-even; above
+  60% and below 75% leans Must-See; above 25% and below 40% leans Interested. Each
+  gets its own distinct copy rather than one generic "balanced" line for the entire
+  middle half of the range.
+- **Extreme tier**: ≥90% Must See (or ≤10%, mirrored) **and** ≥10 total picks → the
+  most dramatic copy. The count floor exists so 2-of-3 can't read as "zero fluff."
+
+### Genre Affinity: selection-adjusted, with tie handling
+
+The observed metric is the user's own maximum family-presence rate, found by
+searching **every** genre family — not a rate looked up for one pre-selected family.
+Each of the 500 samples performs the identical search over its own picks and
+contributes its own maximum to the comparison distribution (see "Comparison method"
+above); comparing the observed max against a distribution of per-family lookups for
+only the user's winning family would systematically overstate how unusual the result
+is, since the observed side searched harder than each sample did.
+
+**Ties**: if two or more families are tied for the highest presence count among the
+picks, the tie is detected explicitly and the interpretive single-family copy is never
+used — an arbitrary "first in object order" family is never crowned sole leader. Tied
+results render "Your leading sounds" with the tied families alphabetically sorted,
+so the phrasing never depends on any internal object's key-iteration order. Up to
+three families are named directly; larger ties name the first three followed by
+"and N more" to keep the card readable. The `GENRE_AFFINITY_MIN_PICKS` floor still
+applies to the non-tied interpretive path.
+
+### Day concentration signal: selection-adjusted, strongest over-index (not raw share)
+
+Only computed with ≥2 selected attendance days. Each valid pick is attributed to
+exactly one day via its own `getSelectedDayAppearance` (never double-counted across
+days, including for multi-appearance artists).
+
+**The candidate day is whichever selected day has the strongest *positive over-index*
+against the eligible lineup's own day distribution — not whichever day has the user's
+highest raw pick share.** A day can hold the largest share of picks while still
+under-indexing its own baseline (e.g. 45% of picks on a day that's 55% of the eligible
+lineup), while a different day with a smaller raw share can be the real,
+statistically meaningful story (e.g. 35% of picks on a day that's only 15% of the
+eligible lineup). Every one of the 500 samples performs the same "search all selected
+days, take the best over-index" step (see "Comparison method" above), so the
+extremeness test compares "the best day search found in the observed picks" against
+"the best day search found in a random same-size sample" — not the observed winning
+day's rate against samples that were never asked to search for their own best day.
+Positive-concentration framing only; no avoidance/negative-day copy path exists. No
+weekday/weekend hardcoding — works for any combination (e.g. Thursday + Sunday).
+
+**Image**: no dedicated asset exists yet. `day` temporarily maps to `intro.jpg` in
+`FESTIVAL_STORY_IMAGES` (`app/data/festival-story.ts`), flagged with a
+`TODO(design)` comment. **A dedicated image is still needed before visual polish is
+considered complete.**
+
+### Directional fixes
+
+- **Chicago**: requires `chicagoCount > 0` **and** user rate > the attendance-scoped
+  baseline **and** the standard extremeness/practical-effect gates **and** ≥2 picks
+  (≥4 for the strongest copy tier) — closes an accidental-protection gap where the
+  old fixed 12pp threshold happened to block zero-Chicago results only because
+  Chicago is ~10.5% of the *full* lineup; attendance scoping breaks that accident
+  (Saturday's eligible lineup alone is ~14% Chicago). Zero/under-indexing never
+  produces a card of any kind. `isChicago` (`app/lib/location.ts`) normalizes
+  trim/case only, deliberately not state-suffix variants like "Chicago, IL" — that
+  shape violates the documented `Location` contract (`app/data/categories.ts`) and is
+  treated as bad data to fix at authoring time, not a formatting variant for
+  comparison logic to absorb.
+- **International**: positive over-indexing only; zero or under-indexed picks omit
+  the card rather than showing an inverse "American-heavy" card.
+- **Billing (Headliner/Undercard)**: both directions valid; fixed an unmatched
+  quotation mark, a subject-verb grammar error, and removed "hidden gems"/"before
+  everyone else" phrasing from the undercard copy.
+- **Stage/Genre diversity**: both broad and focused directions valid, qualifying via
+  the sampling engine instead of the old closed-form "expected value" formula. Fixed
+  a display bug where an integer stage count rendered as `5.0`.
+- **Genre Affinity vs. Genre Breadth**: allowed to coexist (different questions —
+  which family leads vs. how widely picks range) with separated copy. Concentrating in
+  one genre family mechanically *reduces* expected genre-tag variety relative to a
+  random sample, so affinity(strong) more often pairs with breadth(focused) than
+  breadth(broad) in practice — a property of what the two metrics measure, not a bug.
+
+### Copy status
+
+The Festival Story headline/supporting-text matrix has been reviewed and approved by
+the product owner. Copy changes should preserve the stable/interpretive strength of
+each branch, the no-em-dash style rule, and the general limit of at most one numeric
+value per card (with the safe Billing breakdown as the deliberate exception).
+Validation covers copy-dependent branch boundaries and key dynamic formatting, but
+future wording changes still require product review.
+
+### Known limitations
+
+- **Multiple comparisons**: up to ~7 candidate dimensions are tested per Story against
+  a 10%-extremeness bar, so a genuinely average/representative set of picks has a
+  non-trivial chance that at least one dimension clears the bar by chance alone. This
+  is an accepted product-level tradeoff (a lineup comparison, not a peer-reviewed
+  test), not a bug — documented here so it isn't rediscovered as a mystery later.
+- Sample count (500) and thresholds (10% extremeness, 10pp practical effect) are
+  product-chosen and centralized in `app/hooks/useStorySignals.ts`, not derived from a
+  formal statistical power calculation.
+- A discovery-source/Quick-Picks-provenance signal was considered and rejected —
+  Festival Story only unlocks after Quick Picks, so that signal would describe the
+  product funnel rather than the user.
+
+### Not touched in this iteration
+
+Planner/Explore attendance behavior; the AI-prose data-policy (`tagline`/`whySee`/
+`whatToExpect`/`bestFor` remain excluded from every signal).
 
 ---
 
@@ -1206,16 +1482,173 @@ an artist's data:
   date/time chip. None of the three ever displays both appearance times, the
   secondary appearance's own time/stage, or an individual per-appearance control
   outside the Planner.
-- **Quick Picks** — exactly one card per artist, built from its primary appearance;
-  the "N sets" chip appears only when that artist has more than one appearance at the
-  active festival, and wraps naturally with the other metadata chips on narrow
-  screens rather than overlapping them.
+- **Quick Picks** — exactly one card per artist, built from its selected-day
+  representative appearance (see "Quick Picks Attendance" below — this is Quick
+  Picks' one deliberate exception to "primary appearance everywhere outside the
+  Planner"); the "N sets" chip counts only appearances on the session's selected
+  days, and wraps naturally with the other metadata chips on narrow screens rather
+  than overlapping them.
 - **Planner accessible names** — multiple appearances for the same artist expose
   distinct accessible names containing their day, start time, and stage (e.g. "Add
   Devault — Thursday, 1:45 PM at BMI Stage — to schedule" vs. "Remove Devault —
   Thursday, 7:30 PM at Tito's Stage — from schedule"), not just the artist's name.
 - **Single-appearance regression** — every existing single-appearance artist is
   pixel/behavior-identical everywhere, before and after this change.
+
+---
+
+## Quick Picks Attendance
+
+**Confirmed** — Quick Picks asks which festival days the user is actually attending
+and scopes the entire session — eligibility, day grouping/progress, displayed
+appearance, and billing-tier classification — to those days. This is the prerequisite
+the deferred Festival Story "Day of Week Signal" (see below) was blocked on.
+
+### Persisted attendance state
+
+`app/store/attendanceStore.ts` persists `attendanceDaysByFestival: Record<string,
+string[]>`, festival-scoped so a future second festival doesn't collide with this
+one's selection. Reads and writes both go through `sanitizeAttendanceDays(festivalId,
+saved)` — a plain exported function, not just internal store logic, so it can be
+called directly (verification scripts do exactly this):
+
+- No saved selection yet (`undefined`), or a malformed/non-array value — defaults to
+  every day in `FESTIVAL_DAYS[festivalId]` (`app/data/festivals.ts` — the single
+  source of valid days; Quick Picks keeps no copy of its own).
+- Otherwise, the result is built by filtering the *configured* day list down to
+  whichever of its days appear in the saved value. This both drops stale days (no
+  longer in the festival configuration) and, as a side effect, de-duplicates and
+  restores festival order regardless of click order or storage corruption.
+- If that leaves zero valid days but the saved value was non-empty, the save is
+  treated as entirely stale and falls back to all configured days — same as no
+  selection ever having been made.
+- An explicit empty selection (the user deselected every day, so the saved value
+  legitimately *was* `[]`) is preserved as empty, not reset — the UI's job is to
+  disable Start Quick Picks for that state, not to silently override it.
+
+Changing attendance never touches `decisionStore` — the two stores are independent,
+and a changed selection only changes which undecided artists appear in the *next*
+session's queue.
+
+### Selected-day appearance resolution
+
+`getSelectedDayAppearance(artist, festivalId, selectedDays)` and
+`getSelectedDayBillingTier(...)` (`app/lib/appearances.ts`) apply the exact same
+latest-time/earliest-day-tiebreak rule as `getPrimaryAppearance`, restricted to
+appearances on the caller's selected days. Both functions share one private
+comparator (`pickPrimaryFromCandidates`) so the two resolution rules cannot drift
+apart. Unlike `getPrimaryAppearance`, this returns `undefined` rather than throwing
+when the artist has no appearance on any selected day — a normal outcome of the
+user's own choice, not a data-integrity violation.
+
+Quick Picks is the one place outside the Planner that reads through this
+selected-day helper instead of the unrestricted global primary — every other
+non-Planner surface (Explore, search, filters, carousels, Artist Detail, sorting)
+still uses `getPrimaryAppearance` unchanged.
+
+### Setup flow
+
+`StartScreen`/`StartOptions` present three vertically stacked steps — Festival, Days
+Attending, Grouping. Days Attending renders one selectable card per configured
+festival day (yellow when selected, per CLAUDE.md's user-intent color semantics;
+neutral otherwise; a checkmark badge so selection state doesn't depend on color
+alone), sourcing each day's short date from `getDatesByDay(allArtists, festivalId)`
+(`app/lib/appearances.ts`) rather than a duplicated day→date table. Deselecting every
+day disables Start Quick Picks and shows inline copy explaining why; the last card can
+always be deselected (no "must keep one selected" guard) — the disabled Start button
+is the validation.
+
+Grouping's toggle is disabled (with explanatory copy, "Only applies when attending
+multiple days") whenever 1 or 0 days are selected, but the underlying `groupByDay`
+value is never overwritten — it simply isn't editable, so it returns unchanged if the
+user selects another day.
+
+**Snapshot-before-animation:** `handleStart` builds the `QuickPicksSessionConfig`
+object synchronously, at click time — before the 100ms button-press animation delay,
+not inside its `setTimeout`. The delay exists purely for visual feedback; it must not
+be what determines which data the session starts with. That alone isn't sufficient,
+though: the *persisted* attendance selection could still change during those 100ms
+and leave the setup screen showing something the session snapshot no longer matches.
+`StartOptions` accepts a `disabled` prop, applied as a real `disabled` attribute (not
+a `pointer-events-none` CSS trick, which blocks mouse input but not keyboard/assistive
+-tech activation) on the day cards and the grouping toggle, so the persisted selection
+genuinely cannot change for the duration of the press animation.
+
+### Session snapshot
+
+`QuickPicksSessionConfig` now carries `attendanceDays: string[]`, captured once at
+Start in configured festival order (not the store's insertion order). `createSession`
+(`app/quick-picks/page.tsx`, exported specifically so verification scripts call the
+real orchestration rather than a reimplemented copy) builds the queue once from that
+snapshot and derives day order via `getDaysForFestival(config.festivalId)` — scoped to
+the session's own festival, not assumed to be the active one, so a future
+multi-festival session can't silently pull another festival's day order. Exiting
+discards the session and returns to setup, where the persisted selection reappears via
+`sanitizeAttendanceDays` for the next Start.
+
+### Eligibility
+
+An artist is eligible when `getSelectedDayAppearance` returns a defined appearance
+(at least one set on a selected day) **and** has no existing verdict in
+`decisionsByArtist`, regardless of source (Quick Picks, Explore, or Artist Detail) —
+unchanged from the pre-attendance filtering rule, just now composed with the
+day-eligibility check. A "Passed" verdict counts as already reviewed here even though
+it's excluded from the Sidebar's "My Picks" count elsewhere — different, unrelated
+semantics for different features.
+
+### Grouped queue
+
+One day at a time, in festival order, skipping unselected days entirely.
+`interleaveByTierWithinDay` (`app/lib/quick-picks-queue.ts`) now takes `QueueEntry[]`
+(`{ artist, appearance }` pairs) instead of bare artists, reading billing tier from
+the entry's own selected-day appearance rather than recomputing a global primary. Day
+Complete screens appear only between selected days; "Continue to [Day]" always names
+the *next selected* day, never a skipped one, because it's read directly off the next
+queue item. The final selected day proceeds straight to the completion screen.
+
+### Ungrouped queue
+
+`buildUngroupedQueue` (`app/lib/quick-picks-queue.ts`) avoids naively round-robining
+already-interleaved per-day queues (which would place every selected day's headliner
+back-to-back). Instead: split each selected day into recognizable
+(Headliner/Sub-headliner) vs. undercard buckets and shuffle within each; round-robin
+across days to build one day-balanced undercard stream and one day-balanced
+recognizable stream; merge those two streams at ~2 undercard : 1 recognizable — the
+same pacing `interleaveByTierWithinDay` uses within a single day, via a shared merge
+helper (`mergeUndercardAndRecognizable`) so the two strategies can't drift apart. A
+single selected day degenerates safely (both streams collapse to one bucket,
+producing the same pacing as the grouped strategy for that day). No Day Complete
+screens; progress uses the full queue.
+
+### Multi-appearance disclosure, attendance-scoped
+
+Inside Quick Picks only, the "N sets" chip counts appearances on the *session's*
+selected days, not the artist's total appearance count — an artist playing Friday and
+Sunday shows "2 sets" only if both days are selected; if only Friday is selected, no
+chip appears at all. Artist Detail and Planner are unaffected and continue showing
+complete appearance information regardless of Quick Picks attendance.
+
+### Completion copy
+
+`QuickPicksCompleteScreen.tsx` (renamed from `FestivalCompleteScreen.tsx` — the old
+name implied "the whole festival," which is exactly the claim this rewrite removes)
+derives its eyebrow, headline, and supporting copy from `context`
+(`sessionComplete` | `nothingToReview`) and the session's captured `attendanceDays`:
+one selected day names it directly ("every artist playing Friday"); multiple days say
+"every artist playing on your selected days" — never a blanket "entire festival
+lineup" claim, since that would only be true if every configured day were selected.
+Its "Schedule" card now navigates to `/planner` (previously it silently returned to
+the Quick Picks setup screen, which wasn't actually the Schedule feature).
+
+### Not touched in this iteration
+
+- **Planner / Explore** — unaffected by attendance; both continue showing the
+  complete festival schedule/lineup regardless of Quick Picks attendance selection. A
+  future Planner integration may *acknowledge* attendance (e.g. a visual hint on
+  unselected days) without requiring Planner to hide anything.
+- **Festival Story** — now attendance-scoped; see "Festival Story" above (`§
+  Attendance scope`) for how it consumes the *launching session's* captured
+  `attendanceDays` rather than re-reading the persisted store.
 
 ---
 
@@ -1354,23 +1787,6 @@ Neither is being built for MVP. Passed remains reachable only via the Status fil
 
 ---
 
-## Future Consideration: Festival Story — Day of Week Signal
-
-**Deferred signal:** Festival Story currently computes 11 candidate signals for its revelation sequence. A 12th candidate (Day of Week concentration: Thu/Fri vs. Sat/Sun skew) was deliberately omitted, pending a prerequisite Quick Picks feature.
-
-**Why deferred:** The signal cannot be computed honestly without knowing whether a user's Thursday-heavy picks reflect genuine preference or simply that they only attended Thursday and skipped Friday/Saturday/Sunday. Currently, Quick Picks has no "I'm only attending these days" input — it presents the entire lineup to every user regardless of attendance.
-
-**Prerequisites to implement this signal:**
-
-1. **Quick Picks feature:** Add day-selection UI to Quick Picks intro (e.g., "Which days are you attending?") so users can explicitly mark days they're skipping
-2. **Filter upstream:** Filter the Quick Picks queue to only artists performing on selected days
-3. **Store attendance plan:** Persist which days the user selected to localStorage (alongside decision data) for reference by Festival Story and future Schedule feature
-4. **Then compute signal:** Compare user's day-of-week distribution (of their attended days) against the lineup's distribution (of those same days only)
-
-Once Quick Picks gains day selection, this signal can be reintroduced without ambiguity.
-
----
-
 ## Future Consideration: Onboarding / How It Works Explainer
 
 Throughout development, the idea of a lightweight explainer has come up multiple times — something that briefly walks a new user through how the app's core concepts connect: the difference between Must See / Interested / Passed, what Quick Picks does, and what the Festival Story/Snapshot reveal is and how you get there. Right now, this understanding is only conveyed implicitly, scattered across UI copy on individual screens (button labels, the Quick Picks intro screen, etc.) — there's no single place a new user could go to understand the whole system at a glance.
@@ -1391,3 +1807,81 @@ There is currently no usage tracking of any kind (no backend, no analytics pipel
 **If this becomes worth knowing:** A lightweight approximation is possible without a real backend: logging simple events (e.g., "started Quick Picks," "reached Festival Complete") to the same localStorage-backed store already used for decisions. This would not require a backend or third-party analytics service, just an additional small piece of local state.
 
 **Not built now** — noted here so the option isn't forgotten if the question resurfaces later.
+
+---
+
+## Future Consideration: Session Resilience to Data Changes Mid-Session
+
+Quick Picks' decisioning screen resolves `currentAppearance` (`app/quick-picks/page.tsx`) by looking up the current queue item's `appearanceId` against `allArtists` via `getAppearanceById`. That lookup assumes `allArtists` — static, module-level data, imported once — never changes shape during an active session. If `currentQueueItem`/`currentArtist` resolve but `currentAppearance` doesn't, the `step === "decisioning"` render branch's guard (`currentArtist && currentAppearance && progress`) simply doesn't render anything: no fallback UI, no path back to Start.
+
+**Not a live defect today.** Reaching this state requires the artist dataset to change out from under an already-open tab mid-session. `allArtists` never mutates at runtime, and Quick Picks session state lives in local `useState`, never persisted — a page reload always resets to `step: "start"`. The only realistic trigger is a live redeploy landing while someone has Quick Picks open, a thin edge case for a single-festival, hand-authored MVP dataset.
+
+**Same root cause applies to appearance ordering.** `pickPrimaryFromCandidates`'s tie-break (`app/lib/appearances.ts`) indexes into `getDaysForFestival(festivalId)`, which resolves to `[]` for an unconfigured `festivalId` rather than throwing — `Array.prototype.sort` is stable, so an all-`-1` tie-break degrades to a no-op, not a crash or randomized order. `attendanceDays` itself can't carry an unconfigured day string today regardless: `sanitizeAttendanceDays` filters against `FESTIVAL_DAYS[festivalId]` on both write (`setAttendanceDays`) and every read (`useAttendanceDays`), not just at save time. The residual risk is the same multi-festival scenario described above, not a distinct one.
+
+**Revisit when:** artist data moves to the planned FastAPI/PostgreSQL backend and can genuinely change between session start and a later decision. At that point, add an explicit guard: if `currentQueueItem` exists but `currentAppearance` doesn't resolve, invalidate the session and return to Start with a short explanation, rather than leaving an unrendered dead end.
+
+---
+
+## Future Consideration: Seeded Quick Picks Queue Shuffle
+
+The Quick Picks queue shuffle (`shuffleArray`, used by `interleaveByTierWithinDay` and `buildUngroupedQueue` in `app/lib/quick-picks-queue.ts`) uses plain `Math.random()`, producing a genuinely different artist order every time a session starts. This is intentional — it matches the "go with your gut," momentum-over-precision philosophy in CLAUDE.md's Quick Picks section — and is a different tradeoff than `createSeededRandom` (`app/lib/random.ts`), which other features (Explore's carousels, Festival Story's sampling) use deliberately where *within-session* stability matters.
+
+**The tradeoff:** because the shuffle isn't seeded, a specific queue order can't be reproduced across reloads, which makes verifying a bug report about ordering harder than it would be with a seeded shuffle.
+
+**Not seeding now** — reproducibility is a debugging convenience, not a product requirement, and seeding would trade away the intentional per-session freshness for a benefit that only helps internal QA.
+
+**If this becomes a real debugging blocker:** consider a dev-only override (e.g. a query param or env flag that seeds `shuffleArray` via the existing `createSeededRandom`) rather than changing default production behavior.
+
+---
+
+## Future Consideration: Locked Story Recovery Assumes a Non-Trivial Attendance Scope
+
+The locked Festival Story card's recovery path ("Take a Second Look") always routes to Explore filtered to Passed artists (`onExploreArtists` in `app/quick-picks/page.tsx`, `showPassedArtists()` in `app/store/exploreFilterStore.ts`). This assumes at least one Passed artist exists in scope to reconsider.
+
+**Why this holds today:** `QuickPicksCompleteScreen` only renders once every eligible artist on the selected attendance day(s) has a decision — either the session's queue was fully exhausted, or it was empty because everything was already decided beforehand. Every decision is exactly one of three verdicts (Must See / Interested / Passed), so for the selected-day scope, `total = positive + passed`. Being locked means `positive < MIN_POSITIVE_PICKS_FOR_STORY` (5), which forces `passed > total - 5`. The smallest single festival day in the current dataset has 42 artists, so being locked guarantees more than 37 Passed artists exist to reconsider. The "zero Passed artists" dead-end this recovery path implicitly assumes away is mathematically unreachable under the current dataset.
+
+**Revisit when:** a future festival, or an attendance-day combination, has a total eligible lineup close to or below `MIN_POSITIVE_PICKS_FOR_STORY`. At that point, `onExploreArtists` should check whether any Passed artists actually exist in scope before routing there, and fall back to a broader recoverable set (e.g. My Picks or unfiltered Explore) with matching copy, rather than assuming Passed is always non-empty.
+
+---
+
+## Future Consideration: Mobile Viewport Height (`h-screen` → `dvh`)
+
+Four pages use `h-screen` (`100vh`) combined with `overflow-hidden` for their full-height shell: `app/planner/page.tsx`, `app/quick-picks/page.tsx`, `app/components/explore/ExploreContent.tsx`, and `app/artist/[slug]/page.tsx`. (`app/layout.tsx`'s `min-h-screen` is a different, lower-risk pattern — a floor, not a fixed height with clipping — and isn't affected by this.)
+
+**The issue:** `100vh` is computed from the browser's initial viewport size and doesn't update as mobile Safari/Chrome's URL bar collapses or expands while scrolling. A fixed-height, `overflow-hidden` container sized to the *pre-collapse* viewport can clip content or visibly jump once the browser chrome changes height.
+
+**The fix:** swap `h-screen` → `h-dvh` (dynamic viewport height) in all four locations. This is a Tailwind v4 core utility already available in this project with no config changes needed, and it's behaviorally identical to `h-screen` on desktop (no dynamic chrome to account for) — it only removes the mobile failure mode, with no downside.
+
+**Not done now** — bundled into a planned dedicated mobile-responsive pass instead, where it can be verified live on an actual device rather than fixed without being able to confirm it.
+
+---
+
+## Future Consideration: Light Mode
+
+`app/globals.css` sets `color-scheme: dark` on `:root` unconditionally, and the new `.themed-scrollbar` utility hardcodes white-based `rgba()` values for its thumb/track — both assume a permanently dark app. This is correct for the current dark-only design (CLAUDE.md: "Deep violet (#110D24) and surrounding dark neutrals form the visual foundation"), but neither will automatically adapt if light mode is ever added.
+
+**If light mode is built:** `color-scheme` needs to become conditional — driven by a theme class/attribute (e.g. `color-scheme: light` or `color-scheme: light dark` swapped based on the active theme) rather than a blanket root-level `dark`. `.themed-scrollbar`'s thumb/track colors would similarly need theme-aware values (e.g. dark-based `rgba()` values for a light theme, mirroring the current white-based ones) rather than a single hardcoded palette.
+
+**Not built now** — noted here so it isn't rediscovered as a bug later; the app is dark-only today and there's no light mode work planned yet.
+
+---
+
+## Future Consideration: Planner Fade vs. Trackpad Elastic Overscroll
+
+On macOS, trackpad momentum scrolling past the Planner grid's horizontal edge triggers the browser's native elastic "rubber-band" bounce. Because the edge fades (`app/components/planner/PlannerGrid.tsx`) are a separate absolutely-positioned overlay sitting on top of the scroll container — not part of the scrolling content itself — the content briefly slides past its edge during the bounce while the fade stays fixed, making the fade line appear to shift momentarily before springing back with the content.
+
+**Tried:** `overscroll-behavior-x: contain` on the scroll container — did not change the behavior. Expected, in hindsight: that property mainly prevents overscroll from *chaining* to a scrollable ancestor; it doesn't suppress the local elastic bounce on the element itself, and there's no bouncing ancestor here for it to have chained to regardless.
+
+**What a real fix would take:** rendering the fade as a `mask-image` on the scroll container itself (so it moves with the same box that bounces) rather than a fixed overlay. Not a simple swap — the grid has a sticky hour-label column and sticky stage headers, which a whole-container mask would also fade unless carefully excluded, and a mask's gradient is positioned relative to the full scrollable content, not the visible viewport, so keeping the fade anchored to the visible edges while scrolling would require continuously syncing the mask's position to scroll offset rather than a static CSS value.
+
+**Not done now** — rare, cosmetic, native-feeling (most users won't read it as a bug), and the real fix is meaningfully more involved than it first appears. Revisit only if this turns out to bother people in regular use, not just as a one-off observation.
+
+---
+
+## Future Consideration: Automated Coverage for Quick Picks Queue Building
+
+`app/lib/quick-picks-queue.ts` (`interleaveByTierWithinDay`, `buildUngroupedQueue`, `mergeUndercardAndRecognizable`) has real algorithmic complexity — cross-day round-robin balancing, ~2-undercard-to-1-recognizable pacing — and zero automated test coverage today. `verify-story-signals.ts` only exercises Festival Story signal computation, not queue construction.
+
+**Why this isn't a simple addition:** `shuffleArray` uses real `Math.random()` (see "Future Consideration: Seeded Quick Picks Queue Shuffle" above), so tests can't assert exact output order the way the deterministic Story-signal checks do. Coverage here would need structural/property-based assertions instead — e.g. total count preserved, day balance within expected bounds, recognizable:undercard ratio near the intended ~1:2 across a large sample — closer to writing a new test file than adding a `check()` call to the existing one.
+
+**Not built now** — larger, separate effort than the other verification gaps addressed alongside this note. Revisit as its own scoped task if queue-building bugs start surfacing in practice.

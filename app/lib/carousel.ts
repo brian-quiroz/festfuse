@@ -5,6 +5,12 @@ import { getPrimaryAppearance } from "@/app/lib/appearances";
 
 const DAY_ORDER = getDaysForActiveFestival();
 
+// After Dark carousel threshold — 8:00 PM. Chosen from the actual lineup distribution:
+// 19 artists qualify at this threshold, spread 4-5 per day across all four festival
+// days. 8:30 PM narrows this to 16 (4/day); 9:00 PM drops to just 5 total, too sparse
+// for a discovery row. See ARCHITECTURE.md § Carousel Presentation Strategies.
+export const AFTER_DARK_THRESHOLD_MINUTES = 20 * 60;
+
 /**
  * Shuffle array using Fisher-Yates algorithm.
  * @param arr - Array to shuffle

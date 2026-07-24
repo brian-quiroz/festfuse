@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Sidebar from "@/app/components/Sidebar";
+import Switch from "@/app/components/Switch";
 import PlannerGrid from "@/app/components/planner/PlannerGrid";
 import { allArtists } from "@/app/data/artists";
 import { getDaysForActiveFestival, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
@@ -65,7 +66,7 @@ export default function PlannerPage() {
   ]);
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
@@ -74,45 +75,36 @@ export default function PlannerPage() {
           <p className="text-sm text-white/60 mt-1">Build your festival schedule</p>
         </div>
 
-        {/* Day tabs */}
-        <div className="px-8 pt-4 flex gap-1 border-b border-[#2D2556]">
-          {days.map((day) => (
-            <button
-              key={day}
-              onClick={() => setActiveDay(day)}
-              className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
-                activeDay === day
-                  ? "text-[#00E5FF] border-[#00E5FF]"
-                  : "text-white/50 border-transparent hover:text-white/80"
-              }`}
-            >
-              {day}
-            </button>
-          ))}
-        </div>
+        {/* Day tabs + display toggles — different axes (which day vs. which layers
+            are visible), kept in one row: tabs left, switches right. Distinct control
+            shapes keep the two axes visually separable despite sharing the row. */}
+        <div className="px-8 pt-4 pb-3 flex items-center justify-between border-b border-[#2D2556]">
+          <div className="flex gap-1">
+            {days.map((day) => (
+              <button
+                key={day}
+                onClick={() => setActiveDay(day)}
+                className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
+                  activeDay === day
+                    ? "text-[#00E5FF] border-[#00E5FF]"
+                    : "text-white/50 border-transparent hover:text-white/80"
+                }`}
+              >
+                {day}
+              </button>
+            ))}
+          </div>
 
-        {/* Toggles */}
-        <div className="px-8 py-4 border-b border-[#2D2556] flex gap-3">
-          <button
-            onClick={() => setShowMyPicks(!showMyPicks)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              showMyPicks
-                ? "bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/50"
-                : "bg-[#231C45] text-white/70 hover:text-white border border-transparent"
-            }`}
-          >
-            My Picks
-          </button>
-          <button
-            onClick={() => setShowScheduled(!showScheduled)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              showScheduled
-                ? "bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/50"
-                : "bg-[#231C45] text-white/70 hover:text-white border border-transparent"
-            }`}
-          >
-            Scheduled
-          </button>
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-2 text-sm font-medium text-white/70">
+              My Picks
+              <Switch checked={showMyPicks} onChange={setShowMyPicks} aria-label="Show My Picks only" />
+            </div>
+            <div className="flex items-center gap-2 text-sm font-medium text-white/70">
+              Scheduled
+              <Switch checked={showScheduled} onChange={setShowScheduled} aria-label="Show Scheduled only" />
+            </div>
+          </div>
         </div>
 
         {/* Grid */}

@@ -1,18 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Sidebar from "@/app/components/Sidebar";
 import StartScreen from "@/app/components/quick-picks/StartScreen";
 import DecisionScreen from "@/app/components/quick-picks/DecisionScreen";
 import DayCompleteScreen from "@/app/components/quick-picks/DayCompleteScreen";
-import FestivalCompleteScreen from "@/app/components/quick-picks/FestivalCompleteScreen";
+import QuickPicksCompleteScreen from "@/app/components/quick-picks/QuickPicksCompleteScreen";
 import { FestivalStorySequence } from "@/app/components/festival-story/FestivalStorySequence";
+import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
 import { COLORS } from "@/app/data/colors";
 import { allArtists } from "@/app/data/artists";
 import { useDecisionStore, type ArtistDecision } from "@/app/store/decisionStore";
-import { interleaveByTierWithinDay } from "@/app/lib/quick-picks-queue";
-import { getDaysForActiveFestival, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
-import { getPrimaryAppearance } from "@/app/lib/appearances";
+import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
+import {
+  interleaveByTierWithinDay,
+  buildUngroupedQueue,
+  getEligibleEntries,
+  type QueueEntry,
+} from "@/app/lib/quick-picks-queue";
+import { getDaysForFestival } from "@/app/data/festivals";
+import { getAppearanceById, getAppearancesForFestival } from "@/app/lib/appearances";
+import { getValidPositivePicks, MIN_POSITIVE_PICKS_FOR_STORY } from "@/app/hooks/useStorySignals";
 import type {
   QuickPicksStep,
   QuickPicksSession,
@@ -21,49 +30,48 @@ import type {
   QuickPicksVerdict,
 } from "@/app/types/quick-picks";
 
-// Build the queue using tier-interleaved order within each day.
-// Within each day: headliners/sub-headliners are sprinkled throughout,
-// with undercard artists filling most slots to maintain momentum and discovery.
+// Build the queue from eligible {artist, appearance} entries — one entry per
+// undecided artist with at least one appearance on a selected attendance day, using
+// that artist's selected-day representative appearance (see getSelectedDayAppearance
+// in app/lib/appearances.ts) for day-bucketing and billing-tier classification.
 // The queue-generation strategy may evolve later (recommendations, popularity, etc.) without changing the session architecture.
-function createSession(
+// Exported (not just page-local) so verification scripts can call the exact same
+// orchestration production uses, rather than re-implementing a second copy.
+export function createSession(
   config: QuickPicksSessionConfig,
   decisionsByArtist: Record<string, ArtistDecision>
 ): QuickPicksSession {
-  // Filter to only undecided artists (no entry in store means undecided)
-  const undecidedArtists = allArtists.filter((a) => !decisionsByArtist[a.slug]);
+  const { festivalId, groupByDay, attendanceDays } = config;
 
-  // Group artists by day (using each artist's primary appearance — see app/lib/appearances.ts)
-  const byDay = new Map<string, typeof undecidedArtists>();
-  for (const artist of undecidedArtists) {
-    const day = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).day;
-    if (!byDay.has(day)) {
-      byDay.set(day, []);
-    }
-    byDay.get(day)!.push(artist);
-  }
+  const eligible: QueueEntry[] = getEligibleEntries(
+    allArtists,
+    festivalId,
+    attendanceDays,
+    decisionsByArtist
+  );
 
-  // For each day (in festival order), interleave by tier
-  const sorted: typeof undecidedArtists = [];
-  const days = getDaysForActiveFestival();
-  for (const day of days) {
-    if (byDay.has(day)) {
-      const dayArtists = interleaveByTierWithinDay(byDay.get(day)!);
-      sorted.push(...dayArtists);
-    }
-  }
+  const orderedDays = getDaysForFestival(festivalId).filter((day) =>
+    attendanceDays.includes(day)
+  );
+
+  const sortedEntries: QueueEntry[] = groupByDay
+    ? orderedDays.flatMap((day) =>
+        interleaveByTierWithinDay(eligible.filter((e) => e.appearance.day === day))
+      )
+    : buildUngroupedQueue(eligible, orderedDays);
 
   const dayCounts: Record<string, number> = {};
-  for (const artist of sorted) {
-    const day = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).day;
-    dayCounts[day] = (dayCounts[day] ?? 0) + 1;
+  for (const entry of sortedEntries) {
+    dayCounts[entry.appearance.day] = (dayCounts[entry.appearance.day] ?? 0) + 1;
   }
 
   const dayCounters: Record<string, number> = {};
-  const queue: QuickPicksQueueItem[] = sorted.map((artist) => {
-    const day = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).day;
+  const queue: QuickPicksQueueItem[] = sortedEntries.map((entry) => {
+    const day = entry.appearance.day;
     dayCounters[day] = (dayCounters[day] ?? 0) + 1;
     return {
-      artistId: artist.slug,
+      artistId: entry.artist.slug,
+      appearanceId: entry.appearance.id,
       day,
       dayPosition: dayCounters[day],
       dayTotal: dayCounts[day],
@@ -74,7 +82,9 @@ function createSession(
 }
 
 export default function QuickPicksPage() {
+  const router = useRouter();
   const { decisionsByArtist, setDecision } = useDecisionStore();
+  const showPassedArtists = useExploreFilterStore((state) => state.showPassedArtists);
   const [step, setStep] = useState<QuickPicksStep>("start");
   const [session, setSession] = useState<QuickPicksSession | null>(null);
   const [initialDecisions, setInitialDecisions] = useState<
@@ -198,6 +208,21 @@ export default function QuickPicksPage() {
   const currentArtist = currentQueueItem
     ? (allArtists.find((a) => a.slug === currentQueueItem.artistId) ?? null)
     : null;
+  // Resolve the session's chosen appearance from the queue item's appearanceId —
+  // DecisionScreen displays this rather than independently recomputing a primary.
+  const currentAppearance =
+    currentArtist && currentQueueItem && session
+      ? (getAppearanceById(currentArtist, session.config.festivalId, currentQueueItem.appearanceId) ??
+        null)
+      : null;
+  // Disclosure count scoped to the session's selected attendance days, not the
+  // artist's full appearance count — see ARCHITECTURE.md § Quick Picks Attendance.
+  const selectedDaySetCount =
+    currentArtist && session
+      ? getAppearancesForFestival(currentArtist, session.config.festivalId).filter((a) =>
+          session.config.attendanceDays.includes(a.day)
+        ).length
+      : 0;
 
   const progress =
     session && currentQueueItem
@@ -240,6 +265,31 @@ export default function QuickPicksPage() {
     completedDayStats = { mustSee, interested, passed, total: dayItems.length };
   }
 
+  // Festival Story unlock — attendance-scoped, using the same eligibility resolution
+  // computeStorySignals itself uses (never a separate raw-decision count). Recomputed
+  // from the live decision store, so a decision made mid-session already counts.
+  const storyUnlocked = session
+    ? getValidPositivePicks(session.config.festivalId, session.config.attendanceDays, allArtists, decisionsByArtist)
+        .length >= MIN_POSITIVE_PICKS_FOR_STORY
+    : false;
+
+  // Preload the Story's intro image while the completion screen is visible — this
+  // component stays mounted then, unlike FestivalStorySequence, which is only
+  // mounted once the user actually opens the Story (see below) and would be too late
+  // to preload anything useful. Only fires when Story is actually openable.
+  const isOnCompletionScreen = step === "festivalComplete" || step === "allDecided";
+  useEffect(() => {
+    if (!isOnCompletionScreen || !storyUnlocked) return;
+    const introImageUrl = FESTIVAL_STORY_IMAGES.intro;
+    if (!introImageUrl) return;
+    if (document.head.querySelector(`link[rel="preload"][href="${introImageUrl}"]`)) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = introImageUrl;
+    document.head.appendChild(link);
+  }, [isOnCompletionScreen, storyUnlocked]);
+
   const showSidebar = step === "start";
 
   return (
@@ -278,9 +328,11 @@ export default function QuickPicksPage() {
 
         {step === "start" && <StartScreen onStart={handleStart} />}
 
-        {step === "decisioning" && session && currentArtist && progress && (
+        {step === "decisioning" && session && currentArtist && currentAppearance && progress && (
           <DecisionScreen
             artist={currentArtist}
+            appearance={currentAppearance}
+            selectedDaySetCount={selectedDaySetCount}
             dayLabel={dayLabel}
             progress={progress}
             onDecision={handleDecision}
@@ -306,16 +358,35 @@ export default function QuickPicksPage() {
 
         {(step === "festivalComplete" || step === "allDecided") && (
           <>
-            <FestivalCompleteScreen
+            <QuickPicksCompleteScreen
               context={step === "festivalComplete" ? "sessionComplete" : "nothingToReview"}
+              attendanceDays={session?.config.attendanceDays ?? []}
+              storyUnlocked={storyUnlocked}
               onGoToFestivalStory={() => setShowFestivalStory(true)}
-              onGoToSchedule={handleExit}
+              onGoToSchedule={() => router.push("/planner")}
+              // Assumes at least one Passed artist exists in scope whenever this is
+              // reachable (the Story is locked) — proven true for the current dataset,
+              // not enforced here. See ARCHITECTURE.md § Future Consideration: Locked
+              // Story Recovery Assumes a Non-Trivial Attendance Scope for the math and
+              // the revisit trigger.
+              onExploreArtists={() => {
+                showPassedArtists();
+                router.push("/explore");
+              }}
               onExit={handleExit}
             />
-            <FestivalStorySequence
-              isOpen={showFestivalStory}
-              onClose={() => setShowFestivalStory(false)}
-            />
+            {/* Conditionally mounted, not just isOpen-gated: mounting is what triggers
+                useStorySignals' ~500-sample computation, so it must not run merely
+                because the completion screen is showing. Unmounting on close also
+                resets FestivalStorySequence's internal currentIndex for free — no
+                state to reset by hand, so reopening always starts at the intro. */}
+            {showFestivalStory && storyUnlocked && (
+              <FestivalStorySequence
+                isOpen={showFestivalStory}
+                onClose={() => setShowFestivalStory(false)}
+                attendanceDays={session?.config.attendanceDays}
+              />
+            )}
           </>
         )}
       </main>

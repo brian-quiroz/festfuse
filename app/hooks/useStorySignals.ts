@@ -1,361 +1,823 @@
 import { useMemo } from "react";
-import type { Artist } from "@/app/types/artist";
+import type { Artist, FestivalAppearance } from "@/app/types/artist";
 import type { ArtistDecision } from "@/app/store/decisionStore";
-import {
-  GENRE_TO_FAMILY,
-  GENRE_FAMILIES,
-  HIGH_ENERGY_TAGS,
-  SPECTACLE_TAGS,
-  INTIMATE_TAGS,
-  LYRICAL_TAGS,
-} from "@/app/data/categories";
+import { GENRE_TO_FAMILY } from "@/app/data/categories";
 import type { GenreFamily } from "@/app/data/categories";
-import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
-import { getPrimaryAppearance, getPrimaryBillingTier } from "@/app/lib/appearances";
+import { getSelectedDayAppearance } from "@/app/lib/appearances";
+import { isChicago } from "@/app/lib/location";
+import {
+  buildStorySeed,
+  drawSamples,
+  computeExtremeness,
+  sampleMean,
+  type SignalDirection,
+} from "@/app/lib/story-sampling";
 
 export interface StorySignal {
   type: string;
-  userValue: number;
-  lineupValue: number;
-  deviation: number;
   headlineTemplate: string;
   supportingText: string;
+  // Comparative signals only — the user's rate and the lineup baseline it was
+  // compared against. Omitted for non-comparative signals (decisionProfile) and for
+  // signal types with no single natural baseline. Kept for debugging/validation, not
+  // rendered directly by FestivalStoryCard.
+  userValue?: number;
+  lineupValue?: number;
+  deviation?: number;
 }
 
-export function useStorySignals(
-  decisionsByArtist: Record<string, ArtistDecision>,
+export interface ComputeStorySignalsParams {
+  festivalId: string;
+  // The attendance days that scope this Story — must be the launching Quick Picks
+  // session's captured snapshot, not necessarily whatever is currently persisted in
+  // attendanceStore (see ARCHITECTURE.md § Quick Picks Attendance and § Festival
+  // Story). Pure input — this function never reads Zustand state itself.
+  attendanceDays: string[];
+  allArtists: Artist[];
+  decisionsByArtist: Record<string, ArtistDecision>;
+}
+
+// ============================================================================
+// Product-level thresholds — centralized here, not scattered through card
+// construction. See ARCHITECTURE.md § Festival Story for the full rationale.
+// ============================================================================
+
+// Product floor: below this many valid positive picks, Festival Story stays locked
+// (see getValidPositivePicks/getEligibleArtists below, used by Quick Picks completion
+// to decide whether to offer the Story at all).
+export const MIN_POSITIVE_PICKS_FOR_STORY = 5;
+
+// Deterministic sample-aware comparison (replaces a fixed universal percentage-point
+// "noise floor"): how many random same-size subsets of the eligible lineup to draw,
+// and how rare the user's real result must be among them to count as a real pattern
+// rather than sampling noise from picking a subset of the lineup.
+const SAMPLE_COUNT = 500;
+const EXTREMENESS_THRESHOLD = 0.1; // no more than ~10% of random subsets did as well
+// Minimum percentage-point gap from the random-subset average, shared by every
+// rate-based comparative signal — a result can be statistically rare and still be
+// practically trivial (e.g. 1pp), which must not produce dramatic copy.
+const PRACTICAL_EFFECT_MIN_PP = 10;
+
+// Extra observed-count floors: statistical rarity alone is not enough for these — a
+// tiny raw count (e.g. one Chicago pick) shouldn't drive a "this defines you" claim
+// even if it happens to be statistically unusual for the sample size.
+const GENRE_AFFINITY_MIN_PICKS = 2;
+const HOMETOWN_MIN_PICKS = 2;
+const HOMETOWN_STRONG_MIN_PICKS = 4; // below this, use the moderate (non-"biggest fan") copy
+const INTERNATIONAL_MIN_PICKS = 1;
+const DAY_MIN_ATTENDANCE_DAYS = 2; // no day signal for a single-day session
+const DAY_TOP_DAY_MIN_PICKS = 2;
+
+// Decision Profile thresholds
+const DECISION_PROFILE_RESTRAINED_MAX_PICKS = 7; // 5-7 picks: no "personality" claim
+const DECISION_PROFILE_MUST_SEE_HEAVY = 0.75;
+const DECISION_PROFILE_INTERESTED_HEAVY = 0.25;
+const DECISION_PROFILE_NEAR_EVEN_MIN = 0.4; // 40%-60% inclusive: near-even
+const DECISION_PROFILE_NEAR_EVEN_MAX = 0.6;
+const DECISION_PROFILE_EXTREME_MUST_SEE = 0.9;
+const DECISION_PROFILE_EXTREME_INTERESTED = 0.1;
+const DECISION_PROFILE_EXTREME_MIN_PICKS = 10;
+
+// Curated presentation order for the 4 selected cards. Selection (which dimensions
+// qualify) is driven entirely by the statistics below; this list only decides display
+// order afterward. genreAffinity and decisionProfile are the two fixed anchors
+// (always first and always last respectively) but are included here so this is one
+// complete, self-documenting ordering reference rather than two separate rules.
+const DIMENSION_DISPLAY_PRIORITY = [
+  "genreAffinity",
+  "billing",
+  "stage",
+  "day",
+  "genreBreadth",
+  "hometown",
+  "international",
+  "countryDiversity",
+  "decisionProfile",
+];
+
+// ============================================================================
+// Attendance-scoped eligibility — single source of truth for "who is eligible" and
+// "which decisions count," shared by computeStorySignals and by Quick Picks
+// completion (to decide whether to unlock the Festival Story card at all).
+// ============================================================================
+
+export function getEligibleArtists(
+  festivalId: string,
+  attendanceDays: string[],
   allArtists: Artist[]
-): StorySignal[] {
-  return useMemo(() => {
-    // Build picked artists list
-    const pickedSlugs = Object.entries(decisionsByArtist)
-      .filter(
-        ([_, decision]) => decision.verdict === "mustSee" || decision.verdict === "interested"
-      )
-      .map(([slug]) => slug);
+): Artist[] {
+  return allArtists.filter((a) => getSelectedDayAppearance(a, festivalId, attendanceDays) !== undefined);
+}
 
-    if (pickedSlugs.length === 0) {
-      return [];
-    }
+// Forward-constructed (real Artist -> decision lookup), so stale decision slugs and
+// artists whose only appearances fall outside the selected days are silently
+// excluded rather than special-cased. A decision counts regardless of its source
+// (Quick Picks, Explore, Artist Detail) as long as it's mustSee/interested and the
+// artist is in the attendance-scoped eligible pool; "passed" never counts.
+export function getValidPositivePicks(
+  festivalId: string,
+  attendanceDays: string[],
+  allArtists: Artist[],
+  decisionsByArtist: Record<string, ArtistDecision>
+): Artist[] {
+  const eligibleArtists = getEligibleArtists(festivalId, attendanceDays, allArtists);
+  return eligibleArtists.filter((a) => {
+    const decision = decisionsByArtist[a.slug];
+    return !!decision && (decision.verdict === "mustSee" || decision.verdict === "interested");
+  });
+}
 
-    const pickedArtists = pickedSlugs
-      .map((slug) => allArtists.find((a) => a.slug === slug))
-      .filter(Boolean) as Artist[];
+// ============================================================================
+// Internal candidate representation
+// ============================================================================
 
-    const signals: StorySignal[] = [];
+interface Candidate {
+  type: string;
+  headlineTemplate: string;
+  supportingText: string;
+  userValue?: number;
+  lineupValue?: number;
+  deviation?: number;
+  // Ranking only — never rendered. 1 marks a non-comparative or safe/fallback
+  // candidate, which can still fill a slot but always loses to any real qualifying
+  // candidate (extremeness <= EXTREMENESS_THRESHOLD).
+  extremeness: number;
+  practicalEffectPP: number;
+}
 
-    // ===== SIGNAL 1: Genre Family Dominance =====
-    // For each family, count picks with at least one genre in that family.
-    // This handles multi-genre artists fairly: an artist is counted toward every family
-    // whose genres they possess, not just their first genre (which we can't trust for prominence).
-    const familyPresence: Record<GenreFamily, number> = {} as Record<GenreFamily, number>;
-    const lineupFamilyPresence: Record<GenreFamily, number> = {} as Record<GenreFamily, number>;
+function toStorySignal(c: Candidate): StorySignal {
+  return {
+    type: c.type,
+    headlineTemplate: c.headlineTemplate,
+    supportingText: c.supportingText,
+    userValue: c.userValue,
+    lineupValue: c.lineupValue,
+    deviation: c.deviation,
+  };
+}
 
-    for (const family of Object.keys(GENRE_FAMILIES) as GenreFamily[]) {
-      familyPresence[family] = pickedArtists.filter((a) =>
-        a.genres.some((g) => GENRE_TO_FAMILY[g] === family)
-      ).length;
+interface CandidateEvaluation {
+  mean: number;
+  extremeness: number;
+  practicalEffectPP: number;
+  qualifies: boolean;
+}
 
-      lineupFamilyPresence[family] = allArtists.filter((a) =>
-        a.genres.some((g) => GENRE_TO_FAMILY[g] === family)
-      ).length;
-    }
+function evaluateCandidate(
+  observedValue: number,
+  sampleValues: number[],
+  direction: SignalDirection,
+  practicalMinPP: number = PRACTICAL_EFFECT_MIN_PP
+): CandidateEvaluation {
+  const mean = sampleMean(sampleValues);
+  const extremeness = computeExtremeness(observedValue, sampleValues, direction);
+  const practicalEffectPP = direction === "high" ? observedValue - mean : mean - observedValue;
+  return {
+    mean,
+    extremeness,
+    practicalEffectPP,
+    qualifies: extremeness <= EXTREMENESS_THRESHOLD && practicalEffectPP >= practicalMinPP,
+  };
+}
 
-    const topFamily = Object.entries(familyPresence).sort(([, a], [, b]) => b - a)[0];
-    const topFamilyName = (topFamily?.[0] as GenreFamily) || "Unknown";
-    const userFamilyRate = (familyPresence[topFamilyName] / pickedArtists.length) * 100;
-    const lineupFamilyRate = (lineupFamilyPresence[topFamilyName] / allArtists.length) * 100;
-    const genreDeviation = Math.abs(userFamilyRate - lineupFamilyRate);
+function pluralize(count: number, singular: string, plural: string = `${singular}s`): string {
+  return count === 1 ? singular : plural;
+}
 
-    signals.push({
-      type: "genre",
-      userValue: userFamilyRate,
-      lineupValue: lineupFamilyRate,
-      deviation: genreDeviation,
-      headlineTemplate: `Your heart beat to the rhythm of ${topFamilyName}`,
-      supportingText: `You didn't just dip your toes in - ${userFamilyRate.toFixed(0)}% of your picks are ${topFamilyName} artists.`,
+// Deterministic, alphabetical (never dependent on any object's own key-iteration
+// order) formatting for a tied set of genre family names. Capped at 3 named families
+// so a rare 4+-way tie can't produce an unreadably long headline — "and N more"
+// covers the rest while staying grammatically correct and deterministic.
+const MAX_NAMED_FAMILIES = 3;
+function formatFamilyList(names: string[]): string {
+  const sorted = [...names].sort();
+  if (sorted.length === 0) return "";
+  if (sorted.length === 1) return sorted[0];
+  if (sorted.length <= MAX_NAMED_FAMILIES) {
+    if (sorted.length === 2) return `${sorted[0]} and ${sorted[1]}`;
+    return `${sorted.slice(0, -1).join(", ")}, and ${sorted[sorted.length - 1]}`;
+  }
+  const shown = sorted.slice(0, MAX_NAMED_FAMILIES);
+  const remaining = sorted.length - MAX_NAMED_FAMILIES;
+  return `${shown.join(", ")}, and ${remaining} more`;
+}
+
+// ============================================================================
+// Aggregate metrics — computed identically for the user's real picks and for every
+// random sample, so the comparison is always apples-to-apples and every metric a
+// signal might need is available from one pass over an artist array.
+//
+// maxFamilyRate deliberately searches across *every* genre family present in this
+// specific artist set (not a single fixed family) — both the observed picks and each
+// individual sample must run the identical "which family leads in this set" search,
+// or the comparison would be biased (see computeStorySignals' Taste Profile section).
+// ============================================================================
+
+interface AggregateMetrics {
+  headlinerRate: number; // % Headliner|Sub-headliner
+  chicagoCount: number;
+  chicagoRate: number;
+  internationalCount: number;
+  internationalRate: number;
+  maxFamilyRate: number; // % in *this set's own* leading genre family
+  stageCount: number;
+  stageRate: number; // % of the eligible lineup's distinct stages
+  genreCount: number;
+  genreRate: number; // % of the eligible lineup's distinct genres
+  countryCount: number;
+  countryRate: number; // % of the eligible lineup's distinct countries
+  dayRate: Record<string, number>; // % of this set on each attended day
+}
+
+function computeAggregateMetrics(
+  artists: Artist[],
+  appearanceOf: (artist: Artist) => FestivalAppearance,
+  attendanceDays: string[],
+  lineupStageCount: number,
+  lineupGenreCount: number,
+  lineupCountryCount: number
+): AggregateMetrics {
+  const n = artists.length;
+  let headliner = 0;
+  let chicago = 0;
+  let international = 0;
+  const stages = new Set<string>();
+  const genres = new Set<string>();
+  const countries = new Set<string>();
+  const dayCounts: Record<string, number> = {};
+  const familyPresence: Partial<Record<GenreFamily, number>> = {};
+
+  for (const artist of artists) {
+    const appearance = appearanceOf(artist);
+    if (appearance.billingTier === "Headliner" || appearance.billingTier === "Sub-headliner") headliner++;
+    if (isChicago(artist.location.city)) chicago++;
+    if (artist.location.country !== "United States") international++;
+    stages.add(appearance.stage);
+    artist.genres.forEach((g) => genres.add(g));
+    countries.add(artist.location.country);
+    dayCounts[appearance.day] = (dayCounts[appearance.day] ?? 0) + 1;
+
+    // Each family this artist has at least one genre in counts once, regardless of
+    // how many of the artist's genres belong to it.
+    const familiesForArtist = new Set(artist.genres.map((g) => GENRE_TO_FAMILY[g]));
+    familiesForArtist.forEach((family) => {
+      familyPresence[family] = (familyPresence[family] ?? 0) + 1;
     });
+  }
 
-    // ===== SIGNAL 2: Hometown/Local Concentration =====
-    const chicagoCount = pickedArtists.filter(
-      (a) => a.location.city === "Chicago" || a.location.state === "Illinois"
-    ).length;
-    const userChicagoRate = (chicagoCount / pickedArtists.length) * 100;
-    const lineupChicagoCount = allArtists.filter(
-      (a) => a.location.city === "Chicago" || a.location.state === "Illinois"
-    ).length;
-    const lineupChicagoRate = (lineupChicagoCount / allArtists.length) * 100;
-    const chicagoDeviation = Math.abs(userChicagoRate - lineupChicagoRate);
+  const maxFamilyCount = Math.max(0, ...Object.values(familyPresence));
 
-    signals.push({
-      type: "hometown",
-      userValue: userChicagoRate,
-      lineupValue: lineupChicagoRate,
-      deviation: chicagoDeviation,
-      headlineTemplate: `A hometown hero's biggest fan`,
-      supportingText: `Keeping it local: ${userChicagoRate.toFixed(0)}% of your picks are straight out of Chicago.`,
+  const dayRate: Record<string, number> = {};
+  for (const day of attendanceDays) {
+    dayRate[day] = n === 0 ? 0 : ((dayCounts[day] ?? 0) / n) * 100;
+  }
+
+  return {
+    headlinerRate: n === 0 ? 0 : (headliner / n) * 100,
+    chicagoCount: chicago,
+    chicagoRate: n === 0 ? 0 : (chicago / n) * 100,
+    internationalCount: international,
+    internationalRate: n === 0 ? 0 : (international / n) * 100,
+    maxFamilyRate: n === 0 ? 0 : (maxFamilyCount / n) * 100,
+    stageCount: stages.size,
+    stageRate: lineupStageCount === 0 ? 0 : (stages.size / lineupStageCount) * 100,
+    genreCount: genres.size,
+    genreRate: lineupGenreCount === 0 ? 0 : (genres.size / lineupGenreCount) * 100,
+    countryCount: countries.size,
+    countryRate: lineupCountryCount === 0 ? 0 : (countries.size / lineupCountryCount) * 100,
+    dayRate,
+  };
+}
+
+// ============================================================================
+// Single source of truth for Festival Story's signal computation. Pure function —
+// takes every input explicitly (festival, attendance scope, lineup, decisions) and
+// never reads Zustand state itself, so it stays directly testable and the caller
+// controls exactly which attendance scope applies (see ARCHITECTURE.md § Festival
+// Story). useStorySignals below is a thin useMemo wrapper.
+// ============================================================================
+
+export function computeStorySignals(params: ComputeStorySignalsParams): StorySignal[] {
+  const { festivalId, attendanceDays, allArtists, decisionsByArtist } = params;
+
+  const eligibleArtists = getEligibleArtists(festivalId, attendanceDays, allArtists);
+  const pickedArtists = getValidPositivePicks(festivalId, attendanceDays, allArtists, decisionsByArtist);
+
+  // Product floor — below this, Festival Story does not run at all. Callers (Quick
+  // Picks completion) should already be gating on this via getValidPositivePicks, but
+  // this is enforced here too as a defensive guard against any other caller.
+  if (pickedArtists.length < MIN_POSITIVE_PICKS_FOR_STORY) {
+    return [];
+  }
+
+  const appearanceByArtist = new Map<string, FestivalAppearance>();
+  for (const artist of eligibleArtists) {
+    const appearance = getSelectedDayAppearance(artist, festivalId, attendanceDays);
+    if (appearance) appearanceByArtist.set(artist.slug, appearance);
+  }
+  const appearanceOf = (artist: Artist): FestivalAppearance => appearanceByArtist.get(artist.slug)!;
+
+  // ===== The user's own leading genre family (or families, on a tie) =====
+  // Used only for *naming* the family in copy and for the min-picks guard — the
+  // statistical comparison itself uses AggregateMetrics.maxFamilyRate (below), which
+  // performs the identical "search all families" step for both observed picks and
+  // every sample.
+  const familyPresence: Partial<Record<GenreFamily, number>> = {};
+  pickedArtists.forEach((a) => {
+    new Set(a.genres.map((g) => GENRE_TO_FAMILY[g])).forEach((family) => {
+      familyPresence[family] = (familyPresence[family] ?? 0) + 1;
     });
+  });
+  const topFamilyCount = Math.max(0, ...Object.values(familyPresence));
+  const leadingFamilies = (Object.keys(familyPresence) as GenreFamily[])
+    .filter((f) => familyPresence[f] === topFamilyCount)
+    .sort();
+  const isFamilyTie = topFamilyCount > 0 && leadingFamilies.length > 1;
+  const topFamilyName: GenreFamily = leadingFamilies[0] ?? ("Unknown" as GenreFamily);
 
-    // ===== SIGNAL 3: Headliner/Sub-headliner vs. Undercard =====
-    // Uses each artist's primary appearance/billing tier — see app/lib/appearances.ts.
+  // ===== Lineup-wide denominators (eligible pool only, not the full festival) =====
+  const lineupStageCount = new Set(eligibleArtists.map((a) => appearanceOf(a).stage)).size;
+  const lineupGenreSet = new Set<string>();
+  eligibleArtists.forEach((a) => a.genres.forEach((g) => lineupGenreSet.add(g)));
+  const lineupCountrySet = new Set(eligibleArtists.map((a) => a.location.country));
+
+  // ===== Deterministic sample-aware comparison =====
+  // Seeded from the comparison universe (festival, attendance, sample size, eligible
+  // lineup) only — never from which specific artists were picked. See
+  // app/lib/story-sampling.ts.
+  const seed = buildStorySeed(
+    festivalId,
+    attendanceDays,
+    pickedArtists.length,
+    eligibleArtists.map((a) => a.slug)
+  );
+  const samples = drawSamples(eligibleArtists, pickedArtists.length, SAMPLE_COUNT, seed);
+
+  const observed = computeAggregateMetrics(
+    pickedArtists,
+    appearanceOf,
+    attendanceDays,
+    lineupStageCount,
+    lineupGenreSet.size,
+    lineupCountrySet.size
+  );
+  const sampleMetrics = samples.map((s) =>
+    computeAggregateMetrics(s, appearanceOf, attendanceDays, lineupStageCount, lineupGenreSet.size, lineupCountrySet.size)
+  );
+
+  function values(key: keyof AggregateMetrics): number[] {
+    return sampleMetrics.map((m) => m[key] as number);
+  }
+
+  const totalPositive = pickedArtists.length;
+  const round = (n: number) => Math.round(n);
+
+  // ============================================================================
+  // Taste Profile / Genre Affinity — fixed anchor, always the first insight.
+  //
+  // Selection-adjusted: the observed metric is the user's OWN maximum family-presence
+  // rate across every family (AggregateMetrics.maxFamilyRate on `observed`), and each
+  // sample's comparison value is that SAME sample's own maximum across every family
+  // (AggregateMetrics.maxFamilyRate on each entry in `sampleMetrics`) — never the
+  // sample's rate for just the user's winning family. Comparing "the best any random
+  // same-size subset could do" against "the best the user's picks did" is the fair
+  // test; comparing the sample's rate for one pre-chosen family against the user's
+  // maximum would be a biased comparison (searching harder for the observed side).
+  // ============================================================================
+  let tasteCandidate: Candidate;
+  if (topFamilyCount === 0) {
+    // Defensive: no picked artist has any genre data at all. This is a data-
+    // completeness gap, not a claim about the picks themselves — must not assert the
+    // picks "span a mix of styles" when the real condition is insufficient
+    // information to say anything about the picks' genre makeup.
+    tasteCandidate = {
+      type: "genreAffinity",
+      headlineTemplate: "Still tuning the frequency",
+      supportingText: "Keep exploring and your taste profile will become clearer.",
+      extremeness: 1,
+      practicalEffectPP: 0,
+    };
+  } else if (isFamilyTie) {
+    // Ties never get the single-family interpretive treatment — naming one family as
+    // "the" leader when two or more are genuinely tied would misrepresent the picks.
+    tasteCandidate = {
+      type: "genreAffinity",
+      userValue: observed.maxFamilyRate,
+      headlineTemplate: "Your leading sounds",
+      supportingText: `${formatFamilyList(leadingFamilies)} are running neck and neck across your festival picks.`,
+      extremeness: 1,
+      practicalEffectPP: 0,
+    };
+  } else {
+    const familyEval = evaluateCandidate(observed.maxFamilyRate, values("maxFamilyRate"), "high");
+    if (topFamilyCount >= GENRE_AFFINITY_MIN_PICKS && familyEval.qualifies) {
+      tasteCandidate = {
+        type: "genreAffinity",
+        userValue: observed.maxFamilyRate,
+        lineupValue: familyEval.mean,
+        deviation: familyEval.practicalEffectPP,
+        headlineTemplate: `${topFamilyName} runs the show`,
+        supportingText: "That sound keeps showing up across your picks.",
+        extremeness: familyEval.extremeness,
+        practicalEffectPP: familyEval.practicalEffectPP,
+      };
+    } else {
+      tasteCandidate = {
+        type: "genreAffinity",
+        userValue: observed.maxFamilyRate,
+        headlineTemplate: `${topFamilyName} shows up most`,
+        supportingText: "It's the most common thread across your picks so far.",
+        extremeness: 1,
+        practicalEffectPP: 0,
+      };
+    }
+  }
+
+  // ============================================================================
+  // Decision Profile — fixed anchor, always included, always the last insight.
+  // ============================================================================
+  const mustSeeTotal = pickedArtists.filter((a) => decisionsByArtist[a.slug].verdict === "mustSee").length;
+  const mustSeeRate = mustSeeTotal / totalPositive;
+
+  let decisionProfile: Candidate;
+  if (totalPositive <= DECISION_PROFILE_RESTRAINED_MAX_PICKS) {
+    decisionProfile = {
+      type: "decisionProfile",
+      headlineTemplate: "Your picks are taking shape",
+      supportingText: "With a handful of picks saved, your festival story is just getting started.",
+      extremeness: 1,
+      practicalEffectPP: 0,
+    };
+  } else if (mustSeeRate >= DECISION_PROFILE_EXTREME_MUST_SEE && totalPositive >= DECISION_PROFILE_EXTREME_MIN_PICKS) {
+    decisionProfile = {
+      type: "decisionProfile",
+      headlineTemplate: "Zero hesitation",
+      supportingText: "Almost everything you saved went straight into your Must See tier.",
+      extremeness: 1,
+      practicalEffectPP: 0,
+    };
+  } else if (
+    mustSeeRate <= DECISION_PROFILE_EXTREME_INTERESTED &&
+    totalPositive >= DECISION_PROFILE_EXTREME_MIN_PICKS
+  ) {
+    decisionProfile = {
+      type: "decisionProfile",
+      headlineTemplate: "Keeping every door wide open",
+      supportingText: "The vast majority of your picks are in Interested, leaving plenty of room to wander.",
+      extremeness: 1,
+      practicalEffectPP: 0,
+    };
+  } else if (mustSeeRate >= DECISION_PROFILE_MUST_SEE_HEAVY) {
+    decisionProfile = {
+      type: "decisionProfile",
+      headlineTemplate: "Heavy on the non-negotiables",
+      supportingText: "Your Must See tier is stacked, with just a few exploratory picks floating around.",
+      extremeness: 1,
+      practicalEffectPP: 0,
+    };
+  } else if (mustSeeRate <= DECISION_PROFILE_INTERESTED_HEAVY) {
+    decisionProfile = {
+      type: "decisionProfile",
+      headlineTemplate: "Scouting mode active",
+      supportingText: "Most of your lineup lives in Interested while you explore your options.",
+      extremeness: 1,
+      practicalEffectPP: 0,
+    };
+  } else if (mustSeeRate > DECISION_PROFILE_NEAR_EVEN_MAX) {
+    // > 60% and < 75% (the >= 75% branch above already handled the heavy case)
+    decisionProfile = {
+      type: "decisionProfile",
+      headlineTemplate: "Priorities set, curiosity intact",
+      supportingText: "A strong stack of Must Sees leads your list, with plenty of Interested acts keeping things interesting.",
+      extremeness: 1,
+      practicalEffectPP: 0,
+    };
+  } else if (mustSeeRate < DECISION_PROFILE_NEAR_EVEN_MIN) {
+    // > 25% and < 40% (the <= 25% branch above already handled the heavy case)
+    decisionProfile = {
+      type: "decisionProfile",
+      headlineTemplate: "Room for discovery",
+      supportingText: "Most of your picks are open for exploration, with Must Sees keeping the list anchored.",
+      extremeness: 1,
+      practicalEffectPP: 0,
+    };
+  } else {
+    // 40% through 60% inclusive
+    decisionProfile = {
+      type: "decisionProfile",
+      headlineTemplate: "Balanced between priority and curiosity",
+      supportingText: "Your list lands in a steady mix of non-negotiable sets and open possibilities.",
+      extremeness: 1,
+      practicalEffectPP: 0,
+    };
+  }
+
+  // ============================================================================
+  // Competitive pool.
+  //
+  // Four stable profile dimensions (Decision Profile, Taste Profile, Billing Profile,
+  // Festival Footprint) are always AVAILABLE — each can always produce at least a
+  // safe, factual candidate. Decision Profile and Taste Profile are fixed anchors and
+  // always appear (slot 1 and slot 4). Billing and Festival Footprint are NOT
+  // guaranteed to appear: they always contribute one entry to this competitive pool
+  // (their interpretive form if it qualifies, otherwise their safe form), which
+  // guarantees the pool is never smaller than 2 — but a strong bonus candidate
+  // (Genre Breadth, Hometown, International/Country Diversity, Day) can outrank and
+  // displace either or both of them for the 2 remaining slots. The guaranteed
+  // 4-card outcome comes from two fixed anchors (Taste, Decision Profile) plus
+  // exactly 2 pool winners — never three anchors, since only two dimensions are
+  // anchors at all.
+  // ============================================================================
+  const pool: Candidate[] = [];
+
+  // ----- Billing Profile / headliner-undercard mix -----
+  {
     const headlinerCount = pickedArtists.filter((a) => {
-      const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
+      const tier = appearanceOf(a).billingTier;
       return tier === "Headliner" || tier === "Sub-headliner";
     }).length;
-    const userHeadlinerRate = (headlinerCount / pickedArtists.length) * 100;
-    const lineupHeadlinerCount = allArtists.filter((a) => {
-      const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
-      return tier === "Headliner" || tier === "Sub-headliner";
-    }).length;
-    const lineupHeadlinerRate = (lineupHeadlinerCount / allArtists.length) * 100;
-    const headlinerDeviation = Math.abs(userHeadlinerRate - lineupHeadlinerRate);
+    const subHeadlinerCount = pickedArtists.filter((a) => appearanceOf(a).billingTier === "Sub-headliner").length;
+    const headlinerOnlyCount = pickedArtists.filter((a) => appearanceOf(a).billingTier === "Headliner").length;
+    const undercardCount = totalPositive - headlinerCount;
 
-    signals.push({
-      type: "headliner",
-      userValue: userHeadlinerRate,
-      lineupValue: lineupHeadlinerRate,
-      deviation: headlinerDeviation,
-      headlineTemplate:
-        userHeadlinerRate > lineupHeadlinerRate
-          ? `You came for the main stage spectacle`
-          : `An elite tier gatekeeper`,
-      supportingText:
-        userHeadlinerRate > lineupHeadlinerRate
-          ? `Go big or go home. ${userHeadlinerRate.toFixed(0)}% of your picks are headliners and sub-headliners.`
-          : `${(100 - userHeadlinerRate).toFixed(0)}% of your picks features rising undercard artists. You're catching them now so you can say "I knew them when...`,
-    });
+    const highEval = evaluateCandidate(observed.headlinerRate, values("headlinerRate"), "high");
+    const lowEval = evaluateCandidate(observed.headlinerRate, values("headlinerRate"), "low");
 
-    // ===== SIGNAL 4: International/Domestic Mix =====
-    const internationalCount = pickedArtists.filter(
-      (a) => a.location.country !== "United States"
-    ).length;
-    const userInternationalRate = (internationalCount / pickedArtists.length) * 100;
-    const lineupInternationalCount = allArtists.filter(
-      (a) => a.location.country !== "United States"
-    ).length;
-    const lineupInternationalRate = (lineupInternationalCount / allArtists.length) * 100;
-    const internationalDeviation = Math.abs(userInternationalRate - lineupInternationalRate);
-
-    signals.push({
-      type: "international",
-      userValue: userInternationalRate,
-      lineupValue: lineupInternationalRate,
-      deviation: internationalDeviation,
-      headlineTemplate: `Great music knows no borders`,
-      supportingText: `${userInternationalRate.toFixed(0)}% of your picks are artists who crossed oceans to get here.`,
-    });
-
-    // ===== SIGNAL 5: High-Energy/Crowd Participation =====
-    // Only compute if user has at least one pick with this tag (skip if zero)
-    const highEnergyCount = pickedArtists.filter((a) =>
-      a.whatToExpect.some((tag) => HIGH_ENERGY_TAGS.includes(tag))
-    ).length;
-
-    if (highEnergyCount > 0) {
-      const userHighEnergyRate = (highEnergyCount / pickedArtists.length) * 100;
-      const lineupHighEnergyCount = allArtists.filter((a) =>
-        a.whatToExpect.some((tag) => HIGH_ENERGY_TAGS.includes(tag))
-      ).length;
-      const lineupHighEnergyRate = (lineupHighEnergyCount / allArtists.length) * 100;
-      const highEnergyDeviation = Math.abs(userHighEnergyRate - lineupHighEnergyRate);
-
-      signals.push({
-        type: "highEnergy",
-        userValue: userHighEnergyRate,
-        lineupValue: lineupHighEnergyRate,
-        deviation: highEnergyDeviation,
-        headlineTemplate: `We hope you're packing comfortable shoes`,
-        supportingText: `${userHighEnergyRate.toFixed(0)}% of your roster are high-octane energy zones.`,
+    if (highEval.qualifies) {
+      pool.push({
+        type: "billing",
+        userValue: observed.headlinerRate,
+        lineupValue: highEval.mean,
+        deviation: highEval.practicalEffectPP,
+        headlineTemplate: "Big names lead the way",
+        supportingText: `Headliners and sub-headliners make up ${round(observed.headlinerRate)}% of your selected acts.`,
+        extremeness: highEval.extremeness,
+        practicalEffectPP: highEval.practicalEffectPP,
+      });
+    } else if (lowEval.qualifies) {
+      const undercardRate = 100 - observed.headlinerRate;
+      pool.push({
+        type: "billing",
+        userValue: observed.headlinerRate,
+        lineupValue: lowEval.mean,
+        deviation: lowEval.practicalEffectPP,
+        headlineTemplate: "Heavy on the undercard",
+        supportingText: `Undercard artists account for ${round(undercardRate)}% of your overall picks.`,
+        extremeness: lowEval.extremeness,
+        practicalEffectPP: lowEval.practicalEffectPP,
+      });
+    } else {
+      pool.push({
+        type: "billing",
+        userValue: observed.headlinerRate,
+        headlineTemplate: "Across the lineup",
+        supportingText: `${headlinerOnlyCount} ${pluralize(headlinerOnlyCount, "headliner", "headliners")}, ${subHeadlinerCount} ${pluralize(subHeadlinerCount, "sub-headliner", "sub-headliners")}, and ${undercardCount} undercard acts make up your current list.`,
+        extremeness: 1,
+        practicalEffectPP: 0,
       });
     }
+  }
 
-    // ===== SIGNAL 6: Visual Spectacle =====
-    // Only compute if user has at least one pick with this tag (skip if zero)
-    const spectacleCount = pickedArtists.filter((a) =>
-      a.whatToExpect.some((tag) => SPECTACLE_TAGS.includes(tag))
-    ).length;
+  // ----- Festival Footprint / Stage diversity -----
+  {
+    const highEval = evaluateCandidate(observed.stageRate, values("stageRate"), "high");
+    const lowEval = evaluateCandidate(observed.stageRate, values("stageRate"), "low");
 
-    if (spectacleCount > 0) {
-      const userSpectacleRate = (spectacleCount / pickedArtists.length) * 100;
-      const lineupSpectacleCount = allArtists.filter((a) =>
-        a.whatToExpect.some((tag) => SPECTACLE_TAGS.includes(tag))
-      ).length;
-      const lineupSpectacleRate = (lineupSpectacleCount / allArtists.length) * 100;
-      const spectacleDeviation = Math.abs(userSpectacleRate - lineupSpectacleRate);
-
-      signals.push({
-        type: "spectacle",
-        userValue: userSpectacleRate,
-        lineupValue: lineupSpectacleRate,
-        deviation: spectacleDeviation,
-        headlineTemplate: `The biggest productions are your jam`,
-        supportingText: `Lasers, pyro, and massive art direction. ${userSpectacleRate.toFixed(0)}% of your picks are known for mind-blowing spectacles.`,
+    if (highEval.qualifies) {
+      pool.push({
+        type: "stage",
+        userValue: observed.stageRate,
+        lineupValue: highEval.mean,
+        deviation: highEval.practicalEffectPP,
+        headlineTemplate: "Stages all across the park",
+        supportingText: `Your picks span ${observed.stageCount} stages, pulling you all over the festival map.`,
+        extremeness: highEval.extremeness,
+        practicalEffectPP: highEval.practicalEffectPP,
+      });
+    } else if (lowEval.qualifies) {
+      pool.push({
+        type: "stage",
+        userValue: observed.stageRate,
+        lineupValue: lowEval.mean,
+        deviation: lowEval.practicalEffectPP,
+        headlineTemplate: "Anchored to a few stages",
+        supportingText: `Your picks stay concentrated around just ${observed.stageCount} ${pluralize(observed.stageCount, "stage")}.`,
+        extremeness: lowEval.extremeness,
+        practicalEffectPP: lowEval.practicalEffectPP,
+      });
+    } else {
+      pool.push({
+        type: "stage",
+        userValue: observed.stageRate,
+        headlineTemplate: "Your festival footprint",
+        supportingText: `Your current list takes you across ${observed.stageCount} different stages.`,
+        extremeness: 1,
+        practicalEffectPP: 0,
       });
     }
+  }
 
-    // ===== SIGNAL 7: Intimate/Minimal Aesthetic =====
-    // Only compute if user has at least one pick with this tag (skip if zero)
-    const intimateCount = pickedArtists.filter((a) =>
-      a.whatToExpect.some((tag) => INTIMATE_TAGS.includes(tag))
-    ).length;
-
-    if (intimateCount > 0) {
-      const userIntimateRate = (intimateCount / pickedArtists.length) * 100;
-      const lineupIntimateCount = allArtists.filter((a) =>
-        a.whatToExpect.some((tag) => INTIMATE_TAGS.includes(tag))
-      ).length;
-      const lineupIntimateRate = (lineupIntimateCount / allArtists.length) * 100;
-      const intimateDeviation = Math.abs(userIntimateRate - lineupIntimateRate);
-
-      signals.push({
-        type: "intimate",
-        userValue: userIntimateRate,
-        lineupValue: lineupIntimateRate,
-        deviation: intimateDeviation,
-        headlineTemplate: `No gimmicks, just pure soul`,
-        supportingText: `You let the music speak for itself. ${userIntimateRate.toFixed(0)}% of your roster leans into raw, intimate, or minimalist magic.`,
+  // ----- Genre Breadth (bonus — no safe fallback) -----
+  {
+    const highEval = evaluateCandidate(observed.genreRate, values("genreRate"), "high");
+    const lowEval = evaluateCandidate(observed.genreRate, values("genreRate"), "low");
+    if (highEval.qualifies) {
+      pool.push({
+        type: "genreBreadth",
+        userValue: observed.genreRate,
+        lineupValue: highEval.mean,
+        deviation: highEval.practicalEffectPP,
+        headlineTemplate: "Your taste refused to stay in one lane",
+        supportingText: `Your picks jump between ${observed.genreCount} distinct genres.`,
+        extremeness: highEval.extremeness,
+        practicalEffectPP: highEval.practicalEffectPP,
+      });
+    } else if (lowEval.qualifies) {
+      pool.push({
+        type: "genreBreadth",
+        userValue: observed.genreRate,
+        lineupValue: lowEval.mean,
+        deviation: lowEval.practicalEffectPP,
+        headlineTemplate: "In the zone",
+        supportingText: `Your picks stay close to ${observed.genreCount} core ${pluralize(observed.genreCount, "genre")}.`,
+        extremeness: lowEval.extremeness,
+        practicalEffectPP: lowEval.practicalEffectPP,
       });
     }
+  }
 
-    // ===== SIGNAL 8: Lyrical/Storytelling Focus =====
-    // Only compute if user has at least one pick with this tag (skip if zero)
-    const lyricsCount = pickedArtists.filter((a) =>
-      a.whatToExpect.some((tag) => LYRICAL_TAGS.includes(tag))
-    ).length;
+  // ----- Hometown / Chicago (bonus — positive concentration only) -----
+  {
+    if (observed.chicagoCount >= HOMETOWN_MIN_PICKS) {
+      const highEval = evaluateCandidate(observed.chicagoRate, values("chicagoRate"), "high");
+      if (highEval.qualifies) {
+        const strong = observed.chicagoCount >= HOMETOWN_STRONG_MIN_PICKS;
+        pool.push({
+          type: "hometown",
+          userValue: observed.chicagoRate,
+          lineupValue: highEval.mean,
+          deviation: highEval.practicalEffectPP,
+          headlineTemplate: strong ? "Rooted in Chicago" : "Chicago in the mix",
+          supportingText: strong
+            ? `Local Chicago talent makes up ${round(observed.chicagoRate)}% of your festival selections.`
+            : `${observed.chicagoCount} of your picks call Chicago home. Local artists earned a place in your lineup.`,
+          extremeness: highEval.extremeness,
+          practicalEffectPP: highEval.practicalEffectPP,
+        });
+      }
+    }
+  }
 
-    if (lyricsCount > 0) {
-      const userLyricsRate = (lyricsCount / pickedArtists.length) * 100;
-      const lineupLyricsCount = allArtists.filter((a) =>
-        a.whatToExpect.some((tag) => LYRICAL_TAGS.includes(tag))
-      ).length;
-      const lineupLyricsRate = (lineupLyricsCount / allArtists.length) * 100;
-      const lyricsDeviation = Math.abs(userLyricsRate - lineupLyricsRate);
+  // ----- International (bonus — positive concentration only) -----
+  let geographicCandidate: Candidate | null = null;
+  {
+    if (observed.internationalCount >= INTERNATIONAL_MIN_PICKS) {
+      const highEval = evaluateCandidate(observed.internationalRate, values("internationalRate"), "high");
+      if (highEval.qualifies) {
+        geographicCandidate = {
+          type: "international",
+          userValue: observed.internationalRate,
+          lineupValue: highEval.mean,
+          deviation: highEval.practicalEffectPP,
+          headlineTemplate: "Beyond the borders",
+          supportingText: `${round(observed.internationalRate)}% of your picks come from outside the United States.`,
+          extremeness: highEval.extremeness,
+          practicalEffectPP: highEval.practicalEffectPP,
+        };
+      }
+    }
+  }
 
-      signals.push({
-        type: "lyrics",
-        userValue: userLyricsRate,
-        lineupValue: lineupLyricsRate,
-        deviation: lyricsDeviation,
-        headlineTemplate: `You came for the poetry, not just the party`,
-        supportingText: `You're hanging on every syllable. ${userLyricsRate.toFixed(0)}% of your selected artists put storytelling and lyricism first.`,
-      });
+  // ----- Country Diversity (bonus — both directions possible) -----
+  {
+    const highEval = evaluateCandidate(observed.countryRate, values("countryRate"), "high");
+    const lowEval = evaluateCandidate(observed.countryRate, values("countryRate"), "low");
+    let countryCandidate: Candidate | null = null;
+    if (highEval.qualifies) {
+      countryCandidate = {
+        type: "countryDiversity",
+        userValue: observed.countryRate,
+        lineupValue: highEval.mean,
+        deviation: highEval.practicalEffectPP,
+        headlineTemplate: "Your picks crossed borders",
+        supportingText: `Your picks represent artists from ${observed.countryCount} different ${pluralize(observed.countryCount, "country", "countries")}.`,
+        extremeness: highEval.extremeness,
+        practicalEffectPP: highEval.practicalEffectPP,
+      };
+    } else if (lowEval.qualifies) {
+      countryCandidate = {
+        type: "countryDiversity",
+        userValue: observed.countryRate,
+        lineupValue: lowEval.mean,
+        deviation: lowEval.practicalEffectPP,
+        headlineTemplate: "Roots in focus",
+        supportingText: `Your picks draw from a tight group of ${observed.countryCount} ${pluralize(observed.countryCount, "country", "countries")}.`,
+        extremeness: lowEval.extremeness,
+        practicalEffectPP: lowEval.practicalEffectPP,
+      };
     }
 
-    // ===== SIGNAL 9: Stage Diversity =====
-    // Expected value: for N random picks, how many distinct stages would you expect to hit?
-    // Computed as sum of P(hit stage i) = 1 - ((total - count_on_stage_i) / total)^picks
-    const stageCounts: Record<string, number> = {};
-    allArtists.forEach((a) => {
-      const stage = getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage;
-      stageCounts[stage] = (stageCounts[stage] || 0) + 1;
-    });
-    const lineupStageCount = Object.keys(stageCounts).length;
-    const totalArtists = allArtists.length;
+    // International and Country Diversity are treated as potentially duplicative
+    // geographic stories — at most one of the two ever competes for a slot. Keep
+    // whichever is statistically stronger (lower extremeness).
+    if (geographicCandidate && countryCandidate) {
+      geographicCandidate =
+        countryCandidate.extremeness < geographicCandidate.extremeness ? countryCandidate : geographicCandidate;
+    } else if (countryCandidate) {
+      geographicCandidate = countryCandidate;
+    }
+  }
+  if (geographicCandidate) pool.push(geographicCandidate);
 
-    let expectedStageCount = 0;
-    Object.values(stageCounts).forEach((count) => {
-      const pMiss = Math.pow((totalArtists - count) / totalArtists, pickedArtists.length);
-      expectedStageCount += 1 - pMiss;
-    });
+  // ----- Day concentration (bonus — positive concentration only, >=2 attended days) -----
+  //
+  // Selection-adjusted, mirroring Taste Profile's fix: production searches every
+  // selected day to find the strongest positive over-index (not the day with the
+  // highest raw pick share, which can under-index its own baseline — e.g. Thursday at
+  // 45% of picks but a 55% eligible-lineup baseline is a real under-index, while
+  // Friday at 35% of picks against a 15% baseline is the actual story). Every sample
+  // must run the identical "search all days for the best over-index" step, or the
+  // comparison is biased toward finding the observed picks more unusual than they are.
+  {
+    if (attendanceDays.length >= DAY_MIN_ATTENDANCE_DAYS) {
+      // Exact (non-sampled) eligible-lineup day distribution — the fixed baseline
+      // both the observed search and every sample's search are measured against.
+      const eligibleDayRate: Record<string, number> = {};
+      if (eligibleArtists.length > 0) {
+        for (const day of attendanceDays) {
+          const count = eligibleArtists.filter((a) => appearanceOf(a).day === day).length;
+          eligibleDayRate[day] = (count / eligibleArtists.length) * 100;
+        }
+      }
 
-    const pickedStages = new Set(
-      pickedArtists.map((a) => getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).stage)
-    );
-    const userStageCount = pickedStages.size;
-    const userStageRate = (userStageCount / lineupStageCount) * 100;
-    const expectedStageRate = (expectedStageCount / lineupStageCount) * 100;
-    const stageDeviation = Math.abs(userStageRate - expectedStageRate);
+      const bestDayOverIndex = (dayRate: Record<string, number>): { day: string | null; score: number } => {
+        let bestDay: string | null = null;
+        let bestScore = -Infinity;
+        for (const day of attendanceDays) {
+          const score = (dayRate[day] ?? 0) - (eligibleDayRate[day] ?? 0);
+          if (score > bestScore) {
+            bestScore = score;
+            bestDay = day;
+          }
+        }
+        return { day: bestDay, score: bestScore };
+      };
 
-    signals.push({
-      type: "stageDiversity",
-      userValue: userStageRate,
-      lineupValue: expectedStageRate,
-      deviation: stageDeviation,
-      headlineTemplate:
-        userStageCount > expectedStageCount
-          ? `The festival's ultimate marathon runner`
-          : `Loyalty is your middle name (or at least your festival strategy)`,
-      supportingText:
-        userStageCount > expectedStageCount
-          ? `The festival will be your cardio for the month. You are hitting ${userStageCount.toFixed(1)} different stages.`
-          : `You are sticking to ${userStageCount.toFixed(1)} stages. Quality over quantity.`,
-    });
+      const { day: winningDay, score: observedScore } = bestDayOverIndex(observed.dayRate);
+      if (winningDay && observedScore > 0) {
+        const topDayPickCount = pickedArtists.filter((a) => appearanceOf(a).day === winningDay).length;
+        if (topDayPickCount >= DAY_TOP_DAY_MIN_PICKS) {
+          // Every sample's own best-day-over-index — not a lookup of the sample's
+          // rate for the observed winning day.
+          const sampleMaxScores = sampleMetrics.map((m) => bestDayOverIndex(m.dayRate).score);
+          const extremeness = computeExtremeness(observedScore, sampleMaxScores, "high");
+          const qualifies = extremeness <= EXTREMENESS_THRESHOLD && observedScore >= PRACTICAL_EFFECT_MIN_PP;
+          if (qualifies) {
+            pool.push({
+              type: "day",
+              userValue: observed.dayRate[winningDay],
+              lineupValue: eligibleDayRate[winningDay],
+              deviation: observedScore,
+              headlineTemplate: `${winningDay} takes center stage`,
+              supportingText: "This day pulled in a surprising share of your picks.",
+              extremeness,
+              practicalEffectPP: observedScore,
+            });
+          }
+        }
+      }
+    }
+  }
 
-    // ===== SIGNAL 10: Genre Diversity =====
-    // Expected value: for N random picks, how many distinct genres would you expect to touch?
-    const genreCounts: Record<string, number> = {};
-    allArtists.forEach((a) => {
-      a.genres.forEach((g) => {
-        genreCounts[g] = (genreCounts[g] || 0) + 1;
-      });
-    });
-    const lineupGenreDiversityCount = Object.keys(genreCounts).length;
+  // ===== Select the top 2 pool candidates for the remaining 2 non-anchor slots =====
+  pool.sort((a, b) => {
+    if (a.extremeness !== b.extremeness) return a.extremeness - b.extremeness;
+    if (a.practicalEffectPP !== b.practicalEffectPP) return b.practicalEffectPP - a.practicalEffectPP;
+    return DIMENSION_DISPLAY_PRIORITY.indexOf(a.type) - DIMENSION_DISPLAY_PRIORITY.indexOf(b.type);
+  });
+  const poolWinners = pool.slice(0, 2);
 
-    let expectedGenreCount = 0;
-    Object.values(genreCounts).forEach((count) => {
-      const pMiss = Math.pow((totalArtists - count) / totalArtists, pickedArtists.length);
-      expectedGenreCount += 1 - pMiss;
-    });
+  // ===== Assemble (2 fixed anchors + 2 pool winners = 4) + curated presentation order =====
+  const selected = [tasteCandidate, ...poolWinners, decisionProfile];
+  selected.sort(
+    (a, b) => DIMENSION_DISPLAY_PRIORITY.indexOf(a.type) - DIMENSION_DISPLAY_PRIORITY.indexOf(b.type)
+  );
 
-    const pickedGenres = new Set<string>();
-    pickedArtists.forEach((a) => a.genres.forEach((g) => pickedGenres.add(g)));
-    const userGenreDiversityCount = pickedGenres.size;
-    const userGenreDiversityRate = (userGenreDiversityCount / lineupGenreDiversityCount) * 100;
-    const expectedGenreRate = (expectedGenreCount / lineupGenreDiversityCount) * 100;
-    const genreDiversityDeviation = Math.abs(userGenreDiversityRate - expectedGenreRate);
+  // Defensive: the four slots above are structurally guaranteed (2 fixed anchors plus
+  // 2 always-available pool fallbacks — Billing/Footprint safe forms — so the pool
+  // never has fewer than 2 entries), so this should never trip in practice. If it
+  // somehow does, keep the Story unavailable rather than show a partial result.
+  if (selected.length !== 4) {
+    return [];
+  }
 
-    signals.push({
-      type: "genreDiversity",
-      userValue: userGenreDiversityRate,
-      lineupValue: expectedGenreRate,
-      deviation: genreDiversityDeviation,
-      headlineTemplate:
-        userGenreDiversityCount > expectedGenreCount
-          ? `A certified sonic chameleon`
-          : `You know exactly what you like`,
-      supportingText:
-        userGenreDiversityCount > expectedGenreCount
-          ? `Your ears refuse to settle. Your picks span ${userGenreDiversityCount.toFixed(1)} distinct genres.`
-          : `Why fix what's not broken? Your roster covers only ${userGenreDiversityCount.toFixed(1)} genres.`,
-    });
+  return selected.map(toStorySignal);
+}
 
-    // ===== SIGNAL 11: Geographic Diversity =====
-    // Expected value: for N random picks, how many distinct countries would you expect?
-    const countryCounts: Record<string, number> = {};
-    allArtists.forEach((a) => {
-      countryCounts[a.location.country] = (countryCounts[a.location.country] || 0) + 1;
-    });
-    const lineupCountryCount = Object.keys(countryCounts).length;
-
-    let expectedCountryCount = 0;
-    Object.values(countryCounts).forEach((count) => {
-      const pMiss = Math.pow((totalArtists - count) / totalArtists, pickedArtists.length);
-      expectedCountryCount += 1 - pMiss;
-    });
-
-    const pickedCountries = new Set(pickedArtists.map((a) => a.location.country));
-    const userCountryCount = pickedCountries.size;
-    const userCountryRate = (userCountryCount / lineupCountryCount) * 100;
-    const expectedCountryRate = (expectedCountryCount / lineupCountryCount) * 100;
-    const countryDiversityDeviation = Math.abs(userCountryRate - expectedCountryRate);
-
-    signals.push({
-      type: "geographicDiversity",
-      userValue: userCountryRate,
-      lineupValue: expectedCountryRate,
-      deviation: countryDiversityDeviation,
-      headlineTemplate:
-        userCountryCount > expectedCountryCount
-          ? `Your ears live in the fast lane of global travel`
-          : `You have strong regional preferences`,
-      supportingText:
-        userCountryCount > expectedCountryCount
-          ? `Your picks represent artists from ${userCountryCount} different countries.`
-          : `You curated a tight-knit regional vibe. Your picks represent ${userCountryCount} countries.`,
-    });
-
-    // ===== RANKING & SELECTION =====
-    // Sort all signals by deviation (highest first) and return top 5
-    return signals.sort((a, b) => b.deviation - a.deviation).slice(0, 5);
-  }, [decisionsByArtist, allArtists]);
+export function useStorySignals(params: ComputeStorySignalsParams): StorySignal[] {
+  const { festivalId, attendanceDays, allArtists, decisionsByArtist } = params;
+  return useMemo(
+    () => computeStorySignals({ festivalId, attendanceDays, allArtists, decisionsByArtist }),
+    [festivalId, attendanceDays, allArtists, decisionsByArtist]
+  );
 }

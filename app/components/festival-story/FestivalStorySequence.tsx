@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
+import { useAttendanceDays } from "@/app/store/attendanceStore";
 import { allArtists } from "@/app/data/artists";
 import { ACTIVE_FESTIVAL_ID, festivals } from "@/app/data/festivals";
 import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
@@ -14,32 +15,40 @@ import { FestivalStoryCard } from "./FestivalStoryCard";
 interface FestivalStorySequenceProps {
   isOpen: boolean;
   onClose?: () => void;
+  // The launching Quick Picks session's captured attendance snapshot. When provided,
+  // this always wins over whatever is currently persisted in attendanceStore — a
+  // session that already completed must not be rescoped by a since-changed
+  // selection. Omit only for a future standalone Story entry point not launched from
+  // a specific session, which falls back to the persisted selection.
+  attendanceDays?: string[];
 }
 
-export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequenceProps) {
+export function FestivalStorySequence({ isOpen, onClose, attendanceDays }: FestivalStorySequenceProps) {
   const router = useRouter();
   const decisionsByArtist = useDecisionStore((state) => state.decisionsByArtist);
   const { applyPreset } = useExploreFilterStore();
+  const persistedAttendanceDays = useAttendanceDays(ACTIVE_FESTIVAL_ID);
+  const scopedAttendanceDays = attendanceDays ?? persistedAttendanceDays;
 
-  // Compute story signals
-  const signals = useStorySignals(decisionsByArtist, allArtists);
+  // Compute story signals — pure function call, explicit inputs only. See
+  // ARCHITECTURE.md § Festival Story.
+  const signals = useStorySignals({
+    festivalId: ACTIVE_FESTIVAL_ID,
+    attendanceDays: scopedAttendanceDays,
+    allArtists,
+    decisionsByArtist,
+  });
 
-  // Preload intro image for instant first card load
-  useEffect(() => {
-    const introImageUrl = FESTIVAL_STORY_IMAGES.intro;
-    if (introImageUrl) {
-      const link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "image";
-      link.href = introImageUrl;
-      document.head.appendChild(link);
-    }
-  }, []);
+  // Intro image preload lives in the parent (app/quick-picks/page.tsx), not here —
+  // this component is only mounted once the user opens the Story (see that file's
+  // conditional mount), which is too late for a "preload before open" hint to help.
+  // See page.tsx for the effect that fires while the completion screen is visible.
 
   const activeFestival = festivals[ACTIVE_FESTIVAL_ID];
   const festivalName = activeFestival?.name || "Festival";
 
-  // Add intro card (hero photo + title sequence headline, no stats)
+  // Add intro card (hero photo + title sequence headline, no stats). Attendance-
+  // neutral copy — does not assume hometown pride or that the user selected every day.
   const introCard: StorySignal = useMemo(
     () => ({
       type: "intro",
@@ -47,25 +56,30 @@ export function FestivalStorySequence({ isOpen, onClose }: FestivalStorySequence
       lineupValue: 0,
       deviation: 0,
       headlineTemplate: `This is your ${festivalName}`,
-      supportingText: "A weekend built around discovery, hometown pride, and unforgettable nights.",
+      supportingText: "A closer look at the sounds and priorities behind your picks.",
     }),
     [festivalName]
   );
 
-  // Add final card (celebration-focused, action-focused on viewing picks)
+  // Add final card (celebration-focused, action-focused on viewing picks). Does not
+  // claim the schedule is "locked in" — Schedule/Planner is a separate later step.
   const finalCard: StorySignal = useMemo(
     () => ({
       type: "final",
       userValue: 100,
       lineupValue: 100,
       deviation: 0,
-      headlineTemplate: "Your lineup is locked in",
-      supportingText: "Time to dive into your picks and get hyped for what's ahead.",
+      headlineTemplate: "Your festival is taking shape",
+      supportingText: "See the picks that brought your Festival Story to life.",
     }),
     []
   );
 
-  const allCards = [introCard, ...signals, finalCard];
+  // Defensive guard: computeStorySignals returns either exactly 4 insights or none
+  // at all (below the 5-pick floor, or in the exceptional case malformed data
+  // prevents four truthful insights). Never assemble an intro-and-final-only
+  // sequence — no other caller can bypass this by passing isOpen alone.
+  const allCards = signals.length === 4 ? [introCard, ...signals, finalCard] : [];
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleRevealNext = () => {
