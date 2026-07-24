@@ -40,11 +40,15 @@ export default function QuickPicksCompleteScreen({
   const [pressingSchedule, setPressingSchedule] = useState(false);
 
   const isSingleDay = attendanceDays.length === 1;
-  const scope = isSingleDay ? `every artist playing ${attendanceDays[0]}` : "every artist playing on your selected days";
+  const scope = isSingleDay
+    ? `every artist playing ${attendanceDays[0]}`
+    : "every artist playing on your selected days";
   const eyebrow = context === "sessionComplete" ? "Quick Picks Complete" : "All Caught Up";
   const headline = context === "sessionComplete" ? "All done!" : "All caught up!";
   const supportingCopy =
-    context === "sessionComplete" ? `You've reviewed ${scope}.` : `You've already reviewed ${scope}.`;
+    context === "sessionComplete"
+      ? `You've reviewed ${scope}.`
+      : `You've already reviewed ${scope}.`;
 
   function handleFestivalStory() {
     if (pressingFestivalStory || !storyUnlocked) return;
@@ -105,9 +109,7 @@ export default function QuickPicksCompleteScreen({
         <div className="flex flex-col items-center gap-2">
           <h1 className="text-6xl font-extrabold tracking-tight leading-none">
             <span className="text-white">All </span>
-            <span style={{ color: COLORS.celebration }}>
-              {headline.replace(/^All /, "")}
-            </span>
+            <span style={{ color: COLORS.celebration }}>{headline.replace(/^All /, "")}</span>
           </h1>
           <p className="text-white/50 text-base">{supportingCopy}</p>
         </div>
@@ -120,7 +122,7 @@ export default function QuickPicksCompleteScreen({
             {/* Festival Story — yellow: user intent / personalization. Unlocked: the
                 whole card is the action, as usual. Locked: the card itself goes
                 inert (title/copy only) — the only interactive element is the
-                cyan "Explore Artists" button below, since that's a navigation/
+                cyan "Take a Second Look" button below, since that's a navigation/
                 discovery action, not a Festival Story action. This exact
                 threshold copy is valid because the only expected user-facing
                 Story lock condition is fewer than 5 attendance-scoped positive
@@ -135,7 +137,9 @@ export default function QuickPicksCompleteScreen({
                   <p className="text-xs uppercase tracking-widest font-bold text-[#E8FF47]">
                     Festival Story
                   </p>
-                  <p className="text-sm leading-relaxed text-white/80">Your picks have a story to tell.</p>
+                  <p className="text-sm leading-relaxed text-white/80">
+                    Your picks have a story to tell.
+                  </p>
                 </div>
                 <div className="flex items-center justify-end h-8 mt-4">
                   <ArrowRight size={17} strokeWidth={2.5} className="text-[#E8FF47]/70" />
@@ -144,9 +148,11 @@ export default function QuickPicksCompleteScreen({
             ) : (
               <div className="flex flex-col justify-between p-6 rounded-xl border border-[#E8FF47]/20 bg-[#E8FF47]/[0.04] text-left">
                 <div className="flex flex-col gap-2">
-                  <p className="text-xs uppercase tracking-widest font-bold text-[#E8FF47]/50">Festival Story</p>
+                  <p className="text-xs uppercase tracking-widest font-bold text-[#E8FF47]/50">
+                    Festival Story
+                  </p>
                   <p className="text-sm leading-relaxed text-white/45">
-                    Festival Story unlocks once 5 artists are marked Interested or Must See.
+                    Unlocks once 5 artists are marked Interested or Must See.
                   </p>
                 </div>
                 {/* h-8 + items-center matches the bare-arrow rows in the other two cards
@@ -159,7 +165,7 @@ export default function QuickPicksCompleteScreen({
                     onClick={handleExploreArtists}
                     className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#00E5FF] text-[#110D24] text-xs font-semibold transition duration-150 hover:bg-[#00E5FF]/90 ${pressingExploreArtists ? "scale-[0.97]" : ""}`}
                   >
-                    Explore Artists
+                    Take a Second Look
                     <ArrowRight size={13} strokeWidth={2.5} />
                   </button>
                 </div>

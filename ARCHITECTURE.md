@@ -1803,3 +1803,25 @@ There is currently no usage tracking of any kind (no backend, no analytics pipel
 **If this becomes worth knowing:** A lightweight approximation is possible without a real backend: logging simple events (e.g., "started Quick Picks," "reached Festival Complete") to the same localStorage-backed store already used for decisions. This would not require a backend or third-party analytics service, just an additional small piece of local state.
 
 **Not built now** — noted here so the option isn't forgotten if the question resurfaces later.
+
+---
+
+## Future Consideration: Session Resilience to Data Changes Mid-Session
+
+Quick Picks' decisioning screen resolves `currentAppearance` (`app/quick-picks/page.tsx`) by looking up the current queue item's `appearanceId` against `allArtists` via `getAppearanceById`. That lookup assumes `allArtists` — static, module-level data, imported once — never changes shape during an active session. If `currentQueueItem`/`currentArtist` resolve but `currentAppearance` doesn't, the `step === "decisioning"` render branch's guard (`currentArtist && currentAppearance && progress`) simply doesn't render anything: no fallback UI, no path back to Start.
+
+**Not a live defect today.** Reaching this state requires the artist dataset to change out from under an already-open tab mid-session. `allArtists` never mutates at runtime, and Quick Picks session state lives in local `useState`, never persisted — a page reload always resets to `step: "start"`. The only realistic trigger is a live redeploy landing while someone has Quick Picks open, a thin edge case for a single-festival, hand-authored MVP dataset.
+
+**Revisit when:** artist data moves to the planned FastAPI/PostgreSQL backend and can genuinely change between session start and a later decision. At that point, add an explicit guard: if `currentQueueItem` exists but `currentAppearance` doesn't resolve, invalidate the session and return to Start with a short explanation, rather than leaving an unrendered dead end.
+
+---
+
+## Future Consideration: Seeded Quick Picks Queue Shuffle
+
+The Quick Picks queue shuffle (`shuffleArray`, used by `interleaveByTierWithinDay` and `buildUngroupedQueue` in `app/lib/quick-picks-queue.ts`) uses plain `Math.random()`, producing a genuinely different artist order every time a session starts. This is intentional — it matches the "go with your gut," momentum-over-precision philosophy in CLAUDE.md's Quick Picks section — and is a different tradeoff than `createSeededRandom` (`app/lib/random.ts`), which other features (Explore's carousels, Festival Story's sampling) use deliberately where *within-session* stability matters.
+
+**The tradeoff:** because the shuffle isn't seeded, a specific queue order can't be reproduced across reloads, which makes verifying a bug report about ordering harder than it would be with a seeded shuffle.
+
+**Not seeding now** — reproducibility is a debugging convenience, not a product requirement, and seeding would trade away the intentional per-session freshness for a benefit that only helps internal QA.
+
+**If this becomes a real debugging blocker:** consider a dev-only override (e.g. a query param or env flag that seeds `shuffleArray` via the existing `createSeededRandom`) rather than changing default production behavior.
