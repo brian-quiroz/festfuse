@@ -52,8 +52,8 @@ export default function Sidebar() {
       label: "My Picks",
       count: myPicksCount,
       Icon: ListChecks,
-      color: "#00E5FF",
-      bg: "rgba(0,229,255,0.10)",
+      color: "#E8FF47",
+      bg: "rgba(232,255,71,0.10)",
     },
     {
       label: "Must See",

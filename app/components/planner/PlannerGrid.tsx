@@ -16,14 +16,14 @@ import {
 } from "@/app/lib/schedule";
 import { timeStringToMinutes } from "@/app/lib/time";
 import PlannerArtistBlock from "@/app/components/planner/PlannerArtistBlock";
+import type { ArtistDecision } from "@/app/store/decisionStore";
 
 interface PlannerGridProps {
   allDayEntries: AppearanceEntry[];
   visibleEntries: AppearanceEntry[];
   scheduledAppearanceKeys: Set<string>;
   conflictingAppearanceKeys: Set<string>;
-  myPickSlugs: Set<string>;
-  showMyPicks: boolean;
+  decisionsByArtist: Record<string, ArtistDecision>;
   onToggleScheduled: (appearanceKey: string) => void;
 }
 
@@ -32,8 +32,7 @@ export default function PlannerGrid({
   visibleEntries,
   scheduledAppearanceKeys,
   conflictingAppearanceKeys,
-  myPickSlugs,
-  showMyPicks,
+  decisionsByArtist,
   onToggleScheduled,
 }: PlannerGridProps) {
   const stages = getStagesForActiveFestival();
@@ -147,6 +146,7 @@ export default function PlannerGrid({
                   const start = timeStringToMinutes(entry.appearance.startTime);
                   const end = timeStringToMinutes(entry.appearance.endTime);
                   const key = getAppearanceKey(entry.artist, entry.appearance);
+                  const verdict = decisionsByArtist[entry.artist.slug]?.verdict ?? null;
                   return (
                     <PlannerArtistBlock
                       key={key}
@@ -157,8 +157,7 @@ export default function PlannerGrid({
                       height={Math.max((end - start) * PLANNER_PX_PER_MINUTE, 30)}
                       isScheduled={scheduledAppearanceKeys.has(key)}
                       isConflicting={conflictingAppearanceKeys.has(key)}
-                      isMyPick={myPickSlugs.has(entry.artist.slug)}
-                      showMyPicks={showMyPicks}
+                      verdict={verdict === "mustSee" || verdict === "interested" ? verdict : null}
                       onToggleScheduled={onToggleScheduled}
                     />
                   );

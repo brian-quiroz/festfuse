@@ -2,8 +2,11 @@ import type { AppearanceEntry } from "@/app/lib/schedule";
 import { timeStringToMinutes } from "@/app/lib/time";
 
 // Pixels per minute of festival time — determines how tall the grid is and how much
-// vertical room each artist block gets relative to its set duration.
-export const PLANNER_PX_PER_MINUTE = 2.5;
+// vertical room each artist block gets relative to its set duration. Relative durations
+// stay accurate at any value (a 60-min set is always 2x a 30-min one); this constant only
+// controls the absolute scale, tuned down from 2.5 to reduce how much dead space longer
+// blocks carry below their two lines of content, and to fit more of the day on screen.
+export const PLANNER_PX_PER_MINUTE = 2;
 
 export interface PlannerHourRange {
   startHour: number; // inclusive, 0–23

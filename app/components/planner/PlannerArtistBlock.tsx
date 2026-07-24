@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Star, Heart } from "lucide-react";
 import type { Artist, FestivalAppearance } from "@/app/types/artist";
 
 interface PlannerArtistBlockProps {
@@ -12,8 +12,7 @@ interface PlannerArtistBlockProps {
   height: number;
   isScheduled: boolean;
   isConflicting: boolean;
-  isMyPick: boolean;
-  showMyPicks: boolean;
+  verdict: "mustSee" | "interested" | null;
   onToggleScheduled: (appearanceKey: string) => void;
 }
 
@@ -25,33 +24,33 @@ export default function PlannerArtistBlock({
   height,
   isScheduled,
   isConflicting,
-  isMyPick,
-  showMyPicks,
+  verdict,
   onToggleScheduled,
 }: PlannerArtistBlockProps) {
   const router = useRouter();
 
-  // Conflicts take visual priority over scheduling state; My Picks accent only applies
-  // when that toggle is on (it isn't a persistent per-artist indicator otherwise).
-  const colorState = isConflicting
-    ? "conflict"
-    : isScheduled
-      ? "scheduled"
-      : showMyPicks && isMyPick
-        ? "myPick"
-        : "neutral";
+  // Fill, border, and pick icon are independent channels — a block can be scheduled,
+  // conflicting, and a pick all at once with nothing silently hidden, instead of one
+  // property winning a priority contest over a single shared color. Conflicts only ever
+  // occur between scheduled appearances, so a conflicting block is always also scheduled
+  // and always carries the scheduled fill underneath its red border.
+  const fillClass = isScheduled
+    ? "bg-[#00E5FF]/12 hover:bg-[#00E5FF]/18"
+    : "bg-white/[0.04] hover:bg-white/[0.08]";
 
-  const stateClasses: Record<string, string> = {
-    conflict: "border-[#EF4444]/70 bg-[#EF4444]/15 hover:bg-[#EF4444]/22",
-    scheduled: "border-[#00E5FF]/60 bg-[#00E5FF]/12 hover:bg-[#00E5FF]/18",
-    myPick: "border-[#E8FF47]/50 bg-[#E8FF47]/10 hover:bg-[#E8FF47]/16",
-    neutral: "border-white/10 bg-white/[0.04] hover:bg-white/[0.08]",
-  };
+  const borderClass = isConflicting
+    ? "border-[#EF4444]/70"
+    : isScheduled
+      ? "border-[#00E5FF]/60"
+      : "border-white/10";
 
   function handleViewDetails(e: React.MouseEvent) {
     e.stopPropagation();
     router.push(`/artist/${artist.slug}`);
   }
+
+  const verdictLabel =
+    verdict === "mustSee" ? ", marked Must See" : verdict === "interested" ? ", marked Interested" : "";
 
   return (
     <div
@@ -64,13 +63,33 @@ export default function PlannerArtistBlock({
           onToggleScheduled(appearanceKey);
         }
       }}
-      className={`absolute inset-x-1 rounded-md border px-2 py-1 overflow-hidden cursor-pointer transition-colors ${stateClasses[colorState]}`}
+      className={`absolute inset-x-1 rounded-md border px-2 py-1 overflow-hidden cursor-pointer transition-colors ${fillClass} ${borderClass}`}
       style={{ top, height, minHeight: 30 }}
       aria-pressed={isScheduled}
-      aria-label={`${isScheduled ? "Remove" : "Add"} ${artist.name} — ${appearance.day}, ${appearance.startTime} at ${appearance.stage} Stage — ${isScheduled ? "from" : "to"} schedule`}
+      aria-label={`${isScheduled ? "Remove" : "Add"} ${artist.name}${verdictLabel} — ${appearance.day}, ${appearance.startTime} at ${appearance.stage} Stage — ${isScheduled ? "from" : "to"} schedule`}
     >
       <div className="flex items-start justify-between gap-1">
-        <p className="text-[11px] font-bold text-white truncate leading-tight">{artist.name}</p>
+        <p className="flex items-center gap-1 min-w-0 text-[11px] font-bold text-white leading-tight">
+          {verdict === "mustSee" && (
+            <Star
+              size={10}
+              fill="currentColor"
+              strokeWidth={2}
+              className="flex-shrink-0 text-[#E8FF47]"
+              aria-hidden="true"
+            />
+          )}
+          {verdict === "interested" && (
+            <Heart
+              size={10}
+              fill="currentColor"
+              strokeWidth={2}
+              className="flex-shrink-0 text-[#E8FF47]/60"
+              aria-hidden="true"
+            />
+          )}
+          <span className="truncate">{artist.name}</span>
+        </p>
         <button
           onClick={handleViewDetails}
           onKeyDown={(e) => e.stopPropagation()}

@@ -18,7 +18,12 @@ const allAppearanceEntries = getAllAppearanceEntries(allArtists, ACTIVE_FESTIVAL
 export default function PlannerPage() {
   const days = getDaysForActiveFestival();
   const [activeDay, setActiveDay] = useState<string>(days[0]);
-  const [showMyPicks, setShowMyPicks] = useState(false);
+  // My Picks defaults on, Scheduled defaults off — surfaces "what have I flagged but not
+  // scheduled yet" on first visit, matching CLAUDE.md's framing of this feature as
+  // organizing a plan *after* decisions have already been made (picks first, schedule
+  // second). Defaulting both on would instead start blank for anyone with nothing
+  // scheduled yet, since that combination means "picks that are also scheduled."
+  const [showMyPicks, setShowMyPicks] = useState(true);
   const [showScheduled, setShowScheduled] = useState(false);
 
   const { decisionsByArtist } = useDecisionStore();
@@ -95,14 +100,22 @@ export default function PlannerPage() {
             ))}
           </div>
 
-          <div className="flex items-center gap-5">
-            <div className="flex items-center gap-2 text-sm font-medium text-white/70">
-              My Picks
-              <Switch checked={showMyPicks} onChange={setShowMyPicks} aria-label="Show My Picks only" />
-            </div>
-            <div className="flex items-center gap-2 text-sm font-medium text-white/70">
-              Scheduled
-              <Switch checked={showScheduled} onChange={setShowScheduled} aria-label="Show Scheduled only" />
+          {/* "Show only:" governs both switches as one shared frame instead of repeating
+              "only" on each ("My Picks only" + "Scheduled only" both active reads as a
+              contradiction) — it also heads off a false read where a bare "Scheduled"
+              switch looks like a layer-visibility toggle (off = hide scheduled items).
+              Both switches are pure visibility filters; neither affects rendering. */}
+          <div className="flex items-center gap-3 text-sm font-medium text-white/50">
+            Show only:
+            <div className="flex items-center gap-5">
+              <div className="flex items-center gap-2 text-white/70">
+                My Picks
+                <Switch checked={showMyPicks} onChange={setShowMyPicks} aria-label="Show only My Picks" />
+              </div>
+              <div className="flex items-center gap-2 text-white/70">
+                Scheduled
+                <Switch checked={showScheduled} onChange={setShowScheduled} aria-label="Show only Scheduled" />
+              </div>
             </div>
           </div>
         </div>
@@ -113,8 +126,7 @@ export default function PlannerPage() {
           visibleEntries={visibleEntries}
           scheduledAppearanceKeys={scheduledAppearanceKeys}
           conflictingAppearanceKeys={conflictingAppearanceKeys}
-          myPickSlugs={myPickSlugs}
-          showMyPicks={showMyPicks}
+          decisionsByArtist={decisionsByArtist}
           onToggleScheduled={toggleScheduled}
         />
       </main>
