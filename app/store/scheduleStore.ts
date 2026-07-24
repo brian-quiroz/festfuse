@@ -25,6 +25,10 @@ interface ScheduleState {
   // multi-appearance support.
   scheduledArtistSlugs: Set<string>;
   conflictingArtistSlugs: Set<string>;
+  // False until localStorage has actually been read — see HydrationGate.tsx, which holds
+  // the whole app's first render until this (and the other persisted stores) flips true,
+  // so nothing briefly paints with the pre-hydration default (nothing scheduled).
+  hasHydrated: boolean;
   // Per-appearance — used only by the Planner (clicking/keyboard-activating one block).
   toggleScheduled: (key: string) => void;
   // Aggregate control used everywhere else (Explore's ArtistCard, Artist Detail's
@@ -93,6 +97,7 @@ export const useScheduleStore = create<ScheduleState>()(
       conflictingAppearanceKeys: new Set(),
       scheduledArtistSlugs: new Set(),
       conflictingArtistSlugs: new Set(),
+      hasHydrated: false,
 
       toggleScheduled: (key: string) => {
         set((state) => {
@@ -134,7 +139,9 @@ export const useScheduleStore = create<ScheduleState>()(
       // toggle.
       onRehydrateStorage: () => (state) => {
         if (state) {
-          Object.assign(state, deriveScheduleState(state.scheduledAppearanceKeys));
+          Object.assign(state, deriveScheduleState(state.scheduledAppearanceKeys), {
+            hasHydrated: true,
+          });
         }
       },
     }

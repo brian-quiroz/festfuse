@@ -73,18 +73,20 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
             // image could.
             const linked = a.slug ? artistsBySlug[a.slug] : undefined;
             return (
-              <Link key={a.name} href={a.slug ? `/artist/${a.slug}` : "#"}>
-                <button className="flex flex-col items-center gap-1.5 py-3 rounded-xl hover:bg-white/4 hover:-translate-y-0.5 transition-[background-color,transform] duration-200 ease-out group w-full">
-                  <ArtistAvatar
-                    name={a.name}
-                    imageUrl={linked?.imageUrl}
-                    genres={linked?.genres ?? []}
-                    size={56}
-                  />
-                  <span className="text-xs font-medium text-white/75 group-hover:text-white leading-tight text-center transition-colors px-1 w-full">
-                    {a.name}
-                  </span>
-                </button>
+              <Link
+                key={a.name}
+                href={a.slug ? `/artist/${a.slug}` : "#"}
+                className="flex flex-col items-center gap-1.5 py-3 rounded-xl hover:bg-white/4 hover:-translate-y-0.5 transition-[background-color,transform] duration-200 ease-out group w-full"
+              >
+                <ArtistAvatar
+                  name={a.name}
+                  imageUrl={linked?.imageUrl}
+                  genres={linked?.genres ?? []}
+                  size={56}
+                />
+                <span className="text-xs font-medium text-white/75 group-hover:text-white leading-tight text-center transition-colors px-1 w-full">
+                  {a.name}
+                </span>
               </Link>
             );
           })}

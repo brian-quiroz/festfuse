@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { ArrowUpRight, Star, Heart } from "lucide-react";
 import type { Artist, FestivalAppearance } from "@/app/types/artist";
 
@@ -27,8 +27,6 @@ export default function PlannerArtistBlock({
   verdict,
   onToggleScheduled,
 }: PlannerArtistBlockProps) {
-  const router = useRouter();
-
   // Fill, border, and pick icon are independent channels — a block can be scheduled,
   // conflicting, and a pick all at once with nothing silently hidden, instead of one
   // property winning a priority contest over a single shared color. Conflicts only ever
@@ -43,11 +41,6 @@ export default function PlannerArtistBlock({
     : isScheduled
       ? "border-[#00E5FF]/60"
       : "border-white/10";
-
-  function handleViewDetails(e: React.MouseEvent) {
-    e.stopPropagation();
-    router.push(`/artist/${artist.slug}`);
-  }
 
   const verdictLabel =
     verdict === "mustSee" ? ", marked Must See" : verdict === "interested" ? ", marked Interested" : "";
@@ -90,14 +83,15 @@ export default function PlannerArtistBlock({
           )}
           <span className="truncate">{artist.name}</span>
         </p>
-        <button
-          onClick={handleViewDetails}
+        <Link
+          href={`/artist/${artist.slug}`}
+          onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => e.stopPropagation()}
           className="flex-shrink-0 text-white/40 hover:text-white transition-colors"
           aria-label={`View ${artist.name} details`}
         >
           <ArrowUpRight size={12} strokeWidth={2} />
-        </button>
+        </Link>
       </div>
       <p className="text-[10px] text-white/50 truncate mt-0.5">
         {appearance.startTime} – {appearance.endTime}

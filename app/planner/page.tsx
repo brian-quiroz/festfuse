@@ -8,6 +8,7 @@ import { allArtists } from "@/app/data/artists";
 import { getDaysForActiveFestival, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
+import { usePlannerViewStore } from "@/app/store/plannerViewStore";
 import { getAllAppearanceEntries, getAppearanceKey } from "@/app/lib/schedule";
 
 // Computed once at module scope — allArtists never changes at runtime, same as
@@ -18,13 +19,7 @@ const allAppearanceEntries = getAllAppearanceEntries(allArtists, ACTIVE_FESTIVAL
 export default function PlannerPage() {
   const days = getDaysForActiveFestival();
   const [activeDay, setActiveDay] = useState<string>(days[0]);
-  // My Picks defaults on, Scheduled defaults off — surfaces "what have I flagged but not
-  // scheduled yet" on first visit, matching CLAUDE.md's framing of this feature as
-  // organizing a plan *after* decisions have already been made (picks first, schedule
-  // second). Defaulting both on would instead start blank for anyone with nothing
-  // scheduled yet, since that combination means "picks that are also scheduled."
-  const [showMyPicks, setShowMyPicks] = useState(true);
-  const [showScheduled, setShowScheduled] = useState(false);
+  const { showMyPicks, showScheduled, setShowMyPicks, setShowScheduled } = usePlannerViewStore();
 
   const { decisionsByArtist } = useDecisionStore();
   // scheduledAppearanceKeys/conflictingAppearanceKeys are computed once in the store

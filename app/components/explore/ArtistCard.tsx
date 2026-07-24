@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Heart, Star, Calendar, AlertTriangle } from "lucide-react";
 import { COLORS } from "@/app/data/colors";
 import type { Artist } from "@/app/types/artist";
@@ -23,7 +23,6 @@ export default function ArtistCard({
   size = "default",
   responsive = false,
 }: ArtistCardProps) {
-  const router = useRouter();
   const { decisionsByArtist, setDecision } = useDecisionStore();
   const { scheduledAppearanceKeys, conflictingArtistSlugs, toggleAllAppearances } =
     useScheduleStore();
@@ -82,12 +81,26 @@ export default function ArtistCard({
 
   return (
     <div
-      className={`${cardW} flex-shrink-0 rounded-2xl overflow-hidden bg-[#1B1535] cursor-pointer group select-none transition-colors`}
-      onClick={() => router.push(`/artist/${artist.slug}`)}
+      className={`relative ${cardW} flex-shrink-0 rounded-2xl overflow-hidden bg-[#1B1535] cursor-pointer group select-none transition-colors`}
       role="article"
     >
+      {/* Full-bleed real link, not a click handler on a div — gives right-click/middle-click
+          "open in new tab" and keyboard access, neither of which a div onClick can offer.
+          Sits as the first child so the photo block (a later, also-positioned sibling)
+          naturally stacks above it, keeping the nested action buttons clickable; z-0/z-10
+          make that stacking explicit rather than relying on DOM-order alone. */}
+      <Link
+        href={`/artist/${artist.slug}`}
+        className="absolute inset-0 z-0"
+        aria-label={`View ${artist.name}`}
+      />
       {/* Photo */}
-      <div className={`relative ${photoH} overflow-hidden`}>
+      {/* pointer-events-none: this whole block sits above the link (z-10 vs the link's
+          z-0) so the buttons inside it stay clickable, but that would also block clicks
+          on the plain image from ever reaching the link underneath. Disabling pointer
+          events here and re-enabling them only on the button cluster lets image clicks
+          fall through to the link while button clicks still resolve locally. */}
+      <div className={`relative z-10 pointer-events-none ${photoH} overflow-hidden`}>
         {/* Scaled layer: image + gradient move together */}
         <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]">
           {artist.imageUrl ? (
@@ -151,7 +164,7 @@ export default function ArtistCard({
 
         {/* Action controls — bottom-left, two rows: Must See + Interested above,
             Schedule alone below (with its conflict indicator, when applicable). */}
-        <div className="absolute bottom-3 left-3 flex flex-col items-start gap-1.5">
+        <div className="absolute bottom-3 left-3 flex flex-col items-start gap-1.5 pointer-events-auto">
           <div className="flex items-center gap-1">
             <button
               onClick={handleMustSee}
