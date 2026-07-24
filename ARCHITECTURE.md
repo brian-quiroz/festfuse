@@ -51,19 +51,104 @@ Normalization ensures:
 
 ### Genre Parent Categories (11 total)
 
-For organizational reference—filters and search use the full 124-genre list:
+For organizational reference—filters and search use the full 124-genre list. Six of
+the eleven were renamed from their original slash-joined form (e.g.
+`K-Pop/J-Pop/P-Pop` -> `Asian Pop`): multi-slash names were overflowing/clipping in
+Festival Story headline copy, which interpolates the family name as a bare noun phrase
+with no truncation or wrapping. The remaining slash-joined pairs (`Hip-Hop/Rap`,
+`R&B/Soul`, `Dance/Electronic`) were kept specifically because they're verified
+industry-standard joint category names (Apple Music's own genre list; the Grammys'
+"Best Dance/Electronic Recording" award category) rather than two synonyms stapled
+together — that distinction was the actual rule applied, not name length alone.
 
-- **Rock/Alternative:** 90s Alternative, Alternative Rock, Art Rock, Grunge, Indie Rock, Post-Punk, Shoegaze, etc.
+- **Rock:** 90s Alternative, Alternative Rock, Art Rock, Grunge, Indie Rock, Post-Punk, Shoegaze, etc.
 - **Pop:** Alt-Pop, Art Pop, Dance Pop, Electropop, Hyperpop, Synth-Pop, etc.
-- **Folk/Americana/Country:** Americana, Country, Indie Folk, Singer-Songwriter, etc.
+- **Americana:** Americana, Country, Indie Folk, Singer-Songwriter, etc.
 - **Hip-Hop/Rap:** Boom Bap, Hip-Hop, Plugg, Trap, Underground Rap, etc.
 - **R&B/Soul:** Alternative R&B, Funk, Neo-Soul, R&B, Soul, etc.
-- **Indie/Bedroom/Shoegaze:** Bedroom Pop, Dream Pop, Indie Pop, Lo-Fi Indie, Slowcore, etc.
-- **Electronic/Dance:** House, Techno, Drum and Bass, Dubstep, Future Bass, Industrial Techno, etc.
-- **K-Pop/J-Pop/P-Pop:** J-Pop, K-Pop, P-Pop
-- **Punk/Hardcore/Metal:** Alternative Metal, Emo, Hardcore Punk, Metalcore, Punk Rock, etc.
-- **Classical/Orchestral:** Classical, Symphonic Rock, etc.
+- **Indie:** Bedroom Pop, Dream Pop, Indie Pop, Lo-Fi Indie, Slowcore, etc.
+- **Dance/Electronic:** House, Techno, Drum and Bass, Dubstep, Future Bass, Industrial Techno, etc.
+- **Asian Pop:** J-Pop, K-Pop, P-Pop
+- **Heavy:** Alternative Metal, Emo, Hardcore Punk, Metalcore, Punk Rock, etc.
+- **Classical:** Classical, Symphonic Rock, etc.
 - **Global Pop:** Afroswing, Tropicalia, etc.
+
+---
+
+## Genre Gradient Fallback (No-Photo Placeholder)
+
+**Where used:** Artist Detail hero (`ArtistHero.tsx`), avatars including Similar
+Artists (`ArtistAvatar.tsx`), Quick Picks' hero card (`DecisionScreen.tsx`), and
+Explore grid cards (`ArtistCard.tsx`) — anywhere an artist has no curated `imageUrl`
+yet. Replaces four previously separate, inconsistent placeholder implementations (a
+flat circle + initials duplicated in two components, and a flat blank rectangle with
+no initials at all in Quick Picks) with one shared component,
+`app/components/ui/GenreGradientFallback.tsx`.
+
+### Color mapping
+
+`app/data/genreGradients.ts` maps each of the 11 `GenreFamily` values to a single
+accent hex (`GENRE_FAMILY_GRADIENTS`), paired with one shared dark base
+(`GENRE_GRADIENT_BASE = "#1B1535"`) for every gradient. Two rules constrain the
+palette:
+
+- **Stays clear of the 5 semantic colors.** Each accent hue sits outside a ±12°
+  exclusion zone around the *actual computed hue* of cyan/yellow/celebration/conflict
+  (not eyeballed ranges) — a genre color must never risk being misread as one of those
+  meaningful signals.
+- **Energy tiers, not a flat envelope.** Saturation/lightness vary per family — deep
+  and muted for grounded genres (Rock, Americana, Classical, R&B/Soul), bright and
+  punchy for high-energy ones (Pop, Dance/Electronic, Asian Pop, Global Pop) — rather
+  than one uniform S/L for all 11. An earlier flat-envelope pass made most families
+  visually indistinguishable from their neighbors; hue alone wasn't enough separation
+  at low, uniform saturation.
+- **Hip-Hop/Rap avoids the entire 240-290° hue range**, not just the neutral-violet
+  midpoint — the app's own foundation (`#110D24`, `#1B1535`, `#2D2556`) is violet-toned
+  throughout, so any genre color in that range reads as UI chrome rather than a
+  deliberate choice, regardless of saturation. It sits in the warm cluster instead,
+  differentiated from its neighbors by value alone (brighter/more saturated) — the
+  same pattern that separates Rock from Pop at a similarly tight hue gap.
+
+### Why `direction` is a prop, not hardcoded
+
+Each call site already has its own text-legibility overlay (a gradient that darkens
+part of the card so text stays readable). The fallback's own gradient direction must
+be chosen so its vivid accent lands where that overlay is *weakest*, not where it's
+strongest — getting this backwards effectively double-darkens the accent into
+invisibility (hit twice during development: once on Artist Hero, once on Quick
+Picks/Explore cards). Left-anchored text (Artist Hero) uses the default `135deg` (base
+top-left, accent bottom-right); bottom-anchored text (Quick Picks, Explore cards)
+passes `direction="to top"` so the accent sits at the top, away from each card's own
+bottom-heavy darkening overlay.
+
+Several call sites also needed their *own* overlay softened for the fallback case —
+the fallback already darkens progressively toward the text on its own, so stacking a
+full photo-legibility overlay on top double-darkens (a photo needs that overlay to
+create any darkening at all; the gradient doesn't). `ArtistHero`, `DecisionScreen`,
+and `ArtistCard` each skip or shorten their normal overlay when rendering the
+fallback, using a much shorter eased fade at the seam into whatever's below instead.
+
+### Known limitation
+
+The circle variant's border (`ArtistAvatar`) must be a fully opaque color, never a
+translucent `rgba()` — a translucent border alpha-blends with whatever gradient color
+sits behind each point on the ring, which reads as an uneven, "broken" border on a
+background this varied in lightness. Kept muted/dark (`#5A5578`) rather than light so
+it doesn't outcompete real photo avatars sitting next to it in the same list.
+
+### Similar Artists now reuse the linked artist's own data
+
+`FloatingCards.tsx`'s Similar Artists list no longer reads `similarArtists[].imageUrl`
+(a separately-curated, externally-sourced field) for its avatars. Since every similar
+artist is always a lineup artist (the recommendation algorithm draws from the
+festival's own roster), it looks the artist up via `artistsBySlug` and reuses *their
+own* `imageUrl`/`genres` — the same asset already curated for their own artist page —
+falling back to the gradient above when that artist doesn't have a photo yet either.
+
+**`similarArtists[].imageUrl` itself is now dead code** — no remaining reader anywhere
+in the app — but is being kept in the type and in all ~675 data entries for now rather
+than removed. This is a deliberate product decision, not an oversight — don't clean it
+up without checking first.
 
 ---
 
@@ -883,11 +968,6 @@ day's rate against samples that were never asked to search for their own best da
 Positive-concentration framing only; no avoidance/negative-day copy path exists. No
 weekday/weekend hardcoding — works for any combination (e.g. Thursday + Sunday).
 
-**Image**: no dedicated asset exists yet. `day` temporarily maps to `intro.jpg` in
-`FESTIVAL_STORY_IMAGES` (`app/data/festival-story.ts`), flagged with a
-`TODO(design)` comment. **A dedicated image is still needed before visual polish is
-considered complete.**
-
 ### Directional fixes
 
 - **Chicago**: requires `chicagoCount > 0` **and** user rate > the attendance-scoped
@@ -1479,9 +1559,12 @@ an artist's data:
   not styled as a pill); `ArtistActions` shows the equivalent state+count text
   ("Add to Schedule · N sets" / "Complete Schedule · N sets" / "Scheduled · N sets");
   `DecisionScreen` (Quick Picks) shows a neutral-styled chip immediately after the
-  date/time chip. None of the three ever displays both appearance times, the
-  secondary appearance's own time/stage, or an individual per-appearance control
-  outside the Planner.
+  date/time chip; `FloatingCards`' "Playing At" card shows a plain-text count next to
+  its own heading (`· N sets`, no chrome/pill), added specifically because that card
+  otherwise only ever renders the primary appearance and gave no hint a second one
+  exists — unlike the other three, which already disclosed it. None of the four ever
+  displays both appearance times, the secondary appearance's own time/stage, or an
+  individual per-appearance control outside the Planner.
 - **Quick Picks** — exactly one card per artist, built from its selected-day
   representative appearance (see "Quick Picks Attendance" below — this is Quick
   Picks' one deliberate exception to "primary appearance everywhere outside the
@@ -1791,10 +1874,7 @@ Neither is being built for MVP. Passed remains reachable only via the Status fil
 
 Throughout development, the idea of a lightweight explainer has come up multiple times — something that briefly walks a new user through how the app's core concepts connect: the difference between Must See / Interested / Passed, what Quick Picks does, and what the Festival Story/Snapshot reveal is and how you get there. Right now, this understanding is only conveyed implicitly, scattered across UI copy on individual screens (button labels, the Quick Picks intro screen, etc.) — there's no single place a new user could go to understand the whole system at a glance.
 
-**Not built because:**
-
-1. Schedule remains a higher-priority unbuilt feature
-2. It's not yet clear whether this should be a full page, a first-visit modal, or something else entirely
+**Not built because:** it's not yet clear whether this should be a full page, a first-visit modal, or something else entirely.
 
 **If revisited:** Keep it short — not full documentation, just enough to connect the dots between the app's core concepts (interest states, Quick Picks, Explore, Festival Story). A first-visit modal is probably lower-effort than a dedicated page and may be sufficient.
 

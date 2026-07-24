@@ -258,7 +258,7 @@ export type BillingTier = (typeof BILLING_TIERS)[number];
 // ============================================================================
 
 export const GENRE_FAMILIES = {
-  "Rock/Alternative": [
+  Rock: [
     "90s Alternative",
     "Alternative Rock",
     "Art Rock",
@@ -299,7 +299,7 @@ export const GENRE_FAMILIES = {
     "Hip-Hop-Pop",
     "Electronic Pop",
   ],
-  "Folk/Americana/Country": [
+  Americana: [
     "Alternative Folk",
     "Americana",
     "Americana-Pop",
@@ -331,7 +331,7 @@ export const GENRE_FAMILIES = {
     "West Coast Rap",
   ],
   "R&B/Soul": ["Alternative R&B", "Chicano Soul", "Funk", "Neo-Soul", "R&B", "Soul"],
-  "Indie/Bedroom": [
+  Indie: [
     "Bedroom Pop",
     "Dream Pop",
     "Indie Electronica",
@@ -339,7 +339,7 @@ export const GENRE_FAMILIES = {
     "Lo-Fi Indie",
     "Slowcore",
   ],
-  "Electronic/Dance": [
+  "Dance/Electronic": [
     "Bass House",
     "Bassline",
     "Club",
@@ -371,8 +371,8 @@ export const GENRE_FAMILIES = {
     "UK Garage",
     "Witch House",
   ],
-  "K-Pop/J-Pop/P-Pop": ["J-Pop", "K-Pop", "P-Pop"],
-  "Punk/Hardcore/Metal": [
+  "Asian Pop": ["J-Pop", "K-Pop", "P-Pop"],
+  Heavy: [
     "Alternative Metal",
     "Emo",
     "Hardcore Punk",
@@ -382,7 +382,7 @@ export const GENRE_FAMILIES = {
     "Punk Rock",
     "Riot Grrrl",
   ],
-  "Classical/Orchestral": ["Classical", "Cinematic Orchestral"],
+  Classical: ["Classical", "Cinematic Orchestral"],
   "Global Pop": ["Afroswing", "Tropicalia", "Dancehall"],
 } as const;
 

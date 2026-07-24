@@ -6,14 +6,9 @@ import type { Artist } from "@/app/types/artist";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryBillingTier } from "@/app/lib/appearances";
 import ArtistActions from "./ArtistActions";
+import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
 export default function ArtistHero({ artist }: { artist: Artist }) {
-  const initials = artist.name
-    .split(" ")
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2);
-
   const hasSocials = Boolean(
     artist.socials.spotify || artist.socials.youtube || artist.socials.tiktok
   );
@@ -31,38 +26,59 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
           style={{ objectPosition: artist.objectPosition ?? "center center" }}
         />
       ) : (
-        <div className="absolute inset-0 flex items-center justify-end pr-24">
-          <div className="w-64 h-64 rounded-full bg-[#231C45] border border-[#2D2556] flex items-center justify-center">
-            <span className="text-6xl font-extrabold text-[#6B6893]/40 tracking-tight select-none">
-              {initials}
-            </span>
-          </div>
-        </div>
+        <GenreGradientFallback
+          name={artist.name}
+          genres={artist.genres}
+          shape="rect"
+          showMonogram={false}
+          className="absolute inset-0"
+        />
       )}
 
-      {/* Cinematic left-to-right gradient */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(to right, #110D24 0%, #110D24 18%, rgba(17,13,36,0.84) 33%, rgba(17,13,36,0.38) 52%, rgba(17,13,36,0.06) 100%)",
-        }}
-      />
+      {/* Cinematic left-to-right gradient and bottom fade exist to darken a busy photo
+          for text legibility — the gradient fallback already goes dark-to-color
+          left-to-right on its own, so layering these on top just muddies the left/bottom
+          without taming the vivid right side. Photo-only. */}
+      {artist.imageUrl && (
+        <>
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to right, #110D24 0%, #110D24 18%, rgba(17,13,36,0.84) 33%, rgba(17,13,36,0.38) 52%, rgba(17,13,36,0.06) 100%)",
+            }}
+          />
+          <div
+            className="absolute bottom-0 left-0 right-0 h-36 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(to bottom, transparent 0%, rgba(17,13,36,0.6) 50%, #110D24 100%)",
+            }}
+          />
+        </>
+      )}
+
+      {/* Fallback gets its own short, gentle bottom fade — just enough to soften the
+          seam into the page background below, without the heavy fog the photo version
+          needs to tame a busy image. Eased (many stops, slow start) rather than a
+          straight 2-stop linear fade — a plain transparent-to-solid fade has a visible
+          kink right where it begins, since the rate of change jumps abruptly from flat
+          to fading. */}
+      {!artist.imageUrl && (
+        <div
+          className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(17,13,36,0) 0%, rgba(17,13,36,0.02) 15%, rgba(17,13,36,0.08) 30%, rgba(17,13,36,0.2) 45%, rgba(17,13,36,0.38) 60%, rgba(17,13,36,0.6) 75%, rgba(17,13,36,0.85) 90%, #110D24 100%)",
+          }}
+        />
+      )}
 
       {/* Top vignette */}
       <div
         className="absolute inset-0"
         style={{
           background: "linear-gradient(to bottom, rgba(17,13,36,0.38) 0%, transparent 30%)",
-        }}
-      />
-
-      {/* Bottom fade */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-36 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to bottom, transparent 0%, rgba(17,13,36,0.6) 50%, #110D24 100%)",
         }}
       />
 

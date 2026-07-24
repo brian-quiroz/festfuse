@@ -8,6 +8,7 @@ import type { Artist, FestivalAppearance } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 import { COLORS } from "@/app/data/colors";
 import SpotifyTrackEmbed from "@/app/components/ui/SpotifyTrackEmbed";
+import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
 /*
  * DecisionScreen — moving parts overview
@@ -341,7 +342,14 @@ export default function DecisionScreen({
                       style={{ objectPosition: artist.objectPosition ?? "center center" }}
                     />
                   ) : (
-                    <div className="absolute inset-0 bg-[#231C45]" />
+                    <GenreGradientFallback
+                      name={artist.name}
+                      genres={artist.genres}
+                      shape="rect"
+                      direction="to top"
+                      showMonogram={false}
+                      className="absolute inset-0"
+                    />
                   )}
 
                   <div

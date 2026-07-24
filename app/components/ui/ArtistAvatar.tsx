@@ -1,25 +1,19 @@
 import Image from "next/image";
+import type { Genre } from "@/app/data/categories";
+import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
 interface ArtistAvatarProps {
   name: string;
   imageUrl?: string;
+  genres?: Genre[];
   size?: number;
   className?: string;
-}
-
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
 }
 
 export default function ArtistAvatar({
   name,
   imageUrl,
+  genres = [],
   size = 32,
   className = "",
 }: ArtistAvatarProps) {
@@ -34,32 +28,13 @@ export default function ArtistAvatar({
     );
   }
 
-  const showInitials = size >= 22;
-  const fontSize = Math.max(8, Math.round(size * 0.35));
-
   return (
-    <div
-      className={`rounded-full flex items-center justify-center flex-shrink-0 select-none ${className}`}
-      style={{
-        width: size,
-        height: size,
-        background: "#1B1535",
-        border: "1px solid rgba(255,255,255,0.22)",
-      }}
-    >
-      {showInitials && (
-        <span
-          style={{
-            fontSize,
-            color: "rgba(255,255,255,0.65)",
-            fontWeight: 700,
-            letterSpacing: "0.02em",
-            lineHeight: 1,
-          }}
-        >
-          {getInitials(name)}
-        </span>
-      )}
-    </div>
+    <GenreGradientFallback
+      name={name}
+      genres={genres}
+      shape="circle"
+      size={size}
+      className={className}
+    />
   );
 }

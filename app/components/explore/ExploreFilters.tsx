@@ -119,6 +119,10 @@ export default function ExploreFilters({
   return (
     <div className="space-y-3">
       <style>{`
+        .dropdown-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
         .dropdown-scrollbar::-webkit-scrollbar {
           width: 4px;
         }

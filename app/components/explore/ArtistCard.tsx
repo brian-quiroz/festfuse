@@ -10,6 +10,7 @@ import { useScheduleStore } from "@/app/store/scheduleStore";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance, getPrimaryBillingTier, getAppearancesForFestival } from "@/app/lib/appearances";
 import { getArtistScheduleState } from "@/app/lib/schedule";
+import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
 interface ArtistCardProps {
   artist: Artist;
@@ -98,15 +99,38 @@ export default function ArtistCard({
               style={{ objectPosition: artist.objectPosition ?? "center center" }}
             />
           ) : (
-            <div className="absolute inset-0 bg-[#231C45]" />
+            <GenreGradientFallback
+              name={artist.name}
+              genres={artist.genres}
+              shape="rect"
+              direction="to top"
+              showMonogram={false}
+              className="absolute inset-0"
+            />
           )}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(17,13,36,0.12) 0%, transparent 28%, rgba(17,13,36,0.65) 72%, rgba(17,13,36,0.95) 100%)",
-            }}
-          />
+          {/* This overlay exists to tame a busy photo for icon/badge legibility — the
+              gradient fallback already darkens toward the bottom on its own via its
+              "to top" direction, so stacking this on top double-darkens and, on a card
+              this short, eats more than half the visible color. The action buttons
+              have their own bg-black/50 backdrop regardless, so they don't depend on
+              this. Photo-only; fallback gets a much shorter eased seam fade instead. */}
+          {artist.imageUrl ? (
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(17,13,36,0.12) 0%, transparent 28%, rgba(17,13,36,0.65) 72%, rgba(17,13,36,0.95) 100%)",
+              }}
+            />
+          ) : (
+            <div
+              className="absolute bottom-0 left-0 right-0 h-12"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(17,13,36,0) 0%, rgba(17,13,36,0.1) 30%, rgba(17,13,36,0.35) 60%, rgba(17,13,36,0.65) 85%, #1B1535 100%)",
+              }}
+            />
+          )}
         </div>
 
         {/* Headliner badge: bottom-right, balances icons on the left */}
