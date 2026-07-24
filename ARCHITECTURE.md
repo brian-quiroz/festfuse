@@ -896,7 +896,11 @@ considered complete.**
   old fixed 12pp threshold happened to block zero-Chicago results only because
   Chicago is ~10.5% of the *full* lineup; attendance scoping breaks that accident
   (Saturday's eligible lineup alone is ~14% Chicago). Zero/under-indexing never
-  produces a card of any kind.
+  produces a card of any kind. `isChicago` (`app/lib/location.ts`) normalizes
+  trim/case only, deliberately not state-suffix variants like "Chicago, IL" — that
+  shape violates the documented `Location` contract (`app/data/categories.ts`) and is
+  treated as bad data to fix at authoring time, not a formatting variant for
+  comparison logic to absorb.
 - **International**: positive over-indexing only; zero or under-indexed picks omit
   the card rather than showing an inverse "American-heavy" card.
 - **Billing (Headliner/Undercard)**: both directions valid; fixed an unmatched
@@ -1811,6 +1815,8 @@ There is currently no usage tracking of any kind (no backend, no analytics pipel
 Quick Picks' decisioning screen resolves `currentAppearance` (`app/quick-picks/page.tsx`) by looking up the current queue item's `appearanceId` against `allArtists` via `getAppearanceById`. That lookup assumes `allArtists` — static, module-level data, imported once — never changes shape during an active session. If `currentQueueItem`/`currentArtist` resolve but `currentAppearance` doesn't, the `step === "decisioning"` render branch's guard (`currentArtist && currentAppearance && progress`) simply doesn't render anything: no fallback UI, no path back to Start.
 
 **Not a live defect today.** Reaching this state requires the artist dataset to change out from under an already-open tab mid-session. `allArtists` never mutates at runtime, and Quick Picks session state lives in local `useState`, never persisted — a page reload always resets to `step: "start"`. The only realistic trigger is a live redeploy landing while someone has Quick Picks open, a thin edge case for a single-festival, hand-authored MVP dataset.
+
+**Same root cause applies to appearance ordering.** `pickPrimaryFromCandidates`'s tie-break (`app/lib/appearances.ts`) indexes into `getDaysForFestival(festivalId)`, which resolves to `[]` for an unconfigured `festivalId` rather than throwing — `Array.prototype.sort` is stable, so an all-`-1` tie-break degrades to a no-op, not a crash or randomized order. `attendanceDays` itself can't carry an unconfigured day string today regardless: `sanitizeAttendanceDays` filters against `FESTIVAL_DAYS[festivalId]` on both write (`setAttendanceDays`) and every read (`useAttendanceDays`), not just at save time. The residual risk is the same multi-festival scenario described above, not a distinct one.
 
 **Revisit when:** artist data moves to the planned FastAPI/PostgreSQL backend and can genuinely change between session start and a later decision. At that point, add an explicit guard: if `currentQueueItem` exists but `currentAppearance` doesn't resolve, invalidate the session and return to Start with a short explanation, rather than leaving an unrendered dead end.
 

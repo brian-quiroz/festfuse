@@ -390,9 +390,9 @@ console.log("\n========== GENRE AFFINITY: SELECTION-ADJUSTED + TIES ==========\n
   const signals = run(["Thursday"], decisionsFor(pool.map((a) => a.slug), "mustSee"), pool);
   const taste = findType(signals, "genreAffinity");
   check(
-    "safe Taste Profile, single leading family (Electronic/Dance) -> corrected 'connect through' copy, no article",
-    taste?.headlineTemplate === "Electronic/Dance leads the mix" &&
-      taste?.supportingText === "More of your picks connect through Electronic/Dance than any other sound.",
+    "safe Taste Profile, single leading family (Electronic/Dance) -> plain non-comparative copy",
+    taste?.headlineTemplate === "Electronic/Dance shows up most" &&
+      taste?.supportingText === "It's the most common thread across your picks so far.",
     `${taste?.headlineTemplate} | ${taste?.supportingText}`
   );
 }

@@ -425,8 +425,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
       tasteCandidate = {
         type: "genreAffinity",
         userValue: observed.maxFamilyRate,
-        headlineTemplate: `${topFamilyName} leads the mix`,
-        supportingText: `More of your picks connect through ${topFamilyName} than any other sound.`,
+        headlineTemplate: `${topFamilyName} shows up most`,
+        supportingText: "It's the most common thread across your picks so far.",
         extremeness: 1,
         practicalEffectPP: 0,
       };
