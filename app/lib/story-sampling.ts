@@ -46,8 +46,8 @@ export function buildStorySeed(
   return hashStringToSeed(key);
 }
 
-// Partial Fisher-Yates: draws `size` elements without replacement from `pool`,
-// without needing to shuffle the entire pool. O(size), not O(pool.length).
+// Partial Fisher-Yates: draws `size` elements without replacement from `pool`.
+// Note: this copies the pool first (O(pool.length)) and then does O(size) swaps.
 export function sampleWithoutReplacement<T>(pool: readonly T[], size: number, random: () => number): T[] {
   const arr = [...pool];
   const n = Math.min(size, arr.length);

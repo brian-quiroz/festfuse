@@ -37,7 +37,9 @@ export function getEligibleEntries(
 }
 
 /**
- * Fisher-Yates shuffle for deterministic randomness within Quick Picks session.
+ * Fisher-Yates shuffle. Uses real Math.random(), not seeded — a different order every
+ * session is intentional (see ARCHITECTURE.md § Future Consideration: Seeded Quick
+ * Picks Queue Shuffle).
  */
 function shuffleArray<T>(arr: T[]): T[] {
   const result = [...arr];
