@@ -86,7 +86,10 @@ function isStrongTasteCopy(headline: string | undefined): boolean {
 // isolated from other signals (neutral location/billing) so it only exercises the
 // dimension under test.
 let fixtureCounter = 0;
-function fixtureArtist(day: string, opts: { genres?: string[]; city?: string; country?: string } = {}): Artist {
+function fixtureArtist(
+  day: string,
+  opts: { genres?: string[]; city?: string; country?: string; stage?: string } = {}
+): Artist {
   const base = allArtists[0];
   fixtureCounter++;
   return {
@@ -102,7 +105,7 @@ function fixtureArtist(day: string, opts: { genres?: string[]; city?: string; co
       {
         id: `fixture-${fixtureCounter}-1`,
         festivalId: ACTIVE_FESTIVAL_ID,
-        stage: "T-Mobile",
+        stage: (opts.stage ?? "T-Mobile") as Artist["appearances"][number]["stage"],
         day,
         date: "Jul 30",
         startTime: "8:00 PM",
@@ -340,19 +343,56 @@ console.log("\n========== DIRECTIONAL CORRECTNESS ==========\n");
     check("single-genre-only fixture unavailable in this dataset (skipped, not a failure)", true);
   }
 }
+{
+  // Fully synthetic universe (run()'s 3rd argument): a real day's single-stage
+  // lineup (~6-9 artists) isn't large enough on its own to clear
+  // MIN_POSITIVE_PICKS_FOR_STORY once non-Chicago/domestic-only filtering is
+  // applied, so this needs synthetic control rather than real per-day/per-stage
+  // counts. Single attendance day (eliminates the Day signal from competition — Day
+  // requires >= 2 selected attendance days per ARCHITECTURE.md), varied genres
+  // (avoids accidentally triggering Genre Breadth), and neutral/domestic location
+  // (eliminates Hometown/International) — isolates Stage/Footprint so it can
+  // actually win a non-anchor slot instead of merely sitting in the pool behind its
+  // safe fallback. Regression guard for a gap the focused/broad stage checks above
+  // can't catch: those correctly tolerate the card being absent (losing a fair
+  // competition isn't a bug), so nothing else in this suite proves Stage/Footprint
+  // ever wins and renders — mirrors the same-purpose "!!breadth" requirement already
+  // used for Genre Breadth below.
+  const singleDay = ALL_DAYS[0];
+  const variedGenres = ["Pop", "Country", "House", "Hip-Hop"];
+  const concentrated = Array.from({ length: 15 }, (_, i) =>
+    fixtureArtist(singleDay, { genres: [variedGenres[i % variedGenres.length]] })
+  );
+  const filler = ["Perry's", "Allianz", "BMI", "Airbnb"].flatMap((stage) =>
+    Array.from({ length: 3 }, () => fixtureArtist(singleDay, { stage }))
+  );
+  const universe = [...concentrated, ...filler];
+  const signals = run([singleDay], decisionsFor(concentrated.map((a) => a.slug), "mustSee"), universe);
+  const stageSignal = findType(signals, "stage");
+  check(
+    "stage-concentrated picks, single day, weak competition -> Stage/Footprint wins a slot and renders",
+    !!stageSignal,
+    dims(signals).join(",")
+  );
+}
 
 console.log("\n========== GENRE AFFINITY: SELECTION-ADJUSTED + TIES ==========\n");
 
 {
-  // Representative/shuffled picks across many independent seeds should never claim
+  // Representative/shuffled picks across many independent seeds should rarely claim
   // "runs on X" (the strong interpretive copy) — this is the main regression guard
   // against the old bug (each sample checked only against the user's own winning
   // family, which made ordinary results look artificially unusual). With a 10%
   // extremeness threshold, an occasional false positive from pure chance is expected
   // by design (see ARCHITECTURE.md § Festival Story → Known limitations) — this
-  // checks the RATE stays in that expected neighborhood across many independent
-  // seeds, not that it's literally zero (a "never" assertion would itself be wrong).
-  const seeds = Array.from({ length: 30 }, (_, i) => i * 7 + 2);
+  // checks the RATE stays low across many independent seeds, not that it's literally
+  // zero (a "never" assertion would itself be wrong). The 10% figure is the
+  // per-candidate extremeness threshold, not the expected hit rate here: strong copy
+  // also requires practicalEffectPP >= 10 and a picks-in-leading-family floor, so the
+  // real observed rate at 100 seeds is ~4-5%, not ~10% — 0.15 leaves comfortable
+  // margin above that for legitimate variance while still catching a meaningfully
+  // inflated rate (the old bug's) rather than only a wildly inflated one.
+  const seeds = Array.from({ length: 100 }, (_, i) => i * 7 + 2);
   let strongHits = 0;
   for (const seed of seeds) {
     const picks = shuffled(allArtists, seed).slice(0, 20);
@@ -361,8 +401,8 @@ console.log("\n========== GENRE AFFINITY: SELECTION-ADJUSTED + TIES ==========\n
     if (isStrongTasteCopy(taste?.headlineTemplate)) strongHits++;
   }
   check(
-    `strong genre-affinity copy rate across ${seeds.length} representative seeds stays near the ~10% design target, not wildly inflated`,
-    strongHits / seeds.length <= 0.3,
+    `strong genre-affinity copy rate across ${seeds.length} representative seeds stays low (observed baseline ~4-5%), not wildly inflated`,
+    strongHits / seeds.length <= 0.15,
     `${strongHits}/${seeds.length}`
   );
 }
@@ -684,6 +724,39 @@ console.log("\n========== SELECTION CONTRACT ==========\n");
   const taste = findType(signals, "genreAffinity");
   const breadth = findType(signals, "genreBreadth");
   check("genreAffinity(strong) and genreBreadth can coexist in the same Story", taste?.lineupValue !== undefined && !!breadth, dims(signals).join(","));
+}
+{
+  // Adversarial fixture: engineered so multiple bonus-pool candidates (Hometown,
+  // Day, Genre Breadth) plausibly qualify at once, competing for the 2 non-anchor
+  // slots alongside Stage/Footprint and Billing's safe forms. A fully synthetic
+  // universe (not the real 172-artist lineup, passed as run()'s 3rd argument) keeps
+  // the skew controlled and undiluted. Proves the documented tie-break (extremeness,
+  // then practicalEffectPP, then DIMENSION_DISPLAY_PRIORITY) actually determines
+  // winners under real competitive pressure — the only scenario elsewhere in this
+  // suite with 3+ simultaneously-qualifying candidates is the coexistence check
+  // above, which doesn't assert an exact winner set.
+  const day1 = ALL_DAYS[0];
+  const day2 = ALL_DAYS[1];
+  const chicagoBloc = Array.from({ length: 10 }, () =>
+    fixtureArtist(day1, { genres: ["House"], city: "Chicago", country: "United States" })
+  );
+  const filler = Array.from({ length: 20 }, (_, i) =>
+    fixtureArtist(i % 2 === 0 ? day1 : day2, { genres: ["Pop"], city: "Nowhere", country: "United States" })
+  );
+  const universe = [...chicagoBloc, ...filler];
+  const signals = run([day1, day2], decisionsFor(chicagoBloc.map((a) => a.slug), "mustSee"), universe);
+  // Observed/locked-in winners for this exact fixture: genreBreadth (single-genre
+  // concentration) and hometown (all-Chicago) beat Day here — day1 already carries
+  // 2/3 of the synthetic universe (chicagoBloc + half of filler), so 100%-on-day1
+  // picks don't over-index as strongly against that baseline as the other two
+  // dimensions do. A future change to the tie-break rule or a candidate's
+  // qualification math that alters this exact winner set is exactly what this check
+  // exists to catch.
+  check(
+    "adversarial multi-candidate picks -> exact winner set is genreBreadth + hometown (not day)",
+    dims(signals).join(",") === "genreAffinity,genreBreadth,hometown,decisionProfile",
+    dims(signals).join(",")
+  );
 }
 
 console.log("\n========== COPY: DECISION PROFILE BOUNDARIES ==========\n");

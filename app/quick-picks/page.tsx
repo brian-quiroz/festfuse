@@ -364,6 +364,11 @@ export default function QuickPicksPage() {
               storyUnlocked={storyUnlocked}
               onGoToFestivalStory={() => setShowFestivalStory(true)}
               onGoToSchedule={() => router.push("/planner")}
+              // Assumes at least one Passed artist exists in scope whenever this is
+              // reachable (the Story is locked) — proven true for the current dataset,
+              // not enforced here. See ARCHITECTURE.md § Future Consideration: Locked
+              // Story Recovery Assumes a Non-Trivial Attendance Scope for the math and
+              // the revisit trigger.
               onExploreArtists={() => {
                 showPassedArtists();
                 router.push("/explore");

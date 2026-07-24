@@ -1875,3 +1875,13 @@ On macOS, trackpad momentum scrolling past the Planner grid's horizontal edge tr
 **What a real fix would take:** rendering the fade as a `mask-image` on the scroll container itself (so it moves with the same box that bounces) rather than a fixed overlay. Not a simple swap — the grid has a sticky hour-label column and sticky stage headers, which a whole-container mask would also fade unless carefully excluded, and a mask's gradient is positioned relative to the full scrollable content, not the visible viewport, so keeping the fade anchored to the visible edges while scrolling would require continuously syncing the mask's position to scroll offset rather than a static CSS value.
 
 **Not done now** — rare, cosmetic, native-feeling (most users won't read it as a bug), and the real fix is meaningfully more involved than it first appears. Revisit only if this turns out to bother people in regular use, not just as a one-off observation.
+
+---
+
+## Future Consideration: Automated Coverage for Quick Picks Queue Building
+
+`app/lib/quick-picks-queue.ts` (`interleaveByTierWithinDay`, `buildUngroupedQueue`, `mergeUndercardAndRecognizable`) has real algorithmic complexity — cross-day round-robin balancing, ~2-undercard-to-1-recognizable pacing — and zero automated test coverage today. `verify-story-signals.ts` only exercises Festival Story signal computation, not queue construction.
+
+**Why this isn't a simple addition:** `shuffleArray` uses real `Math.random()` (see "Future Consideration: Seeded Quick Picks Queue Shuffle" above), so tests can't assert exact output order the way the deterministic Story-signal checks do. Coverage here would need structural/property-based assertions instead — e.g. total count preserved, day balance within expected bounds, recognizable:undercard ratio near the intended ~1:2 across a large sample — closer to writing a new test file than adding a `check()` call to the existing one.
+
+**Not built now** — larger, separate effort than the other verification gaps addressed alongside this note. Revisit as its own scoped task if queue-building bugs start surfacing in practice.
