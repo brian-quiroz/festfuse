@@ -1863,3 +1863,15 @@ Four pages use `h-screen` (`100vh`) combined with `overflow-hidden` for their fu
 **If light mode is built:** `color-scheme` needs to become conditional — driven by a theme class/attribute (e.g. `color-scheme: light` or `color-scheme: light dark` swapped based on the active theme) rather than a blanket root-level `dark`. `.themed-scrollbar`'s thumb/track colors would similarly need theme-aware values (e.g. dark-based `rgba()` values for a light theme, mirroring the current white-based ones) rather than a single hardcoded palette.
 
 **Not built now** — noted here so it isn't rediscovered as a bug later; the app is dark-only today and there's no light mode work planned yet.
+
+---
+
+## Future Consideration: Planner Fade vs. Trackpad Elastic Overscroll
+
+On macOS, trackpad momentum scrolling past the Planner grid's horizontal edge triggers the browser's native elastic "rubber-band" bounce. Because the edge fades (`app/components/planner/PlannerGrid.tsx`) are a separate absolutely-positioned overlay sitting on top of the scroll container — not part of the scrolling content itself — the content briefly slides past its edge during the bounce while the fade stays fixed, making the fade line appear to shift momentarily before springing back with the content.
+
+**Tried:** `overscroll-behavior-x: contain` on the scroll container — did not change the behavior. Expected, in hindsight: that property mainly prevents overscroll from *chaining* to a scrollable ancestor; it doesn't suppress the local elastic bounce on the element itself, and there's no bouncing ancestor here for it to have chained to regardless.
+
+**What a real fix would take:** rendering the fade as a `mask-image` on the scroll container itself (so it moves with the same box that bounces) rather than a fixed overlay. Not a simple swap — the grid has a sticky hour-label column and sticky stage headers, which a whole-container mask would also fade unless carefully excluded, and a mask's gradient is positioned relative to the full scrollable content, not the visible viewport, so keeping the fade anchored to the visible edges while scrolling would require continuously syncing the mask's position to scroll offset rather than a static CSS value.
+
+**Not done now** — rare, cosmetic, native-feeling (most users won't read it as a bug), and the real fix is meaningfully more involved than it first appears. Revisit only if this turns out to bother people in regular use, not just as a one-off observation.
