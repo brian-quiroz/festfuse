@@ -1831,3 +1831,13 @@ The Quick Picks queue shuffle (`shuffleArray`, used by `interleaveByTierWithinDa
 **Not seeding now** — reproducibility is a debugging convenience, not a product requirement, and seeding would trade away the intentional per-session freshness for a benefit that only helps internal QA.
 
 **If this becomes a real debugging blocker:** consider a dev-only override (e.g. a query param or env flag that seeds `shuffleArray` via the existing `createSeededRandom`) rather than changing default production behavior.
+
+---
+
+## Future Consideration: Locked Story Recovery Assumes a Non-Trivial Attendance Scope
+
+The locked Festival Story card's recovery path ("Take a Second Look") always routes to Explore filtered to Passed artists (`onExploreArtists` in `app/quick-picks/page.tsx`, `showPassedArtists()` in `app/store/exploreFilterStore.ts`). This assumes at least one Passed artist exists in scope to reconsider.
+
+**Why this holds today:** `QuickPicksCompleteScreen` only renders once every eligible artist on the selected attendance day(s) has a decision — either the session's queue was fully exhausted, or it was empty because everything was already decided beforehand. Every decision is exactly one of three verdicts (Must See / Interested / Passed), so for the selected-day scope, `total = positive + passed`. Being locked means `positive < MIN_POSITIVE_PICKS_FOR_STORY` (5), which forces `passed > total - 5`. The smallest single festival day in the current dataset has 42 artists, so being locked guarantees more than 37 Passed artists exist to reconsider. The "zero Passed artists" dead-end this recovery path implicitly assumes away is mathematically unreachable under the current dataset.
+
+**Revisit when:** a future festival, or an attendance-day combination, has a total eligible lineup close to or below `MIN_POSITIVE_PICKS_FOR_STORY`. At that point, `onExploreArtists` should check whether any Passed artists actually exist in scope before routing there, and fall back to a broader recoverable set (e.g. My Picks or unfiltered Explore) with matching copy, rather than assuming Passed is always non-empty.

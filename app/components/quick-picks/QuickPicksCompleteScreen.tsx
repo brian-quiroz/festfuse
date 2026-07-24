@@ -151,7 +151,7 @@ export default function QuickPicksCompleteScreen({
                   <p className="text-xs uppercase tracking-widest font-bold text-[#E8FF47]/50">
                     Festival Story
                   </p>
-                  <p className="text-sm leading-relaxed text-white/45">
+                  <p id="festival-story-locked-explanation" className="text-sm leading-relaxed text-white/45">
                     Unlocks once 5 artists are marked Interested or Must See.
                   </p>
                 </div>
@@ -163,6 +163,7 @@ export default function QuickPicksCompleteScreen({
                 <div className="flex items-center justify-end h-8 mt-4">
                   <button
                     onClick={handleExploreArtists}
+                    aria-describedby="festival-story-locked-explanation"
                     className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#00E5FF] text-[#110D24] text-xs font-semibold transition duration-150 hover:bg-[#00E5FF]/90 ${pressingExploreArtists ? "scale-[0.97]" : ""}`}
                   >
                     Take a Second Look
