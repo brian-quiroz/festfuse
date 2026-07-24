@@ -4,10 +4,36 @@
   --font-sans: var(--font-jakarta);
 }
 
+/* App is dark-only today. If light mode is ever added, this needs to become
+   conditional (e.g. driven by a theme class/attribute) rather than a blanket
+   root-level dark — see ARCHITECTURE.md "Future Consideration: Light Mode". */
+:root {
+  color-scheme: dark;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.themed-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+.themed-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.themed-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.themed-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+}
+.themed-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }

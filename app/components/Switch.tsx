@@ -15,7 +15,8 @@ export default function Switch({
     <button
       type="button"
       disabled={disabled}
-      aria-pressed={checked}
+      role="switch"
+      aria-checked={checked}
       aria-label={ariaLabel}
       onClick={() => onChange(!checked)}
       className={`w-11 h-6 rounded-full relative p-0 flex-shrink-0 transition-colors duration-300 ease-in-out ${

@@ -188,7 +188,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   return (
     <div className="flex h-screen overflow-hidden bg-[#110D24]">
       <Sidebar />
-      <main ref={mainRef} className="flex-1 min-w-0 overflow-y-auto">
+      <main ref={mainRef} className="flex-1 min-w-0 overflow-y-auto themed-scrollbar">
         {/* Page header — only show when viewing carousels */}
         {!viewingCarousel && (
           <div className="px-8 pt-10 pb-0">

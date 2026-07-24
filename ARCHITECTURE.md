@@ -1841,3 +1841,25 @@ The locked Festival Story card's recovery path ("Take a Second Look") always rou
 **Why this holds today:** `QuickPicksCompleteScreen` only renders once every eligible artist on the selected attendance day(s) has a decision — either the session's queue was fully exhausted, or it was empty because everything was already decided beforehand. Every decision is exactly one of three verdicts (Must See / Interested / Passed), so for the selected-day scope, `total = positive + passed`. Being locked means `positive < MIN_POSITIVE_PICKS_FOR_STORY` (5), which forces `passed > total - 5`. The smallest single festival day in the current dataset has 42 artists, so being locked guarantees more than 37 Passed artists exist to reconsider. The "zero Passed artists" dead-end this recovery path implicitly assumes away is mathematically unreachable under the current dataset.
 
 **Revisit when:** a future festival, or an attendance-day combination, has a total eligible lineup close to or below `MIN_POSITIVE_PICKS_FOR_STORY`. At that point, `onExploreArtists` should check whether any Passed artists actually exist in scope before routing there, and fall back to a broader recoverable set (e.g. My Picks or unfiltered Explore) with matching copy, rather than assuming Passed is always non-empty.
+
+---
+
+## Future Consideration: Mobile Viewport Height (`h-screen` → `dvh`)
+
+Four pages use `h-screen` (`100vh`) combined with `overflow-hidden` for their full-height shell: `app/planner/page.tsx`, `app/quick-picks/page.tsx`, `app/components/explore/ExploreContent.tsx`, and `app/artist/[slug]/page.tsx`. (`app/layout.tsx`'s `min-h-screen` is a different, lower-risk pattern — a floor, not a fixed height with clipping — and isn't affected by this.)
+
+**The issue:** `100vh` is computed from the browser's initial viewport size and doesn't update as mobile Safari/Chrome's URL bar collapses or expands while scrolling. A fixed-height, `overflow-hidden` container sized to the *pre-collapse* viewport can clip content or visibly jump once the browser chrome changes height.
+
+**The fix:** swap `h-screen` → `h-dvh` (dynamic viewport height) in all four locations. This is a Tailwind v4 core utility already available in this project with no config changes needed, and it's behaviorally identical to `h-screen` on desktop (no dynamic chrome to account for) — it only removes the mobile failure mode, with no downside.
+
+**Not done now** — bundled into a planned dedicated mobile-responsive pass instead, where it can be verified live on an actual device rather than fixed without being able to confirm it.
+
+---
+
+## Future Consideration: Light Mode
+
+`app/globals.css` sets `color-scheme: dark` on `:root` unconditionally, and the new `.themed-scrollbar` utility hardcodes white-based `rgba()` values for its thumb/track — both assume a permanently dark app. This is correct for the current dark-only design (CLAUDE.md: "Deep violet (#110D24) and surrounding dark neutrals form the visual foundation"), but neither will automatically adapt if light mode is ever added.
+
+**If light mode is built:** `color-scheme` needs to become conditional — driven by a theme class/attribute (e.g. `color-scheme: light` or `color-scheme: light dark` swapped based on the active theme) rather than a blanket root-level `dark`. `.themed-scrollbar`'s thumb/track colors would similarly need theme-aware values (e.g. dark-based `rgba()` values for a light theme, mirroring the current white-based ones) rather than a single hardcoded palette.
+
+**Not built now** — noted here so it isn't rediscovered as a bug later; the app is dark-only today and there's no light mode work planned yet.

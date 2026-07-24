@@ -77,12 +77,25 @@ export default function PlannerGrid({
   useEffect(() => {
     updateScrollFade();
     window.addEventListener("resize", updateScrollFade);
-    return () => window.removeEventListener("resize", updateScrollFade);
+    const el = scrollRef.current;
+    const observer = el ? new ResizeObserver(updateScrollFade) : null;
+    if (el && observer) observer.observe(el);
+    return () => {
+      window.removeEventListener("resize", updateScrollFade);
+      observer?.disconnect();
+    };
   }, [stages.length]);
 
   return (
     <div className="relative flex-1 overflow-hidden">
-      <div ref={scrollRef} onScroll={updateScrollFade} className="h-full overflow-auto">
+      <div
+        ref={scrollRef}
+        onScroll={updateScrollFade}
+        tabIndex={0}
+        role="region"
+        aria-label="Festival schedule grid, scrollable horizontally"
+        className="h-full overflow-auto themed-scrollbar"
+      >
         <div className="flex w-full">
           {/* Hour label column */}
           <div className="sticky left-0 z-10 w-16 flex-shrink-0 bg-[#110D24]">
@@ -161,12 +174,12 @@ export default function PlannerGrid({
           technique as ArtistCarousel's hover arrows, minus the click affordance:
           the schedule is a canvas you pan, not a paged carousel. */}
       <div
-        className={`pointer-events-none absolute inset-y-0 left-16 w-8 z-20 bg-gradient-to-r from-[#110D24] to-transparent transition-opacity duration-200 ${
+        className={`pointer-events-none absolute inset-y-0 left-16 w-8 z-20 bg-gradient-to-r from-black/70 to-transparent transition-opacity duration-200 ${
           canScrollLeft ? "opacity-100" : "opacity-0"
         }`}
       />
       <div
-        className={`pointer-events-none absolute inset-y-0 right-0 w-8 z-20 bg-gradient-to-l from-[#110D24] to-transparent transition-opacity duration-200 ${
+        className={`pointer-events-none absolute inset-y-0 right-0 w-8 z-20 bg-gradient-to-l from-black/70 to-transparent transition-opacity duration-200 ${
           canScrollRight ? "opacity-100" : "opacity-0"
         }`}
       />

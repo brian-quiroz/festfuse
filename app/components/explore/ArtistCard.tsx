@@ -131,7 +131,7 @@ export default function ArtistCard({
           <div className="flex items-center gap-1">
             <button
               onClick={handleMustSee}
-              className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
                 mustSee
                   ? "bg-[#E8FF47] border-[#E8FF47] text-[#110D24]"
                   : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
@@ -142,7 +142,7 @@ export default function ArtistCard({
             </button>
             <button
               onClick={handleInterested}
-              className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
                 interested
                   ? "bg-[#E8FF47]/18 border-[#E8FF47]/50 text-[#E8FF47]"
                   : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
@@ -156,7 +156,8 @@ export default function ArtistCard({
             <div className="relative">
               <button
                 onClick={handleScheduleToggle}
-                className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 border ${
+                aria-describedby={isConflicting ? "schedule-conflict-badge" : undefined}
+                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
                   isScheduled
                     ? "bg-[#00E5FF] border-[#00E5FF] text-[#110D24]"
                     : isPartiallyScheduled
@@ -174,6 +175,7 @@ export default function ArtistCard({
                   the conflict without relying on color alone. */}
               {isConflicting && (
                 <span
+                  id="schedule-conflict-badge"
                   role="img"
                   aria-label="Schedule conflict"
                   title="Schedule conflict"
