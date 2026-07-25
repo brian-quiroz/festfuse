@@ -291,6 +291,13 @@ The Explore page manages four distinct states:
 3. **Search only** → Show search heading + ArtistResultsGrid
 4. **Search + filters** → Show ActiveFilters bar + ArtistResultsGrid
 
+**Known limitation:** `exploreFilterStore` (and search) is a plain, non-persisted
+Zustand store, so it already survives ordinary in-app navigation (browse → view an
+artist → return), but not a hard page reload. A potential future change would give it
+the same `persist` + `hasHydrated` treatment as `decisionStore`/`scheduleStore`/
+`plannerViewStore` (see "State Summary → Stores" under Schedule Feature) — not
+committed to, lower priority since the common case already works.
+
 ### Dropdown Components
 
 - **MultiSelectDropdown:** Reusable for Genre and Stage (checkboxes, multiple selection)
@@ -1191,10 +1198,21 @@ function getConflictingArtists(
 
 **"My Festival" section (below main nav):**
 
+Two labeled groups (`picksItems`, `scheduleItems`), not one flat list — reinforces that
+Picks and Schedule are separate dimensions, the same distinction the Planner's own
+"Show only:" toggles make. Not a parent/child indent tree: Conflicts isn't a true subset
+of Scheduled the way Must See/Interested are subsets of My Picks (a conflict is a derived
+problem-state among scheduled items, not a category of it), so two flat, labeled groups
+represents the actual relationship more accurately than nesting would.
+
+**Picks group:**
+
 1. **My Picks** — NEW
    - Calls `applyPreset("myPicks")`, then navigates to `/explore`
    - Shows count: "My Picks (X)" where X = count of Must See + count of Interested
-   - Cyan color per CLAUDE.md ("Primary workflow actions")
+   - Yellow color per CLAUDE.md ("User Intent & Personalization") — matches Must See/
+     Interested directly below it; was cyan originally, corrected after noticing it
+     contradicted its own two constituent categories in the same list
 
 2. **Must See** — Existing link (no change)
    - Calls `applyPreset("mustSee")` then navigates to `/explore`
@@ -1203,6 +1221,8 @@ function getConflictingArtists(
 3. **Interested** — Existing link (no change)
    - Calls `applyPreset("interested")` then navigates to `/explore`
    - Shows count
+
+**Schedule group:**
 
 4. **Scheduled** — NEW
    - Calls `applyPreset("scheduled")`, then navigates to `/explore`
@@ -1305,45 +1325,52 @@ function getConflictingArtists(
 
 #### Visual Treatment (Per CLAUDE.md Color Semantics)
 
-**Confirmed** — Color application per CLAUDE.md semantics:
+**Confirmed** — Fill, border, and pick icon are three independent channels, not a
+priority-ordered stack — a block can be scheduled, conflicting, and a pick all at once
+with nothing silently hidden:
 
-- **Scheduled artists:** Cyan background or accent border per CLAUDE.md ("Primary workflow actions")
-- **Conflicting scheduled artists:** Red border/highlight per CLAUDE.md ("Schedule conflicts")
-- **Unscheduled artists:** Neutral presentation (no accent)
-- **Must See/Interested (if visible with "My Picks" toggle enabled):** Yellow per CLAUDE.md ("User Intent & Personalization")
-
-All colors layered appropriately so conflicts (red) take visual priority over scheduling state (cyan).
+- **Fill** — driven only by scheduled state: cyan tint if scheduled, neutral otherwise. Always renders regardless of either toggle.
+- **Border** — driven only by conflict state: red per CLAUDE.md ("Schedule conflicts") if conflicting, otherwise falls back to the scheduled/neutral border color.
+- **Icon** — a small static (non-interactive) glyph reflecting the artist's pick verdict, per CLAUDE.md ("User Intent & Personalization"): a solid star for Must See, a flat muted-gold heart for Interested (an opaque color, not an alpha variant of Must See's, since translucent color blends inconsistently depending on what's underneath it), nothing if no verdict. Always renders regardless of either toggle — see Interactions below.
 
 #### Interactions
 
-**Confirmed** — Two independent toggles at the top of the Planner grid:
+**Confirmed** — Two independent toggles at the top of the Planner grid, framed under one
+shared "Show only:" label rather than each carrying its own "only" suffix (which would
+read as a contradiction when both are active at once) or a bare, unqualified name (which
+reads like a layer-visibility toggle — "Scheduled" off looking like it means "hide
+scheduled items" — rather than the restrictive filter it actually is):
 
-**Toggle 1: "My Picks"** (cyan styling)
+**"My Picks"** (cyan switch styling — a generic interactive-control color, not tied to
+what the switch filters)
 
 - Filters grid to display only artists with verdict === "mustSee" OR verdict === "interested"
 - Independent of the "Scheduled" toggle
 - When enabled, hides all other artists (Pass, Undecided) — except any that are part of a
   schedule conflict, which stay visible regardless of toggle state (see Combined behavior below)
+- Purely a visibility filter — does not gate whether the pick icon renders (see Visual Treatment above); a block's icon always reflects its true verdict whether or not this toggle is on
 
-**Toggle 2: "Scheduled"** (cyan styling)
+**"Scheduled"**
 
 - Filters grid to display only scheduled artists (`isScheduled(artist) === true`)
 - Independent of the "My Picks" toggle
 - When enabled, hides all unscheduled artists — the conflict exception above doesn't apply
   here since a conflicting artist is always scheduled by definition
+- Purely a visibility filter, same as "My Picks" — both switches are symmetric in scope; fill/border rendering was never gated by this toggle to begin with
 
 **Combined behavior (AND logic):**
 
 - Both toggles can be enabled simultaneously to show artists that are both in Must See/Interested AND scheduled
 - When both enabled, displays the intersection of the two filters
 - Conflict artists remain visible and highlighted (red border/accent) regardless of toggle state
-- Toggle state persists within this page visit; resets on navigation away
+- Default state: My Picks on, Scheduled off — surfaces "what have I flagged but not scheduled yet" on first visit, matching this feature's own framing below (organizing a plan *after* decisions have already been made). Defaulting both on instead would start blank for anyone with nothing scheduled yet, since that combination means "picks that are also scheduled."
+- Persisted via `plannerViewStore` (see State Summary → Stores below) — survives navigating away and back, and a hard page reload, not just this page visit
 
 **Artist cell interactions:**
 
 - **Confirmed** — Clicking anywhere on a cell toggles that artist's scheduled status directly, in place — no navigation. This is the primary action for this screen, matching what the Planner is actually for.
   - Toggling scheduled state updates the grid cell appearance immediately
-- **Confirmed** — A small secondary affordance within the cell (an icon or short link, not the whole cell) navigates to Artist Detail, for anyone who wants to see more before deciding.
+- **Confirmed** — A small secondary affordance within the cell (an icon or short link, not the whole cell) navigates to Artist Detail, for anyone who wants to see more before deciding. This is a real `Link`, not a `router.push` click handler — gives right-click/middle-click "open in new tab" and keyboard access, same reasoning as the stretched-link pattern used on Explore's `ArtistCard` for cards with their own nested interactive controls.
 - **Confirmed** — No click-count-based shortcuts for setting Must See/Interested/Passed from this screen — decisions stay confined to Quick Picks and Explore.
 - **Confirmed** — No preview modal — Artist Detail (via the secondary affordance) already covers that need.
 
@@ -1375,6 +1402,21 @@ All colors layered appropriately so conflicts (red) take visual priority over sc
    - `scheduledAppearanceKeys` — appearance keys, not artist slugs (see "Multi-Appearance Support")
    - Completely independent from decisions
    - Persisted to localStorage under the unchanged `schedule-store` key
+
+3. **plannerViewStore** (new)
+   - The Planner's "My Picks"/"Scheduled" display-toggle booleans, persisted to localStorage under `planner-view-store`
+   - Completely independent from decisions/scheduling — purely which rows are visible, never what they render as
+
+**Hydration:** all three stores above track a `hasHydrated` flag, set inside their
+`onRehydrateStorage` callback once localStorage has actually been read. A shared
+`HydrationGate` (`app/components/HydrationGate.tsx`), wrapping the app in
+`app/layout.tsx`, holds the very first render until all three flip true — without it,
+each store briefly renders its hardcoded default before rehydrating a moment later,
+most visibly a wrong toggle position, but the same gap exists anywhere
+decisionStore/scheduleStore-derived state renders (Sidebar counts, Explore's pick/
+schedule buttons, the Planner grid's own coloring). Only affects a hard reload —
+client-side navigation never remounts these stores. Any future persisted store should
+wire into this same gate rather than reinventing the check per-component.
 
 #### Derived State
 

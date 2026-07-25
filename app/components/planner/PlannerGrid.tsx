@@ -154,6 +154,15 @@ export default function PlannerGrid({
                       appearance={entry.appearance}
                       appearanceKey={key}
                       top={minutesToPlannerOffset(start, range)}
+                      // The 30px floor assumes a block can always fit a name (up to 2
+                      // lines, see PlannerArtistBlock's line-clamp) plus a time row.
+                      // Verified against current data: nothing shorter than 30 min exists
+                      // (30min * PLANNER_PX_PER_MINUTE=2 = 60px, well above the floor), so
+                      // this has never actually been tested against a real short set. If a
+                      // future appearance is added shorter than ~20-25 min with a long
+                      // name, re-check that both lines of the name and the time row still
+                      // fit — overflow-hidden on the block means it'll clip silently
+                      // rather than break, but it may look cramped.
                       height={Math.max((end - start) * PLANNER_PX_PER_MINUTE, 30)}
                       isScheduled={scheduledAppearanceKeys.has(key)}
                       isConflicting={conflictingAppearanceKeys.has(key)}

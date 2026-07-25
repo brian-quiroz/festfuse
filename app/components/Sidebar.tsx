@@ -47,7 +47,11 @@ export default function Sidebar() {
   const scheduledCount = scheduledArtistSlugs.size;
   const conflictCount = conflictingArtistSlugs.size;
 
-  const myFestivalItems = [
+  // Two flat, labeled groups rather than one list or a parent/child indent tree —
+  // Conflicts isn't a true subset of Scheduled the way Must See/Interested are subsets
+  // of My Picks (a conflict is a derived problem-state among scheduled items, not a
+  // category of it), so grouping by dimension is more accurate than nesting would be.
+  const picksItems = [
     {
       label: "My Picks",
       count: myPicksCount,
@@ -69,6 +73,9 @@ export default function Sidebar() {
       color: "#E8FF47",
       bg: "rgba(232,255,71,0.10)",
     },
+  ];
+
+  const scheduleItems = [
     {
       label: "Scheduled",
       count: scheduledCount,
@@ -88,6 +95,57 @@ export default function Sidebar() {
         ]
       : []),
   ];
+
+  // Shared by both My Festival groups (Picks, Schedule) so the highlight/count markup
+  // can't drift apart between them.
+  function renderFestivalItem({
+    label,
+    count,
+    Icon,
+    color,
+    bg,
+  }: {
+    label: string;
+    count: number;
+    Icon: typeof ListChecks;
+    color: string;
+    bg: string;
+  }) {
+    const navKey = NAV_ITEM_BY_LABEL[label];
+    const preset = NAV_PRESETS[navKey];
+    const liveValues: string[] = preset.facet === "pick" ? pickStatus : scheduleStatus;
+    // Must also confirm we're still on /explore (activeNavItem alone is stale once the
+    // user navigates elsewhere, e.g. Planner) and that the live filters still contain
+    // what this preset implies (activeNavItem alone is stale once the user manually
+    // changes filters away from what they clicked — e.g. Scheduled lit while the
+    // Scheduled checkbox itself is unmarked). No fallback if invalid — just don't
+    // highlight anything.
+    const active =
+      isActive("/explore") && activeNavItem === navKey && preset.values.some((v) => liveValues.includes(v));
+
+    return (
+      <button
+        key={label}
+        type="button"
+        onClick={() => handleFestivalItemClick(label)}
+        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+          active ? "" : "text-[#6B6893] hover:text-white hover:bg-[#231C45]"
+        }`}
+        style={active ? { background: bg, color } : undefined}
+      >
+        <span style={{ color }}>
+          <Icon size={15} strokeWidth={2} />
+        </span>
+        <span className="flex-1 text-left">{label}</span>
+        <span
+          className="text-[10px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full"
+          style={{ background: bg, color }}
+        >
+          {count}
+        </span>
+      </button>
+    );
+  }
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
@@ -177,45 +235,20 @@ export default function Sidebar() {
           </p>
         </div>
 
-        <div className="px-3 space-y-0.5">
-          {myFestivalItems.map(({ label, count, Icon, color, bg }) => {
-            const navKey = NAV_ITEM_BY_LABEL[label];
-            const preset = NAV_PRESETS[navKey];
-            const liveValues: string[] = preset.facet === "pick" ? pickStatus : scheduleStatus;
-            // Must also confirm we're still on /explore (activeNavItem alone is stale once the
-            // user navigates elsewhere, e.g. Planner) and that the live filters still contain
-            // what this preset implies (activeNavItem alone is stale once the user manually
-            // changes filters away from what they clicked — e.g. Scheduled lit while the
-            // Scheduled checkbox itself is unmarked). No fallback if invalid — just don't
-            // highlight anything.
-            const active =
-              isActive("/explore") &&
-              activeNavItem === navKey &&
-              preset.values.some((v) => liveValues.includes(v));
+        {/* Two labeled groups, not one flat list — reinforces that Picks and Schedule
+            are separate dimensions, the way the Planner's own toggles already do. */}
+        <div className="px-3">
+          <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
+            Picks
+          </p>
+          <div className="space-y-0.5">{picksItems.map(renderFestivalItem)}</div>
+        </div>
 
-            return (
-              <button
-                key={label}
-                type="button"
-                onClick={() => handleFestivalItemClick(label)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  active ? "" : "text-[#6B6893] hover:text-white hover:bg-[#231C45]"
-                }`}
-                style={active ? { background: bg, color } : undefined}
-              >
-                <span style={{ color }}>
-                  <Icon size={15} strokeWidth={2} />
-                </span>
-                <span className="flex-1 text-left">{label}</span>
-                <span
-                  className="text-[10px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full"
-                  style={{ background: bg, color }}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+        <div className="px-3 mt-3">
+          <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
+            Schedule
+          </p>
+          <div className="space-y-0.5">{scheduleItems.map(renderFestivalItem)}</div>
         </div>
       </div>
     </aside>

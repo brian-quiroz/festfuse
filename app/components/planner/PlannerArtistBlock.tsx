@@ -32,9 +32,15 @@ export default function PlannerArtistBlock({
   // property winning a priority contest over a single shared color. Conflicts only ever
   // occur between scheduled appearances, so a conflicting block is always also scheduled
   // and always carries the scheduled fill underneath its red border.
+  // Precomputed flat colors, not live alpha blends — these are the exact same visual
+  // result as the original bg-white/[0.04] / bg-[#00E5FF]/12 (and their hover states)
+  // resolved against the grid's own background (#110D24), baked in ahead of time rather
+  // than composited at render. A translucent fill lets whatever's underneath show through
+  // (the hour gridlines, in this grid), which no amount of "still fairly subtle" opacity
+  // actually fixes — only removing the alpha channel does, without changing how it looks.
   const fillClass = isScheduled
-    ? "bg-[#00E5FF]/12 hover:bg-[#00E5FF]/18"
-    : "bg-white/[0.04] hover:bg-white/[0.08]";
+    ? "bg-[#0F273E] hover:bg-[#0E344B]"
+    : "bg-[#1B172D] hover:bg-[#242036]";
 
   const borderClass = isConflicting
     ? "border-[#EF4444]/70"
@@ -61,11 +67,26 @@ export default function PlannerArtistBlock({
       aria-pressed={isScheduled}
       aria-label={`${isScheduled ? "Remove" : "Add"} ${artist.name}${verdictLabel} — ${appearance.day}, ${appearance.startTime} at ${appearance.stage} Stage — ${isScheduled ? "from" : "to"} schedule`}
     >
+      {/* Subtle top-highlight sheen, purely decorative — safe to be translucent since it
+          sits on top of the already-opaque fill above (a known, solid color), not the
+          grid/gridlines behind the card, so it can't reintroduce the bleed-through the
+          flat fill colors were fixing. Doesn't participate in the hover transition, so
+          it can't complicate that (gradients don't reliably cross-fade via
+          transition-colors the way a flat background-color does). */}
+      <div
+        className="absolute inset-0 pointer-events-none bg-gradient-to-b from-white/[0.06] to-transparent"
+        aria-hidden="true"
+      />
+      {/* Wraps the real content in a positioned element so it stacks above the sheen
+          overlay regardless of DOM order (positioned siblings beat non-positioned ones) —
+          otherwise the overlay, despite coming first in the markup, would still paint on
+          top of plain flow content like this. */}
+      <div className="relative">
       <div className="flex items-start justify-between gap-1">
-        <p className="flex items-center gap-1 min-w-0 text-[11px] font-bold text-white leading-tight">
+        <p className="flex items-start gap-1 min-w-0 text-[12px] font-bold text-white leading-tight">
           {verdict === "mustSee" && (
             <Star
-              size={10}
+              size={11}
               fill="currentColor"
               strokeWidth={2}
               className="flex-shrink-0 text-[#E8FF47]"
@@ -73,15 +94,19 @@ export default function PlannerArtistBlock({
             />
           )}
           {verdict === "interested" && (
+            // Flat, opaque, deliberately muted gold — not an alpha variant of Must See's
+            // color. A translucent fill blends inconsistently with whatever's underneath
+            // (cyan-tinted on scheduled blocks vs. neutral elsewhere), so at low opacity
+            // this used to read as green/olive rather than a lighter yellow.
             <Heart
-              size={10}
+              size={11}
               fill="currentColor"
               strokeWidth={2}
-              className="flex-shrink-0 text-[#E8FF47]/60"
+              className="flex-shrink-0 text-[#C4A73A]"
               aria-hidden="true"
             />
           )}
-          <span className="truncate">{artist.name}</span>
+          <span className="line-clamp-2">{artist.name}</span>
         </p>
         <Link
           href={`/artist/${artist.slug}`}
@@ -96,6 +121,7 @@ export default function PlannerArtistBlock({
       <p className="text-[10px] text-white/50 truncate mt-0.5">
         {appearance.startTime} – {appearance.endTime}
       </p>
+      </div>
     </div>
   );
 }
