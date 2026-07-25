@@ -1910,8 +1910,72 @@ class of state.
 - `AlbumArtwork.tsx` (`app/components/ui/`) has no remaining callers since the old
   per-track selector UI was replaced by these embeds — kept, not deleted, in case
   per-track artwork is useful again.
-- Embed responsiveness was checked only for basic non-overflow, not redesigned for
-  mobile.
+
+---
+
+## Responsive Design
+
+Mobile (`< md`), tablet/desktop (`md`+), and large-screen (`> 1760px` content width)
+treatments across Explore, Artist Detail, Planner, and the shared Sidebar. Breakpoint
+choice is deliberate per surface, not a single global cutoff: `md` for navigation
+chrome (matches the app's existing sparse `md:`/`lg:` usage elsewhere), `lg` for the
+Artist Detail two-column split (a 288px fixed sidebar plus its gap needs more room than
+the nav does — `md` there would leave a cramped column at tablet-portrait widths).
+
+### Mobile Navigation: Sidebar as Drawer
+
+`Sidebar.tsx` renders as both the desktop static column and the mobile drawer panel
+from one component (no forked mobile nav) — `fixed md:static` with a `translate-x`
+toggle driven by `chromeStore`'s `isMobileDrawerOpen`, plus a `MobileTopBar.tsx`
+carrying the hamburger trigger. `MobileTopBar` mirrors `Sidebar`'s own
+`isSidebarVisible` check (hidden together during the Quick Picks decisioning flow) —
+the two must stay in lockstep, or mobile users see a hamburger that opens nothing.
+`isMobileDrawerOpen` is intentionally non-persisted, same category as
+`isSidebarVisible`.
+
+### Large-Screen Content Capping
+
+Explore, Artist Detail, and Planner each cap their content column at
+`max-w-[1760px] mx-auto`, applied **per-page**, not as a shared `layout.tsx` wrapper —
+a global wrapper would also clip `ArtistHero`'s and Quick Picks' intentional full-bleed
+treatments. `ArtistResultsGrid`'s `2xl:grid-cols-6` is unaffected (the cap only bites
+above 1760px, so it's additive).
+
+### Artist Hero: Diverging Mobile/Desktop Treatment
+
+`ArtistHero.tsx` intentionally renders two different content blocks (shared
+`identityBlock`/`metaRow` JSX, different wrappers), not one responsive layout: desktop
+keeps genre/name/location/socials/actions overlaid in a left column with a left-right
+cinematic gradient; mobile instead bottom-anchors genre/name/location over the photo
+(bottom gradient only, no left-right darkening) and moves the action buttons (Must
+See/Interested/Add to Schedule) out of the hero entirely, into normal page flow below
+it (`ArtistContent.tsx`, `md:hidden`, alongside a `hidden md:block` duplicate of the
+same overlay-positioned instance inside the hero). `ArtistActions` has no local state —
+it only reads the shared decision/schedule stores — so two mounted instances stay in
+sync automatically. This divergence is deliberate: a 58%-width left column that works
+on a widescreen photo would otherwise either bury most of the mobile photo under text
+(if kept at full width for legibility) or force cramped, easily-clipped text (if kept
+narrow) — a portrait phone photo and a widescreen desktop photo are different enough
+shapes that one hero layout doesn't serve both.
+
+### Live Performance (YouTube Embed)
+
+`LiveVideoSection.tsx` builds its player via the YouTube IFrame Player API
+(`youtube.com/iframe_api`, one script load shared across mounts) targeting a
+`useId()`-generated element by string ID, rather than a bare `<iframe src="...">`.
+
+**Testing gotcha, worth knowing before "fixing" this again:** a YouTube embed loaded
+from a bare LAN IP address over plain HTTP (used for testing this app on a phone over
+the local network) reliably shows a permanent "Video unavailable" — browsers treat
+`localhost` and real HTTPS as secure contexts but do **not** extend that exception to
+an arbitrary LAN IP, and YouTube's embed depends on a secure context to actually load
+video data (the player shell/UI still loads either way, so the failure looks content-
+or platform-specific but isn't). This reproduces identically across devices and
+browser engines on the same network, confirmed via a temporary HTTPS tunnel
+(`cloudflared tunnel --url`) pointed at the same running dev server, which resolved it
+with no code change. Production is always real HTTPS, so this only ever matters when
+testing over a LAN IP during development — test via `localhost`, or a tunnel, not the
+LAN IP, if a live video ever appears broken again.
 
 ---
 
@@ -2200,18 +2264,6 @@ The locked Festival Story card's recovery path ("Take a Second Look") always rou
 **Why this holds today:** `QuickPicksCompleteScreen` only renders once every eligible artist on the selected attendance day(s) has a decision — either the session's queue was fully exhausted, or it was empty because everything was already decided beforehand. Every decision is exactly one of three verdicts (Must See / Interested / Passed), so for the selected-day scope, `total = positive + passed`. Being locked means `positive < MIN_POSITIVE_PICKS_FOR_STORY` (5), which forces `passed > total - 5`. The smallest single festival day in the current dataset has 42 artists, so being locked guarantees more than 37 Passed artists exist to reconsider. The "zero Passed artists" dead-end this recovery path implicitly assumes away is mathematically unreachable under the current dataset.
 
 **Revisit when:** a future festival, or an attendance-day combination, has a total eligible lineup close to or below `MIN_POSITIVE_PICKS_FOR_STORY`. At that point, `onExploreArtists` should check whether any Passed artists actually exist in scope before routing there, and fall back to a broader recoverable set (e.g. My Picks or unfiltered Explore) with matching copy, rather than assuming Passed is always non-empty.
-
----
-
-## Future Consideration: Mobile Viewport Height (`h-screen` → `dvh`)
-
-The shared chrome wrapper in `app/layout.tsx` (`<div className="flex h-screen overflow-hidden ...">`, wrapping `<Sidebar />` and every page's `{children}`) uses `h-screen` (`100vh`) combined with `overflow-hidden` for its full-height shell, covering every route from this one location. (`app/layout.tsx`'s `<body>` `min-h-screen` is a different, lower-risk pattern — a floor, not a fixed height with clipping — and isn't affected by this.)
-
-**The issue:** `100vh` is computed from the browser's initial viewport size and doesn't update as mobile Safari/Chrome's URL bar collapses or expands while scrolling. A fixed-height, `overflow-hidden` container sized to the *pre-collapse* viewport can clip content or visibly jump once the browser chrome changes height.
-
-**The fix:** swap `h-screen` → `h-dvh` (dynamic viewport height) on the layout wrapper. This is a Tailwind v4 core utility already available in this project with no config changes needed, and it's behaviorally identical to `h-screen` on desktop (no dynamic chrome to account for) — it only removes the mobile failure mode, with no downside.
-
-**Not done now** — bundled into a planned dedicated mobile-responsive pass instead, where it can be verified live on an actual device rather than fixed without being able to confirm it.
 
 ---
 

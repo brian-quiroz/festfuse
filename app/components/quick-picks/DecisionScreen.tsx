@@ -319,7 +319,7 @@ export default function DecisionScreen({
             <div
               className="relative"
               style={{
-                height: "calc(100vh - 220px)",
+                height: "calc(100dvh - 220px)",
               }}
             >
               <AnimatePresence mode="sync" custom={animCustom} initial={false}>

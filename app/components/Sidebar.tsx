@@ -38,6 +38,8 @@ export default function Sidebar() {
   const { pickStatus, scheduleStatus, activeNavItem, applyPreset, clearFilters } = useExploreFilterStore();
   const { isHelpOpen, openHelp, closeHelp } = useHelpStore();
   const isSidebarVisible = useChromeStore((state) => state.isSidebarVisible);
+  const isMobileDrawerOpen = useChromeStore((state) => state.isMobileDrawerOpen);
+  const setMobileDrawerOpen = useChromeStore((state) => state.setMobileDrawerOpen);
 
   // Hidden during Quick Picks decisioning/completion (chromeStore), consistent with that
   // flow's no-chrome design. Comes after all hooks above so hook order stays stable.
@@ -172,6 +174,7 @@ export default function Sidebar() {
     if (pathname !== "/explore") {
       router.push("/explore");
     }
+    setMobileDrawerOpen(false);
   };
 
   const handleFestivalItemClick = (label: string) => {
@@ -183,11 +186,26 @@ export default function Sidebar() {
     if (pathname !== "/explore") {
       router.push("/explore");
     }
+    setMobileDrawerOpen(false);
   };
 
   return (
     <>
-      <aside className="w-60 flex-shrink-0 h-full bg-[#1B1535] border-r border-[#2D2556] flex flex-col">
+      {/* Backdrop: mobile-only, sits below the drawer (z-30 < z-40) and above page
+          content, dismisses the drawer on click. Never rendered at md:+, where the
+          drawer transform is a no-op and Sidebar is just a static column. */}
+      {isMobileDrawerOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/60 md:hidden"
+          onClick={() => setMobileDrawerOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+      <aside
+        className={`fixed md:static inset-y-0 left-0 z-40 w-60 flex-shrink-0 h-full bg-[#1B1535] border-r border-[#2D2556] flex flex-col transform transition-transform duration-300 ease-out md:translate-x-0 ${
+          isMobileDrawerOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
       {/* Logo */}
       <div className="px-6 py-6 flex-shrink-0">
         <Link href="/" className="text-xl font-extrabold tracking-tight">
@@ -225,6 +243,7 @@ export default function Sidebar() {
               <Link
                 key={label}
                 href={href}
+                onClick={() => setMobileDrawerOpen(false)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                   active
                     ? "bg-[#00E5FF]/10 text-[#00E5FF]"
@@ -266,7 +285,10 @@ export default function Sidebar() {
         <div className="mx-3 mt-4 pt-4 border-t border-[#2D2556]">
           <button
             type="button"
-            onClick={openHelp}
+            onClick={() => {
+              setMobileDrawerOpen(false);
+              openHelp();
+            }}
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#6B6893] hover:text-white hover:bg-[#231C45] transition-colors"
           >
             <HelpCircle size={16} strokeWidth={2} />

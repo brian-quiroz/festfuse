@@ -9,9 +9,15 @@ import { create } from "zustand";
 interface ChromeState {
   isSidebarVisible: boolean;
   setSidebarVisible: (visible: boolean) => void;
+  // Mobile-only: whether the Sidebar drawer is slid open. Irrelevant above the `md`
+  // breakpoint, where Sidebar renders as a static column regardless of this flag.
+  isMobileDrawerOpen: boolean;
+  setMobileDrawerOpen: (open: boolean) => void;
 }
 
 export const useChromeStore = create<ChromeState>((set) => ({
   isSidebarVisible: true,
   setSidebarVisible: (visible) => set({ isSidebarVisible: visible }),
+  isMobileDrawerOpen: false,
+  setMobileDrawerOpen: (open) => set({ isMobileDrawerOpen: open }),
 }));

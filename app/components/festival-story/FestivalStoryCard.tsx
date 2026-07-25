@@ -54,7 +54,7 @@ export function FestivalStoryCard({
         position: "absolute",
         top: 0,
         left: 0,
-        height: "100vh",
+        height: "100dvh",
         zIndex: 1,
       }}
       variants={cardVariants}

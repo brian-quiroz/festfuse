@@ -78,6 +78,7 @@ export default function PlannerPage() {
 
   return (
     <main className="flex-1 flex flex-col overflow-hidden">
+      <div className="w-full max-w-[1760px] mx-auto flex flex-col flex-1 min-h-0">
       {/* Header */}
       <div className="px-8 py-6 border-b border-[#2D2556]">
         <h1 className="text-3xl font-extrabold text-white">Planner</h1>
@@ -139,6 +140,7 @@ export default function PlannerPage() {
         decisionsByArtist={decisionsByArtist}
         onToggleScheduled={toggleScheduled}
       />
+      </div>
     </main>
   );
 }
