@@ -52,7 +52,13 @@ export default function HomeContent() {
 
   return (
     <main className="flex-1 min-w-0 overflow-y-auto flex flex-col">
-      <div className="flex-1 max-w-5xl mx-auto px-8 pt-14 pb-8 relative">
+      {/* xl:justify-center vertically centers content on wide/tall viewports where it would
+          otherwise sit pinned near the top with dead space below. Safe because this div stays
+          flex-1 with no min-h-0/overflow-hidden of its own: if content is ever taller than the
+          available space it just grows to content height and main's overflow-y-auto scrolls
+          from the top as normal, rather than clipping. Don't add min-h-0/overflow-hidden here
+          without re-checking that. */}
+      <div className="flex-1 max-w-5xl mx-auto px-8 pt-14 pb-8 relative xl:flex xl:flex-col xl:justify-center">
         <div className="relative z-10">
           {/* Atmospheric glow — anchored to the h1's own box via percentage centering
               + transform, so it's mathematically centered on "FestFuse" at any
@@ -81,7 +87,7 @@ export default function HomeContent() {
               so each card's identity is consistent top to bottom, not just a tinted
               background with a generic cyan icon. Interactive border stays uniform brand
               cyan on all three — that's a functional "clickable" signal, not identity. */}
-          <div className="flex flex-col sm:flex-row gap-8">
+          <div className="flex flex-col items-center sm:flex-row sm:items-stretch gap-8">
             <Link
               href="/quick-picks"
               onMouseMove={quickPicksTilt.handleMouseMove}

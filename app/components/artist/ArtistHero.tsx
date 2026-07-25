@@ -107,7 +107,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
   );
 
   return (
-    <div className="relative h-[420px] sm:h-[480px] md:h-[520px] overflow-hidden bg-[#110D24]">
+    <div className="relative h-[420px] sm:h-[480px] md:h-[520px] overflow-hidden bg-[#110D24] max-w-[1760px] mx-auto">
       {/* Full-bleed artist photo */}
       {artist.imageUrl ? (
         <Image

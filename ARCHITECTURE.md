@@ -2318,3 +2318,37 @@ Groundwork for this already exists: `FestivalStorySequence`'s `attendanceDays` p
 **What's still undecided:** the route itself doesn't exist yet, and more importantly, the unlock check does not live at the component level today — `storyUnlocked` is computed as part of the Quick Picks completion flow, gating whether the card is even clickable. A standalone entry point would need to run that same eligibility check itself (`getEligibleArtists`/`getValidPositivePicks`, the same helpers `computeStorySignals` uses) before rendering, rather than assuming a valid session already gated access.
 
 **Not built now** — the current flow (Story reachable only right after completing Quick Picks) is intentional and sufficient for MVP. Revisit if users want to revisit a completed Story without re-running Quick Picks.
+
+---
+
+## Responsive Layout — Home & Artist Hero
+
+**Home page card row** (`app/components/home/HomeContent.tsx`): the three entry cards (Quick Picks/Explore/Planner) are fixed-width (`w-64`), so the stacked mobile column needs an explicit `items-center` — without it, fixed-width flex children default to the cross-axis start (left) rather than centering. `sm:items-stretch` restores the row layout's prior implicit default so centering doesn't leak into desktop.
+
+**Home page vertical centering:** the `max-w-5xl` content div adds `xl:flex xl:flex-col xl:justify-center` so content centers vertically on wide/tall viewports instead of sitting pinned near the top with dead space below. `xl:` (1280px), not `lg:`, because real laptops (1440px+ logical width) all clear it, while the 1024–1280px zone catches split-screen windows and landscape tablets with unpredictable vertical headroom. Safe regardless of viewport height: the div stays `flex-1` with no `min-h-0`/`overflow-hidden` of its own, so if content ever exceeds available height it just grows to content height and `main`'s `overflow-y-auto` scrolls from the top as normal — `justify-center` becomes a no-op rather than clipping anything. Don't add `min-h-0`/`overflow-hidden` to this div without re-verifying that fallback still holds.
+
+**Artist Hero width cap** (`app/components/artist/ArtistHero.tsx`): the hero's outer div adds `max-w-[1760px] mx-auto`, matching `ArtistContent.tsx`'s existing content-column cap. Below that width (every laptop, tablet, and phone), zero behavior change. Above it (ultra-wide monitors), the hero stops growing — this bounds how extreme `object-cover`'s crop can get (a wider/shorter box forces a more aggressive zoom to fill it) and keeps the hero visually aligned with the narrower content column beneath it, instead of stretching edge-to-edge past it.
+
+---
+
+## Future Consideration: Safari Corner-Clip Bug on Home Cards
+
+iOS Safari fails to properly clip descendant content to a rounded corner (`rounded-2xl overflow-hidden`) on an element that also carries a `transform` — even a resting, effectively-no-op one, which `HomeContent.tsx`'s hover-tilt cards always have via inline style. This showed up as a faint square corner visible behind each card's rounded corner, on iPhone only — not observed on desktop Safari (plausibly because iOS Safari does more aggressive GPU layer promotion for touch/scroll performance than desktop Safari), and not observed on Android at all.
+
+**Tried:** moving the `transform` onto a non-clipping wrapper div, separate from the `rounded-2xl overflow-hidden` element (the standard fix for this class of bug) — did not resolve it, which suggests the actual leak is each card's `blur-3xl` glow circle bleeding past the rounded mask independent of the transform.
+
+**Tried:** `-webkit-mask-image` on the card to force a mask-based clip instead of the default overflow-hidden clip path — this did fix the iOS corner bug, but the property is also honored by Chrome/Blink (not Safari-exclusive), and a real gradient between two different color stops vignettes the mask, dimming the hover glow near every card's corners in every browser, not just iOS. Making both gradient stops identical avoided the vignette but the hover glow still didn't come back.
+
+**Not fixed** — reverted to the original single-element card markup. Revisit only if this becomes a recurring complaint; a real fix likely needs a differently-shaped mask (sized to clear the glow's own blur radius) rather than another gradient-stop adjustment.
+
+---
+
+## Future Consideration: Group-Photo Hero Framing
+
+`ArtistHero.tsx`'s photo (`object-fit: cover`, full width, fixed low height) always resolves with the photo's width matched exactly to the box — the box's aspect ratio is always far wider/shorter than any real photo, so there's zero horizontal slack for `objectPosition`'s x-component to act on; only the vertical component ever does anything (every artist's `objectPosition` in the data files hardcodes x as `"center"` for this reason). For a wide group-lineup photo, this means a member positioned toward the left of the source photo can end up hidden under the hero's left-side text-legibility gradient (desktop only — that gradient is `hidden md:block`), with no way to reposition them out from under it via `objectPosition` alone.
+
+**Tried, on Major Lazer and aespa:** a `transform: scale()` plus an off-center `transform-origin` pan (reusing the artist's position string) to manufacture crop slack `cover` doesn't have. The underlying geometry is a single uniform affine scale, so pushing the obscured member rightward proportionally pushes everyone else further right too — worked out concretely for both artists that any zoom/origin strong enough to meaningfully clear the obscured member pushes the group's rightmost member off the opposite edge entirely.
+
+**Tried:** `object-fit: contain` instead (shrink to fit, nothing cropped, hero's own background shows through as padding) — fully deterministic, but trades in visible blank space wherever the box's aspect ratio doesn't match the photo's, which is essentially always true across breakpoints (mobile portrait and desktop wide are never the same shape as any one photo). A responsive version (contain + right-shifted only at `md:` and up, plain centered `cover` below it, matching the fact that the gradient itself is desktop-only) is possible, but requires expressing `object-position` via Tailwind's static keyword classes (`object-center md:object-right`) rather than the per-artist dynamic string, since inline `style` can't vary by breakpoint.
+
+**Not shipped** — both artists reverted to their original `objectPosition` values (`"center 26%"` and `"center 10%"` respectively), and no `imageZoom`/`imageFit` fields were added to the `Artist` type. These two artists' current hero photos are believed to be copyright placeholders likely to be replaced before launch, so a responsive crop/pan mechanism wasn't worth building for images that won't ship. **If a real (non-placeholder) group photo hits this same problem later:** the actual fix is almost certainly picking or cropping a source image where nobody sits in the frame's left ~30–40% to begin with — an image-selection step, not something CSS alone can solve cleanly for a lineup spanning the full frame width.
