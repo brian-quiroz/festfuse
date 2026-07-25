@@ -45,20 +45,32 @@ export default function PlannerPage() {
     [activeDay]
   );
 
+  // Zero *positive* picks (mustSee/interested) means "My Picks" can't filter to anything —
+  // covers both a brand-new user (decisionsByArtist empty) and someone who passed on
+  // everything so far (decisionsByArtist non-empty, but still nothing positive); myPickSlugs
+  // already excludes "passed", so checking its size, not decisionsByArtist directly, is what
+  // catches both cases. Rather than silently making the filter a no-op while the switch still
+  // reads "on" (which looks broken — checked, but nothing is actually filtered), the switch
+  // itself is disabled and shown off in this state. Once any positive pick exists, it
+  // re-enables and reflects the real (persisted) showMyPicks value again.
+  const myPicksDisabled = myPickSlugs.size === 0;
+
   // Toggles combine with AND logic; conflicting appearances stay visible regardless,
   // since hiding a conflict behind a filter would defeat the point of surfacing it.
   const visibleEntries = useMemo(() => {
-    if (!showMyPicks && !showScheduled) return dayEntries;
+    const myPicksActive = showMyPicks && !myPicksDisabled;
+    if (!myPicksActive && !showScheduled) return dayEntries;
     return dayEntries.filter((entry) => {
       const key = getAppearanceKey(entry.artist, entry.appearance);
       if (conflictingAppearanceKeys.has(key)) return true;
-      const matchesMyPicks = !showMyPicks || myPickSlugs.has(entry.artist.slug);
+      const matchesMyPicks = !myPicksActive || myPickSlugs.has(entry.artist.slug);
       const matchesScheduled = !showScheduled || scheduledAppearanceKeys.has(key);
       return matchesMyPicks && matchesScheduled;
     });
   }, [
     dayEntries,
     showMyPicks,
+    myPicksDisabled,
     showScheduled,
     myPickSlugs,
     scheduledAppearanceKeys,
@@ -105,7 +117,13 @@ export default function PlannerPage() {
             <div className="flex items-center gap-5">
               <div className="flex items-center gap-2 text-white/70">
                 My Picks
-                <Switch checked={showMyPicks} onChange={setShowMyPicks} aria-label="Show only My Picks" />
+                <Switch
+                  checked={showMyPicks && !myPicksDisabled}
+                  onChange={setShowMyPicks}
+                  disabled={myPicksDisabled}
+                  disabledReason="No picks yet, so there's nothing to filter to."
+                  aria-label="Show only My Picks"
+                />
               </div>
               <div className="flex items-center gap-2 text-white/70">
                 Scheduled

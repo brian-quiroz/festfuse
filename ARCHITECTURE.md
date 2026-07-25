@@ -1460,6 +1460,50 @@ Reactive computations
 
 These are separate, later features and should not influence the Schedule MVP design.
 
+### Planner "My Picks" filter: zero-positive-picks fallback
+
+**Confirmed** — `app/planner/page.tsx`'s `visibleEntries` filter treats "Show only: My
+Picks" as a no-op when `myPickSlugs.size === 0`, showing the full day's lineup instead
+of an empty grid. `showMyPicks` defaults to `true` (`plannerViewStore.ts`), so without
+this, a brand-new user landing on Planner saw a fully-structured but completely empty
+grid — stage columns and hour gridlines are always built from the unfiltered
+`allDayEntries` (see `getConflictingArtists`/range logic above), but the "My Picks"
+filter itself had nothing to show.
+
+Checks `myPickSlugs.size`, not `Object.keys(decisionsByArtist).length`. The two aren't
+equivalent: a user who ran a full Quick Picks session and Passed on everything has a
+non-empty `decisionsByArtist` but zero entries in `myPickSlugs` (which only counts
+`mustSee`/`interested`) — hitting the identical empty-grid problem a brand-new user
+does. Checking `decisionsByArtist` emptiness alone would have missed that case. Once
+any positive pick exists, filtering resumes normally, including correctly showing an
+empty grid for a specific day none of those picks fall on — that remains real, useful
+information, not something this fallback should paper over.
+
+#### The "My Picks" switch itself reflects the no-op, not just the filter
+
+Making the filter a silent no-op solved the empty grid, but left the switch showing
+"on" while doing nothing — indistinguishable from a broken toggle. `PlannerPage` now
+derives `myPicksDisabled = myPickSlugs.size === 0` and passes it to `Switch` as
+`disabled`, with `checked={showMyPicks && !myPicksDisabled}` so it also renders visibly
+off in that state, not just inert. `visibleEntries` reads the same combined condition
+(`myPicksActive = showMyPicks && !myPicksDisabled`) rather than checking
+`myPickSlugs.size` a second time inline, so the switch's visual state and the filter's
+actual behavior can't drift apart. Once any positive pick exists, both re-enable and
+fall back to reflecting the real persisted `showMyPicks` preference.
+
+`Switch` (`app/components/Switch.tsx`) gained a `disabledReason` prop to carry this:
+shown as a native `title` tooltip and folded into the accessible name
+(`"${label}. ${reason}"`) when disabled. More significantly, disabled state moved from
+the native `disabled` attribute to `aria-disabled` with a guarded `onClick` (`if
+(disabled) return;`) — native `disabled` removes an element from the tab order
+entirely, so a keyboard/screen-reader user would never land on it to learn it exists,
+let alone why it's off. `aria-disabled` keeps it focusable and inert instead. This
+changed uniformly for every `Switch` usage (also the Start screen's "Group by Festival
+Day" toggle in `StartOptions.tsx`), not just Planner's — `disabledReason` is optional
+and that usage doesn't pass one, so its `title`/`aria-label` are unaffected; the only
+change it inherits is the same focusability fix, which applies regardless of which
+switch it is.
+
 ---
 
 ## Multi-Appearance Support
@@ -1869,6 +1913,149 @@ class of state.
 
 ---
 
+## Home Page & Onboarding
+
+**Confirmed** — `/` (`app/page.tsx` → `app/components/home/HomeContent.tsx`) is a real
+orientation screen, not the `create-next-app` boilerplate it used to be. Supersedes
+"Future Consideration: Onboarding / How It Works Explainer" below — that idea is built;
+this section is the actual record.
+
+### Design principle: orientation vs. explanation
+
+Home = orientation ("where do I start"), the Help modal = explanation on demand (opened
+from Home or Sidebar), individual pages = contextual guidance (unchanged). Home does not
+try to explain the app itself — CLAUDE.md's "prefer progressive disclosure" principle
+means Home stays three entry cards plus a "How FestFuse works" link; the actual
+explaining happens in the modal.
+
+### Three cards: equal weight, not size-based hierarchy
+
+Quick Picks, Explore, and Planner render as three equally-sized cards, differentiated
+only by copy and row position (Planner last), never by size or decorative weight —
+equal decorative weight (gradient + icon watermark + full-opacity text) on all three,
+with Planner's "downstream of a decision" framing (per CLAUDE.md's Schedule
+description, "organize a plan after decisions have already been made") carried entirely
+by its copy ("Already have some picks? Turn them into a schedule.") and its position at
+the end of the row.
+
+Each card sits at a different point along the same cool/cyan spectrum rather than one
+uniform teal for all three — electric cyan (Quick Picks), seafoam/turquoise (Explore),
+azure (Planner). Deliberately stays inside that spectrum and never reaches toward
+violet/magenta: CLAUDE.md reserves celebration magenta for actual celebration moments
+(Festival Story/Wrapped-style accents) used sparingly — diffusing it onto a homepage
+card, which every session touches, would erode the rarity that makes it read as special
+where it's actually used (Quick Picks' own screens already lean on `COLORS.celebration`
+— see `QuickPicksCompleteScreen.tsx`, `DayCompleteScreen.tsx`, `DecisionScreen.tsx`,
+`StartScreen.tsx`).
+
+No hierarchy is implied between Quick Picks and Explore specifically — CLAUDE.md frames
+them as two equally legitimate, different approaches to discovery ("guided
+decision-making" vs. "curious, self-directed"), not a primary/secondary pair. The one
+existing asymmetry (Quick Picks' label uses a verb, "Start"/"Continue," while Explore
+and Planner are static nouns) exists for the functional reason below, not as a
+deliberate emphasis choice.
+
+### Card hover interactions: restrained tilt + Quick Picks brightness parity
+
+Each card gets a cursor-tracked tilt on hover (`useCardTilt` in `HomeContent.tsx`) —
+max ~2° `rotateX`/`rotateY` derived from pointer position within the card, combined
+with the existing `-4px` lift, applied as an inline `style` (not a Tailwind hover
+class) since the rotation angle is continuous and pointer-position-dependent, not a
+fixed on/off state. Deliberately capped low: this is a hover accent, not a 3D gimmick,
+and CLAUDE.md's "the direction already carries meaning, don't add personality on top of
+geometry" guidance (written for Quick Picks) applies here too — the tilt should read as
+polish, not distract from the card's own color identity doing the differentiation work.
+
+Quick Picks' gradient (`#00C2D6` → `#04303D`) reads slightly brighter at rest than
+Explore's or Planner's despite comparable saturation, so it carries a `bg-black/[0.05]`
+overlay that fades to `opacity-0` on hover (`group-hover`), landing all three cards at
+comparable resting brightness while still letting Quick Picks reach its full, brighter
+color on interaction. Implemented as an opacity-animated overlay rather than editing the
+gradient's color stops directly, since browsers don't reliably animate `linear-gradient`
+color-stop transitions but do animate opacity.
+
+### Hero glow: anchored to the wordmark, not the layout
+
+The atmospheric glow behind "FestFuse" is centered on the `<h1>`'s own box via
+`top-1/2 left-1/2` + `-translate-x-1/2 -translate-y-1/2`, not hardcoded pixel offsets
+against the outer container — this keeps it mathematically centered on the wordmark at
+any viewport width or font scale, rather than a value eyeballed at one screen size that
+drifts at another. Sized elliptical (`360×260`, wider than tall) to match the
+wordmark's own proportions, with `blur-2xl` instead of a wider/softer blur — tight
+enough to read as a glow behind the logo, not a haze bleeding into the subtitle below
+it.
+
+The gap between the cards row and the "How FestFuse works" link (`mt-10`) is sized to
+clear more than just the glow's resting footprint: Quick Picks' hover box-shadow
+(`0 20px 60px -15px rgba(...)`) isn't clipped by the card's `overflow-hidden` — box-
+shadow renders outside an element's own box regardless of its overflow setting — so it
+blooms downward on hover. `mt-10` leaves enough clearance that this bloom fades out
+before reaching the link text instead of washing over it.
+
+### Quick Picks label is state-aware, keyed on `source`, not on "any decision"
+
+`quickPicksLabel` reads `decisionsByArtist` from `useDecisionStore()` and shows
+"Continue Quick Picks" if **any** decision has `source === "quickPicks"`, otherwise
+"Start Quick Picks." Deliberately not `Object.keys(decisionsByArtist).length > 0` —
+most picks can come from Explore, which has no session concept to "continue," so that
+broader check would show "Continue" for someone who's never touched Quick Picks.
+`source`, not `verdict`, is what's checked: a session where every artist was Passed
+still correctly counts as "you've done this before," since decisions are written to the
+store the instant they're made (see "Quick Picks Session vs. Shared Store" above), not
+deferred until completion.
+
+### Help modal: recoverable from Sidebar, not just Home
+
+`app/store/helpStore.ts` — a small Zustand store, **intentionally non-persisted** (no
+`persist` middleware), same "in-memory-only" precedent as `exploreFilterStore`:
+ephemeral UI state that needs to be reachable from both `Sidebar.tsx` and
+`HomeContent.tsx`, which don't share a parent component since every page mounts its own
+`Sidebar` independently.
+
+`Sidebar.tsx` renders a "Utilities" section — visually separate from the four primary
+nav items and from "My Festival" — containing one entry, "How it works," and also
+mounts `HowItWorksModal` itself, so the modal is available wherever `Sidebar` renders
+rather than needing to be duplicated per page. On Quick Picks this means Help is
+reachable on the Start screen (`showSidebar = step === "start"` in
+`app/quick-picks/page.tsx`) but not during decisioning or completion, where `Sidebar`
+isn't rendered — consistent with that flow's no-chrome design, not a gap.
+
+Modal content stays to "30 seconds": four one-line concepts (Explore, Quick Picks,
+Planner, Festival Story), each reusing the same icon as its Home card (`Search`, `Zap`,
+`CalendarDays`, `Film` — `Film` matches the icon already used in
+`FestivalStoryCard.tsx`). Deliberately excludes Must See/Interested mutual exclusivity,
+Passed's lack of a card indicator, multi-appearance mechanics, and conflict logic — all
+self-explanatory in the moment they occur, not worth pre-teaching. The Festival Story
+line reuses `FestivalStorySequence.tsx`'s own intro card copy ("sounds and priorities
+behind your picks") rather than inventing new phrasing.
+
+### Footer
+
+`app/components/Footer.tsx` — two lines: "FestFuse · 2026" (identifies it as a footer,
+not stray text) and a disclaimer ("FestFuse is an unofficial fan project and is not
+affiliated with Lollapalooza or C3 Presents"), since the app uses real Lollapalooza 2026
+data (`ACTIVE_FESTIVAL_ID`). No links — Privacy/Terms/Contact pages don't exist yet, and
+a footer linking to nothing would be worse than no footer.
+
+**Placement:** Home, Explore, Artist Detail. **Not** Planner or Quick Picks. Quick
+Picks' exclusion is the momentum/no-chrome argument used throughout that flow. Planner's
+is a distinct, concrete cost: its `<main>` doesn't scroll (`overflow-hidden`), and
+`PlannerGrid` fills all remaining height via `flex-1` — a footer there wouldn't appear
+"below scrollable content" the way it does on Explore/Artist Detail, it would
+permanently shrink the grid's rendered height on every visit.
+
+**Sticky-footer flex pattern**, applied on Home, Explore, and Artist Detail: `main` is
+`flex flex-col`, and the content wrapper immediately before `Footer` gets `flex-1`.
+This exists because `Footer` used to just follow whatever content preceded it with no
+mechanism to sit at the true bottom of the viewport when that content was shorter than
+the screen — invisible on Explore/Artist Detail, which are usually tall enough to fill
+the viewport on their own, but reliably visible on Home, whose content (headline +
+cards) is short. `flex-1` fixes both: it grows to fill available space when content is
+short (pushing `Footer` to the bottom), and behaves exactly as before when content
+exceeds the viewport, since flex items don't shrink below their own content size.
+
+---
+
 ## Future Consideration: Date/Day Normalization
 
 `FestivalAppearance.day` (a weekday label, e.g. `"Thursday"`) and `.date` (e.g.
@@ -1914,11 +2101,8 @@ Neither is being built for MVP. Passed remains reachable only via the Status fil
 
 ## Future Consideration: Onboarding / How It Works Explainer
 
-Throughout development, the idea of a lightweight explainer has come up multiple times — something that briefly walks a new user through how the app's core concepts connect: the difference between Must See / Interested / Passed, what Quick Picks does, and what the Festival Story/Snapshot reveal is and how you get there. Right now, this understanding is only conveyed implicitly, scattered across UI copy on individual screens (button labels, the Quick Picks intro screen, etc.) — there's no single place a new user could go to understand the whole system at a glance.
-
-**Not built because:** it's not yet clear whether this should be a full page, a first-visit modal, or something else entirely.
-
-**If revisited:** Keep it short — not full documentation, just enough to connect the dots between the app's core concepts (interest states, Quick Picks, Explore, Festival Story). A first-visit modal is probably lower-effort than a dedicated page and may be sufficient.
+**Resolved** — built as the Home page's "How FestFuse works" modal. See "Home Page &
+Onboarding" above for the actual implementation and rationale.
 
 ---
 

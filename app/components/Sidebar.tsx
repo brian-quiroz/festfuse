@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Search, Zap, Calendar, CalendarDays, ListChecks, Star, Heart, AlertCircle } from "lucide-react";
+import { Home, Search, Zap, Calendar, CalendarDays, ListChecks, Star, Heart, AlertCircle, HelpCircle } from "lucide-react";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore, NAV_PRESETS } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
+import { useHelpStore } from "@/app/store/helpStore";
+import HowItWorksModal from "@/app/components/home/HowItWorksModal";
 import type { ActiveNavItem } from "@/app/types/navigation";
 
 const navItems = [
@@ -33,6 +35,7 @@ export default function Sidebar() {
   // Multi-Appearance Support ("Sidebar counts: artist counts, not appearance counts").
   const { scheduledArtistSlugs, conflictingArtistSlugs } = useScheduleStore();
   const { pickStatus, scheduleStatus, activeNavItem, applyPreset, clearFilters } = useExploreFilterStore();
+  const { isHelpOpen, openHelp, closeHelp } = useHelpStore();
 
   // Derive counts from store
   const mustSeeCount = Object.values(decisionsByArtist).filter(
@@ -177,13 +180,14 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-60 flex-shrink-0 h-full bg-[#1B1535] border-r border-[#2D2556] flex flex-col">
+    <>
+      <aside className="w-60 flex-shrink-0 h-full bg-[#1B1535] border-r border-[#2D2556] flex flex-col">
       {/* Logo */}
       <div className="px-6 py-6 flex-shrink-0">
-        <span className="text-xl font-extrabold tracking-tight">
+        <Link href="/" className="text-xl font-extrabold tracking-tight">
           <span className="text-[#00E5FF]">Fest</span>
           <span className="text-white">Fuse</span>
-        </span>
+        </Link>
       </div>
 
       {/* Scrollable middle */}
@@ -250,7 +254,22 @@ export default function Sidebar() {
           </p>
           <div className="space-y-0.5">{scheduleItems.map(renderFestivalItem)}</div>
         </div>
+
+        {/* Utilities — visually separate from primary nav and My Festival so "How it
+            works" never reads as a fifth core mode, just a low-emphasis aside. */}
+        <div className="mx-3 mt-4 pt-4 border-t border-[#2D2556]">
+          <button
+            type="button"
+            onClick={openHelp}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#6B6893] hover:text-white hover:bg-[#231C45] transition-colors"
+          >
+            <HelpCircle size={16} strokeWidth={2} />
+            How it works
+          </button>
+        </div>
       </div>
-    </aside>
+      </aside>
+      <HowItWorksModal isOpen={isHelpOpen} onClose={closeHelp} />
+    </>
   );
 }

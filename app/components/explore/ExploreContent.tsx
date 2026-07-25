@@ -4,6 +4,7 @@ import { useState, useMemo, useRef, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 import { allArtists } from "@/app/data/artists";
 import Sidebar from "@/app/components/Sidebar";
+import Footer from "@/app/components/Footer";
 import ArtistCarousel from "@/app/components/explore/ArtistCarousel";
 import QuickPicksBanner from "@/app/components/explore/QuickPicksBanner";
 import ExploreFilters from "@/app/components/explore/ExploreFilters";
@@ -188,7 +189,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   return (
     <div className="flex h-screen overflow-hidden bg-[#110D24]">
       <Sidebar />
-      <main ref={mainRef} className="flex-1 min-w-0 overflow-y-auto themed-scrollbar">
+      <main ref={mainRef} className="flex-1 min-w-0 overflow-y-auto themed-scrollbar flex flex-col">
+        <div className="flex-1">
         {/* Page header — only show when viewing carousels */}
         {!viewingCarousel && (
           <div className="px-8 pt-10 pb-0">
@@ -527,6 +529,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
               </div>
             );
           })()}
+        </div>
+        <Footer />
       </main>
     </div>
   );
