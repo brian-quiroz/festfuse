@@ -156,7 +156,7 @@ export default function StartScreen({ onStart }: Props) {
                 )}
                 <p className="flex items-center gap-1.5 text-xs text-white/30">
                   <Lock size={11} strokeWidth={2} />
-                  Your picks are automatically saved.
+                  Your picks are automatically saved on this device.
                 </p>
               </>
             )}

@@ -576,6 +576,8 @@ Clearing a verdict (clicking an active button to deselect it) sets `verdict` bac
 
 **Do not add a second festival without addressing this first.** It will silently corrupt user decisions across festival contexts.
 
+**Attendance-day awareness is similarly narrow today.** `attendanceDaysByFestival` (see "Quick Picks Attendance" below) is already festival-scoped, but only two consumers read it: Quick Picks (`StartScreen`) and Festival Story (`FestivalStorySequence`). Explore, Home, Planner, and Artist Detail never read the user's selected attendance days — day-based filtering on those surfaces (e.g. Explore's day filter) uses each artist's own `appearance.day`, not the user's attendance selection. This is current state, not a defect; expanding attendance-day awareness app-wide is a separate, undecided product question from the festival-scoping fix above.
+
 ### State Boundaries
 
 **In shared store (persisted to localStorage):**
@@ -2004,21 +2006,43 @@ still correctly counts as "you've done this before," since decisions are written
 store the instant they're made (see "Quick Picks Session vs. Shared Store" above), not
 deferred until completion.
 
+### Shared Chrome (Sidebar)
+
+`Sidebar` renders once, in `app/layout.tsx`, inside a `flex h-screen overflow-hidden`
+wrapper that also contains `{children}` — every route shares this single instance
+rather than each page mounting its own. `<main>` itself stays owned by each page (not
+centralized in the layout), since pages differ in their `<main>` classes, refs, and
+scroll-container needs.
+
+Visibility is controlled by `app/store/chromeStore.ts`'s `isSidebarVisible` — a small,
+non-persisted Zustand store, defaulting to `true` so every route needs zero wiring to
+show it. `Sidebar` reads the flag and returns `null` when hidden, after all its own
+hooks have run (Rules of Hooks) — this also unmounts `HowItWorksModal`, which `Sidebar`
+owns, along with it. Quick Picks is the only consumer: it sets `isSidebarVisible` to
+`step === "start"` (chrome only on the Start screen, hidden through decisioning and
+completion, matching that flow's no-chrome design) and restores it to `true` on
+unmount, so leaving Quick Picks for another route never leaves the shared Sidebar
+stuck hidden.
+
+Because Sidebar lives in the root layout, Next's default not-found boundary
+(`app/not-found.tsx`) renders inside the same shared chrome — an invalid route shows
+the Sidebar alongside the not-found message, not a bare unstyled page.
+
 ### Help modal: recoverable from Sidebar, not just Home
 
 `app/store/helpStore.ts` — a small Zustand store, **intentionally non-persisted** (no
 `persist` middleware), same "in-memory-only" precedent as `exploreFilterStore`:
-ephemeral UI state that needs to be reachable from both `Sidebar.tsx` and
-`HomeContent.tsx`, which don't share a parent component since every page mounts its own
-`Sidebar` independently.
+ephemeral UI state that needs to be reachable from both `Sidebar.tsx` (which owns the
+single `HowItWorksModal` instance) and `HomeContent.tsx`'s own separate trigger button,
+without prop-drilling through the tree.
 
 `Sidebar.tsx` renders a "Utilities" section — visually separate from the four primary
 nav items and from "My Festival" — containing one entry, "How it works," and also
-mounts `HowItWorksModal` itself, so the modal is available wherever `Sidebar` renders
-rather than needing to be duplicated per page. On Quick Picks this means Help is
-reachable on the Start screen (`showSidebar = step === "start"` in
-`app/quick-picks/page.tsx`) but not during decisioning or completion, where `Sidebar`
-isn't rendered — consistent with that flow's no-chrome design, not a gap.
+mounts `HowItWorksModal` itself, so the modal is available on every route via the one
+shared Sidebar instance (see "Shared Chrome" above). On Quick Picks, Help is reachable
+on the Start screen but not during decisioning or completion, since that's when the
+shared Sidebar itself is hidden — consistent with that flow's no-chrome design, not a
+gap.
 
 Modal content stays to "30 seconds": four one-line concepts (Explore, Quick Picks,
 Planner, Festival Story), each reusing the same icon as its Home card (`Search`, `Zap`,
@@ -2028,6 +2052,35 @@ Passed's lack of a card indicator, multi-appearance mechanics, and conflict logi
 self-explanatory in the moment they occur, not worth pre-teaching. The Festival Story
 line reuses `FestivalStorySequence.tsx`'s own intro card copy ("sounds and priorities
 behind your picks") rather than inventing new phrasing.
+
+### Dialog Accessibility (Focus Management)
+
+`app/hooks/useDialogA11y.ts` is a shared behavior hook used by every full-screen or
+modal-like surface in the app: `HowItWorksModal`, `FestivalStorySequence`,
+`QuickPicksCompleteScreen`, and `DayCompleteScreen`. It captures and restores the
+previously-focused element, moves focus to a target on open, traps Tab within the
+surface's container, and closes/exits on Escape. Markup concerns (`role="dialog"`,
+`aria-modal`, `aria-label`/`aria-labelledby`) stay in each consumer's own JSX — the
+hook only owns behavior, via an optional `initialFocusRef` (defaulting to the first
+focusable element in DOM order when omitted).
+
+Each consumer's initial-focus target is a deliberate choice, not the default:
+
+- **HowItWorksModal** — the close button. The modal's only real actions are reading
+  the four one-line concepts and closing; there's no other CTA to prioritize.
+- **FestivalStorySequence** — the active card's "Reveal Next" / "View My Picks"
+  button, forwarded into `FestivalStoryCard` via a `buttonRef` prop. Deliberately not
+  the close button: Close is intentionally understated (small, top-corner) since the
+  intent is to draw the user through the story, not toward leaving it.
+- **QuickPicksCompleteScreen** — the Festival Story card when `storyUnlocked`, since
+  that's the destination this screen is built around; falls back to "Take a Second
+  Look" when locked (Festival Story isn't a real button in that state — see "Recovery
+  path for a locked Story" above), staying within the Festival Story slot rather than
+  jumping to the unrelated Schedule card. Schedule is never the default target.
+- **DayCompleteScreen** — the "Continue to {next day}" button, the screen's one
+  unambiguous primary CTA. Its existing Enter-key shortcut is a separate,
+  single-consumer `useEffect` (auto-advance on Enter) rather than being folded into
+  the shared hook, since no other screen has an equivalent behavior.
 
 ### Footer
 
@@ -2152,11 +2205,11 @@ The locked Festival Story card's recovery path ("Take a Second Look") always rou
 
 ## Future Consideration: Mobile Viewport Height (`h-screen` → `dvh`)
 
-Four pages use `h-screen` (`100vh`) combined with `overflow-hidden` for their full-height shell: `app/planner/page.tsx`, `app/quick-picks/page.tsx`, `app/components/explore/ExploreContent.tsx`, and `app/artist/[slug]/page.tsx`. (`app/layout.tsx`'s `min-h-screen` is a different, lower-risk pattern — a floor, not a fixed height with clipping — and isn't affected by this.)
+The shared chrome wrapper in `app/layout.tsx` (`<div className="flex h-screen overflow-hidden ...">`, wrapping `<Sidebar />` and every page's `{children}`) uses `h-screen` (`100vh`) combined with `overflow-hidden` for its full-height shell, covering every route from this one location. (`app/layout.tsx`'s `<body>` `min-h-screen` is a different, lower-risk pattern — a floor, not a fixed height with clipping — and isn't affected by this.)
 
 **The issue:** `100vh` is computed from the browser's initial viewport size and doesn't update as mobile Safari/Chrome's URL bar collapses or expands while scrolling. A fixed-height, `overflow-hidden` container sized to the *pre-collapse* viewport can clip content or visibly jump once the browser chrome changes height.
 
-**The fix:** swap `h-screen` → `h-dvh` (dynamic viewport height) in all four locations. This is a Tailwind v4 core utility already available in this project with no config changes needed, and it's behaviorally identical to `h-screen` on desktop (no dynamic chrome to account for) — it only removes the mobile failure mode, with no downside.
+**The fix:** swap `h-screen` → `h-dvh` (dynamic viewport height) on the layout wrapper. This is a Tailwind v4 core utility already available in this project with no config changes needed, and it's behaviorally identical to `h-screen` on desktop (no dynamic chrome to account for) — it only removes the mobile failure mode, with no downside.
 
 **Not done now** — bundled into a planned dedicated mobile-responsive pass instead, where it can be verified live on an actual device rather than fixed without being able to confirm it.
 
@@ -2191,3 +2244,25 @@ On macOS, trackpad momentum scrolling past the Planner grid's horizontal edge tr
 **Why this isn't a simple addition:** `shuffleArray` uses real `Math.random()` (see "Future Consideration: Seeded Quick Picks Queue Shuffle" above), so tests can't assert exact output order the way the deterministic Story-signal checks do. Coverage here would need structural/property-based assertions instead — e.g. total count preserved, day balance within expected bounds, recognizable:undercard ratio near the intended ~1:2 across a large sample — closer to writing a new test file than adding a `check()` call to the existing one.
 
 **Not built now** — larger, separate effort than the other verification gaps addressed alongside this note. Revisit as its own scoped task if queue-building bugs start surfacing in practice.
+
+---
+
+## Future Consideration: Footer Links
+
+`app/components/Footer.tsx` currently renders two static text lines (attribution + disclaimer) with no links. About/Feedback/Privacy/data-attribution pages were considered as footer destinations, but explicitly deferred — none of those destinations exist yet, and building placeholder pages just to have somewhere for the footer to point would be scope creep ahead of the actual need.
+
+**If built later:** each link should only be added once its destination page is worth writing (e.g. an About page explaining why the site exists, how it's built, accuracy/update cadence, and any affiliate/advertising disclosure — not just a stub). Revisit alongside whichever of those pages becomes the first one worth building.
+
+**Not built now** — noted here so the idea isn't lost or rediscovered as "should the footer have links?" from scratch.
+
+---
+
+## Future Consideration: Festival Story Standalone Route
+
+Festival Story is currently only reachable via Quick Picks completion (`app/quick-picks/page.tsx` conditionally mounts `FestivalStorySequence` once `QuickPicksCompleteScreen` unlocks it). There is no standalone route (e.g. `app/festival-story/page.tsx`) that lets a user reopen their Story later without re-entering Quick Picks.
+
+Groundwork for this already exists: `FestivalStorySequence`'s `attendanceDays` prop is optional and falls back to `useAttendanceDays(ACTIVE_FESTIVAL_ID)` (the persisted selection) specifically for this case — see the prop's doc comment and "Attendance scope" above.
+
+**What's still undecided:** the route itself doesn't exist yet, and more importantly, the unlock check does not live at the component level today — `storyUnlocked` is computed as part of the Quick Picks completion flow, gating whether the card is even clickable. A standalone entry point would need to run that same eligibility check itself (`getEligibleArtists`/`getValidPositivePicks`, the same helpers `computeStorySignals` uses) before rendering, rather than assuming a valid session already gated access.
+
+**Not built now** — the current flow (Story reachable only right after completing Quick Picks) is intentional and sufficient for MVP. Revisit if users want to revisit a completed Story without re-running Quick Picks.

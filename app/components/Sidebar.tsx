@@ -7,6 +7,7 @@ import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore, NAV_PRESETS } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { useHelpStore } from "@/app/store/helpStore";
+import { useChromeStore } from "@/app/store/chromeStore";
 import HowItWorksModal from "@/app/components/home/HowItWorksModal";
 import type { ActiveNavItem } from "@/app/types/navigation";
 
@@ -36,6 +37,11 @@ export default function Sidebar() {
   const { scheduledArtistSlugs, conflictingArtistSlugs } = useScheduleStore();
   const { pickStatus, scheduleStatus, activeNavItem, applyPreset, clearFilters } = useExploreFilterStore();
   const { isHelpOpen, openHelp, closeHelp } = useHelpStore();
+  const isSidebarVisible = useChromeStore((state) => state.isSidebarVisible);
+
+  // Hidden during Quick Picks decisioning/completion (chromeStore), consistent with that
+  // flow's no-chrome design. Comes after all hooks above so hook order stays stable.
+  if (!isSidebarVisible) return null;
 
   // Derive counts from store
   const mustSeeCount = Object.values(decisionsByArtist).filter(

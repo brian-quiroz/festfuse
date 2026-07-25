@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Sidebar from "@/app/components/Sidebar";
 import Switch from "@/app/components/Switch";
 import PlannerGrid from "@/app/components/planner/PlannerGrid";
 import { allArtists } from "@/app/data/artists";
@@ -78,71 +77,68 @@ export default function PlannerPage() {
   ]);
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      <main className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-        <div className="px-8 py-6 border-b border-[#2D2556]">
-          <h1 className="text-3xl font-extrabold text-white">Planner</h1>
-          <p className="text-sm text-white/60 mt-1">Build your festival schedule</p>
+    <main className="flex-1 flex flex-col overflow-hidden">
+      {/* Header */}
+      <div className="px-8 py-6 border-b border-[#2D2556]">
+        <h1 className="text-3xl font-extrabold text-white">Planner</h1>
+        <p className="text-sm text-white/60 mt-1">Build your festival schedule</p>
+      </div>
+
+      {/* Day tabs + display toggles — different axes (which day vs. which layers
+          are visible), kept in one row: tabs left, switches right. Distinct control
+          shapes keep the two axes visually separable despite sharing the row. */}
+      <div className="px-8 pt-4 pb-3 flex items-center justify-between border-b border-[#2D2556]">
+        <div className="flex gap-1">
+          {days.map((day) => (
+            <button
+              key={day}
+              onClick={() => setActiveDay(day)}
+              className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
+                activeDay === day
+                  ? "text-[#00E5FF] border-[#00E5FF]"
+                  : "text-white/50 border-transparent hover:text-white/80"
+              }`}
+            >
+              {day}
+            </button>
+          ))}
         </div>
 
-        {/* Day tabs + display toggles — different axes (which day vs. which layers
-            are visible), kept in one row: tabs left, switches right. Distinct control
-            shapes keep the two axes visually separable despite sharing the row. */}
-        <div className="px-8 pt-4 pb-3 flex items-center justify-between border-b border-[#2D2556]">
-          <div className="flex gap-1">
-            {days.map((day) => (
-              <button
-                key={day}
-                onClick={() => setActiveDay(day)}
-                className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
-                  activeDay === day
-                    ? "text-[#00E5FF] border-[#00E5FF]"
-                    : "text-white/50 border-transparent hover:text-white/80"
-                }`}
-              >
-                {day}
-              </button>
-            ))}
-          </div>
-
-          {/* "Show only:" governs both switches as one shared frame instead of repeating
-              "only" on each ("My Picks only" + "Scheduled only" both active reads as a
-              contradiction) — it also heads off a false read where a bare "Scheduled"
-              switch looks like a layer-visibility toggle (off = hide scheduled items).
-              Both switches are pure visibility filters; neither affects rendering. */}
-          <div className="flex items-center gap-3 text-sm font-medium text-white/50">
-            Show only:
-            <div className="flex items-center gap-5">
-              <div className="flex items-center gap-2 text-white/70">
-                My Picks
-                <Switch
-                  checked={showMyPicks && !myPicksDisabled}
-                  onChange={setShowMyPicks}
-                  disabled={myPicksDisabled}
-                  disabledReason="No picks yet, so there's nothing to filter to."
-                  aria-label="Show only My Picks"
-                />
-              </div>
-              <div className="flex items-center gap-2 text-white/70">
-                Scheduled
-                <Switch checked={showScheduled} onChange={setShowScheduled} aria-label="Show only Scheduled" />
-              </div>
+        {/* "Show only:" governs both switches as one shared frame instead of repeating
+            "only" on each ("My Picks only" + "Scheduled only" both active reads as a
+            contradiction) — it also heads off a false read where a bare "Scheduled"
+            switch looks like a layer-visibility toggle (off = hide scheduled items).
+            Both switches are pure visibility filters; neither affects rendering. */}
+        <div className="flex items-center gap-3 text-sm font-medium text-white/50">
+          Show only:
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-2 text-white/70">
+              My Picks
+              <Switch
+                checked={showMyPicks && !myPicksDisabled}
+                onChange={setShowMyPicks}
+                disabled={myPicksDisabled}
+                disabledReason="No picks yet, so there's nothing to filter to."
+                aria-label="Show only My Picks"
+              />
+            </div>
+            <div className="flex items-center gap-2 text-white/70">
+              Scheduled
+              <Switch checked={showScheduled} onChange={setShowScheduled} aria-label="Show only Scheduled" />
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Grid */}
-        <PlannerGrid
-          allDayEntries={dayEntries}
-          visibleEntries={visibleEntries}
-          scheduledAppearanceKeys={scheduledAppearanceKeys}
-          conflictingAppearanceKeys={conflictingAppearanceKeys}
-          decisionsByArtist={decisionsByArtist}
-          onToggleScheduled={toggleScheduled}
-        />
-      </main>
-    </div>
+      {/* Grid */}
+      <PlannerGrid
+        allDayEntries={dayEntries}
+        visibleEntries={visibleEntries}
+        scheduledAppearanceKeys={scheduledAppearanceKeys}
+        conflictingAppearanceKeys={conflictingAppearanceKeys}
+        decisionsByArtist={decisionsByArtist}
+        onToggleScheduled={toggleScheduled}
+      />
+    </main>
   );
 }

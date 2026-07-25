@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Search, Zap, CalendarDays, Film } from "lucide-react";
+import { useDialogA11y } from "@/app/hooks/useDialogA11y";
 
 interface HowItWorksModalProps {
   isOpen: boolean;
@@ -34,42 +35,8 @@ const SECTIONS = [
 export default function HowItWorksModal({ isOpen, onClose }: HowItWorksModalProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const previouslyFocused = useRef<HTMLElement | null>(null);
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    previouslyFocused.current = document.activeElement as HTMLElement | null;
-    closeButtonRef.current?.focus();
-
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        onClose();
-        return;
-      }
-      if (e.key === "Tab" && panelRef.current) {
-        const focusable = panelRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        if (focusable.length === 0) return;
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      previouslyFocused.current?.focus();
-    };
-  }, [isOpen, onClose]);
+  useDialogA11y({ isOpen, onClose, containerRef: panelRef, initialFocusRef: closeButtonRef });
 
   if (!isOpen) return null;
 
