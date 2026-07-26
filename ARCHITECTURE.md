@@ -2630,3 +2630,33 @@ Next.js's LCP heuristic flags Explore's "Festival Favorites" carousel first card
 3. The main four-state render (~line 405) — the only one of the three whose `results` actually reaches `ArtistResultsGrid`, and where the filters-only path needs (and now has) `sortFestivalFavoritesForFullView(filtered)` applied before rendering.
 
 Only #3 needed the sort fix; #1 and #2 didn't, which is why the fix touches one line, not three. But the underlying triplication predates that fix and is a separate, structural redundancy — the same `allArtists`/`filterArtists` call runs three times per render. Consolidating into one `useMemo` shared across the three closures is possible but not done now — out of scope for a one-line sort fix, and a large-target diff on this page during a fast pre-launch pass isn't worth taking on tonight. Revisit post-MVP.
+
+---
+
+## Future Consideration: YouTube Player `useId()` String Id
+
+`LiveVideoSection.tsx` passes `useId()`'s output directly to `YT.Player` as a string element id and as the target `<div>`'s `id` attribute. This is safe specifically because the YouTube IFrame API resolves a string id via `document.getElementById`, not a CSS selector — colons (which `useId()` produces) are legal in `id` attributes and don't affect `getElementById` matching. Would need reconsidering if this id is ever passed to a selector-based lookup (e.g. `querySelector`) instead.
+
+---
+
+## Future Consideration: Switch `aria-disabled` Single-Path Guard
+
+`Switch.tsx` uses `aria-disabled` rather than native `disabled` so the control stays focusable and announces its `disabledReason` to screen readers, guarding the one activation path (`onClick`) with an early return. This is correct as long as `onClick` stays the only activation path — if a second one is ever added (e.g. a standalone `onKeyDown` handler rather than relying on the button's native Enter/Space-to-click behavior), it would need the same `disabled` guard.
+
+---
+
+## Future Consideration: Mobile Drawer State Not Reset Entering Quick Picks
+
+`isMobileDrawerOpen` (`chromeStore.ts`) is only reset to `false` via Sidebar's own link `onClick` handlers and the backdrop's `onClick`. Quick Picks hides the Sidebar (and its backdrop) entirely via `isSidebarVisible` while decisioning, without separately resetting the drawer flag. In practice this isn't reachable by tapping: the backdrop is a `fixed inset-0` click-catcher that sits above the rest of the page while the drawer is open, so any tap outside the drawer panel (including on an off-Sidebar link to `/quick-picks`, e.g. from `HomeContent.tsx` or `QuickPicksBanner.tsx`) closes the drawer instead of also activating whatever's underneath. The one remaining path is keyboard/assistive-tech navigation — z-index doesn't affect tab order, so a user could Tab past the drawer to an off-drawer link and press Enter, activating it without ever triggering the backdrop's `onClick`. Narrow enough to not warrant a fix now; revisit if keyboard-only mobile navigation becomes a tracked concern.
+
+---
+
+## Future Consideration: `sortFestivalFavoritesForFullView` Reused for Generic Deterministic Sort
+
+`ExploreContent.tsx`'s filters-only branch (no search, filters active) calls `sortFestivalFavoritesForFullView` to get a stable day → tier → time → name order, despite the function's name describing it as Festival-Favorites-specific. The day → tier → time → name logic isn't actually tied to that carousel — it's just the only existing helper with the right ordering — but the name implies carousel-specific semantics that could mislead a future editor changing the Festival Favorites carousel's sort and unintentionally affecting all filtered Explore views. No behavior risk today. The real fix is extracting a genericly-named helper (e.g. `sortArtistsDeterministic`) and pointing both call sites at it. Deferred as a naming/maintenance cleanup, not launch-blocking.
+
+---
+
+## Future Consideration: HydrationGate Blank-Screen Risk on Corrupted Persisted State
+
+`HydrationGate.tsx` holds the first render (`return null`) until `decisionStore`, `scheduleStore`, and `plannerViewStore` all report `hasHydrated: true`. Each store's `onRehydrateStorage` callback only sets `hasHydrated = true` when it receives a truthy `state`: `onRehydrateStorage: () => (state) => { if (state) state.hasHydrated = true; }`. Zustand's persist middleware calls this callback with `state = undefined` when rehydration itself throws (corrupt JSON in the persisted key, or a future `migrate()` that throws) — in that branch, `hasHydrated` never flips to `true`, and the app blanks forever on that load. Not a near-term risk: pre-launch there's no existing user data to be corrupt. The realistic trigger is a future breaking change to one of these stores' persisted shape shipped without a working `migrate()` path. Revisit then — the fix is setting `hasHydrated = true` in the error branch too (or a timeout fallback), so a corrupt/unmigratable value resets to defaults instead of blanking the app.
