@@ -2,7 +2,6 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
-import Checkbox from "@/app/components/Checkbox";
 
 interface MultiSelectDropdownProps<T extends string> {
   title: string;

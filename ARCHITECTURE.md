@@ -1937,6 +1937,32 @@ class of state.
   per-track selector UI was replaced by these embeds — kept, not deleted, in case
   per-track artwork is useful again.
 
+### Embed Rate-Limiting Under Rapid Interaction
+
+Quick Picks' Quick Listen embed sets `priority` (eager load, not lazy) per the
+rationale above — every card change fires an immediate new `open.spotify.com/embed`
+iframe request. A pre-release automated audit that clicked through ~50-90 decisions
+in a few seconds hit a 503/504 from Spotify's own CDN on two of those runs.
+
+**Plausibility for a real user (initial assessment, not rigorously measured):** this
+isn't automation-only. Quick Picks has keyboard shortcuts (A/S/D) specifically so a
+user can move fast, "Pass" requires no listening/reading before deciding, and
+reaching Festival Story is designed around getting through all 4 days — up to ~168
+decisions — in one sitting. A real user speed-skimming a day of artists they don't
+recognize, using the shortcuts, could plausibly land in the same request-rate
+neighborhood that triggered this. Spotify's actual rate-limit threshold (requests per
+second/minute per IP) is unverified, and the exact trigger point wasn't isolated
+precisely, so treat "plausible under a fast real session" as a working assumption,
+not a confirmed frequency.
+
+**Current state:** there's no fallback UI for a failed embed load — it renders as a
+blank/broken iframe box. That's a real, known gap, not one ruled out as unlikely; it's
+deferred past MVP as a time-tradeoff, not dismissed. Post-launch, worth measuring
+actual request cadence during real Quick Picks sessions and, if it's anywhere near
+this threshold, adding a lightweight fallback (e.g., a static "listen on Spotify"
+link/thumbnail in place of the iframe) so a failed embed degrades instead of visibly
+breaking.
+
 ---
 
 ## Responsive Design
@@ -2476,6 +2502,14 @@ The title/day-tabs/filter-trigger chrome above the grid, plus the app-wide `Mobi
 
 ---
 
+## Future Consideration: Project-Wide Automated Test Coverage
+
+No test framework is installed anywhere in this project today — no Jest/Vitest/Testing Library dependency, no `test` script in `package.json`, no `*.test.ts`/`*.spec.ts` files. `verify-story-signals.ts` is a standalone manual verification script (`npm run verify:story`), not part of an automated suite.
+
+`app/lib/spotify.ts`'s `parseSpotifyArtistId` is a good first candidate whenever a framework does get set up: a pure function with no React/DOM dependency and clearly enumerable edge cases (malformed URL, non-`open.spotify.com` hostname, missing artist-ID path segment, trailing query params) — straightforward input/output assertions, unlike the queue-building coverage gap above, which needs property-based tests because of real `Math.random()` use. Not built now — no framework exists to add it to yet; revisit alongside standing up a test framework generally, post-MVP.
+
+---
+
 ## Future Consideration: Footer Links
 
 `app/components/Footer.tsx` currently renders two static text lines (attribution + disclaimer) with no links. About/Feedback/Privacy/data-attribution pages were considered as footer destinations, but explicitly deferred — none of those destinations exist yet, and building placeholder pages just to have somewhere for the footer to point would be scope creep ahead of the actual need.
@@ -2561,3 +2595,38 @@ iOS Safari fails to properly clip descendant content to a rounded corner (`round
 **Tried:** `object-fit: contain` instead (shrink to fit, nothing cropped, hero's own background shows through as padding) — fully deterministic, but trades in visible blank space wherever the box's aspect ratio doesn't match the photo's, which is essentially always true across breakpoints (mobile portrait and desktop wide are never the same shape as any one photo). A responsive version (contain + right-shifted only at `md:` and up, plain centered `cover` below it, matching the fact that the gradient itself is desktop-only) is possible, but requires expressing `object-position` via Tailwind's static keyword classes (`object-center md:object-right`) rather than the per-artist dynamic string, since inline `style` can't vary by breakpoint.
 
 **Not shipped** — both artists reverted to their original `objectPosition` values (`"center 26%"` and `"center 10%"` respectively), and no `imageZoom`/`imageFit` fields were added to the `Artist` type. These two artists' current hero photos are believed to be copyright placeholders likely to be replaced before launch, so a responsive crop/pan mechanism wasn't worth building for images that won't ship. **If a real (non-placeholder) group photo hits this same problem later:** the actual fix is almost certainly picking or cropping a source image where nobody sits in the frame's left ~30–40% to begin with — an image-selection step, not something CSS alone can solve cleanly for a lineup spanning the full frame width.
+
+---
+
+## Future Consideration: React Hook Lint Warnings (set-state-in-effect, exhaustive-deps)
+
+A pre-release `npm run lint` pass surfaced 5 `react-hooks/set-state-in-effect` errors and 2 `react-hooks/exhaustive-deps` warnings, from a stricter hook-lint rule that flags any synchronous `setState` call inside an effect body, even in early-return guard clauses:
+
+- `set-state-in-effect`: `SingleSelectDropdown.tsx:29`, `MultiSelectDropdown.tsx:49` (the two-pass measure-then-position dropdown alignment), `DayCompleteScreen.tsx:15` (count-up reset when target is 0), `DecisionScreen.tsx:207` and `:217` (flash/toast reset when the underlying value clears).
+- `exhaustive-deps`: `DayCompleteScreen.tsx:93` (missing `handleContinue`), `DecisionScreen.tsx:226` (missing `toast`).
+
+These don't block `next build` — Next 16 doesn't run ESLint as part of the production build, only `npm run lint` itself. All of the affected components were exercised extensively during the pre-release audit (dozens of dropdown opens, full Quick Picks runs through all 4 days) with no observed visual glitches or stale-value symptoms. Deferred as lint-only cleanup; the real fix is computing the derived value during render instead of via effect+state, or stabilizing the missing-dep callbacks with `useCallback`.
+
+---
+
+## Future Consideration: next/image sizes Prop for fill Images
+
+Every `fill`-mode `<Image>` in the app (`ArtistCard.tsx`, `DecisionScreen.tsx`, `ArtistHero.tsx`, etc.) omits the `sizes` prop, which Next.js warns about via `console.warn` in dev. Checked and confirmed this warning is dev-only: `node_modules/next/dist/shared/lib/utils/warn-once.js` makes `warnOnce` a no-op whenever `NODE_ENV === 'production'`, so it never reaches a real deployed user's console. No prior attempt at adding `sizes` exists in git history or elsewhere in this file, despite a vague recollection that it was tried once and didn't look right. The likely culprit if it's tried again: `ArtistCard.tsx`'s `cardW`/`photoH` vary by context (fixed `w-60`/`w-48` in the two carousel sizes, fluid `w-full` in the responsive grid), so a single hardcoded `sizes` value doesn't fit every caller — getting it right requires a different value per layout mode, not a copy-pasted constant. Deferred indefinitely as a distinct backlog item, independent of the upcoming image-replacement pass.
+
+---
+
+## Future Consideration: LCP priority Prop on Explore's First Carousel Card
+
+Next.js's LCP heuristic flags Explore's "Festival Favorites" carousel first card image as a good `priority`/`loading="eager"` candidate. Not applied, because the carousel's artist order is a per-session seeded shuffle (see Carousel Presentation Strategies), so whichever artist happens to render first varies — a correct fix would add a `priority` prop to `ArtistCard` and have `ArtistCarousel.tsx`'s map pass `true` only for index `0`, not hardcode it to a specific artist. Layout-neutral, minor real speed win, tracked as its own post-MVP item separate from the `sizes` prop finding above and from the image-replacement pass.
+
+---
+
+## Future Consideration: Duplicated Filter/Search Computation in ExploreContent
+
+`ExploreContent.tsx` computes `filterArtists(...)` and the `hasSearch ? searchArtists(...) : ...` fallback three separate times, in three independent inline closures, rather than once and shared:
+
+1. The result-count summary label (~line 271) — only reads `results.length` and the search query text; order is irrelevant here.
+2. The single-carousel "See all" expanded view (~line 318) — operates over `currentCarousel.artists`, already sorted by that carousel's own logic before filtering runs.
+3. The main four-state render (~line 405) — the only one of the three whose `results` actually reaches `ArtistResultsGrid`, and where the filters-only path needs (and now has) `sortFestivalFavoritesForFullView(filtered)` applied before rendering.
+
+Only #3 needed the sort fix; #1 and #2 didn't, which is why the fix touches one line, not three. But the underlying triplication predates that fix and is a separate, structural redundancy — the same `allArtists`/`filterArtists` call runs three times per render. Consolidating into one `useMemo` shared across the three closures is possible but not done now — out of scope for a one-line sort fix, and a large-target diff on this page during a fast pre-launch pass isn't worth taking on tonight. Revisit post-MVP.

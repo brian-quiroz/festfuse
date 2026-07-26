@@ -428,7 +428,13 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
             decisionsByArtist
           );
 
-          const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
+          // Filters-only (no search) needs a deterministic order since it's a plain
+          // .filter() with no inherent one — reusing this sort generically here despite
+          // its carousel-specific name; the day → tier → time → name logic isn't actually
+          // Festival-Favorites-specific.
+          const results = hasSearch
+            ? searchArtists(searchQuery, filtered)
+            : sortFestivalFavoritesForFullView(filtered);
 
           // State 1: No search, no filters → curated carousels
           if (!hasFilters && !hasSearch && !viewingCarousel) {
