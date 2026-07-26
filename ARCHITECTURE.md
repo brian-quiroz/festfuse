@@ -2298,12 +2298,12 @@ behind your picks") rather than inventing new phrasing.
 
 `app/hooks/useDialogA11y.ts` is a shared behavior hook used by every full-screen or
 modal-like surface in the app: `HowItWorksModal`, `FestivalStorySequence`,
-`QuickPicksCompleteScreen`, and `DayCompleteScreen`. It captures and restores the
-previously-focused element, moves focus to a target on open, traps Tab within the
-surface's container, and closes/exits on Escape. Markup concerns (`role="dialog"`,
-`aria-modal`, `aria-label`/`aria-labelledby`) stay in each consumer's own JSX — the
-hook only owns behavior, via an optional `initialFocusRef` (defaulting to the first
-focusable element in DOM order when omitted).
+`QuickPicksCompleteScreen`, `DayCompleteScreen`, and `Sidebar`'s mobile drawer. It
+captures and restores the previously-focused element, moves focus to a target on
+open, traps Tab within the surface's container, and closes/exits on Escape. Markup
+concerns (`role="dialog"`, `aria-modal`, `aria-label`/`aria-labelledby`) stay in each
+consumer's own JSX — the hook only owns behavior, via an optional `initialFocusRef`
+(defaulting to the first focusable element in DOM order when omitted).
 
 Each consumer's initial-focus target is a deliberate choice, not the default:
 
@@ -2322,6 +2322,12 @@ Each consumer's initial-focus target is a deliberate choice, not the default:
   unambiguous primary CTA. Its existing Enter-key shortcut is a separate,
   single-consumer `useEffect` (auto-advance on Enter) rather than being folded into
   the shared hook, since no other screen has an equivalent behavior.
+- **Sidebar (mobile drawer)** — uses the hook's default (first focusable element in
+  DOM order, the FestFuse logo link), since the drawer has no dedicated close button
+  of its own — closing happens via the backdrop, a nav link, or now Escape.
+  `isMobileDrawerOpen` is only ever `true` in the mobile drawer context, so the hook
+  stays inert on desktop's static sidebar column. `onClose` restores focus to the
+  hamburger button in `MobileTopBar.tsx` that opened it.
 
 ### Footer
 
@@ -2660,3 +2666,32 @@ Only #3 needed the sort fix; #1 and #2 didn't, which is why the fix touches one 
 ## Future Consideration: HydrationGate Blank-Screen Risk on Corrupted Persisted State
 
 `HydrationGate.tsx` holds the first render (`return null`) until `decisionStore`, `scheduleStore`, and `plannerViewStore` all report `hasHydrated: true`. Each store's `onRehydrateStorage` callback only sets `hasHydrated = true` when it receives a truthy `state`: `onRehydrateStorage: () => (state) => { if (state) state.hasHydrated = true; }`. Zustand's persist middleware calls this callback with `state = undefined` when rehydration itself throws (corrupt JSON in the persisted key, or a future `migrate()` that throws) — in that branch, `hasHydrated` never flips to `true`, and the app blanks forever on that load. Not a near-term risk: pre-launch there's no existing user data to be corrupt. The realistic trigger is a future breaking change to one of these stores' persisted shape shipped without a working `migrate()` path. Revisit then — the fix is setting `hasHydrated = true` in the error branch too (or a timeout fallback), so a corrupt/unmigratable value resets to defaults instead of blanking the app.
+
+---
+
+## Mobile Accessibility Review: Dismissed Findings
+
+A second Copilot review pass, scoped to mobile accessibility, raised four "fix today if confirmed" items beyond the Sidebar drawer keyboard-close gap addressed above (see § Dialog Accessibility). None held up once traced against the actual implementation:
+
+- **Nested scroll / `100dvh` risk** — the concern was competing `overflow-y-auto` ancestors creating unreachable "dead" scroll zones. The app already does the opposite: `<body>` is `overflow-hidden` (`layout.tsx`) and each page owns exactly one scroll container (`<main overflow-y-auto>`). The one real `100dvh` fragility (`DecisionScreen.tsx`'s hero, against Safari chrome expand/collapse) is already tracked above under § Decisioning Screen Mobile Density.
+- **Drawer close/navigation race** — the concern was a stale animation-frame leaving the backdrop mounted after a rapid nav-and-interact sequence. `setMobileDrawerOpen(false)` and the backdrop's unmount are both synchronous with the triggering click; there's no timeout or animation-frame step in that path for a stale intercept layer to exist in.
+- **Quick Picks controls unreachable on short/landscape viewports** — the concern assumed a `fixed` CTA cluster that could get covered. The Pass/Interested/Must See buttons are in normal document flow inside `quick-picks/page.tsx`'s own scrollable `<main>`, not `fixed` — worst case on a short viewport is scrolling, not unreachable controls. Already covered by § Decisioning Screen Mobile Density's accepted residual-scroll tradeoff and § Orientation-Aware Mobile Breakpoints.
+- **Explore filter/search iOS zoom** — already fully addressed by § Explore Search Input Zoom-on-Focus (global 16px input floor plus a blur-based recovery fix for the WebKit nested-scroll zoom trigger). Filter dropdown triggers are buttons, not text inputs, so were never in scope for focus-triggered zoom.
+
+---
+
+## Future Consideration: Touch-Target Consistency Across Icon/Button Rows
+
+Some icon-only buttons in dense rows (e.g. filter chip rows, carousel controls) haven't been individually audited against a 44px minimum hit-target, unlike `DecisionScreen.tsx`'s Back/Exit buttons, which got `p-2 -m-2` specifically to reach that size. Unverified either way — not confirmed broken, not confirmed fine. Revisit as a dedicated sweep rather than guessing at individual components.
+
+---
+
+## Future Consideration: Focus-Visible Ring Consistency
+
+Whether every interactive control — especially icon-only buttons without a text label — shows a strong, consistent visible focus ring hasn't been audited app-wide. Unverified either way. Revisit as a dedicated keyboard-navigation sweep.
+
+---
+
+## Future Consideration: Festival Story Text Wrap at 320px + Large Text Settings
+
+Festival Story card copy hasn't been specifically checked at the intersection of the narrowest supported width (320px) and iOS/Android large-text accessibility settings, where line-wrap could look cramped or overflow. Unverified either way. Revisit alongside a real-device accessibility pass.

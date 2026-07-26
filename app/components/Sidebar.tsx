@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Home, Search, Zap, Calendar, CalendarDays, ListChecks, Star, Heart, AlertCircle, HelpCircle } from "lucide-react";
 import { useDecisionStore } from "@/app/store/decisionStore";
@@ -8,6 +9,7 @@ import { useExploreFilterStore, NAV_PRESETS } from "@/app/store/exploreFilterSto
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { useHelpStore } from "@/app/store/helpStore";
 import { useChromeStore } from "@/app/store/chromeStore";
+import { useDialogA11y } from "@/app/hooks/useDialogA11y";
 import HowItWorksModal from "@/app/components/home/HowItWorksModal";
 import type { ActiveNavItem } from "@/app/types/navigation";
 
@@ -40,6 +42,17 @@ export default function Sidebar() {
   const isSidebarVisible = useChromeStore((state) => state.isSidebarVisible);
   const isMobileDrawerOpen = useChromeStore((state) => state.isMobileDrawerOpen);
   const setMobileDrawerOpen = useChromeStore((state) => state.setMobileDrawerOpen);
+  const asideRef = useRef<HTMLElement>(null);
+
+  // Gives the mobile drawer Escape-to-close, Tab-trapping, and focus restoration to the
+  // hamburger button on close — same hook every other dialog/modal in the app uses (see
+  // ARCHITECTURE.md § Dialog Accessibility). Only ever active on mobile: isMobileDrawerOpen
+  // stays false on desktop's static sidebar column, so this is inert there.
+  useDialogA11y({
+    isOpen: isMobileDrawerOpen,
+    onClose: () => setMobileDrawerOpen(false),
+    containerRef: asideRef,
+  });
 
   // Hidden during Quick Picks decisioning/completion (chromeStore), consistent with that
   // flow's no-chrome design. Comes after all hooks above so hook order stays stable.
@@ -202,6 +215,7 @@ export default function Sidebar() {
         />
       )}
       <aside
+        ref={asideRef}
         className={`fixed md:static inset-y-0 left-0 z-40 w-60 flex-shrink-0 h-full bg-[#1B1535] border-r border-[#2D2556] flex flex-col transform transition-transform duration-300 ease-out md:translate-x-0 ${
           isMobileDrawerOpen ? "translate-x-0" : "-translate-x-full"
         }`}
