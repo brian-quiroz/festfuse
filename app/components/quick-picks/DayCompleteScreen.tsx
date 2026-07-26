@@ -170,7 +170,9 @@ export default function DayCompleteScreen({
             Continue to {upcomingDay ?? "Next Day"}
             <ArrowRight size={15} strokeWidth={2.5} />
           </button>
-          <span className="flex items-center gap-1 text-white/30 text-[11px]">
+          {/* Keyboard hint — meaningless on touch devices, hidden on mobile. The
+              keydown listener above is unaffected; this is a rendering-only change. */}
+          <span className="hidden md:flex items-center gap-1 text-white/30 text-[11px]">
             <CornerDownLeft size={10} strokeWidth={2} />
             Enter
           </span>

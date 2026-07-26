@@ -38,6 +38,13 @@ export default function StartScreen({ onStart }: Props) {
   const noDaysSelected = attendanceDays.length === 0;
   const isGroupingLocked = attendanceDays.length <= 1;
 
+  // Mirrors HomeContent.tsx's label logic — Explore-sourced decisions don't count,
+  // since Explore has no session concept to resume; only prior Quick Picks activity
+  // should flip this to "Continue."
+  const hasQuickPicksActivity = Object.values(decisionsByArtist).some(
+    (decision) => decision.source === "quickPicks"
+  );
+
   // Selected days with zero undecided artists — same eligibility rule createSession
   // uses (see getEligibleEntries), checked one day at a time. Built from festivalDays
   // (canonical Thu->Fri->Sat->Sun order), not attendanceDays directly, so the note
@@ -82,8 +89,8 @@ export default function StartScreen({ onStart }: Props) {
   }
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center px-6 py-6 sm:py-8 lg:py-10">
-      <div className="flex flex-col items-center gap-5 sm:gap-6 w-full max-w-xl">
+    <div className="flex-1 flex flex-col items-center justify-center px-6 py-4 sm:py-8 lg:py-10">
+      <div className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-xl">
         {/* Hero title */}
         <div className="flex flex-col items-center gap-3 text-center">
           <div className="relative flex items-center justify-center">
@@ -112,10 +119,6 @@ export default function StartScreen({ onStart }: Props) {
               a first impression, then make your pick.
             </p>
           </div>
-          <p className="text-sm text-white/55">
-            <span className="font-semibold text-white/70">Lollapalooza 2026</span> · Jul 30 – Aug
-            2, 2026 · Grant Park, Chicago
-          </p>
         </div>
 
         {/* Start Options + CTA */}
@@ -143,7 +146,7 @@ export default function StartScreen({ onStart }: Props) {
                 noDaysSelected ? "opacity-40 cursor-not-allowed hover:bg-[#00E5FF]" : ""
               } ${pressing ? "scale-[0.97]" : ""}`}
             >
-              Start Quick Picks
+              {hasQuickPicksActivity ? "Continue Quick Picks" : "Start Quick Picks"}
               <ArrowRight size={15} strokeWidth={2.5} />
             </button>
             {noDaysSelected ? (

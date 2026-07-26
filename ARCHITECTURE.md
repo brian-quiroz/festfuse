@@ -1879,12 +1879,32 @@ a placeholder — treat it as confirmed until deliberately revisited.
 
 **Confirmed** — `SpotifyArtistEmbed` and `SpotifyTrackEmbed` (`app/components/ui/`)
 are the two reusable embed primitives, shared across Artist Detail (curated tracks)
-and Quick Picks (Quick Listen). Both: `loading="lazy"`, no autoplay, informative
-`title`, standard Spotify `allow` list, never alter/crop/overlay Spotify's own iframe
-content. Artist embed height is 370 (Spotify's non-compact layout, tall enough that a
-third track row isn't clipped — Spotify's list can be longer; users scroll inside it,
-FestFuse doesn't cap it). Track embed height is fixed at 80 (Spotify's compact
-layout).
+and Quick Picks (Quick Listen). Both: no autoplay, informative `title`, standard
+Spotify `allow` list, never alter/crop/overlay Spotify's own iframe content. Artist
+embed height is 370 (Spotify's non-compact layout, tall enough that a third track row
+isn't clipped — Spotify's list can be longer; users scroll inside it, FestFuse doesn't
+cap it). Track embed height is fixed at 80 (Spotify's compact layout).
+
+`SpotifyTrackEmbed` defaults to `loading="lazy"`, correct for Artist Detail's stacked
+multi-track "Listen First" list, where later tracks can sit below the fold. It also
+takes an optional `priority` prop (mirrors `next/image`'s own prop of the same name) for
+callers where the embed is always in the initial viewport and never stacked — Quick
+Picks' single Quick Listen embed sets this, since a lazy-loaded blank box read poorly on
+a screen designed around fast, confident decisions.
+
+### Spotify Embed Corner-Clipping
+
+The `rounded-xl overflow-hidden` wrapper around `SpotifyTrackEmbed`'s iframe doesn't
+perfectly mask the iframe's own square corners — a faint brighter leak is visible at
+each of the four corners, most noticeable on Quick Picks' Quick Listen against a mostly
+dark box interior. Same category of issue as the Home Cards corner-clip bug above.
+
+**Tried:** dimming the wrapper's border from `border-white/25` to `border-white/12`, to
+match the app's other neutral chip/card borders (metadata pills, the Grouping card).
+Reverted — at the dimmer value, the flat edges go nearly invisible, so the corner leak
+reads as an obvious glitch rather than blending in. At `/25`, the brighter, more evenly
+lit edge gives the whole box a subtle beveled feel, and the corner leak reads as part of
+that bevel rather than a mistake. Kept at `border-white/25`.
 
 ### Playback lifecycle: key-based remount, not reset effects
 
@@ -1943,6 +1963,12 @@ the two must stay in lockstep, or mobile users see a hamburger that opens nothin
 `isMobileDrawerOpen` is intentionally non-persisted, same category as
 `isSidebarVisible`.
 
+The hamburger trigger sits on the leading (left) edge of `MobileTopBar`, with the
+"FestFuse" wordmark absolutely centered in the bar rather than sharing the trailing
+edge with it. This matches the drawer's own fixed `left-0` position (and the desktop
+static sidebar's same left position) — trigger and result live on the same side, on
+every breakpoint, rather than opening from the opposite edge of wherever it's tapped.
+
 ### Large-Screen Content Capping
 
 Explore, Artist Detail, and Planner each cap their content column at
@@ -1986,6 +2012,121 @@ browser engines on the same network, confirmed via a temporary HTTPS tunnel
 with no code change. Production is always real HTTPS, so this only ever matters when
 testing over a LAN IP during development — test via `localhost`, or a tunnel, not the
 LAN IP, if a live video ever appears broken again.
+
+### Explore Search Input Zoom-on-Focus
+
+iOS/WebKit (Safari and Chrome-on-iOS both — they share WebKit; not reproducible on
+Android) auto-zooms the page when the Explore search input (`ExploreFilters.tsx`, the
+only text input in the app) is focused while the page has been scrolled — never at
+scroll-top. Root cause is distinct from the classic under-16px-font-size trigger (this
+input is already `text-base` on mobile, confirmed 16px): it's the "`<body>` is
+`overflow-hidden`" shell immediately above — every page's real scrolling happens inside
+its own `<main overflow-y-auto>`, not the document, and WebKit's zoom-to-bring-input-
+into-view heuristic can misfire specifically when the scrolled container is nested
+rather than the document itself. Confirmed to reproduce identically against a real
+production build over a public HTTPS tunnel, ruling out a dev-mode or LAN-testing
+artifact. Once triggered, the zoom is only recoverable by a gesture that reaches the
+actual document-level scroll (dragging the background) — most users won't intuitively
+do this, so without it the top of the page stays clipped off-screen indefinitely.
+
+**Tried:** suppressing the zoom preemptively, by appending `maximum-scale=1` to the
+viewport meta on the input's `focus` event and restoring it on blur. Confirmed not to
+work on a real device — WebKit's zoom-on-focus decision happens essentially
+synchronously with the native focus event, before a React `onFocus` handler gets a
+chance to mutate the meta tag, so the mutation consistently loses the race.
+
+**Fix:** correct it after the fact instead, on `blur` — no native zoom behavior fires
+on blur, so there's no race to lose. `ExploreFilters.tsx`'s search input's `onBlur`
+forces a viewport-meta recalculation (toggle `maximum-scale=1` on then immediately
+back off) plus a same-effect scroll nudge (`window.scrollTo` by 1px and back),
+reproducing the confirmed manual recovery (dragging the background) programmatically.
+This still doesn't prevent the zoom from happening in the first place, and its
+reliability across iOS/WebKit versions hasn't been broadly verified — if it turns out
+not to hold up, the fallback is a static `maximum-scale=1` app-wide (reliable, at the
+cost of disabling pinch-zoom everywhere, not just for this input) rather than trying
+further variants of this same class of fix.
+
+Separately, `app/globals.css` also enforces a `font-size: 16px` floor on any
+`input`/`textarea`/`select` below `768px` — the classic, different under-16px-font-size
+zoom trigger this section opens by ruling out for this one input. No shared `Input`
+component exists to enforce that centrally, so it's a global CSS guardrail instead,
+covering any input added elsewhere in the future.
+
+### Decisioning Screen Mobile Density
+
+`DecisionScreen.tsx`'s mobile layout: the hero's bottom content row
+(`flex-col md:flex-row`) stacks the name/genre column above Quick Listen on mobile
+instead of sitting side by side — at mobile widths, the previous single-row layout put
+a fixed 288px column beside a flexible one with no responsive fallback, so the two
+collided (the Quick Listen embed rendering on top of the artist name instead of beside
+it). "Sounds Like" is hidden below `md:` entirely rather than collapsed behind a
+disclosure toggle — Quick Picks optimizes for momentum, and an expand affordance on
+every card would reintroduce the second-guessing the product philosophy explicitly
+avoids; the fuller comparison stays available on Artist Detail. The four metadata chips
+(day/time, sets, duration, stage) collapse to two consolidated pills on mobile
+(day/time+sets, and stage) rather than one merged pill — combining everything into a
+single pill risked an awkward two-line wrap on narrow devices; duration drops from the
+mobile view entirely as the least decision-relevant of the four facts. The A/S/D/Z
+keyboard-hint row (`DecisionScreen.tsx`) and the Enter hint (`DayCompleteScreen.tsx`)
+are both `hidden md:flex` — meaningless on touch devices, pure vertical cost there. The
+hero's height budget is responsive (`calc(100dvh-190px)` mobile, matching the
+above-listed height recovered from removing the hint row and other spacing, vs.
+`calc(100dvh-220px)` desktop, unchanged). Back and Exit both got `p-2 -m-2` (padding
+expands the tappable box, matching negative margin cancels the visual footprint — same
+pattern as `ArtistHero.tsx`'s social icons) since neither had any padding at all before.
+
+**Zero scroll here is a strong preference, not an absolute requirement** — the goal is
+no scroll on mainstream phone sizes (confirmed via headless-browser testing at
+375×667 and 390×844 across a spread of artists, including gradient-fallback and
+real-photo heroes, artists with and without a Quick Listen track, and the one
+multi-appearance artist in the data). On genuinely extra-small devices, a small amount
+of residual scroll is an accepted outcome if the alternative is compressing the card
+past comfortable legibility — over-compression is the worse failure mode.
+
+**Not pursued:** swipe-gesture decisioning. The exit-animation direction vocabulary
+already exists and maps cleanly to a swipe metaphor (pass=left, interested=right,
+mustSee=up), but that's the easy half — live drag-tracking, a commit threshold, and
+disambiguating a 3-way gesture (versus the simpler 2-way left/right most swipe apps
+use) is real, untested work. A verdict here isn't disposable the way a Tinder swipe is
+(it feeds Festival Story and shapes the user's own sense of their taste later), and a
+3-way gesture is more failure-prone than a deliberate button tap — worth a dedicated
+spike with room to tune thresholds properly, not something to fold into a
+responsiveness pass.
+
+**Future consideration — natural-height hero instead of a fixed `calc(100dvh-Npx)`
+budget.** Both the mobile and desktop height constants above assume a fixed pixel
+budget for everything surrounding the hero, which is fragile against mobile browser
+chrome (Safari's address bar expanding/collapsing changes the usable viewport
+independently of `dvh`). A more robust version would let the top bar, metadata pills,
+and decision buttons take their natural height in a flex column, with the hero as a
+`flex-1 min-h-0` child absorbing whatever space is left, instead of the reverse. Real
+structural change to the screen's flex hierarchy — worth doing eventually, not done
+now, since the calc() approach (once tuned against real devices) covers the large
+majority of phones.
+
+### Quick Picks Setup Screen Reachability
+
+`StartScreen.tsx` no longer renders a festival name/dates/location line above the day
+picker — it was a one-off hardcoded string (disconnected from `festivals.ts`'s actual
+data) with no equivalent anywhere else in the app, and removing it both resolved an
+inconsistency question and recovered the height its occasional line-wrap was costing.
+`StartOptions.tsx`'s "Grouping" card hides its decorative `Calendar` icon below `md:`
+to reclaim the width that was pushing the "Recommended" badge onto its own line next to
+"Group by Festival Day" — the wrap was costing height as well as looking wrong. Both
+changes, plus tightened root/card padding on mobile, exist specifically to bring the
+"Start Quick Picks" CTA closer to a comfortable thumb reach — previously the combined
+height of the info line, the card's padding, and the wrapped badge pushed it low enough
+to require a stretch or a scroll.
+
+The CTA label itself now mirrors `HomeContent.tsx`'s existing Start/Continue rule
+(`decisionsByArtist` has any decision whose `source` is `"quickPicks"` → "Continue Quick
+Picks", never based on Explore-sourced decisions, since Explore has no session concept
+to resume) rather than always reading "Start Quick Picks" — inlined the same one-line
+check rather than extracting a shared hook, since `HomeContent.tsx` doesn't use one
+either. `QuickPicksBanner.tsx` (the static Explore-carousel entry point) intentionally
+keeps its unconditional "Start Quick Picks" label — it's advertising entry into the
+mode, not reflecting personal session state the way Home's and the setup screen's own
+CTAs do.
 
 ---
 
@@ -2386,19 +2527,6 @@ Groundwork for this already exists: `FestivalStorySequence`'s `attendanceDays` p
 **`FestivalStoryCard.tsx`'s bottom text panel has `overflow-y-auto` and `maxHeight: "85dvh"` as a fallback**, normally invisible since the panel's natural content height fits comfortably in the common case. It only engages at unusually short viewport heights (a rotated/landscape phone, or a very short desktop window), letting the panel scroll internally rather than letting the dialog's `overflow-hidden` silently clip the top of the text (eyebrow label / start of the headline) with no way to reach it.
 
 ---
-
-## Future Consideration: Decisioning Screen Mobile Density
-
-`DecisionScreen.tsx` was out of scope for the responsiveness pass above and still has known mobile issues to address next:
-
-- The hero card's right-hand column (`w-72` fixed width, holding the Quick Listen Spotify embed and "Sounds like") sits beside the artist name/genre column in a `flex items-end gap-8` row with no responsive fallback. On mobile widths, that fixed 288px column plus its 32px gap leaves too little room for the left column, and the two can visually collide — the Spotify embed rendering on top of the artist name and genre chips instead of beside them.
-- The A/S/D/Z keyboard-hint row is always rendered, but keyboard shortcuts are only meaningfully usable on a device with a keyboard. On mobile this row is pure vertical cost with no functional benefit; removing it there would meaningfully help this screen's mobile height budget.
-- The hero card's height (`calc(100dvh - 220px)`) assumes a fixed 220px budget for everything else on screen (top bar, metadata chips, decision buttons, keyboard hints, padding). On the smallest common phones (iPhone SE class, ~375×667), the metadata chip row can wrap to two lines, pushing total content past that budget by roughly 25px — a small residual scroll. The same tight budget also shows up visually within the hero itself: the artist name and the "Sounds like" text sit close enough together at this width that they read as crowded even before anything actually overflows the page.
-- Longer-term idea, not currently being pursued: swipeable card gestures on this screen for mobile, and possibly for Festival Story too, as a more native-feeling interaction than tap-only. Implementation difficulty is untested — worth a spike before committing to it. For Festival Story specifically, tap-to-advance may be the intentionally correct interaction even if swipe is added elsewhere, since a story format doesn't necessarily want to encourage fast flicking through it.
-
-**Unlike the setup screen above, eliminating scroll on this screen specifically is a goal worth pursuing, not just a nice-to-have.** The setup screen's near-miss was explicitly deprioritized (real device browser-chrome variance makes "zero scroll" an unreliable target there). This screen is different: it's the core swipe/decision interaction, content is unavoidably dense (hero photo, metadata, three decision buttons), and removing the keyboard-hint row on mobile alone is expected to recover most or all of the residual scroll — a concrete, achievable fix rather than a diminishing-returns chase.
-
-**Not built now** — flagged here so none of this needs rediscovering; this screen is the next planned pass after the rest of this responsiveness work.
 
 ## Future Consideration: "Surprise Me" Button on Ultra-Wide Viewports
 

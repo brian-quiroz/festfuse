@@ -81,10 +81,12 @@ export default function StartOptions({
       {/* Step 2: Grouping */}
       <div>
         <StepLabel step={2} label="Grouping" />
-        <div className="rounded-2xl border border-white/12 bg-[#1B1535] p-4 min-h-[88px] flex items-center">
+        <div className="rounded-2xl border border-white/12 bg-[#1B1535] p-3 sm:p-4 min-h-[72px] sm:min-h-[88px] flex items-center">
           <div className="flex items-center justify-between w-full gap-4">
             <div className="flex items-center gap-4">
-              <Calendar size={22} strokeWidth={2} className="text-[#00E5FF]/65" />
+              {/* Decorative — hidden on mobile to reclaim width for the label + badge
+                  below, which otherwise wrap to a second line at narrow widths. */}
+              <Calendar size={22} strokeWidth={2} className="hidden md:block text-[#00E5FF]/65" />
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <h3 className="text-sm font-semibold text-white/75">Group by Festival Day</h3>
