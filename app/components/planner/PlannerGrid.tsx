@@ -97,14 +97,21 @@ export default function PlannerGrid({
       >
         <div className="flex w-full">
           {/* Hour label column */}
-          <div className="sticky left-0 z-10 w-16 flex-shrink-0 bg-[#110D24]">
+          {/* Not sticky below md: — mobile touch-drag made the sticky pin itself
+              visibly lag behind the scroll offset ("detaching" mid-drag before
+              snapping back), which read as more broken than just letting the column
+              scroll away normally like any other. See ARCHITECTURE.md "Future
+              Consideration: Planner Fade vs. Trackpad Elastic Overscroll (Desktop)"
+              for the related, still-open desktop fade issue. Desktop keeps the sticky
+              pin (not reported broken there). */}
+          <div className="static md:sticky md:left-0 z-10 w-12 md:w-16 flex-shrink-0 bg-[#110D24]">
             {/* Corner cell — left uncolored (unlike the stage headers): it has no
                 label, just the hour column's own background, so tinting it the same
                 panel color as a real header would imply content that isn't there. */}
-            <div className="h-10 border-b border-[#2D2556]" />
+            <div className="h-8 md:h-10 border-b border-[#2D2556]" />
             {/* Breathing room below the header — safe now that no gridline is drawn
                 at the top of the grid to double up against. */}
-            <div className="h-4" />
+            <div className="h-2 md:h-4" />
             <div className="relative" style={{ height: gridHeight }}>
               {hourMarks.map((hour) => (
                 <div
@@ -123,14 +130,14 @@ export default function PlannerGrid({
               grid body below, so the header reads as one cohesive strip. */}
           {stages.map((stage) => (
             <div key={stage} className="min-w-48 flex-1">
-              <div className="h-10 flex items-center px-3 border-b border-[#2D2556] bg-[#1B1535] sticky top-0 z-[5]">
+              <div className="h-8 md:h-10 flex items-center px-3 border-b border-[#2D2556] bg-[#1B1535] sticky top-0 z-[5]">
                 <span className="text-xs font-bold text-[#00E5FF] uppercase tracking-wide truncate">
                   {stage}
                 </span>
               </div>
               {/* Breathing room below the header — safe now that no gridline is drawn
                   at the top of the grid to double up against. */}
-              <div className="h-4" />
+              <div className="h-2 md:h-4" />
               <div className="relative border-l border-[#2D2556]" style={{ height: gridHeight }}>
                 {/* Hour dividers — skip the first (hourMarks[0]): the header's own
                     border-b already marks that boundary, so drawing a gridline there
@@ -180,14 +187,19 @@ export default function PlannerGrid({
       {/* Edge fades — scroll-aware, visible only when there's actually more content
           off-screen in that direction. Same absolute-overlay-on-relative-wrapper
           technique as ArtistCarousel's hover arrows, minus the click affordance:
-          the schedule is a canvas you pan, not a paged carousel. */}
+          the schedule is a canvas you pan, not a paged carousel. Desktop-only
+          (hidden below md:) — see "Future Consideration: Planner Fade vs. Trackpad
+          Elastic Overscroll (Desktop)" in ARCHITECTURE.md (the "Mobile: fade removed
+          and hour column un-stickied" subsection) for why touch-scroll reliably
+          desyncs this overlay from the content on mobile, and why removing it there
+          (rather than continuing to patch the desync) was the fix. */}
       <div
-        className={`pointer-events-none absolute inset-y-0 left-16 w-8 z-20 bg-gradient-to-r from-black/70 to-transparent transition-opacity duration-200 ${
+        className={`hidden md:block pointer-events-none absolute inset-y-0 left-16 w-8 z-20 bg-gradient-to-r from-black/70 to-transparent transition-opacity duration-200 ${
           canScrollLeft ? "opacity-100" : "opacity-0"
         }`}
       />
       <div
-        className={`pointer-events-none absolute inset-y-0 right-0 w-8 z-20 bg-gradient-to-l from-black/70 to-transparent transition-opacity duration-200 ${
+        className={`hidden md:block pointer-events-none absolute inset-y-0 right-0 w-8 z-20 bg-gradient-to-l from-black/70 to-transparent transition-opacity duration-200 ${
           canScrollRight ? "opacity-100" : "opacity-0"
         }`}
       />

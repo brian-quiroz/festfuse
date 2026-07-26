@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Switch from "@/app/components/Switch";
 import PlannerGrid from "@/app/components/planner/PlannerGrid";
+import PlannerMobileFilters from "@/app/components/planner/PlannerMobileFilters";
 import { allArtists } from "@/app/data/artists";
 import { getDaysForActiveFestival, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { useDecisionStore } from "@/app/store/decisionStore";
@@ -79,28 +80,46 @@ export default function PlannerPage() {
   return (
     <main className="flex-1 flex flex-col overflow-hidden">
       <div className="w-full max-w-[1760px] mx-auto flex flex-col flex-1 min-h-0">
-      {/* Header */}
-      <div className="px-8 py-6 border-b border-[#2D2556]">
-        <h1 className="text-3xl font-extrabold text-white">Planner</h1>
-        <p className="text-sm text-white/60 mt-1">Build your festival schedule</p>
+      {/* Header — compact on mobile so it costs less of the viewport height the
+          schedule grid below needs; unchanged at md:+. Subtitle dropped entirely on
+          mobile rather than just shrunk — MobileTopBar already establishes app
+          identity, and the day tabs + grid make it immediately obvious this is a
+          schedule, so the subtitle line was pure cost with no orientation value it
+          wasn't already getting elsewhere. The h1 stays (small) so a direct link/
+          refresh into /planner still has some page-identity text before the grid
+          renders. */}
+      <div className="px-4 sm:px-8 py-2 md:py-6 border-b border-[#2D2556]">
+        <h1 className="text-xl md:text-3xl font-extrabold text-white">Planner</h1>
+        <p className="hidden md:block text-sm text-white/60 mt-1">Build your festival schedule</p>
       </div>
 
       {/* Day tabs + display toggles — different axes (which day vs. which layers
           are visible), kept in one row: tabs left, switches right. Distinct control
-          shapes keep the two axes visually separable despite sharing the row. */}
-      <div className="px-8 pt-4 pb-3 flex items-center justify-between border-b border-[#2D2556]">
+          shapes keep the two axes visually separable despite sharing the row.
+          On mobile, the day tabs stay this same single full-width row (primary nav,
+          must stay immediately scannable) but the switches move behind
+          PlannerMobileFilters' compact trigger instead of sharing the row — the two
+          switches plus four full-word day labels don't fit at phone widths, and
+          stacking them into a second row would permanently cost vertical space the
+          grid below needs. */}
+      <div className="px-4 sm:px-8 pt-2 pb-2 md:pt-4 md:pb-3 flex items-center justify-between gap-2 border-b border-[#2D2556]">
         <div className="flex gap-1">
           {days.map((day) => (
             <button
               key={day}
               onClick={() => setActiveDay(day)}
-              className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
+              className={`px-2.5 sm:px-3 md:px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
                 activeDay === day
                   ? "text-[#00E5FF] border-[#00E5FF]"
                   : "text-white/50 border-transparent hover:text-white/80"
               }`}
             >
-              {day}
+              {/* Abbreviated below sm: — four full day names plus the filter trigger
+                  don't fit in one row at phone widths, and this row is deliberately
+                  kept non-scrolling (see comment above), so there's nowhere for the
+                  overflow to go. Full names return once there's room. */}
+              <span className="sm:hidden">{day.slice(0, 3)}</span>
+              <span className="hidden sm:inline">{day}</span>
             </button>
           ))}
         </div>
@@ -110,7 +129,7 @@ export default function PlannerPage() {
             contradiction) — it also heads off a false read where a bare "Scheduled"
             switch looks like a layer-visibility toggle (off = hide scheduled items).
             Both switches are pure visibility filters; neither affects rendering. */}
-        <div className="flex items-center gap-3 text-sm font-medium text-white/50">
+        <div className="hidden md:flex items-center gap-3 text-sm font-medium text-white/50">
           Show only:
           <div className="flex items-center gap-5">
             <div className="flex items-center gap-2 text-white/70">
@@ -128,6 +147,16 @@ export default function PlannerPage() {
               <Switch checked={showScheduled} onChange={setShowScheduled} aria-label="Show only Scheduled" />
             </div>
           </div>
+        </div>
+
+        <div className="md:hidden">
+          <PlannerMobileFilters
+            showMyPicks={showMyPicks}
+            showScheduled={showScheduled}
+            onShowMyPicksChange={setShowMyPicks}
+            onShowScheduledChange={setShowScheduled}
+            myPicksDisabled={myPicksDisabled}
+          />
         </div>
       </div>
 

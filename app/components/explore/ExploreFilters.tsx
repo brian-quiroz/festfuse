@@ -150,7 +150,8 @@ export default function ExploreFilters({
           placeholder="Search artists, genres, or keywords..."
           value={externalSearchQuery}
           onChange={(e) => handleSearchChange(e.target.value)}
-          className="w-full bg-[#1B1535] border border-[#2D2556] rounded-xl pl-11 pr-11 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#00E5FF]/30 transition-colors"
+          autoComplete="off"
+          className="w-full bg-[#1B1535] border border-[#2D2556] rounded-xl pl-11 pr-11 py-3 text-base md:text-sm text-white placeholder:text-white/30 outline-none focus:border-[#00E5FF]/30 transition-colors"
         />
         {externalSearchQuery.trim().length > 0 && (
           <button
@@ -170,7 +171,7 @@ export default function ExploreFilters({
         {/* All button */}
         <button
           onClick={handleClearAll}
-          className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-all duration-200 ease-out ${
+          className={`px-4 py-2.5 md:py-1.5 rounded-full text-sm font-semibold border transition-all duration-200 ease-out ${
             allButtonPressed
               ? "border-[#00E5FF]/40 text-[#00E5FF] bg-[#00E5FF]/8"
               : "border-white/15 text-white/50 hover:border-white/25 hover:text-white/70"

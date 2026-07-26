@@ -67,7 +67,7 @@ export default function ArtistCard({
 
   const isLarge = size === "large";
   const cardW = responsive ? "w-full" : isLarge ? "w-60" : "w-48";
-  const photoH = isLarge ? "h-72" : "h-60";
+  const photoH = responsive ? "aspect-[4/5]" : isLarge ? "h-72" : "h-60";
 
   const scheduleTitle = isMultiAppearance
     ? isScheduled
@@ -168,7 +168,7 @@ export default function ArtistCard({
           <div className="flex items-center gap-1">
             <button
               onClick={handleMustSee}
-              className={`w-10 h-10 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
+              className={`w-11 h-11 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
                 mustSee
                   ? "bg-[#E8FF47] border-[#E8FF47] text-[#110D24]"
                   : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
@@ -179,7 +179,7 @@ export default function ArtistCard({
             </button>
             <button
               onClick={handleInterested}
-              className={`w-10 h-10 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
+              className={`w-11 h-11 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
                 interested
                   ? "bg-[#E8FF47]/18 border-[#E8FF47]/50 text-[#E8FF47]"
                   : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
@@ -194,7 +194,7 @@ export default function ArtistCard({
               <button
                 onClick={handleScheduleToggle}
                 aria-describedby={isConflicting ? "schedule-conflict-badge" : undefined}
-                className={`w-10 h-10 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
+                className={`w-11 h-11 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
                   isScheduled
                     ? "bg-[#00E5FF] border-[#00E5FF] text-[#110D24]"
                     : isPartiallyScheduled

@@ -41,7 +41,7 @@ export default function ActiveFilters({
   if (!hasActiveFilters) return null;
 
   return (
-    <div className="px-8 py-4 border-b border-white/10 bg-white/[0.02]">
+    <div className="px-4 sm:px-8 py-4 border-b border-white/10 bg-white/[0.02]">
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-1 min-w-0 items-center gap-3 flex-wrap">
           <span className="text-sm font-semibold text-white/60">Active filters:</span>

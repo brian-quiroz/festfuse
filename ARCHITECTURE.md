@@ -300,10 +300,14 @@ committed to, lower priority since the common case already works.
 
 ### Dropdown Components
 
-- **MultiSelectDropdown:** Reusable for Genre and Stage (checkboxes, multiple selection)
+- **MultiSelectDropdown:** Reusable for Genre, Stage, Pick Status, and Schedule Status (checkboxes, multiple selection)
 - **SingleSelectDropdown:** Reusable for Day (highlighted rows, single selection)
 
 Both handle open/close state via parent, enabling clean separation of concerns.
+
+Both also auto-flip their panel from `left-0` to `right-0` when it would overflow the viewport — necessary because which filter pill ends up rightmost is decided by `flex-wrap` at render time, not by which filter it is (the same pill can sit mid-row on one viewport width and last-in-row on another), so the anchor can't be assigned per-instance. This needs a genuine two-pass measure-then-reveal (render "measuring" — always left-anchored, invisible — then a second effect measures that clean baseline and reveals the real position) rather than a single measure+`setState` effect; the single-pass version measured a stale DOM snapshot left over from the panel's previous open and caused the anchor to oscillate between left and right on repeated opens. See the `align` state and its paired `useLayoutEffect`s in either component for the implementation.
+
+`PlannerMobileFilters.tsx` (`app/components/planner/`) is a related but simpler pattern for the Planner toolbar's mobile filter trigger — it doesn't need the same flip logic since it's always the rightmost element in its row by construction, so it hardcodes `right-0`.
 
 ---
 
@@ -1922,6 +1926,10 @@ chrome (matches the app's existing sparse `md:`/`lg:` usage elsewhere), `lg` for
 Artist Detail two-column split (a 288px fixed sidebar plus its gap needs more room than
 the nav does — `md` there would leave a cramped column at tablet-portrait widths).
 
+### `<body>` is `overflow-hidden`, deliberately
+
+`app/layout.tsx`'s `<body>` carries `overflow-hidden` alongside `min-h-screen`. Every page manages its own scrolling internally, inside a `<main overflow-y-auto>` (or equivalent) that already lives within the root layout's `h-dvh overflow-hidden` wrapper div — `<body>` itself was never meant to be a scroll container. Without its own `overflow-hidden`, it can still become one anyway: mobile browsers animate their address bar in and out, and `100dvh` can render a px or two taller than the true visible viewport during that transition, which is enough for `<body>` (unconstrained) to pick up a page-level scrollbar even though every page's actual content is fully handled by its own internal container. This was caught on `not-found.tsx` specifically — its content is short and static, so the stray scrollbar had nothing legitimate behind it and was immediately obvious, unlike on content-heavy pages where it would've been indistinguishable from real scrolling. The fix belongs here, not on any individual page — don't reintroduce a per-page `overflow-hidden` workaround for this same symptom if it resurfaces elsewhere; it means this root cause needs another look.
+
 ### Mobile Navigation: Sidebar as Drawer
 
 `Sidebar.tsx` renders as both the desktop static column and the mobile drawer panel
@@ -2277,15 +2285,41 @@ The locked Festival Story card's recovery path ("Take a Second Look") always rou
 
 ---
 
-## Future Consideration: Planner Fade vs. Trackpad Elastic Overscroll
+## Future Consideration: Planner Fade vs. Trackpad Elastic Overscroll (Desktop)
 
-On macOS, trackpad momentum scrolling past the Planner grid's horizontal edge triggers the browser's native elastic "rubber-band" bounce. Because the edge fades (`app/components/planner/PlannerGrid.tsx`) are a separate absolutely-positioned overlay sitting on top of the scroll container — not part of the scrolling content itself — the content briefly slides past its edge during the bounce while the fade stays fixed, making the fade line appear to shift momentarily before springing back with the content.
+On macOS Chrome, trackpad momentum scrolling past the Planner grid's horizontal edge triggers the browser's native elastic "rubber-band" bounce. Because the edge fades (`app/components/planner/PlannerGrid.tsx`) are a separate absolutely-positioned overlay sitting on top of the scroll container — not part of the scrolling content itself — the content briefly slides past its edge during the bounce while the fade stays fixed, making the fade line appear to shift momentarily before springing back with the content. Reproduces on desktop Chrome; not observed on desktop Safari.
 
 **Tried:** `overscroll-behavior-x: contain` on the scroll container — did not change the behavior. Expected, in hindsight: that property mainly prevents overscroll from *chaining* to a scrollable ancestor; it doesn't suppress the local elastic bounce on the element itself, and there's no bouncing ancestor here for it to have chained to regardless.
 
 **What a real fix would take:** rendering the fade as a `mask-image` on the scroll container itself (so it moves with the same box that bounces) rather than a fixed overlay. Not a simple swap — the grid has a sticky hour-label column and sticky stage headers, which a whole-container mask would also fade unless carefully excluded, and a mask's gradient is positioned relative to the full scrollable content, not the visible viewport, so keeping the fade anchored to the visible edges while scrolling would require continuously syncing the mask's position to scroll offset rather than a static CSS value.
 
-**Not done now** — rare, cosmetic, native-feeling (most users won't read it as a bug), and the real fix is meaningfully more involved than it first appears. Revisit only if this turns out to bother people in regular use, not just as a one-off observation.
+**Not done now** — rare, cosmetic, native-feeling (most users won't read it as a bug), and the real fix is meaningfully more involved than it first appears. Revisit only if this turns out to bother people in regular use, not just as a one-off observation. Desktop keeps the fade as-is, including this known quirk.
+
+### Mobile: fade removed and hour column un-stickied below `md:`, not patched
+
+Touch-drag scrolling on the Planner grid produces a related but more disruptive desync — confirmed on both iPhone and Android, reliably reproducible (not an edge-case overscroll-boundary trigger like the desktop case above): mid-drag, the sticky hour-label column visually lags behind the actual scroll position, appearing to "detach" partway across the stage columns rather than staying pinned flush against the visible left edge, which in turn made the left edge fade read as floating in the wrong place.
+
+**Tried and reverted:** (1) a `scrollend` listener alongside the existing `scroll` handler in `updateScrollFade`, meant to correct `canScrollLeft`/`canScrollRight` state that a missed final `scroll` event during momentum deceleration could leave stale — reverted because it has no confirmed bug to point to: it was reasoned about for the mobile fade specifically, which is now removed below `md:` (see below) and no longer reads this state at all, and it doesn't address the desktop overscroll issue above either (that's a different mechanism — bounce animation, not a missed event). (2) Forcing the sticky hour-label column onto its own composited layer (`will-change: transform` + `transform: translateZ(0)`) — reverted because it was tested against the real symptom (the column visibly lagging during touch drag) and did not fix it.
+
+**Resolution:** rather than continue patching a symptom of an architecture that's fundamentally prone to this (see "What a real fix would take" above — a mask-image approach is the actual fix, and is a real rewrite), two things were done below `md:` only: the edge fades are hidden entirely (`hidden md:block` on both fade elements), and the hour-label column is no longer `position: sticky` at all (`static md:sticky md:left-0`) — it now scrolls away with the rest of the grid like any other column instead of attempting to stay pinned. The attempted pin was the actual source of the visible "detach mid-drag, then snap back" artifact; removing the attempt removes the artifact, rather than trying to make the pin track more smoothly. Desktop is unaffected by either change — it keeps both the fade and the sticky hour column exactly as before, including the known overscroll quirk above. The schedule remains scrollable exactly as before on mobile; it just loses the sticky hour labels and the edge-fade hint while scrolling. Revisit alongside the desktop fix above, if the mask-image approach is ever built — at that point it could plausibly restore both for mobile too.
+
+---
+
+## Future Consideration: Orientation-Aware Mobile Breakpoints
+
+Mobile chrome (`Sidebar.tsx`'s drawer, `MobileTopBar.tsx`) and the Explore/Planner mobile layouts switch on `md:` — a width breakpoint only. A phone rotated to landscape can exceed that width threshold despite still being a phone with a short viewport. Confirmed on Android: landscape width crosses `md:`, so the app renders its full desktop layout — a fixed-width static sidebar consuming roughly a third of an already-short landscape viewport, none of the compacted mobile spacing. On iPhone, landscape width stays under `md:` (mobile drawer/layout persists), but the header and toolbar chrome, sized for portrait's taller viewport, leaves very little of the short landscape height for the actual page content (e.g. Planner's schedule grid).
+
+**Not fixed now** — a proper fix needs an orientation/height-aware rule (e.g. a `max-height` media query driving a distinct short-viewport compact mode) layered on top of the existing width-only breakpoint. That's a change to the shared app shell (`Sidebar.tsx`/`MobileTopBar.tsx`/`layout.tsx`), not something scoped to any one page. **Revisit when:** landscape mobile usage is common enough to justify that shell-level work, or another page hits the same ceiling this acutely.
+
+---
+
+## Future Consideration: Planner Vertical Density on Mobile
+
+The title/day-tabs/filter-trigger chrome above the grid, plus the app-wide `MobileTopBar`, take a real slice of a phone's limited viewport height, leaving the schedule grid less room than would be ideal for reviewing many overlapping time slots at once on a small screen.
+
+**Done:** mobile (below `md:`) drops the "Build your festival schedule" subtitle entirely — `MobileTopBar` already establishes app identity and the day tabs + grid make the page's purpose obvious, so the subtitle was pure vertical cost with no orientation value it wasn't already getting elsewhere; the `h1` itself stays, shrunk, so a direct link or refresh into `/planner` still has some page-identity text before the grid renders. Alongside that: `MobileTopBar`'s own padding, the header block's padding, the day-tabs row's padding, and the grid's stage-header row height (`PlannerGrid.tsx`) were all trimmed a further few px each on mobile. None of this is Planner-specific in the `MobileTopBar` case — that component is shared by every page — but the trim is small enough (`py-3` → `py-2`) that it's a safe global change, not a Planner-only exception.
+
+**Not addressed further now** — these were mechanical spacing/copy trims, not a redesign, and further compaction has diminishing returns (the day tabs are the primary navigation and can't shrink much more without hurting usability). A more meaningful improvement here is more likely a genuine mobile-specific schedule presentation than another round of spacing tweaks. **Revisit when:** there's a concrete design direction for that.
 
 ---
 

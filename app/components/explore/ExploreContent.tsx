@@ -190,14 +190,14 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
       <div className="flex-1 w-full max-w-[1760px] mx-auto">
       {/* Page header — only show when viewing carousels */}
       {!viewingCarousel && (
-        <div className="px-8 pt-10 pb-0">
-          <div className="flex items-start justify-between mb-7">
+        <div className="px-4 sm:px-8 pt-10 pb-0">
+          <div className="flex items-start justify-between gap-3 mb-7">
             <div>
               <h1 className="text-3xl font-extrabold text-white tracking-tight">
                 Explore Artists
               </h1>
               <p className="text-sm text-white/45 mt-1.5">
-                Discover new artists and build your perfect lineup.
+                No pressure. Just explore.
               </p>
             </div>
             <div
@@ -208,13 +208,17 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
               <button
                 onClick={handleSurpriseMe}
                 disabled={eligibleArtists.length === 0}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-bold flex-shrink-0 transition-colors mt-1 ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold flex-shrink-0 whitespace-nowrap border transition-all duration-200 ${
                   eligibleArtists.length === 0
-                    ? "bg-[#00E5FF]/30 text-[#110D24]/50 cursor-not-allowed"
-                    : "bg-[#00E5FF] text-[#110D24] hover:bg-[#00E5FF]/90"
+                    ? "border-white/10 text-white/25 cursor-not-allowed"
+                    : "border-[#00E5FF]/25 text-white/60 hover:border-[#00E5FF]/60 hover:text-[#00E5FF] hover:bg-[#00E5FF]/10 hover:shadow-[0_0_14px_rgba(0,229,255,0.25)]"
                 }`}
               >
-                <Shuffle size={14} strokeWidth={2} />
+                <Shuffle
+                  size={12}
+                  strokeWidth={2}
+                  className={eligibleArtists.length === 0 ? undefined : "text-[#00E5FF]/80"}
+                />
                 Surprise Me
               </button>
               {showSurpriseTooltip && (
@@ -229,7 +233,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
 
       {/* Carousel back header — only show when viewing a carousel */}
       {viewingCarousel && currentCarousel && (
-        <div className="px-8 pt-10 pb-0">
+        <div className="px-4 sm:px-8 pt-10 pb-0">
           <button
             onClick={handleBackToExplore}
             className="flex items-center gap-2 text-white/50 hover:text-white/70 transition-colors mb-7"
@@ -247,7 +251,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
       )}
 
       {/* Filters — always show */}
-      <div className="px-8 pt-6 pb-0">
+      <div className="px-4 sm:px-8 pt-6 pb-0">
         <ExploreFilters
           searchQuery={searchQuery}
           selectedGenres={activeGenres}
@@ -308,7 +312,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
             summaryText = `${results.length} artist${results.length === 1 ? "" : "s"}`;
           }
 
-          return <div className="px-8 py-3 text-sm text-white/50">{summaryText}</div>;
+          return <div className="px-4 sm:px-8 py-3 text-sm text-white/50">{summaryText}</div>;
         })()}
 
       {/* Carousel full view */}
@@ -377,7 +381,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
 
               {/* Filtered count summary — simplified since total is shown in header */}
               {(hasFilters || hasSearch) && (
-                <div className="px-8 pt-6 pb-3 text-sm text-white/50">
+                <div className="px-4 sm:px-8 pt-6 pb-3 text-sm text-white/50">
                   {results.length === 0
                     ? "No artists match your filters"
                     : `${results.length} result${results.length === 1 ? "" : "s"}`}
@@ -387,7 +391,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
               {/* Grid */}
               <div className="pt-10 pb-16">
                 {results.length === 0 ? (
-                  <div className="px-8 text-center py-12">
+                  <div className="px-4 sm:px-8 text-center py-12">
                     <p className="text-white/60">No artists match your filters.</p>
                   </div>
                 ) : (
@@ -500,7 +504,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 />
                 <div className="pt-10 pb-16">
                   {results.length === 0 ? (
-                    <div className="px-8 text-center py-12">
+                    <div className="px-4 sm:px-8 text-center py-12">
                       <p className="text-white/60">
                         No artists match your filters
                         {hasSearch ? ` and search "${searchQuery}"` : ""}.
@@ -516,7 +520,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
 
           // State 3: Search only (no filters) → ArtistResultsGrid with search heading
           return (
-            <div className="pt-10 pb-16 px-8">
+            <div className="pt-10 pb-16 px-4 sm:px-8">
               <h2 className="text-xl font-bold text-white mb-8">
                 {results.length === 0
                   ? `No results for "${searchQuery}"`

@@ -112,7 +112,7 @@ export default function PlannerArtistBlock({
           href={`/artist/${artist.slug}`}
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => e.stopPropagation()}
-          className="flex-shrink-0 text-white/40 hover:text-white transition-colors"
+          className="flex-shrink-0 text-white/40 hover:text-white transition-colors p-1 -m-1"
           aria-label={`View ${artist.name} details`}
         >
           <ArrowUpRight size={12} strokeWidth={2} />

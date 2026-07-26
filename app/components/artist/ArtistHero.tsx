@@ -73,7 +73,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Spotify"
-                className="text-white/50 hover:text-[#1ED760] transition-colors"
+                className="text-white/50 hover:text-[#1ED760] transition-colors p-2 -m-2"
               >
                 <FaSpotify size={16} aria-hidden="true" />
               </a>
@@ -84,7 +84,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="YouTube"
-                className="text-white/50 hover:text-[#FF0000] transition-colors"
+                className="text-white/50 hover:text-[#FF0000] transition-colors p-2 -m-2"
               >
                 <FaYoutube size={16} aria-hidden="true" />
               </a>
@@ -95,7 +95,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="TikTok"
-                className="text-white/50 hover:text-white transition-colors"
+                className="text-white/50 hover:text-white transition-colors p-2 -m-2"
               >
                 <FaTiktok size={16} aria-hidden="true" />
               </a>

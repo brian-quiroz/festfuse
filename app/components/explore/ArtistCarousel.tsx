@@ -33,7 +33,7 @@ export default function ArtistCarousel({
   return (
     <section>
       {/* Header */}
-      <div className="flex items-center justify-between px-8 mb-5">
+      <div className="flex items-center justify-between px-4 sm:px-8 mb-5">
         <h2 className="text-lg font-bold text-white">{title}</h2>
         <button
           onClick={onSeeAll}
@@ -69,7 +69,7 @@ export default function ArtistCarousel({
           </div>
         </div>
 
-        <div ref={scrollRef} className="flex gap-4 overflow-x-auto pl-8 pr-8 pb-2 no-scrollbar">
+        <div ref={scrollRef} className="flex gap-4 overflow-x-auto pl-4 sm:pl-8 pr-4 sm:pr-8 pb-2 no-scrollbar">
           {artists.map((artist, i) => (
             <ArtistCard key={`${artist.slug}-${i}`} artist={artist} size={cardSize} />
           ))}

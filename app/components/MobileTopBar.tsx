@@ -15,7 +15,7 @@ export default function MobileTopBar() {
   if (!isSidebarVisible) return null;
 
   return (
-    <div className="md:hidden flex-shrink-0 flex items-center justify-between px-4 py-3 bg-[#1B1535] border-b border-[#2D2556]">
+    <div className="md:hidden flex-shrink-0 flex items-center justify-between px-4 py-2 bg-[#1B1535] border-b border-[#2D2556]">
       <Link href="/" className="text-lg font-extrabold tracking-tight">
         <span className="text-[#00E5FF]">Fest</span>
         <span className="text-white">Fuse</span>
