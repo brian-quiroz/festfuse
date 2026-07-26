@@ -1,7 +1,6 @@
 "use client";
 
-import { ChevronDown, Calendar, Check } from "lucide-react";
-import Image from "next/image";
+import { Calendar, Check } from "lucide-react";
 import { COLORS } from "@/app/data/colors";
 import Switch from "@/app/components/Switch";
 
@@ -42,42 +41,10 @@ export default function StartOptions({
   disabled,
 }: Props) {
   return (
-    <div className="flex flex-col gap-4 w-full">
-      {/* Step 1: Festival */}
+    <div className="flex flex-col gap-3 sm:gap-4 w-full">
+      {/* Step 1: Days Attending */}
       <div>
-        <StepLabel step={1} label="Festival" />
-        <button className="w-full rounded-2xl border border-white/12 bg-[#1B1535] p-4 min-h-[88px] text-left flex items-center">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center gap-4">
-              {/*
-                              Logo container: white background by default (works for most festival logos).
-                              For logos designed for dark backgrounds, swap bg-white for bg-[#110D24] or bg-black.
-                            */}
-              <div className="w-14 h-14 rounded-xl bg-white overflow-hidden flex items-center justify-center p-2 flex-shrink-0">
-                <Image
-                  src="/festivals/logos/lollapalooza.webp"
-                  width={48}
-                  height={48}
-                  alt="Lollapalooza logo"
-                  className="object-contain w-full h-full"
-                />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-white/75">Lollapalooza 2026</h3>
-                <p className="text-xs text-white/45 mt-1.5">
-                  Jul 30 - Aug 2, 2026 • Grant Park, Chicago
-                </p>
-              </div>
-            </div>
-
-            <ChevronDown className="text-white/45" size={16} strokeWidth={2} />
-          </div>
-        </button>
-      </div>
-
-      {/* Step 2: Days Attending */}
-      <div>
-        <StepLabel step={2} label="Days Attending" />
+        <StepLabel step={1} label="Days Attending" />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {festivalDays.map((day) => {
             const isSelected = selectedDays.includes(day);
@@ -111,9 +78,9 @@ export default function StartOptions({
         </div>
       </div>
 
-      {/* Step 3: Grouping */}
+      {/* Step 2: Grouping */}
       <div>
-        <StepLabel step={3} label="Grouping" />
+        <StepLabel step={2} label="Grouping" />
         <div className="rounded-2xl border border-white/12 bg-[#1B1535] p-4 min-h-[88px] flex items-center">
           <div className="flex items-center justify-between w-full gap-4">
             <div className="flex items-center gap-4">

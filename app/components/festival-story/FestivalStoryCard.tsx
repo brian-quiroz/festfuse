@@ -74,9 +74,10 @@ export function FestivalStoryCard({
       {/* Anchored to bottom of viewport, grows upward naturally based on content height */}
       {/* Single gradient overlay: fade from transparent to black for text legibility */}
       <div
-        className="absolute left-0 right-0 px-6 bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col"
+        className="absolute left-0 right-0 px-6 bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col overflow-y-auto"
         style={{
           bottom: 0,
+          maxHeight: "85dvh",
           paddingTop: "3rem",
           paddingBottom: "2rem",
         }}

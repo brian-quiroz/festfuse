@@ -130,7 +130,7 @@ export default function DayCompleteScreen({
         </div>
 
         {/* Headline + supporting copy */}
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-3">
           <h1 id="day-complete-title" className="text-6xl font-extrabold tracking-tight leading-none">
             <span className="text-white">{completedDay ?? "Day"} </span>
             <span style={{ color: COLORS.celebration }}>complete!</span>

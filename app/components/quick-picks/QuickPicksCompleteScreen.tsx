@@ -59,6 +59,7 @@ export default function QuickPicksCompleteScreen({
   const scope = isSingleDay
     ? `every artist playing ${attendanceDays[0]}`
     : "every artist playing on your selected days";
+  const dayScopeText = isSingleDay ? `on ${attendanceDays[0]}` : "on your selected days";
   const eyebrow = context === "sessionComplete" ? "Quick Picks Complete" : "All Caught Up";
   const headline = context === "sessionComplete" ? "All done!" : "All caught up!";
   const supportingCopy =
@@ -126,7 +127,7 @@ export default function QuickPicksCompleteScreen({
         </div>
 
         {/* Celebration + closure */}
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-3">
           <h1 id="quick-picks-complete-title" className="text-6xl font-extrabold tracking-tight leading-none">
             <span className="text-white">All </span>
             <span style={{ color: COLORS.celebration }}>{headline.replace(/^All /, "")}</span>
@@ -135,10 +136,10 @@ export default function QuickPicksCompleteScreen({
         </div>
 
         {/* Transition flows into destination cards — grouped to signal connection */}
-        <div className="flex flex-col items-center gap-5 w-full mt-4">
+        <div className="flex flex-col items-center gap-5 w-full mt-2 sm:mt-4">
           <p className="text-white/70 text-base">Your festival is starting to take shape.</p>
 
-          <div className="grid grid-cols-2 gap-4 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
             {/* Festival Story — yellow: user intent / personalization. Unlocked: the
                 whole card is the action, as usual. Locked: the card itself goes
                 inert (title/copy only) — the only interactive element is the
@@ -173,7 +174,7 @@ export default function QuickPicksCompleteScreen({
                     Festival Story
                   </p>
                   <p id="festival-story-locked-explanation" className="text-sm leading-relaxed text-white/45">
-                    Unlocks once 5 artists are marked Interested or Must See.
+                    Unlocks once 5 artists {dayScopeText} are marked Interested or Must See.
                   </p>
                 </div>
                 {/* h-8 + items-center matches the bare-arrow rows in the other two cards

@@ -305,8 +305,8 @@ export default function QuickPicksPage() {
   }, [setSidebarVisible]);
 
   return (
-    <main className="relative flex-1 min-w-0 overflow-y-auto overflow-x-hidden flex flex-col">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+    <main className="relative flex-1 min-w-0 min-h-0 overflow-y-auto overflow-x-hidden flex flex-col">
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <svg
           className="absolute inset-0 w-full h-full opacity-[0.04]"
           xmlns="http://www.w3.org/2000/svg"

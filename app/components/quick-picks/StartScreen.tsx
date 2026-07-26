@@ -82,19 +82,20 @@ export default function StartScreen({ onStart }: Props) {
   }
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center px-6 py-8 lg:py-10">
-      <div className="flex flex-col items-center gap-6 w-full max-w-xl">
+    <div className="flex-1 flex flex-col items-center justify-center px-6 py-6 sm:py-8 lg:py-10">
+      <div className="flex flex-col items-center gap-5 sm:gap-6 w-full max-w-xl">
         {/* Hero title */}
         <div className="flex flex-col items-center gap-3 text-center">
-          <div className="flex items-center gap-3">
+          <div className="relative flex items-center justify-center">
             <Zap
               size={40}
               fill="currentColor"
               strokeWidth={0}
               style={{ color: COLORS.celebration }}
+              className="absolute right-full mr-2 sm:mr-3 w-8 h-8 sm:w-10 sm:h-10"
             />
             <h1
-              className="text-6xl font-extrabold tracking-tight bg-clip-text text-transparent"
+              className="text-5xl sm:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent"
               style={{
                 backgroundImage: `linear-gradient(to right, ${COLORS.celebration}, #A78BFA)`,
                 WebkitBackgroundClip: "text",
@@ -111,10 +112,14 @@ export default function StartScreen({ onStart }: Props) {
               a first impression, then make your pick.
             </p>
           </div>
+          <p className="text-sm text-white/55">
+            <span className="font-semibold text-white/70">Lollapalooza 2026</span> · Jul 30 – Aug
+            2, 2026 · Grant Park, Chicago
+          </p>
         </div>
 
         {/* Start Options + CTA */}
-        <div className="w-full max-w-[544px] flex flex-col items-center gap-4" aria-busy={pressing}>
+        <div className="w-full max-w-[544px] flex flex-col items-center gap-3 sm:gap-4" aria-busy={pressing}>
           <StartOptions
             festivalDays={festivalDays}
             datesByDay={datesByDay}
@@ -130,11 +135,11 @@ export default function StartScreen({ onStart }: Props) {
               Grouping, so it reads as the start of the experience rather than a
               fourth form field — the Festival/Days/Grouping steps keep their
               original, tighter gap-4 rhythm between each other. */}
-          <div className="w-full flex flex-col items-center gap-3 mt-[15px]">
+          <div className="w-full flex flex-col items-center gap-2 sm:gap-3 mt-2.5 sm:mt-[15px]">
             <button
               onClick={handleStart}
               disabled={noDaysSelected || pressing}
-              className={`flex w-full items-center justify-center gap-2 px-4 py-4 rounded-lg bg-[#00E5FF] text-[#110D24] text-base font-bold hover:bg-[#00E5FF]/90 transition duration-100 ${
+              className={`flex w-full items-center justify-center gap-2 px-4 py-3.5 sm:py-4 rounded-lg bg-[#00E5FF] text-[#110D24] text-base font-bold hover:bg-[#00E5FF]/90 transition duration-100 ${
                 noDaysSelected ? "opacity-40 cursor-not-allowed hover:bg-[#00E5FF]" : ""
               } ${pressing ? "scale-[0.97]" : ""}`}
             >
