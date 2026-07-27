@@ -1,5 +1,4 @@
 import { Headphones } from "lucide-react";
-import { FaSpotify } from "react-icons/fa";
 import type { Artist } from "@/app/types/artist";
 import { COLORS } from "@/app/data/colors";
 import { resolveListenFirst } from "@/app/lib/listenFirst";
@@ -36,14 +35,9 @@ export default function ListenFirstSection({ artist }: { artist: Artist }) {
                 key={track.spotifyId}
                 spotifyId={track.spotifyId}
                 trackName={track.name}
+                showLink
               />
             ))}
-          </div>
-          {/* One section-level attribution line for the whole curated group, rather
-              than repeating a footer on every compact track embed. */}
-          <div className="flex items-center gap-1.5 text-[11px] text-white/30">
-            <FaSpotify size={11} aria-hidden="true" />
-            Playback via Spotify
           </div>
         </div>
       )}

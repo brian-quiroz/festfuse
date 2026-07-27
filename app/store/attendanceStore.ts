@@ -6,6 +6,12 @@ import { FESTIVAL_DAYS } from "@/app/data/festivals";
 
 interface AttendanceState {
   attendanceDaysByFestival: Record<string, string[]>;
+  // False until localStorage has actually been read — see HydrationGate.tsx, which
+  // holds the whole app's first render until this (and the other persisted stores)
+  // flips true, so nothing briefly paints with the pre-hydration default (no days
+  // selected, which would otherwise flash Quick Picks' Start Screen and Festival
+  // Story's attendance-scoped signals wrong for a moment).
+  hasHydrated: boolean;
   setAttendanceDays: (festivalId: string, days: string[]) => void;
 }
 
@@ -27,20 +33,39 @@ export function sanitizeAttendanceDays(festivalId: string, saved: unknown): stri
   return kept;
 }
 
+// Assigned inside the creator function below, so onRehydrateStorage's error branch can
+// flip hasHydrated without referencing the useAttendanceStore const it's still defining
+// — see the identical comment in decisionStore.ts for why that reference is a real TDZ
+// hazard here (confirmed via manual corrupted-storage testing), not a theoretical one.
+let markHydratedOnError: (() => void) | null = null;
+
 export const useAttendanceStore = create<AttendanceState>()(
   persist(
-    (set) => ({
-      attendanceDaysByFestival: {},
-      setAttendanceDays: (festivalId, days) =>
-        set((state) => ({
-          attendanceDaysByFestival: {
-            ...state.attendanceDaysByFestival,
-            [festivalId]: sanitizeAttendanceDays(festivalId, days),
-          },
-        })),
-    }),
+    (set) => {
+      markHydratedOnError = () => set({ hasHydrated: true });
+      return {
+        attendanceDaysByFestival: {},
+        hasHydrated: false,
+        setAttendanceDays: (festivalId, days) =>
+          set((state) => ({
+            attendanceDaysByFestival: {
+              ...state.attendanceDaysByFestival,
+              [festivalId]: sanitizeAttendanceDays(festivalId, days),
+            },
+          })),
+      };
+    },
     {
-      name: "festfuse-attendance",
+      name: "attendance-store",
+      onRehydrateStorage: () => (state, error) => {
+        if (state) {
+          state.hasHydrated = true;
+        } else if (error && typeof document !== "undefined") {
+          // Deferred to a fresh tick, guarded to real browsers only — see the detailed
+          // comment in decisionStore.ts for why both of those are load-bearing here.
+          setTimeout(() => markHydratedOnError?.(), 0);
+        }
+      },
     }
   )
 );

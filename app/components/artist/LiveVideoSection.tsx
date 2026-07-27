@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
-import { Music } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
+import { Music, ExternalLink } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
 import { COLORS } from "@/app/data/colors";
 
@@ -44,6 +44,11 @@ export default function LiveVideoSection({ artist }: { artist: Artist }) {
   // rather than a DOM element reference.
   const playerElementId = useId();
   const playerRef = useRef<{ destroy?: () => void } | null>(null);
+  // Covers the case where the iframe_api script itself never loads (e.g. blocked by an
+  // ad blocker) — loadYouTubeApi()'s promise only ever resolves via YouTube's own global
+  // callback, so without a timeout a blocked script leaves this section empty forever
+  // with no indication anything's wrong. See ARCHITECTURE.md § Live Performance.
+  const [showFallback, setShowFallback] = useState(false);
 
   const iframeTitle = artist.liveVideoLabel
     ? `${artist.name} — ${artist.liveVideoLabel}`
@@ -52,9 +57,33 @@ export default function LiveVideoSection({ artist }: { artist: Artist }) {
   useEffect(() => {
     if (!artist.liveVideoId) return;
     let cancelled = false;
+    // Plain closure variable, not React state — the .then() below reads it directly
+    // rather than through a stale render-time closure. Guards against the API
+    // resolving *after* the fallback already fired (slow, not blocked, connection):
+    // without this, a late resolution would try to mount a player into the target
+    // div after React has already replaced it with the fallback link.
+    let timedOut = false;
+    setShowFallback(false);
+
+    const fallbackTimeout = setTimeout(() => {
+      if (!cancelled) {
+        timedOut = true;
+        // Without this, one failed/blocked attempt poisons apiPromise for the rest of
+        // the browser session — every artist visited afterward (client-side nav, no
+        // hard reload) would reuse this same dead, never-resolving promise instead of
+        // trying fresh, even if whatever caused the original failure is no longer true.
+        // Safe even if the original request is merely slow rather than dead: a second
+        // script tag's eventual load still resolves both promises, since
+        // window.onYouTubeIframeAPIReady chains onto whatever was previously assigned
+        // rather than overwriting it.
+        apiPromise = null;
+        setShowFallback(true);
+      }
+    }, 8000);
 
     loadYouTubeApi().then(() => {
-      if (cancelled || !window.YT) return;
+      if (cancelled || timedOut || !window.YT) return;
+      clearTimeout(fallbackTimeout);
       playerRef.current = new window.YT.Player(playerElementId, {
         videoId: artist.liveVideoId,
         width: "100%",
@@ -65,6 +94,7 @@ export default function LiveVideoSection({ artist }: { artist: Artist }) {
 
     return () => {
       cancelled = true;
+      clearTimeout(fallbackTimeout);
       playerRef.current?.destroy?.();
       playerRef.current = null;
     };
@@ -89,7 +119,19 @@ export default function LiveVideoSection({ artist }: { artist: Artist }) {
           className="w-full aspect-video min-h-96 rounded-2xl overflow-hidden border border-white/25 bg-black shadow-lg shadow-black/50 [&>iframe]:w-full [&>iframe]:h-full"
           aria-label={iframeTitle}
         >
-          <div id={playerElementId} className="w-full h-full" />
+          {showFallback ? (
+            <a
+              href={`https://www.youtube.com/watch?v=${artist.liveVideoId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full h-full flex items-center justify-center gap-2 text-sm font-medium text-white/60 hover:text-white/85 transition-colors"
+            >
+              <ExternalLink size={15} strokeWidth={2} />
+              Watch on YouTube
+            </a>
+          ) : (
+            <div id={playerElementId} className="w-full h-full" />
+          )}
         </div>
         {artist.liveVideoLabel && (
           <p className="text-xs text-white/35">{artist.liveVideoLabel}</p>

@@ -21,19 +21,34 @@ export interface PlannerViewState {
   setShowScheduled: (value: boolean) => void;
 }
 
+// Assigned inside the creator function below, so onRehydrateStorage's error branch can
+// flip hasHydrated without referencing the usePlannerViewStore const it's still defining
+// — see the identical comment in decisionStore.ts for why that reference is a real TDZ
+// hazard here (confirmed via manual corrupted-storage testing), not a theoretical one.
+let markHydratedOnError: (() => void) | null = null;
+
 export const usePlannerViewStore = create<PlannerViewState>()(
   persist(
-    (set) => ({
-      showMyPicks: true,
-      showScheduled: false,
-      hasHydrated: false,
-      setShowMyPicks: (value) => set({ showMyPicks: value }),
-      setShowScheduled: (value) => set({ showScheduled: value }),
-    }),
+    (set) => {
+      markHydratedOnError = () => set({ hasHydrated: true });
+      return {
+        showMyPicks: true,
+        showScheduled: false,
+        hasHydrated: false,
+        setShowMyPicks: (value) => set({ showMyPicks: value }),
+        setShowScheduled: (value) => set({ showScheduled: value }),
+      };
+    },
     {
       name: "planner-view-store",
-      onRehydrateStorage: () => (state) => {
-        if (state) state.hasHydrated = true;
+      onRehydrateStorage: () => (state, error) => {
+        if (state) {
+          state.hasHydrated = true;
+        } else if (error && typeof document !== "undefined") {
+          // Deferred to a fresh tick, guarded to real browsers only — see the detailed
+          // comment in decisionStore.ts for why both of those are load-bearing here.
+          setTimeout(() => markHydratedOnError?.(), 0);
+        }
       },
     }
   )

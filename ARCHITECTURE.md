@@ -295,8 +295,8 @@ The Explore page manages four distinct states:
 Zustand store, so it already survives ordinary in-app navigation (browse → view an
 artist → return), but not a hard page reload. A potential future change would give it
 the same `persist` + `hasHydrated` treatment as `decisionStore`/`scheduleStore`/
-`plannerViewStore` (see "State Summary → Stores" under Schedule Feature) — not
-committed to, lower priority since the common case already works.
+`plannerViewStore`/`attendanceStore` (see "State Summary → Stores" under Schedule
+Feature) — not committed to, lower priority since the common case already works.
 
 ### Dropdown Components
 
@@ -1418,13 +1418,15 @@ what the switch filters)
 **Hydration:** all three stores above track a `hasHydrated` flag, set inside their
 `onRehydrateStorage` callback once localStorage has actually been read. A shared
 `HydrationGate` (`app/components/HydrationGate.tsx`), wrapping the app in
-`app/layout.tsx`, holds the very first render until all three flip true — without it,
-each store briefly renders its hardcoded default before rehydrating a moment later,
-most visibly a wrong toggle position, but the same gap exists anywhere
-decisionStore/scheduleStore-derived state renders (Sidebar counts, Explore's pick/
-schedule buttons, the Planner grid's own coloring). Only affects a hard reload —
-client-side navigation never remounts these stores. Any future persisted store should
-wire into this same gate rather than reinventing the check per-component.
+`app/layout.tsx`, holds the very first render until every persisted store flips true
+(a fourth, `attendanceStore`, joined the same gate later — see § HydrationGate
+Resilience to Rehydration Errors) — without it, each store briefly renders its
+hardcoded default before rehydrating a moment later, most visibly a wrong toggle
+position, but the same gap exists anywhere decisionStore/scheduleStore-derived state
+renders (Sidebar counts, Explore's pick/schedule buttons, the Planner grid's own
+coloring). Only affects a hard reload — client-side navigation never remounts these
+stores. Any future persisted store should wire into this same gate rather than
+reinventing the check per-component.
 
 #### Derived State
 
@@ -1685,9 +1687,14 @@ the deferred Festival Story "Day of Week Signal" (see below) was blocked on.
 
 `app/store/attendanceStore.ts` persists `attendanceDaysByFestival: Record<string,
 string[]>`, festival-scoped so a future second festival doesn't collide with this
-one's selection. Reads and writes both go through `sanitizeAttendanceDays(festivalId,
-saved)` — a plain exported function, not just internal store logic, so it can be
-called directly (verification scripts do exactly this):
+one's selection. Carries the same `hasHydrated`/`HydrationGate.tsx` treatment as
+`decisionStore`/`scheduleStore`/`plannerViewStore` (see § HydrationGate Resilience to
+Rehydration Errors) — Quick Picks' Start Screen day picker and Festival Story's
+attendance-scoped signals both read from this store, so a pre-hydration flash here
+would be just as visible as on the other three. Reads and writes both go through
+`sanitizeAttendanceDays(festivalId, saved)` — a plain exported function, not just
+internal store logic, so it can be called directly (verification scripts do exactly
+this):
 
 - No saved selection yet (`undefined`), or a malformed/non-array value — defaults to
   every day in `FESTIVAL_DAYS[festivalId]` (`app/data/festivals.ts` — the single
@@ -1955,13 +1962,18 @@ second/minute per IP) is unverified, and the exact trigger point wasn't isolated
 precisely, so treat "plausible under a fast real session" as a working assumption,
 not a confirmed frequency.
 
-**Current state:** there's no fallback UI for a failed embed load — it renders as a
-blank/broken iframe box. That's a real, known gap, not one ruled out as unlikely; it's
-deferred past MVP as a time-tradeoff, not dismissed. Post-launch, worth measuring
-actual request cadence during real Quick Picks sessions and, if it's anywhere near
-this threshold, adding a lightweight fallback (e.g., a static "listen on Spotify"
-link/thumbnail in place of the iframe) so a failed embed degrades instead of visibly
-breaking.
+**Current state:** `SpotifyTrackEmbed`'s optional `showLink` prop adds a click-through
+"Open in Spotify" footer (matching `SpotifyArtistEmbed`'s own, always-on link),
+enabled in `ListenFirstSection.tsx`'s curated-tracks mode — so a failed or blocked
+embed there still leaves the user a working path to the track. Quick Picks' Quick
+Listen (`DecisionScreen.tsx`) uses the same component with `showLink` left off,
+deliberately: a failed embed load renders as a blank/broken iframe box there with no
+fallback, unchanged from before, since any added chrome works against the momentum
+this specific screen is built around. The rate-limiting risk described above is
+unaffected either way — Quick Listen is the one under real request-cadence pressure,
+and it wasn't touched. Post-launch, still worth measuring actual request cadence
+during real Quick Picks sessions and revisiting whether Quick Listen needs its own
+lighter-weight fallback if it's anywhere near the threshold.
 
 ---
 
@@ -2038,6 +2050,27 @@ browser engines on the same network, confirmed via a temporary HTTPS tunnel
 with no code change. Production is always real HTTPS, so this only ever matters when
 testing over a LAN IP during development — test via `localhost`, or a tunnel, not the
 LAN IP, if a live video ever appears broken again.
+
+**Fallback on API load failure:** `loadYouTubeApi()`'s promise only resolves via
+YouTube's own global `onYouTubeIframeAPIReady` callback, with no `onerror` handler on
+the injected `<script>` tag — if that script is blocked (e.g. by an ad blocker, which
+commonly blocks `youtube.com` script domains) or otherwise fails to load, the promise
+would never resolve. `LiveVideoSection.tsx` guards this with an 8-second timeout: if
+the player hasn't mounted by then, the section swaps its empty target `<div>` for a
+"Watch on YouTube" link to the video directly, rather than leaving a permanently blank
+box with no indication anything's wrong.
+
+The timeout also resets the module-level `apiPromise` cache to `null`. Found via manual
+testing, not code review: without this, one blocked/failed script load poisons every
+artist visited afterward in the same session (client-side navigation, no hard reload) —
+each one's `loadYouTubeApi()` call would find `apiPromise` already set and reuse that
+same dead, never-resolving promise instead of attempting its own fresh load, even after
+whatever caused the original failure (e.g. an ad blocker toggled off mid-session) no
+longer applies. Resetting it on timeout means each subsequent artist gets an independent
+attempt. Safe even against the *delayed*, not dead, case from above: if the original
+script does eventually load after a second one's been injected, both promises still
+resolve, since `window.onYouTubeIframeAPIReady` chains onto whatever callback was
+previously assigned rather than overwriting it.
 
 ### Explore Search Input Zoom-on-Focus
 
@@ -2606,9 +2639,9 @@ iOS Safari fails to properly clip descendant content to a rounded corner (`round
 
 ## Future Consideration: React Hook Lint Warnings (set-state-in-effect, exhaustive-deps)
 
-A pre-release `npm run lint` pass surfaced 5 `react-hooks/set-state-in-effect` errors and 2 `react-hooks/exhaustive-deps` warnings, from a stricter hook-lint rule that flags any synchronous `setState` call inside an effect body, even in early-return guard clauses:
+A pre-release `npm run lint` pass surfaced `react-hooks/set-state-in-effect` errors and `react-hooks/exhaustive-deps` warnings, from a stricter hook-lint rule that flags any synchronous `setState` call inside an effect body, even in early-return guard clauses:
 
-- `set-state-in-effect`: `SingleSelectDropdown.tsx:29`, `MultiSelectDropdown.tsx:49` (the two-pass measure-then-position dropdown alignment), `DayCompleteScreen.tsx:15` (count-up reset when target is 0), `DecisionScreen.tsx:207` and `:217` (flash/toast reset when the underlying value clears).
+- `set-state-in-effect`: `SingleSelectDropdown.tsx:29`, `MultiSelectDropdown.tsx:49` (the two-pass measure-then-position dropdown alignment), `DayCompleteScreen.tsx:15` (count-up reset when target is 0), `DecisionScreen.tsx:207` and `:217` (flash/toast reset when the underlying value clears), `LiveVideoSection.tsx`'s `showFallback` reset at the top of its effect (fires whenever `artist.liveVideoId` changes — necessary since Next.js reuses this component instance across artist-to-artist navigation on the `/artist/[slug]` route rather than remounting it, so a stale `true` from a previous artist would otherwise leak into the next one).
 - `exhaustive-deps`: `DayCompleteScreen.tsx:93` (missing `handleContinue`), `DecisionScreen.tsx:226` (missing `toast`).
 
 These don't block `next build` — Next 16 doesn't run ESLint as part of the production build, only `npm run lint` itself. All of the affected components were exercised extensively during the pre-release audit (dozens of dropdown opens, full Quick Picks runs through all 4 days) with no observed visual glitches or stale-value symptoms. Deferred as lint-only cleanup; the real fix is computing the derived value during render instead of via effect+state, or stabilizing the missing-dep callbacks with `useCallback`.
@@ -2663,9 +2696,19 @@ Only #3 needed the sort fix; #1 and #2 didn't, which is why the fix touches one 
 
 ---
 
-## Future Consideration: HydrationGate Blank-Screen Risk on Corrupted Persisted State
+## HydrationGate Resilience to Rehydration Errors
 
-`HydrationGate.tsx` holds the first render (`return null`) until `decisionStore`, `scheduleStore`, and `plannerViewStore` all report `hasHydrated: true`. Each store's `onRehydrateStorage` callback only sets `hasHydrated = true` when it receives a truthy `state`: `onRehydrateStorage: () => (state) => { if (state) state.hasHydrated = true; }`. Zustand's persist middleware calls this callback with `state = undefined` when rehydration itself throws (corrupt JSON in the persisted key, or a future `migrate()` that throws) — in that branch, `hasHydrated` never flips to `true`, and the app blanks forever on that load. Not a near-term risk: pre-launch there's no existing user data to be corrupt. The realistic trigger is a future breaking change to one of these stores' persisted shape shipped without a working `migrate()` path. Revisit then — the fix is setting `hasHydrated = true` in the error branch too (or a timeout fallback), so a corrupt/unmigratable value resets to defaults instead of blanking the app.
+`HydrationGate.tsx` holds the first render (`return null`) until `decisionStore`, `scheduleStore`, `plannerViewStore`, and `attendanceStore` all report `hasHydrated: true` — every persisted store gets the same treatment; `chromeStore`, `exploreFilterStore`, and `helpStore` are deliberately excluded from this list since none of them persist to `localStorage` in the first place (pure in-memory UI state has no hydration gap to gate on). Each store's `onRehydrateStorage` callback sets `hasHydrated = true` on both the success path (truthy `state`, the common case) and the error path (corrupt JSON in the persisted key, or a `migrate()` that throws) — zustand's persist middleware calls the callback with `state = undefined` on error, so there's nothing to mutate directly.
+
+Getting the error branch to actually take effect required working around three separate, layered hazards in this exact stack (zustand `persist` + synchronous `localStorage` + Next.js/Turbopack, in both dev mode and `next build`'s server-side static generation) — all three confirmed by hand against real corrupted-storage reloads and real builds, not deduced from reading the library alone:
+
+1. **Referencing the store's own exported `const` from inside `onRehydrateStorage` throws a TDZ `ReferenceError`.** `onRehydrateStorage`'s callback can fire *before* `create()` finishes returning, so `useDecisionStore` (etc.) isn't assigned yet at that point. Fixed by never referencing the const at all: each store instead assigns a module-level `markHydratedOnError` variable *inside its own creator function* (`(set) => { markHydratedOnError = () => set({ hasHydrated: true }); return {...}; }`) — the creator's `set` parameter is passed in directly, not read from the outer closure, so it has no such hazard.
+
+2. **Even with a valid, non-TDZ'd reference to `set`, calling it *synchronously* inside the error branch silently does nothing.** Root cause, traced into `zustand`'s own source: `persistImpl` (`node_modules/zustand/esm/middleware.mjs`) calls `hydrate()` synchronously — for `localStorage` (not an async storage), the entire rehydration chain, including our error callback, resolves within that same synchronous call, which is itself running *inside* `zustand/vanilla.mjs`'s `createStoreImpl`, before its internal `state` variable has been assigned (`state = createState(...)` only completes *after* this whole chain returns). Any `set()` call made during that window mutates a `state` reference that then gets **completely discarded**: on the error path, `persistImpl` always returns `stateFromStorage || configResult`, and `stateFromStorage` is only ever assigned on the *success* path — so on error it's always `configResult`, the plain pre-hydration default, overwriting whatever the interim `set()` call did. No exception is thrown anywhere in this sequence, which is what made it hard to pin down: the call appears to succeed and simply has no lasting effect. Fixed by deferring the call by one tick — `setTimeout(() => markHydratedOnError?.(), 0)` — so it runs after the store has finished constructing rather than during it.
+
+3. **The deferred call from fix #2 then surfaced a third, unrelated failure — but only during `next build`, not dev mode.** Node 22+'s own experimental global `localStorage` (unrelated to a browser's) is present in Next.js's server-side static-generation environment — functional enough that `createJSONStorage` doesn't treat it as absent, but not backed by a real file, so every call throws. That gets misread as a genuine rehydration error during the server-rendered pass of every page, and the now-deferred `set()` call from fix #2 fires into it moments later, throwing a `TypeError` (non-fatal to the overall build, but a real uncaught exception logged to the build output). Fixed with a `typeof document !== "undefined"` guard around the deferred call — real browsers always have `document`; this Node environment never does.
+
+Verified with three independent cold-start test runs (`rm -rf .next` + fresh dev server each time, via Playwright) with fixes #1 and #2 in place, all three passing; the same setup reliably failed (blank screen, zero console output) without them. Fix #3 was caught by actually reading full `next build` output rather than just checking for a nonzero exit code — the build "succeeded" either way. A rehydration error resets that one store to its default in-memory state and still unblocks the gate, rather than leaving the app blank indefinitely.
 
 ---
 
