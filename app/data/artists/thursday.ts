@@ -8,8 +8,14 @@ const lorde: Artist = {
   mbid: "8e494408-8620-4c6a-82c2-c2ca4a1e4f12",
   liveVideoId: "KoDFBeyeHYM",
   liveVideoLabel: "Live at Lollapalooza Chile 2026",
-  imageUrl: "/artists/heroes/lorde.jpg",
-  objectPosition: "center 20%",
+  imageUrl: "/artists/global/lorde.jpg",
+  imageCredit: {
+    author: "Raph_PH",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:LordePrimavera100622_(28_of_69)_(52189510875).jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by/2.0",
+  },
+  objectPosition: "center 5%",
   genres: ["Alt-Pop", "Electropop", "Art Pop"],
   location: { city: "Auckland", country: "New Zealand" },
   tagline: "The alt-pop high priestess guiding crowds through visceral emotional catharsis.",

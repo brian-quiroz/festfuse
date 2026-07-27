@@ -25,6 +25,10 @@ export type Artist = {
   slug: string;
   mbid?: string;
   imageUrl?: string;
+  // Required only when imageUrl points to a Wikimedia Commons (or other CC-licensed)
+  // photo rather than a licensed/owned asset. Surfaced on /credits, not per-image —
+  // see app/credits/page.tsx.
+  imageCredit?: { author: string; sourceUrl: string; licenseUrl: string };
   objectPosition?: string;
   liveVideoId?: string;
   liveVideoLabel?: string;
