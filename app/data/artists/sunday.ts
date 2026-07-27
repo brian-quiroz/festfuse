@@ -125,7 +125,7 @@ const theXx: Artist = {
       slug: "new-constellations",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786a3aa969f4f79f38b0c16c91",
     },
-    { name: "Sunshine", slug: "sunshine" },
+    { name: "Blood Orange", slug: "blood-orange" },
     {
       name: "YOASOBI",
       slug: "yoasobi",
@@ -924,8 +924,8 @@ const dukeDumont: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f17821705221c7f192d4a7963910",
     },
     {
-      name: "Chace",
-      slug: "chace",
+      name: "Dombresky",
+      slug: "dombresky",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f75bb8d64c3d43282ad006f7",
     },
     {
@@ -966,53 +966,61 @@ const dukeDumont: Artist = {
   ],
 };
 
-const fakemink: Artist = {
-  name: "Fakemink",
-  slug: "fakemink",
-  genres: ["Alternative Hip-Hop", "Trap", "Electronic Pop"],
+const squirrelFlower: Artist = {
+  name: "Squirrel Flower",
+  slug: "squirrel-flower",
+  genres: ["Indie Rock", "Singer-Songwriter", "Alternative Rock"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
-    "Glitchy, high-velocity internet rap and bounce-driven trap from a hometown breakout project.",
-  socials: { spotify: "https://open.spotify.com/artist/0qc4BFxcwRFZfevTck4fOi" },
+    "Haunting, slow-burning indie rock that blooms into waves of distortion and emotional release.",
+  socials: { spotify: "https://open.spotify.com/artist/7bI1v9NGBBhq8iGfytctni" },
   whySee: [
-    "A massive hometown showcase performance on the alternative stage celebrating a rapid ascent in the local independent scene",
-    "Experience an intense, rapid-fire vocal workout gliding effortlessly over incredibly crisp, low-slung alternative electronic bass pockets",
-    "An absolute wildfire crowd environment packed with chaotic, high-energy teenage mosh pits early in the day",
-    "Catch a lightning-fast underground trendsetter running on pure digital clout before they completely alter pop infrastructure",
+    "Chicago-based songwriter Ella Williams bringing her intimate, guitar-heavy songs to a hometown festival crowd",
+    "Hear hushed confessionals expand into towering walls of distortion and cathartic full-band climaxes",
+    "A spellbinding vocal performance that can move from close-miked vulnerability to raw, commanding power",
+    "Catch one of indie rock's most evocative storytellers in a set built for attentive listening and emotional release",
   ],
-  whatToExpect: ["Cinematic Visuals", "Energetic Mosh Pits", "Synth & Atmospheric"],
-  bestFor: ["Scene Trend Spotters", "Hometown & Local Supporters", "Dance Floor Seekers"],
+  whatToExpect: ["Guitar-Driven Sound", "Lyrical Emotional Depth", "Intimate Performance"],
+  bestFor: [
+    "Producer & Songwriter Obsessives",
+    "Lyric & Narrative Obsessives",
+    "Hometown & Local Supporters",
+  ],
   similarArtists: [
-    { name: "After", slug: "after" },
     {
-      name: "partyof2",
-      slug: "partyof2",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178b9dbe3484f4e59e7b0e18b7a",
+      name: "Ethel Cain",
+      slug: "ethel-cain",
     },
     {
-      name: "Quadeca",
-      slug: "quadeca",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1781eee118b4a489ddd3de9f47b",
+      name: "Suki Waterhouse",
+      slug: "suki-waterhouse",
     },
-    { name: "KLO", slug: "klo" },
+    {
+      name: "Momma",
+      slug: "momma",
+    },
+    {
+      name: "Wolf Alice",
+      slug: "wolf-alice",
+    },
   ],
   tracks: [
-    { name: "Mink", album: "Fakemink", duration: "" },
-    { name: "Static", album: "Fakemink", duration: "" },
-    { name: "Fade", album: "Fade", duration: "" },
+    { name: "Alley Light", album: "Tomorrow's Fire", duration: "" },
+    { name: "Headlights", album: "Tomorrow's Fire", duration: "" },
+    { name: "Hurt a Fly", album: "Planet (i)", duration: "" },
   ],
   about:
-    "Fakemink is a Chicago-born alternative hip-hop producer, singer, and songwriter who rapidly vaulted from Soundcloud isolation into local independent prominence, commanding an intensely passionate regional community. Characterized by a unique choice of hazy, loop-heavy underground production and unstructured, stream-of-consciousness flows, the project embodies the post-rage aesthetic of modern youth culture. Performing a prime midday slot, the live execution completely flips traditional festival pacing for pure, energetic crowd chaos.",
+    "Squirrel Flower is the recording project of Chicago-based songwriter and multi-instrumentalist Ella Williams. Her music pairs vivid, introspective writing with a rich voice and guitars that shift from delicate restraint to scorched, expansive indie rock. Across albums including I Was Born Swimming, Planet (i), and Tomorrow's Fire, Williams has built a catalog defined by atmosphere, emotional precision, and powerful dynamic turns.",
   appearances: [
     {
       id: "1",
       festivalId: "lollapalooza-2026",
       billingTier: "Undercard",
-      stage: "Airbnb",
+      stage: "Allianz",
       day: "Sunday",
       date: "Aug 2",
-      startTime: "7:45 PM",
-      endTime: "8:30 PM",
+      startTime: "12:30 PM",
+      endTime: "1:15 PM",
     },
   ],
 };
@@ -1859,7 +1867,7 @@ const newConstellations: Artist = {
   whatToExpect: ["Dreamy Atmosphere", "Conversational Delivery", "Crowd Atmosphere"],
   bestFor: ["Tent & Club Venue Seekers", "Dance Floor Seekers", "Bass & Groove Lovers"],
   similarArtists: [
-    { name: "Sunshine", slug: "sunshine" },
+    { name: "Between Friends", slug: "between-friends" },
     {
       name: "Suki Waterhouse",
       slug: "suki-waterhouse",
@@ -2032,9 +2040,8 @@ const after: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b9dbe3484f4e59e7b0e18b7a",
     },
     {
-      name: "Fakemink",
-      slug: "fakemink",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178fea7ad1b3bc4a7f94234bd1c",
+      name: "Suki Waterhouse",
+      slug: "suki-waterhouse",
     },
     {
       name: "Ivri",
@@ -2334,11 +2341,11 @@ const stellaLefty: Artist = {
       id: "1",
       festivalId: "lollapalooza-2026",
       billingTier: "Undercard",
-      stage: "Allianz",
+      stage: "Airbnb",
       day: "Sunday",
       date: "Aug 2",
-      startTime: "12:30 PM",
-      endTime: "1:15 PM",
+      startTime: "7:45 PM",
+      endTime: "8:30 PM",
     },
   ],
 };
@@ -2474,47 +2481,39 @@ const willSwinton: Artist = {
   ],
 };
 
-const sunshine: Artist = {
-  name: "Sunshine",
-  slug: "sunshine",
-  genres: ["Indie Pop", "Dream Pop", "Electronic Rock"],
-  location: { city: "Los Angeles", state: "California", country: "United States" },
+const sunshineBenzi: Artist = {
+  name: "Sunshine Benzi",
+  slug: "sunshine-benzi",
+  genres: ["Hip-Hop", "Boom Bap", "Underground Rap"],
+  location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
-    "Shimmering, cosmic dream pop built on soaring vocal lines and rich psychedelic grooves.",
-  socials: {},
+    "Viral, razor-witted freestyle bars channeling early-2000s New York mixtape swagger into a breakout festival debut.",
+  socials: {
+    spotify: "https://open.spotify.com/artist/0qpBGpYogdqtCqzQaRtyaw",
+    youtube: "https://www.youtube.com/@sunshinebenzi",
+    tiktok: "https://www.tiktok.com/@sunshinebenzi",
+  },
   whySee: [
-    "Catch an exceptional songwriting collective executing a beautifully warm, sun-drenched indie pop performance on the BMI stage",
-    "Perfectly synchronized, warm vocal harmonies gliding effortlessly over heavy, chorus-heavy dream pop guitar lines",
-    "A gorgeous, sun-drenched early afternoon oasis designed perfectly to completely escape standard commercial pop noise",
-    "The official festival tour run highlighting their highly celebrated independent studio catalog to a massive live audience",
+    "Catch the festival debut of the viral 'TRUMP THE BILL' freestyle that turned a single TikTok clip into one of hip-hop's biggest breakout stories of the year",
+    "Sharp, double-time flows and confident punchlines drawn from a deep love of early-2000s New York mixtape rap and pioneers like Nicki Minaj and Foxy Brown",
+    "A rising resume that already includes a Coach partnership, a sold-out New York pop-up show, and studio time with hitmaker producer BNYX",
+    "Known as Chicago's Miss Galliano, her fashion-forward presence brings runway level style to the early afternoon Airbnb stage set",
   ],
-  whatToExpect: ["Dreamy Atmosphere", "Conversational Delivery", "Crowd Atmosphere"],
-  bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery", "Chill Summer Vibes"],
+  whatToExpect: ["Raw Vocal Delivery", "Lyrical Storytelling", "Fashion Visual"],
+  bestFor: ["Lyric & Narrative Obsessives", "Scene Trend Spotters", "Early Afternoon Discovery"],
   similarArtists: [
-    {
-      name: "New Constellations",
-      slug: "new-constellations",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1786a3aa969f4f79f38b0c16c91",
-    },
-    {
-      name: "Suki Waterhouse",
-      slug: "suki-waterhouse",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1781696da72cfcb968be92b84d4",
-    },
-    {
-      name: "The xx",
-      slug: "the-xx",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1783a96db4736ef035e1fcb2516",
-    },
-    { name: "Will Swinton", slug: "will-swinton" },
+    { name: "Little Simz", slug: "little-simz" },
+    { name: "bbno$", slug: "bbno-dollar" },
+    { name: "Lil Uzi Vert", slug: "lil-uzi-vert" },
+    { name: "Freddie Gibbs", slug: "freddie-gibbs" },
   ],
   tracks: [
-    { name: "Hot Days", album: "Sunshine", duration: "" },
-    { name: "Caught in the Rain", album: "Sunshine", duration: "" },
-    { name: "Fade", album: "Fade", duration: "" },
+    { name: "TRUMP THE BILL", album: "TRUMP THE BILL", duration: "" },
+    { name: "Scottie Pippen", album: "Scottie Pippen", duration: "" },
+    { name: "EASTSIDE", album: "EASTSIDE", duration: "" },
   ],
   about:
-    "Sunshine is the Los Angeles-born alternative project whose meticulous combination of hazy indie rock guitar hooks, crisp hip-hop rhythm pockets, and carefree lyricism has fostered a deeply dedicated independent community. Forging a distinctively laid-back, sun-drenched sonic universe, the outfit crafts tracks that feel simultaneously nostalgic and deeply current. Performing a prime midday slot, their live execution transforms the tree-lined perimeter of Grant Park into a vibrant, high-energy outdoor block party.",
+    "Sunshine Benzi is a Chicago-born rapper who went from total unknown to one of hip-hop's most talked about new names in a single freestyle. Her breakout track 'TRUMP THE BILL' turned heads with rapid-fire, New York-flavored bars that echo the mixtape-era greats she grew up on, from Nicki Minaj to Foxy Brown. That momentum has carried her through a Coach partnership, a sold-out New York pop-up show, and now a festival debut, where her early afternoon Airbnb stage set introduces festivalgoers to hip-hop's newest breakout voice.",
   appearances: [
     {
       id: "1",
@@ -2772,7 +2771,7 @@ export const sundayArtists: Artist[] = [
   jade,
   eliBrown,
   dukeDumont,
-  fakemink,
+  squirrelFlower,
   dombresky,
   monaleo,
   adela,
@@ -2797,7 +2796,7 @@ export const sundayArtists: Artist[] = [
   stellaLefty,
   justineSkye,
   willSwinton,
-  sunshine,
+  sunshineBenzi,
   caseOats,
   surfingForDaisy,
   snacktime,

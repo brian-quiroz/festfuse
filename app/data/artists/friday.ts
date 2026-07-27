@@ -643,7 +643,7 @@ const sukiWaterhouse: Artist = {
       slug: "new-constellations",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786a3aa969f4f79f38b0c16c91",
     },
-    { name: "Sunshine", slug: "sunshine" },
+    { name: "Paris Paloma", slug: "paris-paloma" },
     {
       name: "The Army, The Navy",
       slug: "the-army-the-navy",
@@ -1319,8 +1319,8 @@ const notion: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787e64c67ba432f9223f1acf9f",
     },
     {
-      name: "Chace",
-      slug: "chace",
+      name: "John Summit",
+      slug: "john-summit",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f75bb8d64c3d43282ad006f7",
     },
     {
@@ -2092,9 +2092,8 @@ const partyof2: Artist = {
   similarArtists: [
     { name: "After", slug: "after" },
     {
-      name: "Fakemink",
-      slug: "fakemink",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178fea7ad1b3bc4a7f94234bd1c",
+      name: "Little Simz",
+      slug: "little-simz",
     },
     {
       name: "Lil Uzi Vert",
@@ -2290,69 +2289,6 @@ const ellaRed: Artist = {
       date: "Jul 31",
       startTime: "5:40 PM",
       endTime: "6:20 PM",
-    },
-  ],
-};
-
-const palomaMorphy: Artist = {
-  name: "Paloma Morphy",
-  slug: "paloma-morphy",
-  genres: ["Dark Pop", "Alternative R&B", "Chamber Pop"],
-  location: { city: "London", country: "England" },
-  tagline: "Brooding, shadow-drenched alternative pop built on jaw-dropping vocal authority.",
-  socials: { spotify: "https://open.spotify.com/artist/30Ph7pfibYhG9VcdOj7xZw" },
-  whySee: [
-    "Witness one of the most technically gifted, breathtakingly unique vocalists performing early anywhere across the weekend",
-    "Morphy's operatic, deeply brooding vocal delivery effortlessly filling the park air with staggering emotional power",
-    "A beautifully dramatic, orchestrally layered sonic experience that seamlessly fuses dark pop with alternative R&B textures",
-    "Experience the raw, bone-chilling crowd connection driven by intense, massive underground pop singalongs",
-  ],
-  whatToExpect: [
-    "Technical Vocal Range",
-    "Dark Mood Visuals",
-    "Theatrical Staging",
-    "Cinematic Visuals",
-  ],
-  bestFor: ["Early Afternoon Discovery", "Storytelling Lovers"],
-  similarArtists: [
-    {
-      name: "Faouzia",
-      slug: "faouzia",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1786310c4d3dcfe99b0a9da2a30",
-    },
-    {
-      name: "Paris Paloma",
-      slug: "paris-paloma",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178fea2286a364dd2a0c4209136",
-    },
-    {
-      name: "Ivri",
-      slug: "ivri",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178db6265ab7c2b7e2a156c99ae",
-    },
-    {
-      name: "Oklou",
-      slug: "oklou",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178f8b90fcffca3c4e28564f0e3",
-    },
-  ],
-  tracks: [
-    { name: "Grave", album: "Paloma Morphy", duration: "" },
-    { name: "Mistake", album: "Paloma Morphy", duration: "" },
-    { name: "Shadows", album: "Shadows", duration: "" },
-  ],
-  about:
-    "Paloma Morphy is a London-born singer, songwriter, and conceptual auteur whose extraordinary vocal range and tragi-comic cinematic pop anthems have earned her a fierce international cult community. Fusing traditional gothic romance themes with deep, heavy contemporary R&B rhythm sections and sharp string lines, she writes sweeping tales of personal identity and interpersonal grief. Commanding the stage with profound, operatic authority, her early afternoon set stands as an undeniable, spine-chilling showcase of pristine vocal power.",
-  appearances: [
-    {
-      id: "1",
-      festivalId: "lollapalooza-2026",
-      billingTier: "Undercard",
-      stage: "BMI",
-      day: "Friday",
-      date: "Jul 31",
-      startTime: "6:50 PM",
-      endTime: "7:30 PM",
     },
   ],
 };
@@ -2882,8 +2818,8 @@ const whitneyWhitney: Artist = {
       stage: "BMI",
       day: "Friday",
       date: "Jul 31",
-      startTime: "12:00 PM",
-      endTime: "12:30 PM",
+      startTime: "6:50 PM",
+      endTime: "7:30 PM",
     },
   ],
 };
@@ -2923,7 +2859,6 @@ export const fridayArtists: Artist[] = [
   theArmyTheNavy,
   loveSpells,
   ellaRed,
-  palomaMorphy,
   dayWeRan,
   ivri,
   ellaBoh,

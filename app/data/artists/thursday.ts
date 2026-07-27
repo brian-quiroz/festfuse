@@ -663,8 +663,8 @@ const kettama: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a",
     },
     {
-      name: "Chace",
-      slug: "chace",
+      name: "Boris Brejcha",
+      slug: "boris-brejcha",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f75bb8d64c3d43282ad006f7",
     },
     {
@@ -1085,7 +1085,7 @@ const littleSimz: Artist = {
       day: "Thursday",
       date: "Jul 30",
       startTime: "5:45 PM",
-      endTime: "6:45 PM",
+      endTime: "6:30 PM",
     },
   ],
 };
@@ -1302,8 +1302,8 @@ const mph: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f1788436c7707f218912b3dc25a4",
     },
     {
-      name: "Chace",
-      slug: "chace",
+      name: "Sidepiece",
+      slug: "sidepiece",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f75bb8d64c3d43282ad006f7",
     },
     {
@@ -1855,11 +1855,10 @@ const eccaVandal: Artist = {
   whatToExpect: ["Guitar-Driven Sound", "Energetic Mosh Pits"],
   bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
-    { name: "Sunshine", slug: "sunshine" },
+    { name: "Viagra Boys", slug: "viagra-boys" },
     {
-      name: "Fakemink",
-      slug: "fakemink",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178fea7ad1b3bc4a7f94234bd1c",
+      name: "Bad Nerves",
+      slug: "bad-nerves",
     },
     { name: "After", slug: "after" },
     {
@@ -2037,9 +2036,8 @@ const faouzia: Artist = {
   bestFor: ["Early Afternoon Discovery", "Storytelling Lovers"],
   similarArtists: [
     {
-      name: "Paloma Morphy",
-      slug: "paloma-morphy",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1782a6bf3b15254bb0bea52168c",
+      name: "Sienna Spiro",
+      slug: "sienna-spiro",
     },
     {
       name: "Ella Boh",
@@ -2174,7 +2172,7 @@ const pearlyDrops: Artist = {
       slug: "new-constellations",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786a3aa969f4f79f38b0c16c91",
     },
-    { name: "Sunshine", slug: "sunshine" },
+    { name: "Oklou", slug: "oklou" },
     {
       name: "Sunday (1994)",
       slug: "sunday-1994",
