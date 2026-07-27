@@ -897,10 +897,14 @@ const snowStrippers: Artist = {
   name: "Snow Strippers",
   slug: "snow-strippers",
   imageUrl: "/artists/heroes/snow-strippers.jpg",
-  genres: ["Witch House", "Electroclash", "Electronic"],
+  genres: ["Witch House", "Electroclash", "Hyperpop"],
   location: { city: "Detroit", state: "Michigan", country: "United States" },
   tagline: "Frenetic, blown-out electroclash born in the internet underground.",
-  socials: { spotify: "https://open.spotify.com/artist/6TsAG8Ve1icEC8ydeHm3C8" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/6TsAG8Ve1icEC8ydeHm3C8",
+    youtube: "https://www.youtube.com/@snowstrippers7154",
+    tiktok: "https://www.tiktok.com/@snowstrippersofficial",
+  },
   whySee: [
     "The absolute peak of the modern electronic underground crossing over into an explosive, boundary-pushing tent environment",
     "Tatiana Schwaninger's completely detached, hypnotic vocals riding underneath Graham Perez's brutally heavy, corrupted electronic production",
@@ -911,24 +915,20 @@ const snowStrippers: Artist = {
   bestFor: ["Tent & Club Venue Seekers", "Dance Floor Seekers"],
   similarArtists: [
     {
-      name: "Empire of the Sun",
-      slug: "empire-of-the-sun",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178c806f3e714afa21861e20248",
+      name: "Frost Children",
+      slug: "frost-children",
     },
     {
-      name: "haute & freddy",
-      slug: "haute-and-freddy",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178f24b273d9959e097972d5992",
+      name: "Slayyyter",
+      slug: "slayyyter",
     },
     {
-      name: "John Summit",
-      slug: "john-summit",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
+      name: "Nettspend",
+      slug: "nettspend",
     },
     {
-      name: "Avello",
-      slug: "avello",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1781a61a6367dead8dac77f1911",
+      name: "Viagra Boys",
+      slug: "viagra-boys",
     },
   ],
   tracks: [
@@ -943,7 +943,7 @@ const snowStrippers: Artist = {
     { name: "Almost A Year", album: "Night Killaz Vol. 2", duration: "" },
   ],
   about:
-    "Snow Strippers is the Detroit-based electronic duo of Tatiana Schwaninger and Graham Perez, who ignited a global internet underground revival by fusing the gritty textures of early 2010s witch house with the maximalist velocity of electroclash. Operating out of the Surf Gang rap collective orbit alongside producers like evilgiane, their raw, distortion-heavy sound has earned them high-profile collaborations with Lil Uzi Vert. Live, they completely strip away the typical EDM polish, transforming the stage into a chaotic, adrenaline-fueled new rave paradise.",
+    "Snow Strippers are an American electronic music duo formed in Detroit, Michigan, in 2021 by vocalist Tatiana Schwaninger and producer Graham Perez. The pair gained traction online through self-released projects before partnering with the NYC-based record label Surf Gang and Diplo's Mad Decent imprint. Their discography includes the 2022 self-titled debut album alongside several mixtapes, including April Mixtape 3 and the Night Killaz EP series. Their sound pairs distorted synths and heavy basslines with deadpan vocal hooks and high-tempo dance beats.",
   appearances: [
     {
       id: "1",
@@ -962,10 +962,14 @@ const borisBrejcha: Artist = {
   name: "Boris Brejcha",
   slug: "boris-brejcha",
   imageUrl: "/artists/heroes/boris-brejcha.jpg",
-  genres: ["High-Tech Minimal", "Techno"],
+  genres: ["High-Tech Minimal", "Techno", "Minimal Tech"],
   location: { city: "Ludwigshafen", country: "Germany" },
   tagline: "The masked maestro of hypnotic, stadium-scale high-tech minimal.",
-  socials: { spotify: "https://open.spotify.com/artist/6caPJFLv1wesmM7gwK1ACy" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/6caPJFLv1wesmM7gwK1ACy",
+    youtube: "https://www.youtube.com/@BorisBrejcha_official",
+    tiktok: "https://www.tiktok.com/@borisbrejcha",
+  },
   whySee: [
     "The absolute pioneer of 'High-Tech Minimal' delivering a hyper-precise, calculated club sermon directly to Grant Park",
     "His iconic, theatrical Venetian Joker mask performance framing a deeply hypnotic audio-visual stage landscape",
@@ -980,14 +984,31 @@ const borisBrejcha: Artist = {
       slug: "boys-noize",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1781fc195ac5c1868725eced009",
     },
+    {
+      name: "John Summit",
+      slug: "john-summit",
+    },
+    {
+      name: "KETTAMA",
+      slug: "kettama",
+    },
+    {
+      name: "Devault",
+      slug: "devault",
+    },
   ],
   tracks: [
-    { name: "Gravity", album: "Space Diver", duration: "" },
+    {
+      spotifyId: "30WnQsvwFeYEd9k08vV7Dl",
+      name: "Gravity (feat. Laura Korinth) - Edit",
+      album: "Gravity (feat. Laura Korinth)",
+      duration: "3:36",
+    },
     { name: "Purple Noise", album: "Feuerfalter Part02", duration: "" },
     { name: "Spacewalker", album: "Space Diver", duration: "" },
   ],
   about:
-    "Boris Brejcha is a legendary German DJ and producer who has spent two decades operating at the vanguard of electronic music, single-handedly conceptualizing the 'High-Tech Minimal' sub-genre. Characterized by intricate percussive architecture, soaring cinematic synth melodies, and an unyielding techno pulse, Brejcha commands stages across the globe wearing his signature carnival mask. Backed by an extensive catalog of dark masterpiece albums like 'Space Diver', his live performances are masterfully calculated, high-production journeys tailored for massive electronic crowds.",
+    "Boris Brejcha is a German DJ and record producer born in Ludwigshafen. He began releasing music in 2006, debuting on the Harthouse label before founding his own record imprint, Fckng Serious, in 2015. Brejcha performs in a Venetian Joker mask and defines his sound as High-Tech Minimal, combining driving techno basslines with complex percussive structures and melodic synth hooks. His album discography includes Space Diver and Level One.",
   appearances: [
     {
       id: "1",
@@ -1007,10 +1028,14 @@ const parisPaloma: Artist = {
   slug: "paris-paloma",
   imageUrl: "/artists/heroes/paris-paloma.webp",
   objectPosition: "center 40%",
-  genres: ["Dark Folk", "Indie Pop", "Chamber Pop"],
-  location: { city: "Derbyshire", country: "England" },
+  genres: ["Dark Folk", "Indie Pop", "Indie Folk"],
+  location: { city: "Ashbourne", country: "England" },
   tagline: "Visceral, mythological dark folk built on fierce emotional catharsis.",
-  socials: { spotify: "https://open.spotify.com/artist/2EXpthNgSeTDeX8nGwxppp" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/2EXpthNgSeTDeX8nGwxppp",
+    youtube: "https://www.youtube.com/@parispaloma",
+    tiktok: "https://www.tiktok.com/@parispalomaofficial",
+  },
   whySee: [
     "A deeply theatrical, folklore-inspired performance that acts as a beautifully dark, haunting oasis on the line-up",
     "Experience the raw, bone-chilling crowd energy during her massive, viral feminist anthem 'labor' live in a festival setting",
@@ -1020,11 +1045,13 @@ const parisPaloma: Artist = {
   whatToExpect: ["Technical Vocal Range", "Crowd Atmosphere", "Dark Mood Visuals"],
   bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
-    { name: "Porch Light", slug: "porch-light" },
     {
-      name: "Ella Boh",
-      slug: "ella-boh",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178f3ca12f1b323dbb7027d78dc",
+      name: "Porch Light",
+      slug: "porch-light",
+    },
+    {
+      name: "Ethel Cain",
+      slug: "ethel-cain",
     },
     {
       name: "Whitney Whitney",
@@ -1032,13 +1059,18 @@ const parisPaloma: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b9b32a1845c72390fc48c28c",
     },
     {
-      name: "Next of Kin",
-      slug: "next-of-kin",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178cbe19203158c6eae4ed0504a",
+      name: "Ella Boh",
+      slug: "ella-boh",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178f3ca12f1b323dbb7027d78dc",
     },
   ],
   tracks: [
-    { name: "labor", album: "Cacophony", duration: "" },
+    {
+      spotifyId: "0e00DiF2T9znEdmWakYSC3",
+      name: "labor",
+      album: "Cacophony",
+      duration: "3:57",
+    },
     { name: "yours", album: "Cacophony", duration: "" },
     {
       spotifyId: "03p1bgcOw398mneQ9H8891",
@@ -1049,7 +1081,7 @@ const parisPaloma: Artist = {
     },
   ],
   about:
-    "Paris Paloma is a Derbyshire-born singer-songwriter whose brilliant blend of dark indie-folk, baroque pop, and visceral storytelling has garnered a deeply passionate global community. Writing with the precision of a classical poet, Paloma weaponizes themes of historical mythology, ancestral fury, and deeply raw interpersonal grief into powerful sonic statements. Her breakout platinum single 'labor' became a massive international rallying cry, establishing her debut full-length album 'Cacophony' as a landmark showcase of gothic, jaw-dropping vocal authority.",
+    "Paris Paloma is a British singer-songwriter from Ashbourne, Derbyshire. She earned a Fine Arts degree from Goldsmiths, University of London, before releasing her debut singles in 2020. Her 2023 single 'labor' reached the Billboard Hot 100, earned RIAA Platinum certification, and accumulated over 100 million streams. She released her debut studio album, Cacophony, in August 2024 through Nettwerk Music Group. Her recorded work centers on acoustic guitar, choral vocal layering, and lyrics referencing historical art and folklore.",
   appearances: [
     {
       id: "1",
@@ -1069,10 +1101,14 @@ const littleSimz: Artist = {
   slug: "little-simz",
   imageUrl: "/artists/heroes/little-simz.jpg",
   objectPosition: "center 0%",
-  genres: ["Hip-Hop", "Conscious Rap", "Neo-Soul"],
+  genres: ["Alternative Hip-Hop", "Conscious Rap", "Neo-Soul"],
   location: { city: "London", country: "England" },
   tagline: "One of the absolute greatest lyricists alive delivering pure live mastery.",
-  socials: { spotify: "https://open.spotify.com/artist/6eXZu6O7nAUA5z6vLV8NKI" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/6eXZu6O7nAUA5z6vLV8NKI",
+    youtube: "https://www.youtube.com/@LittleSimz",
+    tiktok: "https://www.tiktok.com/@littlesimz",
+  },
   whySee: [
     "A blistering, career-defining masterclass in pure structural lyricism backed by an elite live multi-instrumental ensemble",
     "Hear the sweeping, cinematic live cuts from her critically acclaimed 2024 full-length masterpiece, Drop 7",
@@ -1083,27 +1119,29 @@ const littleSimz: Artist = {
   bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
     {
-      name: "Mustard",
-      slug: "mustard",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17854406b7007a449aeaac06c44",
+      name: "Freddie Gibbs",
+      slug: "freddie-gibbs",
     },
     {
-      name: "Destin Conrad",
-      slug: "destin-conrad",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1786be69fc54978eb83fa10167c",
+      name: "Blood Orange",
+      slug: "blood-orange",
     },
     {
-      name: "Khamari",
-      slug: "khamari",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1786921bdf2ddc6e84970fd172e",
+      name: "Ric Wilson",
+      slug: "ric-wilson",
     },
     {
-      name: "Lil Uzi Vert",
-      slug: "lil-uzi-vert",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17862c272d76220f2e9dad56704",
+      name: "Clipse",
+      slug: "clipse",
     },
   ],
   tracks: [
+    {
+      spotifyId: "2tHdQjwO5zN86MLF7ZtU1X",
+      name: "Venom",
+      album: "GREY Area",
+      duration: "2:34",
+    },
     {
       spotifyId: "0pJO1tc1GpnxFyQp6Zp82r",
       name: "Gorilla",
@@ -1127,7 +1165,7 @@ const littleSimz: Artist = {
     },
   ],
   about:
-    "Little Simz is the moniker of Simbiatu Ajikawo, a London-born rapper, songwriter, and actress whose uncompromising independent path has established her as one of hip-hop's most revered modern vanguards. Following the widespread critical masterpiece of 'Sometimes I Might Be Introvert'—which secured her a Mercury Prize—her evolution into 2024's club-ready electronic textures on 'Drop 7' showcased a restlessly creative artist who refuses to sit in one lane. Backed by a full live jazz-soul band, her live set is a deeply emotional, monumental tour de force of narrative performance.",
+    "Little Simz is the stage name of Simbiatu Ajikawo, a rapper, songwriter, and actress from Islington, London. She released her debut album, A Curious Tale of Trials + Persons, in 2015 through her independent imprint Age 101 Music. Her fourth studio record, Sometimes I Might Be Introvert, won the Mercury Prize in 2022. Her discography spans orchestral rap, West African highlife, neo-soul, and club-driven electronic music, including 2024's Drop 7 EP. On stage, her performance relies on sharp vocal pacing, live basslines, brass arrangements, and solo stage presence.",
   appearances: [
     {
       id: "1",
@@ -1146,10 +1184,14 @@ const cmat: Artist = {
   name: "CMAT",
   slug: "cmat",
   imageUrl: "/artists/heroes/cmat.webp",
-  genres: ["Indie Pop", "Country Pop", "Alternative Folk"],
+  genres: ["Country Pop", "Indie Pop", "Singer-Songwriter"],
   location: { city: "Dublin", country: "Ireland" },
   tagline: "High-camp pop anthems matched with devastating, razor-sharp heartbreak storytelling.",
-  socials: { spotify: "https://open.spotify.com/artist/3VBNIRx1LxVdRqOiPgkLwv" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/3VBNIRx1LxVdRqOiPgkLwv",
+    youtube: "https://www.youtube.com/@CMATbaby",
+    tiktok: "https://www.tiktok.com/@cmatbaby",
+  },
   whySee: [
     "The undisputed pop-country princess of Ireland delivering the funniest, most emotionally raw camp spectacle of the weekend",
     "Ciara Mary-Alice Thompson's jaw-dropping, operatic vocal range that completely commands giant festival fields",
@@ -1164,25 +1206,30 @@ const cmat: Artist = {
   ],
   bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
-    { name: "Will Swinton", slug: "will-swinton" },
     {
-      name: "Next of Kin",
-      slug: "next-of-kin",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178cbe19203158c6eae4ed0504a",
+      name: "Elizabeth Nichols",
+      slug: "elizabeth-nichols",
     },
     {
-      name: "Bella Kay",
-      slug: "bella-kay",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1783d7290ae36694e14b0655753",
+      name: "Ethel Cain",
+      slug: "ethel-cain",
     },
     {
-      name: "Los Retros",
-      slug: "los-retros",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1789d019dcbc94351d723314b37",
+      name: "Kingfishr",
+      slug: "kingfishr",
+    },
+    {
+      name: "Wet Leg",
+      slug: "wet-leg",
     },
   ],
   tracks: [
-    { name: "I Don't Really Care For You", album: "If My Wife New I Was Dead", duration: "" },
+    {
+      spotifyId: "6VXIZWHmdOTHIFhsSkYFgQ",
+      name: "When a Good Man Cries",
+      album: "EURO-COUNTRY",
+      duration: "4:32",
+    },
     {
       spotifyId: "05TyHrGHIEg8EyW31zJj0c",
       name: "Stay For Something",
@@ -1199,7 +1246,7 @@ const cmat: Artist = {
     },
   ],
   about:
-    "CMAT is the artistic project of Dublin-born singer-songwriter Ciara Mary-Alice Thompson, whose unique blend of classic country songwriting tropes, glittering indie pop hooks, and postmodern humor has earned her global critical adoration. Drawing sharp thematic parallels between the grand emotional isolation of Nashville legends and modern millennial anxieties, her Brit-nominated sophomore album 'Crazymad, For Me' became a landmark breakout statement. Live, CMAT strips away all traditional indie rock solemnity, deploying an elite theatrical performance that is equal parts stadium-sized tragedy and celebratory line-dance party.",
+    "Dublin-born singer-songwriter Ciara Mary-Alice Thompson performs under the name CMAT. Her music pairs country songwriting structures with indie-pop arrangements and narrative lyrics. Her 2022 debut album, If My Wife New I'd Be Dead, won the Choice Music Prize for Irish Album of the Year, and her 2023 follow-up, Crazymad, For Me, received a Mercury Prize nomination and a BRIT Award nomination for International Artist of the Year. Her 2025 album Euro-Country expanded her sound with full-band production. On stage, CMAT performs backed by a live band, frequently incorporating camp theatrical choreography and country line-dancing routines into her sets.",
   appearances: [
     {
       id: "1",
@@ -1223,7 +1270,11 @@ const boysNoize: Artist = {
   location: { city: "Berlin", country: "Germany" },
   tagline:
     "Industrial Berlin techno and distorted punk energy designed to shatter warehouse dance floors.",
-  socials: { spotify: "https://open.spotify.com/artist/62k5LKMhymqlDNo2DWOvvv" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/62k5LKMhymqlDNo2DWOvvv",
+    youtube: "https://www.youtube.com/@boysnoize",
+    tiktok: "https://www.tiktok.com/@boysnoize",
+  },
   whySee: [
     "A legendary titan of underground electronic music delivering a blistering, high-velocity audio-visual assault to the Perry's tent",
     "Experience his historic, heavy-hitting club staples alongside brand-new, unreleased electronic studio cut collaborations",
@@ -1238,20 +1289,31 @@ const boysNoize: Artist = {
       slug: "boris-brejcha",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782cc3d29c6605e96958abf585",
     },
+    {
+      name: "Chalk",
+      slug: "chalk",
+    },
+    {
+      name: "Devault",
+      slug: "devault",
+    },
+    {
+      name: "Eli Brown",
+      slug: "eli-brown",
+    },
   ],
   tracks: [
     {
-      spotifyId: "2VJS0kuE7ozSYOWJpqlLhR",
-      name: "XTC",
-      album: "Out of the Black",
-      duration: "4:38",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02df3f49516400836a55d5a5f4",
+      spotifyId: "6tifCCTIVBLC2TmTquYG7G",
+      name: "Fine Day Anthem",
+      album: "Fine Day Anthem",
+      duration: "3:13",
     },
     { name: "Fine Baseline", album: "Mayday", duration: "" },
     { name: "Chamber", album: "Strictly Raw Vol. 2", duration: "" },
   ],
   about:
-    "Alex Ridha, performing under the iconic moniker Boys Noize, has spent two decades standing as one of global electronic music's most influential and restlessly creative underground forces. Emerging from the anarchic Berlin club network, his raw, distortion-heavy brand of electro house and techno completely rewrote the rules of crossover electronic music. From running his legendary Boysnoize Records label to producing for avant-garde heavyweights like Arca, Frank Ocean, and Skrillex, his live festival environments remain chaotic, blindingly strobe-lit masterclasses in pure analog club energy.",
+    "German producer and DJ Alexander Ridha has spent over two decades shaping raw, high-voltage club music under the name Boys Noize. Grounded in the Berlin underground and propelled by his label Boysnoize Records, his signature sound fuses gritty electro house with heavy techno and industrial textures. Beyond his solo discography, Ridha's production instincts have driven high-profile collaborations with Skrillex (as Dog Blood), Frank Ocean, Nine Inch Nails, and Lady Gaga. On stage, Boys Noize delivers relentless, analog-driven sets built on physical basslines and strobe-lit intensity.",
   appearances: [
     {
       id: "1",
@@ -1267,14 +1329,18 @@ const boysNoize: Artist = {
 };
 
 const betweenFriends: Artist = {
-  name: "Between Friends",
+  name: "BETWEEN FRIENDS",
   slug: "between-friends",
   imageUrl: "/artists/heroes/between-friends.webp",
   objectPosition: "center 20%",
-  genres: ["Indie Pop", "Bedroom Pop", "Neo-Psychedelia"],
+  genres: ["Indie Pop", "Bedroom Pop", "Alt-Pop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Glitchy, neon-drenched notebook bedroom pop for late-night drives under palm trees.",
-  socials: { spotify: "https://open.spotify.com/artist/2HkSsS8O2U2gPhnCGVN5vn" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/2HkSsS8O2U2gPhnCGVN5vn",
+    youtube: "https://www.youtube.com/@betweenfriends",
+    tiktok: "https://www.tiktok.com/@itsbetweenfriends",
+  },
   whySee: [
     "The absolute internet-favorite sibling duo bringing their hyper-aesthetic, nostalgic indie pop directly to a massive festival setting",
     "Savannah and Brandon Hudson's perfectly synchronized, dreamy vocal lines gliding over lush lo-fi synth instrumentation",
@@ -1290,33 +1356,34 @@ const betweenFriends: Artist = {
   bestFor: ["Bass & Groove Lovers"],
   similarArtists: [
     {
-      name: "Love Spells",
-      slug: "love-spells",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178b33be717b74e15b9f5c235f2",
-    },
-    {
-      name: "sombr",
-      slug: "sombr",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17878edaa6468cae153565c2c97",
-    },
-    {
-      name: "Beabadoobee",
-      slug: "beabadoobee",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1783a41a62e7193703d29d30a9a",
-    },
-    {
       name: "Claire Rosinkranz",
       slug: "claire-rosinkranz",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1789fd59f9fc4a311da6437b6a5",
+    },
+    {
+      name: "Frost Children",
+      slug: "frost-children",
+    },
+    {
+      name: "Julia Wolf",
+      slug: "julia-wolf",
+    },
+    {
+      name: "Oklou",
+      slug: "oklou",
     },
   ],
   tracks: [
-    { name: "Affection", album: "wejustneedtobalone", duration: "" },
+    {
+      spotifyId: "4EtgDIWb8Wm5mnaK701c0C",
+      name: "affection",
+      album: "we just need some time together",
+      duration: "",
+    },
     { name: "iloveyou", album: "I Love My Friends", duration: "" },
     { name: "Bruise", album: "I Love My Friends", duration: "" },
   ],
   about:
-    "Between Friends is the Los Angeles-based alternative pop project of siblings Savannah and Brandon Hudson, who forged an intense internet-cult community through their meticulous blend of lo-fi bedroom recordings and glossy garage pop. Originally breaking out with their hazy bedroom anthem 'Affection', the duo expanded their sonic identity into a full-length statement on 'I Love My Friends', capturing the precise, hyper-aesthetic textures of Gen-Z youth culture. Live, their project functions as an intimate, neon-lit cinematic diary entry wrapped in warm, driving synthesizers.",
+    "Formed by LA-based siblings Brandon and Savannah Hudson, BETWEEN FRIENDS crafts an intimate, nostalgic blend of DIY bedroom pop and atmospheric alt-pop. After breaking out with their hit single 'Affection,' the duo built a loyal following through visually striking EPs, aesthetic short films, and danceable festival sets rooted in modern internet culture and warm synth textures.",
   appearances: [
     {
       id: "1",
@@ -1334,11 +1401,13 @@ const betweenFriends: Artist = {
 const mph: Artist = {
   name: "MPH",
   slug: "mph",
-  genres: ["UK Garage", "Bassline", "House"],
+  genres: ["UK Garage", "Bassline", "Bass House"],
   location: { city: "Canterbury", country: "England" },
   tagline:
     "High-octane, hyper-precise UK garage driving the modern electronic underground dance revival.",
-  socials: { spotify: "https://open.spotify.com/artist/62SCu33InHVq97VaWw3eof" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/62SCu33InHVq97VaWw3eof",
+  },
   whySee: [
     "One of the UK garage underground's absolute finest modern technicians commanding an intense, high-energy dance session",
     "Experience a relentless display of syncopated swing rhythms, heavy bassline rollers, and infectious classic vocal chops",
@@ -1354,6 +1423,11 @@ const mph: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f1788436c7707f218912b3dc25a4",
     },
     {
+      name: "Riordan",
+      slug: "riordan",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a",
+    },
+    {
       name: "Sidepiece",
       slug: "sidepiece",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f75bb8d64c3d43282ad006f7",
@@ -1363,13 +1437,14 @@ const mph: Artist = {
       slug: "westend",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178bc781a35d287a09940ae6046",
     },
-    {
-      name: "Omnom",
-      slug: "omnom",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a",
-    },
   ],
   tracks: [
+    {
+      spotifyId: "2U9RtZORzcu54vkWI19PIL",
+      name: "Raw",
+      album: "Raw",
+      duration: "3:12",
+    },
     { name: "One0Two", album: "Refraction", duration: "" },
     { name: "Ghost", album: "Refraction", duration: "" },
     {
@@ -1381,7 +1456,7 @@ const mph: Artist = {
     },
   ],
   about:
-    "MPH is the artistic project of Canterbury-born DJ and electronic producer CJ Booth, who has rapidly solidified his position as one of the modern era's most prolific and essential UK Garage forces. Blending the nostalgic, soulful swing of late-90s garage with the crushing, heavy bassline weight of contemporary underground club culture, his landmark full-length project 'Refraction' earned widespread institutional praise. Behind the decks, MPH delivers a technically flawless, high-tempo masterclass in rhythm manipulation that sets the exact standard for modern club music.",
+    "Canterbury-born producer Myles Fairbairn, performing as MPH, stands at the forefront of the modern UK Garage and bass revival. Blending the soulful, syncopated swing of classic '90s UKG with high-octane bassline and bass house energy, he has built a reputation through standout releases on imprints like Night Bass, Crucast, and Nuvolve. His 2024 LP Refraction solidified his signature sound, while his high-tempo, rhythmically intricate DJ sets have made him a fixture across major global festival stages.",
   appearances: [
     {
       id: "1",
@@ -1399,11 +1474,15 @@ const mph: Artist = {
 const amble: Artist = {
   name: "Amble",
   slug: "amble",
-  genres: ["Contemporary Folk", "Alternative Folk", "Traditional Irish Folk"],
+  genres: ["Contemporary Folk", "Indie Folk", "Irish Folk"],
   location: { city: "Midlands", country: "Ireland" },
   tagline:
     "Stripped-back, deeply nostalgic three-piece contemporary folk rooted in timeless storytelling.",
-  socials: { spotify: "https://open.spotify.com/artist/5ZC7GPz5h9zkEfjZBUDNzI" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/5ZC7GPz5h9zkEfjZBUDNzI",
+    youtube: "https://www.youtube.com/@ambleofficial",
+    tiktok: "https://www.tiktok.com/@ambleofficial",
+  },
   whySee: [
     "Ireland's fastest-rising contemporary folk phenomena bringing an intimate, breathtakingly acoustic experience to Grant Park",
     "Three-part vocal harmonies of jaw-dropping precision singing gorgeous, poetic modern hymns of ordinary Irish life",
@@ -1413,11 +1492,14 @@ const amble: Artist = {
   whatToExpect: ["Live Band Performance", "Lyrical Storytelling", "Crowd Atmosphere"],
   bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
-    { name: "Will Swinton", slug: "will-swinton" },
     {
       name: "Kingfishr",
       slug: "kingfishr",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17880e8456f3ecc34f93ceebdde",
+    },
+    {
+      name: "Will Swinton",
+      slug: "will-swinton",
     },
     {
       name: "Nat Myers",
@@ -1431,12 +1513,17 @@ const amble: Artist = {
     },
   ],
   tracks: [
+    {
+      spotifyId: "2vP6iFxnIV3awDVEaBnqut",
+      name: "Lonely Island",
+      album: "Lonely Island",
+      duration: "3:58",
+    },
     { name: "Mariner Boy", album: "The Name, The Trade and the Mirror", duration: "" },
     { name: "Tonylion", album: "Amble EP", duration: "" },
-    { name: "Lonely Island", album: "The Name, The Trade and the Mirror", duration: "" },
   ],
   about:
-    "Amble is the contemporary Irish folk three-piece consisting of Robbie Cunningham, Oisin McCaffrey, and Ross McNerney, whose minimalist, acoustic-led soundscapes have sparked a massive international folk resurgence. Rooted in the stark, timeless tradition of legendary acoustic storytellers, the trio pairs hauntingly beautiful acoustic guitars and bouzouki instrumentation with deeply moving tales of heartbreak, labor, and heritage. On the heels of their celebrated studio milestone 'The Name, The Trade and the Mirror', their live show translates raw, unadorned intimacy onto festival scales.",
+    "Irish folk trio Amble consists of Robbie Cunningham, Ross McNerney, and Oisin McCaffrey. Formed in late 2022, the group pairs acoustic guitars, mandolin, and bouzouki with three-part vocal harmonies. Their 2025 debut studio album, Reverie, debuted at number one on the Official Irish Albums Chart following breakout singles like 'Lonely Island' and 'Mariner Boy.' Recorded mostly live in studio takes, their catalog has amassed over 100 million streams alongside international headline tours and North American stadium support dates with Hozier.",
   appearances: [
     {
       id: "1",
@@ -1454,10 +1541,14 @@ const amble: Artist = {
 const kingfishr: Artist = {
   name: "Kingfishr",
   slug: "kingfishr",
-  genres: ["Indie Folk", "Alternative Folk"],
+  genres: ["Indie Folk", "Alternative Folk", "Irish Folk"],
   location: { city: "Limerick", country: "Ireland" },
   tagline: "Epic, stadium-scale acoustic indie folk built on soaring cinematic poetry.",
-  socials: { spotify: "https://open.spotify.com/artist/6c2qQFq3xfxFJndX6wSe4f" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/6c2qQFq3xfxFJndX6wSe4f",
+    youtube: "https://www.youtube.com/@kingfishr",
+    tiktok: "https://www.tiktok.com/@kingfishrofficial",
+  },
   whySee: [
     "The absolute vanguard of the current Irish acoustic movement making an immensely anticipated debut on the American festival circuit",
     "Eddie Keogh's deeply resonant, earth-shaking baritone vocals cutting right through the open afternoon air of Grant Park",
@@ -1468,9 +1559,8 @@ const kingfishr: Artist = {
   bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
-      name: "Elizabeth Nichols",
-      slug: "elizabeth-nichols",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1786a6686aacc775a0807c37cd8",
+      name: "Amble",
+      slug: "amble",
     },
     {
       name: "Nat Myers",
@@ -1483,12 +1573,17 @@ const kingfishr: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178712f78798ce31073c16673c8",
     },
     {
-      name: "Penelope Road",
-      slug: "penelope-road",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17852fea332b35d65cd61fa5d39",
+      name: "Case Oats",
+      slug: "case-oats",
     },
   ],
   tracks: [
+    {
+      spotifyId: "4q5n1e9OgkSv2qIWXVp9sC",
+      name: "Caroline",
+      album: "Caroline",
+      duration: "3:50",
+    },
     { name: "Eyes Don't Lie", album: "Live From Dublin", duration: "" },
     {
       spotifyId: "3LKpYgSpXt5hRvr5LCVGdB",
@@ -1506,7 +1601,7 @@ const kingfishr: Artist = {
     },
   ],
   about:
-    "Kingfishr is the Limerick-born alternative folk project consisting of Eddie Keogh, Eoghan McGrath, and Eoin Fitzgibbon, who emerged from their university dorms to become one of European acoustic music's most staggeringly successful breakout vanguards. Pairing the raw, structural weight of stadium-scale indie rock with traditional Irish folk textures, the trio writes sweeping tales of pride, identity, and interpersonal grief. Behind the instruments, their performance delivers an immediate, cinematic wall of sound that translates perfectly to monumental festival stages.",
+    "Kingfishr formed when vocalist and guitarist Eddie Keogh, banjo player Eoghan McGrath, and bassist Eoin Fitzgibbon met while studying engineering at the University of Limerick in 2017, releasing their debut single 'flowers-fire' in 2022. Their cinematic vocal arrangements and banjo-led melodies broke through with 'Killeagh', which spent 17 weeks at number one on the Irish Singles Chart in 2025 and became the country's Christmas number one that year. That same year's debut album 'Halcyon' topped the Irish albums chart, and the trio have opened UK and European arena dates for Bruce Springsteen and George Ezra.",
   appearances: [
     {
       id: "1",
@@ -1528,7 +1623,11 @@ const ninajirachi: Artist = {
   genres: ["Hyperpop", "Club", "Electronic"],
   location: { city: "Sydney", country: "Australia" },
   tagline: "Glitchy, hyper-futuristic club music delivered at terminal velocity.",
-  socials: { spotify: "https://open.spotify.com/artist/3MekbRujJg5VZThubOlrkR" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/3MekbRujJg5VZThubOlrkR",
+    youtube: "https://www.youtube.com/@ninajirachi",
+    tiktok: "https://www.tiktok.com/@ninajirachi",
+  },
   whySee: [
     "Australia's premier electronic auteur bringing a boundary-pushing, hyper-glossy club sermon directly to the mid-afternoon crowd",
     "Experience an elite display of syncopated percussion blocks, metallic baseline steps, and brilliantly pitch-shifted vocal arrays",
@@ -1544,23 +1643,31 @@ const ninajirachi: Artist = {
   bestFor: ["Tent & Club Venue Seekers", "Sound Design & Production Nerds"],
   similarArtists: [
     {
-      name: "bradeazy",
-      slug: "bradeazy",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1781c9da6b48887663d291b8df4",
-    },
-    {
       name: "Frost Children",
       slug: "frost-children",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17851daae4f55980f7ff0ea8c30",
     },
-    { name: "WORSHIP", slug: "worship" },
     {
-      name: "YOASOBI",
-      slug: "yoasobi",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178964812dece6096f894a1fe85",
+      name: "Slayyyter",
+      slug: "slayyyter",
+    },
+    {
+      name: "Snow Strippers",
+      slug: "snow-strippers",
+    },
+    {
+      name: "bradeazy",
+      slug: "bradeazy",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1781c9da6b48887663d291b8df4",
     },
   ],
   tracks: [
+    {
+      spotifyId: "1xqT27jSG1Y15vOXfsV0gv",
+      name: "iPod Touch",
+      album: "I Love My Computer",
+      duration: "3:16",
+    },
     {
       spotifyId: "3Zzb5zbAY02YU4p7I4oVim",
       name: "Start Small",
@@ -1572,7 +1679,7 @@ const ninajirachi: Artist = {
     { name: "Shatter", album: "4x4", duration: "" },
   ],
   about:
-    "Nina Wilson, performing under the moniker Ninajirachi, has spent the modern electronic era standing as one of the global underground's most fiercely creative and technologically precise sound designers. Emerging from Australia's left-field club network, her hyper-stylized brand of dance music completely shatters traditional genre boundaries by fusing pristine pop melodies with dark, abrasive percussive patterns. From running her own independent label initiatives to producing for avant-garde heavyweights, her live festival sets are relentless, adrenaline-fueled journeys into tomorrow's rave landscape.",
+    "Australian DJ and producer Nina Wilson performs under the moniker Ninajirachi, crafting hyper-stylized dance music that bridges left-field club music and boundary-pushing hyperpop. The Central Coast native broke through as a teenager, reaching the finals of Triple J's Unearthed High competition before her 2017 single 'Pure Luck' became one of the station's most-played songs that year. Her debut studio album 'I Love My Computer' earned eight ARIA Award nominations in 2025, including Album of the Year, and won three, establishing her high-octane live sets on the global festival circuit.",
   appearances: [
     {
       id: "1",

@@ -231,7 +231,7 @@ export const GENRES = [
   "Synth-Pop",
   "Tech House",
   "Techno",
-  "Traditional Irish Folk",
+  "Irish Folk",
   "Trap",
   "Tropicalia",
   "UK Garage",
@@ -319,7 +319,7 @@ export const GENRE_FAMILIES = {
     "Gothic Folk",
     "Indie Folk",
     "Singer-Songwriter",
-    "Traditional Irish Folk",
+    "Irish Folk",
   ],
   "Hip-Hop/Rap": [
     "Alternative Hip-Hop",

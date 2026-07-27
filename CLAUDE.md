@@ -300,6 +300,12 @@ No em dashes or standalone hyphens as punctuation. Use a period or colon instead
 
 Avoid "Expect X" or "You'll experience X" framing. Telling the reader what they will feel is an authoritative claim this copy hasn't earned. Say what the show consists of instead ("His sets run on relentless low end..." not "Expect relentless low end...").
 
+### Live performance details are fair game when documented, not witnessed
+
+Format and reputation facts about how an artist performs are verifiable the same way any other fact is: "expanded to a five-piece for live shows," "performs as a four-way back-to-back set," "known for elaborate theatrical staging" are all fine when multiple independent sources consistently describe them as an ongoing, established part of the act, not one reviewer's account of a single show.
+
+What's not fine: describing what a show feels like as if the copy witnessed it firsthand, or presenting a single review's subjective impression as settled fact. That's a different failure than the one above, but the same root cause: an authority the copy hasn't earned.
+
 ### Nothing tied to one specific appearance
 
 Never name a specific stage, date, or "this weekend," and never call a show a "hometown set." An artist record isn't scoped to a single festival or booking (see `festivalId` on `appearances`) — anything that's only true for *this* appearance breaks the moment the same data is reused for a different one or the schedule changes. Biographical origin facts ("emerged from Chicago") are permanent and fine; tying that origin to "this show" is not.
