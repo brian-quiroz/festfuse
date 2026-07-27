@@ -2738,3 +2738,25 @@ Whether every interactive control — especially icon-only buttons without a tex
 ## Future Consideration: Festival Story Text Wrap at 320px + Large Text Settings
 
 Festival Story card copy hasn't been specifically checked at the intersection of the narrowest supported width (320px) and iOS/Android large-text accessibility settings, where line-wrap could look cramped or overflow. Unverified either way. Revisit alongside a real-device accessibility pass.
+
+---
+
+## Future Consideration: ExploreFilters Blur-Recovery Runs on Every Browser, Not Just iOS
+
+`ExploreFilters.tsx`'s `handleSearchBlur` (the viewport-meta + scroll-nudge fix for iOS/WebKit's zoom-on-focus bug, see § Explore Search Input Zoom-on-Focus) runs unconditionally on every blur of the search input, regardless of platform — it was never gated to iOS/WebKit specifically, even though the bug it corrects only exists there.
+
+**Considered and not adopted:** gating it behind a `navigator.userAgent` check. The concrete version proposed (matching `/iP(hone|od|ad)/` in the UA string) has a real bug: iPadOS has defaulted to a desktop-class User-Agent (masquerading as macOS Safari) since iPadOS 13, specifically so sites don't serve it a "mobile" experience — that regex never matches a real iPad's UA, so gating this way would silently break the recovery fix for iPad users, one of the platforms it was built for, while leaving it "fixed" for iPhone. Adopting it as suggested would be a regression, not an improvement.
+
+**Why not gate some other way instead:** the actual cost of running unconditionally is close to zero. The viewport-meta mutation has no visible effect on desktop browsers (they don't tie zoom behavior to that meta tag the way mobile Safari does), and the `scrollTo(0,1)`/`scrollTo(0,0)` nudge operates on `window`/document scroll, which per this app's own architecture (§ "`<body>` is `overflow-hidden`, deliberately") is never the real scroll container anywhere in the app — that position is already pinned at 0. So non-iOS platforms pay a handful of cheap, no-op DOM reads/writes per search-input blur, not visible churn or jank. Not worth the correctness risk of UA-sniffing to eliminate a cost this small. Revisit only with a real feature-detection approach, not UA sniffing, if this ever needs to change.
+
+---
+
+## Future Consideration: Sidebar Mobile Drawer Contents Stay Tabbable While Visually Closed
+
+`Sidebar.tsx`'s `<aside>` (all nav links, My Festival items, How it works) is always mounted in the DOM — on mobile, "closed" is purely visual, via `-translate-x-full`. Nothing marks its contents `inert`/`aria-hidden` while off-screen. Combined with render order in `app/layout.tsx` (`MobileTopBar` → `Sidebar` → `{children}`), a keyboard user tabbing from the hamburger button on mobile would tab through all of the drawer's ~8-9 links/buttons — invisible, off-screen — before ever reaching visible page content.
+
+This is distinct from the round-2 fix (`useDialogA11y` wired into the drawer, see § Dialog Accessibility): that hook only runs `if (isOpen)` — it governs Escape/Tab-trap/focus-restore while the drawer is open, and never touches the closed state at all. The two gaps are complementary, not overlapping.
+
+**Not fixed now.** Real, but narrow exposure: only affects Tab-key keyboard navigation on a mobile viewport specifically — not touch (the overwhelming majority of mobile users) and not VoiceOver/TalkBack (which navigate via swipe gestures, not Tab). Doesn't block product usage or lose data for anyone it does affect. Given a small initial user base at launch, the realistic odds of this mattering pre-launch are low, and it wasn't worth the added risk of shipping an under-tested fix this late — the correct version isn't a one-line change: the same component serves desktop's always-visible static column, so any "inert while closed" logic must be scoped to mobile-viewport-and-closed specifically (a naive `inert={!isMobileDrawerOpen}` would break desktop, where that flag is always `false`), and needs to avoid making the drawer's content disappear before its 300ms slide-out transition finishes.
+
+**What a real fix would look like:** add `invisible`/`visible` Tailwind classes alongside the existing transform classes, using the same `md:` override pattern already used for the transform itself (`md:visible` unconditional, `visible`/`invisible` toggled with `isMobileDrawerOpen` for mobile) — `visibility:hidden` natively removes an element from the tab order and accessibility tree, no `inert` polyfill needed. Needs a transition delay (or the `isScreenExiting`-style deferred-state pattern already used in Quick Picks) so it only goes inert once the close animation has actually finished, not the instant it starts. Revisit post-launch, or sooner if keyboard-only mobile navigation becomes a tracked concern.
