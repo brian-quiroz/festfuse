@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CornerDownLeft } from "lucide-react";
 import { COLORS } from "@/app/data/colors";
+import { useDialogA11y } from "@/app/hooks/useDialogA11y";
 
 // Counts from 0 to target with cubic ease-out. cancelAnimationFrame(0) is a safe no-op.
 function useCountUp(target: number, duration = 700, delay = 250) {
@@ -61,6 +62,10 @@ export default function DayCompleteScreen({
   const interestedCount = useCountUp(dayStats?.interested ?? 0);
   const passedCount = useCountUp(dayStats?.passed ?? 0);
   const [pressing, setPressing] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  // The one unambiguous primary CTA on this screen, already reinforced by the
+  // existing Enter-key shortcut below — the natural initial-focus target.
+  const continueButtonRef = useRef<HTMLButtonElement>(null);
 
   function handleContinue() {
     if (pressing) return;
@@ -71,6 +76,10 @@ export default function DayCompleteScreen({
     }, 100);
   }
 
+  // Global "Enter always advances" shortcut — specific to this screen's single-CTA
+  // flow, not a generic dialog affordance, so it stays separate from useDialogA11y
+  // below rather than folded into the shared hook. Both listen for different keys
+  // (Enter here, Escape there) on document/window, so they coexist without conflict.
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -83,8 +92,17 @@ export default function DayCompleteScreen({
     return () => window.removeEventListener("keydown", handleKey);
   }, [pressing, onContinue]);
 
+  // This screen replaces the Quick Picks <main> content rather than floating over it,
+  // but still gets dialog semantics: from an assistive-tech perspective it's the same
+  // "attention moved to a new modal-like context" pattern as a floating dialog.
+  useDialogA11y({ isOpen: true, onClose: onExit, containerRef, initialFocusRef: continueButtonRef });
+
   return (
     <motion.div
+      ref={containerRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="day-complete-title"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
@@ -112,8 +130,8 @@ export default function DayCompleteScreen({
         </div>
 
         {/* Headline + supporting copy */}
-        <div className="flex flex-col items-center gap-2">
-          <h1 className="text-6xl font-extrabold tracking-tight leading-none">
+        <div className="flex flex-col items-center gap-3">
+          <h1 id="day-complete-title" className="text-6xl font-extrabold tracking-tight leading-none">
             <span className="text-white">{completedDay ?? "Day"} </span>
             <span style={{ color: COLORS.celebration }}>complete!</span>
           </h1>
@@ -145,13 +163,16 @@ export default function DayCompleteScreen({
         {/* Primary CTA */}
         <div className="flex flex-col items-center gap-3 w-full max-w-[390px] mt-3">
           <button
+            ref={continueButtonRef}
             onClick={handleContinue}
             className={`flex items-center justify-center gap-2 w-full px-6 py-4 rounded-lg bg-[#00E5FF] text-[#110D24] font-bold text-base hover:bg-[#00E5FF]/90 transition duration-100 ${pressing ? "scale-[0.97]" : ""}`}
           >
             Continue to {upcomingDay ?? "Next Day"}
             <ArrowRight size={15} strokeWidth={2.5} />
           </button>
-          <span className="flex items-center gap-1 text-white/30 text-[11px]">
+          {/* Keyboard hint — meaningless on touch devices, hidden on mobile. The
+              keydown listener above is unaffected; this is a rendering-only change. */}
+          <span className="hidden md:flex items-center gap-1 text-white/30 text-[11px]">
             <CornerDownLeft size={10} strokeWidth={2} />
             Enter
           </span>

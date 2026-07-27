@@ -51,19 +51,104 @@ Normalization ensures:
 
 ### Genre Parent Categories (11 total)
 
-For organizational reference—filters and search use the full 124-genre list:
+For organizational reference—filters and search use the full 124-genre list. Six of
+the eleven were renamed from their original slash-joined form (e.g.
+`K-Pop/J-Pop/P-Pop` -> `Asian Pop`): multi-slash names were overflowing/clipping in
+Festival Story headline copy, which interpolates the family name as a bare noun phrase
+with no truncation or wrapping. The remaining slash-joined pairs (`Hip-Hop/Rap`,
+`R&B/Soul`, `Dance/Electronic`) were kept specifically because they're verified
+industry-standard joint category names (Apple Music's own genre list; the Grammys'
+"Best Dance/Electronic Recording" award category) rather than two synonyms stapled
+together — that distinction was the actual rule applied, not name length alone.
 
-- **Rock/Alternative:** 90s Alternative, Alternative Rock, Art Rock, Grunge, Indie Rock, Post-Punk, Shoegaze, etc.
+- **Rock:** 90s Alternative, Alternative Rock, Art Rock, Grunge, Indie Rock, Post-Punk, Shoegaze, etc.
 - **Pop:** Alt-Pop, Art Pop, Dance Pop, Electropop, Hyperpop, Synth-Pop, etc.
-- **Folk/Americana/Country:** Americana, Country, Indie Folk, Singer-Songwriter, etc.
+- **Americana:** Americana, Country, Indie Folk, Singer-Songwriter, etc.
 - **Hip-Hop/Rap:** Boom Bap, Hip-Hop, Plugg, Trap, Underground Rap, etc.
 - **R&B/Soul:** Alternative R&B, Funk, Neo-Soul, R&B, Soul, etc.
-- **Indie/Bedroom/Shoegaze:** Bedroom Pop, Dream Pop, Indie Pop, Lo-Fi Indie, Slowcore, etc.
-- **Electronic/Dance:** House, Techno, Drum and Bass, Dubstep, Future Bass, Industrial Techno, etc.
-- **K-Pop/J-Pop/P-Pop:** J-Pop, K-Pop, P-Pop
-- **Punk/Hardcore/Metal:** Alternative Metal, Emo, Hardcore Punk, Metalcore, Punk Rock, etc.
-- **Classical/Orchestral:** Classical, Symphonic Rock, etc.
+- **Indie:** Bedroom Pop, Dream Pop, Indie Pop, Lo-Fi Indie, Slowcore, etc.
+- **Dance/Electronic:** House, Techno, Drum and Bass, Dubstep, Future Bass, Industrial Techno, etc.
+- **Asian Pop:** J-Pop, K-Pop, P-Pop
+- **Heavy:** Alternative Metal, Emo, Hardcore Punk, Metalcore, Punk Rock, etc.
+- **Classical:** Classical, Symphonic Rock, etc.
 - **Global Pop:** Afroswing, Tropicalia, etc.
+
+---
+
+## Genre Gradient Fallback (No-Photo Placeholder)
+
+**Where used:** Artist Detail hero (`ArtistHero.tsx`), avatars including Similar
+Artists (`ArtistAvatar.tsx`), Quick Picks' hero card (`DecisionScreen.tsx`), and
+Explore grid cards (`ArtistCard.tsx`) — anywhere an artist has no curated `imageUrl`
+yet. Replaces four previously separate, inconsistent placeholder implementations (a
+flat circle + initials duplicated in two components, and a flat blank rectangle with
+no initials at all in Quick Picks) with one shared component,
+`app/components/ui/GenreGradientFallback.tsx`.
+
+### Color mapping
+
+`app/data/genreGradients.ts` maps each of the 11 `GenreFamily` values to a single
+accent hex (`GENRE_FAMILY_GRADIENTS`), paired with one shared dark base
+(`GENRE_GRADIENT_BASE = "#1B1535"`) for every gradient. Two rules constrain the
+palette:
+
+- **Stays clear of the 5 semantic colors.** Each accent hue sits outside a ±12°
+  exclusion zone around the *actual computed hue* of cyan/yellow/celebration/conflict
+  (not eyeballed ranges) — a genre color must never risk being misread as one of those
+  meaningful signals.
+- **Energy tiers, not a flat envelope.** Saturation/lightness vary per family — deep
+  and muted for grounded genres (Rock, Americana, Classical, R&B/Soul), bright and
+  punchy for high-energy ones (Pop, Dance/Electronic, Asian Pop, Global Pop) — rather
+  than one uniform S/L for all 11. An earlier flat-envelope pass made most families
+  visually indistinguishable from their neighbors; hue alone wasn't enough separation
+  at low, uniform saturation.
+- **Hip-Hop/Rap avoids the entire 240-290° hue range**, not just the neutral-violet
+  midpoint — the app's own foundation (`#110D24`, `#1B1535`, `#2D2556`) is violet-toned
+  throughout, so any genre color in that range reads as UI chrome rather than a
+  deliberate choice, regardless of saturation. It sits in the warm cluster instead,
+  differentiated from its neighbors by value alone (brighter/more saturated) — the
+  same pattern that separates Rock from Pop at a similarly tight hue gap.
+
+### Why `direction` is a prop, not hardcoded
+
+Each call site already has its own text-legibility overlay (a gradient that darkens
+part of the card so text stays readable). The fallback's own gradient direction must
+be chosen so its vivid accent lands where that overlay is *weakest*, not where it's
+strongest — getting this backwards effectively double-darkens the accent into
+invisibility (hit twice during development: once on Artist Hero, once on Quick
+Picks/Explore cards). Left-anchored text (Artist Hero) uses the default `135deg` (base
+top-left, accent bottom-right); bottom-anchored text (Quick Picks, Explore cards)
+passes `direction="to top"` so the accent sits at the top, away from each card's own
+bottom-heavy darkening overlay.
+
+Several call sites also needed their *own* overlay softened for the fallback case —
+the fallback already darkens progressively toward the text on its own, so stacking a
+full photo-legibility overlay on top double-darkens (a photo needs that overlay to
+create any darkening at all; the gradient doesn't). `ArtistHero`, `DecisionScreen`,
+and `ArtistCard` each skip or shorten their normal overlay when rendering the
+fallback, using a much shorter eased fade at the seam into whatever's below instead.
+
+### Known limitation
+
+The circle variant's border (`ArtistAvatar`) must be a fully opaque color, never a
+translucent `rgba()` — a translucent border alpha-blends with whatever gradient color
+sits behind each point on the ring, which reads as an uneven, "broken" border on a
+background this varied in lightness. Kept muted/dark (`#5A5578`) rather than light so
+it doesn't outcompete real photo avatars sitting next to it in the same list.
+
+### Similar Artists now reuse the linked artist's own data
+
+`FloatingCards.tsx`'s Similar Artists list no longer reads `similarArtists[].imageUrl`
+(a separately-curated, externally-sourced field) for its avatars. Since every similar
+artist is always a lineup artist (the recommendation algorithm draws from the
+festival's own roster), it looks the artist up via `artistsBySlug` and reuses *their
+own* `imageUrl`/`genres` — the same asset already curated for their own artist page —
+falling back to the gradient above when that artist doesn't have a photo yet either.
+
+**`similarArtists[].imageUrl` itself is now dead code** — no remaining reader anywhere
+in the app — but is being kept in the type and in all ~675 data entries for now rather
+than removed. This is a deliberate product decision, not an oversight — don't clean it
+up without checking first.
 
 ---
 
@@ -206,12 +291,23 @@ The Explore page manages four distinct states:
 3. **Search only** → Show search heading + ArtistResultsGrid
 4. **Search + filters** → Show ActiveFilters bar + ArtistResultsGrid
 
+**Known limitation:** `exploreFilterStore` (and search) is a plain, non-persisted
+Zustand store, so it already survives ordinary in-app navigation (browse → view an
+artist → return), but not a hard page reload. A potential future change would give it
+the same `persist` + `hasHydrated` treatment as `decisionStore`/`scheduleStore`/
+`plannerViewStore`/`attendanceStore` (see "State Summary → Stores" under Schedule
+Feature) — not committed to, lower priority since the common case already works.
+
 ### Dropdown Components
 
-- **MultiSelectDropdown:** Reusable for Genre and Stage (checkboxes, multiple selection)
+- **MultiSelectDropdown:** Reusable for Genre, Stage, Pick Status, and Schedule Status (checkboxes, multiple selection)
 - **SingleSelectDropdown:** Reusable for Day (highlighted rows, single selection)
 
 Both handle open/close state via parent, enabling clean separation of concerns.
+
+Both also auto-flip their panel from `left-0` to `right-0` when it would overflow the viewport — necessary because which filter pill ends up rightmost is decided by `flex-wrap` at render time, not by which filter it is (the same pill can sit mid-row on one viewport width and last-in-row on another), so the anchor can't be assigned per-instance. This needs a genuine two-pass measure-then-reveal (render "measuring" — always left-anchored, invisible — then a second effect measures that clean baseline and reveals the real position) rather than a single measure+`setState` effect; the single-pass version measured a stale DOM snapshot left over from the panel's previous open and caused the anchor to oscillate between left and right on repeated opens. See the `align` state and its paired `useLayoutEffect`s in either component for the implementation.
+
+`PlannerMobileFilters.tsx` (`app/components/planner/`) is a related but simpler pattern for the Planner toolbar's mobile filter trigger — it doesn't need the same flip logic since it's always the rightmost element in its row by construction, so it hardcodes `right-0`.
 
 ---
 
@@ -483,6 +579,10 @@ Clearing a verdict (clicking an active button to deselect it) sets `verdict` bac
 2. **Nested structure:** Restructure to `decisionsByFestival[festivalId][artistSlug]` for explicit per-festival scoping.
 
 **Do not add a second festival without addressing this first.** It will silently corrupt user decisions across festival contexts.
+
+**Attendance-day awareness is similarly narrow today.** `attendanceDaysByFestival` (see "Quick Picks Attendance" below) is already festival-scoped, but only two consumers read it: Quick Picks (`StartScreen`) and Festival Story (`FestivalStorySequence`). Explore, Home, Planner, and Artist Detail never read the user's selected attendance days — day-based filtering on those surfaces (e.g. Explore's day filter) uses each artist's own `appearance.day`, not the user's attendance selection. This is current state, not a defect; expanding attendance-day awareness app-wide is a separate, undecided product question from the festival-scoping fix above.
+
+One surface has since had its copy made day-aware without changing this underlying scope: `QuickPicksCompleteScreen.tsx`'s locked Festival Story explanation now names the specific attended day (or "your selected days" for multi-day sessions), sourced from the same `attendanceDays` prop the screen already used for other copy. This exists because `Sidebar.tsx`'s "My Picks" count sums every decision across the entire `decisionsByArtist` map with no day filtering, while the Story's unlock threshold is attendance-scoped — a user can see a much higher unscoped total in the Sidebar and be confused why the Story still reads as locked. The copy fix addresses that confusion in place; it does not change what counts toward the unlock threshold, and the Sidebar count itself remains unscoped, consistent with the app-wide state described above.
 
 ### State Boundaries
 
@@ -883,11 +983,6 @@ day's rate against samples that were never asked to search for their own best da
 Positive-concentration framing only; no avoidance/negative-day copy path exists. No
 weekday/weekend hardcoding — works for any combination (e.g. Thursday + Sunday).
 
-**Image**: no dedicated asset exists yet. `day` temporarily maps to `intro.jpg` in
-`FESTIVAL_STORY_IMAGES` (`app/data/festival-story.ts`), flagged with a
-`TODO(design)` comment. **A dedicated image is still needed before visual polish is
-considered complete.**
-
 ### Directional fixes
 
 - **Chicago**: requires `chicagoCount > 0` **and** user rate > the attendance-scoped
@@ -1111,10 +1206,21 @@ function getConflictingArtists(
 
 **"My Festival" section (below main nav):**
 
+Two labeled groups (`picksItems`, `scheduleItems`), not one flat list — reinforces that
+Picks and Schedule are separate dimensions, the same distinction the Planner's own
+"Show only:" toggles make. Not a parent/child indent tree: Conflicts isn't a true subset
+of Scheduled the way Must See/Interested are subsets of My Picks (a conflict is a derived
+problem-state among scheduled items, not a category of it), so two flat, labeled groups
+represents the actual relationship more accurately than nesting would.
+
+**Picks group:**
+
 1. **My Picks** — NEW
    - Calls `applyPreset("myPicks")`, then navigates to `/explore`
    - Shows count: "My Picks (X)" where X = count of Must See + count of Interested
-   - Cyan color per CLAUDE.md ("Primary workflow actions")
+   - Yellow color per CLAUDE.md ("User Intent & Personalization") — matches Must See/
+     Interested directly below it; was cyan originally, corrected after noticing it
+     contradicted its own two constituent categories in the same list
 
 2. **Must See** — Existing link (no change)
    - Calls `applyPreset("mustSee")` then navigates to `/explore`
@@ -1123,6 +1229,8 @@ function getConflictingArtists(
 3. **Interested** — Existing link (no change)
    - Calls `applyPreset("interested")` then navigates to `/explore`
    - Shows count
+
+**Schedule group:**
 
 4. **Scheduled** — NEW
    - Calls `applyPreset("scheduled")`, then navigates to `/explore`
@@ -1225,45 +1333,52 @@ function getConflictingArtists(
 
 #### Visual Treatment (Per CLAUDE.md Color Semantics)
 
-**Confirmed** — Color application per CLAUDE.md semantics:
+**Confirmed** — Fill, border, and pick icon are three independent channels, not a
+priority-ordered stack — a block can be scheduled, conflicting, and a pick all at once
+with nothing silently hidden:
 
-- **Scheduled artists:** Cyan background or accent border per CLAUDE.md ("Primary workflow actions")
-- **Conflicting scheduled artists:** Red border/highlight per CLAUDE.md ("Schedule conflicts")
-- **Unscheduled artists:** Neutral presentation (no accent)
-- **Must See/Interested (if visible with "My Picks" toggle enabled):** Yellow per CLAUDE.md ("User Intent & Personalization")
-
-All colors layered appropriately so conflicts (red) take visual priority over scheduling state (cyan).
+- **Fill** — driven only by scheduled state: cyan tint if scheduled, neutral otherwise. Always renders regardless of either toggle.
+- **Border** — driven only by conflict state: red per CLAUDE.md ("Schedule conflicts") if conflicting, otherwise falls back to the scheduled/neutral border color.
+- **Icon** — a small static (non-interactive) glyph reflecting the artist's pick verdict, per CLAUDE.md ("User Intent & Personalization"): a solid star for Must See, a flat muted-gold heart for Interested (an opaque color, not an alpha variant of Must See's, since translucent color blends inconsistently depending on what's underneath it), nothing if no verdict. Always renders regardless of either toggle — see Interactions below.
 
 #### Interactions
 
-**Confirmed** — Two independent toggles at the top of the Planner grid:
+**Confirmed** — Two independent toggles at the top of the Planner grid, framed under one
+shared "Show only:" label rather than each carrying its own "only" suffix (which would
+read as a contradiction when both are active at once) or a bare, unqualified name (which
+reads like a layer-visibility toggle — "Scheduled" off looking like it means "hide
+scheduled items" — rather than the restrictive filter it actually is):
 
-**Toggle 1: "My Picks"** (cyan styling)
+**"My Picks"** (cyan switch styling — a generic interactive-control color, not tied to
+what the switch filters)
 
 - Filters grid to display only artists with verdict === "mustSee" OR verdict === "interested"
 - Independent of the "Scheduled" toggle
 - When enabled, hides all other artists (Pass, Undecided) — except any that are part of a
   schedule conflict, which stay visible regardless of toggle state (see Combined behavior below)
+- Purely a visibility filter — does not gate whether the pick icon renders (see Visual Treatment above); a block's icon always reflects its true verdict whether or not this toggle is on
 
-**Toggle 2: "Scheduled"** (cyan styling)
+**"Scheduled"**
 
 - Filters grid to display only scheduled artists (`isScheduled(artist) === true`)
 - Independent of the "My Picks" toggle
 - When enabled, hides all unscheduled artists — the conflict exception above doesn't apply
   here since a conflicting artist is always scheduled by definition
+- Purely a visibility filter, same as "My Picks" — both switches are symmetric in scope; fill/border rendering was never gated by this toggle to begin with
 
 **Combined behavior (AND logic):**
 
 - Both toggles can be enabled simultaneously to show artists that are both in Must See/Interested AND scheduled
 - When both enabled, displays the intersection of the two filters
 - Conflict artists remain visible and highlighted (red border/accent) regardless of toggle state
-- Toggle state persists within this page visit; resets on navigation away
+- Default state: My Picks on, Scheduled off — surfaces "what have I flagged but not scheduled yet" on first visit, matching this feature's own framing below (organizing a plan *after* decisions have already been made). Defaulting both on instead would start blank for anyone with nothing scheduled yet, since that combination means "picks that are also scheduled."
+- Persisted via `plannerViewStore` (see State Summary → Stores below) — survives navigating away and back, and a hard page reload, not just this page visit
 
 **Artist cell interactions:**
 
 - **Confirmed** — Clicking anywhere on a cell toggles that artist's scheduled status directly, in place — no navigation. This is the primary action for this screen, matching what the Planner is actually for.
   - Toggling scheduled state updates the grid cell appearance immediately
-- **Confirmed** — A small secondary affordance within the cell (an icon or short link, not the whole cell) navigates to Artist Detail, for anyone who wants to see more before deciding.
+- **Confirmed** — A small secondary affordance within the cell (an icon or short link, not the whole cell) navigates to Artist Detail, for anyone who wants to see more before deciding. This is a real `Link`, not a `router.push` click handler — gives right-click/middle-click "open in new tab" and keyboard access, same reasoning as the stretched-link pattern used on Explore's `ArtistCard` for cards with their own nested interactive controls.
 - **Confirmed** — No click-count-based shortcuts for setting Must See/Interested/Passed from this screen — decisions stay confined to Quick Picks and Explore.
 - **Confirmed** — No preview modal — Artist Detail (via the secondary affordance) already covers that need.
 
@@ -1295,6 +1410,23 @@ All colors layered appropriately so conflicts (red) take visual priority over sc
    - `scheduledAppearanceKeys` — appearance keys, not artist slugs (see "Multi-Appearance Support")
    - Completely independent from decisions
    - Persisted to localStorage under the unchanged `schedule-store` key
+
+3. **plannerViewStore** (new)
+   - The Planner's "My Picks"/"Scheduled" display-toggle booleans, persisted to localStorage under `planner-view-store`
+   - Completely independent from decisions/scheduling — purely which rows are visible, never what they render as
+
+**Hydration:** all three stores above track a `hasHydrated` flag, set inside their
+`onRehydrateStorage` callback once localStorage has actually been read. A shared
+`HydrationGate` (`app/components/HydrationGate.tsx`), wrapping the app in
+`app/layout.tsx`, holds the very first render until every persisted store flips true
+(a fourth, `attendanceStore`, joined the same gate later — see § HydrationGate
+Resilience to Rehydration Errors) — without it, each store briefly renders its
+hardcoded default before rehydrating a moment later, most visibly a wrong toggle
+position, but the same gap exists anywhere decisionStore/scheduleStore-derived state
+renders (Sidebar counts, Explore's pick/schedule buttons, the Planner grid's own
+coloring). Only affects a hard reload — client-side navigation never remounts these
+stores. Any future persisted store should wire into this same gate rather than
+reinventing the check per-component.
 
 #### Derived State
 
@@ -1337,6 +1469,50 @@ Reactive computations
 - Color/palette rework (Pass color, celebration magenta refinements)
 
 These are separate, later features and should not influence the Schedule MVP design.
+
+### Planner "My Picks" filter: zero-positive-picks fallback
+
+**Confirmed** — `app/planner/page.tsx`'s `visibleEntries` filter treats "Show only: My
+Picks" as a no-op when `myPickSlugs.size === 0`, showing the full day's lineup instead
+of an empty grid. `showMyPicks` defaults to `true` (`plannerViewStore.ts`), so without
+this, a brand-new user landing on Planner saw a fully-structured but completely empty
+grid — stage columns and hour gridlines are always built from the unfiltered
+`allDayEntries` (see `getConflictingArtists`/range logic above), but the "My Picks"
+filter itself had nothing to show.
+
+Checks `myPickSlugs.size`, not `Object.keys(decisionsByArtist).length`. The two aren't
+equivalent: a user who ran a full Quick Picks session and Passed on everything has a
+non-empty `decisionsByArtist` but zero entries in `myPickSlugs` (which only counts
+`mustSee`/`interested`) — hitting the identical empty-grid problem a brand-new user
+does. Checking `decisionsByArtist` emptiness alone would have missed that case. Once
+any positive pick exists, filtering resumes normally, including correctly showing an
+empty grid for a specific day none of those picks fall on — that remains real, useful
+information, not something this fallback should paper over.
+
+#### The "My Picks" switch itself reflects the no-op, not just the filter
+
+Making the filter a silent no-op solved the empty grid, but left the switch showing
+"on" while doing nothing — indistinguishable from a broken toggle. `PlannerPage` now
+derives `myPicksDisabled = myPickSlugs.size === 0` and passes it to `Switch` as
+`disabled`, with `checked={showMyPicks && !myPicksDisabled}` so it also renders visibly
+off in that state, not just inert. `visibleEntries` reads the same combined condition
+(`myPicksActive = showMyPicks && !myPicksDisabled`) rather than checking
+`myPickSlugs.size` a second time inline, so the switch's visual state and the filter's
+actual behavior can't drift apart. Once any positive pick exists, both re-enable and
+fall back to reflecting the real persisted `showMyPicks` preference.
+
+`Switch` (`app/components/Switch.tsx`) gained a `disabledReason` prop to carry this:
+shown as a native `title` tooltip and folded into the accessible name
+(`"${label}. ${reason}"`) when disabled. More significantly, disabled state moved from
+the native `disabled` attribute to `aria-disabled` with a guarded `onClick` (`if
+(disabled) return;`) — native `disabled` removes an element from the tab order
+entirely, so a keyboard/screen-reader user would never land on it to learn it exists,
+let alone why it's off. `aria-disabled` keeps it focusable and inert instead. This
+changed uniformly for every `Switch` usage (also the Start screen's "Group by Festival
+Day" toggle in `StartOptions.tsx`), not just Planner's — `disabledReason` is optional
+and that usage doesn't pass one, so its `title`/`aria-label` are unaffected; the only
+change it inherits is the same focusability fix, which applies regardless of which
+switch it is.
 
 ---
 
@@ -1479,9 +1655,12 @@ an artist's data:
   not styled as a pill); `ArtistActions` shows the equivalent state+count text
   ("Add to Schedule · N sets" / "Complete Schedule · N sets" / "Scheduled · N sets");
   `DecisionScreen` (Quick Picks) shows a neutral-styled chip immediately after the
-  date/time chip. None of the three ever displays both appearance times, the
-  secondary appearance's own time/stage, or an individual per-appearance control
-  outside the Planner.
+  date/time chip; `FloatingCards`' "Playing At" card shows a plain-text count next to
+  its own heading (`· N sets`, no chrome/pill), added specifically because that card
+  otherwise only ever renders the primary appearance and gave no hint a second one
+  exists — unlike the other three, which already disclosed it. None of the four ever
+  displays both appearance times, the secondary appearance's own time/stage, or an
+  individual per-appearance control outside the Planner.
 - **Quick Picks** — exactly one card per artist, built from its selected-day
   representative appearance (see "Quick Picks Attendance" below — this is Quick
   Picks' one deliberate exception to "primary appearance everywhere outside the
@@ -1508,9 +1687,14 @@ the deferred Festival Story "Day of Week Signal" (see below) was blocked on.
 
 `app/store/attendanceStore.ts` persists `attendanceDaysByFestival: Record<string,
 string[]>`, festival-scoped so a future second festival doesn't collide with this
-one's selection. Reads and writes both go through `sanitizeAttendanceDays(festivalId,
-saved)` — a plain exported function, not just internal store logic, so it can be
-called directly (verification scripts do exactly this):
+one's selection. Carries the same `hasHydrated`/`HydrationGate.tsx` treatment as
+`decisionStore`/`scheduleStore`/`plannerViewStore` (see § HydrationGate Resilience to
+Rehydration Errors) — Quick Picks' Start Screen day picker and Festival Story's
+attendance-scoped signals both read from this store, so a pre-hydration flash here
+would be just as visible as on the other three. Reads and writes both go through
+`sanitizeAttendanceDays(festivalId, saved)` — a plain exported function, not just
+internal store logic, so it can be called directly (verification scripts do exactly
+this):
 
 - No saved selection yet (`undefined`), or a malformed/non-array value — defaults to
   every day in `FESTIVAL_DAYS[festivalId]` (`app/data/festivals.ts` — the single
@@ -1702,12 +1886,32 @@ a placeholder — treat it as confirmed until deliberately revisited.
 
 **Confirmed** — `SpotifyArtistEmbed` and `SpotifyTrackEmbed` (`app/components/ui/`)
 are the two reusable embed primitives, shared across Artist Detail (curated tracks)
-and Quick Picks (Quick Listen). Both: `loading="lazy"`, no autoplay, informative
-`title`, standard Spotify `allow` list, never alter/crop/overlay Spotify's own iframe
-content. Artist embed height is 370 (Spotify's non-compact layout, tall enough that a
-third track row isn't clipped — Spotify's list can be longer; users scroll inside it,
-FestFuse doesn't cap it). Track embed height is fixed at 80 (Spotify's compact
-layout).
+and Quick Picks (Quick Listen). Both: no autoplay, informative `title`, standard
+Spotify `allow` list, never alter/crop/overlay Spotify's own iframe content. Artist
+embed height is 370 (Spotify's non-compact layout, tall enough that a third track row
+isn't clipped — Spotify's list can be longer; users scroll inside it, FestFuse doesn't
+cap it). Track embed height is fixed at 80 (Spotify's compact layout).
+
+`SpotifyTrackEmbed` defaults to `loading="lazy"`, correct for Artist Detail's stacked
+multi-track "Listen First" list, where later tracks can sit below the fold. It also
+takes an optional `priority` prop (mirrors `next/image`'s own prop of the same name) for
+callers where the embed is always in the initial viewport and never stacked — Quick
+Picks' single Quick Listen embed sets this, since a lazy-loaded blank box read poorly on
+a screen designed around fast, confident decisions.
+
+### Spotify Embed Corner-Clipping
+
+The `rounded-xl overflow-hidden` wrapper around `SpotifyTrackEmbed`'s iframe doesn't
+perfectly mask the iframe's own square corners — a faint brighter leak is visible at
+each of the four corners, most noticeable on Quick Picks' Quick Listen against a mostly
+dark box interior. Same category of issue as the Home Cards corner-clip bug above.
+
+**Tried:** dimming the wrapper's border from `border-white/25` to `border-white/12`, to
+match the app's other neutral chip/card borders (metadata pills, the Grouping card).
+Reverted — at the dimmer value, the flat edges go nearly invisible, so the corner leak
+reads as an obvious glitch rather than blending in. At `/25`, the brighter, more evenly
+lit edge gives the whole box a subtle beveled feel, and the corner leak reads as part of
+that bevel rather than a mistake. Kept at `border-white/25`.
 
 ### Playback lifecycle: key-based remount, not reset effects
 
@@ -1739,8 +1943,449 @@ class of state.
 - `AlbumArtwork.tsx` (`app/components/ui/`) has no remaining callers since the old
   per-track selector UI was replaced by these embeds — kept, not deleted, in case
   per-track artwork is useful again.
-- Embed responsiveness was checked only for basic non-overflow, not redesigned for
-  mobile.
+
+### Embed Rate-Limiting Under Rapid Interaction
+
+Quick Picks' Quick Listen embed sets `priority` (eager load, not lazy) per the
+rationale above — every card change fires an immediate new `open.spotify.com/embed`
+iframe request. A pre-release automated audit that clicked through ~50-90 decisions
+in a few seconds hit a 503/504 from Spotify's own CDN on two of those runs.
+
+**Plausibility for a real user (initial assessment, not rigorously measured):** this
+isn't automation-only. Quick Picks has keyboard shortcuts (A/S/D) specifically so a
+user can move fast, "Pass" requires no listening/reading before deciding, and
+reaching Festival Story is designed around getting through all 4 days — up to ~168
+decisions — in one sitting. A real user speed-skimming a day of artists they don't
+recognize, using the shortcuts, could plausibly land in the same request-rate
+neighborhood that triggered this. Spotify's actual rate-limit threshold (requests per
+second/minute per IP) is unverified, and the exact trigger point wasn't isolated
+precisely, so treat "plausible under a fast real session" as a working assumption,
+not a confirmed frequency.
+
+**Current state:** `SpotifyTrackEmbed`'s optional `showLink` prop adds a click-through
+"Open in Spotify" footer (matching `SpotifyArtistEmbed`'s own, always-on link),
+enabled in `ListenFirstSection.tsx`'s curated-tracks mode — so a failed or blocked
+embed there still leaves the user a working path to the track. Quick Picks' Quick
+Listen (`DecisionScreen.tsx`) uses the same component with `showLink` left off,
+deliberately: a failed embed load renders as a blank/broken iframe box there with no
+fallback, unchanged from before, since any added chrome works against the momentum
+this specific screen is built around. The rate-limiting risk described above is
+unaffected either way — Quick Listen is the one under real request-cadence pressure,
+and it wasn't touched. Post-launch, still worth measuring actual request cadence
+during real Quick Picks sessions and revisiting whether Quick Listen needs its own
+lighter-weight fallback if it's anywhere near the threshold.
+
+---
+
+## Responsive Design
+
+Mobile (`< md`), tablet/desktop (`md`+), and large-screen (`> 1760px` content width)
+treatments across Explore, Artist Detail, Planner, and the shared Sidebar. Breakpoint
+choice is deliberate per surface, not a single global cutoff: `md` for navigation
+chrome (matches the app's existing sparse `md:`/`lg:` usage elsewhere), `lg` for the
+Artist Detail two-column split (a 288px fixed sidebar plus its gap needs more room than
+the nav does — `md` there would leave a cramped column at tablet-portrait widths).
+
+### `<body>` is `overflow-hidden`, deliberately
+
+`app/layout.tsx`'s `<body>` carries `overflow-hidden` alongside `min-h-screen`. Every page manages its own scrolling internally, inside a `<main overflow-y-auto>` (or equivalent) that already lives within the root layout's `h-dvh overflow-hidden` wrapper div — `<body>` itself was never meant to be a scroll container. Without its own `overflow-hidden`, it can still become one anyway: mobile browsers animate their address bar in and out, and `100dvh` can render a px or two taller than the true visible viewport during that transition, which is enough for `<body>` (unconstrained) to pick up a page-level scrollbar even though every page's actual content is fully handled by its own internal container. This was caught on `not-found.tsx` specifically — its content is short and static, so the stray scrollbar had nothing legitimate behind it and was immediately obvious, unlike on content-heavy pages where it would've been indistinguishable from real scrolling. The fix belongs here, not on any individual page — don't reintroduce a per-page `overflow-hidden` workaround for this same symptom if it resurfaces elsewhere; it means this root cause needs another look.
+
+### Mobile Navigation: Sidebar as Drawer
+
+`Sidebar.tsx` renders as both the desktop static column and the mobile drawer panel
+from one component (no forked mobile nav) — `fixed md:static` with a `translate-x`
+toggle driven by `chromeStore`'s `isMobileDrawerOpen`, plus a `MobileTopBar.tsx`
+carrying the hamburger trigger. `MobileTopBar` mirrors `Sidebar`'s own
+`isSidebarVisible` check (hidden together during the Quick Picks decisioning flow) —
+the two must stay in lockstep, or mobile users see a hamburger that opens nothing.
+`isMobileDrawerOpen` is intentionally non-persisted, same category as
+`isSidebarVisible`.
+
+The hamburger trigger sits on the leading (left) edge of `MobileTopBar`, with the
+"FestFuse" wordmark absolutely centered in the bar rather than sharing the trailing
+edge with it. This matches the drawer's own fixed `left-0` position (and the desktop
+static sidebar's same left position) — trigger and result live on the same side, on
+every breakpoint, rather than opening from the opposite edge of wherever it's tapped.
+
+### Large-Screen Content Capping
+
+Explore, Artist Detail, and Planner each cap their content column at
+`max-w-[1760px] mx-auto`, applied **per-page**, not as a shared `layout.tsx` wrapper —
+a global wrapper would also clip `ArtistHero`'s and Quick Picks' intentional full-bleed
+treatments. `ArtistResultsGrid`'s `2xl:grid-cols-6` is unaffected (the cap only bites
+above 1760px, so it's additive).
+
+### Artist Hero: Diverging Mobile/Desktop Treatment
+
+`ArtistHero.tsx` intentionally renders two different content blocks (shared
+`identityBlock`/`metaRow` JSX, different wrappers), not one responsive layout: desktop
+keeps genre/name/location/socials/actions overlaid in a left column with a left-right
+cinematic gradient; mobile instead bottom-anchors genre/name/location over the photo
+(bottom gradient only, no left-right darkening) and moves the action buttons (Must
+See/Interested/Add to Schedule) out of the hero entirely, into normal page flow below
+it (`ArtistContent.tsx`, `md:hidden`, alongside a `hidden md:block` duplicate of the
+same overlay-positioned instance inside the hero). `ArtistActions` has no local state —
+it only reads the shared decision/schedule stores — so two mounted instances stay in
+sync automatically. This divergence is deliberate: a 58%-width left column that works
+on a widescreen photo would otherwise either bury most of the mobile photo under text
+(if kept at full width for legibility) or force cramped, easily-clipped text (if kept
+narrow) — a portrait phone photo and a widescreen desktop photo are different enough
+shapes that one hero layout doesn't serve both.
+
+### Live Performance (YouTube Embed)
+
+`LiveVideoSection.tsx` builds its player via the YouTube IFrame Player API
+(`youtube.com/iframe_api`, one script load shared across mounts) targeting a
+`useId()`-generated element by string ID, rather than a bare `<iframe src="...">`.
+
+**Testing gotcha, worth knowing before "fixing" this again:** a YouTube embed loaded
+from a bare LAN IP address over plain HTTP (used for testing this app on a phone over
+the local network) reliably shows a permanent "Video unavailable" — browsers treat
+`localhost` and real HTTPS as secure contexts but do **not** extend that exception to
+an arbitrary LAN IP, and YouTube's embed depends on a secure context to actually load
+video data (the player shell/UI still loads either way, so the failure looks content-
+or platform-specific but isn't). This reproduces identically across devices and
+browser engines on the same network, confirmed via a temporary HTTPS tunnel
+(`cloudflared tunnel --url`) pointed at the same running dev server, which resolved it
+with no code change. Production is always real HTTPS, so this only ever matters when
+testing over a LAN IP during development — test via `localhost`, or a tunnel, not the
+LAN IP, if a live video ever appears broken again.
+
+**Fallback on API load failure:** `loadYouTubeApi()`'s promise only resolves via
+YouTube's own global `onYouTubeIframeAPIReady` callback, with no `onerror` handler on
+the injected `<script>` tag — if that script is blocked (e.g. by an ad blocker, which
+commonly blocks `youtube.com` script domains) or otherwise fails to load, the promise
+would never resolve. `LiveVideoSection.tsx` guards this with an 8-second timeout: if
+the player hasn't mounted by then, the section swaps its empty target `<div>` for a
+"Watch on YouTube" link to the video directly, rather than leaving a permanently blank
+box with no indication anything's wrong.
+
+The timeout also resets the module-level `apiPromise` cache to `null`. Found via manual
+testing, not code review: without this, one blocked/failed script load poisons every
+artist visited afterward in the same session (client-side navigation, no hard reload) —
+each one's `loadYouTubeApi()` call would find `apiPromise` already set and reuse that
+same dead, never-resolving promise instead of attempting its own fresh load, even after
+whatever caused the original failure (e.g. an ad blocker toggled off mid-session) no
+longer applies. Resetting it on timeout means each subsequent artist gets an independent
+attempt. Safe even against the *delayed*, not dead, case from above: if the original
+script does eventually load after a second one's been injected, both promises still
+resolve, since `window.onYouTubeIframeAPIReady` chains onto whatever callback was
+previously assigned rather than overwriting it.
+
+### Explore Search Input Zoom-on-Focus
+
+iOS/WebKit (Safari and Chrome-on-iOS both — they share WebKit; not reproducible on
+Android) auto-zooms the page when the Explore search input (`ExploreFilters.tsx`, the
+only text input in the app) is focused while the page has been scrolled — never at
+scroll-top. Root cause is distinct from the classic under-16px-font-size trigger (this
+input is already `text-base` on mobile, confirmed 16px): it's the "`<body>` is
+`overflow-hidden`" shell immediately above — every page's real scrolling happens inside
+its own `<main overflow-y-auto>`, not the document, and WebKit's zoom-to-bring-input-
+into-view heuristic can misfire specifically when the scrolled container is nested
+rather than the document itself. Confirmed to reproduce identically against a real
+production build over a public HTTPS tunnel, ruling out a dev-mode or LAN-testing
+artifact. Once triggered, the zoom is only recoverable by a gesture that reaches the
+actual document-level scroll (dragging the background) — most users won't intuitively
+do this, so without it the top of the page stays clipped off-screen indefinitely.
+
+**Tried:** suppressing the zoom preemptively, by appending `maximum-scale=1` to the
+viewport meta on the input's `focus` event and restoring it on blur. Confirmed not to
+work on a real device — WebKit's zoom-on-focus decision happens essentially
+synchronously with the native focus event, before a React `onFocus` handler gets a
+chance to mutate the meta tag, so the mutation consistently loses the race.
+
+**Fix:** correct it after the fact instead, on `blur` — no native zoom behavior fires
+on blur, so there's no race to lose. `ExploreFilters.tsx`'s search input's `onBlur`
+forces a viewport-meta recalculation (toggle `maximum-scale=1` on then immediately
+back off) plus a same-effect scroll nudge (`window.scrollTo` by 1px and back),
+reproducing the confirmed manual recovery (dragging the background) programmatically.
+This still doesn't prevent the zoom from happening in the first place, and its
+reliability across iOS/WebKit versions hasn't been broadly verified — if it turns out
+not to hold up, the fallback is a static `maximum-scale=1` app-wide (reliable, at the
+cost of disabling pinch-zoom everywhere, not just for this input) rather than trying
+further variants of this same class of fix.
+
+Separately, `app/globals.css` also enforces a `font-size: 16px` floor on any
+`input`/`textarea`/`select` below `768px` — the classic, different under-16px-font-size
+zoom trigger this section opens by ruling out for this one input. No shared `Input`
+component exists to enforce that centrally, so it's a global CSS guardrail instead,
+covering any input added elsewhere in the future.
+
+### Decisioning Screen Mobile Density
+
+`DecisionScreen.tsx`'s mobile layout: the hero's bottom content row
+(`flex-col md:flex-row`) stacks the name/genre column above Quick Listen on mobile
+instead of sitting side by side — at mobile widths, the previous single-row layout put
+a fixed 288px column beside a flexible one with no responsive fallback, so the two
+collided (the Quick Listen embed rendering on top of the artist name instead of beside
+it). "Sounds Like" is hidden below `md:` entirely rather than collapsed behind a
+disclosure toggle — Quick Picks optimizes for momentum, and an expand affordance on
+every card would reintroduce the second-guessing the product philosophy explicitly
+avoids; the fuller comparison stays available on Artist Detail. The four metadata chips
+(day/time, sets, duration, stage) collapse to two consolidated pills on mobile
+(day/time+sets, and stage) rather than one merged pill — combining everything into a
+single pill risked an awkward two-line wrap on narrow devices; duration drops from the
+mobile view entirely as the least decision-relevant of the four facts. The A/S/D/Z
+keyboard-hint row (`DecisionScreen.tsx`) and the Enter hint (`DayCompleteScreen.tsx`)
+are both `hidden md:flex` — meaningless on touch devices, pure vertical cost there. The
+hero's height budget is responsive (`calc(100dvh-190px)` mobile, matching the
+above-listed height recovered from removing the hint row and other spacing, vs.
+`calc(100dvh-220px)` desktop, unchanged). Back and Exit both got `p-2 -m-2` (padding
+expands the tappable box, matching negative margin cancels the visual footprint — same
+pattern as `ArtistHero.tsx`'s social icons) since neither had any padding at all before.
+
+**Zero scroll here is a strong preference, not an absolute requirement** — the goal is
+no scroll on mainstream phone sizes (confirmed via headless-browser testing at
+375×667 and 390×844 across a spread of artists, including gradient-fallback and
+real-photo heroes, artists with and without a Quick Listen track, and the one
+multi-appearance artist in the data). On genuinely extra-small devices, a small amount
+of residual scroll is an accepted outcome if the alternative is compressing the card
+past comfortable legibility — over-compression is the worse failure mode.
+
+**Not pursued:** swipe-gesture decisioning. The exit-animation direction vocabulary
+already exists and maps cleanly to a swipe metaphor (pass=left, interested=right,
+mustSee=up), but that's the easy half — live drag-tracking, a commit threshold, and
+disambiguating a 3-way gesture (versus the simpler 2-way left/right most swipe apps
+use) is real, untested work. A verdict here isn't disposable the way a Tinder swipe is
+(it feeds Festival Story and shapes the user's own sense of their taste later), and a
+3-way gesture is more failure-prone than a deliberate button tap — worth a dedicated
+spike with room to tune thresholds properly, not something to fold into a
+responsiveness pass.
+
+**Future consideration — natural-height hero instead of a fixed `calc(100dvh-Npx)`
+budget.** Both the mobile and desktop height constants above assume a fixed pixel
+budget for everything surrounding the hero, which is fragile against mobile browser
+chrome (Safari's address bar expanding/collapsing changes the usable viewport
+independently of `dvh`). A more robust version would let the top bar, metadata pills,
+and decision buttons take their natural height in a flex column, with the hero as a
+`flex-1 min-h-0` child absorbing whatever space is left, instead of the reverse. Real
+structural change to the screen's flex hierarchy — worth doing eventually, not done
+now, since the calc() approach (once tuned against real devices) covers the large
+majority of phones.
+
+### Quick Picks Setup Screen Reachability
+
+`StartScreen.tsx` no longer renders a festival name/dates/location line above the day
+picker — it was a one-off hardcoded string (disconnected from `festivals.ts`'s actual
+data) with no equivalent anywhere else in the app, and removing it both resolved an
+inconsistency question and recovered the height its occasional line-wrap was costing.
+`StartOptions.tsx`'s "Grouping" card hides its decorative `Calendar` icon below `md:`
+to reclaim the width that was pushing the "Recommended" badge onto its own line next to
+"Group by Festival Day" — the wrap was costing height as well as looking wrong. Both
+changes, plus tightened root/card padding on mobile, exist specifically to bring the
+"Start Quick Picks" CTA closer to a comfortable thumb reach — previously the combined
+height of the info line, the card's padding, and the wrapped badge pushed it low enough
+to require a stretch or a scroll.
+
+The CTA label itself now mirrors `HomeContent.tsx`'s existing Start/Continue rule
+(`decisionsByArtist` has any decision whose `source` is `"quickPicks"` → "Continue Quick
+Picks", never based on Explore-sourced decisions, since Explore has no session concept
+to resume) rather than always reading "Start Quick Picks" — inlined the same one-line
+check rather than extracting a shared hook, since `HomeContent.tsx` doesn't use one
+either. `QuickPicksBanner.tsx` (the static Explore-carousel entry point) intentionally
+keeps its unconditional "Start Quick Picks" label — it's advertising entry into the
+mode, not reflecting personal session state the way Home's and the setup screen's own
+CTAs do.
+
+---
+
+## Home Page & Onboarding
+
+**Confirmed** — `/` (`app/page.tsx` → `app/components/home/HomeContent.tsx`) is a real
+orientation screen, not the `create-next-app` boilerplate it used to be. Supersedes
+"Future Consideration: Onboarding / How It Works Explainer" below — that idea is built;
+this section is the actual record.
+
+### Design principle: orientation vs. explanation
+
+Home = orientation ("where do I start"), the Help modal = explanation on demand (opened
+from Home or Sidebar), individual pages = contextual guidance (unchanged). Home does not
+try to explain the app itself — CLAUDE.md's "prefer progressive disclosure" principle
+means Home stays three entry cards plus a "How FestFuse works" link; the actual
+explaining happens in the modal.
+
+### Three cards: equal weight, not size-based hierarchy
+
+Quick Picks, Explore, and Planner render as three equally-sized cards, differentiated
+only by copy and row position (Planner last), never by size or decorative weight —
+equal decorative weight (gradient + icon watermark + full-opacity text) on all three,
+with Planner's "downstream of a decision" framing (per CLAUDE.md's Schedule
+description, "organize a plan after decisions have already been made") carried entirely
+by its copy ("Already have some picks? Turn them into a schedule.") and its position at
+the end of the row.
+
+Each card sits at a different point along the same cool/cyan spectrum rather than one
+uniform teal for all three — electric cyan (Quick Picks), seafoam/turquoise (Explore),
+azure (Planner). Deliberately stays inside that spectrum and never reaches toward
+violet/magenta: CLAUDE.md reserves celebration magenta for actual celebration moments
+(Festival Story/Wrapped-style accents) used sparingly — diffusing it onto a homepage
+card, which every session touches, would erode the rarity that makes it read as special
+where it's actually used (Quick Picks' own screens already lean on `COLORS.celebration`
+— see `QuickPicksCompleteScreen.tsx`, `DayCompleteScreen.tsx`, `DecisionScreen.tsx`,
+`StartScreen.tsx`).
+
+No hierarchy is implied between Quick Picks and Explore specifically — CLAUDE.md frames
+them as two equally legitimate, different approaches to discovery ("guided
+decision-making" vs. "curious, self-directed"), not a primary/secondary pair. The one
+existing asymmetry (Quick Picks' label uses a verb, "Start"/"Continue," while Explore
+and Planner are static nouns) exists for the functional reason below, not as a
+deliberate emphasis choice.
+
+### Card hover interactions: restrained tilt + Quick Picks brightness parity
+
+Each card gets a cursor-tracked tilt on hover (`useCardTilt` in `HomeContent.tsx`) —
+max ~2° `rotateX`/`rotateY` derived from pointer position within the card, combined
+with the existing `-4px` lift, applied as an inline `style` (not a Tailwind hover
+class) since the rotation angle is continuous and pointer-position-dependent, not a
+fixed on/off state. Deliberately capped low: this is a hover accent, not a 3D gimmick,
+and CLAUDE.md's "the direction already carries meaning, don't add personality on top of
+geometry" guidance (written for Quick Picks) applies here too — the tilt should read as
+polish, not distract from the card's own color identity doing the differentiation work.
+
+Quick Picks' gradient (`#00C2D6` → `#04303D`) reads slightly brighter at rest than
+Explore's or Planner's despite comparable saturation, so it carries a `bg-black/[0.05]`
+overlay that fades to `opacity-0` on hover (`group-hover`), landing all three cards at
+comparable resting brightness while still letting Quick Picks reach its full, brighter
+color on interaction. Implemented as an opacity-animated overlay rather than editing the
+gradient's color stops directly, since browsers don't reliably animate `linear-gradient`
+color-stop transitions but do animate opacity.
+
+### Hero glow: anchored to the wordmark, not the layout
+
+The atmospheric glow behind "FestFuse" is centered on the `<h1>`'s own box via
+`top-1/2 left-1/2` + `-translate-x-1/2 -translate-y-1/2`, not hardcoded pixel offsets
+against the outer container — this keeps it mathematically centered on the wordmark at
+any viewport width or font scale, rather than a value eyeballed at one screen size that
+drifts at another. Sized elliptical (`360×260`, wider than tall) to match the
+wordmark's own proportions, with `blur-2xl` instead of a wider/softer blur — tight
+enough to read as a glow behind the logo, not a haze bleeding into the subtitle below
+it.
+
+The gap between the cards row and the "How FestFuse works" link (`mt-10`) is sized to
+clear more than just the glow's resting footprint: Quick Picks' hover box-shadow
+(`0 20px 60px -15px rgba(...)`) isn't clipped by the card's `overflow-hidden` — box-
+shadow renders outside an element's own box regardless of its overflow setting — so it
+blooms downward on hover. `mt-10` leaves enough clearance that this bloom fades out
+before reaching the link text instead of washing over it.
+
+### Quick Picks label is state-aware, keyed on `source`, not on "any decision"
+
+`quickPicksLabel` reads `decisionsByArtist` from `useDecisionStore()` and shows
+"Continue Quick Picks" if **any** decision has `source === "quickPicks"`, otherwise
+"Start Quick Picks." Deliberately not `Object.keys(decisionsByArtist).length > 0` —
+most picks can come from Explore, which has no session concept to "continue," so that
+broader check would show "Continue" for someone who's never touched Quick Picks.
+`source`, not `verdict`, is what's checked: a session where every artist was Passed
+still correctly counts as "you've done this before," since decisions are written to the
+store the instant they're made (see "Quick Picks Session vs. Shared Store" above), not
+deferred until completion.
+
+### Shared Chrome (Sidebar)
+
+`Sidebar` renders once, in `app/layout.tsx`, inside a `flex h-screen overflow-hidden`
+wrapper that also contains `{children}` — every route shares this single instance
+rather than each page mounting its own. `<main>` itself stays owned by each page (not
+centralized in the layout), since pages differ in their `<main>` classes, refs, and
+scroll-container needs.
+
+Visibility is controlled by `app/store/chromeStore.ts`'s `isSidebarVisible` — a small,
+non-persisted Zustand store, defaulting to `true` so every route needs zero wiring to
+show it. `Sidebar` reads the flag and returns `null` when hidden, after all its own
+hooks have run (Rules of Hooks) — this also unmounts `HowItWorksModal`, which `Sidebar`
+owns, along with it. Quick Picks is the only consumer: it sets `isSidebarVisible` to
+`step === "start"` (chrome only on the Start screen, hidden through decisioning and
+completion, matching that flow's no-chrome design) and restores it to `true` on
+unmount, so leaving Quick Picks for another route never leaves the shared Sidebar
+stuck hidden.
+
+Because Sidebar lives in the root layout, Next's default not-found boundary
+(`app/not-found.tsx`) renders inside the same shared chrome — an invalid route shows
+the Sidebar alongside the not-found message, not a bare unstyled page.
+
+### Help modal: recoverable from Sidebar, not just Home
+
+`app/store/helpStore.ts` — a small Zustand store, **intentionally non-persisted** (no
+`persist` middleware), same "in-memory-only" precedent as `exploreFilterStore`:
+ephemeral UI state that needs to be reachable from both `Sidebar.tsx` (which owns the
+single `HowItWorksModal` instance) and `HomeContent.tsx`'s own separate trigger button,
+without prop-drilling through the tree.
+
+`Sidebar.tsx` renders a "Utilities" section — visually separate from the four primary
+nav items and from "My Festival" — containing one entry, "How it works," and also
+mounts `HowItWorksModal` itself, so the modal is available on every route via the one
+shared Sidebar instance (see "Shared Chrome" above). On Quick Picks, Help is reachable
+on the Start screen but not during decisioning or completion, since that's when the
+shared Sidebar itself is hidden — consistent with that flow's no-chrome design, not a
+gap.
+
+Modal content stays to "30 seconds": four one-line concepts (Explore, Quick Picks,
+Planner, Festival Story), each reusing the same icon as its Home card (`Search`, `Zap`,
+`CalendarDays`, `Film` — `Film` matches the icon already used in
+`FestivalStoryCard.tsx`). Deliberately excludes Must See/Interested mutual exclusivity,
+Passed's lack of a card indicator, multi-appearance mechanics, and conflict logic — all
+self-explanatory in the moment they occur, not worth pre-teaching. The Festival Story
+line reuses `FestivalStorySequence.tsx`'s own intro card copy ("sounds and priorities
+behind your picks") rather than inventing new phrasing.
+
+### Dialog Accessibility (Focus Management)
+
+`app/hooks/useDialogA11y.ts` is a shared behavior hook used by every full-screen or
+modal-like surface in the app: `HowItWorksModal`, `FestivalStorySequence`,
+`QuickPicksCompleteScreen`, `DayCompleteScreen`, and `Sidebar`'s mobile drawer. It
+captures and restores the previously-focused element, moves focus to a target on
+open, traps Tab within the surface's container, and closes/exits on Escape. Markup
+concerns (`role="dialog"`, `aria-modal`, `aria-label`/`aria-labelledby`) stay in each
+consumer's own JSX — the hook only owns behavior, via an optional `initialFocusRef`
+(defaulting to the first focusable element in DOM order when omitted).
+
+Each consumer's initial-focus target is a deliberate choice, not the default:
+
+- **HowItWorksModal** — the close button. The modal's only real actions are reading
+  the four one-line concepts and closing; there's no other CTA to prioritize.
+- **FestivalStorySequence** — the active card's "Reveal Next" / "View My Picks"
+  button, forwarded into `FestivalStoryCard` via a `buttonRef` prop. Deliberately not
+  the close button: Close is intentionally understated (small, top-corner) since the
+  intent is to draw the user through the story, not toward leaving it.
+- **QuickPicksCompleteScreen** — the Festival Story card when `storyUnlocked`, since
+  that's the destination this screen is built around; falls back to "Take a Second
+  Look" when locked (Festival Story isn't a real button in that state — see "Recovery
+  path for a locked Story" above), staying within the Festival Story slot rather than
+  jumping to the unrelated Schedule card. Schedule is never the default target.
+- **DayCompleteScreen** — the "Continue to {next day}" button, the screen's one
+  unambiguous primary CTA. Its existing Enter-key shortcut is a separate,
+  single-consumer `useEffect` (auto-advance on Enter) rather than being folded into
+  the shared hook, since no other screen has an equivalent behavior.
+- **Sidebar (mobile drawer)** — uses the hook's default (first focusable element in
+  DOM order, the FestFuse logo link), since the drawer has no dedicated close button
+  of its own — closing happens via the backdrop, a nav link, or now Escape.
+  `isMobileDrawerOpen` is only ever `true` in the mobile drawer context, so the hook
+  stays inert on desktop's static sidebar column. `onClose` restores focus to the
+  hamburger button in `MobileTopBar.tsx` that opened it.
+
+### Footer
+
+`app/components/Footer.tsx` — two lines: "FestFuse · 2026" (identifies it as a footer,
+not stray text) and a disclaimer ("FestFuse is an unofficial fan project and is not
+affiliated with Lollapalooza or C3 Presents"), since the app uses real Lollapalooza 2026
+data (`ACTIVE_FESTIVAL_ID`). No links — Privacy/Terms/Contact pages don't exist yet, and
+a footer linking to nothing would be worse than no footer.
+
+**Placement:** Home, Explore, Artist Detail. **Not** Planner or Quick Picks. Quick
+Picks' exclusion is the momentum/no-chrome argument used throughout that flow. Planner's
+is a distinct, concrete cost: its `<main>` doesn't scroll (`overflow-hidden`), and
+`PlannerGrid` fills all remaining height via `flex-1` — a footer there wouldn't appear
+"below scrollable content" the way it does on Explore/Artist Detail, it would
+permanently shrink the grid's rendered height on every visit.
+
+**Sticky-footer flex pattern**, applied on Home, Explore, and Artist Detail: `main` is
+`flex flex-col`, and the content wrapper immediately before `Footer` gets `flex-1`.
+This exists because `Footer` used to just follow whatever content preceded it with no
+mechanism to sit at the true bottom of the viewport when that content was shorter than
+the screen — invisible on Explore/Artist Detail, which are usually tall enough to fill
+the viewport on their own, but reliably visible on Home, whose content (headline +
+cards) is short. `flex-1` fixes both: it grows to fill available space when content is
+short (pushing `Footer` to the bottom), and behaves exactly as before when content
+exceeds the viewport, since flex items don't shrink below their own content size.
 
 ---
 
@@ -1789,14 +2434,8 @@ Neither is being built for MVP. Passed remains reachable only via the Status fil
 
 ## Future Consideration: Onboarding / How It Works Explainer
 
-Throughout development, the idea of a lightweight explainer has come up multiple times — something that briefly walks a new user through how the app's core concepts connect: the difference between Must See / Interested / Passed, what Quick Picks does, and what the Festival Story/Snapshot reveal is and how you get there. Right now, this understanding is only conveyed implicitly, scattered across UI copy on individual screens (button labels, the Quick Picks intro screen, etc.) — there's no single place a new user could go to understand the whole system at a glance.
-
-**Not built because:**
-
-1. Schedule remains a higher-priority unbuilt feature
-2. It's not yet clear whether this should be a full page, a first-visit modal, or something else entirely
-
-**If revisited:** Keep it short — not full documentation, just enough to connect the dots between the app's core concepts (interest states, Quick Picks, Explore, Festival Story). A first-visit modal is probably lower-effort than a dedicated page and may be sufficient.
+**Resolved** — built as the Home page's "How FestFuse works" modal. See "Home Page &
+Onboarding" above for the actual implementation and rationale.
 
 ---
 
@@ -1844,18 +2483,6 @@ The locked Festival Story card's recovery path ("Take a Second Look") always rou
 
 ---
 
-## Future Consideration: Mobile Viewport Height (`h-screen` → `dvh`)
-
-Four pages use `h-screen` (`100vh`) combined with `overflow-hidden` for their full-height shell: `app/planner/page.tsx`, `app/quick-picks/page.tsx`, `app/components/explore/ExploreContent.tsx`, and `app/artist/[slug]/page.tsx`. (`app/layout.tsx`'s `min-h-screen` is a different, lower-risk pattern — a floor, not a fixed height with clipping — and isn't affected by this.)
-
-**The issue:** `100vh` is computed from the browser's initial viewport size and doesn't update as mobile Safari/Chrome's URL bar collapses or expands while scrolling. A fixed-height, `overflow-hidden` container sized to the *pre-collapse* viewport can clip content or visibly jump once the browser chrome changes height.
-
-**The fix:** swap `h-screen` → `h-dvh` (dynamic viewport height) in all four locations. This is a Tailwind v4 core utility already available in this project with no config changes needed, and it's behaviorally identical to `h-screen` on desktop (no dynamic chrome to account for) — it only removes the mobile failure mode, with no downside.
-
-**Not done now** — bundled into a planned dedicated mobile-responsive pass instead, where it can be verified live on an actual device rather than fixed without being able to confirm it.
-
----
-
 ## Future Consideration: Light Mode
 
 `app/globals.css` sets `color-scheme: dark` on `:root` unconditionally, and the new `.themed-scrollbar` utility hardcodes white-based `rgba()` values for its thumb/track — both assume a permanently dark app. This is correct for the current dark-only design (CLAUDE.md: "Deep violet (#110D24) and surrounding dark neutrals form the visual foundation"), but neither will automatically adapt if light mode is ever added.
@@ -1866,15 +2493,41 @@ Four pages use `h-screen` (`100vh`) combined with `overflow-hidden` for their fu
 
 ---
 
-## Future Consideration: Planner Fade vs. Trackpad Elastic Overscroll
+## Future Consideration: Planner Fade vs. Trackpad Elastic Overscroll (Desktop)
 
-On macOS, trackpad momentum scrolling past the Planner grid's horizontal edge triggers the browser's native elastic "rubber-band" bounce. Because the edge fades (`app/components/planner/PlannerGrid.tsx`) are a separate absolutely-positioned overlay sitting on top of the scroll container — not part of the scrolling content itself — the content briefly slides past its edge during the bounce while the fade stays fixed, making the fade line appear to shift momentarily before springing back with the content.
+On macOS Chrome, trackpad momentum scrolling past the Planner grid's horizontal edge triggers the browser's native elastic "rubber-band" bounce. Because the edge fades (`app/components/planner/PlannerGrid.tsx`) are a separate absolutely-positioned overlay sitting on top of the scroll container — not part of the scrolling content itself — the content briefly slides past its edge during the bounce while the fade stays fixed, making the fade line appear to shift momentarily before springing back with the content. Reproduces on desktop Chrome; not observed on desktop Safari.
 
 **Tried:** `overscroll-behavior-x: contain` on the scroll container — did not change the behavior. Expected, in hindsight: that property mainly prevents overscroll from *chaining* to a scrollable ancestor; it doesn't suppress the local elastic bounce on the element itself, and there's no bouncing ancestor here for it to have chained to regardless.
 
 **What a real fix would take:** rendering the fade as a `mask-image` on the scroll container itself (so it moves with the same box that bounces) rather than a fixed overlay. Not a simple swap — the grid has a sticky hour-label column and sticky stage headers, which a whole-container mask would also fade unless carefully excluded, and a mask's gradient is positioned relative to the full scrollable content, not the visible viewport, so keeping the fade anchored to the visible edges while scrolling would require continuously syncing the mask's position to scroll offset rather than a static CSS value.
 
-**Not done now** — rare, cosmetic, native-feeling (most users won't read it as a bug), and the real fix is meaningfully more involved than it first appears. Revisit only if this turns out to bother people in regular use, not just as a one-off observation.
+**Not done now** — rare, cosmetic, native-feeling (most users won't read it as a bug), and the real fix is meaningfully more involved than it first appears. Revisit only if this turns out to bother people in regular use, not just as a one-off observation. Desktop keeps the fade as-is, including this known quirk.
+
+### Mobile: fade removed and hour column un-stickied below `md:`, not patched
+
+Touch-drag scrolling on the Planner grid produces a related but more disruptive desync — confirmed on both iPhone and Android, reliably reproducible (not an edge-case overscroll-boundary trigger like the desktop case above): mid-drag, the sticky hour-label column visually lags behind the actual scroll position, appearing to "detach" partway across the stage columns rather than staying pinned flush against the visible left edge, which in turn made the left edge fade read as floating in the wrong place.
+
+**Tried and reverted:** (1) a `scrollend` listener alongside the existing `scroll` handler in `updateScrollFade`, meant to correct `canScrollLeft`/`canScrollRight` state that a missed final `scroll` event during momentum deceleration could leave stale — reverted because it has no confirmed bug to point to: it was reasoned about for the mobile fade specifically, which is now removed below `md:` (see below) and no longer reads this state at all, and it doesn't address the desktop overscroll issue above either (that's a different mechanism — bounce animation, not a missed event). (2) Forcing the sticky hour-label column onto its own composited layer (`will-change: transform` + `transform: translateZ(0)`) — reverted because it was tested against the real symptom (the column visibly lagging during touch drag) and did not fix it.
+
+**Resolution:** rather than continue patching a symptom of an architecture that's fundamentally prone to this (see "What a real fix would take" above — a mask-image approach is the actual fix, and is a real rewrite), two things were done below `md:` only: the edge fades are hidden entirely (`hidden md:block` on both fade elements), and the hour-label column is no longer `position: sticky` at all (`static md:sticky md:left-0`) — it now scrolls away with the rest of the grid like any other column instead of attempting to stay pinned. The attempted pin was the actual source of the visible "detach mid-drag, then snap back" artifact; removing the attempt removes the artifact, rather than trying to make the pin track more smoothly. Desktop is unaffected by either change — it keeps both the fade and the sticky hour column exactly as before, including the known overscroll quirk above. The schedule remains scrollable exactly as before on mobile; it just loses the sticky hour labels and the edge-fade hint while scrolling. Revisit alongside the desktop fix above, if the mask-image approach is ever built — at that point it could plausibly restore both for mobile too.
+
+---
+
+## Future Consideration: Orientation-Aware Mobile Breakpoints
+
+Mobile chrome (`Sidebar.tsx`'s drawer, `MobileTopBar.tsx`) and the Explore/Planner mobile layouts switch on `md:` — a width breakpoint only. A phone rotated to landscape can exceed that width threshold despite still being a phone with a short viewport. Confirmed on Android: landscape width crosses `md:`, so the app renders its full desktop layout — a fixed-width static sidebar consuming roughly a third of an already-short landscape viewport, none of the compacted mobile spacing. On iPhone, landscape width stays under `md:` (mobile drawer/layout persists), but the header and toolbar chrome, sized for portrait's taller viewport, leaves very little of the short landscape height for the actual page content (e.g. Planner's schedule grid).
+
+**Not fixed now** — a proper fix needs an orientation/height-aware rule (e.g. a `max-height` media query driving a distinct short-viewport compact mode) layered on top of the existing width-only breakpoint. That's a change to the shared app shell (`Sidebar.tsx`/`MobileTopBar.tsx`/`layout.tsx`), not something scoped to any one page. **Revisit when:** landscape mobile usage is common enough to justify that shell-level work, or another page hits the same ceiling this acutely.
+
+---
+
+## Future Consideration: Planner Vertical Density on Mobile
+
+The title/day-tabs/filter-trigger chrome above the grid, plus the app-wide `MobileTopBar`, take a real slice of a phone's limited viewport height, leaving the schedule grid less room than would be ideal for reviewing many overlapping time slots at once on a small screen.
+
+**Done:** mobile (below `md:`) drops the "Build your festival schedule" subtitle entirely — `MobileTopBar` already establishes app identity and the day tabs + grid make the page's purpose obvious, so the subtitle was pure vertical cost with no orientation value it wasn't already getting elsewhere; the `h1` itself stays, shrunk, so a direct link or refresh into `/planner` still has some page-identity text before the grid renders. Alongside that: `MobileTopBar`'s own padding, the header block's padding, the day-tabs row's padding, and the grid's stage-header row height (`PlannerGrid.tsx`) were all trimmed a further few px each on mobile. None of this is Planner-specific in the `MobileTopBar` case — that component is shared by every page — but the trim is small enough (`py-3` → `py-2`) that it's a safe global change, not a Planner-only exception.
+
+**Not addressed further now** — these were mechanical spacing/copy trims, not a redesign, and further compaction has diminishing returns (the day tabs are the primary navigation and can't shrink much more without hurting usability). A more meaningful improvement here is more likely a genuine mobile-specific schedule presentation than another round of spacing tweaks. **Revisit when:** there's a concrete design direction for that.
 
 ---
 
@@ -1885,3 +2538,225 @@ On macOS, trackpad momentum scrolling past the Planner grid's horizontal edge tr
 **Why this isn't a simple addition:** `shuffleArray` uses real `Math.random()` (see "Future Consideration: Seeded Quick Picks Queue Shuffle" above), so tests can't assert exact output order the way the deterministic Story-signal checks do. Coverage here would need structural/property-based assertions instead — e.g. total count preserved, day balance within expected bounds, recognizable:undercard ratio near the intended ~1:2 across a large sample — closer to writing a new test file than adding a `check()` call to the existing one.
 
 **Not built now** — larger, separate effort than the other verification gaps addressed alongside this note. Revisit as its own scoped task if queue-building bugs start surfacing in practice.
+
+---
+
+## Future Consideration: Project-Wide Automated Test Coverage
+
+No test framework is installed anywhere in this project today — no Jest/Vitest/Testing Library dependency, no `test` script in `package.json`, no `*.test.ts`/`*.spec.ts` files. `verify-story-signals.ts` is a standalone manual verification script (`npm run verify:story`), not part of an automated suite.
+
+`app/lib/spotify.ts`'s `parseSpotifyArtistId` is a good first candidate whenever a framework does get set up: a pure function with no React/DOM dependency and clearly enumerable edge cases (malformed URL, non-`open.spotify.com` hostname, missing artist-ID path segment, trailing query params) — straightforward input/output assertions, unlike the queue-building coverage gap above, which needs property-based tests because of real `Math.random()` use. Not built now — no framework exists to add it to yet; revisit alongside standing up a test framework generally, post-MVP.
+
+---
+
+## Future Consideration: Footer Links
+
+`app/components/Footer.tsx` currently renders two static text lines (attribution + disclaimer) with no links. About/Feedback/Privacy/data-attribution pages were considered as footer destinations, but explicitly deferred — none of those destinations exist yet, and building placeholder pages just to have somewhere for the footer to point would be scope creep ahead of the actual need.
+
+**If built later:** each link should only be added once its destination page is worth writing (e.g. an About page explaining why the site exists, how it's built, accuracy/update cadence, and any affiliate/advertising disclosure — not just a stub). Revisit alongside whichever of those pages becomes the first one worth building.
+
+**Not built now** — noted here so the idea isn't lost or rediscovered as "should the footer have links?" from scratch.
+
+---
+
+## Future Consideration: Festival Story Standalone Route
+
+Festival Story is currently only reachable via Quick Picks completion (`app/quick-picks/page.tsx` conditionally mounts `FestivalStorySequence` once `QuickPicksCompleteScreen` unlocks it). There is no standalone route (e.g. `app/festival-story/page.tsx`) that lets a user reopen their Story later without re-entering Quick Picks.
+
+Groundwork for this already exists: `FestivalStorySequence`'s `attendanceDays` prop is optional and falls back to `useAttendanceDays(ACTIVE_FESTIVAL_ID)` (the persisted selection) specifically for this case — see the prop's doc comment and "Attendance scope" above.
+
+**What's still undecided:** the route itself doesn't exist yet, and more importantly, the unlock check does not live at the component level today — `storyUnlocked` is computed as part of the Quick Picks completion flow, gating whether the card is even clickable. A standalone entry point would need to run that same eligibility check itself (`getEligibleArtists`/`getValidPositivePicks`, the same helpers `computeStorySignals` uses) before rendering, rather than assuming a valid session already gated access.
+
+**Not built now** — the current flow (Story reachable only right after completing Quick Picks) is intentional and sufficient for MVP. Revisit if users want to revisit a completed Story without re-running Quick Picks.
+
+---
+
+## Responsive Layout — Home & Artist Hero
+
+**Home page card row** (`app/components/home/HomeContent.tsx`): the three entry cards (Quick Picks/Explore/Planner) are fixed-width (`w-64`), so the stacked mobile column needs an explicit `items-center` — without it, fixed-width flex children default to the cross-axis start (left) rather than centering. `sm:items-stretch` restores the row layout's prior implicit default so centering doesn't leak into desktop.
+
+**Home page vertical centering:** the `max-w-5xl` content div adds `xl:flex xl:flex-col xl:justify-center` so content centers vertically on wide/tall viewports instead of sitting pinned near the top with dead space below. `xl:` (1280px), not `lg:`, because real laptops (1440px+ logical width) all clear it, while the 1024–1280px zone catches split-screen windows and landscape tablets with unpredictable vertical headroom. Safe regardless of viewport height: the div stays `flex-1` with no `min-h-0`/`overflow-hidden` of its own, so if content ever exceeds available height it just grows to content height and `main`'s `overflow-y-auto` scrolls from the top as normal — `justify-center` becomes a no-op rather than clipping anything. Don't add `min-h-0`/`overflow-hidden` to this div without re-verifying that fallback still holds.
+
+**Artist Hero width cap** (`app/components/artist/ArtistHero.tsx`): the hero's outer div adds `max-w-[1760px] mx-auto`, matching `ArtistContent.tsx`'s existing content-column cap. Below that width (every laptop, tablet, and phone), zero behavior change. Above it (ultra-wide monitors), the hero stops growing — this bounds how extreme `object-cover`'s crop can get (a wider/shorter box forces a more aggressive zoom to fill it) and keeps the hero visually aligned with the narrower content column beneath it, instead of stretching edge-to-edge past it.
+
+---
+
+## Responsive Layout — Quick Picks & Festival Story
+
+**Background containment on the Quick Picks page** (`app/quick-picks/page.tsx`): the decorative grain/gradient/blob layer is `fixed inset-0`, not `absolute inset-0` — it stays pinned to the viewport rather than scrolling with page content, matching the pattern `DecisionScreen.tsx`'s own radial glow already uses (`fixed inset-0`). The page's `<main>` also carries `min-h-0` alongside `flex-1 overflow-y-auto`, the standard fix for a flex item's `overflow-y-auto` being ignored in favor of the item simply growing past its allotted space (compare `planner/page.tsx`'s `min-h-0` for the same pattern). Both matter together: without `fixed`, the backdrop scrolls out of view and exposes the ancestor `bg-[#110D24]` flat color underneath once a screen's content exceeds one viewport height; without `min-h-0`, scrolling isn't reliably contained to `<main>` in the first place.
+
+**StartScreen has no "Festival" selection step.** Since MVP is single-festival scoped (see CLAUDE.md's "Current MVP Scope"), a prior "Step 1: Festival" card rendering festival branding had no `onClick` — it was inert, and visually indistinguishable in weight from the two real interactive steps beside it. It's now a plain text line ("Lollapalooza 2026 · dates · venue") under the subtitle in `StartScreen.tsx`, and the two remaining real steps (Days Attending, Grouping) are numbered Step 1/Step 2 in `StartOptions.tsx`.
+
+**StartScreen's hero `Zap` icon is absolutely positioned to the left of the "Quick Picks" `<h1>`**, not inline in the flex row with it, so the headline text alone — not the icon+headline pair — determines the centered box; this is what keeps the title visually centered against the subtitle beneath it. The icon and headline both drop a size below the `sm:` breakpoint (`w-8 h-8`/`text-5xl` vs `w-10 h-10`/`text-6xl`): at full size on a narrow phone the headline alone is already close to viewport-width, leaving no room for the icon to render without going off-screen to the left.
+
+**Several StartScreen, QuickPicksCompleteScreen, and DayCompleteScreen spacing values are mobile-only reductions**, expressed as a bare class plus an `sm:` override restoring the original value (e.g. `py-6 sm:py-8`), so laptop/widescreen spacing is untouched. These exist to make better use of constrained mobile height, not to chase eliminating scroll entirely on the setup screen — real device viewport height varies with browser chrome state (address bar shown/hidden) by 50–80px or more, which no fixed spacing budget can reliably close. A small residual scroll on some phones is expected and acceptable there, not a defect to keep pursuing.
+
+**The completion screens' headline-to-subtitle gap is `gap-3`, not `gap-2`.** Both `QuickPicksCompleteScreen.tsx` and `DayCompleteScreen.tsx` render their headline with `leading-none`, so a descender-heavy last word ("caught up!", "complete!") visually eats into a tighter gap even though the numeric spacing is otherwise identical to other stacked-text patterns in the app — `gap-3` was chosen specifically to compensate for that, not as a general spacing preference.
+
+**`QuickPicksCompleteScreen.tsx`'s Festival Story/Schedule card grid is `grid-cols-1 sm:grid-cols-2`, not a flat two-column grid.** On mobile, two columns inside the screen's `max-w-xl` shell leave roughly 155px per card — too narrow for the locked Festival Story explanation (day-scoped copy, see "Attendance-day awareness is similarly narrow today" above) to avoid wrapping five or six lines. Any copy added to either card in the future should be checked against this same narrow-column constraint before reverting to a fixed two-column layout.
+
+**Festival Story's source images (`public/festivals/story/*.jpg`) are hand-optimized for web delivery** — resized to roughly 2000px on the long edge and recompressed (JPEG quality ~82), not left at original camera resolution (some source photos were 3000–5400px wide and up to ~9MB). A new Festival Story image added later should go through the same resize/compress step before landing in this directory, or it will reintroduce a visible load-in delay on whichever card shows it first, which matters most for the intro card since it's the first thing the Story shows.
+
+**`FestivalStoryCard.tsx`'s bottom text panel has `overflow-y-auto` and `maxHeight: "85dvh"` as a fallback**, normally invisible since the panel's natural content height fits comfortably in the common case. It only engages at unusually short viewport heights (a rotated/landscape phone, or a very short desktop window), letting the panel scroll internally rather than letting the dialog's `overflow-hidden` silently clip the top of the text (eyebrow label / start of the headline) with no way to reach it.
+
+---
+
+## Future Consideration: "Surprise Me" Button on Ultra-Wide Viewports
+
+`app/components/explore/ExploreContent.tsx`'s "Surprise Me" button is a small, fixed-size pill anchored to the right edge of Explore's header row, inside the same `w-full max-w-[1760px] mx-auto` content shell used by Planner (`planner/page.tsx`) and Artist Detail (`ArtistContent.tsx`/`ArtistHero.tsx`). Below roughly 2000px of total viewport width (sidebar plus content), that shell is edge-to-edge and the button reads as anchored to the browser's edge; above it, the shell centers with growing gutters on both sides, and the button — never anchored to the true viewport edge, and never resized — can read as floating rather than intentionally placed.
+
+**Not a defect specific to this button, or to Quick Picks-style pages** — it's a shared consequence of the `max-w-[1760px]` content-shell pattern used consistently across Explore, Planner, and Artist Detail. Fixing it would mean revisiting that shared shell pattern across all three surfaces, not a one-off tweak to Explore alone. Not pursued in this pass; flagged as low priority.
+
+## Future Consideration: Quick Picks Setup Screen Subtitle Line Wrap
+
+`StartScreen.tsx`'s subtitle ("Quick Listen when you need a first impression, then make your pick.") has no explicit width constraint or forced line break — it wraps naturally based on the rendering device's width. Different phone widths (confirmed across iOS and Android) produce different, sometimes visually unbalanced wrap points, such as a short line followed by a long one. Forcing a specific break for one device width risks creating an equally awkward break at another, so this is left as natural text reflow rather than something to fix — expected cross-device variance, not a bug.
+
+---
+
+## Future Consideration: Safari Corner-Clip Bug on Home Cards
+
+iOS Safari fails to properly clip descendant content to a rounded corner (`rounded-2xl overflow-hidden`) on an element that also carries a `transform` — even a resting, effectively-no-op one, which `HomeContent.tsx`'s hover-tilt cards always have via inline style. This showed up as a faint square corner visible behind each card's rounded corner, on iPhone only — not observed on desktop Safari (plausibly because iOS Safari does more aggressive GPU layer promotion for touch/scroll performance than desktop Safari), and not observed on Android at all.
+
+**Tried:** moving the `transform` onto a non-clipping wrapper div, separate from the `rounded-2xl overflow-hidden` element (the standard fix for this class of bug) — did not resolve it, which suggests the actual leak is each card's `blur-3xl` glow circle bleeding past the rounded mask independent of the transform.
+
+**Tried:** `-webkit-mask-image` on the card to force a mask-based clip instead of the default overflow-hidden clip path — this did fix the iOS corner bug, but the property is also honored by Chrome/Blink (not Safari-exclusive), and a real gradient between two different color stops vignettes the mask, dimming the hover glow near every card's corners in every browser, not just iOS. Making both gradient stops identical avoided the vignette but the hover glow still didn't come back.
+
+**Not fixed** — reverted to the original single-element card markup. Revisit only if this becomes a recurring complaint; a real fix likely needs a differently-shaped mask (sized to clear the glow's own blur radius) rather than another gradient-stop adjustment.
+
+---
+
+## Future Consideration: Group-Photo Hero Framing
+
+`ArtistHero.tsx`'s photo (`object-fit: cover`, full width, fixed low height) always resolves with the photo's width matched exactly to the box — the box's aspect ratio is always far wider/shorter than any real photo, so there's zero horizontal slack for `objectPosition`'s x-component to act on; only the vertical component ever does anything (every artist's `objectPosition` in the data files hardcodes x as `"center"` for this reason). For a wide group-lineup photo, this means a member positioned toward the left of the source photo can end up hidden under the hero's left-side text-legibility gradient (desktop only — that gradient is `hidden md:block`), with no way to reposition them out from under it via `objectPosition` alone.
+
+**Tried, on Major Lazer and aespa:** a `transform: scale()` plus an off-center `transform-origin` pan (reusing the artist's position string) to manufacture crop slack `cover` doesn't have. The underlying geometry is a single uniform affine scale, so pushing the obscured member rightward proportionally pushes everyone else further right too — worked out concretely for both artists that any zoom/origin strong enough to meaningfully clear the obscured member pushes the group's rightmost member off the opposite edge entirely.
+
+**Tried:** `object-fit: contain` instead (shrink to fit, nothing cropped, hero's own background shows through as padding) — fully deterministic, but trades in visible blank space wherever the box's aspect ratio doesn't match the photo's, which is essentially always true across breakpoints (mobile portrait and desktop wide are never the same shape as any one photo). A responsive version (contain + right-shifted only at `md:` and up, plain centered `cover` below it, matching the fact that the gradient itself is desktop-only) is possible, but requires expressing `object-position` via Tailwind's static keyword classes (`object-center md:object-right`) rather than the per-artist dynamic string, since inline `style` can't vary by breakpoint.
+
+**Not shipped** — both artists reverted to their original `objectPosition` values (`"center 26%"` and `"center 10%"` respectively), and no `imageZoom`/`imageFit` fields were added to the `Artist` type. These two artists' current hero photos are believed to be copyright placeholders likely to be replaced before launch, so a responsive crop/pan mechanism wasn't worth building for images that won't ship. **If a real (non-placeholder) group photo hits this same problem later:** the actual fix is almost certainly picking or cropping a source image where nobody sits in the frame's left ~30–40% to begin with — an image-selection step, not something CSS alone can solve cleanly for a lineup spanning the full frame width.
+
+---
+
+## Future Consideration: React Hook Lint Warnings (set-state-in-effect, exhaustive-deps)
+
+A pre-release `npm run lint` pass surfaced `react-hooks/set-state-in-effect` errors and `react-hooks/exhaustive-deps` warnings, from a stricter hook-lint rule that flags any synchronous `setState` call inside an effect body, even in early-return guard clauses:
+
+- `set-state-in-effect`: `SingleSelectDropdown.tsx:29`, `MultiSelectDropdown.tsx:49` (the two-pass measure-then-position dropdown alignment), `DayCompleteScreen.tsx:15` (count-up reset when target is 0), `DecisionScreen.tsx:207` and `:217` (flash/toast reset when the underlying value clears), `LiveVideoSection.tsx`'s `showFallback` reset at the top of its effect (fires whenever `artist.liveVideoId` changes — necessary since Next.js reuses this component instance across artist-to-artist navigation on the `/artist/[slug]` route rather than remounting it, so a stale `true` from a previous artist would otherwise leak into the next one).
+- `exhaustive-deps`: `DayCompleteScreen.tsx:93` (missing `handleContinue`), `DecisionScreen.tsx:226` (missing `toast`).
+
+These don't block `next build` — Next 16 doesn't run ESLint as part of the production build, only `npm run lint` itself. All of the affected components were exercised extensively during the pre-release audit (dozens of dropdown opens, full Quick Picks runs through all 4 days) with no observed visual glitches or stale-value symptoms. Deferred as lint-only cleanup; the real fix is computing the derived value during render instead of via effect+state, or stabilizing the missing-dep callbacks with `useCallback`.
+
+---
+
+## Future Consideration: next/image sizes Prop for fill Images
+
+Every `fill`-mode `<Image>` in the app (`ArtistCard.tsx`, `DecisionScreen.tsx`, `ArtistHero.tsx`, etc.) omits the `sizes` prop, which Next.js warns about via `console.warn` in dev. Checked and confirmed this warning is dev-only: `node_modules/next/dist/shared/lib/utils/warn-once.js` makes `warnOnce` a no-op whenever `NODE_ENV === 'production'`, so it never reaches a real deployed user's console. No prior attempt at adding `sizes` exists in git history or elsewhere in this file, despite a vague recollection that it was tried once and didn't look right. The likely culprit if it's tried again: `ArtistCard.tsx`'s `cardW`/`photoH` vary by context (fixed `w-60`/`w-48` in the two carousel sizes, fluid `w-full` in the responsive grid), so a single hardcoded `sizes` value doesn't fit every caller — getting it right requires a different value per layout mode, not a copy-pasted constant. Deferred indefinitely as a distinct backlog item, independent of the upcoming image-replacement pass.
+
+---
+
+## Future Consideration: LCP priority Prop on Explore's First Carousel Card
+
+Next.js's LCP heuristic flags Explore's "Festival Favorites" carousel first card image as a good `priority`/`loading="eager"` candidate. Not applied, because the carousel's artist order is a per-session seeded shuffle (see Carousel Presentation Strategies), so whichever artist happens to render first varies — a correct fix would add a `priority` prop to `ArtistCard` and have `ArtistCarousel.tsx`'s map pass `true` only for index `0`, not hardcode it to a specific artist. Layout-neutral, minor real speed win, tracked as its own post-MVP item separate from the `sizes` prop finding above and from the image-replacement pass.
+
+---
+
+## Future Consideration: Duplicated Filter/Search Computation in ExploreContent
+
+`ExploreContent.tsx` computes `filterArtists(...)` and the `hasSearch ? searchArtists(...) : ...` fallback three separate times, in three independent inline closures, rather than once and shared:
+
+1. The result-count summary label (~line 271) — only reads `results.length` and the search query text; order is irrelevant here.
+2. The single-carousel "See all" expanded view (~line 318) — operates over `currentCarousel.artists`, already sorted by that carousel's own logic before filtering runs.
+3. The main four-state render (~line 405) — the only one of the three whose `results` actually reaches `ArtistResultsGrid`, and where the filters-only path needs (and now has) `sortFestivalFavoritesForFullView(filtered)` applied before rendering.
+
+Only #3 needed the sort fix; #1 and #2 didn't, which is why the fix touches one line, not three. But the underlying triplication predates that fix and is a separate, structural redundancy — the same `allArtists`/`filterArtists` call runs three times per render. Consolidating into one `useMemo` shared across the three closures is possible but not done now — out of scope for a one-line sort fix, and a large-target diff on this page during a fast pre-launch pass isn't worth taking on tonight. Revisit post-MVP.
+
+---
+
+## Future Consideration: YouTube Player `useId()` String Id
+
+`LiveVideoSection.tsx` passes `useId()`'s output directly to `YT.Player` as a string element id and as the target `<div>`'s `id` attribute. This is safe specifically because the YouTube IFrame API resolves a string id via `document.getElementById`, not a CSS selector — colons (which `useId()` produces) are legal in `id` attributes and don't affect `getElementById` matching. Would need reconsidering if this id is ever passed to a selector-based lookup (e.g. `querySelector`) instead.
+
+---
+
+## Future Consideration: Switch `aria-disabled` Single-Path Guard
+
+`Switch.tsx` uses `aria-disabled` rather than native `disabled` so the control stays focusable and announces its `disabledReason` to screen readers, guarding the one activation path (`onClick`) with an early return. This is correct as long as `onClick` stays the only activation path — if a second one is ever added (e.g. a standalone `onKeyDown` handler rather than relying on the button's native Enter/Space-to-click behavior), it would need the same `disabled` guard.
+
+---
+
+## Future Consideration: Mobile Drawer State Not Reset Entering Quick Picks
+
+`isMobileDrawerOpen` (`chromeStore.ts`) is only reset to `false` via Sidebar's own link `onClick` handlers and the backdrop's `onClick`. Quick Picks hides the Sidebar (and its backdrop) entirely via `isSidebarVisible` while decisioning, without separately resetting the drawer flag. In practice this isn't reachable by tapping: the backdrop is a `fixed inset-0` click-catcher that sits above the rest of the page while the drawer is open, so any tap outside the drawer panel (including on an off-Sidebar link to `/quick-picks`, e.g. from `HomeContent.tsx` or `QuickPicksBanner.tsx`) closes the drawer instead of also activating whatever's underneath. The one remaining path is keyboard/assistive-tech navigation — z-index doesn't affect tab order, so a user could Tab past the drawer to an off-drawer link and press Enter, activating it without ever triggering the backdrop's `onClick`. Narrow enough to not warrant a fix now; revisit if keyboard-only mobile navigation becomes a tracked concern.
+
+---
+
+## Future Consideration: `sortFestivalFavoritesForFullView` Reused for Generic Deterministic Sort
+
+`ExploreContent.tsx`'s filters-only branch (no search, filters active) calls `sortFestivalFavoritesForFullView` to get a stable day → tier → time → name order, despite the function's name describing it as Festival-Favorites-specific. The day → tier → time → name logic isn't actually tied to that carousel — it's just the only existing helper with the right ordering — but the name implies carousel-specific semantics that could mislead a future editor changing the Festival Favorites carousel's sort and unintentionally affecting all filtered Explore views. No behavior risk today. The real fix is extracting a genericly-named helper (e.g. `sortArtistsDeterministic`) and pointing both call sites at it. Deferred as a naming/maintenance cleanup, not launch-blocking.
+
+---
+
+## HydrationGate Resilience to Rehydration Errors
+
+`HydrationGate.tsx` holds the first render (`return null`) until `decisionStore`, `scheduleStore`, `plannerViewStore`, and `attendanceStore` all report `hasHydrated: true` — every persisted store gets the same treatment; `chromeStore`, `exploreFilterStore`, and `helpStore` are deliberately excluded from this list since none of them persist to `localStorage` in the first place (pure in-memory UI state has no hydration gap to gate on). Each store's `onRehydrateStorage` callback sets `hasHydrated = true` on both the success path (truthy `state`, the common case) and the error path (corrupt JSON in the persisted key, or a `migrate()` that throws) — zustand's persist middleware calls the callback with `state = undefined` on error, so there's nothing to mutate directly.
+
+Getting the error branch to actually take effect required working around three separate, layered hazards in this exact stack (zustand `persist` + synchronous `localStorage` + Next.js/Turbopack, in both dev mode and `next build`'s server-side static generation) — all three confirmed by hand against real corrupted-storage reloads and real builds, not deduced from reading the library alone:
+
+1. **Referencing the store's own exported `const` from inside `onRehydrateStorage` throws a TDZ `ReferenceError`.** `onRehydrateStorage`'s callback can fire *before* `create()` finishes returning, so `useDecisionStore` (etc.) isn't assigned yet at that point. Fixed by never referencing the const at all: each store instead assigns a module-level `markHydratedOnError` variable *inside its own creator function* (`(set) => { markHydratedOnError = () => set({ hasHydrated: true }); return {...}; }`) — the creator's `set` parameter is passed in directly, not read from the outer closure, so it has no such hazard.
+
+2. **Even with a valid, non-TDZ'd reference to `set`, calling it *synchronously* inside the error branch silently does nothing.** Root cause, traced into `zustand`'s own source: `persistImpl` (`node_modules/zustand/esm/middleware.mjs`) calls `hydrate()` synchronously — for `localStorage` (not an async storage), the entire rehydration chain, including our error callback, resolves within that same synchronous call, which is itself running *inside* `zustand/vanilla.mjs`'s `createStoreImpl`, before its internal `state` variable has been assigned (`state = createState(...)` only completes *after* this whole chain returns). Any `set()` call made during that window mutates a `state` reference that then gets **completely discarded**: on the error path, `persistImpl` always returns `stateFromStorage || configResult`, and `stateFromStorage` is only ever assigned on the *success* path — so on error it's always `configResult`, the plain pre-hydration default, overwriting whatever the interim `set()` call did. No exception is thrown anywhere in this sequence, which is what made it hard to pin down: the call appears to succeed and simply has no lasting effect. Fixed by deferring the call by one tick — `setTimeout(() => markHydratedOnError?.(), 0)` — so it runs after the store has finished constructing rather than during it.
+
+3. **The deferred call from fix #2 then surfaced a third, unrelated failure — but only during `next build`, not dev mode.** Node 22+'s own experimental global `localStorage` (unrelated to a browser's) is present in Next.js's server-side static-generation environment — functional enough that `createJSONStorage` doesn't treat it as absent, but not backed by a real file, so every call throws. That gets misread as a genuine rehydration error during the server-rendered pass of every page, and the now-deferred `set()` call from fix #2 fires into it moments later, throwing a `TypeError` (non-fatal to the overall build, but a real uncaught exception logged to the build output). Fixed with a `typeof document !== "undefined"` guard around the deferred call — real browsers always have `document`; this Node environment never does.
+
+Verified with three independent cold-start test runs (`rm -rf .next` + fresh dev server each time, via Playwright) with fixes #1 and #2 in place, all three passing; the same setup reliably failed (blank screen, zero console output) without them. Fix #3 was caught by actually reading full `next build` output rather than just checking for a nonzero exit code — the build "succeeded" either way. A rehydration error resets that one store to its default in-memory state and still unblocks the gate, rather than leaving the app blank indefinitely.
+
+---
+
+## Mobile Accessibility Review: Dismissed Findings
+
+A second Copilot review pass, scoped to mobile accessibility, raised four "fix today if confirmed" items beyond the Sidebar drawer keyboard-close gap addressed above (see § Dialog Accessibility). None held up once traced against the actual implementation:
+
+- **Nested scroll / `100dvh` risk** — the concern was competing `overflow-y-auto` ancestors creating unreachable "dead" scroll zones. The app already does the opposite: `<body>` is `overflow-hidden` (`layout.tsx`) and each page owns exactly one scroll container (`<main overflow-y-auto>`). The one real `100dvh` fragility (`DecisionScreen.tsx`'s hero, against Safari chrome expand/collapse) is already tracked above under § Decisioning Screen Mobile Density.
+- **Drawer close/navigation race** — the concern was a stale animation-frame leaving the backdrop mounted after a rapid nav-and-interact sequence. `setMobileDrawerOpen(false)` and the backdrop's unmount are both synchronous with the triggering click; there's no timeout or animation-frame step in that path for a stale intercept layer to exist in.
+- **Quick Picks controls unreachable on short/landscape viewports** — the concern assumed a `fixed` CTA cluster that could get covered. The Pass/Interested/Must See buttons are in normal document flow inside `quick-picks/page.tsx`'s own scrollable `<main>`, not `fixed` — worst case on a short viewport is scrolling, not unreachable controls. Already covered by § Decisioning Screen Mobile Density's accepted residual-scroll tradeoff and § Orientation-Aware Mobile Breakpoints.
+- **Explore filter/search iOS zoom** — already fully addressed by § Explore Search Input Zoom-on-Focus (global 16px input floor plus a blur-based recovery fix for the WebKit nested-scroll zoom trigger). Filter dropdown triggers are buttons, not text inputs, so were never in scope for focus-triggered zoom.
+
+---
+
+## Future Consideration: Touch-Target Consistency Across Icon/Button Rows
+
+Some icon-only buttons in dense rows (e.g. filter chip rows, carousel controls) haven't been individually audited against a 44px minimum hit-target, unlike `DecisionScreen.tsx`'s Back/Exit buttons, which got `p-2 -m-2` specifically to reach that size. Unverified either way — not confirmed broken, not confirmed fine. Revisit as a dedicated sweep rather than guessing at individual components.
+
+---
+
+## Future Consideration: Focus-Visible Ring Consistency
+
+Whether every interactive control — especially icon-only buttons without a text label — shows a strong, consistent visible focus ring hasn't been audited app-wide. Unverified either way. Revisit as a dedicated keyboard-navigation sweep.
+
+---
+
+## Future Consideration: Festival Story Text Wrap at 320px + Large Text Settings
+
+Festival Story card copy hasn't been specifically checked at the intersection of the narrowest supported width (320px) and iOS/Android large-text accessibility settings, where line-wrap could look cramped or overflow. Unverified either way. Revisit alongside a real-device accessibility pass.
+
+---
+
+## Future Consideration: ExploreFilters Blur-Recovery Runs on Every Browser, Not Just iOS
+
+`ExploreFilters.tsx`'s `handleSearchBlur` (the viewport-meta + scroll-nudge fix for iOS/WebKit's zoom-on-focus bug, see § Explore Search Input Zoom-on-Focus) runs unconditionally on every blur of the search input, regardless of platform — it was never gated to iOS/WebKit specifically, even though the bug it corrects only exists there.
+
+**Considered and not adopted:** gating it behind a `navigator.userAgent` check. The concrete version proposed (matching `/iP(hone|od|ad)/` in the UA string) has a real bug: iPadOS has defaulted to a desktop-class User-Agent (masquerading as macOS Safari) since iPadOS 13, specifically so sites don't serve it a "mobile" experience — that regex never matches a real iPad's UA, so gating this way would silently break the recovery fix for iPad users, one of the platforms it was built for, while leaving it "fixed" for iPhone. Adopting it as suggested would be a regression, not an improvement.
+
+**Why not gate some other way instead:** the actual cost of running unconditionally is close to zero. The viewport-meta mutation has no visible effect on desktop browsers (they don't tie zoom behavior to that meta tag the way mobile Safari does), and the `scrollTo(0,1)`/`scrollTo(0,0)` nudge operates on `window`/document scroll, which per this app's own architecture (§ "`<body>` is `overflow-hidden`, deliberately") is never the real scroll container anywhere in the app — that position is already pinned at 0. So non-iOS platforms pay a handful of cheap, no-op DOM reads/writes per search-input blur, not visible churn or jank. Not worth the correctness risk of UA-sniffing to eliminate a cost this small. Revisit only with a real feature-detection approach, not UA sniffing, if this ever needs to change.
+
+---
+
+## Future Consideration: Sidebar Mobile Drawer Contents Stay Tabbable While Visually Closed
+
+`Sidebar.tsx`'s `<aside>` (all nav links, My Festival items, How it works) is always mounted in the DOM — on mobile, "closed" is purely visual, via `-translate-x-full`. Nothing marks its contents `inert`/`aria-hidden` while off-screen. Combined with render order in `app/layout.tsx` (`MobileTopBar` → `Sidebar` → `{children}`), a keyboard user tabbing from the hamburger button on mobile would tab through all of the drawer's ~8-9 links/buttons — invisible, off-screen — before ever reaching visible page content.
+
+This is distinct from the round-2 fix (`useDialogA11y` wired into the drawer, see § Dialog Accessibility): that hook only runs `if (isOpen)` — it governs Escape/Tab-trap/focus-restore while the drawer is open, and never touches the closed state at all. The two gaps are complementary, not overlapping.
+
+**Not fixed now.** Real, but narrow exposure: only affects Tab-key keyboard navigation on a mobile viewport specifically — not touch (the overwhelming majority of mobile users) and not VoiceOver/TalkBack (which navigate via swipe gestures, not Tab). Doesn't block product usage or lose data for anyone it does affect. Given a small initial user base at launch, the realistic odds of this mattering pre-launch are low, and it wasn't worth the added risk of shipping an under-tested fix this late — the correct version isn't a one-line change: the same component serves desktop's always-visible static column, so any "inert while closed" logic must be scoped to mobile-viewport-and-closed specifically (a naive `inert={!isMobileDrawerOpen}` would break desktop, where that flag is always `false`), and needs to avoid making the drawer's content disappear before its 300ms slide-out transition finishes.
+
+**What a real fix would look like:** add `invisible`/`visible` Tailwind classes alongside the existing transform classes, using the same `md:` override pattern already used for the transform itself (`md:visible` unconditional, `visible`/`invisible` toggled with `isMobileDrawerOpen` for mobile) — `visibility:hidden` natively removes an element from the tab order and accessibility tree, no `inert` polyfill needed. Needs a transition delay (or the `isScreenExiting`-style deferred-state pattern already used in Quick Picks) so it only goes inert once the close animation has actually finished, not the instant it starts. Revisit post-launch, or sooner if keyboard-only mobile navigation becomes a tracked concern.

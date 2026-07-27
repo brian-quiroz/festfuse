@@ -58,6 +58,31 @@ export default function ExploreFilters({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // iOS/WebKit auto-zooms on input focus when the page's real scrolling happens in a
+  // nested overflow-y-auto container (this app's shared shell, everywhere) rather than
+  // the document itself, once that container has scrolled off zero — see
+  // ARCHITECTURE.md § Explore Search Input Zoom-on-Focus. Distinct from the
+  // font-size-under-16px trigger already handled by this input's own text-base class
+  // and the global 16px CSS guardrail. Preventing the zoom at focus time loses the race
+  // against WebKit's own synchronous zoom-on-focus decision, so this corrects it at
+  // blur instead, where there's no native behavior to race against: forcing a viewport
+  // recalculation plus a same-effect scroll nudge reproduces the confirmed manual fix
+  // (dragging the background) without depending on the user finding it.
+  const handleSearchBlur = () => {
+    const meta = document.querySelector('meta[name="viewport"]');
+    if (meta instanceof HTMLMetaElement) {
+      const original = meta.content;
+      meta.content = "width=device-width, initial-scale=1, maximum-scale=1";
+      requestAnimationFrame(() => {
+        meta.content = original;
+      });
+    }
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 1);
+      requestAnimationFrame(() => window.scrollTo(0, 0));
+    });
+  };
+
   // Get available genres (filter GENRES to only those present in allArtists)
   const availableGenres = GENRES.filter((genre) =>
     allArtists.some((artist) => artist.genres.includes(genre))
@@ -119,6 +144,10 @@ export default function ExploreFilters({
   return (
     <div className="space-y-3">
       <style>{`
+        .dropdown-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
         .dropdown-scrollbar::-webkit-scrollbar {
           width: 4px;
         }
@@ -146,7 +175,9 @@ export default function ExploreFilters({
           placeholder="Search artists, genres, or keywords..."
           value={externalSearchQuery}
           onChange={(e) => handleSearchChange(e.target.value)}
-          className="w-full bg-[#1B1535] border border-[#2D2556] rounded-xl pl-11 pr-11 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#00E5FF]/30 transition-colors"
+          onBlur={handleSearchBlur}
+          autoComplete="off"
+          className="w-full bg-[#1B1535] border border-[#2D2556] rounded-xl pl-11 pr-11 py-3 text-base md:text-sm text-white placeholder:text-white/30 outline-none focus:border-[#00E5FF]/30 transition-colors"
         />
         {externalSearchQuery.trim().length > 0 && (
           <button
@@ -166,7 +197,7 @@ export default function ExploreFilters({
         {/* All button */}
         <button
           onClick={handleClearAll}
-          className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-all duration-200 ease-out ${
+          className={`px-4 py-2.5 md:py-1.5 rounded-full text-sm font-semibold border transition-all duration-200 ease-out ${
             allButtonPressed
               ? "border-[#00E5FF]/40 text-[#00E5FF] bg-[#00E5FF]/8"
               : "border-white/15 text-white/50 hover:border-white/25 hover:text-white/70"

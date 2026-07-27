@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Sidebar from "@/app/components/Sidebar";
+import { useChromeStore } from "@/app/store/chromeStore";
 import StartScreen from "@/app/components/quick-picks/StartScreen";
 import DecisionScreen from "@/app/components/quick-picks/DecisionScreen";
 import DayCompleteScreen from "@/app/components/quick-picks/DayCompleteScreen";
@@ -85,6 +85,7 @@ export default function QuickPicksPage() {
   const router = useRouter();
   const { decisionsByArtist, setDecision } = useDecisionStore();
   const showPassedArtists = useExploreFilterStore((state) => state.showPassedArtists);
+  const setSidebarVisible = useChromeStore((state) => state.setSidebarVisible);
   const [step, setStep] = useState<QuickPicksStep>("start");
   const [session, setSession] = useState<QuickPicksSession | null>(null);
   const [initialDecisions, setInitialDecisions] = useState<
@@ -290,106 +291,114 @@ export default function QuickPicksPage() {
     document.head.appendChild(link);
   }, [isOnCompletionScreen, storyUnlocked]);
 
-  const showSidebar = step === "start";
+  // Sidebar is a single shared instance in app/layout.tsx, so hiding it during
+  // decisioning/completion (no-chrome design for this flow) goes through chromeStore
+  // instead of a per-page conditional render.
+  useEffect(() => {
+    setSidebarVisible(step === "start");
+  }, [step, setSidebarVisible]);
+
+  // Restore visibility on unmount so leaving Quick Picks for another page never leaves
+  // the shared Sidebar stuck hidden.
+  useEffect(() => {
+    return () => setSidebarVisible(true);
+  }, [setSidebarVisible]);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#110D24]">
-      {showSidebar && <Sidebar />}
-      <main className="relative flex-1 min-w-0 overflow-y-auto overflow-x-hidden flex flex-col">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <svg
-            className="absolute inset-0 w-full h-full opacity-[0.04]"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <filter id="grain">
-              <feTurbulence
-                type="fractalNoise"
-                baseFrequency="0.65"
-                numOctaves="3"
-                stitchTiles="stitch"
-              />
-              <feColorMatrix type="saturate" values="0" />
-            </filter>
-            <rect width="100%" height="100%" filter="url(#grain)" />
-          </svg>
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse 85% 75% at 50% 45%, transparent 35%, rgba(17,13,36,0.6) 100%)",
-            }}
-          />
-          <div
-            className="absolute bottom-[-80px] right-[-80px] w-[640px] h-[520px] rounded-full blur-[130px]"
-            style={{ backgroundColor: `${COLORS.celebration}1f` }}
-          />
-          <div className="absolute top-[-60px] left-[-60px] w-[500px] h-[400px] rounded-full bg-[#A78BFA]/10 blur-[110px]" />
-        </div>
-
-        {step === "start" && <StartScreen onStart={handleStart} />}
-
-        {step === "decisioning" && session && currentArtist && currentAppearance && progress && (
-          <DecisionScreen
-            artist={currentArtist}
-            appearance={currentAppearance}
-            selectedDaySetCount={selectedDaySetCount}
-            dayLabel={dayLabel}
-            progress={progress}
-            onDecision={handleDecision}
-            onUndo={handleUndo}
-            canUndo={canUndo}
-            priorVerdict={undoneVerdict}
-            undoVerdict={undoVerdict}
-            toast={undoToast}
-            onExit={handleExit}
-            isScreenExiting={isScreenExiting}
-          />
-        )}
-
-        {step === "dayComplete" && session && (
-          <DayCompleteScreen
-            completedDay={completedDay}
-            upcomingDay={upcomingDay}
-            dayStats={completedDayStats}
-            onContinue={handleDayContinue}
-            onExit={handleExit}
-          />
-        )}
-
-        {(step === "festivalComplete" || step === "allDecided") && (
-          <>
-            <QuickPicksCompleteScreen
-              context={step === "festivalComplete" ? "sessionComplete" : "nothingToReview"}
-              attendanceDays={session?.config.attendanceDays ?? []}
-              storyUnlocked={storyUnlocked}
-              onGoToFestivalStory={() => setShowFestivalStory(true)}
-              onGoToSchedule={() => router.push("/planner")}
-              // Assumes at least one Passed artist exists in scope whenever this is
-              // reachable (the Story is locked) — proven true for the current dataset,
-              // not enforced here. See ARCHITECTURE.md § Future Consideration: Locked
-              // Story Recovery Assumes a Non-Trivial Attendance Scope for the math and
-              // the revisit trigger.
-              onExploreArtists={() => {
-                showPassedArtists();
-                router.push("/explore");
-              }}
-              onExit={handleExit}
+    <main className="relative flex-1 min-w-0 min-h-0 overflow-y-auto overflow-x-hidden flex flex-col">
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <svg
+          className="absolute inset-0 w-full h-full opacity-[0.04]"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <filter id="grain">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.65"
+              numOctaves="3"
+              stitchTiles="stitch"
             />
-            {/* Conditionally mounted, not just isOpen-gated: mounting is what triggers
-                useStorySignals' ~500-sample computation, so it must not run merely
-                because the completion screen is showing. Unmounting on close also
-                resets FestivalStorySequence's internal currentIndex for free — no
-                state to reset by hand, so reopening always starts at the intro. */}
-            {showFestivalStory && storyUnlocked && (
-              <FestivalStorySequence
-                isOpen={showFestivalStory}
-                onClose={() => setShowFestivalStory(false)}
-                attendanceDays={session?.config.attendanceDays}
-              />
-            )}
-          </>
-        )}
-      </main>
-    </div>
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#grain)" />
+        </svg>
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 85% 75% at 50% 45%, transparent 35%, rgba(17,13,36,0.6) 100%)",
+          }}
+        />
+        <div
+          className="absolute bottom-[-80px] right-[-80px] w-[640px] h-[520px] rounded-full blur-[130px]"
+          style={{ backgroundColor: `${COLORS.celebration}1f` }}
+        />
+        <div className="absolute top-[-60px] left-[-60px] w-[500px] h-[400px] rounded-full bg-[#A78BFA]/10 blur-[110px]" />
+      </div>
+
+      {step === "start" && <StartScreen onStart={handleStart} />}
+
+      {step === "decisioning" && session && currentArtist && currentAppearance && progress && (
+        <DecisionScreen
+          artist={currentArtist}
+          appearance={currentAppearance}
+          selectedDaySetCount={selectedDaySetCount}
+          dayLabel={dayLabel}
+          progress={progress}
+          onDecision={handleDecision}
+          onUndo={handleUndo}
+          canUndo={canUndo}
+          priorVerdict={undoneVerdict}
+          undoVerdict={undoVerdict}
+          toast={undoToast}
+          onExit={handleExit}
+          isScreenExiting={isScreenExiting}
+        />
+      )}
+
+      {step === "dayComplete" && session && (
+        <DayCompleteScreen
+          completedDay={completedDay}
+          upcomingDay={upcomingDay}
+          dayStats={completedDayStats}
+          onContinue={handleDayContinue}
+          onExit={handleExit}
+        />
+      )}
+
+      {(step === "festivalComplete" || step === "allDecided") && (
+        <>
+          <QuickPicksCompleteScreen
+            context={step === "festivalComplete" ? "sessionComplete" : "nothingToReview"}
+            attendanceDays={session?.config.attendanceDays ?? []}
+            storyUnlocked={storyUnlocked}
+            onGoToFestivalStory={() => setShowFestivalStory(true)}
+            onGoToSchedule={() => router.push("/planner")}
+            // Assumes at least one Passed artist exists in scope whenever this is
+            // reachable (the Story is locked) — proven true for the current dataset,
+            // not enforced here. See ARCHITECTURE.md § Future Consideration: Locked
+            // Story Recovery Assumes a Non-Trivial Attendance Scope for the math and
+            // the revisit trigger.
+            onExploreArtists={() => {
+              showPassedArtists();
+              router.push("/explore");
+            }}
+            onExit={handleExit}
+          />
+          {/* Conditionally mounted, not just isOpen-gated: mounting is what triggers
+              useStorySignals' ~500-sample computation, so it must not run merely
+              because the completion screen is showing. Unmounting on close also
+              resets FestivalStorySequence's internal currentIndex for free — no
+              state to reset by hand, so reopening always starts at the intro. */}
+          {showFestivalStory && storyUnlocked && (
+            <FestivalStorySequence
+              isOpen={showFestivalStory}
+              onClose={() => setShowFestivalStory(false)}
+              attendanceDays={session?.config.attendanceDays}
+            />
+          )}
+        </>
+      )}
+    </main>
   );
 }

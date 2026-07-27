@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Heart, Star, Calendar, AlertTriangle } from "lucide-react";
 import { COLORS } from "@/app/data/colors";
 import type { Artist } from "@/app/types/artist";
@@ -10,6 +10,7 @@ import { useScheduleStore } from "@/app/store/scheduleStore";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance, getPrimaryBillingTier, getAppearancesForFestival } from "@/app/lib/appearances";
 import { getArtistScheduleState } from "@/app/lib/schedule";
+import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
 interface ArtistCardProps {
   artist: Artist;
@@ -22,7 +23,6 @@ export default function ArtistCard({
   size = "default",
   responsive = false,
 }: ArtistCardProps) {
-  const router = useRouter();
   const { decisionsByArtist, setDecision } = useDecisionStore();
   const { scheduledAppearanceKeys, conflictingArtistSlugs, toggleAllAppearances } =
     useScheduleStore();
@@ -67,7 +67,7 @@ export default function ArtistCard({
 
   const isLarge = size === "large";
   const cardW = responsive ? "w-full" : isLarge ? "w-60" : "w-48";
-  const photoH = isLarge ? "h-72" : "h-60";
+  const photoH = responsive ? "aspect-[4/5]" : isLarge ? "h-72" : "h-60";
 
   const scheduleTitle = isMultiAppearance
     ? isScheduled
@@ -81,12 +81,26 @@ export default function ArtistCard({
 
   return (
     <div
-      className={`${cardW} flex-shrink-0 rounded-2xl overflow-hidden bg-[#1B1535] cursor-pointer group select-none transition-colors`}
-      onClick={() => router.push(`/artist/${artist.slug}`)}
+      className={`relative ${cardW} flex-shrink-0 rounded-2xl overflow-hidden bg-[#1B1535] cursor-pointer group select-none transition-colors`}
       role="article"
     >
+      {/* Full-bleed real link, not a click handler on a div — gives right-click/middle-click
+          "open in new tab" and keyboard access, neither of which a div onClick can offer.
+          Sits as the first child so the photo block (a later, also-positioned sibling)
+          naturally stacks above it, keeping the nested action buttons clickable; z-0/z-10
+          make that stacking explicit rather than relying on DOM-order alone. */}
+      <Link
+        href={`/artist/${artist.slug}`}
+        className="absolute inset-0 z-0"
+        aria-label={`View ${artist.name}`}
+      />
       {/* Photo */}
-      <div className={`relative ${photoH} overflow-hidden`}>
+      {/* pointer-events-none: this whole block sits above the link (z-10 vs the link's
+          z-0) so the buttons inside it stay clickable, but that would also block clicks
+          on the plain image from ever reaching the link underneath. Disabling pointer
+          events here and re-enabling them only on the button cluster lets image clicks
+          fall through to the link while button clicks still resolve locally. */}
+      <div className={`relative z-10 pointer-events-none ${photoH} overflow-hidden`}>
         {/* Scaled layer: image + gradient move together */}
         <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]">
           {artist.imageUrl ? (
@@ -98,15 +112,38 @@ export default function ArtistCard({
               style={{ objectPosition: artist.objectPosition ?? "center center" }}
             />
           ) : (
-            <div className="absolute inset-0 bg-[#231C45]" />
+            <GenreGradientFallback
+              name={artist.name}
+              genres={artist.genres}
+              shape="rect"
+              direction="to top"
+              showMonogram={false}
+              className="absolute inset-0"
+            />
           )}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(17,13,36,0.12) 0%, transparent 28%, rgba(17,13,36,0.65) 72%, rgba(17,13,36,0.95) 100%)",
-            }}
-          />
+          {/* This overlay exists to tame a busy photo for icon/badge legibility — the
+              gradient fallback already darkens toward the bottom on its own via its
+              "to top" direction, so stacking this on top double-darkens and, on a card
+              this short, eats more than half the visible color. The action buttons
+              have their own bg-black/50 backdrop regardless, so they don't depend on
+              this. Photo-only; fallback gets a much shorter eased seam fade instead. */}
+          {artist.imageUrl ? (
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(17,13,36,0.12) 0%, transparent 28%, rgba(17,13,36,0.65) 72%, rgba(17,13,36,0.95) 100%)",
+              }}
+            />
+          ) : (
+            <div
+              className="absolute bottom-0 left-0 right-0 h-12"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(17,13,36,0) 0%, rgba(17,13,36,0.1) 30%, rgba(17,13,36,0.35) 60%, rgba(17,13,36,0.65) 85%, #1B1535 100%)",
+              }}
+            />
+          )}
         </div>
 
         {/* Headliner badge: bottom-right, balances icons on the left */}
@@ -127,11 +164,11 @@ export default function ArtistCard({
 
         {/* Action controls — bottom-left, two rows: Must See + Interested above,
             Schedule alone below (with its conflict indicator, when applicable). */}
-        <div className="absolute bottom-3 left-3 flex flex-col items-start gap-1.5">
+        <div className="absolute bottom-3 left-3 flex flex-col items-start gap-1.5 pointer-events-auto">
           <div className="flex items-center gap-1">
             <button
               onClick={handleMustSee}
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
+              className={`w-11 h-11 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
                 mustSee
                   ? "bg-[#E8FF47] border-[#E8FF47] text-[#110D24]"
                   : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
@@ -142,7 +179,7 @@ export default function ArtistCard({
             </button>
             <button
               onClick={handleInterested}
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
+              className={`w-11 h-11 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
                 interested
                   ? "bg-[#E8FF47]/18 border-[#E8FF47]/50 text-[#E8FF47]"
                   : "bg-black/50 border-white/15 text-white/55 hover:text-white/80 hover:border-white/30"
@@ -157,7 +194,7 @@ export default function ArtistCard({
               <button
                 onClick={handleScheduleToggle}
                 aria-describedby={isConflicting ? "schedule-conflict-badge" : undefined}
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
+                className={`w-11 h-11 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
                   isScheduled
                     ? "bg-[#00E5FF] border-[#00E5FF] text-[#110D24]"
                     : isPartiallyScheduled

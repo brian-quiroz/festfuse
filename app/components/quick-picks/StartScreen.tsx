@@ -38,6 +38,13 @@ export default function StartScreen({ onStart }: Props) {
   const noDaysSelected = attendanceDays.length === 0;
   const isGroupingLocked = attendanceDays.length <= 1;
 
+  // Mirrors HomeContent.tsx's label logic — Explore-sourced decisions don't count,
+  // since Explore has no session concept to resume; only prior Quick Picks activity
+  // should flip this to "Continue."
+  const hasQuickPicksActivity = Object.values(decisionsByArtist).some(
+    (decision) => decision.source === "quickPicks"
+  );
+
   // Selected days with zero undecided artists — same eligibility rule createSession
   // uses (see getEligibleEntries), checked one day at a time. Built from festivalDays
   // (canonical Thu->Fri->Sat->Sun order), not attendanceDays directly, so the note
@@ -82,19 +89,20 @@ export default function StartScreen({ onStart }: Props) {
   }
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center px-6 py-8 lg:py-10">
-      <div className="flex flex-col items-center gap-6 w-full max-w-xl">
+    <div className="flex-1 flex flex-col items-center justify-center px-6 py-4 sm:py-8 lg:py-10">
+      <div className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-xl">
         {/* Hero title */}
         <div className="flex flex-col items-center gap-3 text-center">
-          <div className="flex items-center gap-3">
+          <div className="relative flex items-center justify-center">
             <Zap
               size={40}
               fill="currentColor"
               strokeWidth={0}
               style={{ color: COLORS.celebration }}
+              className="absolute right-full mr-2 sm:mr-3 w-8 h-8 sm:w-10 sm:h-10"
             />
             <h1
-              className="text-6xl font-extrabold tracking-tight bg-clip-text text-transparent"
+              className="text-5xl sm:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent"
               style={{
                 backgroundImage: `linear-gradient(to right, ${COLORS.celebration}, #A78BFA)`,
                 WebkitBackgroundClip: "text",
@@ -114,7 +122,7 @@ export default function StartScreen({ onStart }: Props) {
         </div>
 
         {/* Start Options + CTA */}
-        <div className="w-full max-w-[544px] flex flex-col items-center gap-4" aria-busy={pressing}>
+        <div className="w-full max-w-[544px] flex flex-col items-center gap-3 sm:gap-4" aria-busy={pressing}>
           <StartOptions
             festivalDays={festivalDays}
             datesByDay={datesByDay}
@@ -130,15 +138,15 @@ export default function StartScreen({ onStart }: Props) {
               Grouping, so it reads as the start of the experience rather than a
               fourth form field — the Festival/Days/Grouping steps keep their
               original, tighter gap-4 rhythm between each other. */}
-          <div className="w-full flex flex-col items-center gap-3 mt-[15px]">
+          <div className="w-full flex flex-col items-center gap-2 sm:gap-3 mt-2.5 sm:mt-[15px]">
             <button
               onClick={handleStart}
               disabled={noDaysSelected || pressing}
-              className={`flex w-full items-center justify-center gap-2 px-4 py-4 rounded-lg bg-[#00E5FF] text-[#110D24] text-base font-bold hover:bg-[#00E5FF]/90 transition duration-100 ${
+              className={`flex w-full items-center justify-center gap-2 px-4 py-3.5 sm:py-4 rounded-lg bg-[#00E5FF] text-[#110D24] text-base font-bold hover:bg-[#00E5FF]/90 transition duration-100 ${
                 noDaysSelected ? "opacity-40 cursor-not-allowed hover:bg-[#00E5FF]" : ""
               } ${pressing ? "scale-[0.97]" : ""}`}
             >
-              Start Quick Picks
+              {hasQuickPicksActivity ? "Continue Quick Picks" : "Start Quick Picks"}
               <ArrowRight size={15} strokeWidth={2.5} />
             </button>
             {noDaysSelected ? (
@@ -156,7 +164,7 @@ export default function StartScreen({ onStart }: Props) {
                 )}
                 <p className="flex items-center gap-1.5 text-xs text-white/30">
                   <Lock size={11} strokeWidth={2} />
-                  Your picks are automatically saved.
+                  Your picks are automatically saved on this device.
                 </p>
               </>
             )}

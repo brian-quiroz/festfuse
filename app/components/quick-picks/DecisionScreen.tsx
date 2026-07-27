@@ -8,6 +8,7 @@ import type { Artist, FestivalAppearance } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 import { COLORS } from "@/app/data/colors";
 import SpotifyTrackEmbed from "@/app/components/ui/SpotifyTrackEmbed";
+import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
 /*
  * DecisionScreen — moving parts overview
@@ -269,7 +270,7 @@ export default function DecisionScreen({
       />
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-8 py-5">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 md:px-8 py-3 md:py-5">
         <div
           className="relative w-full flex flex-col gap-3"
           style={{
@@ -296,7 +297,7 @@ export default function DecisionScreen({
             </div>
             <button
               onClick={canUndo ? handleUndoClick : undefined}
-              className={`flex items-center gap-1 text-xs transition-colors flex-shrink-0 ${
+              className={`flex items-center gap-1 p-2 -m-2 text-xs transition-colors flex-shrink-0 ${
                 canUndo
                   ? "text-white/45 hover:text-white/70 cursor-pointer"
                   : "text-white/15 cursor-default"
@@ -306,7 +307,7 @@ export default function DecisionScreen({
             </button>
             <button
               onClick={onExit}
-              className="flex items-center gap-1 text-white/30 hover:text-white/60 text-xs transition-colors flex-shrink-0"
+              className="flex items-center gap-1 p-2 -m-2 text-white/30 hover:text-white/60 text-xs transition-colors flex-shrink-0"
             >
               Exit <X size={12} strokeWidth={2} />
             </button>
@@ -314,13 +315,10 @@ export default function DecisionScreen({
 
           {/* Hero + metadata + buttons */}
           <div className="flex flex-col gap-2">
-            {/* Hero card — responsive height scales with viewport */}
-            <div
-              className="relative"
-              style={{
-                height: "calc(100vh - 220px)",
-              }}
-            >
+            {/* Hero card — responsive height scales with viewport. Mobile reserves less
+                budget for surrounding chrome since the keyboard hints and a metadata
+                chip are hidden there; md: and up keeps the original 220px budget. */}
+            <div className="relative h-[calc(100dvh-190px)] md:h-[calc(100dvh-220px)]">
               <AnimatePresence mode="sync" custom={animCustom} initial={false}>
                 <motion.div
                   key={artist.slug}
@@ -341,7 +339,14 @@ export default function DecisionScreen({
                       style={{ objectPosition: artist.objectPosition ?? "center center" }}
                     />
                   ) : (
-                    <div className="absolute inset-0 bg-[#231C45]" />
+                    <GenreGradientFallback
+                      name={artist.name}
+                      genres={artist.genres}
+                      shape="rect"
+                      direction="to top"
+                      showMonogram={false}
+                      className="absolute inset-0"
+                    />
                   )}
 
                   <div
@@ -397,12 +402,13 @@ export default function DecisionScreen({
                     </div>
                   )}
 
-                  <div className="absolute bottom-0 left-0 right-0 flex items-end gap-8 px-6 pb-6">
-                    {/* Extra bottom padding (on top of the row's own pb-6) lifts just
-                        this column ~32px higher, since items-end aligns both columns to
-                        the row's bottom edge — Quick Listen/Sounds Like on the right are
-                        unaffected. */}
-                    <div className="flex-1 min-w-0 flex flex-col gap-3 pb-8">
+                  <div className="absolute bottom-0 left-0 right-0 flex flex-col md:flex-row md:items-end gap-3 md:gap-8 px-4 md:px-6 pb-4 md:pb-6">
+                    {/* Extra bottom padding on md: and up (on top of the row's own pb-6)
+                        lifts just this column ~32px higher, since items-end aligns both
+                        columns to the row's bottom edge — Quick Listen/Sounds Like on the
+                        right are unaffected. Not needed on mobile, where the columns stack
+                        instead of sharing a bottom edge. */}
+                    <div className="flex-1 min-w-0 flex flex-col gap-2 md:gap-3 md:pb-8">
                       <div className="flex gap-2 flex-wrap">
                         {artist.genres.slice(0, 2).map((genre) => (
                           <span
@@ -416,12 +422,12 @@ export default function DecisionScreen({
                       {/* artist.tagline intentionally not rendered here — unverified
                           AI-generated content, same MVP decision as Artist Detail's
                           hero. Data untouched. */}
-                      <h2 className="text-[2.75rem] font-extrabold text-white tracking-tight leading-none">
+                      <h2 className="text-3xl md:text-[2.75rem] font-extrabold text-white tracking-tight leading-none">
                         {artist.name}
                       </h2>
                     </div>
 
-                    <div className="w-72 flex-shrink-0 flex flex-col gap-4 pb-0.5">
+                    <div className="w-full md:w-72 flex-shrink-0 flex flex-col gap-3 md:gap-4 md:pb-0.5">
                       {/* Quick Listen — one compact official Spotify embed, never a
                           custom player. A lightweight sample, not a claim that this
                           track represents the artist. See artist.tracks[0] convention
@@ -434,12 +440,18 @@ export default function DecisionScreen({
                           <SpotifyTrackEmbed
                             spotifyId={quickListenTrack.spotifyId!}
                             trackName={quickListenTrack.name}
+                            priority
                           />
                         </div>
                       )}
 
+                      {/* Sounds Like is cut on mobile rather than folded behind a
+                          disclosure toggle — Quick Picks optimizes for momentum, and an
+                          expand affordance on every card reintroduces the second-guessing
+                          the product philosophy explicitly avoids. Still available on
+                          Artist Detail. */}
                       {artist.similarArtists.length > 0 && (
-                        <div className="flex flex-col gap-1.5">
+                        <div className="hidden md:flex flex-col gap-1.5">
                           <span className="text-white/30 text-[10px] font-medium uppercase tracking-widest">
                             Sounds like
                           </span>
@@ -457,8 +469,12 @@ export default function DecisionScreen({
               </AnimatePresence>
             </div>
 
-            {/* Metadata chips — pill shape anchored, text fades in with new artist */}
-            <div className="flex items-center gap-2 flex-wrap">
+            {/* Metadata chips — pill shape anchored, text fades in with new artist.
+                Desktop keeps four separate chips (unchanged). Mobile consolidates to two
+                pills below — day/time+sets, and stage — since four independent chips can
+                wrap to a second line on small phones. Duration drops from the mobile view
+                entirely as the least decision-relevant of the four facts. */}
+            <div className="hidden md:flex items-center gap-2 flex-wrap">
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
                 <Calendar size={11} strokeWidth={2} className="flex-shrink-0" />
                 <motion.span
@@ -511,6 +527,31 @@ export default function DecisionScreen({
                 </motion.span>
               </span>
             </div>
+            <div className="flex md:hidden items-center gap-2">
+              <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
+                <Calendar size={11} strokeWidth={2} className="flex-shrink-0" />
+                <motion.span
+                  key={`${artist.slug}-schedule-m`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}
+                >
+                  {primaryAppearance.day}, {primaryAppearance.date} · {primaryAppearance.startTime}
+                  {isMultiAppearance && ` · ${selectedDaySetCount} sets`}
+                </motion.span>
+              </span>
+              <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
+                <Layers size={11} strokeWidth={2} className="flex-shrink-0" />
+                <motion.span
+                  key={`${artist.slug}-stage-m`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2, delay: shouldReduceMotion ? 0 : 0.18 }}
+                >
+                  {primaryAppearance.stage} Stage
+                </motion.span>
+              </span>
+            </div>
 
             {/* Decision buttons — anchored */}
             <div className="grid grid-cols-3 gap-3">
@@ -542,8 +583,9 @@ export default function DecisionScreen({
             </div>
           </div>
 
-          {/* Keyboard hints */}
-          <div className="flex items-center justify-center gap-6 text-[11px]">
+          {/* Keyboard hints — meaningless on touch devices, hidden on mobile. The
+              keydown listener above is unaffected; this is a rendering-only change. */}
+          <div className="hidden md:flex items-center justify-center gap-6 text-[11px]">
             <span className="text-white/40">A Pass</span>
             <span className="text-white/40">S Interested</span>
             <span className="text-white/40">D Must See</span>

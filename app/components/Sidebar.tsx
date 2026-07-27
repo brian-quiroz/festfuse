@@ -1,11 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Search, Zap, Calendar, CalendarDays, ListChecks, Star, Heart, AlertCircle } from "lucide-react";
+import { Home, Search, Zap, Calendar, CalendarDays, ListChecks, Star, Heart, AlertCircle, HelpCircle } from "lucide-react";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore, NAV_PRESETS } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
+import { useHelpStore } from "@/app/store/helpStore";
+import { useChromeStore } from "@/app/store/chromeStore";
+import { useDialogA11y } from "@/app/hooks/useDialogA11y";
+import HowItWorksModal from "@/app/components/home/HowItWorksModal";
 import type { ActiveNavItem } from "@/app/types/navigation";
 
 const navItems = [
@@ -33,6 +38,25 @@ export default function Sidebar() {
   // Multi-Appearance Support ("Sidebar counts: artist counts, not appearance counts").
   const { scheduledArtistSlugs, conflictingArtistSlugs } = useScheduleStore();
   const { pickStatus, scheduleStatus, activeNavItem, applyPreset, clearFilters } = useExploreFilterStore();
+  const { isHelpOpen, openHelp, closeHelp } = useHelpStore();
+  const isSidebarVisible = useChromeStore((state) => state.isSidebarVisible);
+  const isMobileDrawerOpen = useChromeStore((state) => state.isMobileDrawerOpen);
+  const setMobileDrawerOpen = useChromeStore((state) => state.setMobileDrawerOpen);
+  const asideRef = useRef<HTMLElement>(null);
+
+  // Gives the mobile drawer Escape-to-close, Tab-trapping, and focus restoration to the
+  // hamburger button on close — same hook every other dialog/modal in the app uses (see
+  // ARCHITECTURE.md § Dialog Accessibility). Only ever active on mobile: isMobileDrawerOpen
+  // stays false on desktop's static sidebar column, so this is inert there.
+  useDialogA11y({
+    isOpen: isMobileDrawerOpen,
+    onClose: () => setMobileDrawerOpen(false),
+    containerRef: asideRef,
+  });
+
+  // Hidden during Quick Picks decisioning/completion (chromeStore), consistent with that
+  // flow's no-chrome design. Comes after all hooks above so hook order stays stable.
+  if (!isSidebarVisible) return null;
 
   // Derive counts from store
   const mustSeeCount = Object.values(decisionsByArtist).filter(
@@ -47,13 +71,17 @@ export default function Sidebar() {
   const scheduledCount = scheduledArtistSlugs.size;
   const conflictCount = conflictingArtistSlugs.size;
 
-  const myFestivalItems = [
+  // Two flat, labeled groups rather than one list or a parent/child indent tree —
+  // Conflicts isn't a true subset of Scheduled the way Must See/Interested are subsets
+  // of My Picks (a conflict is a derived problem-state among scheduled items, not a
+  // category of it), so grouping by dimension is more accurate than nesting would be.
+  const picksItems = [
     {
       label: "My Picks",
       count: myPicksCount,
       Icon: ListChecks,
-      color: "#00E5FF",
-      bg: "rgba(0,229,255,0.10)",
+      color: "#E8FF47",
+      bg: "rgba(232,255,71,0.10)",
     },
     {
       label: "Must See",
@@ -69,6 +97,9 @@ export default function Sidebar() {
       color: "#E8FF47",
       bg: "rgba(232,255,71,0.10)",
     },
+  ];
+
+  const scheduleItems = [
     {
       label: "Scheduled",
       count: scheduledCount,
@@ -89,6 +120,57 @@ export default function Sidebar() {
       : []),
   ];
 
+  // Shared by both My Festival groups (Picks, Schedule) so the highlight/count markup
+  // can't drift apart between them.
+  function renderFestivalItem({
+    label,
+    count,
+    Icon,
+    color,
+    bg,
+  }: {
+    label: string;
+    count: number;
+    Icon: typeof ListChecks;
+    color: string;
+    bg: string;
+  }) {
+    const navKey = NAV_ITEM_BY_LABEL[label];
+    const preset = NAV_PRESETS[navKey];
+    const liveValues: string[] = preset.facet === "pick" ? pickStatus : scheduleStatus;
+    // Must also confirm we're still on /explore (activeNavItem alone is stale once the
+    // user navigates elsewhere, e.g. Planner) and that the live filters still contain
+    // what this preset implies (activeNavItem alone is stale once the user manually
+    // changes filters away from what they clicked — e.g. Scheduled lit while the
+    // Scheduled checkbox itself is unmarked). No fallback if invalid — just don't
+    // highlight anything.
+    const active =
+      isActive("/explore") && activeNavItem === navKey && preset.values.some((v) => liveValues.includes(v));
+
+    return (
+      <button
+        key={label}
+        type="button"
+        onClick={() => handleFestivalItemClick(label)}
+        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+          active ? "" : "text-[#6B6893] hover:text-white hover:bg-[#231C45]"
+        }`}
+        style={active ? { background: bg, color } : undefined}
+      >
+        <span style={{ color }}>
+          <Icon size={15} strokeWidth={2} />
+        </span>
+        <span className="flex-1 text-left">{label}</span>
+        <span
+          className="text-[10px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full"
+          style={{ background: bg, color }}
+        >
+          {count}
+        </span>
+      </button>
+    );
+  }
+
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
@@ -105,6 +187,7 @@ export default function Sidebar() {
     if (pathname !== "/explore") {
       router.push("/explore");
     }
+    setMobileDrawerOpen(false);
   };
 
   const handleFestivalItemClick = (label: string) => {
@@ -116,16 +199,33 @@ export default function Sidebar() {
     if (pathname !== "/explore") {
       router.push("/explore");
     }
+    setMobileDrawerOpen(false);
   };
 
   return (
-    <aside className="w-60 flex-shrink-0 h-full bg-[#1B1535] border-r border-[#2D2556] flex flex-col">
+    <>
+      {/* Backdrop: mobile-only, sits below the drawer (z-30 < z-40) and above page
+          content, dismisses the drawer on click. Never rendered at md:+, where the
+          drawer transform is a no-op and Sidebar is just a static column. */}
+      {isMobileDrawerOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/60 md:hidden"
+          onClick={() => setMobileDrawerOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+      <aside
+        ref={asideRef}
+        className={`fixed md:static inset-y-0 left-0 z-40 w-60 flex-shrink-0 h-full bg-[#1B1535] border-r border-[#2D2556] flex flex-col transform transition-transform duration-300 ease-out md:translate-x-0 ${
+          isMobileDrawerOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
       {/* Logo */}
       <div className="px-6 py-6 flex-shrink-0">
-        <span className="text-xl font-extrabold tracking-tight">
+        <Link href="/" className="text-xl font-extrabold tracking-tight">
           <span className="text-[#00E5FF]">Fest</span>
           <span className="text-white">Fuse</span>
-        </span>
+        </Link>
       </div>
 
       {/* Scrollable middle */}
@@ -157,6 +257,7 @@ export default function Sidebar() {
               <Link
                 key={label}
                 href={href}
+                onClick={() => setMobileDrawerOpen(false)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                   active
                     ? "bg-[#00E5FF]/10 text-[#00E5FF]"
@@ -177,47 +278,40 @@ export default function Sidebar() {
           </p>
         </div>
 
-        <div className="px-3 space-y-0.5">
-          {myFestivalItems.map(({ label, count, Icon, color, bg }) => {
-            const navKey = NAV_ITEM_BY_LABEL[label];
-            const preset = NAV_PRESETS[navKey];
-            const liveValues: string[] = preset.facet === "pick" ? pickStatus : scheduleStatus;
-            // Must also confirm we're still on /explore (activeNavItem alone is stale once the
-            // user navigates elsewhere, e.g. Planner) and that the live filters still contain
-            // what this preset implies (activeNavItem alone is stale once the user manually
-            // changes filters away from what they clicked — e.g. Scheduled lit while the
-            // Scheduled checkbox itself is unmarked). No fallback if invalid — just don't
-            // highlight anything.
-            const active =
-              isActive("/explore") &&
-              activeNavItem === navKey &&
-              preset.values.some((v) => liveValues.includes(v));
+        {/* Two labeled groups, not one flat list — reinforces that Picks and Schedule
+            are separate dimensions, the way the Planner's own toggles already do. */}
+        <div className="px-3">
+          <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
+            Picks
+          </p>
+          <div className="space-y-0.5">{picksItems.map(renderFestivalItem)}</div>
+        </div>
 
-            return (
-              <button
-                key={label}
-                type="button"
-                onClick={() => handleFestivalItemClick(label)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  active ? "" : "text-[#6B6893] hover:text-white hover:bg-[#231C45]"
-                }`}
-                style={active ? { background: bg, color } : undefined}
-              >
-                <span style={{ color }}>
-                  <Icon size={15} strokeWidth={2} />
-                </span>
-                <span className="flex-1 text-left">{label}</span>
-                <span
-                  className="text-[10px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full"
-                  style={{ background: bg, color }}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+        <div className="px-3 mt-3">
+          <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
+            Schedule
+          </p>
+          <div className="space-y-0.5">{scheduleItems.map(renderFestivalItem)}</div>
+        </div>
+
+        {/* Utilities — visually separate from primary nav and My Festival so "How it
+            works" never reads as a fifth core mode, just a low-emphasis aside. */}
+        <div className="mx-3 mt-4 pt-4 border-t border-[#2D2556]">
+          <button
+            type="button"
+            onClick={() => {
+              setMobileDrawerOpen(false);
+              openHelp();
+            }}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#6B6893] hover:text-white hover:bg-[#231C45] transition-colors"
+          >
+            <HelpCircle size={16} strokeWidth={2} />
+            How it works
+          </button>
         </div>
       </div>
-    </aside>
+      </aside>
+      <HowItWorksModal isOpen={isHelpOpen} onClose={closeHelp} />
+    </>
   );
 }

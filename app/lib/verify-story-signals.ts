@@ -409,29 +409,27 @@ console.log("\n========== GENRE AFFINITY: SELECTION-ADJUSTED + TIES ==========\n
 {
   // A genuinely concentrated family (all picks share one family; many sub-genres
   // within it so it isn't also a single-genre fixture) qualifies for interpretive copy.
-  const edmOnly = allArtists.filter((a) => a.genres.length > 0 && a.genres.every((g) => GENRE_TO_FAMILY[g] === "Electronic/Dance"));
+  const edmOnly = allArtists.filter((a) => a.genres.length > 0 && a.genres.every((g) => GENRE_TO_FAMILY[g] === "Dance/Electronic"));
   const signals = run(ALL_DAYS, decisionsFor(edmOnly.slice(0, 20).map((a) => a.slug), "mustSee"));
   const taste = findType(signals, "genreAffinity");
   check("genuinely concentrated genre family qualifies for strong interpretive copy", isStrongTasteCopy(taste?.headlineTemplate), taste?.headlineTemplate);
 }
 {
-  // Safe (non-interpretive) branch, single leading family = Electronic/Dance — a
-  // family name that starts with a vowel sound, specifically chosen to catch a
-  // regression of the "share a {Family} sound" article bug ("share a Electronic/Dance
-  // sound"). Sample size deliberately equals the eligible pool size, so every one of
-  // the 500 samples is a permutation of the exact same set (maxFamilyRate always
-  // ties the observed value) and the statistical test can never qualify — this
-  // reliably forces the safe branch rather than hoping a random pool lands there.
+  // Safe (non-interpretive) branch, single leading family = Dance/Electronic. Sample
+  // size deliberately equals the eligible pool size, so every one of the 500 samples
+  // is a permutation of the exact same set (maxFamilyRate always ties the observed
+  // value) and the statistical test can never qualify — this reliably forces the safe
+  // branch rather than hoping a random pool lands there.
   const pool: Artist[] = [
-    ...Array.from({ length: 3 }, () => fixtureArtist("Thursday", { genres: ["House"] })), // Electronic/Dance
+    ...Array.from({ length: 3 }, () => fixtureArtist("Thursday", { genres: ["House"] })), // Dance/Electronic
     ...Array.from({ length: 2 }, () => fixtureArtist("Thursday", { genres: ["Pop"] })),
-    ...Array.from({ length: 1 }, () => fixtureArtist("Thursday", { genres: ["Country"] })), // Folk/Americana/Country
+    ...Array.from({ length: 1 }, () => fixtureArtist("Thursday", { genres: ["Country"] })), // Americana
   ];
   const signals = run(["Thursday"], decisionsFor(pool.map((a) => a.slug), "mustSee"), pool);
   const taste = findType(signals, "genreAffinity");
   check(
-    "safe Taste Profile, single leading family (Electronic/Dance) -> plain non-comparative copy",
-    taste?.headlineTemplate === "Electronic/Dance shows up most" &&
+    "safe Taste Profile, single leading family (Dance/Electronic) -> plain non-comparative copy",
+    taste?.headlineTemplate === "Dance/Electronic shows up most" &&
       taste?.supportingText === "It's the most common thread across your picks so far.",
     `${taste?.headlineTemplate} | ${taste?.supportingText}`
   );
@@ -482,7 +480,7 @@ console.log("\n========== GENRE AFFINITY: SELECTION-ADJUSTED + TIES ==========\n
   const picks = [...pool.slice(0, 3), ...pool.slice(3, 6)]; // 3 Pop + 3 Folk, tied at 3 each
   const signals = run(["Thursday"], decisionsFor(picks.map((a) => a.slug), "mustSee"), pool);
   const taste = findType(signals, "genreAffinity");
-  check("two-way leading-family tie -> tied Taste Profile copy, names both families", taste?.headlineTemplate === "Your leading sounds" && (taste?.supportingText.includes("Folk/Americana/Country and Pop") ?? false), taste?.supportingText);
+  check("two-way leading-family tie -> tied Taste Profile copy, names both families", taste?.headlineTemplate === "Your leading sounds" && (taste?.supportingText.includes("Americana and Pop") ?? false), taste?.supportingText);
 }
 {
   // Three-way tie
@@ -498,7 +496,7 @@ console.log("\n========== GENRE AFFINITY: SELECTION-ADJUSTED + TIES ==========\n
   check(
     "three-way leading-family tie -> tied Taste Profile copy, names all three families",
     taste?.headlineTemplate === "Your leading sounds" &&
-      (taste?.supportingText.includes("Electronic/Dance, Folk/Americana/Country, and Pop") ?? false),
+      (taste?.supportingText.includes("Americana, Dance/Electronic, and Pop") ?? false),
     taste?.supportingText
   );
 }
@@ -516,7 +514,7 @@ console.log("\n========== GENRE AFFINITY: SELECTION-ADJUSTED + TIES ==========\n
   check(
     "four-way leading-family tie -> capped at 3 named families plus 'and 1 more'",
     taste?.headlineTemplate === "Your leading sounds" &&
-      taste?.supportingText === "Electronic/Dance, Folk/Americana/Country, Hip-Hop/Rap, and 1 more are running neck and neck across your festival picks.",
+      taste?.supportingText === "Americana, Dance/Electronic, Hip-Hop/Rap, and 1 more are running neck and neck across your festival picks.",
     taste?.supportingText
   );
 }
@@ -535,7 +533,7 @@ console.log("\n========== GENRE AFFINITY: SELECTION-ADJUSTED + TIES ==========\n
   check(
     "five-way leading-family tie -> still capped at 3 named families, 'and 2 more', headline stays readable",
     taste?.headlineTemplate === "Your leading sounds" &&
-      taste?.supportingText === "Electronic/Dance, Folk/Americana/Country, Hip-Hop/Rap, and 2 more are running neck and neck across your festival picks.",
+      taste?.supportingText === "Americana, Dance/Electronic, Hip-Hop/Rap, and 2 more are running neck and neck across your festival picks.",
     taste?.supportingText
   );
 }
@@ -718,7 +716,7 @@ console.log("\n========== SELECTION CONTRACT ==========\n");
   check("international and countryDiversity are never both selected", !(hasIntl && hasCountry), dims(signals).join(","));
 }
 {
-  const edmOnly = allArtists.filter((a) => a.genres.length > 0 && a.genres.every((g) => GENRE_TO_FAMILY[g] === "Electronic/Dance"));
+  const edmOnly = allArtists.filter((a) => a.genres.length > 0 && a.genres.every((g) => GENRE_TO_FAMILY[g] === "Dance/Electronic"));
   const picked: Artist[] = edmOnly.slice(0, 20);
   const signals = run(ALL_DAYS, decisionsFor(picked.map((a) => a.slug), "mustSee"));
   const taste = findType(signals, "genreAffinity");

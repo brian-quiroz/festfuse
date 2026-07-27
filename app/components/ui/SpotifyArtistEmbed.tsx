@@ -31,7 +31,12 @@ export default function SpotifyArtistEmbed({ artistId, artistName }: SpotifyArti
         loading="lazy"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       />
-      <div className="flex items-center justify-between px-4 py-2.5 bg-[#1B1535] border-t border-white/8">
+      {/* -mt-3 + relative: Spotify's own embedded player draws a rounded card that
+          doesn't perfectly fill the iframe's edges, leaving a sliver of the iframe's
+          default white background visible at its bottom corners at some widths. This bar
+          overlaps that seam by a couple pixels so our own background covers it, rather
+          than depending on pixel-perfect alignment with Spotify's internal rendering. */}
+      <div className="relative -mt-3 flex items-center justify-between px-4 py-2.5 bg-[#1B1535] border-t border-white/8">
         <span className="text-[11px] text-white/30">Playback via Spotify</span>
         <a
           href={artistUrl}

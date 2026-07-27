@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { COLORS } from "@/app/data/colors";
+import { useDialogA11y } from "@/app/hooks/useDialogA11y";
 
 interface Props {
   context: "sessionComplete" | "nothingToReview";
@@ -38,11 +39,27 @@ export default function QuickPicksCompleteScreen({
   const [pressingFestivalStory, setPressingFestivalStory] = useState(false);
   const [pressingExploreArtists, setPressingExploreArtists] = useState(false);
   const [pressingSchedule, setPressingSchedule] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  // Festival Story is the primary destination this screen is building toward, so it
+  // gets initial focus whenever it's actually clickable. When locked, the card itself
+  // isn't a button (see the storyUnlocked branch below), so focus falls to "Take a
+  // Second Look" instead — still the Festival Story slot's own action, not a jump
+  // across to the unrelated Schedule card. Only one of these two refs is ever attached
+  // to a real element at a time, matching whichever branch renders.
+  const festivalStoryButtonRef = useRef<HTMLButtonElement>(null);
+  const exploreArtistsButtonRef = useRef<HTMLButtonElement>(null);
+  const initialFocusRef = storyUnlocked ? festivalStoryButtonRef : exploreArtistsButtonRef;
+
+  // This screen replaces the Quick Picks <main> content rather than floating over it,
+  // but still gets dialog semantics: from an assistive-tech perspective it's the same
+  // "attention moved to a new modal-like context" pattern as a floating dialog.
+  useDialogA11y({ isOpen: true, onClose: onExit, containerRef, initialFocusRef });
 
   const isSingleDay = attendanceDays.length === 1;
   const scope = isSingleDay
     ? `every artist playing ${attendanceDays[0]}`
     : "every artist playing on your selected days";
+  const dayScopeText = isSingleDay ? `on ${attendanceDays[0]}` : "on your selected days";
   const eyebrow = context === "sessionComplete" ? "Quick Picks Complete" : "All Caught Up";
   const headline = context === "sessionComplete" ? "All done!" : "All caught up!";
   const supportingCopy =
@@ -79,6 +96,10 @@ export default function QuickPicksCompleteScreen({
 
   return (
     <motion.div
+      ref={containerRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="quick-picks-complete-title"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
@@ -106,8 +127,8 @@ export default function QuickPicksCompleteScreen({
         </div>
 
         {/* Celebration + closure */}
-        <div className="flex flex-col items-center gap-2">
-          <h1 className="text-6xl font-extrabold tracking-tight leading-none">
+        <div className="flex flex-col items-center gap-3">
+          <h1 id="quick-picks-complete-title" className="text-6xl font-extrabold tracking-tight leading-none">
             <span className="text-white">All </span>
             <span style={{ color: COLORS.celebration }}>{headline.replace(/^All /, "")}</span>
           </h1>
@@ -115,10 +136,10 @@ export default function QuickPicksCompleteScreen({
         </div>
 
         {/* Transition flows into destination cards — grouped to signal connection */}
-        <div className="flex flex-col items-center gap-5 w-full mt-4">
+        <div className="flex flex-col items-center gap-5 w-full mt-2 sm:mt-4">
           <p className="text-white/70 text-base">Your festival is starting to take shape.</p>
 
-          <div className="grid grid-cols-2 gap-4 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
             {/* Festival Story — yellow: user intent / personalization. Unlocked: the
                 whole card is the action, as usual. Locked: the card itself goes
                 inert (title/copy only) — the only interactive element is the
@@ -130,6 +151,7 @@ export default function QuickPicksCompleteScreen({
                 reason-specific locked copy. */}
             {storyUnlocked ? (
               <button
+                ref={festivalStoryButtonRef}
                 onClick={handleFestivalStory}
                 className={`flex flex-col justify-between p-6 rounded-xl border text-left transition duration-150 border-[#E8FF47]/48 bg-[#E8FF47]/[0.09] hover:border-[#E8FF47]/65 hover:bg-[#E8FF47]/[0.13] ${pressingFestivalStory ? "scale-[0.97]" : ""}`}
               >
@@ -152,7 +174,7 @@ export default function QuickPicksCompleteScreen({
                     Festival Story
                   </p>
                   <p id="festival-story-locked-explanation" className="text-sm leading-relaxed text-white/45">
-                    Unlocks once 5 artists are marked Interested or Must See.
+                    Unlocks once 5 artists {dayScopeText} are marked Interested or Must See.
                   </p>
                 </div>
                 {/* h-8 + items-center matches the bare-arrow rows in the other two cards
@@ -162,6 +184,7 @@ export default function QuickPicksCompleteScreen({
                     bottom of an equal-height card. */}
                 <div className="flex items-center justify-end h-8 mt-4">
                   <button
+                    ref={exploreArtistsButtonRef}
                     onClick={handleExploreArtists}
                     aria-describedby="festival-story-locked-explanation"
                     className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#00E5FF] text-[#110D24] text-xs font-semibold transition duration-150 hover:bg-[#00E5FF]/90 ${pressingExploreArtists ? "scale-[0.97]" : ""}`}

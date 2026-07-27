@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { useDecisionStore } from "@/app/store/decisionStore";
@@ -10,6 +10,7 @@ import { allArtists } from "@/app/data/artists";
 import { ACTIVE_FESTIVAL_ID, festivals } from "@/app/data/festivals";
 import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
 import { useStorySignals, type StorySignal } from "@/app/hooks/useStorySignals";
+import { useDialogA11y } from "@/app/hooks/useDialogA11y";
 import { FestivalStoryCard } from "./FestivalStoryCard";
 
 interface FestivalStorySequenceProps {
@@ -81,6 +82,16 @@ export function FestivalStorySequence({ isOpen, onClose, attendanceDays }: Festi
   // sequence — no other caller can bypass this by passing isOpen alone.
   const allCards = signals.length === 4 ? [introCard, ...signals, finalCard] : [];
   const [currentIndex, setCurrentIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  // Initial focus goes to the card's own "Reveal Next" button, not the close button —
+  // Close is deliberately understated (small, top-corner, low-contrast) since the intent
+  // is to draw the user through the story, not out of it. Forwarded into whichever
+  // FestivalStoryCard is currently mounted; at first open that's always the intro card.
+  const revealButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Called unconditionally (hooks run every render) even though the early return below
+  // means it only ever has an effect while isOpen && allCards.length > 0.
+  useDialogA11y({ isOpen, onClose, containerRef, initialFocusRef: revealButtonRef });
 
   const handleRevealNext = () => {
     if (currentIndex < allCards.length - 1) {
@@ -103,7 +114,13 @@ export function FestivalStorySequence({ isOpen, onClose, attendanceDays }: Festi
   const imageUrl = FESTIVAL_STORY_IMAGES[currentCard.type] || FESTIVAL_STORY_IMAGES.intro;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-black">
+    <div
+      ref={containerRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Festival Story"
+      className="fixed inset-0 z-50 overflow-hidden bg-black"
+    >
       {/* Close button (top-right) */}
       <button
         onClick={onClose}
@@ -123,6 +140,7 @@ export function FestivalStorySequence({ isOpen, onClose, attendanceDays }: Festi
           isIntroCard={isIntroCard}
           imageUrl={imageUrl}
           onRevealNext={handleRevealNext}
+          buttonRef={revealButtonRef}
           isInitialLoad={currentIndex === 0}
         />
       </AnimatePresence>

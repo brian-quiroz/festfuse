@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Film } from "lucide-react";
 import { COLORS } from "@/app/data/colors";
 import type { StorySignal } from "@/app/hooks/useStorySignals";
+import type { RefObject } from "react";
 
 interface FestivalStoryCardProps {
   signal: StorySignal;
@@ -13,6 +14,10 @@ interface FestivalStoryCardProps {
   imageUrl: string;
   onRevealNext: () => void;
   isInitialLoad?: boolean;
+  // Only meaningfully used by the parent on first mount (see FestivalStorySequence's
+  // useDialogA11y call) — harmless to forward on every card since each gets its own
+  // fresh button element.
+  buttonRef?: RefObject<HTMLButtonElement | null>;
 }
 
 export function FestivalStoryCard({
@@ -23,6 +28,7 @@ export function FestivalStoryCard({
   imageUrl,
   onRevealNext,
   isInitialLoad = false,
+  buttonRef,
 }: FestivalStoryCardProps) {
   const progressPercent = progress * 100;
 
@@ -48,7 +54,7 @@ export function FestivalStoryCard({
         position: "absolute",
         top: 0,
         left: 0,
-        height: "100vh",
+        height: "100dvh",
         zIndex: 1,
       }}
       variants={cardVariants}
@@ -68,9 +74,10 @@ export function FestivalStoryCard({
       {/* Anchored to bottom of viewport, grows upward naturally based on content height */}
       {/* Single gradient overlay: fade from transparent to black for text legibility */}
       <div
-        className="absolute left-0 right-0 px-6 bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col"
+        className="absolute left-0 right-0 px-6 bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col overflow-y-auto"
         style={{
           bottom: 0,
+          maxHeight: "85dvh",
           paddingTop: "3rem",
           paddingBottom: "2rem",
         }}
@@ -128,6 +135,7 @@ export function FestivalStoryCard({
 
           {/* Button */}
           <button
+            ref={buttonRef}
             onClick={onRevealNext}
             className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-white transition-all hover:opacity-90 active:scale-95 rounded-xl"
             style={{
