@@ -10,7 +10,7 @@ const lorde: Artist = {
   liveVideoLabel: "Live at Lollapalooza Chile 2026",
   imageUrl: "/artists/heroes/lorde.jpg",
   objectPosition: "center 20%",
-  genres: ["Indie Pop", "Electropop", "Art Pop"],
+  genres: ["Alt-Pop", "Electropop", "Art Pop"],
   location: { city: "Auckland", country: "New Zealand" },
   tagline: "The alt-pop high priestess guiding crowds through visceral emotional catharsis.",
   socials: {
@@ -28,23 +28,31 @@ const lorde: Artist = {
   bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
     {
+      name: "Charli XCX",
+      slug: "charli-xcx",
+    },
+    {
       name: "MUNA",
       slug: "muna",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a454d2d193b70d07b91a9345",
     },
     {
-      name: "Tate McRae",
-      slug: "tate-mcrae",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178bed8016bd64422793ff3bc75",
+      name: "The XX",
+      slug: "the-xx",
     },
     {
-      name: "Mother Mother",
-      slug: "mother-mother",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178fdfbc01d2597633aae65f6b7",
+      name: "Ethel Cain",
+      slug: "ethel-cain",
     },
-    { name: "Will Swinton", slug: "will-swinton" },
   ],
   tracks: [
+    {
+      spotifyId: "2MvvoeRt8NcOXWESkxWn3g",
+      name: "Ribs",
+      album: "Pure Heroine",
+      duration: "4:18",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02187331e276c898d39764cc98",
+    },
     {
       spotifyId: "6ie2Bw3xLj2JcGowOlcMhb",
       name: "Green Light",
@@ -59,16 +67,9 @@ const lorde: Artist = {
       duration: "3:00",
       artworkUrl: "https://i.scdn.co/image/ab67616d00001e0223d41bf736920a032e222a78",
     },
-    {
-      spotifyId: "2MvvoeRt8NcOXWESkxWn3g",
-      name: "Ribs",
-      album: "Pure Heroine",
-      duration: "4:18",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02187331e276c898d39764cc98",
-    },
   ],
   about:
-    "Ella Yelich-O'Connor, performing as Lorde, redefined modern pop music with her 2013 diamond-certified debut 'Pure Heroine' at just sixteen. Her 2017 follow-up 'Melodrama' cemented her as a generation-defining lyricist, celebrated for her devastating narrative precision. Following her sun-drenched acoustic detour 'Solar Power', her highly acclaimed late-2025 alternative studio album 'Virgin' marked a massive return to dark, heavy, and cinematic electronic textures. Performing a brilliant cross-examination of all four distinct eras, her live show balances massive festival-scale singalongs with raw, intimate emotional authority.",
+    "Ella Yelich-O'Connor, performing as Lorde, emerged as a defining voice in modern pop with her 2013 debut 'Pure Heroine', released at just sixteen and eventually certified six times platinum in the US. Her 2017 follow-up 'Melodrama' cemented her reputation as one of pop's sharpest lyricists, turning heartbreak and self-discovery into vivid, specific detail. After the sun-drenched detour of 'Solar Power', her late-2025 album 'Virgin' marked a return to darker, more cinematic electronic textures. Her live show moves fluidly across all four eras, pairing large-scale production with the same direct, intimate delivery that made her a generation-defining songwriter in the first place.",
   appearances: [
     {
       id: "1",
