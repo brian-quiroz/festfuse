@@ -94,11 +94,17 @@ const johnSummit: Artist = {
   name: "John Summit",
   slug: "john-summit",
   mbid: "2547c5e3-314c-4332-981d-f18c902a4086",
-  imageUrl: "/artists/heroes/john-summit.jpg",
-  objectPosition: "center 20%",
+  imageUrl: "/artists/global/john-summit.jpg",
+  imageCredit: {
+    author: "Wynneplaga",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:John_Summit_DJ%E2%80%99ing_at_Vail,_March_20th,_2026.jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+  },
+  objectPosition: "center 40%",
   liveVideoId: "aloPGSlq31Y",
   liveVideoLabel: "Live at Ultra Miami 2026",
-  genres: ["House", "Tech House", "Electronic"],
+  genres: ["Tech House", "House", "Progressive House"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline: "The hometown hero turning Perry's into a massive, state-of-the-art warehouse rave.",
   socials: {
@@ -121,11 +127,6 @@ const johnSummit: Artist = {
   bestFor: ["Dance Floor Seekers"],
   similarArtists: [
     {
-      name: "Omnom",
-      slug: "omnom",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a",
-    },
-    {
       name: "SIDEPIECE",
       slug: "sidepiece",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17821705221c7f192d4a7963910",
@@ -139,6 +140,11 @@ const johnSummit: Artist = {
       name: "Dombresky",
       slug: "dombresky",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178d1aa3bdf9b1797388de4eff0",
+    },
+    {
+      name: "Omnom",
+      slug: "omnom",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a",
     },
   ],
   tracks: [
@@ -165,7 +171,7 @@ const johnSummit: Artist = {
     },
   ],
   about:
-    "John Summit emerged from Chicago—the birthplace of house music—and rapidly transformed into a global dance music phenomenon. His performances are legendary masterclasses in tension and release, blending underground tech-house grooves with massive, stadium-sized vocal melodies. Following the global acclaim of his 2024 debut album 'Comfort In Chaos', his brand-new 2026 sophomore studio album 'CTRL ESCAPE' has further elevated his sound, landing him his first official arena tour and cementing his position as the ultimate hometown festival closer.",
+    "John Summit emerged from Chicago, the birthplace of house music, and rapidly grew into a global dance music phenomenon. His sets are built on tension and release, blending underground tech-house grooves with massive, stadium-sized vocal melodies. Following the acclaim of his 2024 debut album 'Comfort In Chaos', his 2026 sophomore album 'CTRL ESCAPE' pushed his sound even further, landing him his first arena tour and making this hometown set one of the weekend's biggest closers.",
   appearances: [
     {
       id: "1",
