@@ -171,7 +171,7 @@ const johnSummit: Artist = {
     },
   ],
   about:
-    "John Summit emerged from Chicago, the birthplace of house music, and rapidly grew into a global dance music phenomenon. His sets are built on tension and release, blending underground tech-house grooves with massive, stadium-sized vocal melodies. Following the acclaim of his 2024 debut album 'Comfort In Chaos', his 2026 sophomore album 'CTRL ESCAPE' pushed his sound even further, landing him his first arena tour and making this hometown set one of the weekend's biggest closers.",
+    "John Summit emerged from Chicago, the birthplace of house music, and rapidly grew into a global dance music phenomenon. His sets are built on tension and release, blending underground tech-house grooves with massive, stadium-sized vocal melodies. Following the acclaim of his 2024 debut album 'Comfort In Chaos', his 2026 sophomore album 'CTRL ESCAPE' pushed his sound even further, landing him his first arena tour and cementing him as one of dance music's biggest headliners.",
   appearances: [
     {
       id: "1",
@@ -353,10 +353,14 @@ const wetLeg: Artist = {
   slug: "wet-leg",
   imageUrl: "/artists/heroes/wet-leg.jpg",
   objectPosition: "center 30%",
-  genres: ["Indie Rock", "Post-Punk"],
+  genres: ["Indie Rock", "Post-Punk", "Alternative Rock"],
   location: { city: "Isle of Wight", country: "England" },
   tagline: "Dry wit, big riffs, and the best debut in recent memory.",
-  socials: { spotify: "https://open.spotify.com/artist/2TwOrUcYnAlIiKmVQkkoSZ" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/2TwOrUcYnAlIiKmVQkkoSZ",
+    youtube: "https://www.youtube.com/@wetlegband",
+    tiktok: "https://www.tiktok.com/@wetlegband",
+  },
   whySee: [
     "Witness the sharp, live evolution of a two-time Grammy-winning powerhouse expanding their signature indie sound on the mainstage",
     "The global festival premiere of their razor-sharp, critically acclaimed 2025 sophomore studio triumph, Moisturizer",
@@ -367,24 +371,20 @@ const wetLeg: Artist = {
   bestFor: ["Lyric & Narrative Obsessives"],
   similarArtists: [
     {
-      name: "Villanelle",
-      slug: "villanelle",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1781ece1eae58afddb4d3238501",
-    },
-    {
       name: "Water From Your Eyes",
       slug: "water-from-your-eyes",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178b34bc1624b682463e153834a",
     },
     {
-      name: "Ink",
-      slug: "ink",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178b3df8a3980032366a3a040bc",
+      name: "Viagra Boys",
+      slug: "viagra-boys",
     },
     {
-      name: "Day We Ran",
-      slug: "day-we-ran",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17896aa0ad1b8badab28252f80b",
+      name: "Geese",
+      slug: "geese",
+    },
+    {
+      name: "Chalk",
+      slug: "chalk",
     },
   ],
   tracks: [
@@ -411,7 +411,7 @@ const wetLeg: Artist = {
     },
   ],
   about:
-    "Wet Leg is the British indie duo of Rhian Teasdale and Hester Chambers, formed on the Isle of Wight and launched into the spotlight with 'Chaise Longue' — a deadpan, guitar-driven viral hit from 2021. Their 2022 self-titled debut won the Grammy for Best Alternative Music Album and established them as one of the most exciting voices in indie rock: sardonic, sharp, and deeply hooky. Their 2025 follow-up 'Moisturizer', produced by Dan Carey, expanded the band to a five-piece and debuted at number one in the UK.",
+    "Formed on the Isle of Wight by Rhian Teasdale and Hester Chambers, Wet Leg broke through with their 2021 viral single 'Chaise Longue'. Their 2022 self-titled debut album earned two Grammy Awards for its blend of deadpan humor, driving post-punk riffs, and infectious hooks. Expanding into a full five-piece band for their 2025 follow-up album 'Moisturizer', their live performances showcase high-energy indie rock delivered with sharp, witty lyricism.",
   appearances: [
     {
       id: "1",
@@ -430,10 +430,13 @@ const worship: Artist = {
   name: "WORSHIP",
   slug: "worship",
   imageUrl: "/artists/heroes/worship.webp",
-  genres: ["Drum and Bass", "Electronic"],
+  genres: ["Drum and Bass", "Dance", "Electronic"],
   location: { city: "London", country: "England" },
   tagline: "Drum and bass' biggest names, B2B, all night.",
-  socials: { spotify: "https://open.spotify.com/artist/6lp2VnIRXXpC9Wz7hSX6RE" },
+  socials: {
+    youtube: "https://www.youtube.com/@WORSHIP_artists",
+    tiktok: "https://www.tiktok.com/@worshipartists",
+  },
   whySee: [
     "Four of drum and bass' absolute elite titans sharing one single stage in a fluid, relentless four-way B2B performance",
     "The standard-bearers of modern UK dancefloor culture delivering the heaviest bass-heavy set of the entire weekend",
@@ -444,45 +447,50 @@ const worship: Artist = {
   bestFor: ["Bass & Groove Lovers", "Dance Floor Seekers", "Sound Design & Production Nerds"],
   similarArtists: [
     {
-      name: "Empire of the Sun",
-      slug: "empire-of-the-sun",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178c806f3e714afa21861e20248",
-    },
-    {
       name: "Avello",
       slug: "avello",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1781a61a6367dead8dac77f1911",
     },
     {
-      name: "John Summit",
-      slug: "john-summit",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
+      name: "MC4D",
+      slug: "mc4d",
     },
     {
-      name: "haute & freddy",
-      slug: "haute-and-freddy",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178f24b273d9959e097972d5992",
+      name: "MPH",
+      slug: "mph",
+    },
+    {
+      name: "Notion",
+      slug: "notion",
     },
   ],
   tracks: [
-    { name: "Ready to Fly", album: "Evolve", duration: "" },
     {
-      spotifyId: "76x1mIsCz46excW50sehDt",
-      name: "It's That Time - Dimension Remix",
-      album: "It's That Time (Remixes)",
+      spotifyId: "507UUx311ghfFTMSuHUeyS",
+      name: "Desire (Sub Focus & Dimension)",
+      album: "Desire (with Dimension) [Sub Focus & Dimension]",
       duration: "3:35",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e023e90e129870600a8c1fb9eab",
     },
     {
-      spotifyId: "5u9J4efhSEo5Bx5euYOtAD",
-      name: "Bunker",
-      album: "Sequel",
-      duration: "4:41",
+      spotifyId: "7cGXx6FiS6fhp0aIBliXFo",
+      name: "Miracle",
+      album: "Miracle (VIP Remix)",
+      duration: "2:45",
+    },
+    {
+      spotifyId: "6tGtFeIO3yYuVvNLAdHU0A",
+      name: "Tell Me Why - 1991 Remix",
+      album: "Tell Me Why (1991 Remix)",
+      duration: "4:04",
       artworkUrl: "https://i.scdn.co/image/ab67616d00001e021cbdf6e04a64c34bbb5f62f5",
     },
   ],
+  listenFirst: {
+    mode: "tracks",
+    note: "Music from some of the artists that comprise WORSHIP",
+  },
   about:
-    "Formed as a live collective touring concept in 2020, WORSHIP officially solidified their four-way B2B supergroup format during their massive breakout 2024 North American tour, before graduating to global festival mainstages as a unified recording project in 2026.",
+    "WORSHIP is the UK drum & bass supergroup composed of Sub Focus, Dimension, Culture Shock, and 1991. Originally formed as a collaborative touring collective, the four producers perform together in an expansive back-to-back format. Merging euphoric vocal hooks, heavy basslines, and cinematic synth production, their sets bring the energy of current UK club culture to major international festival stages.",
   appearances: [
     {
       id: "1",
@@ -502,9 +510,13 @@ const bloodOrange: Artist = {
   slug: "blood-orange",
   imageUrl: "/artists/heroes/blood-orange.jpg",
   genres: ["R&B", "Soul", "Art Pop"],
-  location: { city: "London", country: "England" },
+  location: { city: "New York City", state: "New York", country: "United States" },
   tagline: "Genre-fluid R&B from New York's most restlessly creative artist.",
-  socials: { spotify: "https://open.spotify.com/artist/6LEeAFiJF8OuPx747e1wxR" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/6LEeAFiJF8OuPx747e1wxR",
+    youtube: "https://www.youtube.com/@devhynes",
+    tiktok: "https://www.tiktok.com/@bloodorange",
+  },
   whySee: [
     "Dev Hynes' first extensive live festival outing in over six years, bringing an elite alternative collective to Grant Park",
     "A live rendering of his gorgeous, star-studded 2025 masterpiece Essex Honey, blending despondent bliss with lush instrumentation",
@@ -515,24 +527,21 @@ const bloodOrange: Artist = {
   bestFor: ["Sound Design & Production Nerds"],
   similarArtists: [
     {
-      name: "Jae Stephens",
-      slug: "jae-stephens",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17886987e340bcff4b2debb3e84",
+      name: "Leon Thomas",
+      slug: "leon-thomas",
     },
     {
-      name: "Valencia Grace",
-      slug: "valencia-grace",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17825599b11aff6d045b573a13f",
-    },
-    {
-      name: "Sienna Spiro",
-      slug: "sienna-spiro",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178fb0ab819bbd4502028cd1feb",
+      name: "Khamari",
+      slug: "khamari",
     },
     {
       name: "Amber Mark",
       slug: "amber-mark",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a7f15e8167fb79fe64582e96",
+    },
+    {
+      name: "Destin Conrad",
+      slug: "destin-conrad",
     },
   ],
   tracks: [
@@ -553,7 +562,7 @@ const bloodOrange: Artist = {
     { name: "Mind Loaded", album: "Essex Honey", duration: "" },
   ],
   about:
-    "Blood Orange is the project of British-born, New York-based Dev Hynes — a restlessly creative songwriter, producer, and director whose music sits at the intersection of soul, R&B, pop, and art-rock. Since debuting in 2011 with Coastal Grooves, Hynes has built one of the most singular bodies of work in contemporary music, blending lush instrumentation with deeply personal explorations of identity, race, and belonging. His collaborators read like a who's who of the avant-garde, and his 2025 album Essex Honey — featuring Caroline Polachek, Lorde, and Mustafa — added another chapter to a discography that only gets richer.",
+    "Blood Orange is the alt-R&B and art-pop project of British-born, New York-based songwriter, producer, and multi-instrumentalist Devonté Hynes. Debuting with 2011's Coastal Grooves, Hynes crafts lush, atmospheric soundscapes that merge 80s funk, soul, and modern R&B with themes of identity and urban life. Renowned for his collaborations with artists across pop and indie scenes, his live performances feature rich vocal harmonies and smooth, guitar-driven arrangements.",
   appearances: [
     {
       id: "1",
@@ -570,13 +579,17 @@ const bloodOrange: Artist = {
 
 const fiveSecondsOfSummer: Artist = {
   name: "5 Seconds of Summer",
-  slug: "5-seconds-of-summer",
+  slug: "five-seconds-of-summer",
   imageUrl: "/artists/heroes/5-seconds-of-summer.png",
   objectPosition: "center 35%",
-  genres: ["Pop-Punk", "Alternative Rock"],
+  genres: ["Pop-Rock", "Pop-Punk", "Alt-Pop"],
   location: { city: "Sydney", country: "Australia" },
   tagline: "Four friends from Sydney who've grown up on stage.",
-  socials: { spotify: "https://open.spotify.com/artist/5Rl15oVamLq7FbSb0NNBNy" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/5Rl15oVamLq7FbSb0NNBNy",
+    youtube: "https://www.youtube.com/@5SOS",
+    tiktok: "https://www.tiktok.com/@5SOS",
+  },
   whySee: [
     "A seasoned, stadium-proven live outfit celebrating fifteen years of explosive anthems on a massive mainstage scale",
     "Hear the live premiere of their clever, self-aware 2025 sixth studio effort, Everyone's a Star!",
@@ -592,6 +605,10 @@ const fiveSecondsOfSummer: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787c9287712c4355e54c94e0d0",
     },
     {
+      name: "Hot Mulligan",
+      slug: "hot-mulligan",
+    },
+    {
       name: "The Story So Far",
       slug: "the-story-so-far",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1784d8d055d82fc1e5b1c5ecb1d",
@@ -601,26 +618,21 @@ const fiveSecondsOfSummer: Artist = {
       slug: "the-neighbourhood",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178df0b5ac84376a0a4b2166816",
     },
-    {
-      name: "Day We Ran",
-      slug: "day-we-ran",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17896aa0ad1b8badab28252f80b",
-    },
   ],
   tracks: [
-    {
-      spotifyId: "1gugDOSMREb34Xo0c1PlxM",
-      name: "She Looks So Perfect",
-      album: "5 Seconds of Summer",
-      duration: "3:22",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0293432e914046a003229378da",
-    },
     {
       spotifyId: "55S2PQgSMYAhgoTCcGCDfw",
       name: "Youngblood",
       album: "Youngblood",
       duration: "3:23",
       artworkUrl: "https://i.scdn.co/image/ab67616d00001e02240353172d4b7f2feb8a3e2c",
+    },
+    {
+      spotifyId: "1gugDOSMREb34Xo0c1PlxM",
+      name: "She Looks So Perfect",
+      album: "5 Seconds of Summer",
+      duration: "3:22",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0293432e914046a003229378da",
     },
     {
       spotifyId: "3NxWJWftvkstyxvb1pZlFo",
@@ -631,7 +643,7 @@ const fiveSecondsOfSummer: Artist = {
     },
   ],
   about:
-    "5 Seconds of Summer — Luke Hemmings, Calum Hood, Ashton Irwin, and Michael Clifford — formed in Sydney in 2011 and have spent over a decade proving that pop-punk energy and genuine songcraft can coexist. What began as a teenage YouTube project evolved into a global phenomenon. Their 2018 album Youngblood redefined their sound with darker, polished pop production, while their 2025 sixth album Everyone's a Star! found them poking wry fun at their own boy-band origins. At festivals, 5SOS are reliably massive — a crowd who has grown up alongside the band and will sing every word.",
+    "5 Seconds of Summer, made up of Luke Hemmings, Calum Hood, Ashton Irwin, and Michael Clifford, formed in Sydney in 2011, first breaking through with acoustic covers posted to YouTube before signing a record deal as teenagers. Their 2018 album Youngblood marked a major pivot into polished, dance-driven pop, and their 2025 sixth album Everyone's a Star! leans into that history, with the single 'Boyband' openly poking fun at their own boy-band label. Now over a decade into their career, they draw festival crowds who have grown up alongside the band and know every word.",
   appearances: [
     {
       id: "1",
@@ -650,10 +662,14 @@ const kettama: Artist = {
   name: "KETTAMA",
   slug: "kettama",
   imageUrl: "/artists/heroes/kettama.webp",
-  genres: ["House", "Speed Garage"],
+  genres: ["House", "Speed Garage", "UK Garage"],
   location: { city: "Galway", country: "Ireland" },
   tagline: "Big-hearted house anthems built for the floor.",
-  socials: { spotify: "https://open.spotify.com/artist/3an9rnsXKPCAMlZgH4A0n4" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/3an9rnsXKPCAMlZgH4A0n4",
+    youtube: "https://www.youtube.com/@KETTAMAG-TOWN",
+    tiktok: "https://www.tiktok.com/@kettamabrah",
+  },
   whySee: [
     "Ireland's premier electronic export brings a raw, high-tempo speed garage assault straight to the Perry's tent",
     "The official tour run of his heavy, critically acclaimed late-2025 debut studio album statement, Archangel",
@@ -669,6 +685,10 @@ const kettama: Artist = {
   bestFor: ["Tent & Club Venue Seekers", "Bass & Groove Lovers"],
   similarArtists: [
     {
+      name: "Notion",
+      slug: "notion",
+    },
+    {
       name: "Westend",
       slug: "westend",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178bc781a35d287a09940ae6046",
@@ -679,18 +699,18 @@ const kettama: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a",
     },
     {
-      name: "Boris Brejcha",
-      slug: "boris-brejcha",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178f75bb8d64c3d43282ad006f7",
-    },
-    {
       name: "MPH",
       slug: "mph",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787e64c67ba432f9223f1acf9f",
     },
   ],
   tracks: [
-    { name: "B. O. D. Y.", album: "Bucklyn Bridge", duration: "" },
+    {
+      spotifyId: "3xQPerJjDVZrSFVE340D8r",
+      name: "Comes and Goes",
+      album: "Comes and Goes",
+      duration: "4:22",
+    },
     {
       spotifyId: "3ofFprvy4v6czkx7mOUI7P",
       name: "Archangel",
@@ -707,7 +727,7 @@ const kettama: Artist = {
     },
   ],
   about:
-    "KETTAMA is the alias of Evan Campbell, a DJ and producer from Galway, Ireland who has become one of the most exciting figures in contemporary house music. His 2018 breakthrough 'B O D Y' went viral after plays from Mall Grab and Annie Mac, and he has since built a catalog of high-energy bangers rooted in UK garage and speed garage. His 2025 debut album Archangel — released on Steel City Dance Discs and featuring collaborations with DJ Heartstring, Interplanetary Criminal, and Prospa — crystallised his sound into a full-length statement.",
+    "KETTAMA is the alias of Evan Campbell, a DJ and producer from Galway, Ireland. His 2018 breakthrough 'B O D Y' went viral after plays from Mall Grab and Annie Mac, launching him from bedroom producer to festival mainstay. He's since built a catalog of high-octane tracks rooted in UK garage and speed garage, releasing his 2025 debut album Archangel on Steel City Dance Discs with collaborations from DJ Heartstring, Interplanetary Criminal, and Prospa. His sets run on relentless low end, rewound breaks, and a crowd bouncing from the first drop.",
   appearances: [
     {
       id: "1",
@@ -726,10 +746,14 @@ const viagraBoys: Artist = {
   name: "Viagra Boys",
   slug: "viagra-boys",
   imageUrl: "/artists/heroes/viagra-boys.webp",
-  genres: ["Post-Punk", "Garage Rock"],
+  genres: ["Post-Punk", "Dance-Punk", "Noise Rock"],
   location: { city: "Stockholm", country: "Sweden" },
   tagline: "Controlled post-punk chaos, weaponized humor, and raw underground energy.",
-  socials: { spotify: "https://open.spotify.com/artist/2nAKP6etu8wXNnezKXgqgg" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/2nAKP6etu8wXNnezKXgqgg",
+    youtube: "https://www.youtube.com/@vboysstockholm",
+    tiktok: "https://www.tiktok.com/@viagra_boys",
+  },
   whySee: [
     "Stockholm's most feral post-punk outfit delivering a chaotic, satirical live show unmatched anywhere else on the bill",
     "The premier festival showcase of their independent, punk-infused 2025 studio record, viagr aboys",
@@ -740,36 +764,37 @@ const viagraBoys: Artist = {
   bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
     {
+      name: "Geese",
+      slug: "geese",
+    },
+    {
       name: "Bad Nerves",
       slug: "bad-nerves",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178ca8c5f607e5e4d7c70c4da79",
     },
-    { name: "Cruz Beckham and the Breakers", slug: "cruz-beckham-and-the-breakers" },
     {
-      name: "Day We Ran",
-      slug: "day-we-ran",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17896aa0ad1b8badab28252f80b",
+      name: "Turnstile",
+      slug: "turnstile",
     },
     {
-      name: "Finn Wolfhard",
-      slug: "finn-wolfhard",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178926418bb71d5a111e6fbb9eb",
+      name: "Wet Leg",
+      slug: "wet-leg",
     },
   ],
   tracks: [
-    {
-      spotifyId: "5aLD8CPaEu3Cj9ZcAqWWA6",
-      name: "Sports",
-      album: "Street Worms",
-      duration: "3:57",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02cd546f0a193d75f8b48a4c72",
-    },
     {
       spotifyId: "5gR6gTGOGsg9zcR7JhvwQz",
       name: "Man Made of Meat",
       album: "viagr aboys",
       duration: "3:09",
       artworkUrl: "https://i.scdn.co/image/ab67616d00001e02bf26b3f697a7d4a039a6e3a9",
+    },
+    {
+      spotifyId: "5aLD8CPaEu3Cj9ZcAqWWA6",
+      name: "Sports",
+      album: "Street Worms",
+      duration: "3:57",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02cd546f0a193d75f8b48a4c72",
     },
     {
       spotifyId: "4GCXxLQnqf6pP6SI7ljbZV",
@@ -780,7 +805,7 @@ const viagraBoys: Artist = {
     },
   ],
   about:
-    "Viagra Boys are a Swedish art-punk outfit led by frontman Sebastian Murphy, celebrated for their feral live energy, biting social satire, and completely irreverent attitude. Following a string of critically adored releases including 'Street Worms' (2018) and 'Cave World' (2022), the band launched their own independent imprint, Shrimptech Enterprises, to drop their fourth studio album 'viagr aboys' in 2025. Shifting their focus from acid-laced external commentary to absurd inward reflections, their live set is a relentless, saxophone-fueled masterclass in theatrical punk rock mayhem.",
+    "Viagra Boys are a Swedish post-punk band formed in Stockholm in 2015 by frontman Sebastian Murphy, bassist Henrik Höckert, and drummer Sol Tor Sjödén. The group released their debut album Street Worms in 2018, followed by Welfare Jazz in 2021 and Cave World in 2022. In April 2025, they launched their fourth studio album, Viagr Aboys, on their independent label Shrimptech Enterprises. Their live performances combine driving basslines and saxophone with Murphy's deadpan vocals and satirical lyrical style.",
   appearances: [
     {
       id: "1",
@@ -799,11 +824,15 @@ const audreyHobert: Artist = {
   name: "Audrey Hobert",
   slug: "audrey-hobert",
   imageUrl: "/artists/heroes/audrey-hobert.avif",
-  genres: ["Indie Pop", "Singer-Songwriter"],
+  genres: ["Indie Pop", "Singer-Songwriter", "Pop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline:
     "Witty, wordy stream-of-consciousness pop music that plays out like voice memos from your funniest friend.",
-  socials: { spotify: "https://open.spotify.com/artist/4N0TAwz9vhnQtjCqS65aKS" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/4N0TAwz9vhnQtjCqS65aKS",
+    youtube: "https://www.youtube.com/@audreyhobert",
+    tiktok: "https://www.tiktok.com/@_mikemonster",
+  },
   whySee: [
     "Catch a hyper-gifted pop writer making her highly anticipated festival debut after co-writing Gracie Abrams' biggest hits",
     "Hear the live execution of her brilliant, critically beloved 2025 RCA Records solo debut, Who's the Clown?",
@@ -824,14 +853,21 @@ const audreyHobert: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b9b32a1845c72390fc48c28c",
     },
     {
-      name: "Next of Kin",
-      slug: "next-of-kin",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178cbe19203158c6eae4ed0504a",
+      name: "Paris Paloma",
+      slug: "paris-paloma",
     },
-    { name: "Stella Lefty", slug: "stella-lefty" },
+    {
+      name: "Stella Lefty",
+      slug: "stella-lefty",
+    },
   ],
   tracks: [
-    { name: "Sue Me", album: "Who's the Clown?", duration: "" },
+    {
+      spotifyId: "6ZAuQOgLrNQb9s7BXheuTy",
+      name: "Sue Me",
+      album: "Who's the Clown?",
+      duration: "2:50",
+    },
     { name: "Bowling Alley", album: "Who's the Clown?", duration: "" },
     {
       spotifyId: "52do0UW8A6zxZaZh5ptCAg",
@@ -842,7 +878,7 @@ const audreyHobert: Artist = {
     },
   ],
   about:
-    "Audrey Hobert is a Los Angeles-based singer-songwriter who first captured global pop attention co-writing breakout hits on Gracie Abrams' 2024 album 'The Secret of Us'. Her 2025 RCA Records debut album 'Who's the Clown?' established her as a refreshingly sharp, self-aware solo force, weaponizing hyper-specific mid-twenties anxieties into wonderfully playful pop anthems. Following a massive run on television and the extension of her acclaimed 'Staircase to Stardom' tour, her live set delivers painfully honest lyricism backed by elite, high-energy pop instrumentation.",
+    "Audrey Hobert is a Los Angeles-based singer-songwriter and director. She began her career co-writing tracks for Gracie Abrams, including multiple songs on the 2024 album The Secret of Us. In February 2025, she released her debut solo single Sue Me on RCA Records, followed by her debut EP Who's the Clown? in May 2025. Her live performances feature narrative pop compositions driven by conversational lyricism and rhythm guitar.",
   appearances: [
     {
       id: "1",

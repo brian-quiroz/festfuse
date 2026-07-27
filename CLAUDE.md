@@ -276,6 +276,38 @@ The day files are an editing convenience, not a data boundary. Any feature that 
 
 ---
 
+## About Section Voice
+
+`about` is the only AI-authored artist-prose field actually rendered in the UI (Artist Detail's About section). `tagline`, `whySee`, and `whatToExpect` are unverified content that don't currently drive any rendered copy — `about` is the one worth getting right.
+
+### Verify every fact before writing it
+
+Album titles, release years, awards, chart positions, stream counts, band members, hometowns, tour details — check each against a real source before it goes in. Don't guess and don't reuse a claim from memory. If a fact can't be verified, cut it rather than soften it into something vaguer that's still unverified.
+
+### Excitement comes from specifics, not adjectives
+
+Don't reach for a critic's verdict: "legendary," "masterclass," "premier," "one of the most exciting figures in X." Those are claims only someone with real listening authority can back up, and this copy doesn't have that authority.
+
+A good test: would the sentence still be true if a stranger who'd never heard the artist's music wrote it? A real album, a real award, a real stream count passes. A taste verdict doesn't.
+
+State the actual achievement plainly and it carries its own charge — no hype adjective needed on top.
+
+### No dashes
+
+No em dashes or standalone hyphens as punctuation. Use a period or colon instead. Reads as AI-generated otherwise.
+
+### Describe the show, don't instruct the reader
+
+Avoid "Expect X" or "You'll experience X" framing. Telling the reader what they will feel is an authoritative claim this copy hasn't earned. Say what the show consists of instead ("His sets run on relentless low end..." not "Expect relentless low end...").
+
+### Nothing tied to one specific appearance
+
+Never name a specific stage, date, or "this weekend," and never call a show a "hometown set." An artist record isn't scoped to a single festival or booking (see `festivalId` on `appearances`) — anything that's only true for *this* appearance breaks the moment the same data is reused for a different one or the schedule changes. Biographical origin facts ("emerged from Chicago") are permanent and fine; tying that origin to "this show" is not.
+
+> Would this sentence still be true next year, at a different festival, written by someone who's never heard the music? If not, it doesn't belong in `about`.
+
+---
+
 ## Refactoring & Code Integrity
 
 When restructuring layouts or reorganizing component hierarchies, **never remove or break existing UI components in the process**, even when they look redundant or are being moved around.
