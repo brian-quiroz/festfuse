@@ -192,12 +192,12 @@ const sombr: Artist = {
   mbid: "502cf908-9921-48bc-bf0e-265c881c0156",
   imageUrl: "/artists/heroes/sombr.jpg",
   objectPosition: "center 20%",
-  genres: ["Bedroom Pop", "Indie Pop", "Alt-Pop"],
+  genres: ["Alt-Pop", "Indie Rock", "Indie Pop"],
   location: { city: "New York City", state: "New York", country: "United States" },
   tagline: "Late nights and young romance, scaled for the mainstage.",
   socials: {
     spotify: "https://open.spotify.com/artist/4G9NDjRyZFDlJKMRL8hx3S",
-    youtube: "https://www.youtube.com/@sombr",
+    youtube: "https://www.youtube.com/channel/UCXlqFQmZZOb78teSnAqhuwA",
     tiktok: "https://www.tiktok.com/@sombr",
   },
   whySee: [
@@ -216,24 +216,20 @@ const sombr: Artist = {
   bestFor: [],
   similarArtists: [
     {
-      name: "Claire Rosinkranz",
-      slug: "claire-rosinkranz",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1789fd59f9fc4a311da6437b6a5",
+      name: "The Neighbourhood",
+      slug: "the-neighbourhood",
     },
     {
       name: "Ryman",
       slug: "ryman",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10",
     },
     {
-      name: "Lucy Bedroque",
-      slug: "lucy-bedroque",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178100cfd4653979ed518fbf28f",
+      name: "Beabadoobee",
+      slug: "beabadoobee",
     },
     {
-      name: "Emi Grace",
-      slug: "emi-grace",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1781d8d8c934c382100d033bb41",
+      name: "Paris Paloma",
+      slug: "paris-paloma",
     },
   ],
   tracks: [
@@ -260,7 +256,7 @@ const sombr: Artist = {
     },
   ],
   about:
-    "sombr is the alt-pop phenomenon bringing raw emotional vulnerability to stadium-level heights. He built a massive global audience through his signature style of bedroom-pop intimacy, anchored by heavy, yearning soundscapes and viral, multibillion-stream anthems like 'back to friends'. Following his 2025 debut album 'I Barely Know Her' and a series of massive 2026 single drops like 'Homewrecker' and 'My Body Isn't Ready', sombr's raw, guitar-driven confessions have transformed him from an internet secret into a premier, award-winning festival powerhouse.",
+    "sombr (Shane Michael Boose) grew up on New York City's Lower East Side, writing and producing music alone at home before signing to Warner Records. His singles 'back to friends' and 'undressed' went viral in 2025, with 'back to friends' surpassing a billion Spotify streams and helping his debut album 'I Barely Know Her' chart in the top ten worldwide. That breakout year earned him a Best Alternative win at the MTV VMAs and three wins at the American Music Awards, bringing his raw, guitar-driven bedroom-pop confessions to festival mainstages.",
   appearances: [
     {
       id: "1",
@@ -279,10 +275,14 @@ const empireOfTheSun: Artist = {
   name: "Empire of the Sun",
   slug: "empire-of-the-sun",
   imageUrl: "/artists/heroes/empire-of-the-sun.jpg",
-  genres: ["Electronic", "Synth-Pop", "Indie Pop"],
+  genres: ["Synth-Pop", "Electropop", "Indie Electronica"],
   location: { city: "Sydney", country: "Australia" },
   tagline: "Theatrical cosmic pop that turns every festival into a spectacle.",
-  socials: { spotify: "https://open.spotify.com/artist/67hb7towEyKvt5Z8Bx306c" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/67hb7towEyKvt5Z8Bx306c",
+    youtube: "https://www.youtube.com/@empireofthesun",
+    tiktok: "https://www.tiktok.com/@empireofthesun",
+  },
   whySee: [
     "A multi-sensory visual odyssey featuring high-concept choreography, legendary cinematic costumes, and otherworldly lighting architecture",
     "The grand festival return of one of electronic pop's most legendary live acts, armed with multi-platinum legacy stadium anthems",
@@ -298,9 +298,9 @@ const empireOfTheSun: Artist = {
   bestFor: ["Dance Floor Seekers", "Legacy & Milestone Hunters"],
   similarArtists: [
     {
-      name: "YOASOBI",
-      slug: "yoasobi",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178964812dece6096f894a1fe85",
+      name: "The xx",
+      slug: "the-xx",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f1783a96db4736ef035e1fcb2516",
     },
     {
       name: "MUNA",
@@ -308,18 +308,21 @@ const empireOfTheSun: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a454d2d193b70d07b91a9345",
     },
     {
-      name: "The xx",
-      slug: "the-xx",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1783a96db4736ef035e1fcb2516",
+      name: "Vandelux",
+      slug: "vandelux",
     },
     {
-      name: "haute & freddy",
-      slug: "haute-and-freddy",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178f24b273d9959e097972d5992",
+      name: "Pearly Drops",
+      slug: "pearly-drops",
     },
   ],
   tracks: [
-    { name: "Walking on a Dream", album: "Walking on a Dream", duration: "" },
+    {
+      spotifyId: "5r5cp9IpziiIsR6b93vcnQ",
+      name: "Walking on a Dream",
+      album: "Walking on a Dream",
+      duration: "",
+    },
     { name: "We Are the People", album: "Walking on a Dream", duration: "" },
     {
       spotifyId: "5NolEMcA7mmw27vpyzvzIT",
@@ -330,7 +333,7 @@ const empireOfTheSun: Artist = {
     },
   ],
   about:
-    "Empire of the Sun is the Australian electronic duo of Luke Steele and Nick Littlemore, whose debut single 'Walking on a Dream' became one of the defining anthems of the late 2000s. Their sound blends lush synth-pop and art-rock with an extravagant visual world — elaborate costumes, ancient mythology, and cinematic fantasy. Four studio albums deep, from the sun-drenched 2008 debut to 2024's critically acclaimed 'Ask That God', their live show is a full theatrical production that transforms festival stages into otherworldly spectacles.",
+    "Empire of the Sun is the Australian electronic duo of Luke Steele and Nick Littlemore, whose debut single 'Walking on a Dream' became one of the defining anthems of the late 2000s. Their sound blends lush synth-pop and art-rock with an extravagant visual world: elaborate costumes, ancient mythology, and cinematic fantasy. Four studio albums deep, from the sun-drenched 2008 debut to 2024's 'Ask That God', which marked their return after an eight-year hiatus, their live show is a full theatrical production that transforms festival stages into otherworldly spectacles.",
   appearances: [
     {
       id: "1",
