@@ -11,11 +11,11 @@ const charliXcx: Artist = {
   liveVideoId: "Dts9DvQ76Kw",
   liveVideoLabel: "Live at Coachella 2025",
   genres: ["Pop", "Hyperpop", "Electropop"],
-  location: { city: "Cambridge", country: "England" },
+  location: { city: "Bishop's Stortford", country: "England" },
   tagline: "The avant-pop icon rewriting the rules of music, fashion, and film.",
   socials: {
     spotify: "https://open.spotify.com/artist/25uiPmTg16RbhZWAqwLBy5",
-    youtube: "https://www.youtube.com/@charlixcx",
+    youtube: "https://www.youtube.com/@officialcharlixcx",
     tiktok: "https://www.tiktok.com/@charlixcx",
   },
   whySee: [
@@ -42,11 +42,7 @@ const charliXcx: Artist = {
       slug: "lorde",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178678a3a4bc2d8a84074f22c71",
     },
-    {
-      name: "aespa",
-      slug: "aespa",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b",
-    },
+    { name: "MUNA", slug: "muna" },
   ],
   tracks: [
     {
@@ -70,7 +66,7 @@ const charliXcx: Artist = {
     },
   ],
   about:
-    "Charli XCX has spent a decade operating at the bleeding edge of pop, writing massive hits for others while building one of the most adventurous solo catalogues in the genre. Her 2024 album 'BRAT' arrived as a cultural watershed—a neon-green, uncompromising collection that defined a global aesthetic and earned universal critical acclaim. Now, with the launch of her highly anticipated 2026 multimedia studio album 'Music, Fashion, Film', she performs like a true vanguard who continues to stay miles ahead of the pop curve.",
+    "Charli XCX has spent over a decade at the forefront of pop, writing hits for other artists, including Icona Pop's 'I Love It' and Iggy Azalea's 'Fancy', while building a genre-spanning solo catalogue of her own. Her 2024 album 'BRAT' became a cultural phenomenon, its neon-green aesthetic defining a global pop culture moment. She followed it in 2026 with 'Music, Fashion, Film', a multimedia studio album produced with A.G. Cook and Finn Keane that marks a turn toward a more guitar-driven sound.",
   appearances: [
     {
       id: "1",
@@ -93,7 +89,7 @@ const smashingPumpkins: Artist = {
   objectPosition: "center 20%",
   liveVideoId: "ieNIWi__3Dc",
   liveVideoLabel: "Live at Vive Latino Mexico 2026",
-  genres: ["Alternative Rock", "Grunge", "Shoegaze"],
+  genres: ["Alternative Rock", "Grunge", "Art Rock"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline: "Despite all my rage.",
   socials: {
@@ -116,7 +112,7 @@ const smashingPumpkins: Artist = {
       slug: "wolf-alice",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178517744f1b17b914a3ac923b7",
     },
-    { name: "Whatmore", slug: "whatmore" },
+    { name: "Momma", slug: "momma" },
     {
       name: "Die Spitz",
       slug: "die-spitz",
@@ -125,6 +121,7 @@ const smashingPumpkins: Artist = {
   ],
   tracks: [
     {
+      spotifyId: "1EzeXGaZdqsA4Nst1AIAL2",
       name: "Bullet with Butterfly Wings",
       album: "Mellon Collie and the Infinite Sadness",
       duration: "4:18",
@@ -144,7 +141,7 @@ const smashingPumpkins: Artist = {
     },
   ],
   about:
-    "The Smashing Pumpkins are one of the definitive rock bands of the 1990s. Formed in Chicago by Billy Corgan, the band built a sound that combined massively layered, distorted guitars with introspective lyricism and unexpected melodic beauty. Albums like Siamese Dream and Mellon Collie and the Infinite Sadness stand as milestones of alternative rock — dense, ambitious, and emotionally enormous. Their live shows are events: loud, long, and performed with the urgency of musicians who have spent decades earning their stage.",
+    "The Smashing Pumpkins are one of the definitive rock bands of the 1990s. Formed in Chicago by Billy Corgan, the band built a sound that combined massively layered, distorted guitars with introspective lyricism and unexpected melodic beauty. Albums like 'Siamese Dream' and 'Mellon Collie and the Infinite Sadness' stand as milestones of alternative rock: dense, ambitious, and emotionally enormous. Their live shows are events: loud, long, and performed with the urgency of musicians who have spent decades earning their stage.",
   appearances: [
     {
       id: "1",
@@ -167,7 +164,11 @@ const lilUziVert: Artist = {
   genres: ["Hip-Hop", "Trap", "Rage Rap"],
   location: { city: "Philadelphia", state: "Pennsylvania", country: "United States" },
   tagline: "Hyper-kinetic punk-rap adrenaline and massive stadium-scale trap anthems.",
-  socials: { spotify: "https://open.spotify.com/artist/4O15NlyKLIASxsJ0PrXPfz" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/4O15NlyKLIASxsJ0PrXPfz",
+    youtube: "https://www.youtube.com/@LILUZIVERT",
+    tiktok: "https://www.tiktok.com/@liluzivert",
+  },
   whySee: [
     "An absolute force of nature delivering one of the most high-octane, visually chaotic sets of the weekend on the mainstage",
     "Experience a generational hip-hop icon running through a monumental catalog of historic chart-toppers like 'XO Tour Llif3'",
@@ -227,7 +228,7 @@ const lilUziVert: Artist = {
     },
   ],
   about:
-    "Symere Woods, performing under the iconic moniker Lil Uzi Vert, has spent a decade standing at the absolute vanguard of contemporary hip-hop, single-handedly bridging the gap between underground soundcloud rap and global stadium dominance. Characterized by a fierce rock-star aesthetic, rapid-fire flows, and an unyielding trap pulse, they completely re-wrote the rules of the genre with diamond-certified alternative masterpieces. Backed by an extensive catalog of boundary-pushing records, their high-visibility headlining sets are masterfully calculated, maximalist spectacles built to completely detonate festival lawns.",
+    "Symere Woods, performing as Lil Uzi Vert, has spent over a decade bridging underground SoundCloud rap and mainstream stadium hip-hop, known for a rock-star aesthetic, rapid-fire flows, and a distinctive rage-rap sound they helped originate. Their 2017 single 'XO Tour Llif3' was certified Diamond by the RIAA in 2022. Backed by a catalog that spans SoundCloud-era mixtapes to major-label albums, their live sets are high-energy, maximalist shows built around a devoted mosh-pit crowd.",
   appearances: [
     {
       id: "1",
@@ -243,14 +244,18 @@ const lilUziVert: Artist = {
 };
 
 const yungblud: Artist = {
-  name: "YUNGBLUD",
+  name: "Yungblud",
   slug: "yungblud",
   imageUrl: "/artists/heroes/yungblud.webp",
   objectPosition: "center 0%",
-  genres: ["Alternative Rock", "Pop-Punk", "Gothic Rock"],
+  genres: ["Alternative Rock", "Pop-Punk", "Pop-Rock"],
   location: { city: "Doncaster", country: "England" },
   tagline: "An explosive, theatrical riot of generational alternative punk defiance.",
-  socials: { spotify: "https://open.spotify.com/artist/6Ad91Jof8Niiw0lGLLi3NW" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/6Ad91Jof8Niiw0lGLLi3NW",
+    youtube: "https://www.youtube.com/@yungblud",
+    tiktok: "https://www.tiktok.com/@yungblud",
+  },
   whySee: [
     "A blistering, theatrical tour de force of pure alternative counter-culture energy that commands absolute crowd chaos",
     "Dominic Harrison's completely untamed, magnetic stage presence that transforms giant festival fields into safe-haven rock communities",
@@ -265,11 +270,7 @@ const yungblud: Artist = {
       slug: "the-story-so-far",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1784d8d055d82fc1e5b1c5ecb1d",
     },
-    {
-      name: "Villanelle",
-      slug: "villanelle",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1781ece1eae58afddb4d3238501",
-    },
+    { name: "5 Seconds of Summer", slug: "five-seconds-of-summer" },
     {
       name: "Hot Mulligan",
       slug: "hot-mulligan",
@@ -282,7 +283,7 @@ const yungblud: Artist = {
     },
   ],
   tracks: [
-    { name: "I Think I'm OKAY", album: "Hotel Diaries", duration: "" },
+    { spotifyId: "4HCsXdHLuW2YiD4sc3ejcz", name: "Zombie", album: "Idols", duration: "4:06" },
     {
       spotifyId: "68rVGSTnCiFOET9k5Vd8Se",
       name: "parents",
@@ -299,7 +300,7 @@ const yungblud: Artist = {
     },
   ],
   about:
-    "Dominic Harrison, operating under the moniker YUNGBLUD, has built a fierce global community through his sharp blend of aggressive pop-punk grit, alternative rock rebellion, and deeply honest lyricism. Channeling the raw theatricality of classic subversive rock legends, he crafts a high-tension sonic universe that acts as a powerful rallying cry for youth culture around the world. Backed by tight, seasoned live instrumentation and an uncompromising performance ethos, his late afternoon mainstage set delivers an undeniable, adrenaline-fueled celebration of modern rock velocity.",
+    "Dominic Harrison, performing as Yungblud, built his sound and following on pop-punk energy, alternative rock, and unguarded lyrics about mental health, identity, and outsider culture. His 2025 album 'Idols' included 'Zombie', his fastest-streaming solo single and a Grammy nominee for Best Rock Song. He was chosen to perform Black Sabbath's 'Changes' at the late Ozzy Osbourne's farewell concert, Back to the Beginning, in Birmingham, a performance Osbourne himself praised. Harrison has since made the song a permanent part of his live sets.",
   appearances: [
     {
       id: "1",
@@ -434,7 +435,7 @@ const notForRadio: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178d8ffff9d4383a19d7101dffc",
     },
     {
-      name: "YUNGBLUD",
+      name: "Yungblud",
       slug: "yungblud",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787c9287712c4355e54c94e0d0",
     },
@@ -990,7 +991,7 @@ const theStorySoFar: Artist = {
   bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
     {
-      name: "YUNGBLUD",
+      name: "Yungblud",
       slug: "yungblud",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787c9287712c4355e54c94e0d0",
     },

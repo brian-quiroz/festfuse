@@ -575,7 +575,7 @@ const hotMulligan: Artist = {
   bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
     {
-      name: "YUNGBLUD",
+      name: "Yungblud",
       slug: "yungblud",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787c9287712c4355e54c94e0d0",
     },

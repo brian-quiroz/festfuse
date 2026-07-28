@@ -600,7 +600,7 @@ const fiveSecondsOfSummer: Artist = {
   bestFor: [],
   similarArtists: [
     {
-      name: "YUNGBLUD",
+      name: "Yungblud",
       slug: "yungblud",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787c9287712c4355e54c94e0d0",
     },
@@ -2895,7 +2895,7 @@ const chalk: Artist = {
   bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
     {
-      name: "YUNGBLUD",
+      name: "Yungblud",
       slug: "yungblud",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787c9287712c4355e54c94e0d0",
     },
