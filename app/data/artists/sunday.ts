@@ -369,7 +369,7 @@ const aespa: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178ab312009266614f4d3185229",
     },
     {
-      name: "I-DLE",
+      name: "i-dle",
       slug: "i-dle",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a6d269fc34884864c3f0f914",
     },
@@ -2035,7 +2035,7 @@ const after: Artist = {
   bestFor: ["Scene Trend Spotters", "Hometown & Local Supporters", "Dance Floor Seekers"],
   similarArtists: [
     {
-      name: "partyof2",
+      name: "PARTYOF2",
       slug: "partyof2",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b9dbe3484f4e59e7b0e18b7a",
     },
@@ -2044,7 +2044,7 @@ const after: Artist = {
       slug: "suki-waterhouse",
     },
     {
-      name: "Ivri",
+      name: "ivri",
       slug: "ivri",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178db6265ab7c2b7e2a156c99ae",
     },

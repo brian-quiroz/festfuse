@@ -1428,7 +1428,7 @@ const mph: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a",
     },
     {
-      name: "Sidepiece",
+      name: "SIDEPIECE",
       slug: "sidepiece",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f75bb8d64c3d43282ad006f7",
     },
@@ -1780,7 +1780,7 @@ const bellaKay: Artist = {
   bestFor: ["Lyric & Narrative Obsessives", "Bass & Groove Lovers"],
   similarArtists: [
     {
-      name: "Ivri",
+      name: "ivri",
       slug: "ivri",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178db6265ab7c2b7e2a156c99ae",
     },
