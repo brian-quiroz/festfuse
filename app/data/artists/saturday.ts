@@ -640,7 +640,7 @@ const alisonWonderland: Artist = {
       slug: "know-good",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1785358de71801fad4a13adc2f2",
     },
-    { name: "KLO", slug: "klo" },
+    { name: "Klo", slug: "klo" },
     {
       name: "Whethan",
       slug: "whethan",
@@ -2248,7 +2248,7 @@ const mc4d: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782717c8959d00aa37044bbb74",
     },
     {
-      name: "haute & freddy",
+      name: "Haute & Freddy",
       slug: "haute-and-freddy",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f24b273d9959e097972d5992",
     },
@@ -2538,7 +2538,7 @@ const peaceControl: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178ded53da461b13994a9ef8347",
     },
     {
-      name: "Devault",
+      name: "DEVAULT",
       slug: "devault",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178669860fe69ee33857a3bdeb6",
     },

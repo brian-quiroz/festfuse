@@ -870,7 +870,7 @@ const eliBrown: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f1781c9da6b48887663d291b8df4",
     },
     {
-      name: "Devault",
+      name: "DEVAULT",
       slug: "devault",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178669860fe69ee33857a3bdeb6",
     },
@@ -1760,7 +1760,7 @@ const losRetros: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178c806f3e714afa21861e20248",
     },
     {
-      name: "Bixby",
+      name: "bixby",
       slug: "bixby",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f91b9382299af20b9130c80c",
     },
@@ -2048,7 +2048,7 @@ const after: Artist = {
       slug: "ivri",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178db6265ab7c2b7e2a156c99ae",
     },
-    { name: "KLO", slug: "klo" },
+    { name: "Klo", slug: "klo" },
   ],
   tracks: [
     { name: "After", album: "After", duration: "" },

@@ -877,7 +877,7 @@ const oklou: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782949c67f381d533010389d6a",
     },
     {
-      name: "Devault",
+      name: "DEVAULT",
       slug: "devault",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178669860fe69ee33857a3bdeb6",
     },
@@ -1208,7 +1208,7 @@ const sidepiece: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
     },
     {
-      name: "haute & freddy",
+      name: "Haute & Freddy",
       slug: "haute-and-freddy",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f24b273d9959e097972d5992",
     },
@@ -1519,7 +1519,7 @@ const lyny: Artist = {
       slug: "whethan",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782717c8959d00aa37044bbb74",
     },
-    { name: "KLO", slug: "klo" },
+    { name: "Klo", slug: "klo" },
   ],
   tracks: [
     {
@@ -1649,7 +1649,7 @@ const juliaWolf: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10",
     },
     {
-      name: "Bixby",
+      name: "bixby",
       slug: "bixby",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f91b9382299af20b9130c80c",
     },
@@ -2030,7 +2030,7 @@ const avello: Artist = {
   whatToExpect: ["Bass & Groove", "Synth & Atmospheric", "High-Energy Pacing"],
   bestFor: ["Bass & Groove Lovers", "Dance Floor Seekers"],
   similarArtists: [
-    { name: "KLO", slug: "klo" },
+    { name: "Klo", slug: "klo" },
     {
       name: "Major Lazer",
       slug: "major-lazer",
@@ -2100,7 +2100,7 @@ const partyof2: Artist = {
       slug: "lil-uzi-vert",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17862c272d76220f2e9dad56704",
     },
-    { name: "KLO", slug: "klo" },
+    { name: "Klo", slug: "klo" },
   ],
   tracks: [
     { name: "Double Up", album: "PARTYOF2", duration: "" },
