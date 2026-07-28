@@ -292,9 +292,19 @@ A good test: would the sentence still be true if a stranger who'd never heard th
 
 State the actual achievement plainly and it carries its own charge — no hype adjective needed on top.
 
+### A notch of warmth, not flat recitation
+
+Real achievements can be delivered with genuine appreciation, not spec sheet neutrality. If an artist has a real award, a viral single, a startling stream count, let the tone register that it's actually impressive. That's a matter of delivery, not word choice: stating an achievement plainly and clearly as the sentence's highlight can read as warm without any hype adjective attached to it.
+
+Calibrate to what's actually there. An artist with real accolades earns a slightly more celebratory tone. An artist where research only turns up sparse, ordinary facts doesn't need padding to compensate, don't manufacture warmth that isn't backed by anything. The same applies to live performance details specifically: include them only when something concrete and documented actually turns up, never add a live show sentence just to round out the paragraph. Most smaller or underground artists simply won't have much public information here, and that's fine to leave as is.
+
 ### No dashes
 
 No em dashes or standalone hyphens as punctuation. Use a period or colon instead. Reads as AI-generated otherwise.
+
+### Titles in single quotes
+
+Album, EP, and song titles referenced in `about` are wrapped in single quotes (`'BRAT'`, `'Halcyon'`), not double quotes.
 
 ### Describe the show, don't instruct the reader
 
