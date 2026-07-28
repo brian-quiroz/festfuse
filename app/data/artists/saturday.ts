@@ -10,7 +10,7 @@ const oliviaDean: Artist = {
   objectPosition: "center 20%",
   liveVideoId: "QOcUC9mN2s0",
   liveVideoLabel: "Live at Fleet Steps, Mrs Macquaries Point, Sydney 2025",
-  genres: ["Soul", "R&B", "Indie Pop"],
+  genres: ["Soul", "R&B", "Neo-Soul"],
   location: { city: "London", country: "England" },
   tagline: "Soulful, sharp, and completely herself.",
   socials: {
@@ -84,7 +84,7 @@ const oliviaDean: Artist = {
 };
 
 const jennie: Artist = {
-  name: "Jennie",
+  name: "JENNIE",
   slug: "jennie",
   mbid: "779351de-0da5-4943-928b-495a3c40e8c0",
   imageUrl: "/artists/heroes/jennie.jpg",
@@ -137,11 +137,11 @@ const jennie: Artist = {
   ],
   tracks: [
     {
-      spotifyId: "1kUyOJb3fzUo8r0OCz5SQk",
-      name: "Mantra",
-      album: "Ruby",
-      duration: "2:16",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02dcf27dec5e479b2e39c4c993",
+      spotifyId: "5yvVYFDUpbnjcnRBgjwTzM",
+      name: "Dracula - JENNIE Remix",
+      album: "Dracula (Remix)",
+      duration: "3:29",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02c7c031ce9d06b131f8563676",
     },
     {
       name: "like JENNIE",
@@ -150,11 +150,11 @@ const jennie: Artist = {
       artworkUrl: "/albums/jennie/ruby-collection.jpg",
     },
     {
-      spotifyId: "5yvVYFDUpbnjcnRBgjwTzM",
-      name: "Dracula - JENNIE Remix",
-      album: "Dracula (Remix)",
-      duration: "3:29",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02c7c031ce9d06b131f8563676",
+      spotifyId: "1kUyOJb3fzUo8r0OCz5SQk",
+      name: "Mantra",
+      album: "Ruby",
+      duration: "2:16",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02dcf27dec5e479b2e39c4c993",
     },
   ],
   about:
@@ -167,7 +167,7 @@ const jennie: Artist = {
       stage: "Bud Light",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "9:00 PM",
+      startTime: "8:55 PM",
       endTime: "10:00 PM",
     },
   ],
@@ -176,10 +176,14 @@ const jennie: Artist = {
 const theNeighbourhood: Artist = {
   name: "The Neighbourhood",
   slug: "the-neighbourhood",
-  genres: ["Indie Pop", "Alternative Rock", "Dark Pop"],
+  genres: ["Alternative Rock", "Dark Pop", "Indie Rock"],
   location: { city: "Newbury Park", state: "California", country: "United States" },
   tagline: "Nocturnal, smoky indie-pop melancholia built for late-night festival fields.",
-  socials: { spotify: "https://open.spotify.com/artist/77SW9BnxLY8rJ0RciFqkHh" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/77SW9BnxLY8rJ0RciFqkHh",
+    youtube: "https://www.youtube.com/@TheNBHD",
+    tiktok: "https://www.tiktok.com/@thenbhd",
+  },
   whySee: [
     "A massive, highly anticipated mainstage festival reunion set executing a monumental catalog of generation-defining dark pop anthems",
     "Jesse Rutherford's effortless, deeply charismatic vocal delivery commanding a crowd of tens of thousands singing every lyric",
@@ -257,7 +261,11 @@ const ethelCain: Artist = {
   location: { city: "Tallahassee", state: "Florida", country: "United States" },
   tagline:
     "Devastating, southern-gothic slowcore epics delivered with bone-chilling vocal majesty.",
-  socials: { spotify: "https://open.spotify.com/artist/0avMDS4HyoCEP6RqZJWpY2" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/0avMDS4HyoCEP6RqZJWpY2",
+    youtube: "https://www.youtube.com/mothercain",
+    tiktok: "https://www.tiktok.com/@mothercain",
+  },
   whySee: [
     "Hayden Anhedönia's first major mainstage festival run bringing a deeply moving, dark alternative community together in the park",
     "Towering, ten-minute slowcore rock arrangements that trade effortlessly between quiet ambient spaces and roaring guitar crescendos",
@@ -294,7 +302,12 @@ const ethelCain: Artist = {
     },
   ],
   tracks: [
-    { name: "American Teenager", album: "Preacher's Daughter", duration: "" },
+    {
+      spotifyId: "7CbNx8d9y7K60FONoUc82v",
+      name: "American Teenager",
+      album: "Preacher's Daughter",
+      duration: "",
+    },
     { name: "Gibson Girl", album: "Preacher's Daughter", duration: "" },
     {
       spotifyId: "6JnZ9hXxtXTtjwB3aAptTf",
@@ -314,8 +327,8 @@ const ethelCain: Artist = {
       stage: "Bud Light",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "7:15 PM",
-      endTime: "8:15 PM",
+      startTime: "7:00 PM",
+      endTime: "8:00 PM",
     },
   ],
 };
@@ -326,7 +339,11 @@ const discoLines: Artist = {
   genres: ["Tech House", "Dance Pop", "Electronic"],
   location: { city: "Boulder", state: "Colorado", country: "United States" },
   tagline: "Bouncy, high-energy tech-house loops built purely for celebratory day parties.",
-  socials: { spotify: "https://open.spotify.com/artist/5Kmr0b3ip8g9P2i0dLTC3Z" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/5Kmr0b3ip8g9P2i0dLTC3Z",
+    youtube: "https://www.youtube.com/@discolines",
+    tiktok: "https://www.tiktok.com/@discolines",
+  },
   whySee: [
     "Thadeus Labuszewski bringing his hyper-infectious, cheerful brand of modern tech-house straight to a boiling festival tent",
     "A non-stop, high-velocity dance party packed back-to-back with viral club weapons and multi-platinum independent single drops",
@@ -364,11 +381,10 @@ const discoLines: Artist = {
   ],
   tracks: [
     {
-      spotifyId: "2cSdAkzAf2T4j4aLvx4LLz",
-      name: "Baby Girl",
-      album: "Baby Girl",
-      duration: "1:51",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e027b0cbc69fe31ee3bc72c0c6a",
+      spotifyId: "1NfxxLgX17C61w9IOTrU4C",
+      name: "No Broke Boys",
+      album: "No Broke Boys",
+      duration: "",
     },
     {
       spotifyId: "33fFeAVSb0ue54Izu9uADo",
@@ -406,7 +422,7 @@ const leonThomas: Artist = {
   tagline: "Grammy-winning soul, built from the underground up.",
   socials: {
     spotify: "https://open.spotify.com/artist/0nnBZ8FXWjG9wZgM2cpfeb",
-    youtube: "https://www.youtube.com/channel/@leonthomas",
+    youtube: "https://www.youtube.com/@leonthomas",
     tiktok: "https://www.tiktok.com/@leonthomas",
   },
   whySee: [
@@ -437,17 +453,17 @@ const leonThomas: Artist = {
   ],
   tracks: [
     {
-      name: "YES IT IS",
-      album: "YES IT IS",
-      duration: "3:14",
-      artworkUrl: "/albums/leon-thomas/yes-it-is.png",
-    },
-    {
       spotifyId: "1mh9eHVRdNhzryG43PXdW1",
       name: "MUTT",
       album: "MUTT",
       duration: "3:13",
       artworkUrl: "https://i.scdn.co/image/ab67616d00001e0282a5b97ffaf87e21ce6fdf4a",
+    },
+    {
+      name: "YES IT IS",
+      album: "YES IT IS",
+      duration: "3:14",
+      artworkUrl: "/albums/leon-thomas/yes-it-is.png",
     },
     {
       name: "Treasure In The Hills",
@@ -538,8 +554,8 @@ const clipse: Artist = {
       stage: "Bud Light",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "5:15 PM",
-      endTime: "6:15 PM",
+      startTime: "5:00 PM",
+      endTime: "6:00 PM",
     },
   ],
 };
@@ -807,8 +823,8 @@ const bbno_dollar: Artist = {
       stage: "Tito's",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "6:15 PM",
-      endTime: "7:15 PM",
+      startTime: "6:00 PM",
+      endTime: "7:00 PM",
     },
   ],
 };
@@ -1122,8 +1138,8 @@ const wolfAlice: Artist = {
       stage: "Bud Light",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "3:15 PM",
-      endTime: "4:15 PM",
+      startTime: "3:00 PM",
+      endTime: "4:00 PM",
     },
   ],
 };
@@ -1201,7 +1217,7 @@ const cortis: Artist = {
   bestFor: ["Dance Floor Seekers", "Early Afternoon Discovery"],
   similarArtists: [
     {
-      name: "Jennie",
+      name: "JENNIE",
       slug: "jennie",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a8e3627e392a1d8f539cb575",
     },
@@ -1561,8 +1577,8 @@ const momma: Artist = {
       stage: "Tito's",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "4:15 PM",
-      endTime: "5:15 PM",
+      startTime: "4:00 PM",
+      endTime: "5:00 PM",
     },
   ],
 };
@@ -1692,8 +1708,8 @@ const goldieBoutilier: Artist = {
       stage: "Tito's",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "2:15 PM",
-      endTime: "3:15 PM",
+      startTime: "2:00 PM",
+      endTime: "3:00 PM",
     },
   ],
 };
@@ -1985,8 +2001,8 @@ const chezile: Artist = {
       stage: "Tito's",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "12:45 PM",
-      endTime: "1:30 PM",
+      startTime: "12:30 PM",
+      endTime: "1:15 PM",
     },
   ],
 };
@@ -2322,8 +2338,8 @@ const ricWilson: Artist = {
       stage: "Bud Light",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "1:30 PM",
-      endTime: "2:15 PM",
+      startTime: "1:15 PM",
+      endTime: "2:00 PM",
     },
   ],
 };
@@ -2698,8 +2714,8 @@ const cyso: Artist = {
       stage: "Tito's",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "8:15 PM",
-      endTime: "9:00 PM",
+      startTime: "8:00 PM",
+      endTime: "8:55 PM",
     },
   ],
 };

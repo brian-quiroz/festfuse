@@ -583,7 +583,7 @@ const freddieGibbs: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787d6973a4df776665c9852f26",
     },
     {
-      name: "Jennie",
+      name: "JENNIE",
       slug: "jennie",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a8e3627e392a1d8f539cb575",
     },
@@ -2178,10 +2178,10 @@ const avello: Artist = {
   ],
   tracks: [
     {
-      spotifyId: "4zXG4SBvsjsW0EN1mjCxaV",
-      name: "No Broke Boys (AVELLO Remix)",
-      album: "No Broke Boys (AVELLO Remix)",
-      duration: "",
+      spotifyId: "57LQfowCxQ3BmdlsyN9leg",
+      name: "Without You (feat. Sasha Alex Sloan)",
+      album: "Without You (feat. Sasha Alex Sloan)",
+      duration: "2:56",
     },
     { name: "Fallen", album: "Fallen", duration: "" },
     { name: "Ascension", album: "Ascension", duration: "" },
@@ -2807,7 +2807,12 @@ const beno: Artist = {
     { name: "Jae Stephens", slug: "jae-stephens" },
   ],
   tracks: [
-    { spotifyId: "4S2u4t21gmseX7WU8hyaay", name: "Butterfly", album: "Butterfly", duration: "3:20" },
+    {
+      spotifyId: "4S2u4t21gmseX7WU8hyaay",
+      name: "Butterfly",
+      album: "Butterfly",
+      duration: "3:20",
+    },
     { name: "Summer", album: "Summer", duration: "" },
     { name: "Call Out My Name", album: "Call Out My Name", duration: "" },
   ],
