@@ -10,6 +10,7 @@ import { useScheduleStore } from "@/app/store/scheduleStore";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance, getPrimaryBillingTier, getAppearancesForFestival } from "@/app/lib/appearances";
 import { getArtistScheduleState } from "@/app/lib/schedule";
+import { getVerifiedImageUrl } from "@/app/lib/artistImage";
 import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
 interface ArtistCardProps {
@@ -30,6 +31,7 @@ export default function ArtistCard({
   // Read from store
   const decision = decisionsByArtist[artist.slug];
   const verdict = decision?.verdict ?? null;
+  const verifiedImageUrl = getVerifiedImageUrl(artist);
 
   // Single verdict field, mutually exclusive. Each button sets its own value directly (or clears if already set).
   const mustSee = verdict === "mustSee";
@@ -103,9 +105,9 @@ export default function ArtistCard({
       <div className={`relative z-10 pointer-events-none ${photoH} overflow-hidden`}>
         {/* Scaled layer: image + gradient move together */}
         <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]">
-          {artist.imageUrl ? (
+          {verifiedImageUrl ? (
             <Image
-              src={artist.imageUrl}
+              src={verifiedImageUrl}
               alt={artist.name}
               fill
               className="object-cover"
@@ -127,7 +129,7 @@ export default function ArtistCard({
               this short, eats more than half the visible color. The action buttons
               have their own bg-black/50 backdrop regardless, so they don't depend on
               this. Photo-only; fallback gets a much shorter eased seam fade instead. */}
-          {artist.imageUrl ? (
+          {verifiedImageUrl ? (
             <div
               className="absolute inset-0"
               style={{

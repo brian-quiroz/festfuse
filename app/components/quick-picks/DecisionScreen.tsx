@@ -9,6 +9,7 @@ import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 import { COLORS } from "@/app/data/colors";
 import SpotifyTrackEmbed from "@/app/components/ui/SpotifyTrackEmbed";
 import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
+import { getVerifiedImageUrl } from "@/app/lib/artistImage";
 
 /*
  * DecisionScreen — moving parts overview
@@ -139,6 +140,7 @@ export default function DecisionScreen({
   // Quick Picks song (put it first), so a first track without a spotifyId means no
   // player, even if a later track happens to have one.
   const quickListenTrack = artist.tracks[0]?.spotifyId ? artist.tracks[0] : null;
+  const verifiedImageUrl = getVerifiedImageUrl(artist);
   const [confirming, setConfirming] = useState<QuickPicksVerdict | null>(null);
   const confirmingRef = useRef<QuickPicksVerdict | null>(null);
   const [restoredFlashing, setRestoredFlashing] = useState(false);
@@ -329,9 +331,9 @@ export default function DecisionScreen({
                   exit="exit"
                   className="absolute inset-0 rounded-xl overflow-hidden bg-[#1B1535]"
                 >
-                  {artist.imageUrl ? (
+                  {verifiedImageUrl ? (
                     <Image
-                      src={artist.imageUrl}
+                      src={verifiedImageUrl}
                       alt={artist.name}
                       fill
                       priority
