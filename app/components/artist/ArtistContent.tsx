@@ -7,8 +7,9 @@ import LiveVideoSection from "./LiveVideoSection";
 import FloatingCards from "./FloatingCards";
 
 // No tabs — one continuous editorial page: Listen First, Live Performance (when
-// available), About, in that vertical order. Both section components self-omit when
-// their data is missing, so this file doesn't duplicate that conditional logic.
+// available), About (when verified), in that vertical order. ListenFirstSection and
+// LiveVideoSection self-omit when their data is missing; About is gated inline here
+// since it has no separate component.
 export default function ArtistContent({ artist }: { artist: Artist }) {
   return (
     <div className="px-8 pt-2 pb-16 max-w-[1760px] mx-auto">
@@ -24,19 +25,21 @@ export default function ArtistContent({ artist }: { artist: Artist }) {
           <ListenFirstSection artist={artist} />
           <LiveVideoSection artist={artist} />
 
-          <section>
-            <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-              <User
-                size={15}
-                strokeWidth={2}
-                aria-hidden="true"
-                className="flex-shrink-0"
-                style={{ color: COLORS.cyan }}
-              />
-              About
-            </h3>
-            <p className="text-sm text-white/70 leading-relaxed">{artist.about}</p>
-          </section>
+          {artist.aboutVerified && (
+            <section>
+              <h3 className="flex items-center gap-2 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+                <User
+                  size={15}
+                  strokeWidth={2}
+                  aria-hidden="true"
+                  className="flex-shrink-0"
+                  style={{ color: COLORS.cyan }}
+                />
+                About
+              </h3>
+              <p className="text-sm text-white/70 leading-relaxed">{artist.about}</p>
+            </section>
+          )}
         </div>
 
         {/* Floating cards — sticky while content scrolls */}

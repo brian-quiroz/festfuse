@@ -5,12 +5,15 @@ import { COLORS } from "@/app/data/colors";
 import type { Artist } from "@/app/types/artist";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryBillingTier } from "@/app/lib/appearances";
+import { getVerifiedImageUrl } from "@/app/lib/artistImage";
 import ArtistActions from "./ArtistActions";
 import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
 export default function ArtistHero({ artist }: { artist: Artist }) {
+  const verifiedImageUrl = getVerifiedImageUrl(artist);
   const hasSocials = Boolean(
-    artist.socials.spotify || artist.socials.youtube || artist.socials.tiktok
+    artist.socials.spotify ||
+      (artist.socialsVerified && (artist.socials.youtube || artist.socials.tiktok))
   );
 
   // Shared between the mobile (bottom-anchored) and desktop (left-column) content
@@ -78,7 +81,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
                 <FaSpotify size={16} aria-hidden="true" />
               </a>
             )}
-            {artist.socials.youtube && (
+            {artist.socialsVerified && artist.socials.youtube && (
               <a
                 href={artist.socials.youtube}
                 target="_blank"
@@ -89,7 +92,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
                 <FaYoutube size={16} aria-hidden="true" />
               </a>
             )}
-            {artist.socials.tiktok && (
+            {artist.socialsVerified && artist.socials.tiktok && (
               <a
                 href={artist.socials.tiktok}
                 target="_blank"
@@ -106,12 +109,18 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
     </div>
   );
 
+  // Shorter when there's no real photo — the identity block + actions don't need the
+  // full photo-hero height, and without a photo that extra height is just blank gradient.
+  const heroHeight = verifiedImageUrl
+    ? "h-[420px] sm:h-[480px] md:h-[520px]"
+    : "h-[360px] sm:h-[400px] md:h-[440px]";
+
   return (
-    <div className="relative h-[420px] sm:h-[480px] md:h-[520px] overflow-hidden bg-[#110D24] max-w-[1760px] mx-auto">
+    <div className={`relative ${heroHeight} overflow-hidden bg-[#110D24] max-w-[1760px] mx-auto`}>
       {/* Full-bleed artist photo */}
-      {artist.imageUrl ? (
+      {verifiedImageUrl ? (
         <Image
-          src={artist.imageUrl}
+          src={verifiedImageUrl}
           alt={artist.name}
           fill
           priority
@@ -132,14 +141,14 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
           moves to a bottom-anchored strip (see below) instead of overlaying the left
           side of the photo, so there's nothing here needing the left-right darkening;
           it would just needlessly dim a photo no text sits on top of. */}
-      {artist.imageUrl && (
+      {verifiedImageUrl && (
         <div className="hidden md:block absolute inset-0 bg-[linear-gradient(to_right,#110D24_0%,#110D24_18%,rgba(17,13,36,0.84)_33%,rgba(17,13,36,0.38)_52%,rgba(17,13,36,0.06)_100%)]" />
       )}
 
       {/* Bottom fade — taller below md, where it's the only legibility aid behind the
           bottom-anchored genre/name/location text (desktop has the left-right gradient
           doing that work instead, so it only needs a short seam-softening fade here). */}
-      {artist.imageUrl && (
+      {verifiedImageUrl && (
         <div
           className="absolute bottom-0 left-0 right-0 h-64 md:h-36 pointer-events-none"
           style={{
@@ -155,7 +164,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
           straight 2-stop linear fade — a plain transparent-to-solid fade has a visible
           kink right where it begins, since the rate of change jumps abruptly from flat
           to fading. */}
-      {!artist.imageUrl && (
+      {!verifiedImageUrl && (
         <div
           className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
           style={{

@@ -5,12 +5,20 @@ import type { Artist } from "@/app/types/artist";
 const oliviaDean: Artist = {
   name: "Olivia Dean",
   slug: "olivia-dean",
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/olivia-dean.jpg",
+  imageCredit: {
+    author: "Raph_PH",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Olivia_Dean_-_Sabrina_Carpenter_at_BST_Hyde_Park_-_20250706_-_115.jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by/4.0",
+  },
   mbid: "15e0d608-0869-429b-898d-3d8db3ecedd5",
-  imageUrl: "/artists/heroes/olivia-dean.jpg",
-  objectPosition: "center 20%",
+  objectPosition: "center 15%",
   liveVideoId: "QOcUC9mN2s0",
   liveVideoLabel: "Live at Fleet Steps, Mrs Macquaries Point, Sydney 2025",
-  genres: ["Soul", "R&B", "Indie Pop"],
+  genres: ["Soul", "R&B", "Neo-Soul"],
   location: { city: "London", country: "England" },
   tagline: "Soulful, sharp, and completely herself.",
   socials: {
@@ -84,11 +92,18 @@ const oliviaDean: Artist = {
 };
 
 const jennie: Artist = {
-  name: "Jennie",
+  name: "JENNIE",
   slug: "jennie",
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/jennie.jpg",
+  imageCredit: {
+    author: "Picikepocok22",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Jennie_Kim_2026.png",
+    licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0",
+  },
   mbid: "779351de-0da5-4943-928b-495a3c40e8c0",
-  imageUrl: "/artists/heroes/jennie.jpg",
-  objectPosition: "center 15%",
+  objectPosition: "center 28%",
   liveVideoId: "aTP87bkvixE",
   liveVideoLabel: "Live at Governor's Ball 2026",
   genres: ["K-Pop", "R&B", "Hip-Hop"],
@@ -137,11 +152,11 @@ const jennie: Artist = {
   ],
   tracks: [
     {
-      spotifyId: "1kUyOJb3fzUo8r0OCz5SQk",
-      name: "Mantra",
-      album: "Ruby",
-      duration: "2:16",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02dcf27dec5e479b2e39c4c993",
+      spotifyId: "5yvVYFDUpbnjcnRBgjwTzM",
+      name: "Dracula - JENNIE Remix",
+      album: "Dracula (Remix)",
+      duration: "3:29",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02c7c031ce9d06b131f8563676",
     },
     {
       name: "like JENNIE",
@@ -150,11 +165,11 @@ const jennie: Artist = {
       artworkUrl: "/albums/jennie/ruby-collection.jpg",
     },
     {
-      spotifyId: "5yvVYFDUpbnjcnRBgjwTzM",
-      name: "Dracula - JENNIE Remix",
-      album: "Dracula (Remix)",
-      duration: "3:29",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02c7c031ce9d06b131f8563676",
+      spotifyId: "1kUyOJb3fzUo8r0OCz5SQk",
+      name: "Mantra",
+      album: "Ruby",
+      duration: "2:16",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02dcf27dec5e479b2e39c4c993",
     },
   ],
   about:
@@ -167,7 +182,7 @@ const jennie: Artist = {
       stage: "Bud Light",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "9:00 PM",
+      startTime: "8:55 PM",
       endTime: "10:00 PM",
     },
   ],
@@ -176,10 +191,15 @@ const jennie: Artist = {
 const theNeighbourhood: Artist = {
   name: "The Neighbourhood",
   slug: "the-neighbourhood",
-  genres: ["Indie Pop", "Alternative Rock", "Dark Pop"],
+  socialsVerified: true,
+  genres: ["Alternative Rock", "Dark Pop", "Indie Rock"],
   location: { city: "Newbury Park", state: "California", country: "United States" },
   tagline: "Nocturnal, smoky indie-pop melancholia built for late-night festival fields.",
-  socials: { spotify: "https://open.spotify.com/artist/77SW9BnxLY8rJ0RciFqkHh" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/77SW9BnxLY8rJ0RciFqkHh",
+    youtube: "https://www.youtube.com/@TheNBHD",
+    tiktok: "https://www.tiktok.com/@thenbhd",
+  },
   whySee: [
     "A massive, highly anticipated mainstage festival reunion set executing a monumental catalog of generation-defining dark pop anthems",
     "Jesse Rutherford's effortless, deeply charismatic vocal delivery commanding a crowd of tens of thousands singing every lyric",
@@ -253,11 +273,16 @@ const theNeighbourhood: Artist = {
 const ethelCain: Artist = {
   name: "Ethel Cain",
   slug: "ethel-cain",
+  socialsVerified: true,
   genres: ["Gothic Folk", "Slowcore", "Dream Pop"],
   location: { city: "Tallahassee", state: "Florida", country: "United States" },
   tagline:
     "Devastating, southern-gothic slowcore epics delivered with bone-chilling vocal majesty.",
-  socials: { spotify: "https://open.spotify.com/artist/0avMDS4HyoCEP6RqZJWpY2" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/0avMDS4HyoCEP6RqZJWpY2",
+    youtube: "https://www.youtube.com/mothercain",
+    tiktok: "https://www.tiktok.com/@mothercain",
+  },
   whySee: [
     "Hayden Anhedönia's first major mainstage festival run bringing a deeply moving, dark alternative community together in the park",
     "Towering, ten-minute slowcore rock arrangements that trade effortlessly between quiet ambient spaces and roaring guitar crescendos",
@@ -294,7 +319,12 @@ const ethelCain: Artist = {
     },
   ],
   tracks: [
-    { name: "American Teenager", album: "Preacher's Daughter", duration: "" },
+    {
+      spotifyId: "7CbNx8d9y7K60FONoUc82v",
+      name: "American Teenager",
+      album: "Preacher's Daughter",
+      duration: "",
+    },
     { name: "Gibson Girl", album: "Preacher's Daughter", duration: "" },
     {
       spotifyId: "6JnZ9hXxtXTtjwB3aAptTf",
@@ -314,8 +344,8 @@ const ethelCain: Artist = {
       stage: "Bud Light",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "7:15 PM",
-      endTime: "8:15 PM",
+      startTime: "7:00 PM",
+      endTime: "8:00 PM",
     },
   ],
 };
@@ -323,10 +353,15 @@ const ethelCain: Artist = {
 const discoLines: Artist = {
   name: "Disco Lines",
   slug: "disco-lines",
+  socialsVerified: true,
   genres: ["Tech House", "Dance Pop", "Electronic"],
   location: { city: "Boulder", state: "Colorado", country: "United States" },
   tagline: "Bouncy, high-energy tech-house loops built purely for celebratory day parties.",
-  socials: { spotify: "https://open.spotify.com/artist/5Kmr0b3ip8g9P2i0dLTC3Z" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/5Kmr0b3ip8g9P2i0dLTC3Z",
+    youtube: "https://www.youtube.com/@discolines",
+    tiktok: "https://www.tiktok.com/@discolines",
+  },
   whySee: [
     "Thadeus Labuszewski bringing his hyper-infectious, cheerful brand of modern tech-house straight to a boiling festival tent",
     "A non-stop, high-velocity dance party packed back-to-back with viral club weapons and multi-platinum independent single drops",
@@ -364,11 +399,10 @@ const discoLines: Artist = {
   ],
   tracks: [
     {
-      spotifyId: "2cSdAkzAf2T4j4aLvx4LLz",
-      name: "Baby Girl",
-      album: "Baby Girl",
-      duration: "1:51",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e027b0cbc69fe31ee3bc72c0c6a",
+      spotifyId: "1NfxxLgX17C61w9IOTrU4C",
+      name: "No Broke Boys",
+      album: "No Broke Boys",
+      duration: "",
     },
     {
       spotifyId: "33fFeAVSb0ue54Izu9uADo",
@@ -398,6 +432,7 @@ const discoLines: Artist = {
 const leonThomas: Artist = {
   name: "Leon Thomas",
   slug: "leon-thomas",
+  socialsVerified: true,
   mbid: "412ff65d-26bf-4849-ba19-d2a58030fd1a",
   imageUrl: "/artists/heroes/leon-thomas.jpg",
   objectPosition: "center 20%",
@@ -406,7 +441,7 @@ const leonThomas: Artist = {
   tagline: "Grammy-winning soul, built from the underground up.",
   socials: {
     spotify: "https://open.spotify.com/artist/0nnBZ8FXWjG9wZgM2cpfeb",
-    youtube: "https://www.youtube.com/channel/@leonthomas",
+    youtube: "https://www.youtube.com/@leonthomas",
     tiktok: "https://www.tiktok.com/@leonthomas",
   },
   whySee: [
@@ -433,21 +468,21 @@ const leonThomas: Artist = {
       slug: "chezile",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b1593dbc8b1c5ee3c62b55a1",
     },
-    { name: "KWN", slug: "kwn" },
+    { name: "kwn", slug: "kwn" },
   ],
   tracks: [
-    {
-      name: "YES IT IS",
-      album: "YES IT IS",
-      duration: "3:14",
-      artworkUrl: "/albums/leon-thomas/yes-it-is.png",
-    },
     {
       spotifyId: "1mh9eHVRdNhzryG43PXdW1",
       name: "MUTT",
       album: "MUTT",
       duration: "3:13",
       artworkUrl: "https://i.scdn.co/image/ab67616d00001e0282a5b97ffaf87e21ce6fdf4a",
+    },
+    {
+      name: "YES IT IS",
+      album: "YES IT IS",
+      duration: "3:14",
+      artworkUrl: "/albums/leon-thomas/yes-it-is.png",
     },
     {
       name: "Treasure In The Hills",
@@ -475,10 +510,15 @@ const leonThomas: Artist = {
 const clipse: Artist = {
   name: "Clipse",
   slug: "clipse",
-  genres: ["Hip-Hop", "Boom Bap", "Underground Rap"],
+  socialsVerified: true,
+  genres: ["Hip-Hop", "East Coast Hip-Hop", "Gangsta Rap"],
   location: { city: "Virginia Beach", state: "Virginia", country: "United States" },
   tagline: "Legendary coke-rap royalty delivering pristine, razor-sharp technical lyricism.",
-  socials: { spotify: "https://open.spotify.com/artist/2J257euzcjnDLipsyJH3F2" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/2J257euzcjnDLipsyJH3F2",
+    youtube: "https://www.youtube.com/@Clipse",
+    tiktok: "https://www.tiktok.com/@clipse",
+  },
   whySee: [
     "A historic, highly anticipated festival performance from brothers Pusha T and Malice executing their legendary reunion era",
     "A masterclass in technical rap execution from two of the absolute finest, most uncompromising pure lyricists in hip-hop history",
@@ -507,11 +547,10 @@ const clipse: Artist = {
   ],
   tracks: [
     {
-      spotifyId: "3XrvEifl0hIzgBGUa5jBLS",
-      name: "Grindin'",
-      album: "Lord Willin'",
-      duration: "4:24",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0295bf7f7dac7b61a95d47f07e",
+      spotifyId: "3znSvEwBq09We4cxxmwlZM",
+      name: "Chains & Whips",
+      album: "Let God Sort Em Out",
+      duration: "",
     },
     {
       spotifyId: "0EXm0iaB0CzqtsB3VaupXj",
@@ -538,8 +577,8 @@ const clipse: Artist = {
       stage: "Bud Light",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "5:15 PM",
-      endTime: "6:15 PM",
+      startTime: "5:00 PM",
+      endTime: "6:00 PM",
     },
   ],
 };
@@ -547,10 +586,15 @@ const clipse: Artist = {
 const geese: Artist = {
   name: "Geese",
   slug: "geese",
+  socialsVerified: true,
   genres: ["Post-Punk", "Indie Rock", "Art Rock"],
   location: { city: "Brooklyn", state: "New York", country: "United States" },
   tagline: "Jagged, unpredictable art-punk chaos and thrillingly unhinged live energy.",
-  socials: { spotify: "https://open.spotify.com/artist/0WCo84qtCKfbyIf1lqQWB4" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/0WCo84qtCKfbyIf1lqQWB4",
+    youtube: "https://www.youtube.com/@Geeseband",
+    tiktok: "https://www.tiktok.com/@geese.band",
+  },
   whySee: [
     "One of the absolute sharpest, most restlessly creative rock outfits of the modern underground executing an intense performance",
     "Cameron Winter's completely unhinged, acrobatic vocal deliveries shifting effortlessly from deadpan rants to soaring theatrical croons",
@@ -582,7 +626,6 @@ const geese: Artist = {
     },
   ],
   tracks: [
-    { name: "Disco Man", album: "Projector", duration: "" },
     {
       spotifyId: "5vtJPJsiwW5BZAYo8Nla0n",
       name: "Cowboy Nudes",
@@ -617,10 +660,15 @@ const geese: Artist = {
 const alisonWonderland: Artist = {
   name: "Alison Wonderland",
   slug: "alison-wonderland",
+  socialsVerified: true,
   genres: ["Trap", "Future Bass", "Electronic"],
-  location: { city: "Sydney", country: "Australia" },
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Cinematic, arena-scale future bass and heavy, deeply emotional electronic anthems.",
-  socials: { spotify: "https://open.spotify.com/artist/11gWrKZMBsGQWmobv3oNfW" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/11gWrKZMBsGQWmobv3oNfW",
+    youtube: "https://www.youtube.com/alisonwonderland",
+    tiktok: "https://www.tiktok.com/@alisonwonderland",
+  },
   whySee: [
     "An absolute pioneer of the international electronic circuit returning to detonate the mainstage with a world-class live performance",
     "Alexandra Sholler's flawless live execution, trading between hyper-precise deck manipulation, raw live vocals, and classical cello interludes",
@@ -640,7 +688,7 @@ const alisonWonderland: Artist = {
       slug: "know-good",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1785358de71801fad4a13adc2f2",
     },
-    { name: "KLO", slug: "klo" },
+    { name: "Klo", slug: "klo" },
     {
       name: "Whethan",
       slug: "whethan",
@@ -687,12 +735,17 @@ const alisonWonderland: Artist = {
 };
 
 const djTrixieMattel: Artist = {
-  name: "DJ Trixie Mattel",
-  slug: "dj-trixie-mattel",
+  name: "Trixie Mattel",
+  slug: "trixie-mattel",
+  socialsVerified: true,
   genres: ["Dance Pop", "Electro-Pop", "Electronic"],
   location: { city: "Milwaukee", state: "Wisconsin", country: "United States" },
   tagline: "High-camp pop choreography and glittering, retro-fueled electro-pop club parties.",
-  socials: { spotify: "https://open.spotify.com/artist/33hAj1SghVYxDAxZxNDcyc" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/33hAj1SghVYxDAxZxNDcyc",
+    youtube: "https://www.youtube.com/channel/UC0biFgrMdkv1hFAFLVePODQ",
+    tiktok: "https://www.tiktok.com/@trixie",
+  },
   whySee: [
     "The undisputed high priestess of drag pop bringing an explosive, completely unhinged celebratory club party directly to the park",
     "Brian Firkus' magnetic, larger-than-life stage command delivering sharp, high-fashion choreography alongside massive electronic drops",
@@ -729,7 +782,12 @@ const djTrixieMattel: Artist = {
     },
   ],
   tracks: [
-    { name: "Malibu", album: "Barbara", duration: "" },
+    {
+      spotifyId: "6GE4fcrDAF5hF170xMzxq8",
+      name: "Video Games",
+      album: "Video Games",
+      duration: "",
+    },
     { name: "Hello Hello", album: "The Blonde & Pink Albums", duration: "" },
     { name: "C'Mon Justine", album: "The Blonde & Pink Albums", duration: "" },
   ],
@@ -752,10 +810,15 @@ const djTrixieMattel: Artist = {
 const bbno_dollar: Artist = {
   name: "bbno$",
   slug: "bbno-dollar",
-  genres: ["Hip-Hop", "Indie Pop", "Dance Pop"],
+  socialsVerified: true,
+  genres: ["Hip-Hop", "Pop Rap", "Electronic"],
   location: { city: "Vancouver", country: "Canada" },
   tagline: "Witty, low-slung internet rap hooks and carefree, bounce-driven party grooves.",
-  socials: { spotify: "https://open.spotify.com/artist/41X1TR6hrK8Q2ZCpp2EqCz" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/41X1TR6hrK8Q2ZCpp2EqCz",
+    youtube: "https://www.youtube.com/channel/UCC8FSfSnbjiZ6vGr68ZLtzg",
+    tiktok: "https://www.tiktok.com/@bbnotiktok",
+  },
   whySee: [
     "The ultimate carefree afternoon hip-hop party catalyst bringing a hyper-catchy, viral performance directly to the Tito's stage",
     "Alexander Gumuchian's unmatched, completely charismatic live crowd banter and rapid-fire stream-of-consciousness comedic rap flows",
@@ -787,8 +850,13 @@ const bbno_dollar: Artist = {
     },
   ],
   tracks: [
-    { name: "Lalala", album: "Recess", duration: "" },
-    { name: "edamame (feat. Rich Brian)", album: "eat ya veggies", duration: "" },
+    {
+      spotifyId: "1uMHCAyGmHqyygoNRuo7MV",
+      name: "edamame (feat. Rich Brian)",
+      album: "edamame",
+      duration: "2:13",
+    },
+    { name: "Lalala", album: "Lalala", duration: "" },
     {
       spotifyId: "30K6y3aeYjmjCHhLiudtH9",
       name: "it boy",
@@ -807,19 +875,24 @@ const bbno_dollar: Artist = {
       stage: "Tito's",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "6:15 PM",
-      endTime: "7:15 PM",
+      startTime: "6:00 PM",
+      endTime: "7:00 PM",
     },
   ],
 };
 
 const kwn: Artist = {
-  name: "KWN",
+  name: "kwn",
   slug: "kwn",
-  genres: ["Alternative R&B", "Soul", "Electronic Pop"],
+  socialsVerified: true,
+  genres: ["Alternative R&B", "Soul", "Trap"],
   location: { city: "London", country: "England" },
   tagline: "Sultry, nocturnal alternative R&B tracking the raw vulnerabilities of modern romance.",
-  socials: { spotify: "https://open.spotify.com/artist/2KnhnL8zuqLhIhGk601fsb" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/2KnhnL8zuqLhIhGk601fsb",
+    youtube: "https://www.youtube.com/@kwnway",
+    tiktok: "https://www.tiktok.com/@kwnway",
+  },
   whySee: [
     "Catch an exceptional independent UK lyricist executing a deeply atmospheric, confessional performance on the alternative stage",
     "Songwriting that lands like an intense, unguarded voice memo tracking the complex, messy textures of young identity",
@@ -851,7 +924,12 @@ const kwn: Artist = {
     },
   ],
   tracks: [
-    { name: "wnad", album: "wnad", duration: "" },
+    {
+      spotifyId: "5W67A7t9MWL3VtovrVrici",
+      name: "worst behaviour (feat. Kehlani)",
+      album: "worst behaviour",
+      duration: "",
+    },
     { name: "no love", album: "no love", duration: "" },
     { name: "sweet", album: "sweet", duration: "" },
   ],
@@ -877,7 +955,11 @@ const siennaSpiro: Artist = {
   genres: ["Soul", "R&B", "Chamber Pop"],
   location: { city: "London", country: "England" },
   tagline: "Stunning, earth-shaking British soul built on monumental, timeless vocal authority.",
-  socials: { spotify: "https://open.spotify.com/artist/02gSuSAWEdWa5UOvqzjX6v" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/02gSuSAWEdWa5UOvqzjX6v",
+    youtube: "https://www.youtube.com/@SIENNASPIRO",
+    tiktok: "https://www.tiktok.com/@siennaspiro",
+  },
   whySee: [
     "Witness one of the most technically gifted, breathtakingly unique young vocalists performing anywhere across the entire weekend",
     "Spiro's operatic, powerhouse vocal delivery effortlessly filling the open air with staggering emotional power",
@@ -1122,8 +1204,8 @@ const wolfAlice: Artist = {
       stage: "Bud Light",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "3:15 PM",
-      endTime: "4:15 PM",
+      startTime: "3:00 PM",
+      endTime: "4:00 PM",
     },
   ],
 };
@@ -1201,7 +1283,7 @@ const cortis: Artist = {
   bestFor: ["Dance Floor Seekers", "Early Afternoon Discovery"],
   similarArtists: [
     {
-      name: "Jennie",
+      name: "JENNIE",
       slug: "jennie",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a8e3627e392a1d8f539cb575",
     },
@@ -1412,7 +1494,7 @@ const khamari: Artist = {
       slug: "leon-thomas",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178c6c4f4aaf40ebee92b8a8228",
     },
-    { name: "KWN", slug: "kwn" },
+    { name: "kwn", slug: "kwn" },
   ],
   tracks: [
     {
@@ -1561,8 +1643,8 @@ const momma: Artist = {
       stage: "Tito's",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "4:15 PM",
-      endTime: "5:15 PM",
+      startTime: "4:00 PM",
+      endTime: "5:00 PM",
     },
   ],
 };
@@ -1692,8 +1774,8 @@ const goldieBoutilier: Artist = {
       stage: "Tito's",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "2:15 PM",
-      endTime: "3:15 PM",
+      startTime: "2:00 PM",
+      endTime: "3:00 PM",
     },
   ],
 };
@@ -1884,51 +1966,45 @@ const omnom: Artist = {
   ],
 };
 
-const jimLegxacy: Artist = {
-  name: "Jim Legxacy",
-  slug: "jim-legacy",
-  genres: ["Afroswing", "Alternative R&B", "Emo-Rap"],
-  location: { city: "London", country: "England" },
-  tagline:
-    "A breathtaking, glitchy collision of traditional Afrobeats rhythms and emo-rap intimacy.",
-  socials: { spotify: "https://open.spotify.com/artist/7IrBqZo6diq3hV3GpUhrs2" },
+const wisp: Artist = {
+  name: "Wisp",
+  slug: "wisp",
+  genres: ["Shoegaze", "Dream Pop", "Alternative Rock"],
+  location: { city: "San Francisco", state: "California", country: "United States" },
+  tagline: "Crushing walls of guitar distortion wrapped around weightless, dreamlike vocals.",
+  socials: { spotify: "https://open.spotify.com/artist/3TJZG17pjOKXwx1ELKJPfm" },
   whySee: [
-    "One of alternative music's absolute finest contemporary innovators executing a deeply atmospheric, highly anticipated festival debut",
-    "Experience a spectacular live rendering of his unique 'Afro-glow' production style, blending crisp loops with acoustic guitars",
-    "A beautifully intimate, storytelling sonic oasis designed perfectly to completely escape standard commercial pop noise",
-    "Hear the live execution of fresh, boundary-pushing narrative epics that explore identity and young romance with profound honesty",
+    "Hear the viral shoegaze breakthrough 'Your face' bloom into a massive wall of sound",
+    "A rare chance to catch one of the genre's fastest-rising young artists on a festival stage",
+    "Airy, intimate vocals provide a striking counterweight to the band's towering guitars",
   ],
-  whatToExpect: ["Cinematic Visuals", "Guitar-Driven Sound", "Melodic Vocal Hooks"],
-  bestFor: [
-    "Sound Design & Production Nerds",
-    "Lyric & Narrative Obsessives",
-    "Early Afternoon Discovery",
-  ],
+  whatToExpect: ["Live Band Performance", "Guitar-Driven Sound", "Dreamy Atmosphere"],
+  bestFor: ["Scene Trend Spotters", "Early Afternoon Discovery", "Chill Summer Vibes"],
   similarArtists: [
     {
-      name: "Oklou",
-      slug: "oklou",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178f8b90fcffca3c4e28564f0e3",
+      name: "Momma",
+      slug: "momma",
     },
     {
-      name: "Destin Conrad",
-      slug: "destin-conrad",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1786be69fc54978eb83fa10167c",
+      name: "Water From Your Eyes",
+      slug: "water-from-your-eyes",
     },
-    { name: "KWN", slug: "kwn" },
     {
-      name: "Leon Thomas",
-      slug: "leon-thomas",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178c6c4f4aaf40ebee92b8a8228",
+      name: "Wolf Alice",
+      slug: "wolf-alice",
+    },
+    {
+      name: "beabadoobee",
+      slug: "beabadoobee",
     },
   ],
   tracks: [
-    { name: "Hitlight", album: "Homeless", duration: "" },
-    { name: "Eye Wish", album: "Homeless", duration: "" },
-    { name: "Candy", album: "Candy", duration: "" },
+    { name: "Your face", album: "Pandora", duration: "" },
+    { name: "Enough for you", album: "Pandora", duration: "" },
+    { name: "Pandora", album: "Pandora", duration: "" },
   ],
   about:
-    "Jim Legxacy is a London-born singer, songwriter, and electronic engineer who built an intensely passionate global community through his hyper-specific, beautifully haunting brand of contemporary alternative R&B and 'Afro-glow'. Rooted in the emotional intimacy of bedroom pop recordings but elevated by deep, heavy Afrobeats rhythm structures, emo-rap cadences, and warm acoustic guitar strums, his tracks dissect young adulthood with profound precision. Handpicked for an extensive international tour cycle, his live performance transforms giant fields into an immersive, cinematic listening session.",
+    "Wisp is the shoegaze project of San Francisco singer-songwriter Natalie Lu. She broke through in 2023 with 'Your face,' pairing hushed, ethereal vocals with dense layers of distorted guitar, and expanded that sound on her debut EP, Pandora. Her live set turns those intimate recordings into an enveloping rush of dream-pop melody and heavy alternative-rock texture.",
   appearances: [
     {
       id: "1",
@@ -1974,7 +2050,7 @@ const chezile: Artist = {
       slug: "khamari",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786921bdf2ddc6e84970fd172e",
     },
-    { name: "KWN", slug: "kwn" },
+    { name: "kwn", slug: "kwn" },
   ],
   tracks: [
     { name: "No Choices", album: "Chezile", duration: "" },
@@ -1991,8 +2067,8 @@ const chezile: Artist = {
       stage: "Tito's",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "12:45 PM",
-      endTime: "1:30 PM",
+      startTime: "12:30 PM",
+      endTime: "1:15 PM",
     },
   ],
 };
@@ -2247,14 +2323,14 @@ const mc4d: Artist = {
   ],
   similarArtists: [
     { name: "Zack Martino", slug: "zack-martino" },
-    { name: "DJ Trixie Mattel", slug: "dj-trixie-mattel" },
+    { name: "Trixie Mattel", slug: "trixie-mattel" },
     {
       name: "Whethan",
       slug: "whethan",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782717c8959d00aa37044bbb74",
     },
     {
-      name: "haute & freddy",
+      name: "Haute & Freddy",
       slug: "haute-and-freddy",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f24b273d9959e097972d5992",
     },
@@ -2280,50 +2356,46 @@ const mc4d: Artist = {
   ],
 };
 
-const chace: Artist = {
-  name: "Chace",
-  slug: "chace",
-  genres: ["House", "UK Garage", "Electronic"],
-  location: { city: "Shanghai", country: "China" },
-  tagline: "Sleek, avant-garde house grooves and hyper-precise electronic sound design.",
-  socials: { spotify: "https://open.spotify.com/artist/5kPhAZL6iV8iDywUmIPC3g" },
+const ricWilson: Artist = {
+  name: "Ric Wilson",
+  slug: "ric-wilson",
+  genres: ["Hip-Hop", "Funk", "Soul"],
+  location: { city: "Chicago", state: "Illinois", country: "United States" },
+  tagline: "Joyful Chicago hip-hop powered by funk, soul, and irrepressible dance-floor energy.",
+  socials: {},
   whySee: [
-    "Catch an international electronic auteur making a rare, highly anticipated appearance on the American festival circuit",
-    "An elite display of modular hardware manipulation, syncopated garage rhythms, and flawlessly mixed independent club tracks",
-    "Experience a chic, hyper-stylized dancefloor environment that values raw analog swing over commercial EDM clichés",
-    "A relentless masterclass in dance floor tension and release, delivered by one of Asia's most prominent electronic vanguards",
+    "Catch one of Chicago's most magnetic independent voices bringing a hometown celebration to the festival",
+    "A jubilant blend of hip-hop, funk, disco, and soul built to keep the entire crowd moving",
+    "Sharp, socially conscious writing delivered with warmth, humor, and effortless charisma",
+    "An uplifting live show where communal joy and dance-floor energy take center stage",
   ],
-  whatToExpect: ["Production Style Approach", "Synth & Atmospheric", "Cinematic Visuals"],
-  bestFor: ["Tent & Club Venue Seekers", "Dance Floor Seekers", "Sound Design & Production Nerds"],
+  whatToExpect: ["Bass & Groove", "Dance Floor Energy", "High-Energy Pacing"],
+  bestFor: ["Hometown & Local Supporters", "Dance Floor Seekers", "Lyric & Narrative Obsessives"],
   similarArtists: [
     {
-      name: "Duke Dumont",
-      slug: "duke-dumont",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178c0791f9c2d17dfd58e301c91",
+      name: "Snacktime",
+      slug: "snacktime",
     },
     {
-      name: "John Summit",
-      slug: "john-summit",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
+      name: "Amber Mark",
+      slug: "amber-mark",
     },
     {
-      name: "Omnom",
-      slug: "omnom",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a",
+      name: "Khamari",
+      slug: "khamari",
     },
     {
-      name: "haute & freddy",
-      slug: "haute-and-freddy",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178f24b273d9959e097972d5992",
+      name: "Leon Thomas",
+      slug: "leon-thomas",
     },
   ],
   tracks: [
-    { name: "Never", album: "Belong", duration: "" },
-    { name: "In My Head", album: "Belong", duration: "" },
-    { name: "Mantra", album: "Mantra", duration: "" },
+    { name: "Soul Bounce", album: "Soul Bounce", duration: "" },
+    { name: "Chicago Bae", album: "BANBA", duration: "" },
+    { name: "Pay It No Mind", album: "They Call Me Disco", duration: "" },
   ],
   about:
-    "Zhu Yihan, performing under the moniker Chace, has spent the modern electronic era operating at the vanguard of the international underground, breaking barriers as a fiercely creative producer, vocalist, and label director. Seamlessly fusing the soulful swing of late-90s UK garage with the crushing baseline weight of contemporary house infrastructure, his meticulously engineered tracks possess a distinct narrative tension. Highly sought after for his live multi-instrumental approach, his festival environment functions as an exceptionally polished, high-velocity journey into dance music.",
+    "Ric Wilson is a Chicago rapper, singer, and performer whose vibrant music connects hip-hop with funk, disco, and soul. Known for pairing thoughtful, socially conscious lyrics with buoyant grooves, he turns each performance into a celebration of movement, community, and Black joy. His charismatic stage presence and deep hometown roots make this early-afternoon set an ideal introduction to one of Chicago's most distinctive independent artists.",
   appearances: [
     {
       id: "1",
@@ -2332,8 +2404,8 @@ const chace: Artist = {
       stage: "Bud Light",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "1:30 PM",
-      endTime: "2:15 PM",
+      startTime: "1:15 PM",
+      endTime: "2:00 PM",
     },
   ],
 };
@@ -2548,7 +2620,7 @@ const peaceControl: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178ded53da461b13994a9ef8347",
     },
     {
-      name: "Devault",
+      name: "DEVAULT",
       slug: "devault",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178669860fe69ee33857a3bdeb6",
     },
@@ -2708,8 +2780,8 @@ const cyso: Artist = {
       stage: "Tito's",
       day: "Saturday",
       date: "Aug 1",
-      startTime: "8:15 PM",
-      endTime: "9:00 PM",
+      startTime: "8:00 PM",
+      endTime: "8:55 PM",
     },
   ],
 };
@@ -2743,14 +2815,14 @@ export const saturdayArtists: Artist[] = [
   dieSpitz,
   lucyBedroque,
   omnom,
-  jimLegxacy,
+  wisp,
   chezile,
   jaeStephens,
   ryman,
   villanelle,
   sunday1994,
   mc4d,
-  chace,
+  ricWilson,
   calderAllen,
   natMyers,
   ink,
