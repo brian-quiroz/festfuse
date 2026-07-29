@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import HydrationGate from "@/app/components/HydrationGate";
 import Sidebar from "@/app/components/Sidebar";
 import MobileTopBar from "@/app/components/MobileTopBar";
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             {children}
           </div>
         </HydrationGate>
+        <Analytics />
       </body>
     </html>
   );
