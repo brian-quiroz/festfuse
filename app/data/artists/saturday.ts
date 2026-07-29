@@ -952,7 +952,7 @@ const kwn: Artist = {
 const siennaSpiro: Artist = {
   name: "Sienna Spiro",
   slug: "sienna-spiro",
-  genres: ["Soul", "R&B", "Chamber Pop"],
+  genres: ["Soul", "R&B", "Pop"],
   location: { city: "London", country: "England" },
   tagline: "Stunning, earth-shaking British soul built on monumental, timeless vocal authority.",
   socials: {
@@ -1346,7 +1346,7 @@ const cameronWhitcomb: Artist = {
   name: "Cameron Whitcomb",
   slug: "cameron-whitcomb",
   genres: ["Country", "Alternative Folk", "Americana"],
-  location: { city: "Kamloops", country: "Canada" },
+  location: { city: "Nanaimo", country: "Canada" },
   tagline: "Raw, gravel-voiced country grit delivered with explosive, unhinged live energy.",
   socials: { spotify: "https://open.spotify.com/artist/6dhXvR5MsnlwYguRuqoapR" },
   whySee: [
@@ -1404,7 +1404,7 @@ const ayybo: Artist = {
   name: "AYYBO",
   slug: "ayybo",
   genres: ["Tech House", "G-House", "Electronic"],
-  location: { city: "Orange County", state: "California", country: "United States" },
+  location: { city: "Anaheim", state: "California", country: "United States" },
   tagline: "Dark, low-slung house grooves packed with heavy, hip-hop-infused club attitude.",
   socials: { spotify: "https://open.spotify.com/artist/0YVquC9RaJLYFNmlJFzkTV" },
   whySee: [
@@ -1467,7 +1467,7 @@ const khamari: Artist = {
   name: "Khamari",
   slug: "khamari",
   genres: ["Alternative R&B", "Soul", "Neo-Soul"],
-  location: { city: "Boston", state: "Massachusetts", country: "United States" },
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Stunning, whisper-close confessional R&B built on timeless multi-instrumental poetry.",
   socials: { spotify: "https://open.spotify.com/artist/6kmDosYCYjFQtywDq0DLPZ" },
   whySee: [
@@ -1583,7 +1583,7 @@ const momma: Artist = {
   name: "Momma",
   slug: "momma",
   genres: ["Indie Rock", "90s Alternative", "Grunge"],
-  location: { city: "Los Angeles", state: "California", country: "United States" },
+  location: { city: "Brooklyn", state: "New York", country: "United States" },
   tagline: "Fuzzed-out, heavy 90s alternative rock hooks packed with sharp melodic grit.",
   socials: { spotify: "https://open.spotify.com/artist/5Wj0an60VgRckYV9zlDe1e" },
   whySee: [
@@ -1653,7 +1653,7 @@ const frostChildren: Artist = {
   name: "Frost Children",
   slug: "frost-children",
   genres: ["Hyperpop", "Digital Hardcore", "Electronic"],
-  location: { city: "New York City", state: "New York", country: "United States" },
+  location: { city: "St. Louis", state: "Missouri", country: "United States" },
   tagline: "Blistering, hyper-chaotic internet pop and unhinged digital hardcore perfection.",
   socials: { spotify: "https://open.spotify.com/artist/6R1kfr0GIWnwxY4zW11Vag" },
   whySee: [
@@ -1837,7 +1837,7 @@ const dieSpitz: Artist = {
 const lucyBedroque: Artist = {
   name: "Lucy Bedroque",
   slug: "lucy-bedroque",
-  genres: ["Indie Pop", "Alt-Pop", "Bedroom Pop"],
+  genres: ["Rage Rap", "Digicore", "Alternative Hip-Hop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Conversational, shadow-drenched bedroom alt-pop for nocturnal overthinkers.",
   socials: { spotify: "https://open.spotify.com/artist/2I8H267eH5va9da4vGt38O" },
@@ -1871,7 +1871,7 @@ const lucyBedroque: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f1789fd59f9fc4a311da6437b6a5",
     },
     {
-      name: "Ryman",
+      name: "RYMAN",
       slug: "ryman",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10",
     },
@@ -2022,43 +2022,37 @@ const wisp: Artist = {
 const chezile: Artist = {
   name: "Chezile",
   slug: "chezile",
-  genres: ["Alternative R&B", "Soul", "Neo-Soul"],
-  location: { city: "Atlanta", state: "Georgia", country: "United States" },
-  tagline: "Sultry, low-slung alternative R&B tracking the raw, intimate vulnerabilities of youth.",
-  socials: { spotify: "https://open.spotify.com/artist/1EmdfupUQDpXOcb4Nj2mBH" },
-  whySee: [
-    "Catch an exceptional independent lyricist executing a deeply atmospheric, confessional performance on the Tito's stage",
-    "Songwriting that lands like an intense, unguarded voice memo tracking the complex, messy textures of young romance",
-    "A beautiful, sun-drenched early afternoon oasis that pairs delicate vocal textures with unexpectedly heavy baseline drops",
-    "The official premier festival tour run showcasing a highly celebrated independent studio catalog to an international crowd",
-  ],
-  whatToExpect: ["Bass & Groove", "Intimate Performance", "Dark Mood Visuals", "Crowd Atmosphere"],
-  bestFor: ["Early Afternoon Discovery", "Lyric & Narrative Obsessives"],
+  genres: ["Indie Rock", "Psychedelic Pop", "Dream Pop"],
+  location: { city: "San Diego", state: "California", country: "United States" },
+  tagline: "",
+  socials: {
+    spotify: "https://open.spotify.com/artist/1EmdfupUQDpXOcb4Nj2mBH",
+    youtube: "https://www.youtube.com/@chezile",
+    tiktok: "https://www.tiktok.com/@chezilechezile",
+  },
+  socialsVerified: true,
+  whySee: [],
+  whatToExpect: [],
+  bestFor: [],
   similarArtists: [
-    {
-      name: "Destin Conrad",
-      slug: "destin-conrad",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1786be69fc54978eb83fa10167c",
-    },
-    {
-      name: "Leon Thomas",
-      slug: "leon-thomas",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178c6c4f4aaf40ebee92b8a8228",
-    },
-    {
-      name: "Khamari",
-      slug: "khamari",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1786921bdf2ddc6e84970fd172e",
-    },
-    { name: "kwn", slug: "kwn" },
+    { name: "Wet Leg", slug: "wet-leg" },
+    { name: "Wisp", slug: "wisp" },
+    { name: "Los Retros", slug: "los-retros" },
+    { name: "Surfing for Daisy", slug: "surfing-for-daisy" },
   ],
+  similarArtistsVerified: true,
   tracks: [
-    { name: "No Choices", album: "Chezile", duration: "" },
-    { name: "Tension", album: "Chezile", duration: "" },
-    { name: "Breathe", album: "Breathe", duration: "" },
+    {
+      spotifyId: "5e0b9LgOfi3aJSKXFcOWRe",
+      name: "Beanie",
+      album: "Beanie",
+      duration: "2:12",
+      artworkUrl: "https://i.scdn.co/image/ab67616d00001e029d181176cafa856a3c8b5537",
+    },
   ],
   about:
-    "Chezile is an Atlanta-born singer, songwriter, and producer who built an intensely passionate global community through his hyper-specific, beautifully haunting brand of contemporary alternative R&B. Rooted in the emotional intimacy of close-mic'd storytelling but elevated by deep, heavy urban rhythm pockets and fuzzed-out basslines, his tracks dissect young adulthood with profound precision. Handpicked for an extensive global breakout tour cycle, his early afternoon live set transforms a sprawling festival lawn into an immersive listening experience.",
+    "Chezile is the stage name of Alejandro Sanchez, an Albuquerque, New Mexico native raised in a family of Mexican regional musicians; his father and grandfather performed together in a mariachi band called The Mariachi Cowboys. He started on drums at five, taught himself guitar by eleven, and was producing his own tracks by fifteen. His 2023 single 'Beanie' turned him from an unknown artist living out of his car into a name on Spotify and TikTok's global viral charts, pulling in over 1.6 million monthly listeners within two months of release. The song later anchored his 2024 EP '47', and its blend of hazy, reverb-heavy guitar and psychedelic pop melody, often compared to Tame Impala and Cigarettes After Sex, has become his defining sound.",
+  aboutVerified: true,
   appearances: [
     {
       id: "1",
@@ -2132,9 +2126,9 @@ const jaeStephens: Artist = {
 };
 
 const ryman: Artist = {
-  name: "Ryman",
+  name: "RYMAN",
   slug: "ryman",
-  genres: ["Indie Pop", "Alt-Pop", "Bedroom Pop"],
+  genres: ["Indie Folk", "Americana", "Indie Pop"],
   location: { city: "Nashville", state: "Tennessee", country: "United States" },
   tagline: "Sun-drenched, conversational bedroom pop that plays out like real diary entries.",
   socials: { spotify: "https://open.spotify.com/artist/1ZUNE7b5nNiN31AnJ0Smqj" },
@@ -2304,7 +2298,7 @@ const sunday1994: Artist = {
 const mc4d: Artist = {
   name: "MC4D",
   slug: "mc4d",
-  genres: ["Melodic House", "Dance Pop", "Electronic"],
+  genres: ["Folktronica", "Americana", "Electronic"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
     "Hometown electronic brothers delivering sun-drenched, euphoric mainstage house anthems.",
@@ -2537,8 +2531,8 @@ const natMyers: Artist = {
 const ink: Artist = {
   name: "Ink",
   slug: "ink",
-  genres: ["Alternative Rock", "Post-Punk", "Indie Rock"],
-  location: { city: "Chicago", state: "Illinois", country: "United States" },
+  genres: ["R&B", "Soul", "Country"],
+  location: { city: "Atlanta", state: "Georgia", country: "United States" },
   tagline: "A fuzzed-out, blistering hometown alternative rock engine built on pure garage grit.",
   socials: { spotify: "https://open.spotify.com/artist/4ZhFCxPekpmV12n2xMeF2z" },
   whySee: [
@@ -2591,7 +2585,7 @@ const ink: Artist = {
 const peaceControl: Artist = {
   name: "Peace Control",
   slug: "peace-control",
-  genres: ["Tech House", "Dark Techno", "Electronic"],
+  genres: ["Tech House", "House", "Electronic"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline: "Dark, hypnotic hometown tech-house grooves built for early afternoon warehouse raves.",
   socials: { spotify: "https://open.spotify.com/artist/3rzbheJbLKamFWE8v9fPRh" },
@@ -2654,8 +2648,8 @@ const peaceControl: Artist = {
 const theCreekers: Artist = {
   name: "The Creekers",
   slug: "the-creekers",
-  genres: ["Alternative Rock", "Folk Rock", "Indie Rock"],
-  location: { city: "Chicago", state: "Illinois", country: "United States" },
+  genres: ["Bluegrass", "Country", "Pop"],
+  location: { city: "Leslie County", state: "Kentucky", country: "United States" },
   tagline:
     "Hometown indie-rock anthems fusing driving alternative grit with timeless folk-rock storytelling.",
   socials: { spotify: "https://open.spotify.com/artist/2Ee2dvrxHJvnpWgaqC5T0i" },
@@ -2701,8 +2695,8 @@ const theCreekers: Artist = {
 const nextOfKin: Artist = {
   name: "Next of Kin",
   slug: "next-of-kin",
-  genres: ["Indie Pop", "Singer-Songwriter", "Chamber Pop"],
-  location: { city: "Los Angeles", state: "California", country: "United States" },
+  genres: ["Americana", "Alternative Folk", "Singer-Songwriter"],
+  location: { city: "Austin", state: "Texas", country: "United States" },
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like real voice memos.",
   socials: { spotify: "https://open.spotify.com/artist/668OF7yLpmsPIL10HHKPFC" },
   whySee: [

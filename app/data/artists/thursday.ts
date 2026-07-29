@@ -237,7 +237,7 @@ const sombr: Artist = {
       slug: "the-neighbourhood",
     },
     {
-      name: "Ryman",
+      name: "RYMAN",
       slug: "ryman",
     },
     {
@@ -1897,7 +1897,7 @@ const bellaKay: Artist = {
       slug: "sombr",
     },
     {
-      name: "Ryman",
+      name: "RYMAN",
       slug: "ryman",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10",
     },

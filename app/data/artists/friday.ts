@@ -1638,7 +1638,7 @@ const baluBrigada: Artist = {
   bestFor: ["Bass & Groove Lovers"],
   similarArtists: [
     {
-      name: "Ryman",
+      name: "RYMAN",
       slug: "ryman",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10",
     },
@@ -1848,7 +1848,7 @@ const juliaWolf: Artist = {
   bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
     {
-      name: "Ryman",
+      name: "RYMAN",
       slug: "ryman",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10",
     },
@@ -2001,7 +2001,7 @@ const claireRosinkranz: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178100cfd4653979ed518fbf28f",
     },
     {
-      name: "Ryman",
+      name: "RYMAN",
       slug: "ryman",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10",
     },
@@ -2870,7 +2870,7 @@ const emiGrace: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f1789fd59f9fc4a311da6437b6a5",
     },
     {
-      name: "Ryman",
+      name: "RYMAN",
       slug: "ryman",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783b319d5a8ef036ba5e7fed10",
     },
