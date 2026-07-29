@@ -5,9 +5,19 @@ import type { Artist } from "@/app/types/artist";
 const charliXcx: Artist = {
   name: "Charli XCX",
   slug: "charli-xcx",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/charli-xcx.jpg",
+  imageCredit: {
+    author: "Raph_PH",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Primavera2025_(98_of_182)_(54575573629).jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by/2.0",
+  },
   mbid: "260b6184-8828-48eb-945c-bc4cb6fc34ca",
-  imageUrl: "/artists/heroes/charli-xcx.jpg",
-  objectPosition: "center 20%",
+  objectPosition: "center 15%",
   liveVideoId: "Dts9DvQ76Kw",
   liveVideoLabel: "Live at Coachella 2025",
   genres: ["Pop", "Hyperpop", "Electropop"],
@@ -84,9 +94,19 @@ const charliXcx: Artist = {
 const smashingPumpkins: Artist = {
   name: "The Smashing Pumpkins",
   slug: "smashing-pumpkins",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/the-smashing-pumpkins.jpg",
+  imageCredit: {
+    author: "Bruce Baker",
+    sourceUrl:
+      "https://www.flickr.com/photos/theholygrail/53775608260/in/photolist-2pVY3PE-2pVRcxc-2pVY3Pz-2pVRcx2-2pVY3Pe-2pVY3NY-2pVMuuw-2pVTefN-2pVTdiT-2pVTdhq-2pVTQoe-2pVUkqo-2pRWL7r-2pDXCMG-2pDVZfG-2pDXCnD-2pDYgRc-2pDRuFr-2pDX2Ly-2pDRtH9-2pDXxfk-2pDVfoV-2pDWhAF-2pDWSaW-2pyBaBv-2pyyZwv-2pyzU2C-2psHEMf-2pjt2RZ-2pf9REa-2p2wqfg-2oCJJ7k-2oCHx1i-2oCHwWW-2oCHwTj-2oCK2Ux-2ozyJSa-2ordNXe-2ojst7i-2nZwJgd-2nXULX9-2nUat5T-2nUat69-2nU5boR-2nU5boW-2nUat5s-2nU9bi9-2nU5bp2-2nTUzE9-2nTS1nH",
+    licenseUrl: "https://creativecommons.org/licenses/by/2.0",
+  },
   mbid: "ba0d6274-db14-4ef5-b28d-657ebde1a396",
-  imageUrl: "/artists/heroes/the-smashing-pumpkins.jpg",
-  objectPosition: "center 20%",
+  objectPosition: "center 60%",
   liveVideoId: "ieNIWi__3Dc",
   liveVideoLabel: "Live at Vive Latino Mexico 2026",
   genres: ["Alternative Rock", "Grunge", "Art Rock"],
@@ -159,8 +179,17 @@ const smashingPumpkins: Artist = {
 const lilUziVert: Artist = {
   name: "Lil Uzi Vert",
   slug: "lil-uzi-vert",
-  imageUrl: "/artists/heroes/lil-uzi-vert.webp",
-  objectPosition: "center 10%",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/lil-uzi-vert.jpg",
+  imageCredit: {
+    author: "16.Osc",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Uzi_And_Yeat.jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+  },
+  objectPosition: "center 40%",
   genres: ["Hip-Hop", "Trap", "Rage Rap"],
   location: { city: "Philadelphia", state: "Pennsylvania", country: "United States" },
   tagline: "Hyper-kinetic punk-rap adrenaline and massive stadium-scale trap anthems.",
@@ -246,8 +275,18 @@ const lilUziVert: Artist = {
 const yungblud: Artist = {
   name: "Yungblud",
   slug: "yungblud",
-  imageUrl: "/artists/heroes/yungblud.webp",
-  objectPosition: "center 0%",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/yungblud.jpg",
+  imageCredit: {
+    author: "Moiyeah",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Yungblud_-_Southside_Festival_2026_-_DSC1899.jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by/4.0",
+  },
+  objectPosition: "center 15%",
   genres: ["Alternative Rock", "Pop-Punk", "Pop-Rock"],
   location: { city: "Doncaster", country: "England" },
   tagline: "An explosive, theatrical riot of generational alternative punk defiance.",
@@ -318,9 +357,17 @@ const yungblud: Artist = {
 const majorLazer: Artist = {
   name: "Major Lazer",
   slug: "major-lazer",
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/major-lazer.jpg",
+  imageCredit: {
+    author: "Leonhard Kreissig/LeoDE",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Major_Lazer_-_Rock_am_Ring_2016_-_084_-_Leonhard_Kreissig_-_Canon_EOS_5D_Mark_III.jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+  },
   mbid: "75be165a-ad83-4d12-bd28-f589a15c479f",
-  imageUrl: "/artists/heroes/major-lazer.jpg",
-  objectPosition: "center 26%",
+  objectPosition: "center 35%",
   genres: ["Electronic", "Dancehall", "Dance Pop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Global soundclash energy built to detonate festival mainstages.",
@@ -400,6 +447,16 @@ const majorLazer: Artist = {
 const notForRadio: Artist = {
   name: "Not for Radio",
   slug: "not-for-radio",
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/not-for-radio.jpg",
+  imageCredit: {
+    author: "Julio Enriquez",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:The_Marias_Marquis_Theatre_05.03.19_(40854228833).jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by/2.0",
+  },
+  objectPosition: "center 10%",
   genres: ["Psychedelic Pop", "Dark Pop", "Bedroom Pop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline:
@@ -480,6 +537,16 @@ const notForRadio: Artist = {
 const zaraLarsson: Artist = {
   name: "Zara Larsson",
   slug: "zara-larsson",
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/zara-larsson.jpg",
+  imageCredit: {
+    author: "Raph_PH",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:GreenDayIOW230624_(151_of_367)_(53818508503).jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by/2.0",
+  },
+  objectPosition: "center 20%",
   genres: ["Pop", "Dance Pop", "R&B"],
   location: { city: "Stockholm", country: "Sweden" },
   tagline:
@@ -556,6 +623,14 @@ const zaraLarsson: Artist = {
 const freddieGibbs: Artist = {
   name: "Freddie Gibbs",
   slug: "freddie-gibbs",
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/freddie-gibbs.jpg",
+  imageCredit: {
+    author: "Tobi Nielsen",
+    sourceUrl: "https://www.flickr.com/photos/56174435@N03/page2",
+    licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
+  },
   genres: ["Hip-Hop", "Gangsta Rap", "Underground Rap"],
   location: { city: "Gary", state: "Indiana", country: "United States" },
   tagline: "Unrivaled, rapid-fire technical lyricism and raw underground rap royalty.",
@@ -634,6 +709,16 @@ const freddieGibbs: Artist = {
 const sukiWaterhouse: Artist = {
   name: "Suki Waterhouse",
   slug: "suki-waterhouse",
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/suki-waterhouse.jpg",
+  imageCredit: {
+    author: "Justin Higuchi",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Suki_Waterhouse_@_Greek_Theatre_10_23_2024_(54229498838).jpg , https://commons.wikimedia.org/wiki/File:Suki_Waterhouse_@_Greek_Theatre_10_23_2024_(54229509369).jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by/2.0",
+  },
+  objectPosition: "center 70%",
   genres: ["Indie Pop", "Dream Pop", "Pop-Rock"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Cinematic, vintage-hued dream pop and smoky, melancholic indie storytelling.",
@@ -713,7 +798,14 @@ const sukiWaterhouse: Artist = {
 const i_dle: Artist = {
   name: "i-dle",
   slug: "i-dle",
-  imageUrl: "/artists/heroes/i-dle.jpg",
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/i-dle.jpg",
+  imageCredit: {
+    author: "David Lee",
+    sourceUrl: "https://www.flickr.com/photos/davidjlee/53982009722/in/album-72177720320188431",
+    licenseUrl: "https://creativecommons.org/licenses/by/2.0",
+  },
   genres: ["K-Pop", "Pop", "Hip-Hop"],
   location: { city: "Seoul", country: "South Korea" },
   tagline: "Fiercely self-produced K-pop icons delivering bold, genre-fluid theatrical dominance.",
@@ -794,6 +886,7 @@ const i_dle: Artist = {
 const mustard: Artist = {
   name: "Mustard",
   slug: "mustard",
+  socialsVerified: true,
   genres: ["Hip-Hop", "West Coast Rap", "Trap"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "The multi-platinum architect of the modern West Coast rap soundscape.",
@@ -878,6 +971,7 @@ const mustard: Artist = {
 const oklou: Artist = {
   name: "Oklou",
   slug: "oklou",
+  socialsVerified: true,
   genres: ["Ambient Pop", "Experimental Pop", "Electropop"],
   location: { city: "Paris", country: "France" },
   tagline: "Hazy, introspective ambient pop that feels like a late-night digital sanctuary.",
@@ -950,6 +1044,7 @@ const oklou: Artist = {
 const horsegiirL: Artist = {
   name: "horsegiirL",
   slug: "horsegiirl",
+  socialsVerified: true,
   genres: ["Happy Hardcore", "Eurodance", "Electronic"],
   location: { city: "Berlin", country: "Germany" },
   tagline: "High-velocity, hyper-stylized Eurodance energy and farmyard techno chaos.",
@@ -1023,6 +1118,7 @@ const horsegiirL: Artist = {
 const theStorySoFar: Artist = {
   name: "The Story So Far",
   slug: "the-story-so-far",
+  socialsVerified: true,
   genres: ["Pop-Punk", "Emo", "Alternative Rock"],
   location: { city: "Walnut Creek", state: "California", country: "United States" },
   tagline:
@@ -1100,6 +1196,7 @@ const theStorySoFar: Artist = {
 const loathe: Artist = {
   name: "Loathe",
   slug: "loathe",
+  socialsVerified: true,
   genres: ["Metalcore", "Shoegaze", "Alternative Metal"],
   location: { city: "Liverpool", country: "England" },
   tagline:
@@ -1171,6 +1268,7 @@ const loathe: Artist = {
 const nettspend: Artist = {
   name: "Nettspend",
   slug: "nettspend",
+  socialsVerified: true,
   genres: ["Trap", "Rage Rap", "Plugg"],
   location: { city: "Richmond", state: "Virginia", country: "United States" },
   tagline: "The controversial teen king of glitchy, underground internet plugg-rap velocity.",
@@ -1239,6 +1337,7 @@ const nettspend: Artist = {
 const sidepiece: Artist = {
   name: "SIDEPIECE",
   slug: "sidepiece",
+  socialsVerified: true,
   genres: ["House", "Tech House", "Electronic"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Grammy-nominated tech-house masterminds delivering heavy, multi-platinum club anthems.",
@@ -1312,6 +1411,7 @@ const sidepiece: Artist = {
 const skyeNewman: Artist = {
   name: "Skye Newman",
   slug: "skye-newman",
+  socialsVerified: true,
   genres: ["R&B", "Neo-Soul", "Pop"],
   location: { city: "London", country: "England" },
   tagline:
@@ -1377,6 +1477,7 @@ const skyeNewman: Artist = {
 const notion: Artist = {
   name: "NOTION",
   slug: "notion",
+  socialsVerified: true,
   genres: ["UK Garage", "Bassline", "House"],
   location: { city: "Bristol", country: "England" },
   tagline:
@@ -1445,6 +1546,9 @@ const notion: Artist = {
 const roz: Artist = {
   name: "RØZ",
   slug: "roz",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["House", "Electronic", "Trap"],
   location: { city: "Mexico City", country: "Mexico" },
   tagline: "",
@@ -1510,6 +1614,7 @@ const roz: Artist = {
 const baluBrigada: Artist = {
   name: "Balu Brigada",
   slug: "balu-brigada",
+  socialsVerified: true,
   genres: ["Groove Pop", "Alt-Pop", "Indie Pop"],
   location: { city: "New York", state: "New York", country: "United States" },
   tagline: "Glitchy, neon-drenched groove pop built around seamless brotherly vocal harmonies.",
@@ -1577,6 +1682,7 @@ const baluBrigada: Artist = {
 const lyny: Artist = {
   name: "LYNY",
   slug: "lyny",
+  socialsVerified: true,
   genres: ["Trap", "Future Bass", "Electronic"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline: "Hometown underground bass royalty delivering hyper-precise, skeletal trap anthems.",
@@ -1645,6 +1751,7 @@ const lyny: Artist = {
 const motherMother: Artist = {
   name: "Mother Mother",
   slug: "mother-mother",
+  socialsVerified: true,
   genres: ["Indie Rock", "Alternative Rock", "Indie Pop"],
   location: { city: "Quadra Island", country: "Canada" },
   tagline:
@@ -1722,6 +1829,7 @@ const motherMother: Artist = {
 const juliaWolf: Artist = {
   name: "Julia Wolf",
   slug: "julia-wolf",
+  socialsVerified: true,
   genres: ["Alt-Pop", "Indie Pop", "Hip-Hop-Pop"],
   location: { city: "Queens", state: "New York", country: "United States" },
   tagline: "Sharp, self-aware indie alt-pop floating over heavy, low-slung hip-hop pockets.",
@@ -1784,6 +1892,7 @@ const juliaWolf: Artist = {
 const slayyyter: Artist = {
   name: "Slayyyter",
   slug: "slayyyter",
+  socialsVerified: true,
   genres: ["Dance Pop", "Electropop", "Hyperpop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "High-camp pop chaos and provocative, Y2K-drenched electronic pop perfection.",
@@ -1868,6 +1977,7 @@ const slayyyter: Artist = {
 const claireRosinkranz: Artist = {
   name: "Claire Rosinkranz",
   slug: "claire-rosinkranz",
+  socialsVerified: true,
   genres: ["Indie Pop", "Alt-Pop", "Bedroom Pop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Sun-drenched, conversational bedroom pop that plays out like real diary entries.",
@@ -1935,6 +2045,9 @@ const claireRosinkranz: Artist = {
 const fiftyFourUltra: Artist = {
   name: "54 Ultra",
   slug: "54-ultra",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Indie Pop", "R&B", "Synth-Pop"],
   location: { city: "New Jersey", country: "United States" },
   tagline: "",
@@ -2003,6 +2116,7 @@ const fiftyFourUltra: Artist = {
 const highVis: Artist = {
   name: "High Vis",
   slug: "high-vis",
+  socialsVerified: true,
   genres: ["Post-Punk", "Hardcore Punk", "Alternative Rock"],
   location: { city: "London", country: "England" },
   tagline: "Towering, emotionally massive post-punk anthems fueled by raw working-class grit.",
@@ -2078,6 +2192,7 @@ const highVis: Artist = {
 const finnWolfhard: Artist = {
   name: "Finn Wolfhard",
   slug: "finn-wolfhard",
+  socialsVerified: true,
   genres: ["Indie Rock", "Garage Rock", "Lo-Fi Indie"],
   location: { city: "Vancouver", country: "Canada" },
   tagline: "Scrappy, energetic garage rock and driving lo-fi indie with raw basement passion.",
@@ -2141,6 +2256,7 @@ const finnWolfhard: Artist = {
 const avello: Artist = {
   name: "AVELLO",
   slug: "avello",
+  socialsVerified: true,
   genres: ["Melodic Bass", "Dubstep", "Electronic"],
   location: { city: "Orlando", state: "Florida", country: "United States" },
   tagline:
@@ -2205,6 +2321,7 @@ const avello: Artist = {
 const partyof2: Artist = {
   name: "PARTYOF2",
   slug: "partyof2",
+  socialsVerified: true,
   genres: ["Hip-Hop", "Alternative Hip-Hop", "Alt-Pop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Glitchy, high-velocity internet rap and bounce-driven trap designed for the mainstage.",
@@ -2263,6 +2380,7 @@ const partyof2: Artist = {
 const theArmyTheNavy: Artist = {
   name: "The Army, The Navy",
   slug: "the-army-the-navy",
+  socialsVerified: true,
   genres: ["Dream Pop", "Indie Pop", "Indie Folk"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Lush, sun-drenched guitar pop and dual-vocal dreaminess built for long summer days.",
@@ -2330,6 +2448,7 @@ const theArmyTheNavy: Artist = {
 const loveSpells: Artist = {
   name: "Love Spells",
   slug: "love-spells",
+  socialsVerified: true,
   genres: ["Bedroom Pop", "Dream Pop", "Indie Pop"],
   location: { city: "Houston", state: "Texas", country: "United States" },
   tagline: "Hazy, tape-warped bedroom pop and neon-drenched psych grooves for late nights.",
@@ -2397,6 +2516,7 @@ const loveSpells: Artist = {
 const ellaRed: Artist = {
   name: "Ella Red",
   slug: "ella-red",
+  socialsVerified: true,
   genres: ["Alt-Pop", "Indie Rock", "Singer-Songwriter"],
   location: { city: "Frisco", state: "Texas", country: "United States" },
   tagline: "Unapologetic, guitar-driven alternative pop packed with raw vocal fire and sharp wit.",
@@ -2460,6 +2580,7 @@ const ellaRed: Artist = {
 const dayWeRan: Artist = {
   name: "Day We Ran",
   slug: "day-we-ran",
+  socialsVerified: true,
   genres: ["Surf Rock", "Indie Rock", "Alternative Rock"],
   location: { city: "Lennox Head", country: "Australia" },
   tagline: "Hometown indie-rock anthems fusing raw alternative grit with massive guitar walls.",
@@ -2522,6 +2643,7 @@ const dayWeRan: Artist = {
 const ivri: Artist = {
   name: "ivri",
   slug: "ivri",
+  socialsVerified: true,
   genres: ["Alt-Pop", "Dark Pop", "Dream Pop"],
   location: { city: "New York City", state: "New York", country: "United States" },
   tagline: "Sultry, nocturnal alt-pop floating over rich, industrial electronic beats.",
@@ -2593,6 +2715,7 @@ const ivri: Artist = {
 const ellaBoh: Artist = {
   name: "Ella Boh",
   slug: "ella-boh",
+  socialsVerified: true,
   genres: ["Dark Pop", "Alt-Pop", "Indie Pop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline:
@@ -2653,6 +2776,7 @@ const ellaBoh: Artist = {
 const bradeazy: Artist = {
   name: "bradeazy",
   slug: "bradeazy",
+  socialsVerified: true,
   genres: ["Tech House", "Bass House", "Club"],
   location: { city: "Miami", state: "Florida", country: "United States" },
   tagline: "Irreverent internet-cult tech-house energy built purely for chaotic day parties.",
@@ -2711,6 +2835,7 @@ const bradeazy: Artist = {
 const emiGrace: Artist = {
   name: "Emi Grace",
   slug: "emi-grace",
+  socialsVerified: true,
   genres: ["Pop-Rock", "Alternative Rock", "Pop-Punk"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline:
@@ -2784,6 +2909,9 @@ const emiGrace: Artist = {
 const beno: Artist = {
   name: "Beno",
   slug: "beno",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Pop", "Alt-Pop", "R&B"],
   location: { city: "Miami Beach", state: "Florida", country: "United States" },
   tagline: "Glitchy, high-velocity atmospheric trap from the cutting edge of the rap underground.",
@@ -2835,6 +2963,7 @@ const beno: Artist = {
 const chicagoMade: Artist = {
   name: "Chicago Made",
   slug: "chicago-made",
+  socialsVerified: true,
   genres: ["Hip-Hop", "Drill", "Juke"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
@@ -2909,6 +3038,7 @@ const chicagoMade: Artist = {
 const valenciaGrace: Artist = {
   name: "Valencia Grace",
   slug: "valencia-grace",
+  socialsVerified: true,
   genres: ["Dark Pop", "Soul", "R&B"],
   location: { city: "Poole", country: "England" },
   tagline: "Stunning, earth-shaking British neo-soul built around absolute vocal authority.",
@@ -2973,6 +3103,7 @@ const valenciaGrace: Artist = {
 const whitneyWhitney: Artist = {
   name: "Whitney Whitney",
   slug: "whitney-whitney",
+  socialsVerified: true,
   genres: ["Alt-Pop", "Cinematic Orchestral", "Singer-Songwriter"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like real voice memos.",

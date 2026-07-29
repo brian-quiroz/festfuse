@@ -5,9 +5,17 @@ import type { Artist } from "@/app/types/artist";
 const oliviaDean: Artist = {
   name: "Olivia Dean",
   slug: "olivia-dean",
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/olivia-dean.jpg",
+  imageCredit: {
+    author: "Raph_PH",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Olivia_Dean_-_Sabrina_Carpenter_at_BST_Hyde_Park_-_20250706_-_115.jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by/4.0",
+  },
   mbid: "15e0d608-0869-429b-898d-3d8db3ecedd5",
-  imageUrl: "/artists/heroes/olivia-dean.jpg",
-  objectPosition: "center 20%",
+  objectPosition: "center 15%",
   liveVideoId: "QOcUC9mN2s0",
   liveVideoLabel: "Live at Fleet Steps, Mrs Macquaries Point, Sydney 2025",
   genres: ["Soul", "R&B", "Neo-Soul"],
@@ -86,9 +94,16 @@ const oliviaDean: Artist = {
 const jennie: Artist = {
   name: "JENNIE",
   slug: "jennie",
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/jennie.jpg",
+  imageCredit: {
+    author: "Picikepocok22",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Jennie_Kim_2026.png",
+    licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0",
+  },
   mbid: "779351de-0da5-4943-928b-495a3c40e8c0",
-  imageUrl: "/artists/heroes/jennie.jpg",
-  objectPosition: "center 15%",
+  objectPosition: "center 28%",
   liveVideoId: "aTP87bkvixE",
   liveVideoLabel: "Live at Governor's Ball 2026",
   genres: ["K-Pop", "R&B", "Hip-Hop"],
@@ -176,6 +191,7 @@ const jennie: Artist = {
 const theNeighbourhood: Artist = {
   name: "The Neighbourhood",
   slug: "the-neighbourhood",
+  socialsVerified: true,
   genres: ["Alternative Rock", "Dark Pop", "Indie Rock"],
   location: { city: "Newbury Park", state: "California", country: "United States" },
   tagline: "Nocturnal, smoky indie-pop melancholia built for late-night festival fields.",
@@ -257,6 +273,7 @@ const theNeighbourhood: Artist = {
 const ethelCain: Artist = {
   name: "Ethel Cain",
   slug: "ethel-cain",
+  socialsVerified: true,
   genres: ["Gothic Folk", "Slowcore", "Dream Pop"],
   location: { city: "Tallahassee", state: "Florida", country: "United States" },
   tagline:
@@ -336,6 +353,7 @@ const ethelCain: Artist = {
 const discoLines: Artist = {
   name: "Disco Lines",
   slug: "disco-lines",
+  socialsVerified: true,
   genres: ["Tech House", "Dance Pop", "Electronic"],
   location: { city: "Boulder", state: "Colorado", country: "United States" },
   tagline: "Bouncy, high-energy tech-house loops built purely for celebratory day parties.",
@@ -414,6 +432,7 @@ const discoLines: Artist = {
 const leonThomas: Artist = {
   name: "Leon Thomas",
   slug: "leon-thomas",
+  socialsVerified: true,
   mbid: "412ff65d-26bf-4849-ba19-d2a58030fd1a",
   imageUrl: "/artists/heroes/leon-thomas.jpg",
   objectPosition: "center 20%",
@@ -491,6 +510,7 @@ const leonThomas: Artist = {
 const clipse: Artist = {
   name: "Clipse",
   slug: "clipse",
+  socialsVerified: true,
   genres: ["Hip-Hop", "East Coast Hip-Hop", "Gangsta Rap"],
   location: { city: "Virginia Beach", state: "Virginia", country: "United States" },
   tagline: "Legendary coke-rap royalty delivering pristine, razor-sharp technical lyricism.",
@@ -566,6 +586,7 @@ const clipse: Artist = {
 const geese: Artist = {
   name: "Geese",
   slug: "geese",
+  socialsVerified: true,
   genres: ["Post-Punk", "Indie Rock", "Art Rock"],
   location: { city: "Brooklyn", state: "New York", country: "United States" },
   tagline: "Jagged, unpredictable art-punk chaos and thrillingly unhinged live energy.",
@@ -639,6 +660,7 @@ const geese: Artist = {
 const alisonWonderland: Artist = {
   name: "Alison Wonderland",
   slug: "alison-wonderland",
+  socialsVerified: true,
   genres: ["Trap", "Future Bass", "Electronic"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Cinematic, arena-scale future bass and heavy, deeply emotional electronic anthems.",
@@ -715,6 +737,7 @@ const alisonWonderland: Artist = {
 const djTrixieMattel: Artist = {
   name: "Trixie Mattel",
   slug: "trixie-mattel",
+  socialsVerified: true,
   genres: ["Dance Pop", "Electro-Pop", "Electronic"],
   location: { city: "Milwaukee", state: "Wisconsin", country: "United States" },
   tagline: "High-camp pop choreography and glittering, retro-fueled electro-pop club parties.",
@@ -787,6 +810,7 @@ const djTrixieMattel: Artist = {
 const bbno_dollar: Artist = {
   name: "bbno$",
   slug: "bbno-dollar",
+  socialsVerified: true,
   genres: ["Hip-Hop", "Pop Rap", "Electronic"],
   location: { city: "Vancouver", country: "Canada" },
   tagline: "Witty, low-slung internet rap hooks and carefree, bounce-driven party grooves.",
@@ -860,6 +884,7 @@ const bbno_dollar: Artist = {
 const kwn: Artist = {
   name: "kwn",
   slug: "kwn",
+  socialsVerified: true,
   genres: ["Alternative R&B", "Soul", "Trap"],
   location: { city: "London", country: "England" },
   tagline: "Sultry, nocturnal alternative R&B tracking the raw vulnerabilities of modern romance.",

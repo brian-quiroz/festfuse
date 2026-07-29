@@ -5,9 +5,10 @@ import type { Artist } from "@/app/types/artist";
 const lorde: Artist = {
   name: "Lorde",
   slug: "lorde",
-  mbid: "8e494408-8620-4c6a-82c2-c2ca4a1e4f12",
-  liveVideoId: "KoDFBeyeHYM",
-  liveVideoLabel: "Live at Lollapalooza Chile 2026",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
+  imageVerified: true,
   imageUrl: "/artists/global/lorde.jpg",
   imageCredit: {
     author: "Raph_PH",
@@ -15,6 +16,9 @@ const lorde: Artist = {
       "https://commons.wikimedia.org/wiki/File:LordePrimavera100622_(28_of_69)_(52189510875).jpg",
     licenseUrl: "https://creativecommons.org/licenses/by/2.0",
   },
+  mbid: "8e494408-8620-4c6a-82c2-c2ca4a1e4f12",
+  liveVideoId: "KoDFBeyeHYM",
+  liveVideoLabel: "Live at Lollapalooza Chile 2026",
   objectPosition: "center 5%",
   genres: ["Alt-Pop", "Electropop", "Art Pop"],
   location: { city: "Auckland", country: "New Zealand" },
@@ -93,14 +97,18 @@ const lorde: Artist = {
 const johnSummit: Artist = {
   name: "John Summit",
   slug: "john-summit",
-  mbid: "2547c5e3-314c-4332-981d-f18c902a4086",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
+  imageVerified: true,
   imageUrl: "/artists/global/john-summit.jpg",
   imageCredit: {
     author: "Wynneplaga",
     sourceUrl:
       "https://commons.wikimedia.org/wiki/File:John_Summit_DJ%E2%80%99ing_at_Vail,_March_20th,_2026.jpg",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
   },
+  mbid: "2547c5e3-314c-4332-981d-f18c902a4086",
   objectPosition: "center 40%",
   liveVideoId: "aloPGSlq31Y",
   liveVideoLabel: "Live at Ultra Miami 2026",
@@ -189,8 +197,17 @@ const johnSummit: Artist = {
 const sombr: Artist = {
   name: "sombr",
   slug: "sombr",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/sombr.jpg",
+  imageCredit: {
+    author: "Drew de F Fawkes",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Sombr,_Islington_Academy,_London.jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by/2.0",
+  },
   mbid: "502cf908-9921-48bc-bf0e-265c881c0156",
-  imageUrl: "/artists/heroes/sombr.jpg",
   objectPosition: "center 20%",
   genres: ["Alt-Pop", "Indie Rock", "Indie Pop"],
   location: { city: "New York City", state: "New York", country: "United States" },
@@ -274,7 +291,16 @@ const sombr: Artist = {
 const empireOfTheSun: Artist = {
   name: "Empire of the Sun",
   slug: "empire-of-the-sun",
-  imageUrl: "/artists/heroes/empire-of-the-sun.jpg",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/empire-of-the-sun.jpg",
+  imageCredit: {
+    author: "goatling",
+    sourceUrl: "https://www.flickr.com/photos/mmmchoco/23507201099/in/album-72157662172643860",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0",
+  },
   genres: ["Synth-Pop", "Electropop", "Indie Electronica"],
   location: { city: "Sydney", country: "Australia" },
   tagline: "Theatrical cosmic pop that turns every festival into a spectacle.",
@@ -351,8 +377,18 @@ const empireOfTheSun: Artist = {
 const wetLeg: Artist = {
   name: "Wet Leg",
   slug: "wet-leg",
-  imageUrl: "/artists/heroes/wet-leg.jpg",
-  objectPosition: "center 30%",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/wet-leg.jpg",
+  imageCredit: {
+    author: "Sol Procter-Tarabanov",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Wet_Leg_O2_Academy_Brixton_2025-05-24_-29.jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+  },
+  objectPosition: "center 5%",
   genres: ["Indie Rock", "Post-Punk", "Alternative Rock"],
   location: { city: "Isle of Wight", country: "England" },
   tagline: "Dry wit, big riffs, and the best debut in recent memory.",
@@ -429,6 +465,9 @@ const wetLeg: Artist = {
 const worship: Artist = {
   name: "WORSHIP",
   slug: "worship",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/worship.webp",
   genres: ["Drum and Bass", "Dance", "Electronic"],
   location: { city: "London", country: "England" },
@@ -508,7 +547,18 @@ const worship: Artist = {
 const bloodOrange: Artist = {
   name: "Blood Orange",
   slug: "blood-orange",
-  imageUrl: "/artists/heroes/blood-orange.jpg",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/blood-orange.jpg",
+  imageCredit: {
+    author: "Raph_PH",
+    sourceUrl:
+      "https://www.flickr.com/photos/raph_ph/50012679158/in/photolist-aQk7Xa-aQk2nV-aQjXTK-aQjTBi-aQjVYk-aQjZnn-aQjRQp-aQk5na-2jcuLuH-4ocPdZ-4LuL32-2jcw5AM-2jcw6Kv-2jcw74B-2jcw7te-2jcw7f3-2jcw7bf-2jcs46G-2jcuJru-2jcs1ro-2jcs3zw-2jcuKYH-2jcs1e9-2jcw5F6-2jcuKNh-2jcs3GR-2jcw7m5-2jcw5pV-2jcw6fh-2jcuKu1-2jcw5QQ-2jcw5Ve-2jcw5JT-2jcs1h5-2jcw695-2jcuKbA-2jcw54E-2jcs2hb-2jcw4Y9-2jcs1xF-4LuLae-2jcs1Yf-2jcw4vA-2jcuHYR-4RLq3j-2jcs24f-7eJZgk-7eNU6m-4LuL4V-7eNUhL",
+    licenseUrl: "https://creativecommons.org/licenses/by/2.0",
+  },
+  objectPosition: "center 5%",
   genres: ["R&B", "Soul", "Art Pop"],
   location: { city: "New York City", state: "New York", country: "United States" },
   tagline: "Genre-fluid R&B from New York's most restlessly creative artist.",
@@ -580,8 +630,18 @@ const bloodOrange: Artist = {
 const fiveSecondsOfSummer: Artist = {
   name: "5 Seconds of Summer",
   slug: "five-seconds-of-summer",
-  imageUrl: "/artists/heroes/5-seconds-of-summer.png",
-  objectPosition: "center 35%",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/five-seconds-of-summer.jpg",
+  imageCredit: {
+    author: "Sharkywoo",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:5_Seconds_of_Summer_at_Enmore_Theatre,_Sydney,_30.04.14.jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0",
+  },
+  objectPosition: "center 60%",
   genres: ["Pop-Rock", "Pop-Punk", "Alt-Pop"],
   location: { city: "Sydney", country: "Australia" },
   tagline: "Four friends from Sydney who've grown up on stage.",
@@ -661,6 +721,9 @@ const fiveSecondsOfSummer: Artist = {
 const kettama: Artist = {
   name: "KETTAMA",
   slug: "kettama",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/kettama.webp",
   genres: ["House", "Speed Garage", "UK Garage"],
   location: { city: "Galway", country: "Ireland" },
@@ -745,6 +808,9 @@ const kettama: Artist = {
 const viagraBoys: Artist = {
   name: "Viagra Boys",
   slug: "viagra-boys",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/viagra-boys.webp",
   genres: ["Post-Punk", "Dance-Punk", "Noise Rock"],
   location: { city: "Stockholm", country: "Sweden" },
@@ -823,6 +889,9 @@ const viagraBoys: Artist = {
 const audreyHobert: Artist = {
   name: "Audrey Hobert",
   slug: "audrey-hobert",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/audrey-hobert.avif",
   genres: ["Indie Pop", "Singer-Songwriter", "Pop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
@@ -896,6 +965,9 @@ const audreyHobert: Artist = {
 const snowStrippers: Artist = {
   name: "Snow Strippers",
   slug: "snow-strippers",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/snow-strippers.jpg",
   genres: ["Witch House", "Electroclash", "Hyperpop"],
   location: { city: "Detroit", state: "Michigan", country: "United States" },
@@ -961,6 +1033,9 @@ const snowStrippers: Artist = {
 const borisBrejcha: Artist = {
   name: "Boris Brejcha",
   slug: "boris-brejcha",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/boris-brejcha.jpg",
   genres: ["High-Tech Minimal", "Techno", "Minimal Tech"],
   location: { city: "Ludwigshafen", country: "Germany" },
@@ -1026,6 +1101,9 @@ const borisBrejcha: Artist = {
 const parisPaloma: Artist = {
   name: "Paris Paloma",
   slug: "paris-paloma",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/paris-paloma.webp",
   objectPosition: "center 40%",
   genres: ["Dark Folk", "Indie Pop", "Indie Folk"],
@@ -1099,6 +1177,9 @@ const parisPaloma: Artist = {
 const littleSimz: Artist = {
   name: "Little Simz",
   slug: "little-simz",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/little-simz.jpg",
   objectPosition: "center 0%",
   genres: ["Alternative Hip-Hop", "Conscious Rap", "Neo-Soul"],
@@ -1183,6 +1264,9 @@ const littleSimz: Artist = {
 const cmat: Artist = {
   name: "CMAT",
   slug: "cmat",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/cmat.webp",
   genres: ["Country Pop", "Indie Pop", "Singer-Songwriter"],
   location: { city: "Dublin", country: "Ireland" },
@@ -1264,6 +1348,9 @@ const cmat: Artist = {
 const boysNoize: Artist = {
   name: "Boys Noize",
   slug: "boys-noize",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/boys-noize.jpg",
   objectPosition: "center 30%",
   genres: ["Electro House", "Techno", "Industrial Electronic"],
@@ -1331,6 +1418,9 @@ const boysNoize: Artist = {
 const betweenFriends: Artist = {
   name: "BETWEEN FRIENDS",
   slug: "between-friends",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/between-friends.webp",
   objectPosition: "center 20%",
   genres: ["Indie Pop", "Bedroom Pop", "Alt-Pop"],
@@ -1401,6 +1491,9 @@ const betweenFriends: Artist = {
 const mph: Artist = {
   name: "MPH",
   slug: "mph",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["UK Garage", "Bassline", "Bass House"],
   location: { city: "Canterbury", country: "England" },
   tagline:
@@ -1474,6 +1567,9 @@ const mph: Artist = {
 const amble: Artist = {
   name: "Amble",
   slug: "amble",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Contemporary Folk", "Indie Folk", "Irish Folk"],
   location: { city: "Midlands", country: "Ireland" },
   tagline:
@@ -1541,6 +1637,9 @@ const amble: Artist = {
 const kingfishr: Artist = {
   name: "Kingfishr",
   slug: "kingfishr",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Indie Folk", "Alternative Folk", "Irish Folk"],
   location: { city: "Limerick", country: "Ireland" },
   tagline: "Epic, stadium-scale acoustic indie folk built on soaring cinematic poetry.",
@@ -1619,6 +1718,9 @@ const kingfishr: Artist = {
 const ninajirachi: Artist = {
   name: "Ninajirachi",
   slug: "ninajirachi",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/ninajirachi.webp",
   genres: ["Hyperpop", "Club", "Electronic"],
   location: { city: "Sydney", country: "Australia" },
@@ -1697,6 +1799,9 @@ const ninajirachi: Artist = {
 const hauteAndFreddy: Artist = {
   name: "Haute & Freddy",
   slug: "haute-and-freddy",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/haute-and-freddy.webp",
   genres: ["Synth-Pop", "Alt-Pop", "Electropop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
@@ -1762,6 +1867,9 @@ const hauteAndFreddy: Artist = {
 const bellaKay: Artist = {
   name: "Bella Kay",
   slug: "bella-kay",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Indie Pop", "Alt-Pop", "Singer-Songwriter"],
   location: { city: "Orlando", state: "Florida", country: "United States" },
   tagline: "Vulnerable, shadow-drenched bedroom alt-pop for late-night overthinkers.",
@@ -1828,6 +1936,9 @@ const bellaKay: Artist = {
 const marlonFunaki: Artist = {
   name: "Marlon Funaki",
   slug: "marlon-funaki",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Indie Rock", "Surf Rock", "Alternative Rock"],
   location: { city: "Redlands", state: "California", country: "United States" },
   tagline: "Fuzzed-out surf rock grit married to blistering, soulful blues guitar mastery.",
@@ -1888,6 +1999,9 @@ const marlonFunaki: Artist = {
 const devault: Artist = {
   name: "DEVAULT",
   slug: "devault",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   imageUrl: "/artists/heroes/devault.jpg",
   genres: ["Melodic House", "Techno", "Electropop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
@@ -1963,6 +2077,9 @@ const devault: Artist = {
 const sb19: Artist = {
   name: "SB19",
   slug: "sb19",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["P-Pop", "Pop", "Dance Pop"],
   location: { city: "Manila", country: "Philippines" },
   tagline:
@@ -2043,6 +2160,9 @@ const sb19: Artist = {
 const eccaVandal: Artist = {
   name: "Ecca Vandal",
   slug: "ecca-vandal",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Punk Rock", "Alternative Hip-Hop", "Electronic Rock"],
   location: { city: "Melbourne", country: "Australia" },
   tagline: "A ferocious, genre-shattering riot of heavy punk riffs and abrasive hip-hop grit.",
@@ -2107,6 +2227,9 @@ const eccaVandal: Artist = {
 const badNerves: Artist = {
   name: "Bad Nerves",
   slug: "bad-nerves",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Power Pop", "Garage Rock", "Punk Rock"],
   location: { city: "London", country: "England" },
   tagline:
@@ -2181,6 +2304,9 @@ const badNerves: Artist = {
 const asha_banks: Artist = {
   name: "Asha Banks",
   slug: "asha-banks",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Indie Pop", "Singer-Songwriter", "Alt-Pop"],
   location: { city: "London", country: "England" },
   tagline: "Stunning, whisper-close confessional indie pop tracking the messy textures of youth.",
@@ -2251,6 +2377,9 @@ const asha_banks: Artist = {
 const faouzia: Artist = {
   name: "Faouzia",
   slug: "faouzia",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Dark Pop", "Chamber Pop", "Pop"],
   location: { city: "Carman", country: "Canada" },
   tagline:
@@ -2324,6 +2453,9 @@ const faouzia: Artist = {
 const eveningElephants: Artist = {
   name: "Evening Elephants",
   slug: "evening-elephants",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Indie Pop", "Pop-Rock", "Indie Rock"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline:
@@ -2390,6 +2522,9 @@ const eveningElephants: Artist = {
 const pearlyDrops: Artist = {
   name: "Pearly Drops",
   slug: "pearly-drops",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Dream Pop", "Electro-Pop", "Indie Electronica"],
   location: { city: "Helsinki", country: "Finland" },
   tagline: "Dreamlike, feverish electro-pop designed to bottle up a sense of beautiful isolation.",
@@ -2474,6 +2609,9 @@ const pearlyDrops: Artist = {
 const bixby: Artist = {
   name: "bixby",
   slug: "bixby",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Indie Pop", "Pop-Rock", "R&B"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Glitched-out R&B vocals running over intense, guitar-driven internet indie-pop energy.",
@@ -2545,6 +2683,9 @@ const bixby: Artist = {
 const penelopeRoad: Artist = {
   name: "Penelope Road",
   slug: "penelope-road",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Funk", "Soul", "Indie Pop"],
   location: { city: "Atlanta", state: "Georgia", country: "United States" },
   tagline:
@@ -2610,6 +2751,9 @@ const penelopeRoad: Artist = {
 const knowGood: Artist = {
   name: "Know Good",
   slug: "know-good",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Trap", "Future Bass", "Electronic"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Dark, dynamic future bass and trap infused with heavy, genre-defying rhythms.",
@@ -2678,6 +2822,9 @@ const knowGood: Artist = {
 const elizabethNichols: Artist = {
   name: "Elizabeth Nichols",
   slug: "elizabeth-nichols",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Country", "Country Pop", "Singer-Songwriter"],
   location: { city: "Nashville", state: "Tennessee", country: "United States" },
   tagline: "Grounded, cheekily titled country storytelling built on timeless vocal authority.",
@@ -2740,6 +2887,9 @@ const elizabethNichols: Artist = {
 const klo: Artist = {
   name: "Klo",
   slug: "klo",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["UK Garage", "Bass House", "Dubstep"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline:
@@ -2809,6 +2959,9 @@ const klo: Artist = {
 const theBraymores: Artist = {
   name: "The Braymores",
   slug: "the-braymores",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Indie Rock", "Alternative Rock", "Folk Rock"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
@@ -2871,6 +3024,9 @@ const theBraymores: Artist = {
 const chalk: Artist = {
   name: "Chalk",
   slug: "chalk",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Post-Punk", "Industrial Techno", "Dance-Punk"],
   location: { city: "Belfast", country: "Northern Ireland" },
   tagline:
@@ -2943,6 +3099,9 @@ const chalk: Artist = {
 const simonGrossmann: Artist = {
   name: "Simon Grossmann",
   slug: "simon-grossmann",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Latin Pop", "Indie Pop", "Singer-Songwriter"],
   location: { city: "Miami", state: "Florida", country: "United States" },
   tagline: "Sun-drenched, melancholic Latin indie folk built around intimate, raspy storytelling.",
@@ -3013,6 +3172,9 @@ const simonGrossmann: Artist = {
 const kimTheory: Artist = {
   name: "Kim Theory",
   slug: "kim-theory",
+  aboutVerified: true,
+  similarArtistsVerified: true,
+  socialsVerified: true,
   genres: ["Riot Grrrl", "Punk Rock", "Indie Rock"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline:

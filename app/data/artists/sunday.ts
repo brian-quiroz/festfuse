@@ -5,9 +5,16 @@ import type { Artist } from "@/app/types/artist";
 const tateMcRae: Artist = {
   name: "Tate McRae",
   slug: "tate-mcrae",
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/tate-mcrae.jpg",
+  imageCredit: {
+    author: "Krainagrzybow",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:TateMcRaeAvalon.jpg",
+    licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0",
+  },
   mbid: "f9133869-f87c-459c-9aa7-2f176cda7e06",
-  imageUrl: "/artists/heroes/tate-mcrae.avif",
-  objectPosition: "center 20%",
+  objectPosition: "center 2%",
   liveVideoId: "yyoXdNoRTqg",
   liveVideoLabel: "Live in Boston - Miss Possessive World Tour 2025",
   genres: ["Pop", "Dance Pop", "Electropop"],
@@ -90,9 +97,16 @@ const tateMcRae: Artist = {
 const theXx: Artist = {
   name: "The xx",
   slug: "the-xx",
+  socialsVerified: true,
+  imageVerified: true,
+  imageUrl: "/artists/global/the-xx.jpg",
+  imageCredit: {
+    author: "Tuomas Vitikainen",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:The_xx_-_Ilosaarirock_2012.jpg",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0",
+  },
   mbid: "c5c2ea1c-4bde-4f4d-bd0b-47b200bf99d6",
-  imageUrl: "/artists/heroes/the-xx.avif",
-  objectPosition: "center 20%",
+  objectPosition: "center 70%",
   liveVideoId: "Q_RCrC7KzSc",
   liveVideoLabel: "Live at Primavera Sound 2026",
   genres: ["Indie Pop", "Dream Pop", "Indie Electronica"],
@@ -175,6 +189,7 @@ const theXx: Artist = {
 const turnstile: Artist = {
   name: "Turnstile",
   slug: "turnstile",
+  socialsVerified: true,
   genres: ["Hardcore Punk", "Alternative Rock", "Post-Hardcore"],
   location: { city: "Baltimore", state: "Maryland", country: "United States" },
   tagline: "Explosive, groove-laden alternative hardcore that redefines modern rock energy.",
@@ -255,6 +270,7 @@ const turnstile: Artist = {
 const beabadoobee: Artist = {
   name: "beabadoobee",
   slug: "beabadoobee",
+  socialsVerified: true,
   mbid: "88d17133-abbc-42db-9526-4e2c1db60336",
   imageUrl: "/artists/heroes/beabadoobee.jpg",
   objectPosition: "center 20%",
@@ -343,6 +359,7 @@ const beabadoobee: Artist = {
 const aespa: Artist = {
   name: "aespa",
   slug: "aespa",
+  socialsVerified: true,
   mbid: "b51c672b-85e0-48fe-8648-470a2422229f",
   imageUrl: "/artists/heroes/aespa.jpg",
   objectPosition: "center 10%",
@@ -421,6 +438,7 @@ const aespa: Artist = {
 const theChainsmokers: Artist = {
   name: "The Chainsmokers",
   slug: "the-chainsmokers",
+  socialsVerified: true,
   genres: ["Future Bass", "Dance Pop", "Electronic"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Multi-platinum electronic giants delivering a massive, stadium-scale pop spectacle.",
@@ -499,6 +517,7 @@ const theChainsmokers: Artist = {
 const muna: Artist = {
   name: "MUNA",
   slug: "muna",
+  socialsVerified: true,
   genres: ["Indie Pop", "Synth-Pop", "Electropop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Sleek, euphoric queer synth-pop anthems built on raw, joyful emotional catharsis.",
@@ -579,6 +598,7 @@ const muna: Artist = {
 const hotMulligan: Artist = {
   name: "Hot Mulligan",
   slug: "hot-mulligan",
+  socialsVerified: true,
   genres: ["Emo", "Pop-Punk", "Post-Hardcore"],
   location: { city: "Lansing", state: "Michigan", country: "United States" },
   tagline:
@@ -643,6 +663,7 @@ const hotMulligan: Artist = {
 const yoasobi: Artist = {
   name: "YOASOBI",
   slug: "yoasobi",
+  socialsVerified: true,
   mbid: "df6c619f-4334-43e2-8b6a-4a32af1e4f85",
   imageUrl: "/artists/heroes/yoasobi.jpg",
   objectPosition: "center 20%",
@@ -726,6 +747,7 @@ const yoasobi: Artist = {
 const ado: Artist = {
   name: "Ado",
   slug: "ado",
+  socialsVerified: true,
   genres: ["J-Pop", "Rock", "Electronic"],
   location: { city: "Tokyo", country: "Japan" },
   tagline:
@@ -800,6 +822,7 @@ const ado: Artist = {
 const jade: Artist = {
   name: "Jade",
   slug: "jade",
+  socialsVerified: true,
   genres: ["Pop", "R&B", "Soul"],
   location: { city: "London", country: "England" },
   tagline:
@@ -871,6 +894,7 @@ const jade: Artist = {
 const eliBrown: Artist = {
   name: "Eli Brown",
   slug: "eli-brown",
+  socialsVerified: true,
   genres: ["Dark Techno", "Tech House", "Electronic"],
   location: { city: "Bristol", country: "England" },
   tagline:

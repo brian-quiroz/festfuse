@@ -25,6 +25,11 @@ export type Artist = {
   slug: string;
   mbid?: string;
   imageUrl?: string;
+  // Gates whether imageUrl actually renders. Undefined/false hides it (falls back to
+  // the genre gradient) even when imageUrl is populated — most current entries
+  // reference placeholder photos pulled in during development that aren't cleared
+  // for use. Set true only once the licensed replacement is in place.
+  imageVerified?: boolean;
   // Required only when imageUrl points to a Wikimedia Commons (or other CC-licensed)
   // photo rather than a licensed/owned asset. Surfaced on /credits, not per-image —
   // see app/credits/page.tsx.
@@ -40,10 +45,16 @@ export type Artist = {
     youtube?: string;
     tiktok?: string;
   };
+  // Gates youtube/tiktok visibility only — spotify always renders when present,
+  // since it's the same URL that powers Listen First and isn't optional to show.
+  socialsVerified?: boolean;
   whySee: string[];
   whatToExpect: WhatToExpectTag[];
   bestFor: BestForTag[];
   similarArtists: Array<{ name: string; slug?: string; imageUrl?: string }>;
+  // Undefined/false hides the Similar Artists card even when similarArtists is
+  // populated — many entries are AI-drafted and not yet fact-checked.
+  similarArtistsVerified?: boolean;
   tracks: Array<{
     spotifyId?: string;
     name: string;
@@ -61,6 +72,9 @@ export type Artist = {
     note?: string;
   };
   about: string;
+  // Undefined/false hides the About section even when about is populated —
+  // many entries are AI-drafted and not yet fact-checked.
+  aboutVerified?: boolean;
   // Non-empty — every lineup artist has at least one appearance at the active festival.
   appearances: [FestivalAppearance, ...FestivalAppearance[]];
 };
