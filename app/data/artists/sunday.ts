@@ -50,9 +50,10 @@ const tateMcRae: Artist = {
   ],
   tracks: [
     {
+      spotifyId: "3rUGC1vUpkDG9CZFHMur1t",
       name: "greedy",
-      album: "THINK LATER.",
-      duration: "2:11",
+      album: "THINK LATER",
+      duration: "02:11",
       artworkUrl: "/albums/tate-mcrae/think-later.png",
     },
     {
@@ -94,12 +95,12 @@ const theXx: Artist = {
   objectPosition: "center 20%",
   liveVideoId: "Q_RCrC7KzSc",
   liveVideoLabel: "Live at Primavera Sound 2026",
-  genres: ["Indie Pop", "Dream Pop", "Electronic"],
+  genres: ["Indie Pop", "Dream Pop", "Indie Electronica"],
   location: { city: "London", country: "England" },
   tagline: "Space between the notes. Feeling in the silence.",
   socials: {
     spotify: "https://open.spotify.com/artist/3iOvXCl6edW5Um0fXEBRXy",
-    youtube: "https://www.youtube.com/@thexx",
+    youtube: "https://www.youtube.com/@thexxofficial",
   },
   whySee: [
     "'Intro' live is a transformative experience — few pieces of music do more with less",
@@ -177,7 +178,11 @@ const turnstile: Artist = {
   genres: ["Hardcore Punk", "Alternative Rock", "Post-Hardcore"],
   location: { city: "Baltimore", state: "Maryland", country: "United States" },
   tagline: "Explosive, groove-laden alternative hardcore that redefines modern rock energy.",
-  socials: { spotify: "https://open.spotify.com/artist/2qnpHrOzdmOo1S4ox3j17x" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/2qnpHrOzdmOo1S4ox3j17x",
+    youtube: "https://www.youtube.com/@turnstile",
+    tiktok: "https://www.tiktok.com/@turnstileluvconnection",
+  },
   whySee: [
     "A legendary live unit executing a masterclass in relentless rhythm, boundary-pushing punk grooves, and unmatched mainstage command",
     "Brendan Yates' hyper-kinetic, magnetic stage presence driving tens of thousands into massive, park-wide mosh pits",
@@ -248,18 +253,18 @@ const turnstile: Artist = {
 };
 
 const beabadoobee: Artist = {
-  name: "Beabadoobee",
+  name: "beabadoobee",
   slug: "beabadoobee",
   mbid: "88d17133-abbc-42db-9526-4e2c1db60336",
   imageUrl: "/artists/heroes/beabadoobee.jpg",
   objectPosition: "center 20%",
-  genres: ["Indie Pop", "Shoegaze", "Bedroom Pop"],
+  genres: ["Indie Pop", "Indie Rock", "Bedroom Pop"],
   location: { city: "London", country: "England" },
   tagline: "Nostalgic 90s alt-rock and dreamy bedroom pop, blown up to mainstage scale.",
   socials: {
     spotify: "https://open.spotify.com/artist/35l9BRT7MXmM8bv2WDQiyB",
     youtube: "https://www.youtube.com/@Beabadoobee",
-    tiktok: "https://www.tiktok.com/@beabadoobeehq",
+    tiktok: "https://www.tiktok.com/@gnocchi500",
   },
   whySee: [
     "Catch her before she's headlining — Beabadoobee is on the cusp of breaking through",
@@ -374,9 +379,16 @@ const aespa: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a6d269fc34884864c3f0f914",
     },
     { name: "Zack Martino", slug: "zack-martino" },
-    { name: "DJ Trixie Mattel", slug: "dj-trixie-mattel" },
+    { name: "Trixie Mattel", slug: "trixie-mattel" },
   ],
   tracks: [
+    {
+      spotifyId: "3coRPMnFg2dJcPu5RMloa9",
+      name: "Whiplash",
+      album: "Whiplash - The 5th Mini Album",
+      duration: "3:03",
+      artworkUrl: "/albums/aespa/whiplash.png",
+    },
     {
       name: "LEMONADE",
       album: "LEMONADE",
@@ -388,12 +400,6 @@ const aespa: Artist = {
       album: "Armageddon",
       duration: "3:01",
       artworkUrl: "/albums/aespa/supernova.png",
-    },
-    {
-      name: "Whiplash",
-      album: "Whiplash",
-      duration: "3:05",
-      artworkUrl: "/albums/aespa/whiplash.png",
     },
   ],
   about:
@@ -415,10 +421,14 @@ const aespa: Artist = {
 const theChainsmokers: Artist = {
   name: "The Chainsmokers",
   slug: "the-chainsmokers",
-  genres: ["Dance Pop", "Future Bass", "Electronic"],
+  genres: ["Future Bass", "Dance Pop", "Electronic"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Multi-platinum electronic giants delivering a massive, stadium-scale pop spectacle.",
-  socials: { spotify: "https://open.spotify.com/artist/69GGBxA162lTqCwzJG5jLp" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/69GGBxA162lTqCwzJG5jLp",
+    youtube: "https://www.youtube.com/@THECHAINSMOKERS",
+    tiktok: "https://www.tiktok.com/@thechainsmokers",
+  },
   whySee: [
     "A non-stop, high-energy headline performance packed back-to-back with a decade of global, generation-defining pop radio anthems",
     "Alex Pall and Drew Taggart executing a hybrid live set that pairs hyper-precise deck manipulation with live vocals and drumming",
@@ -455,8 +465,13 @@ const theChainsmokers: Artist = {
     },
   ],
   tracks: [
+    {
+      spotifyId: "6RUKPb4LETWmmr3iAEQktW",
+      name: "Something Just Like This",
+      album: "Memories...Do Not Open",
+      duration: "4:07",
+    },
     { name: "Closer", album: "Collage", duration: "" },
-    { name: "Don't Let Me Down", album: "Collage", duration: "" },
     {
       spotifyId: "6RUKPb4LETWmmr3iAEQktW",
       name: "Something Just Like This",
@@ -487,7 +502,11 @@ const muna: Artist = {
   genres: ["Indie Pop", "Synth-Pop", "Electropop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Sleek, euphoric queer synth-pop anthems built on raw, joyful emotional catharsis.",
-  socials: { spotify: "https://open.spotify.com/artist/6xdRb2GypJ7DqnWAI2mHGn" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/6xdRb2GypJ7DqnWAI2mHGn",
+    youtube: "https://www.youtube.com/@whereismuna",
+    tiktok: "https://www.tiktok.com/@whereismuna",
+  },
   whySee: [
     "One of indie music's absolute finest contemporary live forces delivering a deeply moving, celebratory pop sermon on the mainstage",
     "Katie Gavin's magnetic, completely commanding vocals leading a passionate crowd of thousands singing every specific lyric",
@@ -564,7 +583,11 @@ const hotMulligan: Artist = {
   location: { city: "Lansing", state: "Michigan", country: "United States" },
   tagline:
     "Blistering, hyper-vivid midwestern emo anthems delivered like an absolute lightning strike.",
-  socials: { spotify: "https://open.spotify.com/artist/1lKZzN2d4IqiEYxyECIEHI" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/1lKZzN2d4IqiEYxyECIEHI",
+    youtube: "https://www.youtube.com/@hotmulligan",
+    tiktok: "https://www.tiktok.com/@hotmulligan",
+  },
   whySee: [
     "A ferocious live alternative rock engine executing an intense, raw performance that completely bypasses processed backing tracks",
     "Tades Sanville's exceptionally raw, screaming vocal delivery commanding massive, park-wide mosh pits and emotional singalongs",
@@ -623,7 +646,7 @@ const yoasobi: Artist = {
   mbid: "df6c619f-4334-43e2-8b6a-4a32af1e4f85",
   imageUrl: "/artists/heroes/yoasobi.jpg",
   objectPosition: "center 20%",
-  genres: ["J-Pop", "Electronic", "Indie Pop"],
+  genres: ["J-Pop", "Electronic", "Pop-Rock"],
   location: { city: "Tokyo", country: "Japan" },
   tagline: "Bridging Japanese storytelling and explosive J-pop anthems on a global scale.",
   socials: {
@@ -707,7 +730,11 @@ const ado: Artist = {
   location: { city: "Tokyo", country: "Japan" },
   tagline:
     "A monumental, completely anonymous J-pop powerhouse commanding jaw-dropping vocal fury.",
-  socials: { spotify: "https://open.spotify.com/artist/6mEQK9m2krja6X1cfsAjfl" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/6mEQK9m2krja6X1cfsAjfl",
+    youtube: "https://www.youtube.com/@Ado1024",
+    tiktok: "https://www.tiktok.com/@ado1024osenbei",
+  },
   whySee: [
     "A historic, highly anticipated American festival debut from a completely anonymous global J-pop phenomenon hiding behind silhouettes",
     "Witness one of the most technically gifted, breathtakingly unique vocalists alive shifting from operatic control to savage rock screams",
@@ -744,8 +771,6 @@ const ado: Artist = {
     },
   ],
   tracks: [
-    { name: "Usseewa", album: "K狂言", duration: "" },
-    { name: "New Genesis", album: "Uta's Songs: One Piece Film Red", duration: "" },
     {
       spotifyId: "1rDgAHDX95RmylxjgVW9tN",
       name: "Show",
@@ -753,6 +778,8 @@ const ado: Artist = {
       duration: "3:09",
       artworkUrl: "https://i.scdn.co/image/ab67616d00001e02e204aafb5c393179c77c5253",
     },
+    { name: "Usseewa", album: "K狂言", duration: "" },
+    { name: "New Genesis", album: "Uta's Songs: One Piece Film Red", duration: "" },
   ],
   about:
     "Ado is the completely anonymous Japanese vocal powerhouse whose extraordinary three-octave range and fierce independent path transformed her from a bedroom utaite into an essential global vanguard of J-pop. Completely obscuring her physical identity behind dark silhouettes and striking anime avatars, she pairs bold social commentary with genre-fluid alternative rock textures. Shattering international streaming benchmarks with blockbusters like 'Usseewa', her highly visible evening mainstage performance stands as an undeniable showcase of pristine musical power.",
@@ -773,11 +800,15 @@ const ado: Artist = {
 const jade: Artist = {
   name: "Jade",
   slug: "jade",
-  genres: ["R&B", "Pop", "Soul"],
+  genres: ["Pop", "R&B", "Soul"],
   location: { city: "London", country: "England" },
   tagline:
     "Sleek, high-gloss British pop-R&B and contemporary soul built on flawless vocal authority.",
-  socials: { spotify: "https://open.spotify.com/artist/7ypgj95aGInvJMJbMv78wB" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/24b0qNYNgeOfpP5rbljIB3",
+    youtube: "https://www.youtube.com/@jade_official",
+    tiktok: "https://www.tiktok.com/@jadethirlwall",
+  },
   whySee: [
     "The highly anticipated solo festival debut from a world-class pop icon stepping completely into her own R&B identity",
     "Jade Thirlwall's phenomenal, soaring vocal range executed flawlessly through complex, high-energy live band arrangements",
@@ -844,7 +875,11 @@ const eliBrown: Artist = {
   location: { city: "Bristol", country: "England" },
   tagline:
     "Punishing, sinister dark techno designed to turn giant festival tents into industrial warehouses.",
-  socials: { spotify: "https://open.spotify.com/artist/5lVNSw2GPci8kebrAQpZqU" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/5lVNSw2GPci8kebrAQpZqU",
+    youtube: "https://www.youtube.com/@elibrownbeats",
+    tiktok: "https://www.tiktok.com/@elibrownbeats",
+  },
   whySee: [
     "One of global techno's absolute finest modern technicians commanding an intense, high-velocity late-night dance session",
     "Experience a calculated masterclass in modular hardware manipulation, metallic techno grooves, and distorted vocal samples",
@@ -876,7 +911,12 @@ const eliBrown: Artist = {
     },
   ],
   tracks: [
-    { name: "Be the One", album: "Be the One", duration: "" },
+    {
+      spotifyId: "1cQld05IcUDw3RCFt7uymW",
+      name: "Be The One",
+      album: "Be The One",
+      duration: "2:49",
+    },
     {
       spotifyId: "40up5wCfwQXTDXyE18hJbJ",
       name: "Believe",
@@ -1508,7 +1548,7 @@ const destinConrad: Artist = {
       slug: "leon-thomas",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178c6c4f4aaf40ebee92b8a8228",
     },
-    { name: "KWN", slug: "kwn" },
+    { name: "kwn", slug: "kwn" },
   ],
   tracks: [
     {

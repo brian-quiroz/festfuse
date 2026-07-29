@@ -224,7 +224,7 @@ const sombr: Artist = {
       slug: "ryman",
     },
     {
-      name: "Beabadoobee",
+      name: "beabadoobee",
       slug: "beabadoobee",
     },
     {

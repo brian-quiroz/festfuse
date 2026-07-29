@@ -449,7 +449,7 @@ const leonThomas: Artist = {
       slug: "chezile",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b1593dbc8b1c5ee3c62b55a1",
     },
-    { name: "KWN", slug: "kwn" },
+    { name: "kwn", slug: "kwn" },
   ],
   tracks: [
     {
@@ -491,10 +491,14 @@ const leonThomas: Artist = {
 const clipse: Artist = {
   name: "Clipse",
   slug: "clipse",
-  genres: ["Hip-Hop", "Boom Bap", "Underground Rap"],
+  genres: ["Hip-Hop", "East Coast Hip-Hop", "Gangsta Rap"],
   location: { city: "Virginia Beach", state: "Virginia", country: "United States" },
   tagline: "Legendary coke-rap royalty delivering pristine, razor-sharp technical lyricism.",
-  socials: { spotify: "https://open.spotify.com/artist/2J257euzcjnDLipsyJH3F2" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/2J257euzcjnDLipsyJH3F2",
+    youtube: "https://www.youtube.com/@Clipse",
+    tiktok: "https://www.tiktok.com/@clipse",
+  },
   whySee: [
     "A historic, highly anticipated festival performance from brothers Pusha T and Malice executing their legendary reunion era",
     "A masterclass in technical rap execution from two of the absolute finest, most uncompromising pure lyricists in hip-hop history",
@@ -523,11 +527,10 @@ const clipse: Artist = {
   ],
   tracks: [
     {
-      spotifyId: "3XrvEifl0hIzgBGUa5jBLS",
-      name: "Grindin'",
-      album: "Lord Willin'",
-      duration: "4:24",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0295bf7f7dac7b61a95d47f07e",
+      spotifyId: "3znSvEwBq09We4cxxmwlZM",
+      name: "Chains & Whips",
+      album: "Let God Sort Em Out",
+      duration: "",
     },
     {
       spotifyId: "0EXm0iaB0CzqtsB3VaupXj",
@@ -566,7 +569,11 @@ const geese: Artist = {
   genres: ["Post-Punk", "Indie Rock", "Art Rock"],
   location: { city: "Brooklyn", state: "New York", country: "United States" },
   tagline: "Jagged, unpredictable art-punk chaos and thrillingly unhinged live energy.",
-  socials: { spotify: "https://open.spotify.com/artist/0WCo84qtCKfbyIf1lqQWB4" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/0WCo84qtCKfbyIf1lqQWB4",
+    youtube: "https://www.youtube.com/@Geeseband",
+    tiktok: "https://www.tiktok.com/@geese.band",
+  },
   whySee: [
     "One of the absolute sharpest, most restlessly creative rock outfits of the modern underground executing an intense performance",
     "Cameron Winter's completely unhinged, acrobatic vocal deliveries shifting effortlessly from deadpan rants to soaring theatrical croons",
@@ -598,7 +605,6 @@ const geese: Artist = {
     },
   ],
   tracks: [
-    { name: "Disco Man", album: "Projector", duration: "" },
     {
       spotifyId: "5vtJPJsiwW5BZAYo8Nla0n",
       name: "Cowboy Nudes",
@@ -634,9 +640,13 @@ const alisonWonderland: Artist = {
   name: "Alison Wonderland",
   slug: "alison-wonderland",
   genres: ["Trap", "Future Bass", "Electronic"],
-  location: { city: "Sydney", country: "Australia" },
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Cinematic, arena-scale future bass and heavy, deeply emotional electronic anthems.",
-  socials: { spotify: "https://open.spotify.com/artist/11gWrKZMBsGQWmobv3oNfW" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/11gWrKZMBsGQWmobv3oNfW",
+    youtube: "https://www.youtube.com/alisonwonderland",
+    tiktok: "https://www.tiktok.com/@alisonwonderland",
+  },
   whySee: [
     "An absolute pioneer of the international electronic circuit returning to detonate the mainstage with a world-class live performance",
     "Alexandra Sholler's flawless live execution, trading between hyper-precise deck manipulation, raw live vocals, and classical cello interludes",
@@ -703,12 +713,16 @@ const alisonWonderland: Artist = {
 };
 
 const djTrixieMattel: Artist = {
-  name: "DJ Trixie Mattel",
-  slug: "dj-trixie-mattel",
+  name: "Trixie Mattel",
+  slug: "trixie-mattel",
   genres: ["Dance Pop", "Electro-Pop", "Electronic"],
   location: { city: "Milwaukee", state: "Wisconsin", country: "United States" },
   tagline: "High-camp pop choreography and glittering, retro-fueled electro-pop club parties.",
-  socials: { spotify: "https://open.spotify.com/artist/33hAj1SghVYxDAxZxNDcyc" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/33hAj1SghVYxDAxZxNDcyc",
+    youtube: "https://www.youtube.com/channel/UC0biFgrMdkv1hFAFLVePODQ",
+    tiktok: "https://www.tiktok.com/@trixie",
+  },
   whySee: [
     "The undisputed high priestess of drag pop bringing an explosive, completely unhinged celebratory club party directly to the park",
     "Brian Firkus' magnetic, larger-than-life stage command delivering sharp, high-fashion choreography alongside massive electronic drops",
@@ -745,7 +759,12 @@ const djTrixieMattel: Artist = {
     },
   ],
   tracks: [
-    { name: "Malibu", album: "Barbara", duration: "" },
+    {
+      spotifyId: "6GE4fcrDAF5hF170xMzxq8",
+      name: "Video Games",
+      album: "Video Games",
+      duration: "",
+    },
     { name: "Hello Hello", album: "The Blonde & Pink Albums", duration: "" },
     { name: "C'Mon Justine", album: "The Blonde & Pink Albums", duration: "" },
   ],
@@ -768,10 +787,14 @@ const djTrixieMattel: Artist = {
 const bbno_dollar: Artist = {
   name: "bbno$",
   slug: "bbno-dollar",
-  genres: ["Hip-Hop", "Indie Pop", "Dance Pop"],
+  genres: ["Hip-Hop", "Pop Rap", "Electronic"],
   location: { city: "Vancouver", country: "Canada" },
   tagline: "Witty, low-slung internet rap hooks and carefree, bounce-driven party grooves.",
-  socials: { spotify: "https://open.spotify.com/artist/41X1TR6hrK8Q2ZCpp2EqCz" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/41X1TR6hrK8Q2ZCpp2EqCz",
+    youtube: "https://www.youtube.com/channel/UCC8FSfSnbjiZ6vGr68ZLtzg",
+    tiktok: "https://www.tiktok.com/@bbnotiktok",
+  },
   whySee: [
     "The ultimate carefree afternoon hip-hop party catalyst bringing a hyper-catchy, viral performance directly to the Tito's stage",
     "Alexander Gumuchian's unmatched, completely charismatic live crowd banter and rapid-fire stream-of-consciousness comedic rap flows",
@@ -803,8 +826,13 @@ const bbno_dollar: Artist = {
     },
   ],
   tracks: [
-    { name: "Lalala", album: "Recess", duration: "" },
-    { name: "edamame (feat. Rich Brian)", album: "eat ya veggies", duration: "" },
+    {
+      spotifyId: "1uMHCAyGmHqyygoNRuo7MV",
+      name: "edamame (feat. Rich Brian)",
+      album: "edamame",
+      duration: "2:13",
+    },
+    { name: "Lalala", album: "Lalala", duration: "" },
     {
       spotifyId: "30K6y3aeYjmjCHhLiudtH9",
       name: "it boy",
@@ -830,12 +858,16 @@ const bbno_dollar: Artist = {
 };
 
 const kwn: Artist = {
-  name: "KWN",
+  name: "kwn",
   slug: "kwn",
-  genres: ["Alternative R&B", "Soul", "Electronic Pop"],
+  genres: ["Alternative R&B", "Soul", "Trap"],
   location: { city: "London", country: "England" },
   tagline: "Sultry, nocturnal alternative R&B tracking the raw vulnerabilities of modern romance.",
-  socials: { spotify: "https://open.spotify.com/artist/2KnhnL8zuqLhIhGk601fsb" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/2KnhnL8zuqLhIhGk601fsb",
+    youtube: "https://www.youtube.com/@kwnway",
+    tiktok: "https://www.tiktok.com/@kwnway",
+  },
   whySee: [
     "Catch an exceptional independent UK lyricist executing a deeply atmospheric, confessional performance on the alternative stage",
     "Songwriting that lands like an intense, unguarded voice memo tracking the complex, messy textures of young identity",
@@ -867,7 +899,12 @@ const kwn: Artist = {
     },
   ],
   tracks: [
-    { name: "wnad", album: "wnad", duration: "" },
+    {
+      spotifyId: "5W67A7t9MWL3VtovrVrici",
+      name: "worst behaviour (feat. Kehlani)",
+      album: "worst behaviour",
+      duration: "",
+    },
     { name: "no love", album: "no love", duration: "" },
     { name: "sweet", album: "sweet", duration: "" },
   ],
@@ -893,7 +930,11 @@ const siennaSpiro: Artist = {
   genres: ["Soul", "R&B", "Chamber Pop"],
   location: { city: "London", country: "England" },
   tagline: "Stunning, earth-shaking British soul built on monumental, timeless vocal authority.",
-  socials: { spotify: "https://open.spotify.com/artist/02gSuSAWEdWa5UOvqzjX6v" },
+  socials: {
+    spotify: "https://open.spotify.com/artist/02gSuSAWEdWa5UOvqzjX6v",
+    youtube: "https://www.youtube.com/@SIENNASPIRO",
+    tiktok: "https://www.tiktok.com/@siennaspiro",
+  },
   whySee: [
     "Witness one of the most technically gifted, breathtakingly unique young vocalists performing anywhere across the entire weekend",
     "Spiro's operatic, powerhouse vocal delivery effortlessly filling the open air with staggering emotional power",
@@ -1428,7 +1469,7 @@ const khamari: Artist = {
       slug: "leon-thomas",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178c6c4f4aaf40ebee92b8a8228",
     },
-    { name: "KWN", slug: "kwn" },
+    { name: "kwn", slug: "kwn" },
   ],
   tracks: [
     {
@@ -1928,7 +1969,7 @@ const wisp: Artist = {
       slug: "wolf-alice",
     },
     {
-      name: "Beabadoobee",
+      name: "beabadoobee",
       slug: "beabadoobee",
     },
   ],
@@ -1984,7 +2025,7 @@ const chezile: Artist = {
       slug: "khamari",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786921bdf2ddc6e84970fd172e",
     },
-    { name: "KWN", slug: "kwn" },
+    { name: "kwn", slug: "kwn" },
   ],
   tracks: [
     { name: "No Choices", album: "Chezile", duration: "" },
@@ -2257,7 +2298,7 @@ const mc4d: Artist = {
   ],
   similarArtists: [
     { name: "Zack Martino", slug: "zack-martino" },
-    { name: "DJ Trixie Mattel", slug: "dj-trixie-mattel" },
+    { name: "Trixie Mattel", slug: "trixie-mattel" },
     {
       name: "Whethan",
       slug: "whethan",

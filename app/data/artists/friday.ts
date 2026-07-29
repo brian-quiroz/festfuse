@@ -2358,7 +2358,7 @@ const loveSpells: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f1781d8d8c934c382100d033bb41",
     },
     {
-      name: "Beabadoobee",
+      name: "beabadoobee",
       slug: "beabadoobee",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783a41a62e7193703d29d30a9a",
     },
