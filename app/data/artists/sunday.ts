@@ -1093,7 +1093,7 @@ const dombresky: Artist = {
   name: "Dombresky",
   slug: "dombresky",
   genres: ["House", "Tech House", "Disco House"],
-  location: { city: "Montpellier", country: "France" },
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Infectious, soul-sampled French house loops built purely for celebratory day parties.",
   socials: { spotify: "https://open.spotify.com/artist/2GVtgxcx7jg5xVCZsIHSGN" },
   whySee: [
@@ -1212,7 +1212,7 @@ const adela: Artist = {
   name: "ADÉLA",
   slug: "adela",
   genres: ["Pop", "Indie Pop", "Dance Pop"],
-  location: { city: "Bratislava", country: "Slovakia" },
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Sleek, atmospheric European pop melodies driven by stunning vocal clarity.",
   socials: { spotify: "https://open.spotify.com/artist/2qanRMyA5bNuTvz1dK45OP" },
   whySee: [
@@ -1270,7 +1270,7 @@ const riordan: Artist = {
   name: "Riordan",
   slug: "riordan",
   genres: ["Tech House", "Minimal Tech", "Electronic"],
-  location: { city: "Brighton", country: "England" },
+  location: { city: "London", country: "England" },
   tagline: "High-octane, bass-heavy minimal tech house crafted to fuel relentless dance floors.",
   socials: { spotify: "https://open.spotify.com/artist/68rU1sdZ0HjxjEC5YnSmao" },
   whySee: [
@@ -1334,7 +1334,7 @@ const wunderhorse: Artist = {
   name: "Wunderhorse",
   slug: "wunderhorse",
   genres: ["Indie Rock", "Alternative Rock", "Post-Punk"],
-  location: { city: "London", country: "England" },
+  location: { city: "Newquay", country: "England" },
   tagline: "Visceral, raw guitar rock and poetic, fuzzed-out alternative storytelling.",
   socials: { spotify: "https://open.spotify.com/artist/41pd7r1XBRsvdxY3vHEgib" },
   whySee: [
@@ -1545,7 +1545,7 @@ const destinConrad: Artist = {
   name: "Destin Conrad",
   slug: "destin-conrad",
   genres: ["Alternative R&B", "Soul", "Neo-Soul"],
-  location: { city: "Tampa", state: "Florida", country: "United States" },
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Sultry, whisper-close confessional alternative R&B for late-night overthinkers.",
   socials: { spotify: "https://open.spotify.com/artist/4jwROPSUkTkohLCRiyjiZZ" },
   whySee: [
@@ -1605,7 +1605,7 @@ const inji: Artist = {
   name: "INJI",
   slug: "inji",
   genres: ["Dance Pop", "Tech House", "Electronic"],
-  location: { city: "Istanbul", country: "Turkey" },
+  location: { city: "Philadelphia", state: "Pennsylvania", country: "United States" },
   tagline:
     "Irreverent, high-velocity tech-house pop built purely for chaotic festival day parties.",
   socials: { spotify: "https://open.spotify.com/artist/0Z4Ir8usNVcAdCSQl0fQki" },
@@ -1672,7 +1672,7 @@ const waylonWyatt: Artist = {
   name: "Waylon Wyatt",
   slug: "waylon-wyatt",
   genres: ["Country", "Alternative Folk", "Americana"],
-  location: { city: "Hackleburg", state: "Alabama", country: "United States" },
+  location: { city: "Hackett", state: "Arkansas", country: "United States" },
   tagline: "Grounded, gravel-voiced Alabama folk storytelling built on timeless acoustic hooks.",
   socials: { spotify: "https://open.spotify.com/artist/6Ff2omMMZOd8FWNqb980Ol" },
   whySee: [
@@ -1864,7 +1864,7 @@ const vandelux: Artist = {
   name: "Vandelux",
   slug: "vandelux",
   genres: ["Indie Electronica", "Deep House", "Synth-Pop"],
-  location: { city: "Vancouver", country: "Canada" },
+  location: { city: "San Francisco", state: "California", country: "United States" },
   tagline: "Sleek, cinematic indie electronica and driving deep house built for the open air.",
   socials: { spotify: "https://open.spotify.com/artist/2rdSCmWgrIWA8pmwhS1T2k" },
   whySee: [
@@ -2026,8 +2026,8 @@ const cruzBeckhamAndTheBreakers: Artist = {
 const theBends: Artist = {
   name: "The Bends",
   slug: "the-bends",
-  genres: ["Post-Punk", "Shoegaze", "Alternative Rock"],
-  location: { city: "Chicago", state: "Illinois", country: "United States" },
+  genres: ["Alternative Rock", "Garage Rock", "Power Pop"],
+  location: { city: "Baton Rouge", state: "Louisiana", country: "United States" },
   tagline: "A fuzzed-out hometown alternative rock engine built on towering shoegaze walls.",
   socials: { spotify: "https://open.spotify.com/artist/2xBejdNon0VS3Egq8he7sb" },
   whySee: [
@@ -2084,8 +2084,8 @@ const theBends: Artist = {
 const after: Artist = {
   name: "After",
   slug: "after",
-  genres: ["Alternative Hip-Hop", "Trap", "Electronic Pop"],
-  location: { city: "Chicago", state: "Illinois", country: "United States" },
+  genres: ["Synth-Pop", "Electropop", "Pop-Rock"],
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline:
     "Glitchy, high-velocity internet rap and bounce-driven trap from a hometown breakout project.",
   socials: { spotify: "https://open.spotify.com/artist/7KfMR05zRrWyhQimnYa8li" },
@@ -2138,8 +2138,8 @@ const after: Artist = {
 const whatmore: Artist = {
   name: "Whatmore",
   slug: "whatmore",
-  genres: ["Alternative Rock", "Folk Rock", "Indie Rock"],
-  location: { city: "Chicago", state: "Illinois", country: "United States" },
+  genres: ["Indie Pop", "Alternative Hip-Hop", "Pop-Punk"],
+  location: { city: "New York City", state: "New York", country: "United States" },
   tagline:
     "Hometown indie-rock anthems fusing driving alternative grit with timeless folk-rock storytelling.",
   socials: { spotify: "https://open.spotify.com/artist/2y4kS2ljmS41pNDNA01P2Q" },
@@ -2193,8 +2193,8 @@ const whatmore: Artist = {
 const porchLight: Artist = {
   name: "Porch Light",
   slug: "porch-light",
-  genres: ["Indie Pop", "Singer-Songwriter", "Chamber Pop"],
-  location: { city: "Los Angeles", state: "California", country: "United States" },
+  genres: ["Indie Rock", "Alternative Rock", "90s Alternative"],
+  location: { city: "Minneapolis", state: "Minnesota", country: "United States" },
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like real voice memos.",
   socials: { spotify: "https://open.spotify.com/artist/71gxkPYviG8kwEzEZGM1FH" },
   whySee: [
@@ -2363,7 +2363,7 @@ const jackieHollander: Artist = {
 const stellaLefty: Artist = {
   name: "Stella Lefty",
   slug: "stella-lefty",
-  genres: ["Indie Pop", "Singer-Songwriter", "Chamber Pop"],
+  genres: ["Country", "Country Pop", "Singer-Songwriter"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like real voice memos.",
   socials: { spotify: "https://open.spotify.com/artist/6hp2uD84OrQ3u3ukmTjLz2" },
@@ -2488,7 +2488,7 @@ const willSwinton: Artist = {
   name: "Will Swinton",
   slug: "will-swinton",
   genres: ["Indie Pop", "Singer-Songwriter", "Alternative Folk"],
-  location: { city: "Auckland", country: "New Zealand" },
+  location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline:
     "Gravel-voiced, cinematic indie pop tracking the raw, intimate vulnerabilities of youth.",
   socials: { spotify: "https://open.spotify.com/artist/1fUcXY3KcnNvCP2dnF7XCh" },
@@ -2595,7 +2595,7 @@ const sunshineBenzi: Artist = {
 const caseOats: Artist = {
   name: "Case Oats",
   slug: "case-oats",
-  genres: ["Alternative Rock", "Folk Rock", "Indie Rock"],
+  genres: ["Americana", "Country", "Folk Rock"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
     "Hometown indie-rock anthems fusing driving alternative grit with timeless folk-rock storytelling.",
@@ -2650,8 +2650,8 @@ const caseOats: Artist = {
 const surfingForDaisy: Artist = {
   name: "Surfing for Daisy",
   slug: "surfing-for-daisy",
-  genres: ["Indie Rock", "Surf Rock", "Neo-Psychedelia"],
-  location: { city: "Charleston", state: "South Carolina", country: "United States" },
+  genres: ["Folk Rock", "Alternative Rock", "Neo-Psychedelia"],
+  location: { city: "Asbury Park", state: "New Jersey", country: "United States" },
   tagline: "Sun-drenched, witty surf rock and fuzzed-out psych grooves built for festival fields.",
   socials: { spotify: "https://open.spotify.com/artist/3zwFtNNRxR23FVS8jueGK9" },
   whySee: [
