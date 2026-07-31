@@ -25,30 +25,31 @@ Copy uses she/her throughout; Wikipedia states Bedroque uses they/he pronouns.
 
 Surname stated as "DiBari" — sources confirm the twins' real surname is Drake.
 
-## ink (about, tagline, whySee, whatToExpect, similarArtists, tracks)
+## ink (about, tagline, whySee, whatToExpect, tracks)
 
-Entire record beyond genres/location/socials still describes a fictional Chicago alternative-rock
-band. The real Ink (verified via the stored Spotify ID) is Atia Chade Boggs, a Grammy-nominated
-R&B/soul/country songwriter from the Atlanta area, co-writer of Beyoncé's "Texas Hold 'Em" and
-other Cowboy Carter/Renaissance tracks, signed to Big Loud Records. Genres and location were
-corrected; about/similarArtists/tracks need a full rewrite in a dedicated pass (not currently
-rendered anyway since aboutVerified/similarArtistsVerified are unset).
+Entire record beyond genres/location/socials/similarArtists still describes a fictional Chicago
+alternative-rock band. The real Ink (verified via the stored Spotify ID) is Atia Chade Boggs, a
+Grammy-nominated R&B/soul/country songwriter from the Atlanta area, co-writer of Beyoncé's "Texas
+Hold 'Em" and other Cowboy Carter/Renaissance tracks, signed to Big Loud Records. Genres, location,
+and similarArtists were corrected; about/tracks still need a full rewrite in a dedicated pass (about
+not currently rendered anyway since aboutVerified is unset).
 
-## the-creekers (about, tagline, whySee, whatToExpect, similarArtists, tracks)
+## the-creekers (about, tagline, whySee, whatToExpect, tracks)
 
-Entire record beyond genres/location/socials still describes a fictional Chicago alt-rock/folk-rock
-trio. The real Creekers (verified via the stored Spotify ID) are a six-piece "Creeker-grass"
-bluegrass/country/pop band — Anna Blanton, Ashton Bowling, Jagger Bowling, Allen Hacker, Tanner
-Horton, Scott Sutton — formed in Leslie County, Kentucky in 2022, signed to Warner Music Nashville,
-breakout single "Tennessee." Genres and location were corrected; about/similarArtists/tracks need a
-full rewrite in a dedicated pass.
+Entire record beyond genres/location/socials/similarArtists still describes a fictional Chicago
+alt-rock/folk-rock trio. The real Creekers (verified via the stored Spotify ID) are a six-piece
+"Creeker-grass" bluegrass/country/pop band — Anna Blanton, Ashton Bowling, Jagger Bowling, Allen
+Hacker, Tanner Horton, Scott Sutton — formed in Leslie County, Kentucky in 2022, signed to Warner
+Music Nashville, breakout single "Tennessee." Genres, location, and similarArtists were corrected;
+about/tracks still need a full rewrite in a dedicated pass.
 
-## next-of-kin (about, tagline, whySee, whatToExpect, similarArtists, tracks)
+## next-of-kin (about, tagline, whySee, whatToExpect, tracks)
 
-Entire record beyond genres/location/socials still describes a fictional LA indie-pop solo artist.
-The real Next of Kin (verified via the stored Spotify ID) is an Austin, Texas alt-country/Americana
-trio (members include Lili and Madison), EP 'Homemaker', single "Jekyll & Hyde." Genres and location
-were corrected; about/similarArtists/tracks need a full rewrite in a dedicated pass.
+Entire record beyond genres/location/socials/similarArtists still describes a fictional LA indie-pop
+solo artist. The real Next of Kin (verified via the stored Spotify ID) is an Austin, Texas
+alt-country/Americana trio (members include Lili and Madison), EP 'Homemaker', single "Jekyll &
+Hyde." Genres, location, and similarArtists were corrected; about/tracks still need a full rewrite in
+a dedicated pass.
 
 ## los-retros (about)
 
@@ -120,6 +121,12 @@ Stone/WBEZ/Sun-Times coverage) is a Chicago alt-country band led by Casey Gomez 
 Tweedy (with Max Subar, Jason Ashworth, Scott Daniel), signed to Merge Records, debut album 'Last
 Missouri Exit' (2025). Genres were corrected; location was already accurate. about/similarArtists/
 tracks need a full rewrite in a dedicated pass.
+
+## day-we-ran (about)
+
+`about` states "Chicago-born alternative rock quartet," but the stored `location` (already verified)
+is Lennox Head, Australia. Surfaced incidentally during a `similarArtists`-only pass; `about` itself
+wasn't in scope to rewrite this round.
 
 ## surfing-for-daisy (about, tagline, whySee, whatToExpect, similarArtists, tracks)
 

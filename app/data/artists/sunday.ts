@@ -5,6 +5,7 @@ import type { Artist } from "@/app/types/artist";
 const tateMcRae: Artist = {
   name: "Tate McRae",
   slug: "tate-mcrae",
+  similarArtistsVerified: true,
   socialsVerified: true,
   imageVerified: true,
   imageUrl: "/artists/global/tate-mcrae.jpg",
@@ -97,6 +98,7 @@ const tateMcRae: Artist = {
 const theXx: Artist = {
   name: "The xx",
   slug: "the-xx",
+  similarArtistsVerified: true,
   socialsVerified: true,
   imageVerified: true,
   imageUrl: "/artists/global/the-xx.jpg",
@@ -140,12 +142,8 @@ const theXx: Artist = {
       slug: "new-constellations",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1786a3aa969f4f79f38b0c16c91",
     },
-    { name: "Blood Orange", slug: "blood-orange" },
-    {
-      name: "YOASOBI",
-      slug: "yoasobi",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178964812dece6096f894a1fe85",
-    },
+    { name: "Vandelux", slug: "vandelux" },
+    { name: "MUNA", slug: "muna" },
   ],
   tracks: [
     {
@@ -189,6 +187,7 @@ const theXx: Artist = {
 const turnstile: Artist = {
   name: "Turnstile",
   slug: "turnstile",
+  similarArtistsVerified: true,
   socialsVerified: true,
   genres: ["Hardcore Punk", "Alternative Rock", "Post-Hardcore"],
   location: { city: "Baltimore", state: "Maryland", country: "United States" },
@@ -207,26 +206,14 @@ const turnstile: Artist = {
   whatToExpect: ["Choreography", "Energetic Mosh Pits", "Massive Singalongs", "High-Energy Pacing"],
   bestFor: ["Mosh Pit Lovers"],
   similarArtists: [
-    {
-      name: "54 Ultra",
-      slug: "54-ultra",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1788fdf273bf26657879cccdc74",
-    },
-    {
-      name: "Ink",
-      slug: "ink",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178b3df8a3980032366a3a040bc",
-    },
-    {
-      name: "Penelope Road",
-      slug: "penelope-road",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17852fea332b35d65cd61fa5d39",
-    },
+    { name: "Hot Mulligan", slug: "hot-mulligan" },
+    { name: "High Vis", slug: "high-vis" },
     {
       name: "The Smashing Pumpkins",
       slug: "smashing-pumpkins",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782897dd777bbd8e3f23e49c99",
     },
+    { name: "Loathe", slug: "loathe" },
   ],
   tracks: [
     {
@@ -270,6 +257,7 @@ const turnstile: Artist = {
 const beabadoobee: Artist = {
   name: "beabadoobee",
   slug: "beabadoobee",
+  similarArtistsVerified: true,
   socialsVerified: true,
   mbid: "88d17133-abbc-42db-9526-4e2c1db60336",
   imageUrl: "/artists/heroes/beabadoobee.jpg",
@@ -303,20 +291,12 @@ const beabadoobee: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f17878edaa6468cae153565c2c97",
     },
     {
-      name: "Lucy Bedroque",
-      slug: "lucy-bedroque",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178100cfd4653979ed518fbf28f",
-    },
-    {
-      name: "Emi Grace",
-      slug: "emi-grace",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1781d8d8c934c382100d033bb41",
-    },
-    {
       name: "Love Spells",
       slug: "love-spells",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b33be717b74e15b9f5c235f2",
     },
+    { name: "Claire Rosinkranz", slug: "claire-rosinkranz" },
+    { name: "Audrey Hobert", slug: "audrey-hobert" },
   ],
   tracks: [
     {
@@ -359,6 +339,7 @@ const beabadoobee: Artist = {
 const aespa: Artist = {
   name: "aespa",
   slug: "aespa",
+  similarArtistsVerified: true,
   socialsVerified: true,
   mbid: "b51c672b-85e0-48fe-8648-470a2422229f",
   imageUrl: "/artists/heroes/aespa.jpg",
@@ -385,11 +366,7 @@ const aespa: Artist = {
   ],
   bestFor: [],
   similarArtists: [
-    {
-      name: "Major Lazer",
-      slug: "major-lazer",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178ab312009266614f4d3185229",
-    },
+    { name: "JENNIE", slug: "jennie" },
     {
       name: "i-dle",
       slug: "i-dle",
@@ -438,6 +415,7 @@ const aespa: Artist = {
 const theChainsmokers: Artist = {
   name: "The Chainsmokers",
   slug: "the-chainsmokers",
+  similarArtistsVerified: true,
   socialsVerified: true,
   genres: ["Future Bass", "Dance Pop", "Electronic"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
@@ -471,11 +449,7 @@ const theChainsmokers: Artist = {
       slug: "know-good",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1785358de71801fad4a13adc2f2",
     },
-    {
-      name: "MC4D",
-      slug: "mc4d",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178042776271fc2c09e905c93e6",
-    },
+    { name: "Major Lazer", slug: "major-lazer" },
     {
       name: "Alison Wonderland",
       slug: "alison-wonderland",
@@ -517,6 +491,7 @@ const theChainsmokers: Artist = {
 const muna: Artist = {
   name: "MUNA",
   slug: "muna",
+  similarArtistsVerified: true,
   socialsVerified: true,
   genres: ["Indie Pop", "Synth-Pop", "Electropop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
@@ -598,6 +573,7 @@ const muna: Artist = {
 const hotMulligan: Artist = {
   name: "Hot Mulligan",
   slug: "hot-mulligan",
+  similarArtistsVerified: true,
   socialsVerified: true,
   genres: ["Emo", "Pop-Punk", "Post-Hardcore"],
   location: { city: "Lansing", state: "Michigan", country: "United States" },
@@ -632,6 +608,7 @@ const hotMulligan: Artist = {
       slug: "the-story-so-far",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1784d8d055d82fc1e5b1c5ecb1d",
     },
+    { name: "Bad Nerves", slug: "bad-nerves" },
   ],
   tracks: [
     {
@@ -663,6 +640,7 @@ const hotMulligan: Artist = {
 const yoasobi: Artist = {
   name: "YOASOBI",
   slug: "yoasobi",
+  similarArtistsVerified: true,
   socialsVerified: true,
   mbid: "df6c619f-4334-43e2-8b6a-4a32af1e4f85",
   imageUrl: "/artists/heroes/yoasobi.jpg",
@@ -685,25 +663,17 @@ const yoasobi: Artist = {
   bestFor: [],
   similarArtists: [
     {
-      name: "Empire of the Sun",
-      slug: "empire-of-the-sun",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178c806f3e714afa21861e20248",
-    },
-    {
-      name: "The xx",
-      slug: "the-xx",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1783a96db4736ef035e1fcb2516",
-    },
-    {
       name: "Ado",
       slug: "ado",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178bcb1c184c322688f10cdce7a",
     },
     {
-      name: "Paris Paloma",
-      slug: "paris-paloma",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178fea2286a364dd2a0c4209136",
+      name: "Empire of the Sun",
+      slug: "empire-of-the-sun",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178c806f3e714afa21861e20248",
     },
+    { name: "SB19", slug: "sb19" },
+    { name: "Zack Martino", slug: "zack-martino" },
   ],
   tracks: [
     {
@@ -747,6 +717,7 @@ const yoasobi: Artist = {
 const ado: Artist = {
   name: "Ado",
   slug: "ado",
+  similarArtistsVerified: true,
   socialsVerified: true,
   genres: ["J-Pop", "Rock", "Electronic"],
   location: { city: "Tokyo", country: "Japan" },
@@ -776,21 +747,9 @@ const ado: Artist = {
       slug: "yoasobi",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178964812dece6096f894a1fe85",
     },
-    {
-      name: "SIDEPIECE",
-      slug: "sidepiece",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17821705221c7f192d4a7963910",
-    },
-    {
-      name: "Ninajirachi",
-      slug: "ninajirachi",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1789ab4772c0bd3455137b1d02e",
-    },
-    {
-      name: "Snow Strippers",
-      slug: "snow-strippers",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1782949c67f381d533010389d6a",
-    },
+    { name: "Ecca Vandal", slug: "ecca-vandal" },
+    { name: "Empire of the Sun", slug: "empire-of-the-sun" },
+    { name: "Water From Your Eyes", slug: "water-from-your-eyes" },
   ],
   tracks: [
     {
@@ -822,6 +781,7 @@ const ado: Artist = {
 const jade: Artist = {
   name: "Jade",
   slug: "jade",
+  similarArtistsVerified: true,
   socialsVerified: true,
   genres: ["Pop", "R&B", "Soul"],
   location: { city: "London", country: "England" },
@@ -894,6 +854,7 @@ const jade: Artist = {
 const eliBrown: Artist = {
   name: "Eli Brown",
   slug: "eli-brown",
+  similarArtistsVerified: true,
   socialsVerified: true,
   genres: ["Dark Techno", "Tech House", "Electronic"],
   location: { city: "Bristol", country: "England" },
@@ -969,6 +930,7 @@ const eliBrown: Artist = {
 const dukeDumont: Artist = {
   name: "Duke Dumont",
   slug: "duke-dumont",
+  similarArtistsVerified: true,
   genres: ["House", "Deep House", "Electronic"],
   location: { city: "London", country: "England" },
   tagline: "The multi-platinum architect of pristine, stadium-scale deep house anthems.",
@@ -997,11 +959,7 @@ const dukeDumont: Artist = {
       slug: "westend",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178bc781a35d287a09940ae6046",
     },
-    {
-      name: "John Summit",
-      slug: "john-summit",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
-    },
+    { name: "Jackie Hollander", slug: "jackie-hollander" },
   ],
   tracks: [
     {
@@ -1033,6 +991,7 @@ const dukeDumont: Artist = {
 const squirrelFlower: Artist = {
   name: "Squirrel Flower",
   slug: "squirrel-flower",
+  similarArtistsVerified: true,
   genres: ["Indie Rock", "Singer-Songwriter", "Alternative Rock"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
@@ -1051,22 +1010,10 @@ const squirrelFlower: Artist = {
     "Hometown & Local Supporters",
   ],
   similarArtists: [
-    {
-      name: "Ethel Cain",
-      slug: "ethel-cain",
-    },
-    {
-      name: "Suki Waterhouse",
-      slug: "suki-waterhouse",
-    },
-    {
-      name: "Momma",
-      slug: "momma",
-    },
-    {
-      name: "Wolf Alice",
-      slug: "wolf-alice",
-    },
+    { name: "Ella Red", slug: "ella-red" },
+    { name: "Suki Waterhouse", slug: "suki-waterhouse" },
+    { name: "Momma", slug: "momma" },
+    { name: "Wolf Alice", slug: "wolf-alice" },
   ],
   tracks: [
     { name: "Alley Light", album: "Tomorrow's Fire", duration: "" },
@@ -1092,6 +1039,7 @@ const squirrelFlower: Artist = {
 const dombresky: Artist = {
   name: "Dombresky",
   slug: "dombresky",
+  similarArtistsVerified: true,
   genres: ["House", "Tech House", "Disco House"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Infectious, soul-sampled French house loops built purely for celebratory day parties.",
@@ -1115,11 +1063,7 @@ const dombresky: Artist = {
       slug: "omnom",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178a9b9e8e9f12e78d2eb637a6a",
     },
-    {
-      name: "John Summit",
-      slug: "john-summit",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
-    },
+    { name: "Peace Control", slug: "peace-control" },
     {
       name: "SIDEPIECE",
       slug: "sidepiece",
@@ -1156,6 +1100,7 @@ const dombresky: Artist = {
 const monaleo: Artist = {
   name: "Monaleo",
   slug: "monaleo",
+  similarArtistsVerified: true,
   genres: ["Hip-Hop", "Southern Rap", "Trap"],
   location: { city: "Houston", state: "Texas", country: "United States" },
   tagline:
@@ -1176,16 +1121,12 @@ const monaleo: Artist = {
       imageUrl: "https://i.scdn.co/image/ab6761610000f17862c272d76220f2e9dad56704",
     },
     {
-      name: "Beno",
-      slug: "beno",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178c81366842659393e281fe4ca",
-    },
-    {
       name: "Mustard",
       slug: "mustard",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17854406b7007a449aeaac06c44",
     },
-    { name: "After", slug: "after" },
+    { name: "Nettspend", slug: "nettspend" },
+    { name: "Sunshine Benzi", slug: "sunshine-benzi" },
   ],
   tracks: [
     { name: "Beating Down Yo Block", album: "Where the Wild Things Are", duration: "" },
@@ -1211,6 +1152,7 @@ const monaleo: Artist = {
 const adela: Artist = {
   name: "ADÉLA",
   slug: "adela",
+  similarArtistsVerified: true,
   genres: ["Pop", "Indie Pop", "Dance Pop"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Sleek, atmospheric European pop melodies driven by stunning vocal clarity.",
@@ -1234,11 +1176,7 @@ const adela: Artist = {
       slug: "tate-mcrae",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178bed8016bd64422793ff3bc75",
     },
-    {
-      name: "bbno$",
-      slug: "bbno-dollar",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178e7c585e9ecd65c76b7bf91ac",
-    },
+    { name: "Zara Larsson", slug: "zara-larsson" },
     {
       name: "aespa",
       slug: "aespa",
@@ -1269,6 +1207,7 @@ const adela: Artist = {
 const riordan: Artist = {
   name: "Riordan",
   slug: "riordan",
+  similarArtistsVerified: true,
   genres: ["Tech House", "Minimal Tech", "Electronic"],
   location: { city: "London", country: "England" },
   tagline: "High-octane, bass-heavy minimal tech house crafted to fuel relentless dance floors.",
@@ -1297,11 +1236,7 @@ const riordan: Artist = {
       slug: "disco-lines",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178965c9bf81cfe9ca329b8a5c7",
     },
-    {
-      name: "John Summit",
-      slug: "john-summit",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
-    },
+    { name: "Peace Control", slug: "peace-control" },
   ],
   tracks: [
     {
@@ -1333,6 +1268,7 @@ const riordan: Artist = {
 const wunderhorse: Artist = {
   name: "Wunderhorse",
   slug: "wunderhorse",
+  similarArtistsVerified: true,
   genres: ["Indie Rock", "Alternative Rock", "Post-Punk"],
   location: { city: "Newquay", country: "England" },
   tagline: "Visceral, raw guitar rock and poetic, fuzzed-out alternative storytelling.",
@@ -1361,11 +1297,7 @@ const wunderhorse: Artist = {
       slug: "villanelle",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1781ece1eae58afddb4d3238501",
     },
-    {
-      name: "Ink",
-      slug: "ink",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178b3df8a3980032366a3a040bc",
-    },
+    { name: "Geese", slug: "geese" },
     {
       name: "The Braymores",
       slug: "the-braymores",
@@ -1414,6 +1346,7 @@ const wunderhorse: Artist = {
 const amberMark: Artist = {
   name: "Amber Mark",
   slug: "amber-mark",
+  similarArtistsVerified: true,
   genres: ["R&B", "Soul", "House-Pop"],
   location: { city: "New York City", state: "New York", country: "United States" },
   tagline:
@@ -1475,6 +1408,7 @@ const amberMark: Artist = {
 const westend: Artist = {
   name: "Westend",
   slug: "westend",
+  similarArtistsVerified: true,
   genres: ["Tech House", "House", "Electronic"],
   location: { city: "New York City", state: "New York", country: "United States" },
   tagline: "Driving, tech-house rollers packed with heavy, crisp warehouse grooves.",
@@ -1493,11 +1427,7 @@ const westend: Artist = {
     "Dance Floor Seekers",
   ],
   similarArtists: [
-    {
-      name: "John Summit",
-      slug: "john-summit",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17820662b32f3dbabad755dfb53",
-    },
+    { name: "Jackie Hollander", slug: "jackie-hollander" },
     {
       name: "SIDEPIECE",
       slug: "sidepiece",
@@ -1544,6 +1474,7 @@ const westend: Artist = {
 const destinConrad: Artist = {
   name: "Destin Conrad",
   slug: "destin-conrad",
+  similarArtistsVerified: true,
   genres: ["Alternative R&B", "Soul", "Neo-Soul"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Sultry, whisper-close confessional alternative R&B for late-night overthinkers.",
@@ -1557,11 +1488,7 @@ const destinConrad: Artist = {
   whatToExpect: ["Bass & Groove", "Intimate Performance", "Dark Mood Visuals", "Crowd Atmosphere"],
   bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
-    {
-      name: "Chezile",
-      slug: "chezile",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178b1593dbc8b1c5ee3c62b55a1",
-    },
+    { name: "Olivia Dean", slug: "olivia-dean" },
     {
       name: "Khamari",
       slug: "khamari",
@@ -1604,6 +1531,7 @@ const destinConrad: Artist = {
 const inji: Artist = {
   name: "INJI",
   slug: "inji",
+  similarArtistsVerified: true,
   genres: ["Dance Pop", "Tech House", "Electronic"],
   location: { city: "Philadelphia", state: "Pennsylvania", country: "United States" },
   tagline:
@@ -1671,6 +1599,7 @@ const inji: Artist = {
 const waylonWyatt: Artist = {
   name: "Waylon Wyatt",
   slug: "waylon-wyatt",
+  similarArtistsVerified: true,
   genres: ["Country", "Alternative Folk", "Americana"],
   location: { city: "Hackett", state: "Arkansas", country: "United States" },
   tagline: "Grounded, gravel-voiced Alabama folk storytelling built on timeless acoustic hooks.",
@@ -1729,6 +1658,7 @@ const waylonWyatt: Artist = {
 const waterFromYourEyes: Artist = {
   name: "Water From Your Eyes",
   slug: "water-from-your-eyes",
+  similarArtistsVerified: true,
   genres: ["Experimental Pop", "Indie Rock", "Post-Punk"],
   location: { city: "Brooklyn", state: "New York", country: "United States" },
   tagline:
@@ -1805,6 +1735,7 @@ const waterFromYourEyes: Artist = {
 const losRetros: Artist = {
   name: "Los Retros",
   slug: "los-retros",
+  similarArtistsVerified: true,
   genres: ["Chicano Soul", "Indie Pop", "Lo-Fi Indie"],
   location: { city: "Oxnard", state: "California", country: "United States" },
   tagline: "Sun-drenched, vintage-hued Chicano soul and hazy lo-fi bedroom pop melodies.",
@@ -1819,25 +1750,17 @@ const losRetros: Artist = {
   bestFor: ["Sound Design & Production Nerds", "Bass & Groove Lovers"],
   similarArtists: [
     {
-      name: "Empire of the Sun",
-      slug: "empire-of-the-sun",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178c806f3e714afa21861e20248",
-    },
-    {
       name: "bixby",
       slug: "bixby",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f91b9382299af20b9130c80c",
-    },
-    {
-      name: "The Neighbourhood",
-      slug: "the-neighbourhood",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178df0b5ac84376a0a4b2166816",
     },
     {
       name: "Julia Wolf",
       slug: "julia-wolf",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178464afc83fc7ddaf9292bb9a8",
     },
+    { name: "Finn Wolfhard", slug: "finn-wolfhard" },
+    { name: "Penelope Road", slug: "penelope-road" },
   ],
   tracks: [
     { name: "Someone To Spend Time With", album: "Retrospect EP", duration: "" },
@@ -1863,6 +1786,7 @@ const losRetros: Artist = {
 const vandelux: Artist = {
   name: "Vandelux",
   slug: "vandelux",
+  similarArtistsVerified: true,
   genres: ["Indie Electronica", "Deep House", "Synth-Pop"],
   location: { city: "San Francisco", state: "California", country: "United States" },
   tagline: "Sleek, cinematic indie electronica and driving deep house built for the open air.",
@@ -1917,6 +1841,7 @@ const vandelux: Artist = {
 const newConstellations: Artist = {
   name: "New Constellations",
   slug: "new-constellations",
+  similarArtistsVerified: true,
   genres: ["Dream Pop", "Indie Pop", "Electronic Rock"],
   location: { city: "Portland", state: "Oregon", country: "United States" },
   tagline:
@@ -1972,6 +1897,7 @@ const newConstellations: Artist = {
 const cruzBeckhamAndTheBreakers: Artist = {
   name: "Cruz Beckham and the Breakers",
   slug: "cruz-beckham-and-the-breakers",
+  similarArtistsVerified: true,
   genres: ["Alternative Rock", "Indie Rock", "Garage Rock"],
   location: { city: "London", country: "England" },
   tagline: "Scrappy, distortion-soaked garage rock revivalism with a classic British edge.",
@@ -1985,7 +1911,6 @@ const cruzBeckhamAndTheBreakers: Artist = {
   whatToExpect: ["Guitar-Driven Sound", "Energetic Mosh Pits", "Ensemble Format"],
   bestFor: ["Early Afternoon Discovery"],
   similarArtists: [
-    { name: "Whatmore", slug: "whatmore" },
     {
       name: "Finn Wolfhard",
       slug: "finn-wolfhard",
@@ -2001,6 +1926,7 @@ const cruzBeckhamAndTheBreakers: Artist = {
       slug: "day-we-ran",
       imageUrl: "https://i.scdn.co/image/ab6761610000f17896aa0ad1b8badab28252f80b",
     },
+    { name: "Die Spitz", slug: "die-spitz" },
   ],
   tracks: [
     { name: "The Breakers", album: "The Breakers", duration: "" },
@@ -2026,6 +1952,7 @@ const cruzBeckhamAndTheBreakers: Artist = {
 const theBends: Artist = {
   name: "The Bends",
   slug: "the-bends",
+  similarArtistsVerified: true,
   genres: ["Alternative Rock", "Garage Rock", "Power Pop"],
   location: { city: "Baton Rouge", state: "Louisiana", country: "United States" },
   tagline: "A fuzzed-out hometown alternative rock engine built on towering shoegaze walls.",
@@ -2084,6 +2011,7 @@ const theBends: Artist = {
 const after: Artist = {
   name: "After",
   slug: "after",
+  similarArtistsVerified: true,
   genres: ["Synth-Pop", "Electropop", "Pop-Rock"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline:
@@ -2098,21 +2026,14 @@ const after: Artist = {
   whatToExpect: ["Cinematic Visuals", "Energetic Mosh Pits", "Synth & Atmospheric"],
   bestFor: ["Scene Trend Spotters", "Hometown & Local Supporters", "Dance Floor Seekers"],
   similarArtists: [
-    {
-      name: "PARTYOF2",
-      slug: "partyof2",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178b9dbe3484f4e59e7b0e18b7a",
-    },
-    {
-      name: "Suki Waterhouse",
-      slug: "suki-waterhouse",
-    },
+    { name: "Empire of the Sun", slug: "empire-of-the-sun" },
+    { name: "Suki Waterhouse", slug: "suki-waterhouse" },
     {
       name: "ivri",
       slug: "ivri",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178db6265ab7c2b7e2a156c99ae",
     },
-    { name: "Klo", slug: "klo" },
+    { name: "Oklou", slug: "oklou" },
   ],
   tracks: [
     { name: "After", album: "After", duration: "" },
@@ -2138,6 +2059,7 @@ const after: Artist = {
 const whatmore: Artist = {
   name: "Whatmore",
   slug: "whatmore",
+  similarArtistsVerified: true,
   genres: ["Indie Pop", "Alternative Hip-Hop", "Pop-Punk"],
   location: { city: "New York City", state: "New York", country: "United States" },
   tagline:
@@ -2152,17 +2074,9 @@ const whatmore: Artist = {
   whatToExpect: ["Guitar-Driven Sound", "Lyrical Storytelling"],
   bestFor: ["Hometown & Local Supporters", "Dance Floor Seekers"],
   similarArtists: [
-    {
-      name: "The Creekers",
-      slug: "the-creekers",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1783bd55f87a9e1be1eb5b1c1e1",
-    },
-    { name: "Case Oats", slug: "case-oats" },
-    {
-      name: "The Braymores",
-      slug: "the-braymores",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178e72ca0c70ab4f5bb3da261dc",
-    },
+    { name: "PARTYOF2", slug: "partyof2" },
+    { name: "Quadeca", slug: "quadeca" },
+    { name: "Little Simz", slug: "little-simz" },
     {
       name: "Mother Mother",
       slug: "mother-mother",
@@ -2193,6 +2107,7 @@ const whatmore: Artist = {
 const porchLight: Artist = {
   name: "Porch Light",
   slug: "porch-light",
+  similarArtistsVerified: true,
   genres: ["Indie Rock", "Alternative Rock", "90s Alternative"],
   location: { city: "Minneapolis", state: "Minnesota", country: "United States" },
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like real voice memos.",
@@ -2206,22 +2121,10 @@ const porchLight: Artist = {
   whatToExpect: ["Lyrical Storytelling", "Conversational Delivery", "Crowd Atmosphere"],
   bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
-    {
-      name: "Whitney Whitney",
-      slug: "whitney-whitney",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178b9b32a1845c72390fc48c28c",
-    },
-    {
-      name: "Ella Boh",
-      slug: "ella-boh",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178f3ca12f1b323dbb7027d78dc",
-    },
-    { name: "Stella Lefty", slug: "stella-lefty" },
-    {
-      name: "Next of Kin",
-      slug: "next-of-kin",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178cbe19203158c6eae4ed0504a",
-    },
+    { name: "Momma", slug: "momma" },
+    { name: "Wolf Alice", slug: "wolf-alice" },
+    { name: "The Bends", slug: "the-bends" },
+    { name: "Wunderhorse", slug: "wunderhorse" },
   ],
   tracks: [
     { name: "Voice Memos", album: "Porch Light", duration: "" },
@@ -2247,6 +2150,7 @@ const porchLight: Artist = {
 const easyHoney: Artist = {
   name: "Easy Honey",
   slug: "easy-honey",
+  similarArtistsVerified: true,
   genres: ["Indie Rock", "Surf Rock", "Neo-Psychedelia"],
   location: { city: "Charleston", state: "South Carolina", country: "United States" },
   tagline: "Sun-drenched, witty surf rock and fuzzed-out psych grooves built for festival fields.",
@@ -2271,11 +2175,7 @@ const easyHoney: Artist = {
       slug: "spacey-jane",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178f5864abfed7a8d4b9334a7a0",
     },
-    {
-      name: "The Army, The Navy",
-      slug: "the-army-the-navy",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178a80252ae3d399fc49014502d",
-    },
+    { name: "Day We Ran", slug: "day-we-ran" },
   ],
   tracks: [
     { name: "Steady", album: "Peach State", duration: "" },
@@ -2306,6 +2206,7 @@ const easyHoney: Artist = {
 const jackieHollander: Artist = {
   name: "Jackie Hollander",
   slug: "jackie-hollander",
+  similarArtistsVerified: true,
   genres: ["Tech House", "Deep House", "Electronic"],
   location: { city: "San Francisco", state: "California", country: "United States" },
   tagline: "Sleek, low-slung deep tech house grooves packed with heavy underground attitude.",
@@ -2363,6 +2264,7 @@ const jackieHollander: Artist = {
 const stellaLefty: Artist = {
   name: "Stella Lefty",
   slug: "stella-lefty",
+  similarArtistsVerified: true,
   genres: ["Country", "Country Pop", "Singer-Songwriter"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline: "Witty, wordy stream-of-consciousness pop music that plays out like real voice memos.",
@@ -2376,22 +2278,10 @@ const stellaLefty: Artist = {
   whatToExpect: ["Lyrical Storytelling", "Conversational Delivery", "Crowd Atmosphere"],
   bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery"],
   similarArtists: [
-    { name: "Porch Light", slug: "porch-light" },
-    {
-      name: "Whitney Whitney",
-      slug: "whitney-whitney",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178b9b32a1845c72390fc48c28c",
-    },
-    {
-      name: "Ella Boh",
-      slug: "ella-boh",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178f3ca12f1b323dbb7027d78dc",
-    },
-    {
-      name: "Next of Kin",
-      slug: "next-of-kin",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178cbe19203158c6eae4ed0504a",
-    },
+    { name: "CMAT", slug: "cmat" },
+    { name: "Elizabeth Nichols", slug: "elizabeth-nichols" },
+    { name: "Cameron Whitcomb", slug: "cameron-whitcomb" },
+    { name: "Waylon Wyatt", slug: "waylon-wyatt" },
   ],
   tracks: [
     { name: "Voice Memos", album: "Stella Lefty", duration: "" },
@@ -2417,6 +2307,7 @@ const stellaLefty: Artist = {
 const justineSkye: Artist = {
   name: "Justine Skye",
   slug: "justine-skye",
+  similarArtistsVerified: true,
   genres: ["R&B", "Pop", "Soul"],
   location: { city: "Brooklyn", state: "New York", country: "United States" },
   tagline: "Sleek, high-gloss contemporary R&B driven by multi-platinum vocal confidence.",
@@ -2487,6 +2378,7 @@ const justineSkye: Artist = {
 const willSwinton: Artist = {
   name: "Will Swinton",
   slug: "will-swinton",
+  similarArtistsVerified: true,
   genres: ["Indie Pop", "Singer-Songwriter", "Alternative Folk"],
   location: { city: "Los Angeles", state: "California", country: "United States" },
   tagline:
@@ -2506,7 +2398,6 @@ const willSwinton: Artist = {
       slug: "audrey-hobert",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1784fc78e354b19324810f1e933",
     },
-    { name: "Stella Lefty", slug: "stella-lefty" },
     {
       name: "Next of Kin",
       slug: "next-of-kin",
@@ -2517,6 +2408,7 @@ const willSwinton: Artist = {
       slug: "whitney-whitney",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178b9b32a1845c72390fc48c28c",
     },
+    { name: "Kingfishr", slug: "kingfishr" },
   ],
   tracks: [
     { name: "Wasted On You", album: "Will Swinton", duration: "" },
@@ -2548,6 +2440,7 @@ const willSwinton: Artist = {
 const sunshineBenzi: Artist = {
   name: "Sunshine Benzi",
   slug: "sunshine-benzi",
+  similarArtistsVerified: true,
   genres: ["Hip-Hop", "Boom Bap", "Underground Rap"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
@@ -2567,9 +2460,9 @@ const sunshineBenzi: Artist = {
   bestFor: ["Lyric & Narrative Obsessives", "Scene Trend Spotters", "Early Afternoon Discovery"],
   similarArtists: [
     { name: "Little Simz", slug: "little-simz" },
-    { name: "bbno$", slug: "bbno-dollar" },
-    { name: "Lil Uzi Vert", slug: "lil-uzi-vert" },
     { name: "Freddie Gibbs", slug: "freddie-gibbs" },
+    { name: "Lil Uzi Vert", slug: "lil-uzi-vert" },
+    { name: "Clipse", slug: "clipse" },
   ],
   tracks: [
     { name: "TRUMP THE BILL", album: "TRUMP THE BILL", duration: "" },
@@ -2595,6 +2488,7 @@ const sunshineBenzi: Artist = {
 const caseOats: Artist = {
   name: "Case Oats",
   slug: "case-oats",
+  similarArtistsVerified: true,
   genres: ["Americana", "Country", "Folk Rock"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
@@ -2609,21 +2503,17 @@ const caseOats: Artist = {
   whatToExpect: ["Guitar-Driven Sound", "Lyrical Storytelling"],
   bestFor: ["Hometown & Local Supporters", "Dance Floor Seekers"],
   similarArtists: [
-    { name: "Whatmore", slug: "whatmore" },
-    {
-      name: "The Braymores",
-      slug: "the-braymores",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178e72ca0c70ab4f5bb3da261dc",
-    },
     {
       name: "The Creekers",
       slug: "the-creekers",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1783bd55f87a9e1be1eb5b1c1e1",
     },
+    { name: "Cameron Whitcomb", slug: "cameron-whitcomb" },
+    { name: "Waylon Wyatt", slug: "waylon-wyatt" },
     {
-      name: "Day We Ran",
-      slug: "day-we-ran",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f17896aa0ad1b8badab28252f80b",
+      name: "The Braymores",
+      slug: "the-braymores",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178e72ca0c70ab4f5bb3da261dc",
     },
   ],
   tracks: [
@@ -2650,6 +2540,7 @@ const caseOats: Artist = {
 const surfingForDaisy: Artist = {
   name: "Surfing for Daisy",
   slug: "surfing-for-daisy",
+  similarArtistsVerified: true,
   genres: ["Folk Rock", "Alternative Rock", "Neo-Psychedelia"],
   location: { city: "Asbury Park", state: "New Jersey", country: "United States" },
   tagline: "Sun-drenched, witty surf rock and fuzzed-out psych grooves built for festival fields.",
@@ -2674,11 +2565,7 @@ const surfingForDaisy: Artist = {
       slug: "marlon-funaki",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178712c7cd98ae745930f1e86a6",
     },
-    {
-      name: "Love Spells",
-      slug: "love-spells",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178b33be717b74e15b9f5c235f2",
-    },
+    { name: "Day We Ran", slug: "day-we-ran" },
   ],
   tracks: [
     { name: "Steady", album: "Peach State", duration: "" },
@@ -2703,6 +2590,7 @@ const surfingForDaisy: Artist = {
 const snacktime: Artist = {
   name: "SNACKTIME",
   slug: "snacktime",
+  similarArtistsVerified: true,
   genres: ["Funk", "Brass Band", "Soul"],
   location: { city: "Philadelphia", state: "Pennsylvania", country: "United States" },
   tagline: "High-octane, intense brass-heavy funk and soul built purely for outdoor block parties.",
@@ -2716,25 +2604,17 @@ const snacktime: Artist = {
   whatToExpect: ["Live Band Performance", "Melodic Vocal Hooks", "Dance Floor Energy"],
   bestFor: ["Dance Floor Seekers", "Bass & Groove Lovers"],
   similarArtists: [
-    {
-      name: "Khamari",
-      slug: "khamari",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1786921bdf2ddc6e84970fd172e",
-    },
-    {
-      name: "Sienna Spiro",
-      slug: "sienna-spiro",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178fb0ab819bbd4502028cd1feb",
-    },
+    { name: "Ric Wilson", slug: "ric-wilson" },
+    { name: "Penelope Road", slug: "penelope-road" },
     {
       name: "Olivia Dean",
       slug: "olivia-dean",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1785c7577ad44daeb7ce4b941a1",
     },
     {
-      name: "Destin Conrad",
-      slug: "destin-conrad",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f1786be69fc54978eb83fa10167c",
+      name: "Sienna Spiro",
+      slug: "sienna-spiro",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178fb0ab819bbd4502028cd1feb",
     },
   ],
   tracks: [
@@ -2760,6 +2640,7 @@ const snacktime: Artist = {
 const zackMartino: Artist = {
   name: "Zack Martino",
   slug: "zack-martino",
+  similarArtistsVerified: true,
   genres: ["Melodic House", "Dance Pop", "Electronic"],
   location: { city: "New York City", state: "New York", country: "United States" },
   tagline: "Sleek, high-gloss electronic dance pop and euphoric, stadium-scale house anthems.",
@@ -2774,25 +2655,21 @@ const zackMartino: Artist = {
   bestFor: ["Dance Floor Seekers", "Groups & Social Experience", "Tent & Club Venue Seekers"],
   similarArtists: [
     {
-      name: "MC4D",
-      slug: "mc4d",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178042776271fc2c09e905c93e6",
-    },
-    {
       name: "Major Lazer",
       slug: "major-lazer",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178ab312009266614f4d3185229",
-    },
-    {
-      name: "aespa",
-      slug: "aespa",
-      imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b",
     },
     {
       name: "Disco Lines",
       slug: "disco-lines",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178965c9bf81cfe9ca329b8a5c7",
     },
+    {
+      name: "aespa",
+      slug: "aespa",
+      imageUrl: "https://i.scdn.co/image/ab6761610000f178053bbb910dda6d4ab0618b8b",
+    },
+    { name: "Whethan", slug: "whethan" },
   ],
   tracks: [
     {
