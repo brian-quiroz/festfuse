@@ -61,7 +61,10 @@ function isRecognizable(entry: QueueEntry): boolean {
  * entries once the other is exhausted. Shared by the within-day and cross-day
  * interleaving strategies below so the "momentum" pacing can't drift between them.
  */
-function mergeUndercardAndRecognizable(undercard: QueueEntry[], recognizable: QueueEntry[]): QueueEntry[] {
+function mergeUndercardAndRecognizable(
+  undercard: QueueEntry[],
+  recognizable: QueueEntry[]
+): QueueEntry[] {
   const result: QueueEntry[] = [];
   let undIdx = 0;
   let recIdx = 0;
@@ -105,7 +108,10 @@ export function interleaveByTierWithinDay(entries: QueueEntry[]): QueueEntry[] {
  * Round-robin a per-day map of entry buckets into one flat, day-balanced stream —
  * one entry from each day in turn, in festival order, until every bucket is drained.
  */
-function roundRobinAcrossDays(byDay: Map<string, QueueEntry[]>, orderedDays: string[]): QueueEntry[] {
+function roundRobinAcrossDays(
+  byDay: Map<string, QueueEntry[]>,
+  orderedDays: string[]
+): QueueEntry[] {
   const result: QueueEntry[] = [];
   const indices = new Map(orderedDays.map((day) => [day, 0]));
 

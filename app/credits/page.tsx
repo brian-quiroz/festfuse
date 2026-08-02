@@ -25,8 +25,8 @@ export default function CreditsPage() {
       <div className="flex-1 max-w-2xl mx-auto w-full px-6 py-12">
         <h1 className="text-2xl font-bold text-white mb-2">Photo Credits</h1>
         <p className="text-sm text-white/60 mb-8">
-          Some artist photos are sourced from Wikimedia Commons and Flickr under Creative
-          Commons licenses. Credit for each is listed below.
+          Some artist photos are sourced from Wikimedia Commons and Flickr under Creative Commons
+          licenses. Credit for each is listed below.
         </p>
 
         {creditedArtists.length === 0 ? (

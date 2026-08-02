@@ -93,7 +93,7 @@ accent hex (`GENRE_FAMILY_GRADIENTS`), paired with one shared dark base
 palette:
 
 - **Stays clear of the 5 semantic colors.** Each accent hue sits outside a ±12°
-  exclusion zone around the *actual computed hue* of cyan/yellow/celebration/conflict
+  exclusion zone around the _actual computed hue_ of cyan/yellow/celebration/conflict
   (not eyeballed ranges) — a genre color must never risk being misread as one of those
   meaningful signals.
 - **Energy tiers, not a flat envelope.** Saturation/lightness vary per family — deep
@@ -113,7 +113,7 @@ palette:
 
 Each call site already has its own text-legibility overlay (a gradient that darkens
 part of the card so text stays readable). The fallback's own gradient direction must
-be chosen so its vivid accent lands where that overlay is *weakest*, not where it's
+be chosen so its vivid accent lands where that overlay is _weakest_, not where it's
 strongest — getting this backwards effectively double-darkens the accent into
 invisibility (hit twice during development: once on Artist Hero, once on Quick
 Picks/Explore cards). Left-anchored text (Artist Hero) uses the default `135deg` (base
@@ -121,7 +121,7 @@ top-left, accent bottom-right); bottom-anchored text (Quick Picks, Explore cards
 passes `direction="to top"` so the accent sits at the top, away from each card's own
 bottom-heavy darkening overlay.
 
-Several call sites also needed their *own* overlay softened for the fallback case —
+Several call sites also needed their _own_ overlay softened for the fallback case —
 the fallback already darkens progressively toward the text on its own, so stacking a
 full photo-legibility overlay on top double-darkens (a photo needs that overlay to
 create any darkening at all; the gradient doesn't). `ArtistHero`, `DecisionScreen`,
@@ -141,8 +141,8 @@ it doesn't outcompete real photo avatars sitting next to it in the same list.
 `FloatingCards.tsx`'s Similar Artists list no longer reads `similarArtists[].imageUrl`
 (a separately-curated, externally-sourced field) for its avatars. Since every similar
 artist is always a lineup artist (the recommendation algorithm draws from the
-festival's own roster), it looks the artist up via `artistsBySlug` and reuses *their
-own* `imageUrl`/`genres` — the same asset already curated for their own artist page —
+festival's own roster), it looks the artist up via `artistsBySlug` and reuses _their
+own_ `imageUrl`/`genres` — the same asset already curated for their own artist page —
 falling back to the gradient above when that artist doesn't have a photo yet either.
 
 **`similarArtists[].imageUrl` itself is now dead code** — no remaining reader anywhere
@@ -286,7 +286,7 @@ app-wide.
 
 The Explore page manages four distinct states:
 
-1. **No filters + no search** → Show curated carousels (Festival Favorites, Hidden Gems, International Picks, Chicago's Own, After Dark)
+1. **No filters + no search** → Show curated carousels (Festival Favorites, International Picks, Chicago's Own, After Dark)
 2. **Filters only** → Show ActiveFilters bar + ArtistResultsGrid
 3. **Search only** → Show search heading + ArtistResultsGrid
 4. **Search + filters** → Show ActiveFilters bar + ArtistResultsGrid
@@ -322,7 +322,7 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 - Festival Favorites — "Is this artist a headliner/sub-headliner?" (objective fact)
 - International Picks — "Is this artist from outside the US?" (objective fact)
 - Chicago's Own — "Is this artist from Chicago?" (objective fact; `location.city ===
-  "Chicago"` exactly, not the whole state of Illinois)
+"Chicago"` exactly, not the whole state of Illinois)
 - After Dark — "Does this artist's primary appearance start at 8:00 PM or later?"
   (objective fact, via the shared `timeStringToMinutes` parser — see "Carousel
   Presentation Strategies" below)
@@ -330,7 +330,9 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 
 **Curatorial/Discovery Rows** (answer subjective "is this worth surfacing" questions):
 
-- Hidden Gems — "Is this artist overlooked/underrated?" (editorial judgment)
+- None currently — all active rows are factual/criteria-based. A future row like "Hidden
+  Gems" ("Is this artist overlooked/underrated?") is possible but requires ongoing
+  editorial curation to keep accurate, so it's future work rather than a current row.
 
 ### Suppression Rules
 
@@ -343,15 +345,15 @@ An artist can legitimately be:
 
 All three facts are simultaneously true. Hiding an artist from one row because they appear in another would make each row factually incomplete or misleading.
 
-**Rule B: Hidden Gems suppresses only against Festival Favorites.**
+**Rule B: A curatorial row suppresses against Festival Favorites** (future work, no curatorial row currently exists).
 
-Hidden Gems' premise is "overlooked," which is contradicted if a headliner appears in it. This is the _only_ suppression relationship in the current system.
+A curatorial row's premise is typically "overlooked" or similarly editorial, which is contradicted if a headliner appears in it. If a curatorial row is added, it should exclude artists already shown in Festival Favorites.
 
-**Rule C: If you had two curatorial rows, they'd suppress against each other** (currently hypothetical).
+**Rule C: If you had two curatorial rows, they'd suppress against each other** (future work).
 
 If you added a second curatorial row (e.g., "Artists Worth Seeing Early"), you'd want the same editorially-chosen artist to not appear twice under different curatorial framings.
 
-Right now Rule C doesn't apply to anything — After Dark is factual (Rule A), not curatorial, so there's no second curatorial row to protect.
+Right now neither Rule B nor Rule C applies to anything — After Dark is factual (Rule A), not curatorial, and no curatorial row currently exists.
 
 ---
 
@@ -391,7 +393,7 @@ Two distinct algorithms power carousel rows, chosen based on the row's editorial
 4. Round-robin interleave across shuffled groups
 5. Concatenate result
 
-**Why this pattern:** All other rows (International Picks, Chicago's Own, After Dark, Hidden Gems) don't care about billing prominence — they're answering a different question ("Is this artist from outside the US?" not "Is this artist famous?"). File-order bias is a hazard: if the data file happens to list headliners first, every row would inherit that prominence bias without editing work. Shuffling within days breaks that bias. Round-robin interleaving distributes artists across visible viewport positions evenly (first visible artist comes from each day in order) rather than front-loading any single day.
+**Why this pattern:** All other rows (International Picks, Chicago's Own, After Dark) don't care about billing prominence — they're answering a different question ("Is this artist from outside the US?" not "Is this artist famous?"). File-order bias is a hazard: if the data file happens to list headliners first, every row would inherit that prominence bias without editing work. Shuffling within days breaks that bias. Round-robin interleaving distributes artists across visible viewport positions evenly (first visible artist comes from each day in order) rather than front-loading any single day.
 
 **After Dark's 8:00 PM threshold:** chosen from the actual lineup distribution, not a
 round-number guess. At 8:00 PM, 19 artists qualify, spread 4-5 per day across all four
@@ -427,7 +429,7 @@ Clicking "See all" on any carousel row enters a full-page grid view of that row'
 
    This provides consistent reference ordering for browsing, distinct from the carousel's curatorial shuffle.
 
-3. **Header with row name + count + back button** — Shows "Hidden Gems · 24 artists" plus a clear "Back to Explore" button. Heading is visible at top of page on entry.
+3. **Header with row name + count + back button** — Shows "International Picks · 24 artists" plus a clear "Back to Explore" button. Heading is visible at top of page on entry.
 
 4. **Row criteria as locked filter** — The row's filter is implicit but fixed (e.g., "International Picks" = non-US artists). Reuse the existing filter/search UI and ArtistResultsGrid on top of it. Users can add additional filters (by genre, day, stage) but cannot remove the row's base criteria.
 
@@ -459,23 +461,11 @@ const festivalFavorites = shuffleDayBlocks(
   })
 );
 
-// Hidden Gems: curatorial, suppress only against Festival Favorites (Rule B)
-// Pipeline: filter by genre → exclude headliners/sub-headliners → exclude artists already in Festival Favorites
-// → sort by day → shuffle within days → interleave across days (see interleaveByDayShuffled)
-const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
-const hiddenGems = interleaveByDayShuffled(
-  allArtists.filter((a) => {
-    const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
-    return (
-      a.genres.some((g) =>
-        ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)
-      ) &&
-      tier !== "Headliner" &&
-      tier !== "Sub-headliner" &&
-      !shownInFestival.has(a.slug) // Rule B suppression: don't show already-featured artists
-    );
-  })
-);
+// A future curatorial row (see Rule B above) would filter by editorial criteria,
+// exclude headliners/sub-headliners, and exclude artists already in Festival Favorites:
+//   const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
+//   allArtists.filter((a) => meetsCuratorialCriteria(a) && !shownInFestival.has(a.slug))
+// then sort by day → shuffle within days → interleave across days, same as the rows below.
 
 // International Picks: factual, no suppression (Rule A)
 // Pipeline: filter to non-US → sort by day → shuffle within days → interleave
@@ -695,7 +685,7 @@ different page.
      correct store on its very first render.
    - `NAV_PRESETS`: a `Record<Exclude<ActiveNavItem, "explore">, NavPreset>` map (a
      `{facet: "pick", values: PickStatusFilterValue[]} | {facet: "schedule", values:
-     ScheduleStatusValue[]}` discriminated union, built with `satisfies` so a typo in a
+ScheduleStatusValue[]}` discriminated union, built with `satisfies` so a typo in a
      value fails to compile) — the single source of truth for what each My Festival preset
      means in terms of `pickStatus`/`scheduleStatus`. Exported so `Sidebar.tsx` can reuse it
      for highlight validation instead of keeping a second, driftable copy.
@@ -703,7 +693,7 @@ different page.
      trigger — `ExploreContent` uses it only to know "scroll the results container back to
      top," never as data — which is a narrower, safer use of a counter than this store's
      old `sidebarNavigationCount` (removed earlier in this refactor). That one gated
-     *application of filter values*, so which value was "current" depended on timing
+     _application of filter values_, so which value was "current" depended on timing
      relative to the counter — the exact mechanism behind this session's stale-filter
      bugs. `navigationRevision` only re-triggers an idempotent DOM action, so there's no
      staleness for it to introduce.
@@ -730,7 +720,7 @@ different page.
 3. **Explore reads the store directly** (`app/components/explore/ExploreContent.tsx`):
    - `genres`/`day`/`stages`/`pickStatus`/`scheduleStatus`/`searchQuery`/`viewingCarousel`
      are all read straight from `useExploreFilterStore()` — no local mirror, no sync effect.
-   - `viewingCarousel` is deliberately *not* reset from an effect keyed on `activeNavItem`.
+   - `viewingCarousel` is deliberately _not_ reset from an effect keyed on `activeNavItem`.
      An earlier version did that, and it broke when `activeNavItem` didn't actually change
      value — e.g. clicking "Explore" while already on the unfiltered view left a carousel's
      full view stuck open, since a same-value dependency doesn't retrigger a `useLayoutEffect`.
@@ -786,7 +776,7 @@ navigation paths that broke in different ways during development):
    resets the in-memory store, since `exploreFilterStore` has no `persist` middleware. The
    contract this implementation can actually guarantee isn't "always restored" — it's that
    the page renders one stable state, restored or freshly reset, without ever flashing
-   stale filters first. A full page *refresh* (as opposed to back/forward) reliably resets
+   stale filters first. A full page _refresh_ (as opposed to back/forward) reliably resets
    the in-memory Explore state to empty.
 
 ---
@@ -811,7 +801,7 @@ effect.
 
 ### Attendance scope
 
-Scoped to the *launching* Quick Picks session's captured `attendanceDays` snapshot,
+Scoped to the _launching_ Quick Picks session's captured `attendanceDays` snapshot,
 passed explicitly via `FestivalStorySequence`'s `attendanceDays` prop — never re-read
 from the persisted `attendanceStore` for a session that already completed, so a
 changed persisted selection afterward can't silently rescope a finished session. The
@@ -823,7 +813,7 @@ resolution, used both by `computeStorySignals` and by Quick Picks completion's u
 check: eligible = has a `getSelectedDayAppearance` on a selected day; a valid positive
 pick = an eligible artist with a `mustSee`/`interested` verdict in
 `decisionsByArtist`, regardless of source (Quick Picks — any session — Explore, or
-Artist Detail) or of whether the artist's *global primary* appearance falls outside
+Artist Detail) or of whether the artist's _global primary_ appearance falls outside
 the selected days. Forward-constructed, so stale decision slugs and artists whose only
 appearances fall outside the selected days are silently excluded. An explicit
 zero-day attendance selection resolves to zero eligible artists, never the full
@@ -875,7 +865,7 @@ forms are always in it.
 ### Comparison method: deterministic sample-aware, not a fixed percentage-point floor
 
 Replaces the old fixed 12-percentage-point "noise floor," which was only accidentally
-protective because Chicago happens to be ~10.5% of the *full* lineup — attendance
+protective because Chicago happens to be ~10.5% of the _full_ lineup — attendance
 scoping breaks that accident (Saturday's eligible lineup alone is ~14% Chicago, so
 zero Chicago picks could have cleared the old 12pp bar once scoped to Saturday).
 
@@ -889,24 +879,24 @@ real picks' metric and the 500 samples' metrics are compared via
 tested direction, as the real picks.
 
 **The seed depends only on the comparison universe, never on which artists were
-picked.** It's built from festival ID, sorted attendance days, the pick *count*
+picked.** It's built from festival ID, sorted attendance days, the pick _count_
 (sample size), and a sorted fingerprint of the eligible lineup's own artist slugs —
 deliberately not the identities of the picked artists themselves. Two users with the
 same festival, attendance scope, eligible lineup, and number of valid positive picks
 draw the exact same 500 samples even if they picked entirely different artists. This
-matters because the samples are the *ruler* a pick set is measured against; if the
+matters because the samples are the _ruler_ a pick set is measured against; if the
 ruler itself flexed based on which specific artists were picked, a borderline
 qualification could tip one way or the other partly because the ruler changed rather
 than because the picks themselves did — a real risk at only 500 samples. The observed
 values are still, obviously, computed from the actual picks.
 
 **Selection-adjusted comparison for Taste Profile and Day.** Both of these signals
-pick their subject by *searching* — Taste Profile searches every genre family for the
+pick their subject by _searching_ — Taste Profile searches every genre family for the
 user's best-represented one; Day searches every selected attendance day for the
 strongest positive over-index. Production must apply that same search to every random
 sample, or the comparison is biased: checking only "how did this sample do in the
 family/day the user happened to win on" is an easier bar to clear than "how did this
-sample do at its *own* best family/day," which inflates how unusual the observed
+sample do at its _own_ best family/day," which inflates how unusual the observed
 result looks. Both signals therefore compare **max-vs-max**: the observed picks'
 maximum family-presence-rate (or day-over-index) against the distribution of each
 sample's own maximum across the same candidate set. Every other comparative signal
@@ -969,7 +959,7 @@ Only computed with ≥2 selected attendance days. Each valid pick is attributed 
 exactly one day via its own `getSelectedDayAppearance` (never double-counted across
 days, including for multi-appearance artists).
 
-**The candidate day is whichever selected day has the strongest *positive over-index*
+**The candidate day is whichever selected day has the strongest _positive over-index_
 against the eligible lineup's own day distribution — not whichever day has the user's
 highest raw pick share.** A day can hold the largest share of picks while still
 under-indexing its own baseline (e.g. 45% of picks on a day that's 55% of the eligible
@@ -989,7 +979,7 @@ weekday/weekend hardcoding — works for any combination (e.g. Thursday + Sunday
   baseline **and** the standard extremeness/practical-effect gates **and** ≥2 picks
   (≥4 for the strongest copy tier) — closes an accidental-protection gap where the
   old fixed 12pp threshold happened to block zero-Chicago results only because
-  Chicago is ~10.5% of the *full* lineup; attendance scoping breaks that accident
+  Chicago is ~10.5% of the _full_ lineup; attendance scoping breaks that accident
   (Saturday's eligible lineup alone is ~14% Chicago). Zero/under-indexing never
   produces a card of any kind. `isChicago` (`app/lib/location.ts`) normalizes
   trim/case only, deliberately not state-suffix variants like "Chicago, IL" — that
@@ -1006,7 +996,7 @@ weekday/weekend hardcoding — works for any combination (e.g. Thursday + Sunday
   a display bug where an integer stage count rendered as `5.0`.
 - **Genre Affinity vs. Genre Breadth**: allowed to coexist (different questions —
   which family leads vs. how widely picks range) with separated copy. Concentrating in
-  one genre family mechanically *reduces* expected genre-tag variety relative to a
+  one genre family mechanically _reduces_ expected genre-tag variety relative to a
   random sample, so affinity(strong) more often pairs with breadth(focused) than
   breadth(broad) in practice — a property of what the two metrics measure, not a bug.
 
@@ -1371,7 +1361,7 @@ what the switch filters)
 - Both toggles can be enabled simultaneously to show artists that are both in Must See/Interested AND scheduled
 - When both enabled, displays the intersection of the two filters
 - Conflict artists remain visible and highlighted (red border/accent) regardless of toggle state
-- Default state: My Picks on, Scheduled off — surfaces "what have I flagged but not scheduled yet" on first visit, matching this feature's own framing below (organizing a plan *after* decisions have already been made). Defaulting both on instead would start blank for anyone with nothing scheduled yet, since that combination means "picks that are also scheduled."
+- Default state: My Picks on, Scheduled off — surfaces "what have I flagged but not scheduled yet" on first visit, matching this feature's own framing below (organizing a plan _after_ decisions have already been made). Defaulting both on instead would start blank for anyone with nothing scheduled yet, since that combination means "picks that are also scheduled."
 - Persisted via `plannerViewStore` (see State Summary → Stores below) — survives navigating away and back, and a hard page reload, not just this page visit
 
 **Artist cell interactions:**
@@ -1584,7 +1574,7 @@ Summary of what changed and why:
   else — none/partial scheduled → schedules every appearance at the active festival;
   all scheduled → unschedules all).
 - **Three-state schedule status** — `getArtistScheduleState(artist, festivalId,
-  scheduledAppearanceKeys)` returns `"none" | "partial" | "full"`, shared by
+scheduledAppearanceKeys)` returns `"none" | "partial" | "full"`, shared by
   `ArtistCard`, `ArtistActions`, and `filters.ts`'s `scheduleStatus` facet so they can
   never disagree. Filter "Scheduled" = state !== "none"; "Unscheduled" = state ===
   "none"; "Conflicting" = any appearance key in the conflict set.
@@ -1601,11 +1591,11 @@ Summary of what changed and why:
     Headliner badge (billing status, a different kind of fact, keeps its own overlay
     position).
   - `ArtistActions` (Artist Detail): the button's own visible text communicates state
-    *and* count together — **"Add to Schedule · 2 sets"** (none), **"Complete
+    _and_ count together — **"Add to Schedule · 2 sets"** (none), **"Complete
     Schedule · 2 sets"** (partial), **"Scheduled · 2 sets"** (full).
   - `DecisionScreen` (Quick Picks): a chip immediately after the date/time chip,
     styled identically to the other neutral metadata chips (translucent background,
-    subtle white border, muted white text, no icon) — deliberately *not* emphasized,
+    subtle white border, muted white text, no icon) — deliberately _not_ emphasized,
     since it's a minor fact rather than a decision input, and must not read as an
     interactive or recurring-event control. Quick Picks still decides on the primary
     appearance alone; the secondary appearance's own time/stage never appears here.
@@ -1699,7 +1689,7 @@ this):
 - No saved selection yet (`undefined`), or a malformed/non-array value — defaults to
   every day in `FESTIVAL_DAYS[festivalId]` (`app/data/festivals.ts` — the single
   source of valid days; Quick Picks keeps no copy of its own).
-- Otherwise, the result is built by filtering the *configured* day list down to
+- Otherwise, the result is built by filtering the _configured_ day list down to
   whichever of its days appear in the saved value. This both drops stale days (no
   longer in the festival configuration) and, as a side effect, de-duplicates and
   restores festival order regardless of click order or storage corruption.
@@ -1707,11 +1697,11 @@ this):
   treated as entirely stale and falls back to all configured days — same as no
   selection ever having been made.
 - An explicit empty selection (the user deselected every day, so the saved value
-  legitimately *was* `[]`) is preserved as empty, not reset — the UI's job is to
+  legitimately _was_ `[]`) is preserved as empty, not reset — the UI's job is to
   disable Start Quick Picks for that state, not to silently override it.
 
 Changing attendance never touches `decisionStore` — the two stores are independent,
-and a changed selection only changes which undecided artists appear in the *next*
+and a changed selection only changes which undecided artists appear in the _next_
 session's queue.
 
 ### Selected-day appearance resolution
@@ -1751,7 +1741,7 @@ user selects another day.
 object synchronously, at click time — before the 100ms button-press animation delay,
 not inside its `setTimeout`. The delay exists purely for visual feedback; it must not
 be what determines which data the session starts with. That alone isn't sufficient,
-though: the *persisted* attendance selection could still change during those 100ms
+though: the _persisted_ attendance selection could still change during those 100ms
 and leave the setup screen showing something the session snapshot no longer matches.
 `StartOptions` accepts a `disabled` prop, applied as a real `disabled` attribute (not
 a `pointer-events-none` CSS trick, which blocks mouse input but not keyboard/assistive
@@ -1787,7 +1777,7 @@ One day at a time, in festival order, skipping unselected days entirely.
 (`{ artist, appearance }` pairs) instead of bare artists, reading billing tier from
 the entry's own selected-day appearance rather than recomputing a global primary. Day
 Complete screens appear only between selected days; "Continue to [Day]" always names
-the *next selected* day, never a skipped one, because it's read directly off the next
+the _next selected_ day, never a skipped one, because it's read directly off the next
 queue item. The final selected day proceeds straight to the completion screen.
 
 ### Ungrouped queue
@@ -1806,7 +1796,7 @@ screens; progress uses the full queue.
 
 ### Multi-appearance disclosure, attendance-scoped
 
-Inside Quick Picks only, the "N sets" chip counts appearances on the *session's*
+Inside Quick Picks only, the "N sets" chip counts appearances on the _session's_
 selected days, not the artist's total appearance count — an artist playing Friday and
 Sunday shows "2 sets" only if both days are selected; if only Friday is selected, no
 chip appears at all. Artist Detail and Planner are unaffected and continue showing
@@ -1828,10 +1818,10 @@ the Quick Picks setup screen, which wasn't actually the Schedule feature).
 
 - **Planner / Explore** — unaffected by attendance; both continue showing the
   complete festival schedule/lineup regardless of Quick Picks attendance selection. A
-  future Planner integration may *acknowledge* attendance (e.g. a visual hint on
+  future Planner integration may _acknowledge_ attendance (e.g. a visual hint on
   unselected days) without requiring Planner to hide anything.
 - **Festival Story** — now attendance-scoped; see "Festival Story" above (`§
-  Attendance scope`) for how it consumes the *launching session's* captured
+Attendance scope`) for how it consumes the _launching session's_ captured
   `attendanceDays` rather than re-reading the persisted store.
 
 ---
@@ -1848,7 +1838,13 @@ boundary, not just an MVP shortcut — revisit deliberately, not by accretion.
 ```typescript
 export type Artist = {
   // ...other fields unchanged...
-  tracks: Array<{ spotifyId?: string; name: string; album: string; duration: string; artworkUrl?: string }>;
+  tracks: Array<{
+    spotifyId?: string;
+    name: string;
+    album: string;
+    duration: string;
+    artworkUrl?: string;
+  }>;
   // Presence of this field is itself the "curated, not auto-resolved" signal — no
   // separate verified/reviewed flag.
   listenFirst?: {
@@ -2067,7 +2063,7 @@ each one's `loadYouTubeApi()` call would find `apiPromise` already set and reuse
 same dead, never-resolving promise instead of attempting its own fresh load, even after
 whatever caused the original failure (e.g. an ad blocker toggled off mid-session) no
 longer applies. Resetting it on timeout means each subsequent artist gets an independent
-attempt. Safe even against the *delayed*, not dead, case from above: if the original
+attempt. Safe even against the _delayed_, not dead, case from above: if the original
 script does eventually load after a second one's been injected, both promises still
 resolve, since `window.onYouTubeIframeAPIReady` chains onto whatever callback was
 previously assigned rather than overwriting it.
@@ -2463,7 +2459,7 @@ Quick Picks' decisioning screen resolves `currentAppearance` (`app/quick-picks/p
 
 ## Future Consideration: Seeded Quick Picks Queue Shuffle
 
-The Quick Picks queue shuffle (`shuffleArray`, used by `interleaveByTierWithinDay` and `buildUngroupedQueue` in `app/lib/quick-picks-queue.ts`) uses plain `Math.random()`, producing a genuinely different artist order every time a session starts. This is intentional — it matches the "go with your gut," momentum-over-precision philosophy in CLAUDE.md's Quick Picks section — and is a different tradeoff than `createSeededRandom` (`app/lib/random.ts`), which other features (Explore's carousels, Festival Story's sampling) use deliberately where *within-session* stability matters.
+The Quick Picks queue shuffle (`shuffleArray`, used by `interleaveByTierWithinDay` and `buildUngroupedQueue` in `app/lib/quick-picks-queue.ts`) uses plain `Math.random()`, producing a genuinely different artist order every time a session starts. This is intentional — it matches the "go with your gut," momentum-over-precision philosophy in CLAUDE.md's Quick Picks section — and is a different tradeoff than `createSeededRandom` (`app/lib/random.ts`), which other features (Explore's carousels, Festival Story's sampling) use deliberately where _within-session_ stability matters.
 
 **The tradeoff:** because the shuffle isn't seeded, a specific queue order can't be reproduced across reloads, which makes verifying a bug report about ordering harder than it would be with a seeded shuffle.
 
@@ -2497,7 +2493,7 @@ The locked Festival Story card's recovery path ("Take a Second Look") always rou
 
 On macOS Chrome, trackpad momentum scrolling past the Planner grid's horizontal edge triggers the browser's native elastic "rubber-band" bounce. Because the edge fades (`app/components/planner/PlannerGrid.tsx`) are a separate absolutely-positioned overlay sitting on top of the scroll container — not part of the scrolling content itself — the content briefly slides past its edge during the bounce while the fade stays fixed, making the fade line appear to shift momentarily before springing back with the content. Reproduces on desktop Chrome; not observed on desktop Safari.
 
-**Tried:** `overscroll-behavior-x: contain` on the scroll container — did not change the behavior. Expected, in hindsight: that property mainly prevents overscroll from *chaining* to a scrollable ancestor; it doesn't suppress the local elastic bounce on the element itself, and there's no bouncing ancestor here for it to have chained to regardless.
+**Tried:** `overscroll-behavior-x: contain` on the scroll container — did not change the behavior. Expected, in hindsight: that property mainly prevents overscroll from _chaining_ to a scrollable ancestor; it doesn't suppress the local elastic bounce on the element itself, and there's no bouncing ancestor here for it to have chained to regardless.
 
 **What a real fix would take:** rendering the fade as a `mask-image` on the scroll container itself (so it moves with the same box that bounces) rather than a fixed overlay. Not a simple swap — the grid has a sticky hour-label column and sticky stage headers, which a whole-container mask would also fade unless carefully excluded, and a mask's gradient is positioned relative to the full scrollable content, not the visible viewport, so keeping the fade anchored to the visible edges while scrolling would require continuously syncing the mask's position to scroll offset rather than a static CSS value.
 
@@ -2702,9 +2698,9 @@ Only #3 needed the sort fix; #1 and #2 didn't, which is why the fix touches one 
 
 Getting the error branch to actually take effect required working around three separate, layered hazards in this exact stack (zustand `persist` + synchronous `localStorage` + Next.js/Turbopack, in both dev mode and `next build`'s server-side static generation) — all three confirmed by hand against real corrupted-storage reloads and real builds, not deduced from reading the library alone:
 
-1. **Referencing the store's own exported `const` from inside `onRehydrateStorage` throws a TDZ `ReferenceError`.** `onRehydrateStorage`'s callback can fire *before* `create()` finishes returning, so `useDecisionStore` (etc.) isn't assigned yet at that point. Fixed by never referencing the const at all: each store instead assigns a module-level `markHydratedOnError` variable *inside its own creator function* (`(set) => { markHydratedOnError = () => set({ hasHydrated: true }); return {...}; }`) — the creator's `set` parameter is passed in directly, not read from the outer closure, so it has no such hazard.
+1. **Referencing the store's own exported `const` from inside `onRehydrateStorage` throws a TDZ `ReferenceError`.** `onRehydrateStorage`'s callback can fire _before_ `create()` finishes returning, so `useDecisionStore` (etc.) isn't assigned yet at that point. Fixed by never referencing the const at all: each store instead assigns a module-level `markHydratedOnError` variable _inside its own creator function_ (`(set) => { markHydratedOnError = () => set({ hasHydrated: true }); return {...}; }`) — the creator's `set` parameter is passed in directly, not read from the outer closure, so it has no such hazard.
 
-2. **Even with a valid, non-TDZ'd reference to `set`, calling it *synchronously* inside the error branch silently does nothing.** Root cause, traced into `zustand`'s own source: `persistImpl` (`node_modules/zustand/esm/middleware.mjs`) calls `hydrate()` synchronously — for `localStorage` (not an async storage), the entire rehydration chain, including our error callback, resolves within that same synchronous call, which is itself running *inside* `zustand/vanilla.mjs`'s `createStoreImpl`, before its internal `state` variable has been assigned (`state = createState(...)` only completes *after* this whole chain returns). Any `set()` call made during that window mutates a `state` reference that then gets **completely discarded**: on the error path, `persistImpl` always returns `stateFromStorage || configResult`, and `stateFromStorage` is only ever assigned on the *success* path — so on error it's always `configResult`, the plain pre-hydration default, overwriting whatever the interim `set()` call did. No exception is thrown anywhere in this sequence, which is what made it hard to pin down: the call appears to succeed and simply has no lasting effect. Fixed by deferring the call by one tick — `setTimeout(() => markHydratedOnError?.(), 0)` — so it runs after the store has finished constructing rather than during it.
+2. **Even with a valid, non-TDZ'd reference to `set`, calling it _synchronously_ inside the error branch silently does nothing.** Root cause, traced into `zustand`'s own source: `persistImpl` (`node_modules/zustand/esm/middleware.mjs`) calls `hydrate()` synchronously — for `localStorage` (not an async storage), the entire rehydration chain, including our error callback, resolves within that same synchronous call, which is itself running _inside_ `zustand/vanilla.mjs`'s `createStoreImpl`, before its internal `state` variable has been assigned (`state = createState(...)` only completes _after_ this whole chain returns). Any `set()` call made during that window mutates a `state` reference that then gets **completely discarded**: on the error path, `persistImpl` always returns `stateFromStorage || configResult`, and `stateFromStorage` is only ever assigned on the _success_ path — so on error it's always `configResult`, the plain pre-hydration default, overwriting whatever the interim `set()` call did. No exception is thrown anywhere in this sequence, which is what made it hard to pin down: the call appears to succeed and simply has no lasting effect. Fixed by deferring the call by one tick — `setTimeout(() => markHydratedOnError?.(), 0)` — so it runs after the store has finished constructing rather than during it.
 
 3. **The deferred call from fix #2 then surfaced a third, unrelated failure — but only during `next build`, not dev mode.** Node 22+'s own experimental global `localStorage` (unrelated to a browser's) is present in Next.js's server-side static-generation environment — functional enough that `createJSONStorage` doesn't treat it as absent, but not backed by a real file, so every call throws. That gets misread as a genuine rehydration error during the server-rendered pass of every page, and the now-deferred `set()` call from fix #2 fires into it moments later, throwing a `TypeError` (non-fatal to the overall build, but a real uncaught exception logged to the build output). Fixed with a `typeof document !== "undefined"` guard around the deferred call — real browsers always have `document`; this Node environment never does.
 

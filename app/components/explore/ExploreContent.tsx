@@ -103,10 +103,9 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   // Each gets a unique seed (seed + offset) so shuffles are genuinely independent,
   // while staying deterministic per page load (server/client produce identical results).
   const festivalFavoritesRandom = useMemo(() => createSeededRandom(seed), [seed]);
-  const hiddenGemsRandom = useMemo(() => createSeededRandom(seed + 1), [seed]);
-  const internationalPicksRandom = useMemo(() => createSeededRandom(seed + 2), [seed]);
-  const chicagosOwnRandom = useMemo(() => createSeededRandom(seed + 3), [seed]);
-  const afterDarkRandom = useMemo(() => createSeededRandom(seed + 4), [seed]);
+  const internationalPicksRandom = useMemo(() => createSeededRandom(seed + 1), [seed]);
+  const chicagosOwnRandom = useMemo(() => createSeededRandom(seed + 2), [seed]);
+  const afterDarkRandom = useMemo(() => createSeededRandom(seed + 3), [seed]);
 
   // Carousel rows computed with seeded RNG for deterministic, identical server/client rendering
   // See ARCHITECTURE.md § Carousel Presentation Strategies for algorithm details.
@@ -122,25 +121,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
       ),
     [festivalFavoritesRandom]
   );
-
-  // Suppress against Festival Favorites (Hidden Gems' premise is "overlooked")
-  const hiddenGems = useMemo(() => {
-    const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
-    return interleaveByDayShuffled(
-      allArtists.filter((a) => {
-        const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
-        return (
-          a.genres.some((g) =>
-            ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)
-          ) &&
-          tier !== "Headliner" &&
-          tier !== "Sub-headliner" &&
-          !shownInFestival.has(a.slug)
-        );
-      }),
-      hiddenGemsRandom
-    );
-  }, [festivalFavorites, hiddenGemsRandom]);
 
   const internationalPicks = useMemo(
     () =>
@@ -176,7 +156,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   // Carousel data map — computed after all carousels are ready, for use in both header and view
   const carouselMap: Record<string, { title: string; artists: Artist[] }> = {
     "festival-favorites": { title: "Festival Favorites", artists: festivalFavorites },
-    "hidden-gems": { title: "Hidden Gems", artists: hiddenGems },
     "international-picks": { title: "International Picks", artists: internationalPicks },
     "chicagos-own": { title: "Chicago's Own", artists: chicagosOwn },
     "after-dark": { title: "After Dark", artists: afterDark },
@@ -188,333 +167,209 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   return (
     <main ref={mainRef} className="flex-1 min-w-0 overflow-y-auto themed-scrollbar flex flex-col">
       <div className="flex-1 w-full max-w-[1760px] mx-auto">
-      {/* Page header — only show when viewing carousels */}
-      {!viewingCarousel && (
-        <div className="px-4 sm:px-8 pt-10 pb-0">
-          <div className="flex items-start justify-between gap-3 mb-7">
-            <div>
-              <h1 className="text-3xl font-extrabold text-white tracking-tight">
-                Explore Artists
-              </h1>
-              <p className="text-sm text-white/45 mt-1.5">
-                No pressure. Just explore.
-              </p>
-            </div>
-            <div
-              className="relative"
-              onMouseEnter={() => eligibleArtists.length === 0 && setShowSurpriseTooltip(true)}
-              onMouseLeave={() => setShowSurpriseTooltip(false)}
-            >
-              <button
-                onClick={handleSurpriseMe}
-                disabled={eligibleArtists.length === 0}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold flex-shrink-0 whitespace-nowrap border transition-all duration-200 ${
-                  eligibleArtists.length === 0
-                    ? "border-white/10 text-white/25 cursor-not-allowed"
-                    : "border-[#00E5FF]/25 text-white/60 hover:border-[#00E5FF]/60 hover:text-[#00E5FF] hover:bg-[#00E5FF]/10 hover:shadow-[0_0_14px_rgba(0,229,255,0.25)]"
-                }`}
+        {/* Page header — only show when viewing carousels */}
+        {!viewingCarousel && (
+          <div className="px-4 sm:px-8 pt-10 pb-0">
+            <div className="flex items-start justify-between gap-3 mb-7">
+              <div>
+                <h1 className="text-3xl font-extrabold text-white tracking-tight">
+                  Explore Artists
+                </h1>
+                <p className="text-sm text-white/45 mt-1.5">No pressure. Just explore.</p>
+              </div>
+              <div
+                className="relative"
+                onMouseEnter={() => eligibleArtists.length === 0 && setShowSurpriseTooltip(true)}
+                onMouseLeave={() => setShowSurpriseTooltip(false)}
               >
-                <Shuffle
-                  size={12}
-                  strokeWidth={2}
-                  className={eligibleArtists.length === 0 ? undefined : "text-[#00E5FF]/80"}
-                />
-                Surprise Me
-              </button>
-              {showSurpriseTooltip && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 text-xs text-white/60 whitespace-nowrap pointer-events-none">
-                  All artists reviewed
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Carousel back header — only show when viewing a carousel */}
-      {viewingCarousel && currentCarousel && (
-        <div className="px-4 sm:px-8 pt-10 pb-0">
-          <button
-            onClick={handleBackToExplore}
-            className="flex items-center gap-2 text-white/50 hover:text-white/70 transition-colors mb-7"
-          >
-            <ChevronLeft size={18} strokeWidth={2} />
-            Back to Explore
-          </button>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">
-            {currentCarousel.title}
-            <span className="text-white/50 font-normal ml-2">
-              · {currentCarousel.artists.length} artists
-            </span>
-          </h1>
-        </div>
-      )}
-
-      {/* Filters — always show */}
-      <div className="px-4 sm:px-8 pt-6 pb-0">
-        <ExploreFilters
-          searchQuery={searchQuery}
-          selectedGenres={activeGenres}
-          selectedDay={activeDay}
-          selectedStages={activeStages}
-          selectedPickStatus={pickStatus}
-          selectedScheduleStatus={scheduleStatus}
-          onSearchChange={setSearchQuery}
-          onGenresChange={setActiveGenres}
-          onDayChange={setActiveDay}
-          onStagesChange={setActiveStages}
-          onPickStatusChange={setPickStatus}
-          onScheduleStatusChange={setScheduleStatus}
-        />
-      </div>
-
-      {/* Result count summary — only show when viewing carousels, not in carousel detail view */}
-      {!viewingCarousel &&
-        (() => {
-          const hasFilters =
-            activeGenres.length > 0 ||
-            activeDay ||
-            activeStages.length > 0 ||
-            pickStatus.length > 0 ||
-            scheduleStatus.length > 0;
-          const hasSearch = searchQuery.trim().length > 0;
-
-          if (!hasFilters && !hasSearch) return null;
-
-          const filtered = filterArtists(
-            allArtists,
-            {
-              genres: activeGenres.length > 0 ? activeGenres : undefined,
-              day: activeDay || undefined,
-              stages: activeStages.length > 0 ? activeStages : undefined,
-              verdicts: pickStatus.length > 0 ? pickStatus : undefined,
-              scheduleStatus: scheduleStatus.length > 0 ? scheduleStatus : undefined,
-              scheduledArtistSlugs,
-              conflictingArtistSlugs,
-            },
-            decisionsByArtist
-          );
-
-          const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
-
-          let summaryText = "";
-          if (hasSearch && hasFilters) {
-            summaryText =
-              results.length === 0
-                ? `No artists found`
-                : `${results.length} result${results.length === 1 ? "" : "s"} for "${searchQuery}"`;
-          } else if (hasSearch) {
-            summaryText =
-              results.length === 0
-                ? `No results for "${searchQuery}"`
-                : `${results.length} result${results.length === 1 ? "" : "s"} for "${searchQuery}"`;
-          } else {
-            summaryText = `${results.length} artist${results.length === 1 ? "" : "s"}`;
-          }
-
-          return <div className="px-4 sm:px-8 py-3 text-sm text-white/50">{summaryText}</div>;
-        })()}
-
-      {/* Carousel full view */}
-      {currentCarousel &&
-        (() => {
-          // Apply stable sort order: Festival Favorites uses day → tier → time → name,
-          // all other carousels use day → time → name
-          const sortedArtists =
-            viewingCarousel === "festival-favorites"
-              ? sortFestivalFavoritesForFullView(currentCarousel.artists)
-              : sortChronologically(currentCarousel.artists);
-
-          // Apply additional filters and search if any
-          const hasFilters =
-            activeGenres.length > 0 ||
-            activeDay ||
-            activeStages.length > 0 ||
-            pickStatus.length > 0 ||
-            scheduleStatus.length > 0;
-          const hasSearch = searchQuery.trim().length > 0;
-
-          const filtered = filterArtists(
-            sortedArtists,
-            {
-              genres: activeGenres.length > 0 ? activeGenres : undefined,
-              day: activeDay || undefined,
-              stages: activeStages.length > 0 ? activeStages : undefined,
-              verdicts: pickStatus.length > 0 ? pickStatus : undefined,
-              scheduleStatus: scheduleStatus.length > 0 ? scheduleStatus : undefined,
-              scheduledArtistSlugs,
-              conflictingArtistSlugs,
-            },
-            decisionsByArtist
-          );
-
-          const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
-
-          return (
-            <>
-              {/* Active filters bar with Clear all button */}
-              {hasFilters && (
-                <ActiveFilters
-                  genres={activeGenres}
-                  day={activeDay}
-                  stages={activeStages}
-                  onClearGenre={(genre) =>
-                    setActiveGenres(activeGenres.filter((g) => g !== genre))
-                  }
-                  onClearDay={() => setActiveDay("")}
-                  onClearStage={(stage) =>
-                    setActiveStages(activeStages.filter((s) => s !== stage))
-                  }
-                  pickStatus={pickStatus}
-                  scheduleStatus={scheduleStatus}
-                  onClearPickStatus={() => setPickStatus([])}
-                  onClearScheduleStatus={() => setScheduleStatus([])}
-                  onClearAll={() => {
-                    setActiveGenres([]);
-                    setActiveDay("");
-                    setActiveStages([]);
-                    setPickStatus([]);
-                    setScheduleStatus([]);
-                  }}
-                />
-              )}
-
-              {/* Filtered count summary — simplified since total is shown in header */}
-              {(hasFilters || hasSearch) && (
-                <div className="px-4 sm:px-8 pt-6 pb-3 text-sm text-white/50">
-                  {results.length === 0
-                    ? "No artists match your filters"
-                    : `${results.length} result${results.length === 1 ? "" : "s"}`}
-                </div>
-              )}
-
-              {/* Grid */}
-              <div className="pt-10 pb-16">
-                {results.length === 0 ? (
-                  <div className="px-4 sm:px-8 text-center py-12">
-                    <p className="text-white/60">No artists match your filters.</p>
+                <button
+                  onClick={handleSurpriseMe}
+                  disabled={eligibleArtists.length === 0}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold flex-shrink-0 whitespace-nowrap border transition-all duration-200 ${
+                    eligibleArtists.length === 0
+                      ? "border-white/10 text-white/25 cursor-not-allowed"
+                      : "border-[#00E5FF]/25 text-white/60 hover:border-[#00E5FF]/60 hover:text-[#00E5FF] hover:bg-[#00E5FF]/10 hover:shadow-[0_0_14px_rgba(0,229,255,0.25)]"
+                  }`}
+                >
+                  <Shuffle
+                    size={12}
+                    strokeWidth={2}
+                    className={eligibleArtists.length === 0 ? undefined : "text-[#00E5FF]/80"}
+                  />
+                  Surprise Me
+                </button>
+                {showSurpriseTooltip && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 text-xs text-white/60 whitespace-nowrap pointer-events-none">
+                    All artists reviewed
                   </div>
-                ) : (
-                  <ArtistResultsGrid results={results} />
                 )}
               </div>
-            </>
-          );
-        })()}
+            </div>
+          </div>
+        )}
 
-      {/* Four-state rendering */}
-      {!viewingCarousel &&
-        (() => {
-          const hasFilters =
-            activeGenres.length > 0 ||
-            activeDay ||
-            activeStages.length > 0 ||
-            pickStatus.length > 0 ||
-            scheduleStatus.length > 0;
-          const hasSearch = searchQuery.trim().length > 0;
+        {/* Carousel back header — only show when viewing a carousel */}
+        {viewingCarousel && currentCarousel && (
+          <div className="px-4 sm:px-8 pt-10 pb-0">
+            <button
+              onClick={handleBackToExplore}
+              className="flex items-center gap-2 text-white/50 hover:text-white/70 transition-colors mb-7"
+            >
+              <ChevronLeft size={18} strokeWidth={2} />
+              Back to Explore
+            </button>
+            <h1 className="text-3xl font-extrabold text-white tracking-tight">
+              {currentCarousel.title}
+              <span className="text-white/50 font-normal ml-2">
+                · {currentCarousel.artists.length} artists
+              </span>
+            </h1>
+          </div>
+        )}
 
-          // Apply filters first, then search within filtered results
-          const filtered = filterArtists(
-            allArtists,
-            {
-              genres: activeGenres.length > 0 ? activeGenres : undefined,
-              day: activeDay || undefined,
-              stages: activeStages.length > 0 ? activeStages : undefined,
-              verdicts: pickStatus.length > 0 ? pickStatus : undefined,
-              scheduleStatus: scheduleStatus.length > 0 ? scheduleStatus : undefined,
-              scheduledArtistSlugs,
-              conflictingArtistSlugs,
-            },
-            decisionsByArtist
-          );
+        {/* Filters — always show */}
+        <div className="px-4 sm:px-8 pt-6 pb-0">
+          <ExploreFilters
+            searchQuery={searchQuery}
+            selectedGenres={activeGenres}
+            selectedDay={activeDay}
+            selectedStages={activeStages}
+            selectedPickStatus={pickStatus}
+            selectedScheduleStatus={scheduleStatus}
+            onSearchChange={setSearchQuery}
+            onGenresChange={setActiveGenres}
+            onDayChange={setActiveDay}
+            onStagesChange={setActiveStages}
+            onPickStatusChange={setPickStatus}
+            onScheduleStatusChange={setScheduleStatus}
+          />
+        </div>
 
-          // Filters-only (no search) needs a deterministic order since it's a plain
-          // .filter() with no inherent one — reusing this sort generically here despite
-          // its carousel-specific name; the day → tier → time → name logic isn't actually
-          // Festival-Favorites-specific.
-          const results = hasSearch
-            ? searchArtists(searchQuery, filtered)
-            : sortFestivalFavoritesForFullView(filtered);
+        {/* Result count summary — only show when viewing carousels, not in carousel detail view */}
+        {!viewingCarousel &&
+          (() => {
+            const hasFilters =
+              activeGenres.length > 0 ||
+              activeDay ||
+              activeStages.length > 0 ||
+              pickStatus.length > 0 ||
+              scheduleStatus.length > 0;
+            const hasSearch = searchQuery.trim().length > 0;
 
-          // State 1: No search, no filters → curated carousels
-          if (!hasFilters && !hasSearch && !viewingCarousel) {
-            return (
-              <div className="pt-10 pb-16 space-y-12">
-                <ArtistCarousel
-                  title="Festival Favorites"
-                  artists={festivalFavorites}
-                  cardSize="large"
-                  carouselType="festival-favorites"
-                  onSeeAll={() => handleSeeAll("festival-favorites")}
-                />
+            if (!hasFilters && !hasSearch) return null;
 
-                <QuickPicksBanner />
-
-                <ArtistCarousel
-                  title="Hidden Gems"
-                  artists={hiddenGems}
-                  carouselType="hidden-gems"
-                  onSeeAll={() => handleSeeAll("hidden-gems")}
-                />
-
-                <ArtistCarousel
-                  title="International Picks"
-                  artists={internationalPicks}
-                  carouselType="international-picks"
-                  onSeeAll={() => handleSeeAll("international-picks")}
-                />
-
-                <ArtistCarousel
-                  title="Chicago's Own"
-                  artists={chicagosOwn}
-                  carouselType="chicagos-own"
-                  onSeeAll={() => handleSeeAll("chicagos-own")}
-                />
-
-                <ArtistCarousel
-                  title="After Dark"
-                  artists={afterDark}
-                  carouselType="after-dark"
-                  onSeeAll={() => handleSeeAll("after-dark")}
-                />
-              </div>
+            const filtered = filterArtists(
+              allArtists,
+              {
+                genres: activeGenres.length > 0 ? activeGenres : undefined,
+                day: activeDay || undefined,
+                stages: activeStages.length > 0 ? activeStages : undefined,
+                verdicts: pickStatus.length > 0 ? pickStatus : undefined,
+                scheduleStatus: scheduleStatus.length > 0 ? scheduleStatus : undefined,
+                scheduledArtistSlugs,
+                conflictingArtistSlugs,
+              },
+              decisionsByArtist
             );
-          }
 
-          // State 2 & 4: Filters active (with or without search) → ActiveFilters + ArtistResultsGrid
-          if (hasFilters) {
+            const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
+
+            let summaryText = "";
+            if (hasSearch && hasFilters) {
+              summaryText =
+                results.length === 0
+                  ? `No artists found`
+                  : `${results.length} result${results.length === 1 ? "" : "s"} for "${searchQuery}"`;
+            } else if (hasSearch) {
+              summaryText =
+                results.length === 0
+                  ? `No results for "${searchQuery}"`
+                  : `${results.length} result${results.length === 1 ? "" : "s"} for "${searchQuery}"`;
+            } else {
+              summaryText = `${results.length} artist${results.length === 1 ? "" : "s"}`;
+            }
+
+            return <div className="px-4 sm:px-8 py-3 text-sm text-white/50">{summaryText}</div>;
+          })()}
+
+        {/* Carousel full view */}
+        {currentCarousel &&
+          (() => {
+            // Apply stable sort order: Festival Favorites uses day → tier → time → name,
+            // all other carousels use day → time → name
+            const sortedArtists =
+              viewingCarousel === "festival-favorites"
+                ? sortFestivalFavoritesForFullView(currentCarousel.artists)
+                : sortChronologically(currentCarousel.artists);
+
+            // Apply additional filters and search if any
+            const hasFilters =
+              activeGenres.length > 0 ||
+              activeDay ||
+              activeStages.length > 0 ||
+              pickStatus.length > 0 ||
+              scheduleStatus.length > 0;
+            const hasSearch = searchQuery.trim().length > 0;
+
+            const filtered = filterArtists(
+              sortedArtists,
+              {
+                genres: activeGenres.length > 0 ? activeGenres : undefined,
+                day: activeDay || undefined,
+                stages: activeStages.length > 0 ? activeStages : undefined,
+                verdicts: pickStatus.length > 0 ? pickStatus : undefined,
+                scheduleStatus: scheduleStatus.length > 0 ? scheduleStatus : undefined,
+                scheduledArtistSlugs,
+                conflictingArtistSlugs,
+              },
+              decisionsByArtist
+            );
+
+            const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
+
             return (
               <>
-                <ActiveFilters
-                  genres={activeGenres}
-                  day={activeDay}
-                  stages={activeStages}
-                  onClearGenre={(genre) =>
-                    setActiveGenres(activeGenres.filter((g) => g !== genre))
-                  }
-                  onClearDay={() => setActiveDay("")}
-                  onClearStage={(stage) =>
-                    setActiveStages(activeStages.filter((s) => s !== stage))
-                  }
-                  pickStatus={pickStatus}
-                  scheduleStatus={scheduleStatus}
-                  onClearPickStatus={() => setPickStatus([])}
-                  onClearScheduleStatus={() => setScheduleStatus([])}
-                  onClearAll={() => {
-                    setActiveGenres([]);
-                    setActiveDay("");
-                    setActiveStages([]);
-                    setPickStatus([]);
-                    setScheduleStatus([]);
-                  }}
-                />
+                {/* Active filters bar with Clear all button */}
+                {hasFilters && (
+                  <ActiveFilters
+                    genres={activeGenres}
+                    day={activeDay}
+                    stages={activeStages}
+                    onClearGenre={(genre) =>
+                      setActiveGenres(activeGenres.filter((g) => g !== genre))
+                    }
+                    onClearDay={() => setActiveDay("")}
+                    onClearStage={(stage) =>
+                      setActiveStages(activeStages.filter((s) => s !== stage))
+                    }
+                    pickStatus={pickStatus}
+                    scheduleStatus={scheduleStatus}
+                    onClearPickStatus={() => setPickStatus([])}
+                    onClearScheduleStatus={() => setScheduleStatus([])}
+                    onClearAll={() => {
+                      setActiveGenres([]);
+                      setActiveDay("");
+                      setActiveStages([]);
+                      setPickStatus([]);
+                      setScheduleStatus([]);
+                    }}
+                  />
+                )}
+
+                {/* Filtered count summary — simplified since total is shown in header */}
+                {(hasFilters || hasSearch) && (
+                  <div className="px-4 sm:px-8 pt-6 pb-3 text-sm text-white/50">
+                    {results.length === 0
+                      ? "No artists match your filters"
+                      : `${results.length} result${results.length === 1 ? "" : "s"}`}
+                  </div>
+                )}
+
+                {/* Grid */}
                 <div className="pt-10 pb-16">
                   {results.length === 0 ? (
                     <div className="px-4 sm:px-8 text-center py-12">
-                      <p className="text-white/60">
-                        No artists match your filters
-                        {hasSearch ? ` and search "${searchQuery}"` : ""}.
-                      </p>
+                      <p className="text-white/60">No artists match your filters.</p>
                     </div>
                   ) : (
                     <ArtistResultsGrid results={results} />
@@ -522,20 +377,135 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 </div>
               </>
             );
-          }
+          })()}
 
-          // State 3: Search only (no filters) → ArtistResultsGrid with search heading
-          return (
-            <div className="pt-10 pb-16 px-4 sm:px-8">
-              <h2 className="text-xl font-bold text-white mb-8">
-                {results.length === 0
-                  ? `No results for "${searchQuery}"`
-                  : `${results.length} result${results.length === 1 ? "" : "s"} for "${searchQuery}"`}
-              </h2>
-              {results.length > 0 && <ArtistResultsGrid results={results} />}
-            </div>
-          );
-        })()}
+        {/* Four-state rendering */}
+        {!viewingCarousel &&
+          (() => {
+            const hasFilters =
+              activeGenres.length > 0 ||
+              activeDay ||
+              activeStages.length > 0 ||
+              pickStatus.length > 0 ||
+              scheduleStatus.length > 0;
+            const hasSearch = searchQuery.trim().length > 0;
+
+            // Apply filters first, then search within filtered results
+            const filtered = filterArtists(
+              allArtists,
+              {
+                genres: activeGenres.length > 0 ? activeGenres : undefined,
+                day: activeDay || undefined,
+                stages: activeStages.length > 0 ? activeStages : undefined,
+                verdicts: pickStatus.length > 0 ? pickStatus : undefined,
+                scheduleStatus: scheduleStatus.length > 0 ? scheduleStatus : undefined,
+                scheduledArtistSlugs,
+                conflictingArtistSlugs,
+              },
+              decisionsByArtist
+            );
+
+            // Filters-only (no search) needs a deterministic order since it's a plain
+            // .filter() with no inherent one — reusing this sort generically here despite
+            // its carousel-specific name; the day → tier → time → name logic isn't actually
+            // Festival-Favorites-specific.
+            const results = hasSearch
+              ? searchArtists(searchQuery, filtered)
+              : sortFestivalFavoritesForFullView(filtered);
+
+            // State 1: No search, no filters → curated carousels
+            if (!hasFilters && !hasSearch && !viewingCarousel) {
+              return (
+                <div className="pt-10 pb-16 space-y-12">
+                  <ArtistCarousel
+                    title="Festival Favorites"
+                    artists={festivalFavorites}
+                    cardSize="large"
+                    carouselType="festival-favorites"
+                    onSeeAll={() => handleSeeAll("festival-favorites")}
+                  />
+
+                  <QuickPicksBanner />
+
+                  <ArtistCarousel
+                    title="International Picks"
+                    artists={internationalPicks}
+                    carouselType="international-picks"
+                    onSeeAll={() => handleSeeAll("international-picks")}
+                  />
+
+                  <ArtistCarousel
+                    title="Chicago's Own"
+                    artists={chicagosOwn}
+                    carouselType="chicagos-own"
+                    onSeeAll={() => handleSeeAll("chicagos-own")}
+                  />
+
+                  <ArtistCarousel
+                    title="After Dark"
+                    artists={afterDark}
+                    carouselType="after-dark"
+                    onSeeAll={() => handleSeeAll("after-dark")}
+                  />
+                </div>
+              );
+            }
+
+            // State 2 & 4: Filters active (with or without search) → ActiveFilters + ArtistResultsGrid
+            if (hasFilters) {
+              return (
+                <>
+                  <ActiveFilters
+                    genres={activeGenres}
+                    day={activeDay}
+                    stages={activeStages}
+                    onClearGenre={(genre) =>
+                      setActiveGenres(activeGenres.filter((g) => g !== genre))
+                    }
+                    onClearDay={() => setActiveDay("")}
+                    onClearStage={(stage) =>
+                      setActiveStages(activeStages.filter((s) => s !== stage))
+                    }
+                    pickStatus={pickStatus}
+                    scheduleStatus={scheduleStatus}
+                    onClearPickStatus={() => setPickStatus([])}
+                    onClearScheduleStatus={() => setScheduleStatus([])}
+                    onClearAll={() => {
+                      setActiveGenres([]);
+                      setActiveDay("");
+                      setActiveStages([]);
+                      setPickStatus([]);
+                      setScheduleStatus([]);
+                    }}
+                  />
+                  <div className="pt-10 pb-16">
+                    {results.length === 0 ? (
+                      <div className="px-4 sm:px-8 text-center py-12">
+                        <p className="text-white/60">
+                          No artists match your filters
+                          {hasSearch ? ` and search "${searchQuery}"` : ""}.
+                        </p>
+                      </div>
+                    ) : (
+                      <ArtistResultsGrid results={results} />
+                    )}
+                  </div>
+                </>
+              );
+            }
+
+            // State 3: Search only (no filters) → ArtistResultsGrid with search heading
+            return (
+              <div className="pt-10 pb-16 px-4 sm:px-8">
+                <h2 className="text-xl font-bold text-white mb-8">
+                  {results.length === 0
+                    ? `No results for "${searchQuery}"`
+                    : `${results.length} result${results.length === 1 ? "" : "s"} for "${searchQuery}"`}
+                </h2>
+                {results.length > 0 && <ArtistResultsGrid results={results} />}
+              </div>
+            );
+          })()}
       </div>
       <Footer />
     </main>

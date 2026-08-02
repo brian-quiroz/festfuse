@@ -50,9 +50,7 @@ export function createSession(
     decisionsByArtist
   );
 
-  const orderedDays = getDaysForFestival(festivalId).filter((day) =>
-    attendanceDays.includes(day)
-  );
+  const orderedDays = getDaysForFestival(festivalId).filter((day) => attendanceDays.includes(day));
 
   const sortedEntries: QueueEntry[] = groupByDay
     ? orderedDays.flatMap((day) =>
@@ -213,8 +211,11 @@ export default function QuickPicksPage() {
   // DecisionScreen displays this rather than independently recomputing a primary.
   const currentAppearance =
     currentArtist && currentQueueItem && session
-      ? (getAppearanceById(currentArtist, session.config.festivalId, currentQueueItem.appearanceId) ??
-        null)
+      ? (getAppearanceById(
+          currentArtist,
+          session.config.festivalId,
+          currentQueueItem.appearanceId
+        ) ?? null)
       : null;
   // Disclosure count scoped to the session's selected attendance days, not the
   // artist's full appearance count — see ARCHITECTURE.md § Quick Picks Attendance.
@@ -270,8 +271,12 @@ export default function QuickPicksPage() {
   // computeStorySignals itself uses (never a separate raw-decision count). Recomputed
   // from the live decision store, so a decision made mid-session already counts.
   const storyUnlocked = session
-    ? getValidPositivePicks(session.config.festivalId, session.config.attendanceDays, allArtists, decisionsByArtist)
-        .length >= MIN_POSITIVE_PICKS_FOR_STORY
+    ? getValidPositivePicks(
+        session.config.festivalId,
+        session.config.attendanceDays,
+        allArtists,
+        decisionsByArtist
+      ).length >= MIN_POSITIVE_PICKS_FOR_STORY
     : false;
 
   // Preload the Story's intro image while the completion screen is visible — this

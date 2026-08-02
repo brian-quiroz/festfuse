@@ -13,7 +13,8 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "FestFuse",
-  description: "Explore the artists, lock in your must-sees, and stop stressing about the set times.",
+  description:
+    "Explore the artists, lock in your must-sees, and stop stressing about the set times.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

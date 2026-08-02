@@ -95,7 +95,12 @@ export default function DayCompleteScreen({
   // This screen replaces the Quick Picks <main> content rather than floating over it,
   // but still gets dialog semantics: from an assistive-tech perspective it's the same
   // "attention moved to a new modal-like context" pattern as a floating dialog.
-  useDialogA11y({ isOpen: true, onClose: onExit, containerRef, initialFocusRef: continueButtonRef });
+  useDialogA11y({
+    isOpen: true,
+    onClose: onExit,
+    containerRef,
+    initialFocusRef: continueButtonRef,
+  });
 
   return (
     <motion.div
@@ -131,7 +136,10 @@ export default function DayCompleteScreen({
 
         {/* Headline + supporting copy */}
         <div className="flex flex-col items-center gap-3">
-          <h1 id="day-complete-title" className="text-6xl font-extrabold tracking-tight leading-none">
+          <h1
+            id="day-complete-title"
+            className="text-6xl font-extrabold tracking-tight leading-none"
+          >
             <span className="text-white">{completedDay ?? "Day"} </span>
             <span style={{ color: COLORS.celebration }}>complete!</span>
           </h1>

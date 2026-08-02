@@ -3,7 +3,18 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Search, Zap, Calendar, CalendarDays, ListChecks, Star, Heart, AlertCircle, HelpCircle } from "lucide-react";
+import {
+  Home,
+  Search,
+  Zap,
+  Calendar,
+  CalendarDays,
+  ListChecks,
+  Star,
+  Heart,
+  AlertCircle,
+  HelpCircle,
+} from "lucide-react";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore, NAV_PRESETS } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
@@ -37,7 +48,8 @@ export default function Sidebar() {
   // Artist-slug-keyed, precomputed in scheduleStore.ts — see ARCHITECTURE.md §
   // Multi-Appearance Support ("Sidebar counts: artist counts, not appearance counts").
   const { scheduledArtistSlugs, conflictingArtistSlugs } = useScheduleStore();
-  const { pickStatus, scheduleStatus, activeNavItem, applyPreset, clearFilters } = useExploreFilterStore();
+  const { pickStatus, scheduleStatus, activeNavItem, applyPreset, clearFilters } =
+    useExploreFilterStore();
   const { isHelpOpen, openHelp, closeHelp } = useHelpStore();
   const isSidebarVisible = useChromeStore((state) => state.isSidebarVisible);
   const isMobileDrawerOpen = useChromeStore((state) => state.isMobileDrawerOpen);
@@ -145,7 +157,9 @@ export default function Sidebar() {
     // Scheduled checkbox itself is unmarked). No fallback if invalid — just don't
     // highlight anything.
     const active =
-      isActive("/explore") && activeNavItem === navKey && preset.values.some((v) => liveValues.includes(v));
+      isActive("/explore") &&
+      activeNavItem === navKey &&
+      preset.values.some((v) => liveValues.includes(v));
 
     return (
       <button
@@ -220,96 +234,96 @@ export default function Sidebar() {
           isMobileDrawerOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-      {/* Logo */}
-      <div className="px-6 py-6 flex-shrink-0">
-        <Link href="/" className="text-xl font-extrabold tracking-tight">
-          <span className="text-[#00E5FF]">Fest</span>
-          <span className="text-white">Fuse</span>
-        </Link>
-      </div>
-
-      {/* Scrollable middle */}
-      <div className="flex-1 overflow-y-auto">
-        {/* Main nav */}
-        <nav className="px-3 pb-2 space-y-0.5">
-          {navItems.map(({ label, href, Icon }) => {
-            const isExplore = label === "Explore";
-            // Explore and My Festival links share the same /explore pathname, so pathname
-            // alone can't tell them apart — activeNavItem tracks which was actually clicked.
-            const active = isExplore
-              ? isActive(href) && activeNavItem === "explore"
-              : isActive(href);
-
-            return isExplore ? (
-              <button
-                key={label}
-                onClick={handleExploreClick}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  active
-                    ? "bg-[#00E5FF]/10 text-[#00E5FF]"
-                    : "text-[#6B6893] hover:text-white hover:bg-[#231C45]"
-                }`}
-              >
-                <Icon size={18} strokeWidth={2} />
-                {label}
-              </button>
-            ) : (
-              <Link
-                key={label}
-                href={href}
-                onClick={() => setMobileDrawerOpen(false)}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  active
-                    ? "bg-[#00E5FF]/10 text-[#00E5FF]"
-                    : "text-[#6B6893] hover:text-white hover:bg-[#231C45]"
-                }`}
-              >
-                <Icon size={18} strokeWidth={2} />
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* MY FESTIVAL section */}
-        <div className="mx-3 mt-2 pt-4 border-t border-[#2D2556]">
-          <p className="text-[10px] font-semibold text-[#6B6893] uppercase tracking-widest px-3 mb-1.5">
-            My Festival
-          </p>
+        {/* Logo */}
+        <div className="px-6 py-6 flex-shrink-0">
+          <Link href="/" className="text-xl font-extrabold tracking-tight">
+            <span className="text-[#00E5FF]">Fest</span>
+            <span className="text-white">Fuse</span>
+          </Link>
         </div>
 
-        {/* Two labeled groups, not one flat list — reinforces that Picks and Schedule
+        {/* Scrollable middle */}
+        <div className="flex-1 overflow-y-auto">
+          {/* Main nav */}
+          <nav className="px-3 pb-2 space-y-0.5">
+            {navItems.map(({ label, href, Icon }) => {
+              const isExplore = label === "Explore";
+              // Explore and My Festival links share the same /explore pathname, so pathname
+              // alone can't tell them apart — activeNavItem tracks which was actually clicked.
+              const active = isExplore
+                ? isActive(href) && activeNavItem === "explore"
+                : isActive(href);
+
+              return isExplore ? (
+                <button
+                  key={label}
+                  onClick={handleExploreClick}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    active
+                      ? "bg-[#00E5FF]/10 text-[#00E5FF]"
+                      : "text-[#6B6893] hover:text-white hover:bg-[#231C45]"
+                  }`}
+                >
+                  <Icon size={18} strokeWidth={2} />
+                  {label}
+                </button>
+              ) : (
+                <Link
+                  key={label}
+                  href={href}
+                  onClick={() => setMobileDrawerOpen(false)}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    active
+                      ? "bg-[#00E5FF]/10 text-[#00E5FF]"
+                      : "text-[#6B6893] hover:text-white hover:bg-[#231C45]"
+                  }`}
+                >
+                  <Icon size={18} strokeWidth={2} />
+                  {label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* MY FESTIVAL section */}
+          <div className="mx-3 mt-2 pt-4 border-t border-[#2D2556]">
+            <p className="text-[10px] font-semibold text-[#6B6893] uppercase tracking-widest px-3 mb-1.5">
+              My Festival
+            </p>
+          </div>
+
+          {/* Two labeled groups, not one flat list — reinforces that Picks and Schedule
             are separate dimensions, the way the Planner's own toggles already do. */}
-        <div className="px-3">
-          <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
-            Picks
-          </p>
-          <div className="space-y-0.5">{picksItems.map(renderFestivalItem)}</div>
-        </div>
+          <div className="px-3">
+            <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
+              Picks
+            </p>
+            <div className="space-y-0.5">{picksItems.map(renderFestivalItem)}</div>
+          </div>
 
-        <div className="px-3 mt-3">
-          <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
-            Schedule
-          </p>
-          <div className="space-y-0.5">{scheduleItems.map(renderFestivalItem)}</div>
-        </div>
+          <div className="px-3 mt-3">
+            <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
+              Schedule
+            </p>
+            <div className="space-y-0.5">{scheduleItems.map(renderFestivalItem)}</div>
+          </div>
 
-        {/* Utilities — visually separate from primary nav and My Festival so "How it
+          {/* Utilities — visually separate from primary nav and My Festival so "How it
             works" never reads as a fifth core mode, just a low-emphasis aside. */}
-        <div className="mx-3 mt-4 pt-4 border-t border-[#2D2556]">
-          <button
-            type="button"
-            onClick={() => {
-              setMobileDrawerOpen(false);
-              openHelp();
-            }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#6B6893] hover:text-white hover:bg-[#231C45] transition-colors"
-          >
-            <HelpCircle size={16} strokeWidth={2} />
-            How it works
-          </button>
+          <div className="mx-3 mt-4 pt-4 border-t border-[#2D2556]">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileDrawerOpen(false);
+                openHelp();
+              }}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#6B6893] hover:text-white hover:bg-[#231C45] transition-colors"
+            >
+              <HelpCircle size={16} strokeWidth={2} />
+              How it works
+            </button>
+          </div>
         </div>
-      </div>
       </aside>
       <HowItWorksModal isOpen={isHelpOpen} onClose={closeHelp} />
     </>

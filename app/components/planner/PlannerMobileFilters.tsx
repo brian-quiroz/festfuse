@@ -78,7 +78,11 @@ export default function PlannerMobileFilters({
           </div>
           <div className="flex items-center justify-between gap-3">
             <span className="text-sm text-white/70">Scheduled</span>
-            <Switch checked={showScheduled} onChange={onShowScheduledChange} aria-label="Show only Scheduled" />
+            <Switch
+              checked={showScheduled}
+              onChange={onShowScheduledChange}
+              aria-label="Show only Scheduled"
+            />
           </div>
         </div>
       )}

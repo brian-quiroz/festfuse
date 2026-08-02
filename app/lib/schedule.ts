@@ -18,7 +18,9 @@ export function getArtistScheduleState(
   festivalId: string,
   scheduledAppearanceKeys: Set<string>
 ): "none" | "partial" | "full" {
-  const keys = getAppearancesForFestival(artist, festivalId).map((a) => getAppearanceKey(artist, a));
+  const keys = getAppearancesForFestival(artist, festivalId).map((a) =>
+    getAppearanceKey(artist, a)
+  );
   const scheduledCount = keys.filter((k) => scheduledAppearanceKeys.has(k)).length;
   if (scheduledCount === 0) return "none";
   if (scheduledCount === keys.length) return "full";

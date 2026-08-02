@@ -106,7 +106,9 @@ export function getEligibleArtists(
   attendanceDays: string[],
   allArtists: Artist[]
 ): Artist[] {
-  return allArtists.filter((a) => getSelectedDayAppearance(a, festivalId, attendanceDays) !== undefined);
+  return allArtists.filter(
+    (a) => getSelectedDayAppearance(a, festivalId, attendanceDays) !== undefined
+  );
 }
 
 // Forward-constructed (real Artist -> decision lookup), so stale decision slugs and
@@ -249,7 +251,8 @@ function computeAggregateMetrics(
 
   for (const artist of artists) {
     const appearance = appearanceOf(artist);
-    if (appearance.billingTier === "Headliner" || appearance.billingTier === "Sub-headliner") headliner++;
+    if (appearance.billingTier === "Headliner" || appearance.billingTier === "Sub-headliner")
+      headliner++;
     if (isChicago(artist.location.city)) chicago++;
     if (artist.location.country !== "United States") international++;
     stages.add(appearance.stage);
@@ -301,7 +304,12 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
   const { festivalId, attendanceDays, allArtists, decisionsByArtist } = params;
 
   const eligibleArtists = getEligibleArtists(festivalId, attendanceDays, allArtists);
-  const pickedArtists = getValidPositivePicks(festivalId, attendanceDays, allArtists, decisionsByArtist);
+  const pickedArtists = getValidPositivePicks(
+    festivalId,
+    attendanceDays,
+    allArtists,
+    decisionsByArtist
+  );
 
   // Product floor — below this, Festival Story does not run at all. Callers (Quick
   // Picks completion) should already be gating on this via getValidPositivePicks, but
@@ -362,7 +370,14 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     lineupCountrySet.size
   );
   const sampleMetrics = samples.map((s) =>
-    computeAggregateMetrics(s, appearanceOf, attendanceDays, lineupStageCount, lineupGenreSet.size, lineupCountrySet.size)
+    computeAggregateMetrics(
+      s,
+      appearanceOf,
+      attendanceDays,
+      lineupStageCount,
+      lineupGenreSet.size,
+      lineupCountrySet.size
+    )
   );
 
   function values(key: keyof AggregateMetrics): number[] {
@@ -436,7 +451,9 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
   // ============================================================================
   // Decision Profile — fixed anchor, always included, always the last insight.
   // ============================================================================
-  const mustSeeTotal = pickedArtists.filter((a) => decisionsByArtist[a.slug].verdict === "mustSee").length;
+  const mustSeeTotal = pickedArtists.filter(
+    (a) => decisionsByArtist[a.slug].verdict === "mustSee"
+  ).length;
   const mustSeeRate = mustSeeTotal / totalPositive;
 
   let decisionProfile: Candidate;
@@ -448,7 +465,10 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
       extremeness: 1,
       practicalEffectPP: 0,
     };
-  } else if (mustSeeRate >= DECISION_PROFILE_EXTREME_MUST_SEE && totalPositive >= DECISION_PROFILE_EXTREME_MIN_PICKS) {
+  } else if (
+    mustSeeRate >= DECISION_PROFILE_EXTREME_MUST_SEE &&
+    totalPositive >= DECISION_PROFILE_EXTREME_MIN_PICKS
+  ) {
     decisionProfile = {
       type: "decisionProfile",
       headlineTemplate: "Zero hesitation",
@@ -463,7 +483,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     decisionProfile = {
       type: "decisionProfile",
       headlineTemplate: "Keeping every door wide open",
-      supportingText: "The vast majority of your picks are in Interested, leaving plenty of room to wander.",
+      supportingText:
+        "The vast majority of your picks are in Interested, leaving plenty of room to wander.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
@@ -471,7 +492,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     decisionProfile = {
       type: "decisionProfile",
       headlineTemplate: "Heavy on the non-negotiables",
-      supportingText: "Your Must See tier is stacked, with just a few exploratory picks floating around.",
+      supportingText:
+        "Your Must See tier is stacked, with just a few exploratory picks floating around.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
@@ -488,7 +510,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     decisionProfile = {
       type: "decisionProfile",
       headlineTemplate: "Priorities set, curiosity intact",
-      supportingText: "A strong stack of Must Sees leads your list, with plenty of Interested acts keeping things interesting.",
+      supportingText:
+        "A strong stack of Must Sees leads your list, with plenty of Interested acts keeping things interesting.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
@@ -497,7 +520,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     decisionProfile = {
       type: "decisionProfile",
       headlineTemplate: "Room for discovery",
-      supportingText: "Most of your picks are open for exploration, with Must Sees keeping the list anchored.",
+      supportingText:
+        "Most of your picks are open for exploration, with Must Sees keeping the list anchored.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
@@ -506,7 +530,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     decisionProfile = {
       type: "decisionProfile",
       headlineTemplate: "Balanced between priority and curiosity",
-      supportingText: "Your list lands in a steady mix of non-negotiable sets and open possibilities.",
+      supportingText:
+        "Your list lands in a steady mix of non-negotiable sets and open possibilities.",
       extremeness: 1,
       practicalEffectPP: 0,
     };
@@ -536,8 +561,12 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
       const tier = appearanceOf(a).billingTier;
       return tier === "Headliner" || tier === "Sub-headliner";
     }).length;
-    const subHeadlinerCount = pickedArtists.filter((a) => appearanceOf(a).billingTier === "Sub-headliner").length;
-    const headlinerOnlyCount = pickedArtists.filter((a) => appearanceOf(a).billingTier === "Headliner").length;
+    const subHeadlinerCount = pickedArtists.filter(
+      (a) => appearanceOf(a).billingTier === "Sub-headliner"
+    ).length;
+    const headlinerOnlyCount = pickedArtists.filter(
+      (a) => appearanceOf(a).billingTier === "Headliner"
+    ).length;
     const undercardCount = totalPositive - headlinerCount;
 
     const highEval = evaluateCandidate(observed.headlinerRate, values("headlinerRate"), "high");
@@ -672,7 +701,11 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
   let geographicCandidate: Candidate | null = null;
   {
     if (observed.internationalCount >= INTERNATIONAL_MIN_PICKS) {
-      const highEval = evaluateCandidate(observed.internationalRate, values("internationalRate"), "high");
+      const highEval = evaluateCandidate(
+        observed.internationalRate,
+        values("internationalRate"),
+        "high"
+      );
       if (highEval.qualifies) {
         geographicCandidate = {
           type: "international",
@@ -722,7 +755,9 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     // whichever is statistically stronger (lower extremeness).
     if (geographicCandidate && countryCandidate) {
       geographicCandidate =
-        countryCandidate.extremeness < geographicCandidate.extremeness ? countryCandidate : geographicCandidate;
+        countryCandidate.extremeness < geographicCandidate.extremeness
+          ? countryCandidate
+          : geographicCandidate;
     } else if (countryCandidate) {
       geographicCandidate = countryCandidate;
     }
@@ -750,7 +785,9 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
         }
       }
 
-      const bestDayOverIndex = (dayRate: Record<string, number>): { day: string | null; score: number } => {
+      const bestDayOverIndex = (
+        dayRate: Record<string, number>
+      ): { day: string | null; score: number } => {
         let bestDay: string | null = null;
         let bestScore = -Infinity;
         for (const day of attendanceDays) {
@@ -765,13 +802,16 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
 
       const { day: winningDay, score: observedScore } = bestDayOverIndex(observed.dayRate);
       if (winningDay && observedScore > 0) {
-        const topDayPickCount = pickedArtists.filter((a) => appearanceOf(a).day === winningDay).length;
+        const topDayPickCount = pickedArtists.filter(
+          (a) => appearanceOf(a).day === winningDay
+        ).length;
         if (topDayPickCount >= DAY_TOP_DAY_MIN_PICKS) {
           // Every sample's own best-day-over-index — not a lookup of the sample's
           // rate for the observed winning day.
           const sampleMaxScores = sampleMetrics.map((m) => bestDayOverIndex(m.dayRate).score);
           const extremeness = computeExtremeness(observedScore, sampleMaxScores, "high");
-          const qualifies = extremeness <= EXTREMENESS_THRESHOLD && observedScore >= PRACTICAL_EFFECT_MIN_PP;
+          const qualifies =
+            extremeness <= EXTREMENESS_THRESHOLD && observedScore >= PRACTICAL_EFFECT_MIN_PP;
           if (qualifies) {
             pool.push({
               type: "day",
@@ -792,7 +832,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
   // ===== Select the top 2 pool candidates for the remaining 2 non-anchor slots =====
   pool.sort((a, b) => {
     if (a.extremeness !== b.extremeness) return a.extremeness - b.extremeness;
-    if (a.practicalEffectPP !== b.practicalEffectPP) return b.practicalEffectPP - a.practicalEffectPP;
+    if (a.practicalEffectPP !== b.practicalEffectPP)
+      return b.practicalEffectPP - a.practicalEffectPP;
     return DIMENSION_DISPLAY_PRIORITY.indexOf(a.type) - DIMENSION_DISPLAY_PRIORITY.indexOf(b.type);
   });
   const poolWinners = pool.slice(0, 2);
@@ -800,7 +841,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
   // ===== Assemble (2 fixed anchors + 2 pool winners = 4) + curated presentation order =====
   const selected = [tasteCandidate, ...poolWinners, decisionProfile];
   selected.sort(
-    (a, b) => DIMENSION_DISPLAY_PRIORITY.indexOf(a.type) - DIMENSION_DISPLAY_PRIORITY.indexOf(b.type)
+    (a, b) =>
+      DIMENSION_DISPLAY_PRIORITY.indexOf(a.type) - DIMENSION_DISPLAY_PRIORITY.indexOf(b.type)
   );
 
   // Defensive: the four slots above are structurally guaranteed (2 fixed anchors plus
