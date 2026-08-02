@@ -12,11 +12,7 @@ interface ArtistCarouselProps {
   title: string;
   artists: Artist[];
   cardSize?: "default" | "large";
-  carouselType?:
-    | "festival-favorites"
-    | "international-picks"
-    | "chicagos-own"
-    | "after-dark";
+  carouselType?: "festival-favorites" | "international-picks" | "chicagos-own" | "after-dark";
   onSeeAll?: () => void;
 }
 
@@ -60,7 +56,11 @@ export default function ArtistCarousel({
       </div>
 
       {/* Scroll area with side-hover arrows */}
-      <div className="relative" onMouseMove={handleMouseMove} onMouseLeave={() => setHoverEdge(null)}>
+      <div
+        className="relative"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setHoverEdge(null)}
+      >
         {/* Left hover zone */}
         <div className="absolute left-0 inset-y-0 w-20 z-20 flex items-center justify-start pl-3 pointer-events-none">
           <button
@@ -85,7 +85,10 @@ export default function ArtistCarousel({
           </button>
         </div>
 
-        <div ref={scrollRef} className="flex gap-4 overflow-x-auto pl-4 sm:pl-8 pr-4 sm:pr-8 pb-2 no-scrollbar">
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto pl-4 sm:pl-8 pr-4 sm:pr-8 pb-2 no-scrollbar"
+        >
           {artists.map((artist, i) => (
             <ArtistCard key={`${artist.slug}-${i}`} artist={artist} size={cardSize} />
           ))}

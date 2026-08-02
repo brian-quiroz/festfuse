@@ -13,7 +13,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
   const verifiedImageUrl = getVerifiedImageUrl(artist);
   const hasSocials = Boolean(
     artist.socials.spotify ||
-      (artist.socialsVerified && (artist.socials.youtube || artist.socials.tiktok))
+    (artist.socialsVerified && (artist.socials.youtube || artist.socials.tiktok))
   );
 
   // Shared between the mobile (bottom-anchored) and desktop (left-column) content

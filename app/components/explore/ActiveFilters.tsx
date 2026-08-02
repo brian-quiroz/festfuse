@@ -100,7 +100,8 @@ export default function ActiveFilters({
           {pickStatus.length > 0 && (
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20">
               <span className="text-sm text-white">
-                Pick status: {pickStatus.map((status) => PICK_STATUS_FILTER_LABELS[status]).join(", ")}
+                Pick status:{" "}
+                {pickStatus.map((status) => PICK_STATUS_FILTER_LABELS[status]).join(", ")}
               </span>
               <button
                 onClick={() => onClearPickStatus?.()}
@@ -116,7 +117,8 @@ export default function ActiveFilters({
           {scheduleStatus.length > 0 && (
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20">
               <span className="text-sm text-white">
-                Schedule: {scheduleStatus.map((status) => SCHEDULE_STATUS_LABELS[status]).join(", ")}
+                Schedule:{" "}
+                {scheduleStatus.map((status) => SCHEDULE_STATUS_LABELS[status]).join(", ")}
               </span>
               <button
                 onClick={() => onClearScheduleStatus?.()}

@@ -8,7 +8,11 @@ import type { Artist } from "@/app/types/artist";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
-import { getPrimaryAppearance, getPrimaryBillingTier, getAppearancesForFestival } from "@/app/lib/appearances";
+import {
+  getPrimaryAppearance,
+  getPrimaryBillingTier,
+  getAppearancesForFestival,
+} from "@/app/lib/appearances";
 import { getArtistScheduleState } from "@/app/lib/schedule";
 import { getVerifiedImageUrl } from "@/app/lib/artistImage";
 import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
@@ -237,7 +241,9 @@ export default function ArtistCard({
           {primaryAppearance.day} · {primaryAppearance.startTime}
         </div>
         <div className="flex items-center justify-between gap-1.5 mt-0.5">
-          <span className="text-[11px] text-white/30 truncate min-w-0">{primaryAppearance.stage} Stage</span>
+          <span className="text-[11px] text-white/30 truncate min-w-0">
+            {primaryAppearance.stage} Stage
+          </span>
           {/* "N sets" — plain metadata text (not a pill), informational and noninteractive,
               in the dark-card info area (reliable contrast, unlike the photo overlay).
               Muted cyan, dimmer than the day/time line, so it's discoverable without

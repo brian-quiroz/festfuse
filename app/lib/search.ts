@@ -69,7 +69,9 @@ export function searchArtists(query: string, artists: Artist[]): Artist[] {
       // Priority 6: Stage — considers only the artist's primary appearance, per
       // app/lib/appearances.ts; a secondary appearance's stage never produces a match.
       if (
-        getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).stage.toLowerCase().includes(normalizedQuery)
+        getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID)
+          .stage.toLowerCase()
+          .includes(normalizedQuery)
       ) {
         return { artist, priority: 6 };
       }

@@ -115,14 +115,17 @@ export default function StartScreen({ onStart }: Props) {
           <div className="text-base text-white/50 text-center leading-relaxed">
             <p>Go with your gut.</p>
             <p>
-              <span className="font-semibold text-white/75">Quick Listen</span> when you need
-              a first impression, then make your pick.
+              <span className="font-semibold text-white/75">Quick Listen</span> when you need a
+              first impression, then make your pick.
             </p>
           </div>
         </div>
 
         {/* Start Options + CTA */}
-        <div className="w-full max-w-[544px] flex flex-col items-center gap-3 sm:gap-4" aria-busy={pressing}>
+        <div
+          className="w-full max-w-[544px] flex flex-col items-center gap-3 sm:gap-4"
+          aria-busy={pressing}
+        >
           <StartOptions
             festivalDays={festivalDays}
             datesByDay={datesByDay}

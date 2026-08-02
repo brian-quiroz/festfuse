@@ -115,9 +115,7 @@ export default function HomeContent() {
               />
               <div className="relative z-10 mt-auto">
                 <p className="text-lg font-bold text-white mb-1">{quickPicksLabel}</p>
-                <p className="text-sm text-white/70">
-                  One artist, one decision: go with your gut.
-                </p>
+                <p className="text-sm text-white/70">One artist, one decision: go with your gut.</p>
               </div>
             </Link>
 

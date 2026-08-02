@@ -49,7 +49,11 @@ export default function PlannerArtistBlock({
       : "border-white/10";
 
   const verdictLabel =
-    verdict === "mustSee" ? ", marked Must See" : verdict === "interested" ? ", marked Interested" : "";
+    verdict === "mustSee"
+      ? ", marked Must See"
+      : verdict === "interested"
+        ? ", marked Interested"
+        : "";
 
   return (
     <div
@@ -82,45 +86,45 @@ export default function PlannerArtistBlock({
           otherwise the overlay, despite coming first in the markup, would still paint on
           top of plain flow content like this. */}
       <div className="relative">
-      <div className="flex items-start justify-between gap-1">
-        <p className="flex items-start gap-1 min-w-0 text-[12px] font-bold text-white leading-tight">
-          {verdict === "mustSee" && (
-            <Star
-              size={11}
-              fill="currentColor"
-              strokeWidth={2}
-              className="flex-shrink-0 text-[#E8FF47]"
-              aria-hidden="true"
-            />
-          )}
-          {verdict === "interested" && (
-            // Flat, opaque, deliberately muted gold — not an alpha variant of Must See's
-            // color. A translucent fill blends inconsistently with whatever's underneath
-            // (cyan-tinted on scheduled blocks vs. neutral elsewhere), so at low opacity
-            // this used to read as green/olive rather than a lighter yellow.
-            <Heart
-              size={11}
-              fill="currentColor"
-              strokeWidth={2}
-              className="flex-shrink-0 text-[#C4A73A]"
-              aria-hidden="true"
-            />
-          )}
-          <span className="line-clamp-2">{artist.name}</span>
+        <div className="flex items-start justify-between gap-1">
+          <p className="flex items-start gap-1 min-w-0 text-[12px] font-bold text-white leading-tight">
+            {verdict === "mustSee" && (
+              <Star
+                size={11}
+                fill="currentColor"
+                strokeWidth={2}
+                className="flex-shrink-0 text-[#E8FF47]"
+                aria-hidden="true"
+              />
+            )}
+            {verdict === "interested" && (
+              // Flat, opaque, deliberately muted gold — not an alpha variant of Must See's
+              // color. A translucent fill blends inconsistently with whatever's underneath
+              // (cyan-tinted on scheduled blocks vs. neutral elsewhere), so at low opacity
+              // this used to read as green/olive rather than a lighter yellow.
+              <Heart
+                size={11}
+                fill="currentColor"
+                strokeWidth={2}
+                className="flex-shrink-0 text-[#C4A73A]"
+                aria-hidden="true"
+              />
+            )}
+            <span className="line-clamp-2">{artist.name}</span>
+          </p>
+          <Link
+            href={`/artist/${artist.slug}`}
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.stopPropagation()}
+            className="flex-shrink-0 text-white/40 hover:text-white transition-colors p-1 -m-1"
+            aria-label={`View ${artist.name} details`}
+          >
+            <ArrowUpRight size={12} strokeWidth={2} />
+          </Link>
+        </div>
+        <p className="text-[10px] text-white/50 truncate mt-0.5">
+          {appearance.startTime} – {appearance.endTime}
         </p>
-        <Link
-          href={`/artist/${artist.slug}`}
-          onClick={(e) => e.stopPropagation()}
-          onKeyDown={(e) => e.stopPropagation()}
-          className="flex-shrink-0 text-white/40 hover:text-white transition-colors p-1 -m-1"
-          aria-label={`View ${artist.name} details`}
-        >
-          <ArrowUpRight size={12} strokeWidth={2} />
-        </Link>
-      </div>
-      <p className="text-[10px] text-white/50 truncate mt-0.5">
-        {appearance.startTime} – {appearance.endTime}
-      </p>
       </div>
     </div>
   );

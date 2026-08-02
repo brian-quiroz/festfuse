@@ -7,7 +7,12 @@ import { COLORS } from "@/app/data/colors";
 
 declare global {
   interface Window {
-    YT?: { Player: new (el: string | HTMLElement, opts: Record<string, unknown>) => { destroy?: () => void } };
+    YT?: {
+      Player: new (
+        el: string | HTMLElement,
+        opts: Record<string, unknown>
+      ) => { destroy?: () => void };
+    };
     onYouTubeIframeAPIReady?: () => void;
   }
 }
@@ -133,9 +138,7 @@ export default function LiveVideoSection({ artist }: { artist: Artist }) {
             <div id={playerElementId} className="w-full h-full" />
           )}
         </div>
-        {artist.liveVideoLabel && (
-          <p className="text-xs text-white/35">{artist.liveVideoLabel}</p>
-        )}
+        {artist.liveVideoLabel && <p className="text-xs text-white/35">{artist.liveVideoLabel}</p>}
       </div>
     </section>
   );

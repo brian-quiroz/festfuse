@@ -128,7 +128,10 @@ export default function QuickPicksCompleteScreen({
 
         {/* Celebration + closure */}
         <div className="flex flex-col items-center gap-3">
-          <h1 id="quick-picks-complete-title" className="text-6xl font-extrabold tracking-tight leading-none">
+          <h1
+            id="quick-picks-complete-title"
+            className="text-6xl font-extrabold tracking-tight leading-none"
+          >
             <span className="text-white">All </span>
             <span style={{ color: COLORS.celebration }}>{headline.replace(/^All /, "")}</span>
           </h1>
@@ -173,7 +176,10 @@ export default function QuickPicksCompleteScreen({
                   <p className="text-xs uppercase tracking-widest font-bold text-[#E8FF47]/50">
                     Festival Story
                   </p>
-                  <p id="festival-story-locked-explanation" className="text-sm leading-relaxed text-white/45">
+                  <p
+                    id="festival-story-locked-explanation"
+                    className="text-sm leading-relaxed text-white/45"
+                  >
                     Unlocks once 5 artists {dayScopeText} are marked Interested or Must See.
                   </p>
                 </div>

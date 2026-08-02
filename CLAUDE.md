@@ -318,7 +318,7 @@ What's not fine: describing what a show feels like as if the copy witnessed it f
 
 ### Nothing tied to one specific appearance
 
-Never name a specific stage, date, or "this weekend," and never call a show a "hometown set." An artist record isn't scoped to a single festival or booking (see `festivalId` on `appearances`) — anything that's only true for *this* appearance breaks the moment the same data is reused for a different one or the schedule changes. Biographical origin facts ("emerged from Chicago") are permanent and fine; tying that origin to "this show" is not.
+Never name a specific stage, date, or "this weekend," and never call a show a "hometown set." An artist record isn't scoped to a single festival or booking (see `festivalId` on `appearances`) — anything that's only true for _this_ appearance breaks the moment the same data is reused for a different one or the schedule changes. Biographical origin facts ("emerged from Chicago") are permanent and fine; tying that origin to "this show" is not.
 
 > Would this sentence still be true next year, at a different festival, written by someone who's never heard the music? If not, it doesn't belong in `about`.
 

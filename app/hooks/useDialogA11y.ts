@@ -19,7 +19,12 @@ interface UseDialogA11yOptions {
 // focus in on open, traps Tab within containerRef, and closes on Escape. Markup
 // (role, aria-modal, aria-label/aria-labelledby) stays in each consumer's own JSX —
 // this hook only owns behavior.
-export function useDialogA11y({ isOpen, onClose, containerRef, initialFocusRef }: UseDialogA11yOptions) {
+export function useDialogA11y({
+  isOpen,
+  onClose,
+  containerRef,
+  initialFocusRef,
+}: UseDialogA11yOptions) {
   const previouslyFocused = useRef<HTMLElement | null>(null);
 
   useEffect(() => {

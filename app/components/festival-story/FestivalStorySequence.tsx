@@ -24,7 +24,11 @@ interface FestivalStorySequenceProps {
   attendanceDays?: string[];
 }
 
-export function FestivalStorySequence({ isOpen, onClose, attendanceDays }: FestivalStorySequenceProps) {
+export function FestivalStorySequence({
+  isOpen,
+  onClose,
+  attendanceDays,
+}: FestivalStorySequenceProps) {
   const router = useRouter();
   const decisionsByArtist = useDecisionStore((state) => state.decisionsByArtist);
   const { applyPreset } = useExploreFilterStore();

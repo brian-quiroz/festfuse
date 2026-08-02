@@ -16,9 +16,7 @@ export type ListenFirstResolution =
 // socials.spotify once an override is present.
 export function resolveListenFirst(artist: Artist): ListenFirstResolution {
   if (artist.listenFirst?.mode === "tracks") {
-    const tracks = artist.tracks
-      .filter((t): t is CuratedTrack => Boolean(t.spotifyId))
-      .slice(0, 3);
+    const tracks = artist.tracks.filter((t): t is CuratedTrack => Boolean(t.spotifyId)).slice(0, 3);
     if (tracks.length === 0) return { mode: "none" };
     return { mode: "tracks", tracks, note: artist.listenFirst.note };
   }
