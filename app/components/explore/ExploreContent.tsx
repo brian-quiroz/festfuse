@@ -103,7 +103,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   // Each gets a unique seed (seed + offset) so shuffles are genuinely independent,
   // while staying deterministic per page load (server/client produce identical results).
   const festivalFavoritesRandom = useMemo(() => createSeededRandom(seed), [seed]);
-  const hiddenGemsRandom = useMemo(() => createSeededRandom(seed + 1), [seed]);
   const internationalPicksRandom = useMemo(() => createSeededRandom(seed + 2), [seed]);
   const chicagosOwnRandom = useMemo(() => createSeededRandom(seed + 3), [seed]);
   const afterDarkRandom = useMemo(() => createSeededRandom(seed + 4), [seed]);
@@ -122,25 +121,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
       ),
     [festivalFavoritesRandom]
   );
-
-  // Suppress against Festival Favorites (Hidden Gems' premise is "overlooked")
-  const hiddenGems = useMemo(() => {
-    const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
-    return interleaveByDayShuffled(
-      allArtists.filter((a) => {
-        const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
-        return (
-          a.genres.some((g) =>
-            ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)
-          ) &&
-          tier !== "Headliner" &&
-          tier !== "Sub-headliner" &&
-          !shownInFestival.has(a.slug)
-        );
-      }),
-      hiddenGemsRandom
-    );
-  }, [festivalFavorites, hiddenGemsRandom]);
 
   const internationalPicks = useMemo(
     () =>
@@ -176,7 +156,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   // Carousel data map — computed after all carousels are ready, for use in both header and view
   const carouselMap: Record<string, { title: string; artists: Artist[] }> = {
     "festival-favorites": { title: "Festival Favorites", artists: festivalFavorites },
-    "hidden-gems": { title: "Hidden Gems", artists: hiddenGems },
     "international-picks": { title: "International Picks", artists: internationalPicks },
     "chicagos-own": { title: "Chicago's Own", artists: chicagosOwn },
     "after-dark": { title: "After Dark", artists: afterDark },
@@ -449,13 +428,6 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 />
 
                 <QuickPicksBanner />
-
-                <ArtistCarousel
-                  title="Hidden Gems"
-                  artists={hiddenGems}
-                  carouselType="hidden-gems"
-                  onSeeAll={() => handleSeeAll("hidden-gems")}
-                />
 
                 <ArtistCarousel
                   title="International Picks"

@@ -14,7 +14,6 @@ interface ArtistCarouselProps {
   cardSize?: "default" | "large";
   carouselType?:
     | "festival-favorites"
-    | "hidden-gems"
     | "international-picks"
     | "chicagos-own"
     | "after-dark";

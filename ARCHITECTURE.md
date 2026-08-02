@@ -286,7 +286,7 @@ app-wide.
 
 The Explore page manages four distinct states:
 
-1. **No filters + no search** → Show curated carousels (Festival Favorites, Hidden Gems, International Picks, Chicago's Own, After Dark)
+1. **No filters + no search** → Show curated carousels (Festival Favorites, International Picks, Chicago's Own, After Dark)
 2. **Filters only** → Show ActiveFilters bar + ArtistResultsGrid
 3. **Search only** → Show search heading + ArtistResultsGrid
 4. **Search + filters** → Show ActiveFilters bar + ArtistResultsGrid
@@ -330,7 +330,9 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 
 **Curatorial/Discovery Rows** (answer subjective "is this worth surfacing" questions):
 
-- Hidden Gems — "Is this artist overlooked/underrated?" (editorial judgment)
+- None currently — all active rows are factual/criteria-based. A future row like "Hidden
+  Gems" ("Is this artist overlooked/underrated?") is possible but requires ongoing
+  editorial curation to keep accurate, so it's future work rather than a current row.
 
 ### Suppression Rules
 
@@ -343,15 +345,15 @@ An artist can legitimately be:
 
 All three facts are simultaneously true. Hiding an artist from one row because they appear in another would make each row factually incomplete or misleading.
 
-**Rule B: Hidden Gems suppresses only against Festival Favorites.**
+**Rule B: A curatorial row suppresses against Festival Favorites** (future work, no curatorial row currently exists).
 
-Hidden Gems' premise is "overlooked," which is contradicted if a headliner appears in it. This is the _only_ suppression relationship in the current system.
+A curatorial row's premise is typically "overlooked" or similarly editorial, which is contradicted if a headliner appears in it. If a curatorial row is added, it should exclude artists already shown in Festival Favorites.
 
-**Rule C: If you had two curatorial rows, they'd suppress against each other** (currently hypothetical).
+**Rule C: If you had two curatorial rows, they'd suppress against each other** (future work).
 
 If you added a second curatorial row (e.g., "Artists Worth Seeing Early"), you'd want the same editorially-chosen artist to not appear twice under different curatorial framings.
 
-Right now Rule C doesn't apply to anything — After Dark is factual (Rule A), not curatorial, so there's no second curatorial row to protect.
+Right now neither Rule B nor Rule C applies to anything — After Dark is factual (Rule A), not curatorial, and no curatorial row currently exists.
 
 ---
 
@@ -391,7 +393,7 @@ Two distinct algorithms power carousel rows, chosen based on the row's editorial
 4. Round-robin interleave across shuffled groups
 5. Concatenate result
 
-**Why this pattern:** All other rows (International Picks, Chicago's Own, After Dark, Hidden Gems) don't care about billing prominence — they're answering a different question ("Is this artist from outside the US?" not "Is this artist famous?"). File-order bias is a hazard: if the data file happens to list headliners first, every row would inherit that prominence bias without editing work. Shuffling within days breaks that bias. Round-robin interleaving distributes artists across visible viewport positions evenly (first visible artist comes from each day in order) rather than front-loading any single day.
+**Why this pattern:** All other rows (International Picks, Chicago's Own, After Dark) don't care about billing prominence — they're answering a different question ("Is this artist from outside the US?" not "Is this artist famous?"). File-order bias is a hazard: if the data file happens to list headliners first, every row would inherit that prominence bias without editing work. Shuffling within days breaks that bias. Round-robin interleaving distributes artists across visible viewport positions evenly (first visible artist comes from each day in order) rather than front-loading any single day.
 
 **After Dark's 8:00 PM threshold:** chosen from the actual lineup distribution, not a
 round-number guess. At 8:00 PM, 19 artists qualify, spread 4-5 per day across all four
@@ -427,7 +429,7 @@ Clicking "See all" on any carousel row enters a full-page grid view of that row'
 
    This provides consistent reference ordering for browsing, distinct from the carousel's curatorial shuffle.
 
-3. **Header with row name + count + back button** — Shows "Hidden Gems · 24 artists" plus a clear "Back to Explore" button. Heading is visible at top of page on entry.
+3. **Header with row name + count + back button** — Shows "International Picks · 24 artists" plus a clear "Back to Explore" button. Heading is visible at top of page on entry.
 
 4. **Row criteria as locked filter** — The row's filter is implicit but fixed (e.g., "International Picks" = non-US artists). Reuse the existing filter/search UI and ArtistResultsGrid on top of it. Users can add additional filters (by genre, day, stage) but cannot remove the row's base criteria.
 
@@ -459,23 +461,11 @@ const festivalFavorites = shuffleDayBlocks(
   })
 );
 
-// Hidden Gems: curatorial, suppress only against Festival Favorites (Rule B)
-// Pipeline: filter by genre → exclude headliners/sub-headliners → exclude artists already in Festival Favorites
-// → sort by day → shuffle within days → interleave across days (see interleaveByDayShuffled)
-const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
-const hiddenGems = interleaveByDayShuffled(
-  allArtists.filter((a) => {
-    const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
-    return (
-      a.genres.some((g) =>
-        ["Bedroom Pop", "Indie Pop", "Alternative R&B", "Art Pop", "Shoegaze"].includes(g)
-      ) &&
-      tier !== "Headliner" &&
-      tier !== "Sub-headliner" &&
-      !shownInFestival.has(a.slug) // Rule B suppression: don't show already-featured artists
-    );
-  })
-);
+// A future curatorial row (see Rule B above) would filter by editorial criteria,
+// exclude headliners/sub-headliners, and exclude artists already in Festival Favorites:
+//   const shownInFestival = new Set(festivalFavorites.map((a) => a.slug));
+//   allArtists.filter((a) => meetsCuratorialCriteria(a) && !shownInFestival.has(a.slug))
+// then sort by day → shuffle within days → interleave across days, same as the rows below.
 
 // International Picks: factual, no suppression (Rule A)
 // Pipeline: filter to non-US → sort by day → shuffle within days → interleave
