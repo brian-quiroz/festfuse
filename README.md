@@ -19,28 +19,67 @@ The goal is not to catalog everything about every artist. It is to help festival
 
 ## Features
 
-- **Explore** — Browse the lineup through curated collections, search by artist, genre, location, or keyword, and filter by genre, day, stage, pick status, or schedule status.
-- **Artist profiles** — Learn what an artist sounds like through editorial context, Spotify listening, live-performance video, albums, and similar lineup artists.
-- **Quick Picks** — Review artists one at a time and choose *Pass*, *Interested*, or *Must See* without getting trapped in endless comparison.
-- **Planner** — Place saved artists onto a day-and-stage schedule, filter the grid to personal picks only and/or scheduled artists only, and surface scheduling conflicts.
-- **Festival Story** — Turn completed picks into a personalized, Wrapped-style recap of listening preferences and festival priorities.
-- **Persistent progress** — Keep picks, attendance days, planner selections, and scheduling decisions across browser sessions.
-- **Responsive experience** — Use the core discovery and planning flows across desktop and mobile layouts.
+- **Explore**
+  Browse the lineup through curated collections, search by artist, genre, location, or keyword, and filter by genre, day, stage, pick status, or schedule status.
+- **Artist profiles**
+  Learn what an artist sounds like through editorial context, Spotify listening, live-performance video, albums, and similar lineup artists.
+- **Quick Picks**
+  Review artists one at a time and choose *Pass*, *Interested*, or *Must See* without getting trapped in endless comparison.
+- **Planner**
+  Place saved artists onto a day-and-stage schedule, filter the grid to personal picks only and/or scheduled artists only, and surface scheduling conflicts.
+- **Festival Story**
+  Turn completed picks into a personalized, Wrapped-style recap of listening preferences and festival priorities.
+- **Persistent progress**
+  Keep picks, attendance days, planner selections, and scheduling decisions across browser sessions.
+- **Responsive experience**
+  Use the core discovery and planning flows across desktop and mobile layouts.
 
 ## Screens
 
-| | |
-| --- | --- |
-| ![Explore, showing the full Friday lineup with picks and a schedule conflict visible against it](docs/screenshots/explore.jpg) | ![Artist Detail for The Smashing Pumpkins, marked Must See and scheduled](docs/screenshots/artist-detail.jpg) |
-| Explore | Artist Detail |
-| ![Artist Detail scrolled to About and Live Performance](docs/screenshots/artist-detail-about.jpg) | ![Quick Picks setup with a partial day selection](docs/screenshots/quick-picks-setup.jpg) |
-| Artist Detail (About) | Quick Picks setup |
-| ![Quick Picks decision card for Not for Radio](docs/screenshots/quick-picks-decision.jpg) | ![Quick Picks session complete screen](docs/screenshots/quick-picks-complete.jpg) |
-| Quick Picks decision | Quick Picks complete |
-| ![Planner showing the full lineup, several picks, and a real schedule conflict](docs/screenshots/planner.jpg) | ![Festival Story insight card](docs/screenshots/festival-story-insight.jpg) |
-| Planner | Festival Story |
-| ![How FestFuse works modal](docs/screenshots/how-it-works.jpg) | |
-| How It Works | |
+<details>
+<summary>See all screens</summary>
+
+**Explore**
+The full Friday lineup, with picks and a schedule conflict visible against it.
+![Explore](docs/screenshots/explore.jpg)
+
+**Artist Detail**
+The Smashing Pumpkins, marked Must See and scheduled.
+![Artist Detail](docs/screenshots/artist-detail.jpg)
+
+**Artist Detail (About)**
+Scrolled to About and Live Performance.
+![Artist Detail scrolled to About and Live Performance](docs/screenshots/artist-detail-about.jpg)
+
+**Quick Picks setup**
+A partial day selection.
+![Quick Picks setup](docs/screenshots/quick-picks-setup.jpg)
+
+**Quick Picks decision**
+The decision card for Not for Radio.
+![Quick Picks decision card](docs/screenshots/quick-picks-decision.jpg)
+
+**Quick Picks complete**
+End of a full session.
+![Quick Picks session complete screen](docs/screenshots/quick-picks-complete.jpg)
+
+**Day complete**
+The per-day milestone screen.
+![Day complete screen](docs/screenshots/day-complete.jpg)
+
+**Planner**
+The full lineup, several picks, and a real schedule conflict.
+![Planner showing a real schedule conflict](docs/screenshots/planner.jpg)
+
+**Festival Story**
+A personalized insight card.
+![Festival Story insight card](docs/screenshots/festival-story-insight.jpg)
+
+**How It Works**
+The onboarding modal.
+![How FestFuse works modal](docs/screenshots/how-it-works.jpg)
+
+</details>
 
 **On mobile**
 
