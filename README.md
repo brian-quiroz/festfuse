@@ -36,47 +36,67 @@ The goal is not to catalog everything about every artist. It is to help festival
 
 ## Screens
 
-<details>
-<summary>See all screens</summary>
-
 **Explore**
+
 The full Friday lineup, with picks and a schedule conflict visible against it.
+
 ![Explore](docs/screenshots/explore.jpg)
 
-**Artist Detail**
+**Artist Page**
+
 The Smashing Pumpkins, marked Must See and scheduled.
-![Artist Detail](docs/screenshots/artist-detail.jpg)
 
-**Artist Detail (About)**
-Scrolled to About and Live Performance.
-![Artist Detail scrolled to About and Live Performance](docs/screenshots/artist-detail-about.jpg)
-
-**Quick Picks setup**
-A partial day selection.
-![Quick Picks setup](docs/screenshots/quick-picks-setup.jpg)
-
-**Quick Picks decision**
-The decision card for Not for Radio.
-![Quick Picks decision card](docs/screenshots/quick-picks-decision.jpg)
-
-**Quick Picks complete**
-End of a full session.
-![Quick Picks session complete screen](docs/screenshots/quick-picks-complete.jpg)
-
-**Day complete**
-The per-day milestone screen.
-![Day complete screen](docs/screenshots/day-complete.jpg)
+![Artist Page](docs/screenshots/artist-detail.jpg)
 
 **Planner**
+
 The full lineup, several picks, and a real schedule conflict.
+
 ![Planner showing a real schedule conflict](docs/screenshots/planner.jpg)
 
 **Festival Story**
+
 A personalized insight card.
+
 ![Festival Story insight card](docs/screenshots/festival-story-insight.jpg)
 
+<details>
+<summary>See more screens</summary>
+
+**Artist Page (About & Live Performance)**
+
+Scrolled further down the same page: the live performance video and editorial About copy.
+
+![Artist Page scrolled to About and Live Performance](docs/screenshots/artist-detail-about.jpg)
+
+**Quick Picks setup**
+
+A partial day selection.
+
+![Quick Picks setup](docs/screenshots/quick-picks-setup.jpg)
+
+**Quick Picks decision**
+
+The decision card for Not for Radio.
+
+![Quick Picks decision card](docs/screenshots/quick-picks-decision.jpg)
+
+**Quick Picks complete**
+
+End of a full session.
+
+![Quick Picks session complete screen](docs/screenshots/quick-picks-complete.jpg)
+
+**Day complete**
+
+The per-day milestone screen.
+
+![Day complete screen](docs/screenshots/day-complete.jpg)
+
 **How It Works**
+
 The onboarding modal.
+
 ![How FestFuse works modal](docs/screenshots/how-it-works.jpg)
 
 </details>
