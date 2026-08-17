@@ -13,22 +13,22 @@
 
 ## Why FestFuse?
 
-Festival lineups can turn music discovery into homework. FestFuse turns that process into a few focused experiences: browse when you want to explore, make quick decisions when you feel stuck, and turn your picks into a schedule when you are ready to plan.
+Festival lineups can turn music discovery into homework. FestFuse offers a few focused ways through it. Browse the lineup at your own pace, or move fast with one-at-a-time decisions in Quick Picks if manual browsing isn't your style. Turn your picks into a schedule whenever you're ready to plan.
 
 The goal is not to catalog everything about every artist. It is to help festivalgoers feel confident and excited about who they choose to see.
 
 ## Features
 
 - **Explore**
-  Browse the lineup through curated collections, search by artist, genre, location, or keyword, and filter by genre, day, stage, pick status, or schedule status.
-- **Artist profiles**
+  Browse the lineup through themed rows like Festival Favorites, search by artist, genre, location, or keyword, and filter by genre, day, stage, pick status, or schedule status.
+- **Artist Page**
   Learn what an artist sounds like through editorial context, Spotify listening, live-performance video, albums, and similar lineup artists.
 - **Quick Picks**
-  Review artists one at a time and choose *Pass*, *Interested*, or *Must See* without getting trapped in endless comparison.
+  Review artists one at a time, with a Quick Listen preview and similar-artist suggestions for context, and choose *Pass*, *Interested*, or *Must See*, with the option to step back and revisit your last call.
 - **Planner**
-  Place saved artists onto a day-and-stage schedule, filter the grid to personal picks only and/or scheduled artists only, and surface scheduling conflicts.
+  Turn Must See and Interested picks into a day-and-stage schedule, filter to personal picks only and/or scheduled artists only, and surface scheduling conflicts.
 - **Festival Story**
-  Turn completed picks into a personalized, Wrapped-style recap of listening preferences and festival priorities.
+  A personalized, Wrapped-style recap of your listening preferences and festival priorities, revealed once enough picks are made.
 - **Persistent progress**
   Keep picks, attendance days, planner selections, and scheduling decisions across browser sessions.
 - **Responsive experience**
@@ -38,13 +38,13 @@ The goal is not to catalog everything about every artist. It is to help festival
 
 **Explore**
 
-The full Friday lineup, with picks and a schedule conflict visible against it.
+The Festival Favorites carousel, with picks and a schedule conflict visible on the cards.
 
 ![Explore](docs/screenshots/explore.jpg)
 
 **Artist Page**
 
-The Smashing Pumpkins, marked Must See and scheduled.
+Artist page for The Smashing Pumpkins, with Must See and Scheduled both marked active.
 
 ![Artist Page](docs/screenshots/artist-detail.jpg)
 
@@ -56,13 +56,13 @@ The decision card for Not for Radio.
 
 **Planner**
 
-The full lineup, several picks (some also scheduled), and a real schedule conflict.
+A snapshot of Friday's schedule, with several picks (some also scheduled) and a real schedule conflict.
 
 ![Planner showing a real schedule conflict](docs/screenshots/planner.jpg)
 
 **Festival Story**
 
-A personalized insight card.
+One of four insight cards, computed from the picks and interest levels selected during Quick Picks.
 
 ![Festival Story insight card](docs/screenshots/festival-story-insight.jpg)
 
@@ -111,11 +111,16 @@ The onboarding modal.
 
 ## How It Works
 
-1. Select the festival days you are attending.
-2. Explore the lineup or start a Quick Picks session.
-3. Mark artists as *Interested* or *Must See*.
-4. Add your picks to the Planner and resolve any schedule conflicts.
-5. Complete enough picks to reveal your personalized Festival Story.
+FestFuse helps you decide who to see before the festival begins.
+
+- **Explore**
+  Browse the lineup, discover artists, and save the ones that catch your eye.
+- **Quick Picks**
+  Rate artists one at a time: Pass, Interested, or Must See. Quickly build your lineup.
+- **Planner**
+  Turn your Must See and Interested picks into a schedule. Marking an artist and scheduling it are separate decisions.
+- **Festival Story**
+  Complete a Quick Picks session to unlock a closer look at the sounds and priorities behind your picks.
 
 ## Technical Highlights
 
@@ -126,6 +131,7 @@ The onboarding modal.
 - Persists decisions and schedule state in the browser with Zustand, including migrations for evolving stored data.
 - Computes Festival Story insights from the user's attendance scope and selections instead of displaying fixed or randomly generated results.
 - Includes reusable focus management for modal interactions and responsive alternatives for navigation, filtering, artist pages, and the schedule grid.
+- Gates AI-drafted artist bios and similar-artist picks behind a verified flag, so unverified editorial content never renders until it passes a fact-check pass against a documented source hierarchy.
 
 For deeper implementation notes and design decisions, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -184,6 +190,7 @@ FestFuse is currently a frontend MVP centered on one festival, with artist and s
 ## Project Structure
 
 ```text
+docs/                    # Screenshots and supplementary notes (see ARCHITECTURE.md)
 app/
 ├── artist/[slug]/       # Artist detail routes
 ├── components/          # Shared and feature-specific UI

@@ -52,6 +52,12 @@ bestFor: BestForTag[]
 
 All categories are typed constants with `as const` for perfect type sync.
 
+### Editorial content: curation standard, not a runtime computation
+
+`about` and `similarArtists` are AI-assisted editorial content, gated behind `aboutVerified`/`similarArtistsVerified` flags — neither renders in the app until it passes a fact-check pass against a documented source hierarchy (official artist/label/festival/Spotify pages first, then reputable music publications, AllMusic, and citation-checked Wikipedia; other festival tools and MusicBrainz/community tags are used only as cross-checks, never as a sole source). This is a data-authoring standard applied during review, not something the running app computes.
+
+`similarArtists` specifically is chosen by deliberately mixing different matching dimensions per artist (sound/genre overlap, scene/scale, thematic parallel) rather than defaulting to genre-nearest-neighbors, and by always pairing at least one bigger-name act with one smaller/rising act instead of four similarly-sized names — with the reasoning behind the set and its ordering stated explicitly during review, not left implicit.
+
 ---
 
 ## Categories Design
