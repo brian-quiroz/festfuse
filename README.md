@@ -48,9 +48,15 @@ The Smashing Pumpkins, marked Must See and scheduled.
 
 ![Artist Page](docs/screenshots/artist-detail.jpg)
 
+**Quick Picks decision**
+
+The decision card for Not for Radio.
+
+![Quick Picks decision card](docs/screenshots/quick-picks-decision.jpg)
+
 **Planner**
 
-The full lineup, several picks, and a real schedule conflict.
+The full lineup, several picks (some also scheduled), and a real schedule conflict.
 
 ![Planner showing a real schedule conflict](docs/screenshots/planner.jpg)
 
@@ -63,23 +69,17 @@ A personalized insight card.
 <details>
 <summary>See more screens</summary>
 
-**Artist Page (About & Live Performance)**
-
-Scrolled further down the same page: the live performance video and editorial About copy.
-
-![Artist Page scrolled to About and Live Performance](docs/screenshots/artist-detail-about.jpg)
-
 **Quick Picks setup**
 
 A partial day selection.
 
 ![Quick Picks setup](docs/screenshots/quick-picks-setup.jpg)
 
-**Quick Picks decision**
+**Day complete**
 
-The decision card for Not for Radio.
+The per-day milestone screen.
 
-![Quick Picks decision card](docs/screenshots/quick-picks-decision.jpg)
+![Day complete screen](docs/screenshots/day-complete.jpg)
 
 **Quick Picks complete**
 
@@ -87,11 +87,11 @@ End of a full session.
 
 ![Quick Picks session complete screen](docs/screenshots/quick-picks-complete.jpg)
 
-**Day complete**
+**Artist Page (About & Live Performance)**
 
-The per-day milestone screen.
+Scrolled further down the same page: the live performance video and editorial About copy.
 
-![Day complete screen](docs/screenshots/day-complete.jpg)
+![Artist Page scrolled to About and Live Performance](docs/screenshots/artist-detail-about.jpg)
 
 **How It Works**
 
@@ -101,7 +101,7 @@ The onboarding modal.
 
 </details>
 
-**On mobile**
+**Mobile**
 
 <p align="center">
   <img src="docs/screenshots/home-mobile.jpg" width="32%" alt="FestFuse home screen on mobile" />
