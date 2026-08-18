@@ -342,11 +342,11 @@ A component that's hard to find in a refactor is still a problem. Better to err 
 ## Build Order
 
 ✅ Artist Page
+✅ Explore
+✅ Quick Picks
+✅ Festival Story / Wrapped-style summary
+✅ Schedule
 
-Next priorities:
+Next priority:
 
-1. Explore
-2. Quick Picks
-3. Festival Story / Wrapped-style summary
-4. Compare
-5. Schedule
+1. Compare

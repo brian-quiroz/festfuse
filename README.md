@@ -1,36 +1,229 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FestFuse
+
+**A festival discovery and planning app that helps you decide who to see before the gates open.**
+
+[Live Demo](https://festfuse.vercel.app/) · [Architecture](ARCHITECTURE.md)
+
+> FestFuse currently features the Lollapalooza 2026 lineup. Support for additional festivals is planned.
+
+<p align="center">
+  <img src="docs/screenshots/home.jpg" width="49%" alt="FestFuse home screen with Quick Picks, Explore, and Planner entry points" />
+  <img src="docs/screenshots/festival-story-finale.jpg" width="49%" alt="Festival Story finale card celebrating a completed festival plan" />
+</p>
+
+## Why FestFuse?
+
+Festival lineups can turn music discovery into homework. FestFuse offers a few focused ways through it. Browse the lineup at your own pace, or move fast with one-at-a-time decisions in Quick Picks if manual browsing isn't your style. Turn your picks into a schedule whenever you're ready to plan.
+
+The goal is not to catalog everything about every artist. It is to help festivalgoers feel confident and excited about who they choose to see.
+
+## Features
+
+- **Explore**
+
+  Browse the lineup through themed rows like Festival Favorites, search by artist, genre, location, or keyword, and filter by genre, day, stage, pick status, or schedule status.
+
+- **Artist Page**
+
+  Learn what an artist sounds like through editorial context, Spotify listening, live-performance video, albums, and similar lineup artists.
+
+- **Quick Picks**
+
+  Review artists one at a time, with a Quick Listen preview and similar-artist suggestions for context, and choose *Pass*, *Interested*, or *Must See*, with the option to step back and revisit your last call.
+
+- **Planner**
+
+  Turn your picks into a day-and-stage schedule, with scheduling conflicts flagged automatically.
+
+- **Festival Story**
+
+  A personalized, Wrapped-style recap of your listening preferences and festival priorities, revealed once enough picks are made.
+
+- **Persistent progress**
+
+  Keep picks, attendance days, planner selections, and scheduling decisions across browser sessions.
+
+- **Responsive experience**
+
+  Use the core discovery and planning flows across desktop and mobile layouts.
+
+## Screens
+
+**Explore**
+
+The Festival Favorites carousel, with picks and a schedule conflict visible on the cards.
+
+![Explore](docs/screenshots/explore.jpg)
+
+**Artist Page**
+
+Artist page for The Smashing Pumpkins, with Must See and Scheduled both marked active.
+
+![Artist Page](docs/screenshots/artist-detail.jpg)
+
+**Quick Picks decision**
+
+The decision card for Not for Radio.
+
+![Quick Picks decision card](docs/screenshots/quick-picks-decision.jpg)
+
+**Planner**
+
+A snapshot of Friday's schedule, with several picks (some also scheduled) and a real schedule conflict.
+
+![Planner showing a real schedule conflict](docs/screenshots/planner.jpg)
+
+**Festival Story**
+
+One of four insight cards, computed from the picks and interest levels selected during Quick Picks.
+
+![Festival Story insight card](docs/screenshots/festival-story-insight.jpg)
+
+<details>
+<summary>See more screens</summary>
+
+**Quick Picks setup**
+
+A partial day selection.
+
+![Quick Picks setup](docs/screenshots/quick-picks-setup.jpg)
+
+**Day complete**
+
+The per-day milestone screen.
+
+![Day complete screen](docs/screenshots/day-complete.jpg)
+
+**Quick Picks complete**
+
+End of a full session.
+
+![Quick Picks session complete screen](docs/screenshots/quick-picks-complete.jpg)
+
+**Artist Page (About & Live Performance)**
+
+Scrolled further down the same page: the live performance video and editorial About copy.
+
+![Artist Page scrolled to About and Live Performance](docs/screenshots/artist-detail-about.jpg)
+
+**How It Works**
+
+The onboarding modal.
+
+![How FestFuse works modal](docs/screenshots/how-it-works.jpg)
+
+</details>
+
+**Mobile**
+
+<p align="center">
+  <img src="docs/screenshots/home-mobile.jpg" width="32%" alt="FestFuse home screen on mobile" />
+  <img src="docs/screenshots/explore-mobile.jpg" width="32%" alt="Explore screen on mobile, with picks and a schedule conflict visible" />
+  <img src="docs/screenshots/quick-picks-mobile.jpg" width="32%" alt="Quick Picks decision screen on mobile" />
+</p>
+
+## How It Works
+
+FestFuse helps you decide who to see before the festival begins.
+
+- **Explore**
+
+  Browse the lineup, discover artists, and save the ones that catch your eye.
+
+- **Quick Picks**
+
+  Rate artists one at a time: Pass, Interested, or Must See. Quickly build your lineup.
+
+- **Planner**
+
+  Turn your Must See and Interested picks into a schedule. Marking an artist and scheduling it are separate decisions.
+
+- **Festival Story**
+
+  Complete a Quick Picks session to unlock a closer look at the sounds and priorities behind your picks.
+
+## Technical Highlights
+
+- Built with the Next.js App Router, React, TypeScript, and Tailwind CSS.
+- Models repeat performances through festival-scoped artist appearances rather than duplicating artist records.
+- Normalizes 100+ genre labels and supporting categories into typed, reusable taxonomies.
+- Uses deterministic carousel sampling to keep server and client rendering consistent while preserving variety between visits.
+- Persists decisions and schedule state in the browser with Zustand, including migrations for evolving stored data.
+- Computes Festival Story insights from the user's attendance scope and selections instead of displaying fixed or randomly generated results.
+- Includes reusable focus management for modal interactions and responsive alternatives for navigation, filtering, artist pages, and the schedule grid.
+- Gates AI-drafted artist bios and similar-artist picks behind a verified flag, so unverified editorial content never renders until it passes a fact-check pass against a documented source hierarchy.
+
+For deeper implementation notes and design decisions, see [ARCHITECTURE.md](ARCHITECTURE.md).
+
+## Tech Stack
+
+- [Next.js 16](https://nextjs.org/)
+- [React 19](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS 4](https://tailwindcss.com/)
+- [Zustand](https://zustand.docs.pmnd.rs/)
+- [Motion](https://motion.dev/)
+- [Vercel Analytics](https://vercel.com/docs/analytics)
+- Spotify and YouTube embeds
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js
+- npm
+
+### Installation
 
 ```bash
+git clone https://github.com/brian-quiroz/festfuse.git
+cd festfuse
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+No environment variables are required for the current frontend MVP.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Available Scripts
 
-## Learn More
+```bash
+npm run dev          # Start the development server
+npm run build        # Create a production build
+npm run start        # Run the production build
+npm run lint         # Run ESLint
+npm run format       # Format the project with Prettier
+npm run verify:story # Verify Festival Story signal invariants
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Current Scope and Roadmap
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+FestFuse is currently a frontend MVP centered on one festival, with artist and schedule data stored in typed source files. The next major iteration will focus on:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Supporting multiple festivals
+- Moving festival and artist data into a database-backed system
+- Creating a faster, source-verifiable data import workflow
+- Expanding automated test coverage
+- Continuing accessibility and performance improvements
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```text
+docs/                    # Screenshots and supplementary notes (see ARCHITECTURE.md)
+app/
+├── artist/[slug]/       # Artist detail routes
+├── components/          # Shared and feature-specific UI
+├── data/                # Festival, artist, taxonomy, and story data
+├── explore/             # Lineup discovery
+├── hooks/               # Shared React behavior and story signals
+├── lib/                 # Search, filtering, scheduling, and sampling logic
+├── planner/             # Festival schedule builder
+├── quick-picks/         # Guided artist decision flow
+├── store/               # Zustand client state
+└── types/               # Shared TypeScript models
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Data and Media Credits
+
+FestFuse is an independent portfolio project and is not affiliated with Lollapalooza, C3 Presents, Spotify, YouTube, or the artists represented. Artist imagery and embedded media remain the property of their respective owners. See the in-app Credits page for detailed attributions.
