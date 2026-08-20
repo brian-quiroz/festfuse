@@ -172,7 +172,7 @@ export default function ExploreFilters({
         />
         <input
           type="text"
-          placeholder="Search artists, genres, or keywords..."
+          placeholder="Search artists, genres, locations, or stages..."
           value={externalSearchQuery}
           onChange={(e) => handleSearchChange(e.target.value)}
           onBlur={handleSearchBlur}
