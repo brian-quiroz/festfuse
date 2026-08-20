@@ -2,18 +2,20 @@
 
 **A festival discovery and planning app that helps you decide who to see before the gates open.**
 
-[Live Demo](https://festfuse.vercel.app/) · [Architecture](ARCHITECTURE.md)
+[Live Demo](https://festfuse.com/) · [Architecture](ARCHITECTURE.md)
 
 > FestFuse currently features the Lollapalooza 2026 lineup. Support for additional festivals is planned.
 
+Designed and built solo: product design, UI, and artist data curation, across 171 artists and 4 festival days.
+
 <p align="center">
   <img src="docs/screenshots/home.jpg" width="49%" alt="FestFuse home screen with Quick Picks, Explore, and Planner entry points" />
-  <img src="docs/screenshots/festival-story-finale.jpg" width="49%" alt="Festival Story finale card celebrating a completed festival plan" />
+  <img src="docs/screenshots/quick-picks-decision.jpg" width="49%" alt="Quick Picks decision card with a Quick Listen preview, similar-artist suggestions, and the Pass/Interested/Must See choice" />
 </p>
 
 ## Why FestFuse?
 
-Festival lineups can turn music discovery into homework. FestFuse offers a few focused ways through it. Browse the lineup at your own pace, or move fast with one-at-a-time decisions in Quick Picks if manual browsing isn't your style. Turn your picks into a schedule whenever you're ready to plan.
+Festival lineups can turn music discovery into homework. FestFuse offers a few focused ways through it. Browse the lineup at your own pace, or move fast with one-at-a-time decisions in Quick Picks if manual browsing isn't your style. Turn your picks into a schedule whenever you're ready to plan, and get a personalized recap of your festival taste once you've made enough picks.
 
 The goal is not to catalog everything about every artist. It is to help festivalgoers feel confident and excited about who they choose to see.
 
@@ -21,7 +23,7 @@ The goal is not to catalog everything about every artist. It is to help festival
 
 - **Explore**
 
-  Browse the lineup through themed rows like Festival Favorites, search by artist, genre, location, or keyword, and filter by genre, day, stage, pick status, or schedule status.
+  Browse the lineup through themed rows like Festival Favorites, search by artist, genre, location, or stage, and filter by genre, day, stage, pick status, or schedule status.
 
 - **Artist Page**
 
@@ -61,23 +63,23 @@ Artist page for The Smashing Pumpkins, with Must See and Scheduled both marked a
 
 ![Artist Page](docs/screenshots/artist-detail.jpg)
 
-**Quick Picks decision**
-
-The decision card for Not for Radio.
-
-![Quick Picks decision card](docs/screenshots/quick-picks-decision.jpg)
-
 **Planner**
 
 A snapshot of Friday's schedule, with several picks (some also scheduled) and a real schedule conflict.
 
 ![Planner showing a real schedule conflict](docs/screenshots/planner.jpg)
 
-**Festival Story**
+**Festival Story insight**
 
 One of four insight cards, computed from the picks and interest levels selected during Quick Picks.
 
 ![Festival Story insight card](docs/screenshots/festival-story-insight.jpg)
+
+**Festival Story finale**
+
+The closing card once a full session is complete.
+
+![Festival Story finale card](docs/screenshots/festival-story-finale.jpg)
 
 <details>
 <summary>See more screens</summary>
@@ -118,40 +120,25 @@ The onboarding modal.
 
 <p align="center">
   <img src="docs/screenshots/home-mobile.jpg" width="32%" alt="FestFuse home screen on mobile" />
-  <img src="docs/screenshots/explore-mobile.jpg" width="32%" alt="Explore screen on mobile, with picks and a schedule conflict visible" />
+  <img src="docs/screenshots/explore-mobile.jpg" width="32%" alt="Explore screen on mobile, with sombr and Empire of the Sun both picked and scheduled into a real conflict" />
   <img src="docs/screenshots/quick-picks-mobile.jpg" width="32%" alt="Quick Picks decision screen on mobile" />
 </p>
 
-## How It Works
-
-FestFuse helps you decide who to see before the festival begins.
-
-- **Explore**
-
-  Browse the lineup, discover artists, and save the ones that catch your eye.
-
-- **Quick Picks**
-
-  Rate artists one at a time: Pass, Interested, or Must See. Quickly build your lineup.
-
-- **Planner**
-
-  Turn your Must See and Interested picks into a schedule. Marking an artist and scheduling it are separate decisions.
-
-- **Festival Story**
-
-  Complete a Quick Picks session to unlock a closer look at the sounds and priorities behind your picks.
-
 ## Technical Highlights
 
-- Built with the Next.js App Router, React, TypeScript, and Tailwind CSS.
-- Models repeat performances through festival-scoped artist appearances rather than duplicating artist records.
-- Normalizes 100+ genre labels and supporting categories into typed, reusable taxonomies.
+Built with the Next.js App Router, React, TypeScript, and Tailwind CSS.
+
+- **Festival Story's insight engine** computes a personalized recap from the user's actual attendance scope and picks each time, instead of displaying a fixed or randomly generated script.
+- **Multi-appearance modeling** lets a repeat festival performance exist as its own scoped appearance record instead of duplicating the artist, so the same artist can play multiple sets without the two copies drifting out of sync.
+- **Rehydration resilience**: fixed three separate causes of a blank-screen bug on page load, each traced back to how a returning user's saved picks were being restored from the browser, not patched over ([details](ARCHITECTURE.md#hydrationgate-resilience-to-rehydration-errors)).
+
+A few more decisions worth knowing about:
+
+- Normalizes 124 genres into 11 parent categories, powering genre pills, Explore filtering, and the gradient-fallback theming used when an artist has no photo.
+- Detects real schedule conflicts across a user's scheduled picks, scoped by festival and calendar date.
 - Uses deterministic carousel sampling to keep server and client rendering consistent while preserving variety between visits.
-- Persists decisions and schedule state in the browser with Zustand, including migrations for evolving stored data.
-- Computes Festival Story insights from the user's attendance scope and selections instead of displaying fixed or randomly generated results.
-- Includes reusable focus management for modal interactions and responsive alternatives for navigation, filtering, artist pages, and the schedule grid.
-- Gates AI-drafted artist bios and similar-artist picks behind a verified flag, so unverified editorial content never renders until it passes a fact-check pass against a documented source hierarchy.
+- Persists decisions and schedule state in the browser with Zustand, automatically upgrading a returning user's saved data when the stored format changes, instead of losing it.
+- Gates AI-drafted artist bios and similar-artist picks behind a verified flag, so unverified content never renders. All 171 artists' similar-artist picks are verified; bio verification is ongoing.
 
 For deeper implementation notes and design decisions, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
