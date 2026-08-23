@@ -3,12 +3,18 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, X } from "lucide-react";
 import type { Genre, Stage } from "@/app/data/categories";
-import { GENRES, PICK_STATUS_FILTER_LABELS, SCHEDULE_STATUS_LABELS } from "@/app/data/categories";
+import {
+  GENRES,
+  PICK_STATUS_FILTER_LABELS,
+  SCHEDULE_STATUS_LABELS,
+  groupGenresByFamily,
+} from "@/app/data/categories";
 import { getDaysForActiveFestival, getStagesForActiveFestival } from "@/app/data/festivals";
 import { allArtists } from "@/app/data/artists";
 import type { PickStatusFilterValue } from "@/app/types/decision";
 import type { ScheduleStatusValue } from "@/app/types/schedule";
 import MultiSelectDropdown from "@/app/components/explore/MultiSelectDropdown";
+import GroupedMultiSelectDropdown from "@/app/components/explore/GroupedMultiSelectDropdown";
 import SingleSelectDropdown from "@/app/components/explore/SingleSelectDropdown";
 
 interface ExploreFiltersProps {
@@ -206,15 +212,14 @@ export default function ExploreFilters({
           All
         </button>
 
-        {/* Genre Dropdown (Multi-select, count mode) */}
-        <MultiSelectDropdown
+        {/* Genre Dropdown (Multi-select, grouped by parent family) */}
+        <GroupedMultiSelectDropdown
           title="Genre"
-          options={availableGenres}
+          groups={groupGenresByFamily(availableGenres)}
           selected={externalGenres}
           onToggle={handleGenreToggle}
           isOpen={openDropdown === "Genre"}
           onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Genre" : null)}
-          displayMode="count"
         />
 
         {/* Day Dropdown (Single-select) */}
