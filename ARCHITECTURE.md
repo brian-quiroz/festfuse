@@ -52,6 +52,38 @@ bestFor: BestForTag[]
 
 All categories are typed constants with `as const` for perfect type sync.
 
+### Slug Naming Convention
+
+`slug` is the canonical, ASCII-safe identifier for an artist — used for routing
+(`/artist/[slug]`), `artistsBySlug` lookups, and (see "Search & Filter Pipeline") as
+an exact/partial match target in Explore search, specifically so non-ASCII display
+names stay findable via their plain-ASCII form.
+
+Rules, in order of precedence:
+
+- **Base form:** lowercase, hyphen-separated fold of the full `name`.
+- **Leading articles are kept, not dropped:** `"The Chainsmokers"` → `"the-chainsmokers"`,
+  `"The xx"` → `"the-xx"`.
+- **Non-ASCII characters fold to their nearest plain-ASCII letter:** `"RØZ"` →
+  `"roz"`, `"ADÉLA"` → `"adela"`.
+- **Symbols are spelled out as the word they actually mean in context, never dropped
+  silently** — and that word must be verified, not assumed: `"Haute & Freddy"` →
+  `"haute-and-freddy"` ("&" means "and" here), `"bbno$"` → `"bbno-money"` (the
+  artist's own stated pronunciation is "baby no money" — "$" means "money," not the
+  more obvious-looking "dollar").
+- **A well-known public abbreviation may replace a full transposition**, when it's
+  the artist's own genuinely recognized shorthand, not one invented for this app —
+  e.g. `"Chicago Youth Symphony Orchestra"` → `"cyso"`, `"5 Seconds of Summer"` →
+  `"5sos"`. This is a real-world verification call, not a mechanical one.
+- **No blanket rule for leading digits.** A number that's a specific, meaningful part
+  of the artist's identity (e.g. `"54 Ultra"` → `"54-ultra"`, referencing Studio 54)
+  is kept literal — there's no requirement to spell it out.
+
+**Whenever a slug changes, every denormalized copy must be updated too.**
+`similarArtists` entries elsewhere in the dataset store their own `{ name, slug }`
+copy of the artist they reference, for display — these do not update automatically
+and must be corrected by hand alongside the primary record.
+
 ### Editorial content: curation standard, not a runtime computation
 
 `about` and `similarArtists` are AI-assisted editorial content, gated behind `aboutVerified`/`similarArtistsVerified` flags — neither renders in the app until it passes a fact-check pass against a documented source hierarchy (official artist/label/festival/Spotify pages first, then reputable music publications, AllMusic, and citation-checked Wikipedia; other festival tools and MusicBrainz/community tags are used only as cross-checks, never as a sole source). This is a data-authoring standard applied during review, not something the running app computes.

@@ -210,7 +210,7 @@ const turnstile: Artist = {
     { name: "High Vis", slug: "high-vis" },
     {
       name: "The Smashing Pumpkins",
-      slug: "smashing-pumpkins",
+      slug: "the-smashing-pumpkins",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782897dd777bbd8e3f23e49c99",
     },
     { name: "Loathe", slug: "loathe" },
@@ -1978,7 +1978,7 @@ const theBends: Artist = {
     },
     {
       name: "The Smashing Pumpkins",
-      slug: "smashing-pumpkins",
+      slug: "the-smashing-pumpkins",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1782897dd777bbd8e3f23e49c99",
     },
     {
