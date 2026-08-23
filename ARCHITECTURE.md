@@ -6,7 +6,12 @@ System design decisions and data structure rationale for FestFuse.
 
 This document covers the current, built system: how artist and festival data is
 modeled and normalized, how the Explore/Quick Picks/Planner/Festival Story features
-work internally, and the reasoning behind non-obvious implementation choices.
+work internally, and how the new backend persistence foundation is structured.
+
+Significant choices and their tradeoffs are recorded separately in the
+[architecture decision log](docs/decisions/README.md). This document describes the
+accepted architecture as it exists now; the decision records preserve why it took
+that shape.
 
 Deferred polish items, open questions, and dismissed proposals live in
 [FUTURE_CONSIDERATIONS.md](docs/FUTURE_CONSIDERATIONS.md) instead of inline here, so
@@ -17,6 +22,7 @@ this document stays focused on what actually exists.
 A few decisions below are worth reading first if you're skimming:
 
 - **[Multi-appearance modeling](#multi-appearance-support)** — repeat festival performances are modeled as separate appearance records tied back to one artist, not duplicated artist rows, so the same artist can play multiple sets without data drift between them.
+- **[Backend persistence foundation](#backend-persistence-foundation)** — FastAPI, SQLAlchemy, PostgreSQL, and Alembic now provide a versioned path from the frontend's typed source data to a database-backed multi-festival system.
 - **[Category normalization at scale](#categories-design)** — 448 raw "what to expect" phrases collapsed to 36 canonical tags, 285 "best for" phrases to 15, and 123 genres grouped into 10 families, all typed from one source of truth.
 - **[Festival Story's insight engine](#festival-story)** — the personalized recap is computed from a user's actual attendance scope and picks each time, not a fixed or randomized script.
 - **[Schedule conflict detection](#schedule-feature-mvp)** — the Planner grid flags real time/stage overlaps across a user's scheduled picks, not just a static calendar view.
@@ -298,7 +304,9 @@ The `whatToExpect` field describes what the audience will experience at a perfor
 
 ## Festival Configuration
 
-Festival-specific data lives in `app/data/festivals.ts`:
+The current frontend still reads festival-specific configuration from
+`app/data/festivals.ts` while the database-backed system is introduced
+incrementally:
 
 ```typescript
 export const ACTIVE_FESTIVAL_ID = "lollapalooza-2026";
@@ -308,7 +316,53 @@ export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
 };
 ```
 
-**Future expansion:** When adding a new festival, create a new entry in `FESTIVAL_STAGES` keyed by festival ID. This avoids hardcoding and enables eventual multi-festival support without major refactoring.
+Until a frontend flow is migrated to the API, its TypeScript data remains the
+runtime source of truth. The PostgreSQL models described below are the target
+persistence model, not yet a replacement data source for the UI.
+
+---
+
+## Backend Persistence Foundation
+
+The backend lives in `backend/` and uses FastAPI for HTTP APIs, SQLAlchemy 2 for
+database mapping, Psycopg 3 for PostgreSQL connectivity, and Alembic for versioned
+schema migrations. Environment-specific connection values are loaded from the
+ignored `backend/.env`; committed migration files are the reproducible source of
+truth for database structure.
+
+The API currently exposes health checks, including a database health check that
+verifies the configured PostgreSQL database. The Next.js frontend does not consume
+festival data from the API yet.
+
+### Festival hierarchy
+
+```text
+Festival
+└── FestivalRun
+    └── FestivalDay
+        └── Appearance (planned)
+```
+
+- `Festival` represents a dated edition such as Lollapalooza 2026 or ACL 2026.
+- `FestivalRun` represents a distinct schedule/lineup variant such as Weekend One
+  or Weekend Two. A single-run festival still owns one run.
+- `FestivalDay` stores an actual calendar date within a run. Weekday names are
+  derived from the date; its nullable `label` is reserved for non-derivable copy
+  such as "Opening Night."
+- Artist appearances will eventually reference a festival day rather than storing
+  a free-standing weekday string.
+
+Start/end dates are derived from the edition's days instead of stored on
+`Festival`, which supports non-contiguous dates without implying that the festival
+runs on every intervening day.
+
+Initial application data is created through committed, rerunnable seed/import
+scripts rather than embedded in schema migrations. Alembic owns structure; seed and
+import workflows own application records.
+
+See [ADR-0001](docs/decisions/0001-introduce-fastapi-postgresql-backend.md) and
+[ADR-0002](docs/decisions/0002-model-festival-runs-and-days.md) for the context,
+alternatives, and consequences behind these choices.
 
 ---
 
