@@ -1,0 +1,64 @@
+from datetime import date
+
+from sqlalchemy import select
+
+from app.database import SessionLocal
+from app.models import Festival, FestivalDay, FestivalRun
+
+
+FESTIVAL_SLUG = "lollapalooza-2026"
+
+
+def seed_festival() -> None:
+    with SessionLocal() as session:
+        existing_festival = session.scalar(
+            select(Festival).where(Festival.slug == FESTIVAL_SLUG)
+        )
+
+        if existing_festival is not None:
+            print(f"{FESTIVAL_SLUG} is already seeded.")
+            return
+
+        festival = Festival(
+            slug=FESTIVAL_SLUG,
+            name="Lollapalooza 2026",
+            city="Chicago",
+            state="Illinois",
+            country="United States",
+            timezone="America/Chicago",
+        )
+
+        festival_run = FestivalRun(
+            slug="main",
+            name="Main Run",
+            display_order=1,
+            days=[
+                FestivalDay(
+                    date=date(2026, 7, 30),
+                    display_order=1,
+                ),
+                FestivalDay(
+                    date=date(2026, 7, 31),
+                    display_order=2,
+                ),
+                FestivalDay(
+                    date=date(2026, 8, 1),
+                    display_order=3,
+                ),
+                FestivalDay(
+                    date=date(2026, 8, 2),
+                    display_order=4,
+                ),
+            ],
+        )
+
+        festival.runs.append(festival_run)
+
+        session.add(festival)
+        session.commit()
+
+        print(f"Seeded {festival.name} with {len(festival_run.days)} days.")
+
+
+if __name__ == "__main__":
+    seed_festival()
