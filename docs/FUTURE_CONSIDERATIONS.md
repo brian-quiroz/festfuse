@@ -343,3 +343,18 @@ This is distinct from the round-2 fix (`useDialogA11y` wired into the drawer, se
 **Current real-world exposure is narrow:** only England (27 artists) and Northern Ireland (1 artist, Chalk) exist in the current lineup — Scotland and Wales have zero. The double-counting case can only occur today if a user's picks include an England artist and Chalk specifically.
 
 **Revisit when:** either a Scotland or Wales artist is added (widening the surface this could affect), or the UK display rollup expands beyond Artist Detail into a surface where the mismatch would be more visible. At that point, read `useStorySignals.ts`'s country-diversity logic closely enough to know whether swapping in `displayCountry()` there is a safe, isolated change or one that needs threshold re-validation.
+
+---
+
+## Future Consideration: Quick Picks Bypasses Similar-Artist Verification Gate
+
+Artist Detail's `FloatingCards.tsx` renders Similar Artists only when
+`similarArtistsVerified` is true and the list is nonempty. Quick Picks'
+`DecisionScreen.tsx` currently checks only whether `similarArtists.length > 0`, then
+shows the first four names on desktop. This conflicts with the documented rule that
+AI-assisted Similar Artists content stays hidden until editorial review.
+
+Do not fold this into the artist-schema work. Fix it in a focused frontend branch by
+applying the verification gate consistently, then cover both verified and unverified
+cases with tests. The future backend API should expose only a verified, nonempty
+FestivalRun-scoped Similar Artist set, making the frontend contract harder to bypass.
