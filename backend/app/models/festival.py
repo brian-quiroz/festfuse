@@ -24,4 +24,5 @@ class Festival(Base):
     runs: Mapped[list["FestivalRun"]] = relationship(
         back_populates="festival",
         cascade="all, delete-orphan",
+        order_by="FestivalRun.display_order",
     )
