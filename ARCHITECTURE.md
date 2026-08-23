@@ -17,7 +17,7 @@ this document stays focused on what actually exists.
 A few decisions below are worth reading first if you're skimming:
 
 - **[Multi-appearance modeling](#multi-appearance-support)** — repeat festival performances are modeled as separate appearance records tied back to one artist, not duplicated artist rows, so the same artist can play multiple sets without data drift between them.
-- **[Category normalization at scale](#categories-design)** — 448 raw "what to expect" phrases collapsed to 36 canonical tags, 285 "best for" phrases to 15, and 124 genres grouped into 11 families, all typed from one source of truth.
+- **[Category normalization at scale](#categories-design)** — 448 raw "what to expect" phrases collapsed to 36 canonical tags, 285 "best for" phrases to 15, and 123 genres grouped into 10 families, all typed from one source of truth.
 - **[Festival Story's insight engine](#festival-story)** — the personalized recap is computed from a user's actual attendance scope and picks each time, not a fixed or randomized script.
 - **[Schedule conflict detection](#schedule-feature-mvp)** — the Planner grid flags real time/stage overlaps across a user's scheduled picks, not just a static calendar view.
 - **[The interest-state model](#interest-state)** — Must See / Interested / Passed is a deliberately small, festival-scoped decision model, with a documented reason for *not* generalizing it further (see [Future Considerations](docs/FUTURE_CONSIDERATIONS.md)).
@@ -68,7 +68,7 @@ Raw artist data contained overlapping, redundant, and inconsistent values:
 
 - **whatToExpect:** 448 unique raw phrases → 36 canonical
 - **bestFor:** 285 unique raw phrases → 15 canonical
-- **genres:** 124 distinct values, grouped into 11 parent categories for reference
+- **genres:** 123 distinct values, grouped into 10 parent categories for reference
 
 Normalization ensures:
 
@@ -77,11 +77,11 @@ Normalization ensures:
 - Consistent filtering and search behavior
 - Editorial control over language and meaning
 
-### Genre Parent Categories (11 total)
+### Genre Parent Categories (10 total)
 
-For organizational reference—filters and search use the full 124-genre list. Six of
-the eleven were renamed from their original slash-joined form (e.g.
-`K-Pop/J-Pop/P-Pop` -> `Asian Pop`): multi-slash names were overflowing/clipping in
+For organizational reference—filters and search use the full 123-genre list. Five of
+the ten were renamed from their original slash-joined form (e.g.
+`Punk/Hardcore/Metal` -> `Heavy`): multi-slash names were overflowing/clipping in
 Festival Story headline copy, which interpolates the family name as a bare noun phrase
 with no truncation or wrapping. The remaining slash-joined pairs (`Hip-Hop/Rap`,
 `R&B/Soul`, `Dance/Electronic`) were kept specifically because they're verified
@@ -90,16 +90,15 @@ industry-standard joint category names (Apple Music's own genre list; the Grammy
 together — that distinction was the actual rule applied, not name length alone.
 
 - **Rock:** 90s Alternative, Alternative Rock, Art Rock, Grunge, Indie Rock, Post-Punk, Shoegaze, etc.
-- **Pop:** Alt-Pop, Art Pop, Dance Pop, Electropop, Hyperpop, Synth-Pop, etc.
+- **Pop:** Alt-Pop, Art Pop, Dance Pop, Dancehall, Electropop, Hyperpop, J-Pop, P-Pop, Synth-Pop, etc.
 - **Americana:** Americana, Country, Indie Folk, Singer-Songwriter, etc.
 - **Hip-Hop/Rap:** Boom Bap, Hip-Hop, Plugg, Trap, Underground Rap, etc.
 - **R&B/Soul:** Alternative R&B, Funk, Neo-Soul, R&B, Soul, etc.
 - **Indie:** Bedroom Pop, Dream Pop, Indie Pop, Lo-Fi Indie, Slowcore, etc.
 - **Dance/Electronic:** House, Techno, Drum and Bass, Dubstep, Future Bass, Industrial Techno, etc.
-- **Asian Pop:** J-Pop, K-Pop, P-Pop
+- **K-Pop:** K-Pop
 - **Heavy:** Alternative Metal, Emo, Hardcore Punk, Metalcore, Punk Rock, etc.
 - **Classical:** Classical, Symphonic Rock, etc.
-- **Global Pop:** Afroswing, Tropicalia, etc.
 
 ---
 
@@ -115,7 +114,7 @@ no initials at all in Quick Picks) with one shared component,
 
 ### Color mapping
 
-`app/data/genreGradients.ts` maps each of the 11 `GenreFamily` values to a single
+`app/data/genreGradients.ts` maps each of the 10 `GenreFamily` values to a single
 accent hex (`GENRE_FAMILY_GRADIENTS`), paired with one shared dark base
 (`GENRE_GRADIENT_BASE = "#1B1535"`) for every gradient. Two rules constrain the
 palette:
@@ -126,8 +125,8 @@ palette:
   meaningful signals.
 - **Energy tiers, not a flat envelope.** Saturation/lightness vary per family — deep
   and muted for grounded genres (Rock, Americana, Classical, R&B/Soul), bright and
-  punchy for high-energy ones (Pop, Dance/Electronic, Asian Pop, Global Pop) — rather
-  than one uniform S/L for all 11. An earlier flat-envelope pass made most families
+  punchy for high-energy ones (Pop, Dance/Electronic, K-Pop) — rather
+  than one uniform S/L for all 10. An earlier flat-envelope pass made most families
   visually indistinguishable from their neighbors; hue alone wasn't enough separation
   at low, uniform saturation.
 - **Hip-Hop/Rap avoids the entire 240-290° hue range**, not just the neutral-violet

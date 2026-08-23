@@ -8,7 +8,7 @@ export const GENRE_GRADIENT_BASE = "#1B1535";
 
 // Stop-2 per genre family. Each family gets its own "energy tier" of
 // saturation/lightness — deep and muted for grounded genres (Folk, Classical, Rock,
-// R&B), bright and punchy for high-energy ones (Pop, Electronic, K-Pop, Global Pop) —
+// R&B), bright and punchy for high-energy ones (Pop, Electronic, K-Pop) —
 // while hue still does most of the separating work. Hues are spread across the gaps
 // left after carving a ±12° exclusion zone around each of the app's 5 semantic colors,
 // using their *actual* computed hues (not eyeballed): conflict #EF4444 = 0°, yellow
@@ -25,11 +25,10 @@ export const GENRE_FAMILY_GRADIENTS: Record<GenreFamily, string> = {
   Americana: "#51461F", // 47°, S44/L22 — deep umber/gold
   Heavy: "#264517", // 100°, S50/L18 — deep moody olive
   Indie: "#418B5A", // 140°, S36/L40 — soft pastel sage
-  "Global Pop": "#259D75", // 160°, S62/L38 — bright emerald
   Classical: "#1D3853", // 210°, S48/L22 — deep royal blue
   "Dance/Electronic": "#2335A9", // 232°, S66/L40 — bright indigo
   "R&B/Soul": "#5B204B", // 316°, S48/L24 — deep plum
-  "Asian Pop": "#B2245D", // 336°, S66/L42 — bright rose
+  "K-Pop": "#B2245D", // 336°, S66/L42 — bright rose
 };
 
 // Used only if an artist's genres[] is empty or its family can't be resolved — not

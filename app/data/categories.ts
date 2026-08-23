@@ -4,7 +4,7 @@
  * These are single sources of truth for all categorical artist data:
  * - whatToExpect: What the audience will experience (36 canonical phrases)
  * - bestFor: Who should attend (15 canonical phrases)
- * - genres: Musical genre/style (expandable list, 124 current entries)
+ * - genres: Musical genre/style (expandable list, 123 current entries)
  * - countries: Artist origin country (32 entries, including constituent UK nations separately)
  * - usStates: US state names (50 entries, typed reference for origin.state)
  *
@@ -102,7 +102,7 @@ export const BEST_FOR = [
 export type BestForTag = (typeof BEST_FOR)[number];
 
 // ============================================================================
-// GENRES: Musical genres and styles (expandable, currently 124 entries)
+// GENRES: Musical genres and styles (expandable, currently 123 entries)
 // ============================================================================
 // Guidelines for adding new genres:
 // 1. Check this list first — if the genre exists under slightly different wording, use the existing entry
@@ -112,7 +112,6 @@ export type BestForTag = (typeof BEST_FOR)[number];
 
 export const GENRES = [
   "90s Alternative",
-  "Afroswing",
   "Alt-Pop",
   "Alternative Folk",
   "Alternative Hip-Hop",
@@ -128,7 +127,6 @@ export const GENRES = [
   "Bassline",
   "Bedroom Pop",
   "Bluegrass",
-  "Blues Rock",
   "Boom Bap",
   "Brass Band",
   "Chamber Pop",
@@ -161,11 +159,9 @@ export const GENRES = [
   "Electro-Pop",
   "Electroclash",
   "Electronic",
-  "Electronic Pop",
   "Electronic Rock",
   "Electropop",
   "Emo",
-  "Emo-Rap",
   "Eurodance",
   "Experimental Pop",
   "Folk Rock",
@@ -176,7 +172,6 @@ export const GENRES = [
   "Gangsta Rap",
   "Garage Rock",
   "Gothic Folk",
-  "Gothic Rock",
   "Groove Pop",
   "Grunge",
   "Happy Hardcore",
@@ -192,8 +187,6 @@ export const GENRES = [
   "Indie Pop",
   "Indie Rock",
   "Industrial Electronic",
-  "Industrial House",
-  "Industrial Rock",
   "Industrial Techno",
   "J-Pop",
   "Juke",
@@ -201,7 +194,6 @@ export const GENRES = [
   "Korean Hip-Hop",
   "Latin Pop",
   "Lo-Fi Indie",
-  "Madchester",
   "Melodic Bass",
   "Melodic House",
   "Metalcore",
@@ -231,7 +223,6 @@ export const GENRES = [
   "Soul",
   "Southern Rap",
   "Speed Garage",
-  "Subversive Pop",
   "Surf Rock",
   "Symphonic Rock",
   "Synth-Pop",
@@ -239,7 +230,6 @@ export const GENRES = [
   "Techno",
   "Irish Folk",
   "Trap",
-  "Tropicalia",
   "UK Garage",
   "Underground Rap",
   "West Coast Rap",
@@ -265,7 +255,7 @@ export const BILLING_TIERS = ["Headliner", "Sub-headliner", "Undercard"] as cons
 export type BillingTier = (typeof BILLING_TIERS)[number];
 
 // ============================================================================
-// GENRE_FAMILIES: Parent genre categories (11 total)
+// GENRE_FAMILIES: Parent genre categories (10 total)
 // ============================================================================
 
 export const GENRE_FAMILIES = {
@@ -273,14 +263,10 @@ export const GENRE_FAMILIES = {
     "90s Alternative",
     "Alternative Rock",
     "Art Rock",
-    "Blues Rock",
     "Electronic Rock",
     "Garage Rock",
-    "Gothic Rock",
     "Grunge",
     "Indie Rock",
-    "Industrial Rock",
-    "Madchester",
     "Neo-Psychedelia",
     "Pop-Rock",
     "Post-Punk",
@@ -295,6 +281,7 @@ export const GENRE_FAMILIES = {
     "Art Pop",
     "Chamber Pop",
     "Dance Pop",
+    "Dancehall",
     "Dark Pop",
     "Digicore",
     "Electro-Pop",
@@ -302,15 +289,15 @@ export const GENRE_FAMILIES = {
     "Experimental Pop",
     "Groove Pop",
     "Hyperpop",
+    "J-Pop",
     "Latin Pop",
+    "P-Pop",
     "Power Pop",
     "Psychedelic Pop",
-    "Subversive Pop",
     "Synth-Pop",
     "Pop",
     "House-Pop",
     "Hip-Hop-Pop",
-    "Electronic Pop",
   ],
   Americana: [
     "Alternative Folk",
@@ -333,11 +320,13 @@ export const GENRE_FAMILIES = {
     "Alternative Hip-Hop",
     "Boom Bap",
     "Conscious Rap",
-    "Emo-Rap",
+    "Drill",
+    "East Coast Hip-Hop",
     "Gangsta Rap",
     "Hip-Hop",
     "Korean Hip-Hop",
     "Plugg",
+    "Pop Rap",
     "Rage Rap",
     "Southern Rap",
     "Trap",
@@ -368,8 +357,8 @@ export const GENRE_FAMILIES = {
     "High-Tech Minimal",
     "House",
     "Industrial Electronic",
-    "Industrial House",
     "Industrial Techno",
+    "Juke",
     "Melodic Bass",
     "Melodic House",
     "Minimal Tech",
@@ -380,7 +369,7 @@ export const GENRE_FAMILIES = {
     "UK Garage",
     "Witch House",
   ],
-  "Asian Pop": ["J-Pop", "K-Pop", "P-Pop"],
+  "K-Pop": ["K-Pop"],
   Heavy: [
     "Alternative Metal",
     "Dance-Punk",
@@ -394,7 +383,6 @@ export const GENRE_FAMILIES = {
     "Riot Grrrl",
   ],
   Classical: ["Classical", "Cinematic Orchestral"],
-  "Global Pop": ["Afroswing", "Tropicalia", "Dancehall"],
 } as const;
 
 export type GenreFamily = keyof typeof GENRE_FAMILIES;
@@ -408,6 +396,23 @@ export const GENRE_TO_FAMILY: Record<Genre, GenreFamily> = Object.entries(GENRE_
   },
   {} as Record<Genre, GenreFamily>
 );
+
+export interface GenreFamilyGroup {
+  family: GenreFamily;
+  genres: Genre[];
+}
+
+// Buckets a genre list into its parent families, in GENRE_FAMILIES' insertion order,
+// with genres alphabetized within each family and families with no matches dropped.
+export function groupGenresByFamily(genres: readonly Genre[]): GenreFamilyGroup[] {
+  const families = Object.keys(GENRE_FAMILIES) as GenreFamily[];
+  return families
+    .map((family) => ({
+      family,
+      genres: genres.filter((g) => GENRE_TO_FAMILY[g] === family).sort(),
+    }))
+    .filter((group) => group.genres.length > 0);
+}
 
 // ============================================================================
 // VERDICT_LABELS: Human-readable labels for verdict enum values
