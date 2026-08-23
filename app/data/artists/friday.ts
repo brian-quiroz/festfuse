@@ -93,7 +93,7 @@ const charliXcx: Artist = {
 
 const smashingPumpkins: Artist = {
   name: "The Smashing Pumpkins",
-  slug: "smashing-pumpkins",
+  slug: "the-smashing-pumpkins",
   aboutVerified: true,
   similarArtistsVerified: true,
   socialsVerified: true,
@@ -309,7 +309,7 @@ const yungblud: Artist = {
       slug: "the-story-so-far",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1784d8d055d82fc1e5b1c5ecb1d",
     },
-    { name: "5 Seconds of Summer", slug: "five-seconds-of-summer" },
+    { name: "5 Seconds of Summer", slug: "5sos" },
     {
       name: "Hot Mulligan",
       slug: "hot-mulligan",
@@ -1089,7 +1089,7 @@ const theStorySoFar: Artist = {
       slug: "yungblud",
       imageUrl: "https://i.scdn.co/image/ab6761610000f1787c9287712c4355e54c94e0d0",
     },
-    { name: "5 Seconds of Summer", slug: "five-seconds-of-summer" },
+    { name: "5 Seconds of Summer", slug: "5sos" },
     { name: "The Bends", slug: "the-bends" },
   ],
   tracks: [
@@ -2072,7 +2072,7 @@ const finnWolfhard: Artist = {
     { name: "Die Spitz", slug: "die-spitz" },
     { name: "Cruz Beckham and the Breakers", slug: "cruz-beckham-and-the-breakers" },
     { name: "Momma", slug: "momma" },
-    { name: "The Smashing Pumpkins", slug: "smashing-pumpkins" },
+    { name: "The Smashing Pumpkins", slug: "the-smashing-pumpkins" },
   ],
   tracks: [
     {
@@ -2638,7 +2638,7 @@ const emiGrace: Artist = {
   bestFor: ["Lyric & Narrative Obsessives", "Early Afternoon Discovery", "Chill Summer Vibes"],
   similarArtists: [
     { name: "The Story So Far", slug: "the-story-so-far" },
-    { name: "5 Seconds of Summer", slug: "five-seconds-of-summer" },
+    { name: "5 Seconds of Summer", slug: "5sos" },
     { name: "Bad Nerves", slug: "bad-nerves" },
     { name: "Evening Elephants", slug: "evening-elephants" },
   ],

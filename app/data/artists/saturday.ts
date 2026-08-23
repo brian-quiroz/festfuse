@@ -148,7 +148,7 @@ const jennie: Artist = {
     },
     {
       name: "bbno$",
-      slug: "bbno-dollar",
+      slug: "bbno-money",
       imageUrl: "https://i.scdn.co/image/ab6761610000f178e7c585e9ecd65c76b7bf91ac",
     },
   ],
@@ -797,9 +797,9 @@ const djTrixieMattel: Artist = {
   ],
 };
 
-const bbno_dollar: Artist = {
+const bbno_money: Artist = {
   name: "bbno$",
-  slug: "bbno-dollar",
+  slug: "bbno-money",
   similarArtistsVerified: true,
   socialsVerified: true,
   genres: ["Hip-Hop", "Pop Rap", "Electronic"],
@@ -2641,7 +2641,7 @@ export const saturdayArtists: Artist[] = [
   geese,
   alisonWonderland,
   djTrixieMattel,
-  bbno_dollar,
+  bbno_money,
   kwn,
   siennaSpiro,
   maxStyler,

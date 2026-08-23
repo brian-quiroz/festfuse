@@ -629,7 +629,7 @@ const bloodOrange: Artist = {
 
 const fiveSecondsOfSummer: Artist = {
   name: "5 Seconds of Summer",
-  slug: "five-seconds-of-summer",
+  slug: "5sos",
   aboutVerified: true,
   similarArtistsVerified: true,
   socialsVerified: true,
