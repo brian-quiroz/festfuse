@@ -1,6 +1,7 @@
 import type { Artist } from "@/app/types/artist";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance } from "@/app/lib/appearances";
+import { isUKConstituentCountry } from "@/app/lib/location";
 
 /**
  * Search artists by query string, ranked by field priority.
@@ -75,8 +76,14 @@ export function searchArtists(query: string, artists: Artist[]): Artist[] {
         return { artist, priority: 2 };
       }
 
-      // Priority 3: Country
-      if (artist.location.country.toLowerCase().includes(normalizedQuery)) {
+      // Priority 3: Country — also matches "united kingdom" against any UK
+      // constituent nation, since that's the label Artist Detail now shows instead of
+      // the raw stored value (see displayCountry() in app/lib/location.ts).
+      if (
+        artist.location.country.toLowerCase().includes(normalizedQuery) ||
+        (isUKConstituentCountry(artist.location.country) &&
+          "united kingdom".includes(normalizedQuery))
+      ) {
         return { artist, priority: 3 };
       }
 
