@@ -6,6 +6,7 @@ import type { Artist } from "@/app/types/artist";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryBillingTier } from "@/app/lib/appearances";
 import { getVerifiedImageUrl } from "@/app/lib/artistImage";
+import { displayCountry } from "@/app/lib/location";
 import ArtistActions from "./ArtistActions";
 import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
@@ -64,7 +65,7 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
         <MapPin size={13} strokeWidth={2.5} />
         {artist.location.state
           ? `${artist.location.city}, ${artist.location.state}`
-          : `${artist.location.city}, ${artist.location.country}`}
+          : `${artist.location.city}, ${displayCountry(artist.location.country)}`}
       </span>
       {hasSocials && (
         <>
