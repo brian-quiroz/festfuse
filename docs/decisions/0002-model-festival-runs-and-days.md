@@ -1,6 +1,6 @@
 # ADR-0002: Model festival editions with runs and days
 
-- Status: Accepted
+- Status: Superseded by [ADR-0003](0003-separate-festival-series-and-editions.md)
 - Recorded: 2026-08-23
 
 ## Context

@@ -9,7 +9,8 @@ preserve the context, alternatives, and tradeoffs behind that system.
 | ADR | Decision | Status |
 | --- | --- | --- |
 | [0001](0001-introduce-fastapi-postgresql-backend.md) | Introduce a FastAPI and PostgreSQL backend | Accepted |
-| [0002](0002-model-festival-runs-and-days.md) | Model festival editions with runs and days | Accepted |
+| [0002](0002-model-festival-runs-and-days.md) | Model festival editions with runs and days | Superseded by 0003 |
+| [0003](0003-separate-festival-series-and-editions.md) | Separate recurring festival series from dated editions | Accepted |
 
 ## Lightweight convention
 
