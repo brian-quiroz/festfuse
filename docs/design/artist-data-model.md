@@ -1,16 +1,17 @@
 # Artist Data Model Design
 
-- **Status:** Draft — design in progress
+- **Status:** Schema implemented; data import and API expansion pending
 - **Started:** 2026-08-23
+- **Implemented by:** Alembic revision `7cee3ac4be86`
 - **Scope:** PostgreSQL persistence for artists and the data needed to support the
   existing FestFuse experience
 
 ## Purpose
 
-FestFuse currently stores artist data in typed TypeScript source files. This
-document is the working specification for moving that data into PostgreSQL without
-mechanically copying the frontend shape or prematurely building a general-purpose
-music knowledge graph.
+FestFuse currently serves artist data from typed TypeScript source files. This
+document is the detailed reference for the implemented PostgreSQL schema that will
+receive that data without mechanically copying the frontend shape or prematurely
+becoming a general-purpose music knowledge graph.
 
 The model must support the current festival discovery experience while preserving
 reasonable paths toward:
@@ -21,9 +22,11 @@ reasonable paths toward:
 - incremental curation through a future administration workflow; and
 - incomplete draft records that are not yet ready for public display.
 
-This is a design document, not a description of the currently implemented system.
-Final decisions will be summarized in an ADR, and `ARCHITECTURE.md` will be updated
-after the models and migrations are implemented.
+This document owns detailed fields, relationships, constraints, and enforcement-layer
+assignments. `ARCHITECTURE.md` summarizes the current system, while
+[ADR-0004](../decisions/0004-model-artist-curation-and-scheduling.md) preserves the
+major alternatives and tradeoffs. The TypeScript-to-PostgreSQL importer and broader
+artist APIs remain pending and may reveal narrowly scoped follow-up changes.
 
 ## Design principles
 
@@ -66,7 +69,7 @@ with curated records under `app/data/artists/`. Important current behaviors incl
 
 ## Conceptual model
 
-The current working inventory is:
+The implemented inventory is:
 
 ```text
 GenreFamily 1 ─── many Genre
@@ -89,11 +92,11 @@ FestivalDay 1 ─── many Appearance
 Stage 1 ─── many Appearance
 ```
 
-The current Festival, FestivalRun, and FestivalDay implementation is described in
-[ADR-0002](../decisions/0002-model-festival-runs-and-days.md). This draft proposes
-splitting that current edition-shaped Festival into FestivalSeries and
-FestivalEdition; the accepted change will receive a new ADR rather than rewriting
-the historical decision.
+The original Festival, FestivalRun, and FestivalDay implementation is described in
+[ADR-0002](../decisions/0002-model-festival-runs-and-days.md). The implemented split
+between FestivalSeries and FestivalEdition is recorded in
+[ADR-0003](../decisions/0003-separate-festival-series-and-editions.md), which
+supersedes the affected hierarchy without rewriting the historical decision.
 
 ### Entity and relationship ownership
 
@@ -120,7 +123,7 @@ the historical decision.
 Only `name` and `slug` are required to create a draft artist. Other fields may be
 required by publication validation without being non-null database columns.
 
-### Proposed artist fields
+### Artist fields
 
 | Field | PostgreSQL concept | Nullable | Notes |
 | --- | --- | ---: | --- |
@@ -150,7 +153,7 @@ required by publication validation without being non-null database columns.
 
 ### Artist constraints and validation
 
-Initial database constraints should include:
+Database constraints include:
 
 - unique `slug`;
 - unique populated `spotify_artist_id` (PostgreSQL permits multiple nulls);
@@ -172,7 +175,7 @@ published
 ```
 
 New records default to `draft`. Moving an artist to `published` must be an explicit
-operation that validates product readiness. The current proposed readiness rules
+operation that validates product readiness. The current readiness rules
 are:
 
 - a name and stable slug;
@@ -194,7 +197,7 @@ scheduled release times and richer approval workflows remain deferred.
 
 ## Images
 
-The target workflow differs from the legacy placeholder gate:
+The implemented workflow differs from the legacy placeholder gate:
 
 ```text
 No approved image       → image_url is null
@@ -994,18 +997,26 @@ artist have one.
 | Festival hierarchy | FestivalRun and Stage reference FestivalEdition explicitly | Yes |  |  | Avoids ambiguous `festival_id` semantics |
 | Festival hierarchy | Edition location/timezone remain historical edition facts | Yes | Yes |  | A later series change cannot rewrite prior editions |
 
-## Physical-design status
+## Implementation status
 
-The initial logical design is accepted. Physical implementation remains subject to
-the pre-migration review and PostgreSQL constraint/trigger tests below. The converging
-Appearance deletion paths have been tested and modeled with deferrable `NO ACTION`;
-further changes should come from the remaining checks or a concrete new product
-requirement rather than speculative generalization.
+The logical and physical schema is implemented by Alembic revision
+`7cee3ac4be86`. The migration creates the artist/curation/scheduling tables,
+deterministic constraints and indexes, shared timestamp triggers, and verification
+invalidation triggers described above. It also strengthens FestivalRun and
+FestivalDay ordering constraints and removes their redundant standalone parent
+indexes.
 
-### Pre-migration implementation checklist
+PostgreSQL integration tests verify representative constraints, all invalidation
+behaviors, Similar Artist target protection, and the converging Appearance deletion
+paths. Immediate `RESTRICT` was empirically shown to block valid FestivalRun and
+FestivalEdition deletion; deferrable, initially deferred `NO ACTION` preserves direct
+FestivalDay/Stage protection while allowing those aggregate cascades. See the
+[backend testing guide](../../backend/tests/README.md) for test boundaries and
+commands.
 
-This checklist is the handoff between the accepted design and the first artist-domain
-migration. Keep it in the repository so review findings do not depend on chat history.
+### Completed schema checkpoint
+
+The following records the completed implementation boundary before data import:
 
 - [x] Perform a comprehensive model/design/DDL review across both the new artist
   domain and the existing festival hierarchy.
@@ -1051,22 +1062,16 @@ migration. Keep it in the repository so review findings do not depend on chat hi
   `NO ACTION` while preserving ordinary Day/Stage deletion protection.
 - [x] Reapply the corrected migration and verify aggregate deletion succeeds while
   direct deletion of a referenced FestivalDay or Stage still fails at commit.
-- [ ] Add the isolated, transactional TypeScript import workflow only after the
-  schema and migration tests pass.
 
-## Planned implementation sequence
+## Remaining implementation sequence
 
-1. Perform the final cross-table/import-readiness review.
-2. Record the FestivalSeries/FestivalEdition revision in a new ADR that supersedes
-   the affected parts of ADR-0002 without rewriting its history.
-3. Update `ARCHITECTURE.md`, API documentation, and seed/test documentation alongside
-   the implementation so they describe the migrated schema rather than this draft.
-4. Implement the festival hierarchy/timestamp foundation and its Alembic migration.
-5. Implement the accepted artist-domain SQLAlchemy models and relationships.
-6. Configure Ruff for Python formatting, import sorting, and linting, then format the
-   backend before committing the completed model layer.
-7. Generate and manually review the artist-schema Alembic migration.
-8. Add migration/model tests and an isolated import path.
-9. Import current artist data without deleting the TypeScript source of truth.
-10. Expose read APIs incrementally.
-11. Move frontend consumers only after API parity is verified.
+1. Build an isolated, transactional importer from the current TypeScript source.
+2. Validate and normalize source exceptions without deleting the TypeScript source
+   of truth.
+3. Import the current artist, taxonomy, lineup, media, and schedule data.
+4. Expose artist-domain read APIs incrementally.
+5. Move frontend consumers only after API parity is verified.
+
+These remaining layers may justify small schema corrections discovered from real
+source data. They do not reopen accepted ownership or normalization decisions without
+a concrete conflicting requirement.

@@ -158,11 +158,22 @@ The title/day-tabs/filter-trigger chrome above the grid, plus the app-wide `Mobi
 
 ---
 
-## Future Consideration: Project-Wide Automated Test Coverage
+## Future Consideration: Frontend Automated Test Coverage
 
-No test framework is installed anywhere in this project today — no Jest/Vitest/Testing Library dependency, no `test` script in `package.json`, no `*.test.ts`/`*.spec.ts` files. `verify-story-signals.ts` is a standalone manual verification script (`npm run verify:story`), not part of an automated suite.
+No automated test framework is installed for the Next.js frontend today — no
+Jest/Vitest/Testing Library dependency, no frontend `test` script in `package.json`,
+and no `*.test.ts`/`*.spec.ts` files. `verify-story-signals.ts` is a standalone manual
+verification script (`npm run verify:story`), not part of an automated frontend
+suite. The Python backend separately has pytest route tests and opt-in PostgreSQL
+integration tests; see [`backend/tests/README.md`](../backend/tests/README.md).
 
-`app/lib/spotify.ts`'s `parseSpotifyArtistId` is a good first candidate whenever a framework does get set up: a pure function with no React/DOM dependency and clearly enumerable edge cases (malformed URL, non-`open.spotify.com` hostname, missing artist-ID path segment, trailing query params) — straightforward input/output assertions, unlike the queue-building coverage gap above, which needs property-based tests because of real `Math.random()` use. Not built now — no framework exists to add it to yet; revisit alongside standing up a test framework generally, post-MVP.
+`app/lib/spotify.ts`'s `parseSpotifyArtistId` is a good first candidate whenever a
+frontend framework does get set up: a pure function with no React/DOM dependency and
+clearly enumerable edge cases (malformed URL, non-`open.spotify.com` hostname,
+missing artist-ID path segment, trailing query params) — straightforward input/output
+assertions, unlike the queue-building coverage gap above, which needs property-based
+tests because of real `Math.random()` use. Not built now — no frontend framework
+exists yet; revisit alongside standing up frontend testing generally, post-MVP.
 
 ---
 

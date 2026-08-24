@@ -184,20 +184,26 @@ npm run format       # Format the project with Prettier
 npm run verify:story # Verify Festival Story signal invariants
 ```
 
+Backend test commands and the distinction between isolated API tests and real
+PostgreSQL integration tests are documented in the
+[backend testing guide](backend/tests/README.md).
+
 ## Current Scope and Roadmap
 
 FestFuse is currently a frontend MVP centered on one festival, with artist and schedule data stored in typed source files. The next major iteration will focus on:
 
 - Supporting multiple festivals
-- Moving festival and artist data into a database-backed system
+- Importing current festival and artist data into the implemented database schema
+- Expanding backend APIs and moving frontend consumers after parity is verified
 - Creating a faster, source-verifiable data import workflow
-- Expanding automated test coverage
+- Expanding frontend and backend automated test coverage
 - Continuing accessibility and performance improvements
 
 ## Project Structure
 
 ```text
 docs/                    # Screenshots and supplementary notes (see ARCHITECTURE.md)
+backend/                 # FastAPI, SQLAlchemy models, Alembic migrations, and tests
 app/
 ├── artist/[slug]/       # Artist detail routes
 ├── components/          # Shared and feature-specific UI
