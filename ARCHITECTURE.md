@@ -343,8 +343,9 @@ FestivalSeries
 └── FestivalEdition
     ├── FestivalRun
     │   ├── FestivalDay
-    │   └── LineupEntry (planned)
-    └── Stage (planned)
+    │   └── LineupEntry
+    │       └── Appearance
+    └── Stage
 ```
 
 - `FestivalSeries` represents one recurring event in a market, such as Lollapalooza
@@ -358,19 +359,57 @@ FestivalSeries
 - `FestivalDay` stores an actual calendar date within a run. Weekday names are
   derived from the date; its nullable `label` is reserved for non-derivable copy
   such as "Opening Night."
-- `Stage` will belong to FestivalEdition, while a planned `LineupEntry` will associate
-  an Artist with a FestivalRun before schedule data exists. Planned Appearances will
-  then belong to a LineupEntry and reference FestivalDay and Stage.
+- `Stage` belongs to FestivalEdition so its identity is shared across that edition's
+  runs.
+- `LineupEntry` associates an Artist with a FestivalRun before schedule data exists.
+  It retains draft, announced, and withdrawn membership independently of scheduling.
+- `Appearance` represents one scheduled performance owned by a LineupEntry and
+  references its FestivalDay and Stage. Cancellation retains the stable record.
 
 Start/end dates are derived from the edition's days instead of stored on
 `FestivalEdition`, which supports non-contiguous dates without implying that the
 festival runs on every intervening day.
 
-FestivalSeries, FestivalEdition, FestivalRun, and FestivalDay share
-database-owned `created_at` and `updated_at` columns. PostgreSQL supplies both
-initial values and a shared `BEFORE UPDATE` trigger refreshes `updated_at`, so ORM,
-seed/import, migration, raw SQL, and pgAdmin writes follow the same timestamp rule.
-Updating a child row does not automatically touch its parent.
+All persisted domain tables use database-owned `created_at` and `updated_at` columns.
+PostgreSQL supplies both initial values and a shared `BEFORE UPDATE` trigger refreshes
+`updated_at`, so ORM, seed/import, migration, raw SQL, and pgAdmin writes follow the
+same timestamp rule. Updating a child row does not automatically touch its parent
+except where an explicit verification-invalidation trigger records aggregate change.
+
+Appearance-to-Day and Appearance-to-Stage foreign keys are deferrable, initially
+deferred `NO ACTION`. Direct deletion of a referenced Day or Stage still fails at
+transaction commit, while deletion of an entire Run or Edition can complete all
+converging cascades before PostgreSQL checks that no Appearance remains. PostgreSQL
+integration tests cover both outcomes.
+
+### Artist and curation domain
+
+```text
+GenreFamily 1 ─── many Genre
+Artist many ─── many Genre through ArtistGenre
+Artist many ─── many Track through ArtistTrackSelection
+Artist 1 ─── many ArtistVideo
+
+FestivalRun 1 ─── many LineupEntry ─── many Appearance
+FestivalRun + source Artist ─── SimilarArtistSet ─── SimilarArtist entries
+```
+
+- ArtistGenre stores positions 1–3 and explicit primary meaning. PostgreSQL prevents
+  overcomplete/duplicate positions and multiple primaries; publication validation
+  requires exactly three and exactly one primary.
+- ArtistTrackSelection assigns Quick Picks and/or ordered Listen First roles to a
+  canonical Track. PostgreSQL bounds Listen First positions and permits only one
+  Quick Picks selection; publication validation owns completeness.
+- ArtistVideo stores repeatable YouTube performances with explicit featured and
+  display-order semantics plus availability history.
+- Similar Artists are directional, ordered, and FestivalRun-scoped. Target deletion
+  is restricted so another Artist's curated set cannot silently shrink.
+- SimilarArtist entry changes and announced-lineup departures clear the affected
+  set's `verified_at`; returning to the lineup never restores approval automatically.
+- About and supported-social source changes clear their field-specific verification.
+  Verified-empty YouTube/TikTok remains valid and distinct from unreviewed data.
+- Image metadata cannot exist without the canonical `image_url`, while an Artist may
+  validly have no image at all.
 
 Initial application data is created through committed, rerunnable seed/import
 scripts rather than embedded in schema migrations. Alembic owns structure; seed and
@@ -378,10 +417,11 @@ import workflows own application records. The hierarchy migration's Lollapalooza
 series insertion is a one-time backfill required to preserve an already-seeded
 edition while transforming the existing table in place.
 
-See [ADR-0001](docs/decisions/0001-introduce-fastapi-postgresql-backend.md) and
-[ADR-0003](docs/decisions/0003-separate-festival-series-and-editions.md) for the
-context, alternatives, and consequences behind these choices. ADR-0003 supersedes
-the original hierarchy in ADR-0002 while retaining its run/day reasoning.
+See [ADR-0001](docs/decisions/0001-introduce-fastapi-postgresql-backend.md),
+[ADR-0003](docs/decisions/0003-separate-festival-series-and-editions.md), and
+[ADR-0004](docs/decisions/0004-model-artist-curation-and-scheduling.md) for context,
+alternatives, and consequences. ADR-0003 supersedes the original hierarchy in
+ADR-0002 while retaining its run/day reasoning.
 
 ---
 

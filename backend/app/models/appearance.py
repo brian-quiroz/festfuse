@@ -37,11 +37,21 @@ class Appearance(TimestampMixin, Base):
         index=True,
     )
     festival_day_id: Mapped[int] = mapped_column(
-        ForeignKey("festival_days.id", ondelete="RESTRICT"),
+        ForeignKey(
+            "festival_days.id",
+            ondelete="NO ACTION",
+            deferrable=True,
+            initially="DEFERRED",
+        ),
         index=True,
     )
     stage_id: Mapped[int] = mapped_column(
-        ForeignKey("stages.id", ondelete="RESTRICT"),
+        ForeignKey(
+            "stages.id",
+            ondelete="NO ACTION",
+            deferrable=True,
+            initially="DEFERRED",
+        ),
         index=True,
     )
     starts_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))

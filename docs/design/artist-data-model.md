@@ -705,8 +705,8 @@ one run without introducing run-specific stage identity prematurely.
 | `created_at` | Timezone-aware timestamp | No | Database-record creation time |
 | `updated_at` | Timezone-aware timestamp | No | Last database-record update |
 
-Stage slug, name, and display order are each unique within a FestivalEdition. A Stage used
-by an Appearance is protected from ordinary deletion.
+Stage slug, name, and display order are each unique within a FestivalEdition. A Stage
+used by an Appearance is protected from ordinary deletion.
 
 ### Appearance fields
 
@@ -756,6 +756,12 @@ earliest FestivalDay as the tie-breaker—rather than persisted.
 
 Schedule changes update the stable Appearance row. Moving or shortening a set edits
 its day/stage/timestamps; cancellation changes its status and retains the record.
+
+Appearance references to FestivalDay and Stage use deferrable, initially deferred
+`NO ACTION` foreign keys. Deleting a referenced Day or Stage directly still fails at
+transaction commit, but deleting an entire FestivalRun or FestivalEdition can finish
+its converging cascades before PostgreSQL checks that no Appearance remains. Immediate
+`RESTRICT` was tested and incorrectly blocked both valid aggregate deletions.
 This is not a full audit log: `updated_at` preserves only the last-change time, while
 exact historical schedule revisions remain deferred until an admin workflow needs
 them.
@@ -991,10 +997,10 @@ artist have one.
 ## Physical-design status
 
 The initial logical design is accepted. Physical implementation remains subject to
-the pre-migration review below and to PostgreSQL constraint/trigger tests, including
-empirical verification of the converging Appearance deletion paths. Further changes
-should come from those checks or a concrete new product requirement rather than
-speculative generalization.
+the pre-migration review and PostgreSQL constraint/trigger tests below. The converging
+Appearance deletion paths have been tested and modeled with deferrable `NO ACTION`;
+further changes should come from the remaining checks or a concrete new product
+requirement rather than speculative generalization.
 
 ### Pre-migration implementation checklist
 
@@ -1018,31 +1024,33 @@ migration. Keep it in the repository so review findings do not depend on chat hi
   do not silently shrink another Artist's curated set.
 - [x] Configure Ruff for Python formatting, import sorting, and linting, then format
   and review the backend diff.
-- [ ] Generate the artist-schema Alembic revision and manually review every table,
+- [x] Generate the artist-schema Alembic revision and manually review every table,
   foreign key, composite primary key, constraint, index, default, and downgrade.
-- [ ] Confirm the generated migration preserves the intended deterministic names,
+- [x] Confirm the generated migration preserves the intended deterministic names,
   drops both redundant festival indexes, and creates the new FestivalRun/FestivalDay
   order constraints; then run `alembic check` after applying it.
-- [ ] Add `updated_at` triggers to all 12 new timestamped tables using the existing
+- [x] Add `updated_at` triggers to all 12 new timestamped tables using the existing
   shared PostgreSQL trigger function.
-- [ ] Add a migration-owned Artist trigger that clears `about_verified_at` when
+- [x] Add a migration-owned Artist trigger that clears `about_verified_at` when
   `about` changes.
-- [ ] Add a migration-owned Artist trigger that clears `socials_verified` when
+- [x] Add a migration-owned Artist trigger that clears `socials_verified` when
   `youtube_url` or `tiktok_url` changes; verified-empty socials remain valid until a
   supported URL changes.
-- [ ] Add a migration-owned SimilarArtist trigger that clears its parent
+- [x] Add a migration-owned SimilarArtist trigger that clears its parent
   SimilarArtistSet's `verified_at` after entry insert, update, or delete.
-- [ ] Add migration-owned LineupEntry invalidation so announced-membership changes
+- [x] Add migration-owned LineupEntry invalidation so announced-membership changes
   clear affected source and target SimilarArtistSet verification in the same run.
-- [ ] Update `ARCHITECTURE.md` and superseded/current ADR references once the physical
+- [x] Update `ARCHITECTURE.md` and superseded/current ADR references once the physical
   migration is final.
-- [ ] Add real PostgreSQL integration tests for constraints, all trigger behavior,
+- [x] Add real PostgreSQL integration tests for constraints, all trigger behavior,
   direct protected deletes, and the converging FestivalRun/FestivalEdition cascade
   paths.
-- [ ] Verify empirically whether aggregate FestivalRun/FestivalEdition deletion
-  succeeds with the Appearance-to-Day/Stage `RESTRICT` foreign keys. If it fails,
-  replace only the affected protection with deferrable `NO ACTION` rather than
-  weakening ordinary Stage/FestivalDay deletion protection.
+- [x] Verify aggregate FestivalRun/FestivalEdition deletion with the original
+  Appearance-to-Day/Stage `RESTRICT` foreign keys; both valid aggregate paths were
+  blocked, so replace only those references with deferrable, initially deferred
+  `NO ACTION` while preserving ordinary Day/Stage deletion protection.
+- [x] Reapply the corrected migration and verify aggregate deletion succeeds while
+  direct deletion of a referenced FestivalDay or Stage still fails at commit.
 - [ ] Add the isolated, transactional TypeScript import workflow only after the
   schema and migration tests pass.
 
