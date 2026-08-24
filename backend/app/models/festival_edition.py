@@ -9,6 +9,7 @@ from app.models.timestamp_mixin import TimestampMixin
 if TYPE_CHECKING:
     from app.models.festival_run import FestivalRun
     from app.models.festival_series import FestivalSeries
+    from app.models.stage import Stage
 
 
 class FestivalEdition(TimestampMixin, Base):
@@ -33,4 +34,9 @@ class FestivalEdition(TimestampMixin, Base):
         back_populates="festival_edition",
         cascade="all, delete-orphan",
         order_by="FestivalRun.display_order",
+    )
+    stages: Mapped[list["Stage"]] = relationship(
+        back_populates="festival_edition",
+        cascade="all, delete-orphan",
+        order_by="Stage.display_order",
     )

@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from fastapi.testclient import TestClient
 
-from app.models import FestivalSeries, FestivalEdition, FestivalRun, FestivalDay
+from app.models import FestivalDay, FestivalEdition, FestivalRun, FestivalSeries
 
 
 def build_festival() -> FestivalEdition:

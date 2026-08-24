@@ -1,8 +1,8 @@
 from app.schemas.festival import (
-    FestivalSeriesRead,
+    FestivalDayRead,
     FestivalEditionRead,
     FestivalRunRead,
-    FestivalDayRead,
+    FestivalSeriesRead,
 )
 
 __all__ = [

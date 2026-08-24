@@ -72,7 +72,7 @@ The current working inventory is:
 GenreFamily 1 ─── many Genre
 Artist many ─── many Genre
 
-Artist 1 ─── zero/many Video
+Artist 1 ─── zero/many ArtistVideo
 Artist 1 ─── zero/many LineupEntry
 FestivalSeries 1 ─── many FestivalEdition
 FestivalEdition 1 ─── many FestivalRun
@@ -105,7 +105,7 @@ the historical decision.
 | Artist–Genre | Many-to-many relationship with explicit display order and primary status |
 | Track | Independent external media identity with a Spotify track ID and name |
 | ArtistTrackSelection | Artist-to-track curation carrying explicit Quick Picks and/or ordered Listen First roles |
-| Video | Repeatable artist-owned entity with per-video metadata and health information |
+| ArtistVideo | Repeatable artist-owned entity with per-video metadata and health information |
 | Similar Artist set | FestivalRun-scoped, set-verified recommendation collection |
 | Similar Artist entry | Directional, ordered reference from the set to a canonical Artist |
 | FestivalSeries | Stable identity for a recurring festival in one market |
@@ -125,8 +125,8 @@ required by publication validation without being non-null database columns.
 | Field | PostgreSQL concept | Nullable | Notes |
 | --- | --- | ---: | --- |
 | `id` | Integer | No | Auto-generated primary key |
-| `name` | `VARCHAR(200)` | No | Unicode public name; not unique |
 | `slug` | `VARCHAR(100)` | No | Unique public/API identifier |
+| `name` | `VARCHAR(200)` | No | Unicode public name; not unique |
 | `spotify_artist_id` | `VARCHAR(100)` | Yes | Unique when present; core external identity, not an ordinary social link |
 | `image_url` | `TEXT` | Yes | Presence means the image is approved for display |
 | `image_focal_y_percent` | Small integer | Yes | Vertical focal point from 0 through 100; null uses the default center |
@@ -155,6 +155,7 @@ Initial database constraints should include:
 - unique `slug`;
 - unique populated `spotify_artist_id` (PostgreSQL permits multiple nulls);
 - `image_focal_y_percent` between 0 and 100;
+- image metadata cannot exist without `image_url`;
 - `publication_status` limited to the supported values; and
 - `about_verified_at` cannot be populated when `about` is null.
 
@@ -203,6 +204,11 @@ Manually approved image → image_url and available metadata are populated toget
 Therefore, the new model does not retain `image_verified`. During migration, only
 currently approved images should populate the canonical image fields.
 
+Image metadata is meaningful only for the current canonical image. A database
+constraint therefore requires all image-specific metadata to be null whenever
+`image_url` is null. Artists may still have no image, while an approved image and its
+available metadata are saved together.
+
 One image and one shared vertical focal position currently work across Artist
 Detail, Quick Picks, and Explore cards. Multiple images, per-surface crops, asset
 history, and a dedicated image entity are deferred.
@@ -230,6 +236,11 @@ automatically resets `socials_verified` to false; changing Spotify identity does
 because Spotify is intentionally independent of that gate. Initial verified imports
 remain possible because these invalidation triggers react to later source-content
 updates. A row-level `updated_at` does not imply that every associated fact was
+reviewed.
+
+`socials_verified = true` does not require a YouTube or TikTok URL. It may also mean
+that the supported social fields were reviewed and intentionally left empty. This
+distinguishes a confirmed absence from an artist whose social links have not yet been
 reviewed.
 
 PostgreSQL owns record timestamps. `created_at` and the initial `updated_at` use
@@ -286,8 +297,9 @@ stable family slug.
 | `created_at` | Timezone-aware timestamp | No | Database-record creation time |
 | `updated_at` | Timezone-aware timestamp | No | Last database-record update |
 
-Genres do not have a curated taxonomy-level display order. Current UI behavior
-alphabetizes genres within each family.
+Genres do not have a curated taxonomy-level display order. Backend queries that need
+taxonomy presentation explicitly alphabetize genres by name within each family; the
+SQLAlchemy relationship itself does not impose an order on every load.
 
 ### Artist–Genre fields
 
@@ -295,7 +307,7 @@ alphabetizes genres within each family.
 | --- | --- | ---: | --- |
 | `artist_id` | Integer | No | Foreign key to Artist |
 | `genre_id` | Integer | No | Foreign key to Genre |
-| `display_order` | Integer | No | Positive and unique within the artist |
+| `display_order` | Integer | No | Position 1 through 3; unique within the artist |
 | `is_primary` | Boolean | No | Explicit primary classification; defaults false |
 | `created_at` | Timezone-aware timestamp | No | Time the assignment was created |
 | `updated_at` | Timezone-aware timestamp | No | Last order/primary-role update |
@@ -303,8 +315,10 @@ alphabetizes genres within each family.
 `artist_id` plus `genre_id` forms the composite primary key, preventing duplicate
 assignments. `artist_id` plus `display_order` is unique. A partial unique index allows
 at most one row per artist where `is_primary` is true. Publication validation requires
-exactly three genre assignments and exactly one primary genre. Draft artists may have
-an incomplete set while being curated.
+exactly three genre assignments and exactly one primary genre. The database bounds
+positions to 1 through 3, while draft artists may have an incomplete set during
+curation. The current aespa record's fourth assignment is rejected as required source
+cleanup rather than silently truncated or admitted as canonical data.
 
 Primary meaning is explicit rather than inferred solely from `display_order = 1`.
 This follows the same principle as the explicit Quick Picks track selection: array
@@ -527,15 +541,17 @@ not-yet-curated, draft, verified-complete, and verified-intentionally-empty stat
 | --- | --- | ---: | --- |
 | `similarity_set_id` | Integer | No | Foreign key to SimilarArtistSet |
 | `target_artist_id` | Integer | No | Canonical recommended Artist |
-| `display_order` | Integer | No | Positive and unique within the set |
+| `display_order` | Integer | No | Position 1 through 4; unique within the set |
 | `created_at` | Timezone-aware timestamp | No | Time the recommendation was added |
 | `updated_at` | Timezone-aware timestamp | No | Last relationship/order update |
 
 `similarity_set_id` plus `target_artist_id` forms the composite primary key. The
-database prevents duplicate targets and duplicate display positions within a set.
-A database trigger clears the parent set's `verified_at` after an entry is inserted,
-updated, or deleted. That deliberate propagation protects verification even for raw
-SQL writes and also causes the PostgreSQL-owned parent `updated_at` to refresh.
+database prevents duplicate targets, duplicate display positions, and positions
+outside 1 through 4. It does not require all four rows to exist, so draft sets may be
+incomplete. A database trigger clears the parent set's `verified_at` after an entry
+is inserted, updated, or deleted. That deliberate propagation protects verification
+even for raw SQL writes and also causes the PostgreSQL-owned parent `updated_at` to
+refresh.
 
 Backend review validation owns the contextual rules. Both source and target artists
 must have announced LineupEntries in the exact FestivalRun;
@@ -543,6 +559,12 @@ an artist cannot recommend itself; and a set can be verified only with exactly f
 entries or intentionally zero. The database trigger automatically invalidates the
 set after adding, removing, replacing, or reordering an entry. Public APIs expose
 only verified, nonempty sets.
+
+Deleting a source Artist cascades through that Artist's owned SimilarArtistSet rows.
+Deleting an Artist that is referenced as a target by another source is restricted;
+the database must not silently shrink a reviewed curated set. The referencing entry
+must first be deliberately replaced or removed, which also invalidates its parent
+set's verification.
 
 The four-artist editorial heuristic deliberately mixes matching dimensions such as
 sound/genre, scene/scale, and thematic parallels; includes at least one bigger-name
@@ -677,13 +699,13 @@ one run without introducing run-specific stage identity prematurely.
 | --- | --- | ---: | --- |
 | `id` | Integer | No | Auto-generated primary key |
 | `festival_edition_id` | Integer | No | FestivalEdition that owns the stage |
-| `slug` | `VARCHAR(100)` | No | Stable identifier unique within the Festival |
+| `slug` | `VARCHAR(100)` | No | Stable identifier unique within the FestivalEdition |
 | `name` | `VARCHAR(200)` | No | Official human-facing name |
 | `display_order` | Integer | No | Positive Planner column/presentation order |
 | `created_at` | Timezone-aware timestamp | No | Database-record creation time |
 | `updated_at` | Timezone-aware timestamp | No | Last database-record update |
 
-Stage slug, name, and display order are each unique within a Festival. A Stage used
+Stage slug, name, and display order are each unique within a FestivalEdition. A Stage used
 by an Appearance is protected from ordinary deletion.
 
 ### Appearance fields
@@ -703,7 +725,7 @@ by an Appearance is protected from ordinary deletion.
 | `updated_at` | Timezone-aware timestamp | No | Last schedule modification |
 
 Full timestamps replace duplicated date/day/formatted-time strings. The API converts
-them into the Festival's configured timezone. This supports overnight sets, reliable
+them into the FestivalEdition's configured timezone. This supports overnight sets, reliable
 durations, chronological ordering, and conflict detection. FestivalDay remains an
 explicit domain relationship even though its calendar date can be compared with the
 localized start timestamp.
@@ -723,7 +745,7 @@ Stage 1 ─── many Appearance
 
 The database enforces foreign keys, supported lifecycle/billing values, and
 `ends_at > starts_at`. Backend/import validation confirms that the LineupEntry and
-FestivalDay belong to the same run, the Stage belongs to that run's Festival, the
+FestivalDay belong to the same run, the Stage belongs to that run's FestivalEdition, the
 localized start date matches the FestivalDay, and neither the artist nor stage has
 overlapping active performances.
 
@@ -824,17 +846,18 @@ records rather than assuming the TypeScript shape was migration-ready.
 | Finding | Import handling |
 | --- | --- |
 | 45 Artists lack a playable `tracks[0].spotifyId` | Import Artist/lineup/schedule data, but they cannot pass Artist publication readiness until a Quick Picks selection is curated |
-| aespa has four Genres | Import as draft and curate exactly three before publication |
+| aespa has four Genres | Required source cleanup before import: explicitly curate the canonical three rather than truncating automatically |
 | Ric Wilson and Cruz Beckham & The Breakers have neither Spotify artist identity nor a curated override | Remain draft until identity or a complete override is supplied; both also lack Quick Picks selection |
 | MPH and Chicago Made have `socialsVerified: true` but no gated YouTube/TikTok link | Normalize `socials_verified` to false; Spotify and Listen First behavior are unaffected |
 | The Chainsmokers repeats one Spotify track in a dormant extra array position | Ignore it because v1 migrates only the explicit Quick Picks selection and curated Listen First selections, not every legacy track |
 
-Under the accepted publication rules, 125 of 171 Artists are currently ready and 46
-are not. Initial import should create every Artist as `draft`, preserve all real
-announced LineupEntries and scheduled Appearances, run the validator, then explicitly
-publish the 125 passing Artists. The TypeScript source remains the live frontend
-source until API parity is verified, so staged database publication does not remove
-current UI coverage.
+Under the accepted publication rules and before required source cleanup, 125 of 171
+Artists are currently ready and 46 are not. Once blocking source-shape errors such as
+aespa's fourth Genre are resolved explicitly, initial import should create every
+Artist as `draft`, preserve all real announced LineupEntries and scheduled
+Appearances, run the validator, then explicitly publish only the passing Artists. The
+TypeScript source remains the live frontend source until API parity is verified, so
+staged database publication does not remove current UI coverage.
 
 ### Historical timestamp and gate backfill
 
@@ -881,6 +904,7 @@ artist have one.
 | Artist input | Slug format is ASCII-safe and valid |  | Yes |  | Stored slug remains explicitly curated |
 | Artist input | URL formats are valid |  | Yes |  | Applies to image, license/source, YouTube, and TikTok URLs |
 | Image | Focal Y percentage is between 0 and 100 | Yes |  |  | Null uses the default center |
+| Image | Image metadata cannot exist without an image URL | Yes |  |  | Artists may still have no image |
 | Image | Only approved legacy images populate the canonical image URL |  | Yes |  | Replaces the legacy `imageVerified` placeholder gate |
 | Image | A dynamic image-year value is plausible and not unintentionally future-dated |  | Yes |  | Avoid a database constraint tied to the current calendar year |
 | Image | Missing focal position uses the default center |  |  | Yes | Do not persist a redundant default |
@@ -888,6 +912,7 @@ artist have one.
 | Editorial content | Changing About clears `about_verified_at` | Yes |  |  | Same-row trigger protects every write path |
 | Social links | `socials_verified` defaults false | Yes |  |  | Preserves the current YouTube/TikTok gate |
 | Social links | Changing YouTube or TikTok URL clears `socials_verified` | Yes |  |  | Spotify identity is intentionally excluded |
+| Social links | A reviewed artist may intentionally have neither supported social URL | Yes | Yes |  | Verified empty differs from not yet reviewed |
 | Social links | Unverified YouTube/TikTok links remain hidden |  |  | Yes | Spotify identity is independent of this gate |
 | Publication | Publication status is limited to `draft` or `published` | Yes |  |  | New records default to `draft` |
 | Publication | Transitioning an Artist to `published` validates artist-content readiness |  | Yes |  | Festival membership and schedule are separate lifecycles |
@@ -901,7 +926,7 @@ artist have one.
 | Genre taxonomy | Genre slug and name are unique | Yes |  |  | Stable identity plus human-facing label |
 | Genre taxonomy | Every Genre belongs to exactly one GenreFamily | Yes |  |  | Non-null foreign key; no junction while ownership is singular |
 | Artist–Genre | The same Genre cannot be assigned to one Artist twice | Yes |  |  | Composite `artist_id`/`genre_id` primary key |
-| Artist–Genre | Display order is positive and unique within an Artist | Yes |  |  | Preserves curated genre ordering |
+| Artist–Genre | Display order is limited to 1–3 and unique within an Artist | Yes |  |  | Draft sets may be incomplete but cannot be overcomplete |
 | Artist–Genre | An Artist has at most one primary Genre | Yes |  |  | Partial unique index on primary assignments |
 | Artist–Genre | A published Artist has exactly three Genres |  | Yes |  | Current data exception: aespa has four and requires curation before import |
 | Artist–Genre | A published Artist has exactly one primary Genre |  | Yes |  | Complements the database's at-most-one rule |
@@ -933,7 +958,7 @@ artist have one.
 | ArtistVideo | A future gallery orders available videos by display order |  | Yes |  | No additional persisted presentation field needed |
 | Video deletion | Deleting an Artist removes its ArtistVideo rows | Yes |  |  | Artist-owned dependent content |
 | Similar Artist set | One set exists at most per source Artist and FestivalRun | Yes |  |  | Composite unique constraint |
-| Similar Artist entry | A target and display position are each unique within a set | Yes |  |  | Composite primary key plus scoped order uniqueness |
+| Similar Artist entry | A target and display position from 1–4 are each unique within a set | Yes |  |  | Composite primary key, bounded order, and scoped order uniqueness |
 | Similar Artist entry | Source and every target have announced LineupEntries in the same FestivalRun |  | Yes |  | Does not depend on schedule availability |
 | Similar Artist entry | An Artist cannot recommend itself |  | Yes |  | Source lives on the parent set, so validate contextually |
 | Similar Artist review | Only sets with exactly four entries or intentionally zero can be verified |  | Yes |  | Zero preserves the reviewed-empty CYSO case |
@@ -948,14 +973,14 @@ artist have one.
 | LineupEntry | New announce/withdraw transitions record their event time |  | Yes |  | Status remains authoritative when a historical timestamp is unknown |
 | LineupEntry | Public lineup queries expose announced entries |  | Yes |  | Drafts remain administrative; withdrawn entries remain historical |
 | LineupEntry | Leaving/deleting announced membership invalidates affected Similar Artist sets | Yes |  |  | Source and target sets in that run must be reviewed again |
-| Stage | Slug, name, and display order are unique within a Festival | Yes |  |  | Display order is positive |
+| Stage | Slug, name, and display order are unique within a FestivalEdition | Yes |  |  | Display order is positive |
 | Stage | A referenced Stage is protected from ordinary deletion | Yes | Yes |  | Rename or update instead of silently destroying schedule data |
 | Appearance | Status is `draft`, `scheduled`, or `cancelled` | Yes |  |  | Cancellation is retained as a domain event |
 | Appearance | Cancellation time/reason exist only for cancelled rows | Yes | Yes |  | Transition records when cancellation became known |
 | Appearance | End timestamp is later than start timestamp | Yes |  |  | Supports duration and conflict calculations |
 | Appearance | LineupEntry and FestivalDay belong to the same FestivalRun |  | Yes |  | Contextual cross-table validation |
-| Appearance | Stage belongs to the Festival owning that run |  | Yes |  | Prevents cross-festival stage assignments |
-| Appearance | Localized start date matches FestivalDay |  | Yes |  | Uses the Festival's configured timezone |
+| Appearance | Stage belongs to the FestivalEdition owning that run |  | Yes |  | Prevents cross-edition stage assignments |
+| Appearance | Localized start date matches FestivalDay |  | Yes |  | Uses the FestivalEdition's configured timezone |
 | Appearance | Active sets do not overlap for one Artist or Stage |  | Yes |  | Multiple non-overlapping sets on one day remain valid |
 | Appearance | Weekday, formatted times, duration, and primary status are derived |  | Yes | Yes | Do not persist redundant presentation values |
 | Appearance | Cancelling a set retains its stable ID and schedule record |  | Yes |  | Saved schedule references can detect cancellation |
@@ -965,9 +990,61 @@ artist have one.
 
 ## Physical-design status
 
-No known physical-design question remains open for the initial implementation.
-Further changes should come from migration review, constraint tests, or a concrete
-new product requirement rather than speculative generalization.
+The initial logical design is accepted. Physical implementation remains subject to
+the pre-migration review below and to PostgreSQL constraint/trigger tests, including
+empirical verification of the converging Appearance deletion paths. Further changes
+should come from those checks or a concrete new product requirement rather than
+speculative generalization.
+
+### Pre-migration implementation checklist
+
+This checklist is the handoff between the accepted design and the first artist-domain
+migration. Keep it in the repository so review findings do not depend on chat history.
+
+- [x] Perform a comprehensive model/design/DDL review across both the new artist
+  domain and the existing festival hierarchy.
+- [x] Add reverse-lookup indexes on `artist_genres.genre_id` and
+  `artist_track_selections.track_id`.
+- [x] Configure deterministic SQLAlchemy constraint/index naming compatible with
+  accurate names already present in PostgreSQL.
+- [x] Remove the redundant standalone `festival_runs.festival_edition_id` and
+  `festival_days.festival_run_id` indexes from the model metadata.
+- [x] Model positive, parent-scoped unique `display_order` constraints for
+  FestivalRun and FestivalDay.
+- [x] Replace stale model-level `Festival` wording with `FestivalEdition`, rename the
+  conceptual diagram's `Video` to `ArtistVideo`, and document Similar Artist deletion
+  behavior explicitly.
+- [x] Preserve `RESTRICT` for deleting an Artist referenced as a Similar Artist target;
+  do not silently shrink another Artist's curated set.
+- [x] Configure Ruff for Python formatting, import sorting, and linting, then format
+  and review the backend diff.
+- [ ] Generate the artist-schema Alembic revision and manually review every table,
+  foreign key, composite primary key, constraint, index, default, and downgrade.
+- [ ] Confirm the generated migration preserves the intended deterministic names,
+  drops both redundant festival indexes, and creates the new FestivalRun/FestivalDay
+  order constraints; then run `alembic check` after applying it.
+- [ ] Add `updated_at` triggers to all 12 new timestamped tables using the existing
+  shared PostgreSQL trigger function.
+- [ ] Add a migration-owned Artist trigger that clears `about_verified_at` when
+  `about` changes.
+- [ ] Add a migration-owned Artist trigger that clears `socials_verified` when
+  `youtube_url` or `tiktok_url` changes; verified-empty socials remain valid until a
+  supported URL changes.
+- [ ] Add a migration-owned SimilarArtist trigger that clears its parent
+  SimilarArtistSet's `verified_at` after entry insert, update, or delete.
+- [ ] Add migration-owned LineupEntry invalidation so announced-membership changes
+  clear affected source and target SimilarArtistSet verification in the same run.
+- [ ] Update `ARCHITECTURE.md` and superseded/current ADR references once the physical
+  migration is final.
+- [ ] Add real PostgreSQL integration tests for constraints, all trigger behavior,
+  direct protected deletes, and the converging FestivalRun/FestivalEdition cascade
+  paths.
+- [ ] Verify empirically whether aggregate FestivalRun/FestivalEdition deletion
+  succeeds with the Appearance-to-Day/Stage `RESTRICT` foreign keys. If it fails,
+  replace only the affected protection with deferrable `NO ACTION` rather than
+  weakening ordinary Stage/FestivalDay deletion protection.
+- [ ] Add the isolated, transactional TypeScript import workflow only after the
+  schema and migration tests pass.
 
 ## Planned implementation sequence
 
@@ -978,8 +1055,10 @@ new product requirement rather than speculative generalization.
    the implementation so they describe the migrated schema rather than this draft.
 4. Implement the festival hierarchy/timestamp foundation and its Alembic migration.
 5. Implement the accepted artist-domain SQLAlchemy models and relationships.
-6. Generate and manually review the artist-schema Alembic migration.
-7. Add migration/model tests and an isolated import path.
-8. Import current artist data without deleting the TypeScript source of truth.
-9. Expose read APIs incrementally.
-10. Move frontend consumers only after API parity is verified.
+6. Configure Ruff for Python formatting, import sorting, and linting, then format the
+   backend before committing the completed model layer.
+7. Generate and manually review the artist-schema Alembic migration.
+8. Add migration/model tests and an isolated import path.
+9. Import current artist data without deleting the TypeScript source of truth.
+10. Expose read APIs incrementally.
+11. Move frontend consumers only after API parity is verified.
