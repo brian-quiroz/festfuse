@@ -90,6 +90,15 @@ Rules, in order of precedence:
 copy of the artist they reference, for display — these do not update automatically
 and must be corrected by hand alongside the primary record.
 
+**A slug change also orphans browser-persisted user state.** `decisionsByArtist`
+(Quick Picks decisions) and `scheduledAppearanceKeys` (Planner selections) key their
+entries by artist slug inside each returning user's local storage, with no
+server-side awareness of a rename. A decision or schedule entry recorded under the
+old slug keeps counting toward aggregate totals (e.g. the sidebar's My Picks count)
+but silently stops resolving to a real artist anywhere in the UI — the count goes up
+while the corresponding artist disappears from every list. There is currently no
+migration path that remaps a renamed slug inside already-persisted local data.
+
 ### Editorial content: curation standard, not a runtime computation
 
 `about` and `similarArtists` are AI-assisted editorial content, gated behind `aboutVerified`/`similarArtistsVerified` flags — neither renders in the app until it passes a fact-check pass against a documented source hierarchy (official artist/label/festival/Spotify pages first, then reputable music publications, AllMusic, and citation-checked Wikipedia; other festival tools and MusicBrainz/community tags are used only as cross-checks, never as a sole source). This is a data-authoring standard applied during review, not something the running app computes.
