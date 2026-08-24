@@ -8,8 +8,8 @@ from sqlalchemy import select
 
 from app.database import SessionLocal
 from app.models import Artist
-from app.queries import read_published_artist_by_slug
-from scripts.import_artists import export_source
+from app.queries import read_festival_artist_by_slug, read_published_artist_by_slug
+from scripts.import_artists import BILLING_TIERS, export_source, parse_appearance_time
 
 pytestmark = [
     pytest.mark.postgres,
@@ -116,6 +116,14 @@ def test_lorde_artist_core_matches_typescript_source(
     assert "listenFirst" not in source_artist
     assert api_artist.listen_first.note is None
     assert api_artist.listen_first.tracks == []
+    assert source_artist["aboutVerified"] is True
+    assert api_artist.about == source_artist["about"]
+    assert api_artist.socials.spotify_url == source_artist["socials"]["spotify"]
+    assert api_artist.socials.youtube_url == source_artist["socials"]["youtube"]
+    assert api_artist.socials.tiktok_url == source_artist["socials"]["tiktok"]
+    assert api_artist.featured_video is not None
+    assert api_artist.featured_video.youtube_video_id == source_artist["liveVideoId"]
+    assert api_artist.featured_video.label == source_artist["liveVideoLabel"]
 
 
 def test_kettama_unapproved_source_image_remains_hidden(
@@ -244,6 +252,133 @@ def test_all_published_artist_cores_match_typescript_source(
                 )
                 continue
 
+            festival_artist = read_festival_artist_by_slug(
+                session,
+                edition_slug="lollapalooza-2026",
+                run_slug="main",
+                artist_slug=artist_slug,
+            )
+            if festival_artist is None:
+                mismatches.append(
+                    f"{artist_slug}.festival_context: published Artist is missing "
+                    "from its announced run"
+                )
+                continue
+
+            source_appearances = sorted(
+                (
+                    appearance
+                    for appearance in source_artist["appearances"]
+                    if appearance["festivalId"] == "lollapalooza-2026"
+                ),
+                key=lambda appearance: parse_appearance_time(
+                    appearance["date"],
+                    appearance["startTime"],
+                    year=2026,
+                    timezone="America/Chicago",
+                ),
+            )
+            expected_billing_tiers = {
+                BILLING_TIERS[appearance["billingTier"]]
+                for appearance in source_appearances
+            }
+            record_mismatch(
+                mismatches,
+                artist_slug=artist_slug,
+                field="festival_context.billing_tier",
+                actual=festival_artist.festival_context.billing_tier,
+                expected=next(iter(expected_billing_tiers)),
+            )
+            expected_appearances = [
+                (
+                    "scheduled",
+                    appearance["stage"],
+                    parse_appearance_time(
+                        appearance["date"],
+                        appearance["startTime"],
+                        year=2026,
+                        timezone="America/Chicago",
+                    ),
+                    parse_appearance_time(
+                        appearance["date"],
+                        appearance["endTime"],
+                        year=2026,
+                        timezone="America/Chicago",
+                    ),
+                    None,
+                )
+                for appearance in source_appearances
+            ]
+            actual_appearances = [
+                (
+                    appearance.status,
+                    appearance.stage.name,
+                    appearance.starts_at,
+                    appearance.ends_at,
+                    appearance.cancellation_reason,
+                )
+                for appearance in festival_artist.festival_context.appearances
+            ]
+            record_mismatch(
+                mismatches,
+                artist_slug=artist_slug,
+                field="festival_context.appearances",
+                actual=actual_appearances,
+                expected=expected_appearances,
+            )
+
+            source_recommendations = (
+                source_artist["similarArtists"]
+                if source_artist.get("similarArtistsVerified") is True
+                else []
+            )
+            target_sources = [
+                source_by_slug[recommendation["slug"]]
+                for recommendation in source_recommendations
+            ]
+            recommendation_set_is_public = bool(
+                len(target_sources) == 4
+                and all(
+                    source_artist_is_publication_ready(target)
+                    for target in target_sources
+                )
+            )
+            expected_similar_artists = (
+                [
+                    (
+                        target["slug"],
+                        target["name"],
+                        display_order,
+                        (
+                            target.get("imageUrl")
+                            if target.get("imageVerified") is True
+                            else None
+                        ),
+                        target["genres"],
+                    )
+                    for display_order, target in enumerate(target_sources, start=1)
+                ]
+                if recommendation_set_is_public
+                else []
+            )
+            actual_similar_artists = [
+                (
+                    target.slug,
+                    target.name,
+                    target.display_order,
+                    target.image.url if target.image is not None else None,
+                    [genre.name for genre in target.genres],
+                )
+                for target in festival_artist.festival_context.similar_artists
+            ]
+            record_mismatch(
+                mismatches,
+                artist_slug=artist_slug,
+                field="festival_context.similar_artists",
+                actual=actual_similar_artists,
+                expected=expected_similar_artists,
+            )
+
             identity_expectations = {
                 "slug": source_artist["slug"],
                 "name": source_artist["name"],
@@ -269,6 +404,68 @@ def test_all_published_artist_cores_match_typescript_source(
                 field="spotify_artist_id",
                 actual=api_artist.spotify_artist_id,
                 expected=expected_spotify_id,
+            )
+            expected_spotify_url = (
+                f"https://open.spotify.com/artist/{expected_spotify_id}"
+                if expected_spotify_id is not None
+                else None
+            )
+            socials_are_verified = source_artist.get("socialsVerified") is True
+            direct_content_expectations = {
+                "about": (
+                    source_artist.get("about")
+                    if source_artist.get("aboutVerified") is True
+                    else None
+                ),
+                "socials.spotify_url": expected_spotify_url,
+                "socials.youtube_url": (
+                    source_artist["socials"].get("youtube")
+                    if socials_are_verified
+                    else None
+                ),
+                "socials.tiktok_url": (
+                    source_artist["socials"].get("tiktok")
+                    if socials_are_verified
+                    else None
+                ),
+            }
+            direct_content_actuals = {
+                "about": api_artist.about,
+                "socials.spotify_url": api_artist.socials.spotify_url,
+                "socials.youtube_url": api_artist.socials.youtube_url,
+                "socials.tiktok_url": api_artist.socials.tiktok_url,
+            }
+            for field, expected in direct_content_expectations.items():
+                record_mismatch(
+                    mismatches,
+                    artist_slug=artist_slug,
+                    field=field,
+                    actual=direct_content_actuals[field],
+                    expected=expected,
+                )
+
+            expected_featured_video = (
+                (
+                    source_artist["liveVideoId"],
+                    source_artist["liveVideoLabel"],
+                )
+                if source_artist.get("liveVideoId") is not None
+                else None
+            )
+            actual_featured_video = (
+                (
+                    api_artist.featured_video.youtube_video_id,
+                    api_artist.featured_video.label,
+                )
+                if api_artist.featured_video is not None
+                else None
+            )
+            record_mismatch(
+                mismatches,
+                artist_slug=artist_slug,
+                field="featured_video",
+                actual=actual_featured_video,
+                expected=expected_featured_video,
             )
 
             image_is_approved = source_artist.get("imageVerified") is True

@@ -559,12 +559,20 @@ is inserted, updated, or deleted. That deliberate propagation protects verificat
 even for raw SQL writes and also causes the PostgreSQL-owned parent `updated_at` to
 refresh.
 
-Backend review validation owns the contextual rules. Both source and target artists
-must have announced LineupEntries in the exact FestivalRun;
-an artist cannot recommend itself; and a set can be verified only with exactly four
-entries or intentionally zero. The database trigger automatically invalidates the
-set after adding, removing, replacing, or reordering an entry. Public APIs expose
-only verified, nonempty sets.
+Backend review validation owns the contextual rules. Both source and target Artists
+must be published and have announced LineupEntries in the exact FestivalRun before
+the heuristic is run; an Artist cannot recommend itself; and a set can be verified
+only with exactly four entries or intentionally zero. The database trigger
+automatically invalidates the set after adding, removing, replacing, or reordering an
+entry.
+
+Public APIs expose a verified, nonempty set only while all four targets remain
+published and announced in that run. If any target is unavailable, the API returns
+no recommendations rather than silently shrinking the reviewed set. Unpublishing a
+target does not clear `verified_at`: publication availability and editorial
+correctness are separate facts, so republishing may restore the unchanged set. A
+lineup departure still clears verification because it violates the recommendation's
+run-scoped editorial premise.
 
 Deleting a source Artist cascades through that Artist's owned SimilarArtistSet rows.
 Deleting an Artist that is referenced as a target by another source is restricted;
@@ -576,8 +584,10 @@ The four-artist editorial heuristic deliberately mixes matching dimensions such 
 sound/genre, scene/scale, and thematic parallels; includes at least one bigger-name
 act and one smaller or rising act; and treats ordering as intentional. Those
 dimensions and review rationale are documented curation guidance rather than forced
-database classifications for now. Mutual/symmetric graph semantics and richer
-relationship metadata are deferred until a concrete graph feature requires them.
+database classifications for now. It runs after the eligible run lineup has been
+published, preventing new reviewed sets from pointing at incomplete Artist
+destinations. Mutual/symmetric graph semantics and richer relationship metadata are
+deferred until a concrete graph feature requires them.
 
 Because same-run announced membership is a hard eligibility rule, a database trigger
 also invalidates affected sets when a source or target LineupEntry leaves the
@@ -762,6 +772,12 @@ earliest FestivalDay as the tie-breaker—rather than persisted.
 
 Schedule changes update the stable Appearance row. Moving or shortening a set edits
 its day/stage/timestamps; cancellation changes its status and retains the record.
+The auto-generated integer `Appearance.id` is the sole persisted identity and may be
+returned by the API. A separate public ID is deferred: the imported legacy IDs are
+only unique within an Artist, and maintaining a second operational identifier would
+add drift risk without a current requirement. Normal migrations, backup, and restore
+preserve primary keys. A deliberately destructive rebuild may generate different IDs
+and can require a one-time saved-schedule reset or migration.
 
 Appearance references to FestivalDay and Stage use deferrable, initially deferred
 `NO ACTION` foreign keys. Deleting a referenced Day or Stage directly still fails at
@@ -852,6 +868,12 @@ records rather than assuming the TypeScript shape was migration-ready.
 - no Artist or Stage schedule overlaps were detected;
 - Spotify artist IDs and YouTube video IDs have no duplicates; and
 - both curated Listen First overrides contain exactly three identified tracks.
+
+The later publication rollout exposed a transitional legacy mismatch: among verified
+sets owned by the 126 currently published Artists, 119 recommendation entries target
+one of the remaining 45 draft Artists. These sets predate the published-target
+heuristic. They remain stored and verified but must be hidden as complete sets until
+all four targets are published; they are not partially truncated.
 
 ### Required cleanup or staged publication
 
@@ -974,12 +996,13 @@ artist have one.
 | Video deletion | Deleting an Artist removes its ArtistVideo rows | Yes |  |  | Artist-owned dependent content |
 | Similar Artist set | One set exists at most per source Artist and FestivalRun | Yes |  |  | Composite unique constraint |
 | Similar Artist entry | A target and display position from 1–4 are each unique within a set | Yes |  |  | Composite primary key, bounded order, and scoped order uniqueness |
-| Similar Artist entry | Source and every target have announced LineupEntries in the same FestivalRun |  | Yes |  | Does not depend on schedule availability |
+| Similar Artist entry | Source and every target are published and have announced LineupEntries in the same FestivalRun before curation |  | Yes |  | Heuristic runs after eligible Artists are published; does not depend on schedule availability |
 | Similar Artist entry | An Artist cannot recommend itself |  | Yes |  | Source lives on the parent set, so validate contextually |
 | Similar Artist review | Only sets with exactly four entries or intentionally zero can be verified |  | Yes |  | Zero preserves the reviewed-empty CYSO case |
 | Similar Artist review | Entry insert/update/delete clears parent-set verification | Yes |  |  | Child trigger updates the parent, whose timestamp trigger refreshes `updated_at` |
-| Similar Artist API | Only verified, nonempty sets are exposed publicly |  | Yes |  | Empty verified set remains distinguishable for administration |
-| Similar Artist heuristic | Four picks mix matching dimensions and artist scale |  | Yes |  | Editorial review rule; richer edge metadata deferred |
+| Similar Artist API | Only verified sets with exactly four currently published, same-run announced targets are exposed |  | Yes |  | Return all four or none; empty verified set remains distinguishable for administration |
+| Similar Artist publication gate | Unpublishing any target hides the complete set without clearing `verified_at` |  | Yes |  | Availability differs from editorial correctness; never partially filter |
+| Similar Artist heuristic | After eligible Artists are published, four picks mix matching dimensions and artist scale |  | Yes |  | Editorial review rule; richer edge metadata deferred |
 | LineupEntry | An Artist appears at most once in a FestivalRun lineup | Yes |  |  | Unique `festival_run_id`/`artist_id` pair |
 | LineupEntry | Status is `draft`, `announced`, or `withdrawn` | Yes |  |  | Real withdrawal is retained rather than deleted |
 | LineupEntry | Billing tier is null or a supported value | Yes |  |  | Run-level prominence, independent of schedule publication |
@@ -991,6 +1014,7 @@ artist have one.
 | Stage | Slug, name, and display order are unique within a FestivalEdition | Yes |  |  | Display order is positive |
 | Stage | A referenced Stage is protected from ordinary deletion | Yes | Yes |  | Rename or update instead of silently destroying schedule data |
 | Appearance | Status is `draft`, `scheduled`, or `cancelled` | Yes |  |  | Cancellation is retained as a domain event |
+| Appearance | Internal primary key is the current API/frontend identity | Yes |  |  | Revisit a separate immutable public ID only for cross-rebuild or externally addressable identity |
 | Appearance | Cancellation time/reason exist only for cancelled rows | Yes | Yes |  | Transition records when cancellation became known |
 | Appearance | End timestamp is later than start timestamp | Yes |  |  | Supports duration and conflict calculations |
 | Appearance | LineupEntry and FestivalDay belong to the same FestivalRun |  | Yes |  | Contextual cross-table validation |
@@ -1080,6 +1104,15 @@ The following records the completed implementation boundary:
   ordering, and real PostgreSQL query coverage.
 - [x] Verify semantic parity for every artist-core field and the exact 126-Artist
   published set against the retained TypeScript source boundary.
+- [x] Expand the public Artist projection with verified About, independently derived
+  Spotify linking, verified YouTube/TikTok links, and the featured available video;
+  verify visibility gates and full-source parity.
+- [x] Add the explicit FestivalEdition/FestivalRun-scoped Artist read boundary with
+  announced billing, timezone-localized scheduled/cancelled Appearances, valid empty
+  schedules, and complete imported-source parity.
+- [x] Expose verified Similar Artist sets through that run-scoped boundary only when
+  all four canonical targets remain published and announced; return four or none,
+  preserve `verified_at` on unpublication, and verify all-source parity.
 
 ## Remaining implementation sequence
 
@@ -1088,8 +1121,8 @@ tracked in the [backend rollout roadmap](../roadmap/backend-rollout.md).
 
 1. Keep validating and normalizing source exceptions without deleting the TypeScript
    source of truth.
-2. Expand artist-domain read APIs incrementally beyond the verified artist-core
-   boundary, returning published Artists only.
+2. Expand artist-domain read APIs incrementally beyond the verified core and direct
+   Artist-content boundary, returning published Artists only.
 3. Move frontend consumers only after API parity is verified.
 
 These remaining layers may justify small schema corrections discovered from real

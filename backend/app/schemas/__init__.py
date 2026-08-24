@@ -1,4 +1,4 @@
-from app.schemas.artist import ArtistCoreRead
+from app.schemas.artist import ArtistCoreRead, FestivalArtistRead
 from app.schemas.festival import (
     FestivalDayRead,
     FestivalEditionRead,
@@ -8,6 +8,7 @@ from app.schemas.festival import (
 
 __all__ = [
     "ArtistCoreRead",
+    "FestivalArtistRead",
     "FestivalSeriesRead",
     "FestivalEditionRead",
     "FestivalRunRead",
