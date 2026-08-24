@@ -14,11 +14,33 @@ import subprocess
 import sys
 import unicodedata
 from collections import Counter
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
+
+from sqlalchemy import func, select
+from sqlalchemy.orm import Session
+
+from app.database import SessionLocal
+from app.models import (
+    Appearance,
+    Artist,
+    ArtistGenre,
+    ArtistTrackSelection,
+    ArtistVideo,
+    FestivalDay,
+    FestivalEdition,
+    FestivalRun,
+    Genre,
+    GenreFamily,
+    LineupEntry,
+    SimilarArtist,
+    SimilarArtistSet,
+    Stage,
+    Track,
+)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 EXPORT_SCRIPT = PROJECT_ROOT / "scripts" / "export-artist-data.ts"
@@ -407,16 +429,308 @@ def validate_and_summarize(source: dict[str, Any]) -> tuple[dict[str, int], list
     return dict(counts), errors
 
 
+def require_empty_import_target(session: Session) -> None:
+    """Refuse to merge an initial snapshot into partially populated domain tables."""
+    guarded_models = (Artist, GenreFamily, Genre, Track)
+    populated = [
+        model.__tablename__
+        for model in guarded_models
+        if session.scalar(select(func.count()).select_from(model))
+    ]
+    if populated:
+        raise RuntimeError(
+            "initial artist import requires empty domain tables; populated: "
+            + ", ".join(populated)
+        )
+
+
+def import_source(
+    session: Session, source: dict[str, Any], *, imported_at: datetime
+) -> dict[str, int]:
+    """Create the validated snapshot in the current transaction without committing."""
+    require_empty_import_target(session)
+    counts: Counter[str] = Counter()
+
+    family_by_name: dict[str, GenreFamily] = {}
+    genre_by_name: dict[str, Genre] = {}
+    for family_order, (family_name, genre_names) in enumerate(
+        source["genreFamilies"].items(), start=1
+    ):
+        family = GenreFamily(
+            slug=generate_lookup_slug(family_name),
+            name=family_name,
+            display_order=family_order,
+        )
+        family_by_name[family_name] = family
+        counts["genre_families"] += 1
+        for genre_name in genre_names:
+            genre = Genre(
+                family=family,
+                slug=generate_lookup_slug(genre_name),
+                name=genre_name,
+            )
+            genre_by_name[genre_name] = genre
+            counts["genres"] += 1
+    session.add_all(family_by_name.values())
+
+    run_by_festival_slug: dict[str, FestivalRun] = {}
+    day_by_festival_and_date: dict[tuple[str, object], FestivalDay] = {}
+    stage_by_festival_and_name: dict[tuple[str, str], Stage] = {}
+    for festival_slug, festival_config in FESTIVAL_CONFIG.items():
+        edition = session.scalar(
+            select(FestivalEdition).where(FestivalEdition.slug == festival_slug)
+        )
+        if edition is None:
+            raise RuntimeError(
+                f"festival edition {festival_slug!r} is not seeded; run seed_festival first"
+            )
+        run = session.scalar(
+            select(FestivalRun).where(
+                FestivalRun.festival_edition_id == edition.id,
+                FestivalRun.slug == festival_config["run_slug"],
+            )
+        )
+        if run is None:
+            raise RuntimeError(
+                f"festival run {festival_config['run_slug']!r} is not seeded for "
+                f"{festival_slug!r}"
+            )
+        run_by_festival_slug[festival_slug] = run
+        for day in session.scalars(
+            select(FestivalDay).where(FestivalDay.festival_run_id == run.id)
+        ):
+            day_by_festival_and_date[(festival_slug, day.date)] = day
+
+        existing_stages = list(
+            session.scalars(
+                select(Stage).where(Stage.festival_edition_id == edition.id)
+            )
+        )
+        if existing_stages:
+            raise RuntimeError(
+                f"initial artist import requires no existing stages for {festival_slug!r}"
+            )
+        for display_order, stage_name in enumerate(
+            source["festivals"][festival_slug]["stages"], start=1
+        ):
+            stage = Stage(
+                festival_edition=edition,
+                slug=generate_lookup_slug(stage_name),
+                name=stage_name,
+                display_order=display_order,
+            )
+            stage_by_festival_and_name[(festival_slug, stage_name)] = stage
+            counts["stages"] += 1
+        session.add_all(stage_by_festival_and_name.values())
+
+    artist_by_slug: dict[str, Artist] = {}
+    source_artist_by_slug = {artist["slug"]: artist for artist in source["artists"]}
+    for source_artist in source["artists"]:
+        socials = source_artist["socials"]
+        credit = source_artist.get("imageCredit") or {}
+        image_is_approved = bool(source_artist.get("imageVerified"))
+        artist = Artist(
+            slug=source_artist["slug"],
+            name=source_artist["name"],
+            spotify_artist_id=parse_spotify_artist_id(socials.get("spotify")),
+            image_url=source_artist.get("imageUrl") if image_is_approved else None,
+            image_focal_y_percent=(
+                parse_focal_y(source_artist.get("objectPosition"))
+                if image_is_approved
+                else None
+            ),
+            image_credit_author=credit.get("author") if image_is_approved else None,
+            image_source_url=credit.get("sourceUrl") if image_is_approved else None,
+            image_license_url=credit.get("licenseUrl") if image_is_approved else None,
+            location_city=source_artist["location"]["city"],
+            location_state=source_artist["location"].get("state"),
+            location_country=source_artist["location"]["country"],
+            about=source_artist.get("about"),
+            about_verified_at=(
+                imported_at if source_artist.get("aboutVerified") else None
+            ),
+            youtube_url=socials.get("youtube"),
+            tiktok_url=socials.get("tiktok"),
+            socials_verified=bool(source_artist.get("socialsVerified")),
+            listen_first_note=(source_artist.get("listenFirst") or {}).get("note"),
+            publication_status="draft",
+        )
+        for display_order, genre_name in enumerate(source_artist["genres"], start=1):
+            artist.genre_assignments.append(
+                ArtistGenre(
+                    genre=genre_by_name[genre_name],
+                    display_order=display_order,
+                    is_primary=display_order == 1,
+                )
+            )
+            counts["artist_genres"] += 1
+        artist_by_slug[source_artist["slug"]] = artist
+        counts["artists"] += 1
+    session.add_all(artist_by_slug.values())
+    session.flush()
+
+    track_by_spotify_id: dict[str, Track] = {}
+    similarity_sets_to_verify: list[SimilarArtistSet] = []
+
+    for artist_slug, source_artist in source_artist_by_slug.items():
+        artist = artist_by_slug[artist_slug]
+        tracks = source_artist["tracks"]
+        quick_pick_id = tracks[0].get("spotifyId") if tracks else None
+        selected_tracks: dict[str, dict[str, Any]] = {}
+        if quick_pick_id:
+            selected_tracks[quick_pick_id] = {
+                "track": tracks[0],
+                "is_quick_picks": True,
+                "listen_first_order": None,
+            }
+        if source_artist.get("listenFirst"):
+            identified_tracks = [track for track in tracks if track.get("spotifyId")]
+            for listen_order, source_track in enumerate(identified_tracks, start=1):
+                spotify_track_id = source_track["spotifyId"]
+                selection = selected_tracks.setdefault(
+                    spotify_track_id,
+                    {
+                        "track": source_track,
+                        "is_quick_picks": False,
+                        "listen_first_order": None,
+                    },
+                )
+                selection["listen_first_order"] = listen_order
+
+        for spotify_track_id, selection in selected_tracks.items():
+            track = track_by_spotify_id.get(spotify_track_id)
+            if track is None:
+                track = Track(
+                    spotify_track_id=spotify_track_id,
+                    name=selection["track"]["name"],
+                )
+                track_by_spotify_id[spotify_track_id] = track
+            artist.track_selections.append(
+                ArtistTrackSelection(
+                    track=track,
+                    is_quick_picks=selection["is_quick_picks"],
+                    listen_first_order=selection["listen_first_order"],
+                )
+            )
+            counts["track_selections"] += 1
+
+        video_id = source_artist.get("liveVideoId")
+        if video_id:
+            artist.videos.append(
+                ArtistVideo(
+                    youtube_video_id=video_id,
+                    label=source_artist["liveVideoLabel"],
+                    is_featured=True,
+                    display_order=1,
+                    is_available=True,
+                    last_checked_at=imported_at,
+                )
+            )
+            counts["artist_videos"] += 1
+
+        appearances_by_festival: dict[str, list[dict[str, Any]]] = {}
+        for appearance in source_artist["appearances"]:
+            appearances_by_festival.setdefault(appearance["festivalId"], []).append(
+                appearance
+            )
+        for festival_slug, appearances in appearances_by_festival.items():
+            billing_tiers = {appearance["billingTier"] for appearance in appearances}
+            if len(billing_tiers) != 1:
+                raise RuntimeError(
+                    f"{artist_slug}: appearances disagree on lineup billing tier"
+                )
+            lineup_entry = LineupEntry(
+                festival_run=run_by_festival_slug[festival_slug],
+                artist=artist,
+                lineup_status="announced",
+                billing_tier=BILLING_TIERS[billing_tiers.pop()],
+                announced_at=None,
+            )
+            counts["lineup_entries"] += 1
+            for appearance in appearances:
+                config = FESTIVAL_CONFIG[festival_slug]
+                starts_at = parse_appearance_time(
+                    appearance["date"],
+                    appearance["startTime"],
+                    year=config["year"],
+                    timezone=config["timezone"],
+                )
+                ends_at = parse_appearance_time(
+                    appearance["date"],
+                    appearance["endTime"],
+                    year=config["year"],
+                    timezone=config["timezone"],
+                )
+                festival_day = day_by_festival_and_date.get(
+                    (festival_slug, starts_at.date())
+                )
+                if festival_day is None:
+                    raise RuntimeError(
+                        f"{artist_slug}: no seeded FestivalDay for {starts_at.date()}"
+                    )
+                lineup_entry.appearances.append(
+                    Appearance(
+                        festival_day=festival_day,
+                        stage=stage_by_festival_and_name[
+                            (festival_slug, appearance["stage"])
+                        ],
+                        starts_at=starts_at,
+                        ends_at=ends_at,
+                        appearance_status="scheduled",
+                    )
+                )
+                counts["appearances"] += 1
+            session.add(lineup_entry)
+    counts["tracks"] = len(track_by_spotify_id)
+    session.flush()
+
+    for artist_slug, source_artist in source_artist_by_slug.items():
+        if not source_artist.get("similarArtistsVerified"):
+            continue
+        appearances = source_artist["appearances"]
+        festival_slugs = {appearance["festivalId"] for appearance in appearances}
+        for festival_slug in festival_slugs:
+            similarity_set = SimilarArtistSet(
+                festival_run=run_by_festival_slug[festival_slug],
+                source_artist=artist_by_slug[artist_slug],
+                verified_at=None,
+            )
+            for display_order, target in enumerate(
+                source_artist["similarArtists"], start=1
+            ):
+                similarity_set.entries.append(
+                    SimilarArtist(
+                        target_artist=artist_by_slug[target["slug"]],
+                        display_order=display_order,
+                    )
+                )
+                counts["similar_artists"] += 1
+            session.add(similarity_set)
+            similarity_sets_to_verify.append(similarity_set)
+            counts["similar_artist_sets"] += 1
+    session.flush()
+
+    # Entry triggers clear verification, so verification is intentionally the last
+    # similarity-set write after all entries and announced lineups exist.
+    for similarity_set in similarity_sets_to_verify:
+        similarity_set.verified_at = imported_at
+    session.flush()
+
+    return dict(counts)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--dry-run",
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument(
+        "--dry-run", action="store_true", help="validate and report without writing"
+    )
+    mode.add_argument(
+        "--apply",
         action="store_true",
-        help="validate and report without writing (currently the only supported mode)",
+        help="write the validated initial snapshot in one PostgreSQL transaction",
     )
     args = parser.parse_args()
-    if not args.dry_run:
-        parser.error("database writes are not implemented; pass --dry-run")
 
     try:
         source = export_source()
@@ -436,7 +750,25 @@ def main() -> int:
             print(f"- {error}", file=sys.stderr)
         return 1
 
-    print("\nValidation passed. No database changes were made.")
+    if args.dry_run:
+        print("\nValidation passed. No database changes were made.")
+        return 0
+
+    try:
+        with SessionLocal() as session, session.begin():
+            imported_counts = import_source(
+                session,
+                source,
+                imported_at=datetime.now(UTC),
+            )
+        print("\nImport committed successfully:")
+        label_width = max(len(name.replace("_", " ")) for name in imported_counts)
+        for name in sorted(imported_counts):
+            print(f"{name.replace('_', ' '):<{label_width}} {imported_counts[name]:>4}")
+    except Exception as error:
+        print(f"\nImport rolled back: {error}", file=sys.stderr)
+        return 1
+
     return 0
 
 

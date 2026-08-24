@@ -1,12 +1,16 @@
 import os
 from collections.abc import Iterator
+from datetime import UTC, datetime
 from uuid import uuid4
 
 import pytest
-from sqlalchemy import Connection, text
+from sqlalchemy import Connection, func, select, text
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
 
 from app.database import engine
+from app.models import Artist, SimilarArtistSet
+from scripts.import_artists import export_source, import_source, validate_and_summarize
 
 pytestmark = [
     pytest.mark.postgres,
@@ -154,6 +158,70 @@ def create_festival_aggregate(connection: Connection, label: str) -> dict[str, i
         "day_id": day_id,
         "stage_id": stage_id,
     }
+
+
+def clear_artist_import_domain(connection: Connection) -> None:
+    """Clear import-owned rows inside the test transaction; fixture rollback restores them."""
+    connection.execute(text("DELETE FROM similar_artist_sets"))
+    connection.execute(text("DELETE FROM artists"))
+    connection.execute(text("DELETE FROM tracks"))
+    connection.execute(text("DELETE FROM genres"))
+    connection.execute(text("DELETE FROM genre_families"))
+    connection.execute(text("DELETE FROM stages"))
+
+
+def test_complete_artist_snapshot_imports_in_one_transaction(
+    connection: Connection,
+) -> None:
+    clear_artist_import_domain(connection)
+    source = export_source()
+    expected_counts, errors = validate_and_summarize(source)
+    assert errors == []
+
+    imported_at = datetime(2026, 8, 23, 12, tzinfo=UTC)
+    with (
+        Session(
+            bind=connection,
+            join_transaction_mode="create_savepoint",
+        ) as session,
+        session.begin(),
+    ):
+        imported_counts = import_source(session, source, imported_at=imported_at)
+
+        assert imported_counts["artists"] == expected_counts["artists"]
+        assert imported_counts["appearances"] == expected_counts["appearances"]
+        assert imported_counts["similar_artists"] == expected_counts["similar_artists"]
+        assert session.scalar(select(func.count()).select_from(Artist)) == 171
+        assert (
+            session.scalar(
+                select(func.count())
+                .select_from(Artist)
+                .where(Artist.publication_status == "draft")
+            )
+            == 171
+        )
+
+        curated_artists = dict(
+            session.execute(
+                select(Artist.slug, Artist.name).where(
+                    Artist.slug.in_(["5sos", "cyso", "adela"])
+                )
+            ).all()
+        )
+        assert curated_artists == {
+            "5sos": "5 Seconds of Summer",
+            "cyso": "Chicago Youth Symphony Orchestra",
+            "adela": "ADÉLA",
+        }
+
+        cyso_set = session.scalar(
+            select(SimilarArtistSet)
+            .join(SimilarArtistSet.source_artist)
+            .where(Artist.slug == "cyso")
+        )
+        assert cyso_set is not None
+        assert cyso_set.verified_at == imported_at
+        assert cyso_set.entries == []
 
 
 def test_all_new_timestamped_tables_have_update_triggers(

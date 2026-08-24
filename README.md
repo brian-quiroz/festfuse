@@ -144,6 +144,8 @@ For deeper implementation notes and design decisions, see [ARCHITECTURE.md](ARCH
 
 ## Tech Stack
 
+**Frontend**
+
 - [Next.js 16](https://nextjs.org/)
 - [React 19](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
@@ -152,6 +154,21 @@ For deeper implementation notes and design decisions, see [ARCHITECTURE.md](ARCH
 - [Motion](https://motion.dev/)
 - [Vercel Analytics](https://vercel.com/docs/analytics)
 - Spotify and YouTube embeds
+
+**Backend and data**
+
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [SQLAlchemy 2](https://www.sqlalchemy.org/)
+- [Psycopg 3](https://www.psycopg.org/psycopg3/)
+- [Alembic](https://alembic.sqlalchemy.org/) migrations
+- Transactional TypeScript-to-PostgreSQL data import
+
+**Testing and quality**
+
+- [pytest](https://docs.pytest.org/) route and PostgreSQL integration tests
+- [Ruff](https://docs.astral.sh/ruff/) Python linting and formatting
+- ESLint and Prettier
 
 ## Getting Started
 
@@ -190,12 +207,15 @@ PostgreSQL integration tests are documented in the
 
 ## Current Scope and Roadmap
 
-FestFuse is currently a frontend MVP centered on one festival, with artist and schedule data stored in typed source files. The next major iteration will focus on:
+FestFuse is currently a frontend MVP centered on one festival. The frontend still
+reads typed source files while the FastAPI/PostgreSQL backend now contains the
+validated, normalized initial festival and artist snapshot. The next major iteration
+will focus on:
 
 - Supporting multiple festivals
-- Importing current festival and artist data into the implemented database schema
 - Expanding backend APIs and moving frontend consumers after parity is verified
-- Creating a faster, source-verifiable data import workflow
+- Adding explicit artist publication validation and a maintainable, source-verifiable
+  update workflow
 - Expanding frontend and backend automated test coverage
 - Continuing accessibility and performance improvements
 

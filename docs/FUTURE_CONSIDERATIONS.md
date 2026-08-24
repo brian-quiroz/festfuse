@@ -177,6 +177,47 @@ exists yet; revisit alongside standing up frontend testing generally, post-MVP.
 
 ---
 
+## Future Consideration: Reproducible Backend Bootstrap From a Clean Clone
+
+The committed database tooling now has distinct responsibilities: Alembic migrations
+recreate structure, `scripts.seed_festival` idempotently creates the foundational
+festival hierarchy, and `scripts.import_artists` performs a guarded one-time import of
+the validated TypeScript artist snapshot. Keeping the initial importer is valuable
+even though it intentionally refuses a populated target: it records provenance,
+supports rebuilding development/staging data, and makes the normalization process
+auditable instead of relying on manual pgAdmin edits.
+
+The pieces have been tested individually and the complete importer has run against a
+real migrated PostgreSQL schema, but a new contributor cannot yet rely on one fully
+documented and automatically verified clean-clone path. The root README documents only
+frontend startup, no safe `.env.example` exists, and no test currently creates a brand-
+new disposable database and proves the entire sequence from migration zero through the
+final imported counts.
+
+**Desired bootstrap order:** install frontend dependencies (the exporter requires
+`tsx`), create the backend virtual environment and install `requirements-dev.txt`,
+create/configure PostgreSQL, run `alembic upgrade head`, run
+`python -m scripts.seed_festival`, validate with
+`python -m scripts.import_artists --dry-run`, and finally run
+`python -m scripts.import_artists --apply`.
+
+**Completion criteria:**
+
+- add a backend setup section with exact working-directory assumptions and commands;
+- commit a credential-free `.env.example` containing every required setting;
+- add an isolated clean-database smoke test that applies every migration, runs the
+  festival seed and artist importer, and verifies canonical row totals/relationships;
+- ensure cleanup cannot target or mutate a developer's normal database; and
+- optionally add one convenience command that orchestrates the existing steps without
+  duplicating migration, seed, or importer logic.
+
+Do not describe the backend as fully reproducible from a clean clone until that smoke
+test passes. The festival seed may remain idempotent, while the artist importer should
+remain a guarded initial-snapshot operation; ordinary updates belong to APIs or a
+purpose-built synchronization workflow rather than rerunning the bootstrap importer.
+
+---
+
 ## Future Consideration: Footer Links
 
 `app/components/Footer.tsx` currently renders two static text lines (attribution + disclaimer) with no links. About/Feedback/Privacy/data-attribution pages were considered as footer destinations, but explicitly deferred — none of those destinations exist yet, and building placeholder pages just to have somewhere for the footer to point would be scope creep ahead of the actual need.

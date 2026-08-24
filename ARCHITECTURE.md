@@ -316,9 +316,9 @@ export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
 };
 ```
 
-Until a frontend flow is migrated to the API, its TypeScript data remains the
-runtime source of truth. The PostgreSQL models described below are the target
-persistence model, not yet a replacement data source for the UI.
+Until a frontend flow is migrated to the API, its TypeScript data remains the runtime
+source of truth. PostgreSQL now contains the validated, normalized initial snapshot
+described below, but it is not yet the data source for the UI.
 
 ---
 
@@ -411,9 +411,14 @@ FestivalRun + source Artist ─── SimilarArtistSet ─── SimilarArtist e
 - Image metadata cannot exist without the canonical `image_url`, while an Artist may
   validly have no image at all.
 
-Initial application data is created through committed, rerunnable seed/import
-scripts rather than embedded in schema migrations. Alembic owns structure; seed and
-import workflows own application records. The hierarchy migration's Lollapalooza
+Initial application data is created through committed seed/import scripts rather
+than embedded in schema migrations. Alembic owns structure; seed and import workflows
+own application records. The festival seed is idempotent. The artist importer is a
+guarded initial-snapshot operation: a TypeScript serializer emits versioned JSON,
+Python validates and normalizes it, and one PostgreSQL transaction creates the full
+graph or rolls everything back. It intentionally refuses to merge into populated
+artist/taxonomy/track or edition-stage tables; routine updates belong to future API or
+purpose-built synchronization workflows. The hierarchy migration's Lollapalooza
 series insertion is a one-time backfill required to preserve an already-seeded
 edition while transforming the existing table in place.
 

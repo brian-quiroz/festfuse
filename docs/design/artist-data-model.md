@@ -1,6 +1,6 @@
 # Artist Data Model Design
 
-- **Status:** Schema implemented; data import and API expansion pending
+- **Status:** Schema and initial data import complete; API expansion pending
 - **Started:** 2026-08-23
 - **Implemented by:** Alembic revision `7cee3ac4be86`
 - **Scope:** PostgreSQL persistence for artists and the data needed to support the
@@ -8,10 +8,11 @@
 
 ## Purpose
 
-FestFuse currently serves artist data from typed TypeScript source files. This
-document is the detailed reference for the implemented PostgreSQL schema that will
-receive that data without mechanically copying the frontend shape or prematurely
-becoming a general-purpose music knowledge graph.
+FestFuse currently serves frontend artist experiences from typed TypeScript source
+files while PostgreSQL contains the normalized initial snapshot. This document is the
+detailed reference for the implemented schema and import boundary, which persist that
+data without mechanically copying the frontend shape or prematurely becoming a
+general-purpose music knowledge graph.
 
 The model must support the current festival discovery experience while preserving
 reasonable paths toward:
@@ -25,8 +26,8 @@ reasonable paths toward:
 This document owns detailed fields, relationships, constraints, and enforcement-layer
 assignments. `ARCHITECTURE.md` summarizes the current system, while
 [ADR-0004](../decisions/0004-model-artist-curation-and-scheduling.md) preserves the
-major alternatives and tradeoffs. The TypeScript-to-PostgreSQL importer and broader
-artist APIs remain pending and may reveal narrowly scoped follow-up changes.
+major alternatives and tradeoffs. The TypeScript-to-PostgreSQL importer is complete;
+broader artist APIs remain pending and may reveal narrowly scoped follow-up changes.
 
 ## Design principles
 
@@ -793,9 +794,9 @@ storage. Accent-insensitive search and locale-aware ordering should be designed 
 server-side artist search is implemented, potentially using ICU collation,
 PostgreSQL `unaccent`, or a normalized search value.
 
-## Migration boundary
+## Initial import boundary
 
-### Migrate in backend v1
+### Imported in backend v1
 
 - recurring FestivalSeries and dated FestivalEditions;
 - artist identity and publication state;
@@ -826,7 +827,7 @@ PostgreSQL `unaccent`, or a normalized search value.
 - appearance-level embargoes, scheduled release, and approval workflow beyond the
   initial status field.
 
-## Import-readiness review
+## Import validation and result
 
 The final design review executed the accepted rules against all 171 legacy Artist
 records rather than assuming the TypeScript shape was migration-ready.
@@ -861,11 +862,11 @@ records rather than assuming the TypeScript shape was migration-ready.
 | The Chainsmokers repeats one Spotify track in a dormant extra array position | Ignore it because v1 migrates only the explicit Quick Picks selection and curated Listen First selections, not every legacy track |
 
 Under the accepted publication rules and after the explicit aespa Genre cleanup, 126
-of 171 Artists are currently ready and 45 are not. Initial import should create every
-Artist as `draft`, preserve all real announced LineupEntries and scheduled
-Appearances, run the validator, then explicitly publish only the passing Artists. The
-TypeScript source remains the live frontend source until API parity is verified, so
-staged database publication does not remove current UI coverage.
+of 171 Artists are currently ready and 45 are not. The initial import created every
+Artist as `draft` and preserved all real announced LineupEntries and scheduled
+Appearances. Publishing the passing Artists remains an explicit follow-up operation.
+The TypeScript source remains the live frontend source until API parity is verified,
+so staged database publication does not remove current UI coverage.
 
 ### Historical timestamp and gate backfill
 
@@ -882,8 +883,12 @@ staged database publication does not remove current UI coverage.
   FestivalEdition IANA timezone to produce `starts_at`/`ends_at`; and
 - current data contains no withdrawal, cancellation, or overnight-set backfill case.
 
-The import runs in an isolated transaction, reports every validation failure, and
-does not silently truncate Genres, recommendations, or tracks to satisfy constraints.
+The guarded import completed successfully in one transaction, with 171 Artists, 171
+LineupEntries, 172 Appearances, and all accepted dependent records matching the dry-run
+counts. It reports every validation failure, refuses a partially populated initial
+target, and does not silently truncate Genres, recommendations, or tracks to satisfy
+constraints. A real-PostgreSQL integration test exercises the same complete mapper
+inside a rollback-contained transaction.
 
 ## Enforcement ownership
 
@@ -1013,9 +1018,9 @@ FestivalDay/Stage protection while allowing those aggregate cascades. See the
 [backend testing guide](../../backend/tests/README.md) for test boundaries and
 commands.
 
-### Completed schema checkpoint
+### Completed schema and import checkpoint
 
-The following records the completed implementation boundary before data import:
+The following records the completed implementation boundary:
 
 - [x] Perform a comprehensive model/design/DDL review across both the new artist
   domain and the existing festival hierarchy.
@@ -1061,16 +1066,19 @@ The following records the completed implementation boundary before data import:
   `NO ACTION` while preserving ordinary Day/Stage deletion protection.
 - [x] Reapply the corrected migration and verify aggregate deletion succeeds while
   direct deletion of a referenced FestivalDay or Stage still fails at commit.
+- [x] Add a versioned TypeScript JSON export boundary and runtime validation for all
+  controlled vocabularies, relationships, gates, curated identities, and timestamps.
+- [x] Add a guarded transactional importer, verify the complete snapshot against real
+  PostgreSQL with rollback, and import the snapshot into the persistent local database.
 
 ## Remaining implementation sequence
 
-1. Extend the completed TypeScript export and read-only validation boundary with an
-   isolated, transactional PostgreSQL write phase.
-2. Keep validating and normalizing source exceptions without deleting the TypeScript
+1. Keep validating and normalizing source exceptions without deleting the TypeScript
    source of truth.
-3. Import the current artist, taxonomy, lineup, media, and schedule data.
-4. Expose artist-domain read APIs incrementally.
-5. Move frontend consumers only after API parity is verified.
+2. Implement explicit publication-readiness validation and publish only passing
+   Artists through the application layer.
+3. Expose artist-domain read APIs incrementally.
+4. Move frontend consumers only after API parity is verified.
 
 These remaining layers may justify small schema corrections discovered from real
 source data. They do not reopen accepted ownership or normalization decisions without
