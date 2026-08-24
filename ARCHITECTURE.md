@@ -335,6 +335,14 @@ schema migrations. Environment-specific connection values are loaded from the
 ignored `backend/.env`; committed migration files are the reproducible source of
 truth for database structure.
 
+The initial hosted backend preview runs on Railway as separate FastAPI and managed
+PostgreSQL services connected over Railway's private network. The API is public, but
+the database is not. Railway runs `alembic upgrade head` before deploying a new API
+version; application-data seed, import, and publication workflows remain explicit
+operator actions. See the
+[backend deployment runbook](docs/operations/backend-deployment.md) for the exact
+configuration, bootstrap boundary, and verification procedure.
+
 The API exposes health checks, including a database health check that verifies the
 configured PostgreSQL database, plus `GET /api/v1/festivals/{edition_slug}` and
 `GET /api/v1/artists/{artist_slug}`. The festival endpoint returns the matching
