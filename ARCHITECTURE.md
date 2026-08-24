@@ -331,10 +331,15 @@ ignored `backend/.env`; committed migration files are the reproducible source of
 truth for database structure.
 
 The API exposes health checks, including a database health check that verifies the
-configured PostgreSQL database, plus
-`GET /api/v1/festivals/{edition_slug}`. The festival endpoint returns the matching
-edition with its recurring series, ordered runs, and ordered days. The Next.js
-frontend does not consume festival data from the API yet.
+configured PostgreSQL database, plus `GET /api/v1/festivals/{edition_slug}` and
+`GET /api/v1/artists/{artist_slug}`. The festival endpoint returns the matching
+edition with its recurring series, ordered runs, and ordered days. The artist
+endpoint is a deliberately narrow published-only core representation: public slug
+and identity, approved image metadata, location, ordered genres, the explicit Quick
+Picks track, and semantic Listen First data. Draft and nonexistent Artist slugs both
+return not found. Contextual recommendations, lineup/schedule data, videos, and
+field-gated editorial content remain later API expansions. The Next.js frontend does
+not consume either endpoint yet.
 
 ### Festival hierarchy
 
@@ -400,6 +405,10 @@ FestivalRun + source Artist ─── SimilarArtistSet ─── SimilarArtist e
 - ArtistTrackSelection assigns Quick Picks and/or ordered Listen First roles to a
   canonical Track. PostgreSQL bounds Listen First positions and permits only one
   Quick Picks selection; publication validation owns completeness.
+- The public Artist query owns its publication predicate and eager loading. A typed
+  mapper applies deterministic relationship ordering and rejects a published record
+  that does not have exactly one Quick Picks selection instead of indexing an
+  assumed row.
 - ArtistVideo stores repeatable YouTube performances with explicit featured and
   display-order semantics plus availability history.
 - Similar Artists are directional, ordered, and FestivalRun-scoped. Target deletion

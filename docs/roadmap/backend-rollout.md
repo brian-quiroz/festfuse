@@ -34,11 +34,19 @@ decisions belong in [`../decisions/`](../decisions/).
 
 ### 2. Build the artist read API
 
+**Status: first artist-core slice complete; contextual expansion pending.**
+
 - Add SQLAlchemy queries, Pydantic response schemas, FastAPI routes, and endpoint
-  tests for the first frontend use case.
+  tests for the first stable Artist API boundary.
 - Public routes return published artists only. Draft inspection remains an
   administrative concern.
 - Preserve deterministic ordering for genres, tracks, videos, and similar artists.
+
+The first slice is `GET /api/v1/artists/{slug}`. It returns published Artist identity,
+approved image metadata, location, ordered genres, the selected Quick Picks track,
+and semantic Listen First data. It deliberately excludes editorial verification
+fields, videos, recommendations, lineup membership, and appearances until their
+public and festival-context rules are implemented.
 
 **Checkpoint:** one artist can be read through a stable, documented API response.
 
