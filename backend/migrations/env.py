@@ -2,11 +2,9 @@ from logging.config import fileConfig
 
 from alembic import context
 
-from app.database import Base, database_url, engine
-
 # Importing the models registers their tables in Base.metadata.
-import app.models
-
+import app.models  # noqa: F401
+from app.database import Base, database_url, engine
 
 config = context.config
 

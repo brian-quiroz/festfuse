@@ -1493,7 +1493,6 @@ const mph: Artist = {
   slug: "mph",
   aboutVerified: true,
   similarArtistsVerified: true,
-  socialsVerified: true,
   genres: ["UK Garage", "Bassline", "Bass House"],
   location: { city: "Canterbury", country: "England" },
   tagline:

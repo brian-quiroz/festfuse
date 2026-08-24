@@ -158,11 +158,63 @@ The title/day-tabs/filter-trigger chrome above the grid, plus the app-wide `Mobi
 
 ---
 
-## Future Consideration: Project-Wide Automated Test Coverage
+## Future Consideration: Frontend Automated Test Coverage
 
-No test framework is installed anywhere in this project today — no Jest/Vitest/Testing Library dependency, no `test` script in `package.json`, no `*.test.ts`/`*.spec.ts` files. `verify-story-signals.ts` is a standalone manual verification script (`npm run verify:story`), not part of an automated suite.
+No automated test framework is installed for the Next.js frontend today — no
+Jest/Vitest/Testing Library dependency, no frontend `test` script in `package.json`,
+and no `*.test.ts`/`*.spec.ts` files. `verify-story-signals.ts` is a standalone manual
+verification script (`npm run verify:story`), not part of an automated frontend
+suite. The Python backend separately has pytest route tests and opt-in PostgreSQL
+integration tests; see [`backend/tests/README.md`](../backend/tests/README.md).
 
-`app/lib/spotify.ts`'s `parseSpotifyArtistId` is a good first candidate whenever a framework does get set up: a pure function with no React/DOM dependency and clearly enumerable edge cases (malformed URL, non-`open.spotify.com` hostname, missing artist-ID path segment, trailing query params) — straightforward input/output assertions, unlike the queue-building coverage gap above, which needs property-based tests because of real `Math.random()` use. Not built now — no framework exists to add it to yet; revisit alongside standing up a test framework generally, post-MVP.
+`app/lib/spotify.ts`'s `parseSpotifyArtistId` is a good first candidate whenever a
+frontend framework does get set up: a pure function with no React/DOM dependency and
+clearly enumerable edge cases (malformed URL, non-`open.spotify.com` hostname,
+missing artist-ID path segment, trailing query params) — straightforward input/output
+assertions, unlike the queue-building coverage gap above, which needs property-based
+tests because of real `Math.random()` use. Not built now — no frontend framework
+exists yet; revisit alongside standing up frontend testing generally, post-MVP.
+
+---
+
+## Future Consideration: Reproducible Backend Bootstrap From a Clean Clone
+
+The committed database tooling now has distinct responsibilities: Alembic migrations
+recreate structure, `scripts.seed_festival` idempotently creates the foundational
+festival hierarchy, and `scripts.import_artists` performs a guarded one-time import of
+the validated TypeScript artist snapshot. Keeping the initial importer is valuable
+even though it intentionally refuses a populated target: it records provenance,
+supports rebuilding development/staging data, and makes the normalization process
+auditable instead of relying on manual pgAdmin edits.
+
+The pieces have been tested individually and the complete importer has run against a
+real migrated PostgreSQL schema, but a new contributor cannot yet rely on one fully
+documented and automatically verified clean-clone path. The root README documents only
+frontend startup, no safe `.env.example` exists, and no test currently creates a brand-
+new disposable database and proves the entire sequence from migration zero through the
+final imported counts.
+
+**Desired bootstrap order:** install frontend dependencies (the exporter requires
+`tsx`), create the backend virtual environment and install `requirements-dev.txt`,
+create/configure PostgreSQL, run `alembic upgrade head`, run
+`python -m scripts.seed_festival`, validate with
+`python -m scripts.import_artists --dry-run`, and finally run
+`python -m scripts.import_artists --apply`.
+
+**Completion criteria:**
+
+- add a backend setup section with exact working-directory assumptions and commands;
+- commit a credential-free `.env.example` containing every required setting;
+- add an isolated clean-database smoke test that applies every migration, runs the
+  festival seed and artist importer, and verifies canonical row totals/relationships;
+- ensure cleanup cannot target or mutate a developer's normal database; and
+- optionally add one convenience command that orchestrates the existing steps without
+  duplicating migration, seed, or importer logic.
+
+Do not describe the backend as fully reproducible from a clean clone until that smoke
+test passes. The festival seed may remain idempotent, while the artist importer should
+remain a guarded initial-snapshot operation; ordinary updates belong to APIs or a
+purpose-built synchronization workflow rather than rerunning the bootstrap importer.
 
 ---
 
@@ -343,3 +395,18 @@ This is distinct from the round-2 fix (`useDialogA11y` wired into the drawer, se
 **Current real-world exposure is narrow:** only England (27 artists) and Northern Ireland (1 artist, Chalk) exist in the current lineup — Scotland and Wales have zero. The double-counting case can only occur today if a user's picks include an England artist and Chalk specifically.
 
 **Revisit when:** either a Scotland or Wales artist is added (widening the surface this could affect), or the UK display rollup expands beyond Artist Detail into a surface where the mismatch would be more visible. At that point, read `useStorySignals.ts`'s country-diversity logic closely enough to know whether swapping in `displayCountry()` there is a safe, isolated change or one that needs threshold re-validation.
+
+---
+
+## Future Consideration: Quick Picks Bypasses Similar-Artist Verification Gate
+
+Artist Detail's `FloatingCards.tsx` renders Similar Artists only when
+`similarArtistsVerified` is true and the list is nonempty. Quick Picks'
+`DecisionScreen.tsx` currently checks only whether `similarArtists.length > 0`, then
+shows the first four names on desktop. This conflicts with the documented rule that
+AI-assisted Similar Artists content stays hidden until editorial review.
+
+Do not fold this into the artist-schema work. Fix it in a focused frontend branch by
+applying the verification gate consistently, then cover both verified and unverified
+cases with tests. The future backend API should expose only a verified, nonempty
+FestivalRun-scoped Similar Artist set, making the frontend contract harder to bypass.

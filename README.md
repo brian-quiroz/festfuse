@@ -144,6 +144,8 @@ For deeper implementation notes and design decisions, see [ARCHITECTURE.md](ARCH
 
 ## Tech Stack
 
+**Frontend**
+
 - [Next.js 16](https://nextjs.org/)
 - [React 19](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
@@ -152,6 +154,21 @@ For deeper implementation notes and design decisions, see [ARCHITECTURE.md](ARCH
 - [Motion](https://motion.dev/)
 - [Vercel Analytics](https://vercel.com/docs/analytics)
 - Spotify and YouTube embeds
+
+**Backend and data**
+
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [SQLAlchemy 2](https://www.sqlalchemy.org/)
+- [Psycopg 3](https://www.psycopg.org/psycopg3/)
+- [Alembic](https://alembic.sqlalchemy.org/) migrations
+- Transactional TypeScript-to-PostgreSQL data import
+
+**Testing and quality**
+
+- [pytest](https://docs.pytest.org/) route and PostgreSQL integration tests
+- [Ruff](https://docs.astral.sh/ruff/) Python linting and formatting
+- ESLint and Prettier
 
 ## Getting Started
 
@@ -184,20 +201,29 @@ npm run format       # Format the project with Prettier
 npm run verify:story # Verify Festival Story signal invariants
 ```
 
+Backend test commands and the distinction between isolated API tests and real
+PostgreSQL integration tests are documented in the
+[backend testing guide](backend/tests/README.md).
+
 ## Current Scope and Roadmap
 
-FestFuse is currently a frontend MVP centered on one festival, with artist and schedule data stored in typed source files. The next major iteration will focus on:
+FestFuse is currently a frontend MVP centered on one festival. The frontend still
+reads typed source files while the FastAPI/PostgreSQL backend now contains the
+validated, normalized initial festival and artist snapshot. The next major iteration
+will focus on:
 
 - Supporting multiple festivals
-- Moving festival and artist data into a database-backed system
-- Creating a faster, source-verifiable data import workflow
-- Expanding automated test coverage
+- Expanding backend APIs and moving frontend consumers after parity is verified
+- Adding explicit artist publication validation and a maintainable, source-verifiable
+  update workflow
+- Expanding frontend and backend automated test coverage
 - Continuing accessibility and performance improvements
 
 ## Project Structure
 
 ```text
 docs/                    # Screenshots and supplementary notes (see ARCHITECTURE.md)
+backend/                 # FastAPI, SQLAlchemy models, Alembic migrations, and tests
 app/
 ├── artist/[slug]/       # Artist detail routes
 ├── components/          # Shared and feature-specific UI

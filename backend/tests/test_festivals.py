@@ -3,14 +3,23 @@ from unittest.mock import Mock
 
 from fastapi.testclient import TestClient
 
-from app.models import Festival, FestivalDay, FestivalRun
+from app.models import FestivalDay, FestivalEdition, FestivalRun, FestivalSeries
 
 
-def build_festival() -> Festival:
-    festival = Festival(
+def build_festival() -> FestivalEdition:
+    festival_series = FestivalSeries(
         id=1,
+        slug="lollapalooza-chicago",
+        name="Lollapalooza Chicago",
+    )
+
+    festival = FestivalEdition(
+        id=1,
+        festival_series_id=1,
+        festival_series=festival_series,
         slug="lollapalooza-2026",
         name="Lollapalooza 2026",
+        year=2026,
         city="Chicago",
         state="Illinois",
         country="United States",
@@ -19,7 +28,7 @@ def build_festival() -> Festival:
 
     festival_run = FestivalRun(
         id=1,
-        festival_id=1,
+        festival_edition_id=1,
         slug="main",
         name="Main Run",
         display_order=1,
@@ -61,6 +70,12 @@ def test_read_festival_returns_nested_festival(
 
     assert body["slug"] == "lollapalooza-2026"
     assert body["name"] == "Lollapalooza 2026"
+    assert body["year"] == 2026
+    assert body["festival_series"] == {
+        "id": 1,
+        "slug": "lollapalooza-chicago",
+        "name": "Lollapalooza Chicago",
+    }
     assert body["runs"][0]["name"] == "Main Run"
     assert [day["date"] for day in body["runs"][0]["days"]] == [
         "2026-07-30",
