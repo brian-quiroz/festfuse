@@ -120,7 +120,7 @@ changing the production frontend's current TypeScript data source.
 
 ### 5. Move one Artist Detail page through the API
 
-**Status: in progress; local proof complete and deployed preview pending.**
+**Status: completed.**
 
 - Start with one bounded consumer: the Artist Detail page for `5sos`.
 - `FESTFUSE_API_ARTIST_SLUGS` is an explicit comma-separated allowlist. Only listed
@@ -132,11 +132,15 @@ changing the production frontend's current TypeScript data source.
   failure is logged server-side and temporarily falls back to the validated
   TypeScript Artist.
 - Keep requests uncached with `cache: "no-store"` during the proof of concept.
-- Test loading, not-found, error, ordering, responsive UI, and content parity in the
-  deployed preview environment.
+- The path was verified locally, in a Vercel Preview deployment, and on the production
+  Vercel domain. Vercel runtime/network telemetry and Railway's active deployment
+  logs confirmed the server-side request reached FastAPI and PostgreSQL successfully.
+- Loading, not-found behavior, ordering, responsive presentation, and content parity
+  were checked without broadening the allowlist.
 
-**Checkpoint:** the first end-to-end path works from hosted PostgreSQL through FastAPI
-to the deployed Next.js UI.
+**Checkpoint reached:** `5sos` works end to end from hosted PostgreSQL through FastAPI
+to the production Next.js UI, while every non-allowlisted Artist remains
+TypeScript-backed.
 
 ### 6. Complete remaining Artist publication
 
