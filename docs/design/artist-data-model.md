@@ -855,14 +855,13 @@ records rather than assuming the TypeScript shape was migration-ready.
 | Finding | Import handling |
 | --- | --- |
 | 45 Artists lack a playable `tracks[0].spotifyId` | Import Artist/lineup/schedule data, but they cannot pass Artist publication readiness until a Quick Picks selection is curated |
-| aespa has four Genres | Required source cleanup before import: explicitly curate the canonical three rather than truncating automatically |
+| aespa had four Genres | Source corrected to the canonical three by removing `Dance Pop`; the importer must still reject rather than silently truncate future over-limit records |
 | Ric Wilson and Cruz Beckham & The Breakers have neither Spotify artist identity nor a curated override | Remain draft until identity or a complete override is supplied; both also lack Quick Picks selection |
-| MPH and Chicago Made have `socialsVerified: true` but no gated YouTube/TikTok link | Normalize `socials_verified` to false; Spotify and Listen First behavior are unaffected |
+| MPH and Chicago Made had `socialsVerified: true` without a confirmed group-level YouTube/TikTok link | Source corrected to unverified; revisit candidate links before setting verification rather than treating either record as reviewed-empty |
 | The Chainsmokers repeats one Spotify track in a dormant extra array position | Ignore it because v1 migrates only the explicit Quick Picks selection and curated Listen First selections, not every legacy track |
 
-Under the accepted publication rules and before required source cleanup, 125 of 171
-Artists are currently ready and 46 are not. Once blocking source-shape errors such as
-aespa's fourth Genre are resolved explicitly, initial import should create every
+Under the accepted publication rules and after the explicit aespa Genre cleanup, 126
+of 171 Artists are currently ready and 45 are not. Initial import should create every
 Artist as `draft`, preserve all real announced LineupEntries and scheduled
 Appearances, run the validator, then explicitly publish only the passing Artists. The
 TypeScript source remains the live frontend source until API parity is verified, so

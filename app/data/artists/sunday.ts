@@ -344,7 +344,7 @@ const aespa: Artist = {
   mbid: "b51c672b-85e0-48fe-8648-470a2422229f",
   imageUrl: "/artists/heroes/aespa.jpg",
   objectPosition: "center 10%",
-  genres: ["K-Pop", "Pop", "Electronic", "Dance Pop"],
+  genres: ["K-Pop", "Pop", "Electronic"],
   location: { city: "Seoul", country: "South Korea" },
   tagline: "Four members. Four avatars. One universe.",
   socials: {

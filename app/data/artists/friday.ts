@@ -2726,7 +2726,6 @@ const chicagoMade: Artist = {
   name: "Chicago Made",
   slug: "chicago-made",
   similarArtistsVerified: true,
-  socialsVerified: true,
   genres: ["Hip-Hop", "Drill", "Juke"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline:
