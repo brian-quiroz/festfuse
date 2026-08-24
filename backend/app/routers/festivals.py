@@ -3,8 +3,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
 from app.dependencies import SessionDep
-from app.models import Festival, FestivalRun
-from app.schemas import FestivalRead
+from app.models import FestivalEdition, FestivalRun
+from app.schemas import FestivalEditionRead
 
 router = APIRouter(
     prefix="/festivals",
@@ -12,14 +12,15 @@ router = APIRouter(
 )
 
 
-@router.get("/{slug}", response_model=FestivalRead)
-def read_festival(slug: str, session: SessionDep) -> Festival:
+@router.get("/{slug}", response_model=FestivalEditionRead)
+def read_festival(slug: str, session: SessionDep) -> FestivalEdition:
     statement = (
-        select(Festival)
+        select(FestivalEdition)
         .options(
-            selectinload(Festival.runs).selectinload(FestivalRun.days)
+            selectinload(FestivalEdition.festival_series),
+            selectinload(FestivalEdition.runs).selectinload(FestivalRun.days),
         )
-        .where(Festival.slug == slug)
+        .where(FestivalEdition.slug == slug)
     )
 
     festival = session.scalar(statement)

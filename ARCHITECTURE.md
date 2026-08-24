@@ -330,39 +330,58 @@ schema migrations. Environment-specific connection values are loaded from the
 ignored `backend/.env`; committed migration files are the reproducible source of
 truth for database structure.
 
-The API currently exposes health checks, including a database health check that
-verifies the configured PostgreSQL database. The Next.js frontend does not consume
-festival data from the API yet.
+The API exposes health checks, including a database health check that verifies the
+configured PostgreSQL database, plus
+`GET /api/v1/festivals/{edition_slug}`. The festival endpoint returns the matching
+edition with its recurring series, ordered runs, and ordered days. The Next.js
+frontend does not consume festival data from the API yet.
 
 ### Festival hierarchy
 
 ```text
-Festival
-└── FestivalRun
-    └── FestivalDay
-        └── Appearance (planned)
+FestivalSeries
+└── FestivalEdition
+    ├── FestivalRun
+    │   ├── FestivalDay
+    │   └── LineupEntry (planned)
+    └── Stage (planned)
 ```
 
-- `Festival` represents a dated edition such as Lollapalooza 2026 or ACL 2026.
-- `FestivalRun` represents a distinct schedule/lineup variant such as Weekend One
-  or Weekend Two. A single-run festival still owns one run.
+- `FestivalSeries` represents one recurring event in a market, such as Lollapalooza
+  Chicago. Other Lollapalooza markets remain separate series unless a future
+  cross-market feature justifies a FestivalBrand layer.
+- `FestivalEdition` represents a dated occurrence such as Lollapalooza 2026. It owns
+  the public edition slug, year, historical location, and IANA timezone.
+- `FestivalRun` references `festival_edition_id` and represents a distinct
+  schedule/lineup variant such as Weekend One or Weekend Two. A single-run edition
+  still owns one run.
 - `FestivalDay` stores an actual calendar date within a run. Weekday names are
   derived from the date; its nullable `label` is reserved for non-derivable copy
   such as "Opening Night."
-- Artist appearances will eventually reference a festival day rather than storing
-  a free-standing weekday string.
+- `Stage` will belong to FestivalEdition, while a planned `LineupEntry` will associate
+  an Artist with a FestivalRun before schedule data exists. Planned Appearances will
+  then belong to a LineupEntry and reference FestivalDay and Stage.
 
 Start/end dates are derived from the edition's days instead of stored on
-`Festival`, which supports non-contiguous dates without implying that the festival
-runs on every intervening day.
+`FestivalEdition`, which supports non-contiguous dates without implying that the
+festival runs on every intervening day.
+
+FestivalSeries, FestivalEdition, FestivalRun, and FestivalDay share
+database-owned `created_at` and `updated_at` columns. PostgreSQL supplies both
+initial values and a shared `BEFORE UPDATE` trigger refreshes `updated_at`, so ORM,
+seed/import, migration, raw SQL, and pgAdmin writes follow the same timestamp rule.
+Updating a child row does not automatically touch its parent.
 
 Initial application data is created through committed, rerunnable seed/import
 scripts rather than embedded in schema migrations. Alembic owns structure; seed and
-import workflows own application records.
+import workflows own application records. The hierarchy migration's Lollapalooza
+series insertion is a one-time backfill required to preserve an already-seeded
+edition while transforming the existing table in place.
 
 See [ADR-0001](docs/decisions/0001-introduce-fastapi-postgresql-backend.md) and
-[ADR-0002](docs/decisions/0002-model-festival-runs-and-days.md) for the context,
-alternatives, and consequences behind these choices.
+[ADR-0003](docs/decisions/0003-separate-festival-series-and-editions.md) for the
+context, alternatives, and consequences behind these choices. ADR-0003 supersedes
+the original hierarchy in ADR-0002 while retaining its run/day reasoning.
 
 ---
 

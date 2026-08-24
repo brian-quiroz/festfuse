@@ -93,7 +93,8 @@ intentional evolution.
 
 - [Superseded ADR-0002](0002-model-festival-runs-and-days.md)
 - [Artist and festival data-model design](../design/artist-data-model.md)
-- [`Festival`](../../backend/app/models/festival.py)
+- [`FestivalSeries`](../../backend/app/models/festival_series.py)
+- [`FestivalEdition`](../../backend/app/models/festival_edition.py)
 - [`FestivalRun`](../../backend/app/models/festival_run.py)
 - [`FestivalDay`](../../backend/app/models/festival_day.py)
 - [Initial festival migration](../../backend/migrations/versions/555c13b3f93a_create_festival_tables.py)

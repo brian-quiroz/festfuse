@@ -69,7 +69,7 @@ database prevents child records from referencing missing parents.
 
 ## References
 
-- [`Festival`](../../backend/app/models/festival.py)
+- [Current `FestivalEdition` successor](../../backend/app/models/festival_edition.py)
 - [`FestivalRun`](../../backend/app/models/festival_run.py)
 - [`FestivalDay`](../../backend/app/models/festival_day.py)
 - [Initial festival migration](../../backend/migrations/versions/555c13b3f93a_create_festival_tables.py)

@@ -5,12 +5,13 @@ from sqlalchemy import ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
+from app.models.timestamp_mixin import TimestampMixin
 
 if TYPE_CHECKING:
     from app.models.festival_run import FestivalRun
 
 
-class FestivalDay(Base):
+class FestivalDay(TimestampMixin, Base):
     __tablename__ = "festival_days"
     __table_args__ = (
         UniqueConstraint(
