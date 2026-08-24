@@ -97,16 +97,26 @@ content regression.
 
 ### 4. Establish hosted backend environments
 
-- Deploy FastAPI and provision hosted PostgreSQL; a deployed frontend cannot access
-  the developer machine's `127.0.0.1` database or API.
-- Keep local, preview, and production database URLs and secrets separate.
-- Apply committed Alembic migrations to each database. Bootstrap/import curated data
-  deliberately; do not rerun the importer on every application startup or deploy.
+**Status: initial hosted backend preview complete.**
+
+- FastAPI and managed PostgreSQL are deployed as separate, private-networked Railway
+  services. The API has a public Railway domain; PostgreSQL does not.
+- Railway applies committed Alembic migrations as the API's pre-deploy step. Festival
+  seeding, Artist import, and publication remain deliberate operations and never run
+  during ordinary application startup or deploy.
+- The hosted database contains the Lollapalooza hierarchy and validated Artist
+  snapshot: 126 Artists are published and 45 remain drafts under the same readiness
+  policy used locally.
+- Local and hosted credentials remain separate and uncommitted. Administrative data
+  bootstrap uses an encrypted Railway tunnel rather than exposing PostgreSQL publicly.
 - Prefer server-side or same-domain access where practical. If the browser calls a
   different API origin directly, configure CORS narrowly for the intended origins.
 
-**Checkpoint:** a preview deployment can reach a migrated, populated preview database
-without affecting production.
+The exact configuration, bootstrap commands, and verification routes are documented
+in [`../operations/backend-deployment.md`](../operations/backend-deployment.md).
+
+**Checkpoint reached:** the hosted API reaches a migrated, populated database without
+changing the production frontend's current TypeScript data source.
 
 ### 5. Move one frontend slice in preview
 
