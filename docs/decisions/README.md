@@ -12,6 +12,7 @@ preserve the context, alternatives, and tradeoffs behind that system.
 | [0002](0002-model-festival-runs-and-days.md) | Model festival editions with runs and days | Superseded by 0003 |
 | [0003](0003-separate-festival-series-and-editions.md) | Separate recurring festival series from dated editions | Accepted |
 | [0004](0004-model-artist-curation-and-scheduling.md) | Model artist curation, lineup membership, and scheduled appearances | Accepted |
+| [0005](0005-deploy-initial-backend-on-railway.md) | Deploy the initial hosted backend on Railway | Accepted |
 
 ## Lightweight convention
 
