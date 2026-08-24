@@ -36,7 +36,9 @@ The integration suite currently verifies:
 - successful FestivalRun and FestivalEdition aggregate deletion;
 - protection against direct deletion of referenced FestivalDay and Stage rows; and
 - complete 171-Artist snapshot insertion through the production import mapper inside
-  a rollback-contained transaction.
+  a rollback-contained transaction;
+- the 126-ready/45-blocked publication assessment; and
+- transactional publication of only the 126 passing Artists.
 
 ## Commands
 
@@ -83,6 +85,25 @@ It requires the FestivalEdition, FestivalRun, and FestivalDays to be seeded, ref
 to mix the snapshot with existing artist/taxonomy/track or festival-stage rows, and
 rolls the entire import back on any error. It imports every Artist as `draft`; later
 publication remains an explicit application operation.
+
+## Artist publication
+
+Assess the imported Artists against the application-owned publication policy without
+changing the database:
+
+```bash
+python -m scripts.publish_artists
+```
+
+After reviewing the report, publish every passing Artist in one transaction:
+
+```bash
+python -m scripts.publish_artists --apply
+```
+
+The command leaves blocked Artists unchanged and reports their readiness issues. It
+does not silently unpublish an existing Artist. The operation is safe to rerun;
+already-published passing Artists remain published.
 
 ## Current boundaries
 
