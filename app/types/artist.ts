@@ -75,6 +75,6 @@ export type Artist = {
   // Undefined/false hides the About section even when about is populated —
   // many entries are AI-drafted and not yet fact-checked.
   aboutVerified?: boolean;
-  // Non-empty — every lineup artist has at least one appearance at the active festival.
+  // Non-empty — every Artist currently consumed by the frontend has a schedule.
   appearances: [FestivalAppearance, ...FestivalAppearance[]];
 };
