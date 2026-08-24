@@ -5,10 +5,12 @@ purposes and intentionally have different database boundaries.
 
 ## Isolated API tests
 
-`test_festivals.py` sends real HTTP requests through FastAPI's `TestClient`, but
-`conftest.py` replaces the SQLAlchemy session dependency with a mock. These tests
-exercise routing, endpoint behavior, status codes, nested response serialization,
-and not-found handling without requiring PostgreSQL.
+`test_festivals.py` and `test_artists.py` send real HTTP requests through FastAPI's
+`TestClient`, but `conftest.py` replaces the SQLAlchemy session dependency with a
+mock. Artist router tests additionally mock the dedicated query boundary. These
+tests exercise routing, endpoint behavior, status codes, nested response
+serialization, not-found handling, and explicit inconsistent-data handling without
+requiring PostgreSQL.
 
 They are fast and run by default, but they do not prove that generated SQL, foreign
 keys, migrations, or PostgreSQL behavior works.
@@ -20,6 +22,11 @@ local PostgreSQL database at the current Alembic revision. These tests exercise 
 tables, SQL, constraints, indexes, trigger functions, cascades, and deferred foreign
 keys. This is the integration boundary: Python, SQLAlchemy, Psycopg, the migration,
 and PostgreSQL must work together.
+
+`integration/test_artist_read_query.py` uses that same rollback-contained boundary
+to prove the public Artist query's publication predicate, relationship eager loading,
+Quick Picks role selection, deterministic genre and Listen First ordering, and clear
+failure for an inconsistent published record.
 
 Each test creates temporary records inside an outer transaction and rolls that
 transaction back during cleanup. PostgreSQL genuinely executes the writes and
@@ -107,8 +114,9 @@ already-published passing Artists remain published.
 
 ## Current boundaries
 
-There is not yet an API integration suite that sends FastAPI requests through a real
-PostgreSQL session. There are also no automated Next.js component, browser end-to-end,
+There is not yet an API integration suite that sends FastAPI HTTP requests through a
+real PostgreSQL session; the Artist query itself now has PostgreSQL integration
+coverage. There are also no automated Next.js component, browser end-to-end,
 committed-import smoke, load, or clean-database migration tests. Add those layers
 when their corresponding application paths are implemented; do not treat the mocked
 route tests as proof of live database behavior.

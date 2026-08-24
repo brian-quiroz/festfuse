@@ -429,7 +429,9 @@ selected is restricted so curation cannot silently disappear.
 ### Quick Picks
 
 Every published artist must have exactly one explicitly selected playable Quick
-Picks track. The current `tracks[0]` convention must not survive as the only signal.
+Picks track. At this stage, playable means a curated Track with a validated Spotify
+track identity; it does not imply a live external availability check. The current
+`tracks[0]` convention must not survive as the only signal.
 
 ### Listen First
 
