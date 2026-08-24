@@ -3,6 +3,7 @@ export type Festival = {
 };
 
 export const ACTIVE_FESTIVAL_ID = "lollapalooza-2026";
+export const ACTIVE_FESTIVAL_RUN_SLUG = "main";
 
 export const festivals: Record<string, Festival> = {
   "lollapalooza-2026": { name: "Lollapalooza 2026" },

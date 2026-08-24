@@ -118,21 +118,45 @@ in [`../operations/backend-deployment.md`](../operations/backend-deployment.md).
 **Checkpoint reached:** the hosted API reaches a migrated, populated database without
 changing the production frontend's current TypeScript data source.
 
-### 5. Move one frontend slice in preview
+### 5. Move one Artist Detail page through the API
 
-- Start with one bounded consumer, such as the Artist Detail page for a representative
-  artist.
-- Use an explicit preview-only configuration or feature flag while production
-  continues to use TypeScript data.
+**Status: in progress; local proof complete and deployed preview pending.**
+
+- Start with one bounded consumer: the Artist Detail page for `5sos`.
+- `FESTFUSE_API_ARTIST_SLUGS` is an explicit comma-separated allowlist. Only listed
+  slugs use the hosted API; all other Artist pages continue to use TypeScript data.
+- Similar Artist membership comes from the API, while the existing card presentation
+  temporarily resolves target image and genre metadata from the TypeScript snapshot.
+- An API 404 preserves the public publication gate and renders the existing not-found
+  experience. During this proof of concept, an operational or malformed-response
+  failure is logged server-side and temporarily falls back to the validated
+  TypeScript Artist.
+- Keep requests uncached with `cache: "no-store"` during the proof of concept.
 - Test loading, not-found, error, ordering, responsive UI, and content parity in the
   deployed preview environment.
 
 **Checkpoint:** the first end-to-end path works from hosted PostgreSQL through FastAPI
 to the deployed Next.js UI.
 
-### 6. Expand and cut over deliberately
+### 6. Complete remaining Artist publication
+
+**Status: pending.**
+
+- Resolve the reported Quick Picks and Listen First readiness gaps that currently
+  leave 45 of 171 Artists as drafts.
+- Re-run the guarded publication workflow rather than changing publication status
+  manually.
+- Verify that the intended lineup is fully published and that previously hidden
+  Similar Artist sets become eligible without partial filtering or recuration.
+
+**Checkpoint:** every intended lineup Artist is publication-ready and public under
+the documented readiness policy.
+
+### 7. Expand and cut over deliberately
 
 - Migrate additional consumers only after the first slice is stable.
+- Choose and test a production cache policy—such as timed revalidation, explicit
+  tag-based invalidation, or continued uncached reads—before broadening the allowlist.
 - Add observability and a rollback path before production becomes API-dependent.
 - Remove the legacy runtime data path only after all consumers have parity and the
   imported data has a maintained source/update workflow.

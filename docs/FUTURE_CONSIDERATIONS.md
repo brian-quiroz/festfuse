@@ -410,3 +410,19 @@ Do not fold this into the artist-schema work. Fix it in a focused frontend branc
 applying the verification gate consistently, then cover both verified and unverified
 cases with tests. The future backend API should expose only a verified, nonempty
 FestivalRun-scoped Similar Artist set, making the frontend contract harder to bypass.
+
+---
+
+## Future Consideration: Artist Detail Schedule States
+
+The run-scoped API can represent an announced lineup entry before its schedule exists,
+but the current Artist Detail UI assumes every displayed Artist has at least one
+scheduled Appearance. Before consuming an Artist with no Appearances, decide and test
+the intended user experience, including whether to show a "schedule coming soon"
+message and what happens to schedule actions and the Playing At card.
+
+The API can also return cancelled Appearances, while the current TypeScript-backed UI
+has no cancellation state. Decide how cancellations, optional reasons, and schedule
+store behavior should appear before mapping them into the legacy frontend `Artist`
+shape. Until both designs are approved, the API adapter rejects these states so the
+temporary TypeScript fallback preserves existing behavior.

@@ -321,9 +321,13 @@ export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
 };
 ```
 
-Until a frontend flow is migrated to the API, its TypeScript data remains the runtime
-source of truth. PostgreSQL now contains the validated, normalized initial snapshot
-described below, but it is not yet the data source for the UI.
+Artist Detail is moving to the API through an explicit server-side slug allowlist.
+Only slugs in `FESTFUSE_API_ARTIST_SLUGS` use the run-scoped FastAPI response; all
+other Artist pages continue to read the TypeScript snapshot. A mapper preserves the
+existing frontend `Artist` contract during this transition. API 404s retain the
+published-only boundary, while operational failures temporarily log and fall back to
+the validated TypeScript record. This dual-source path is a bounded rollout and
+rollback mechanism, not the final steady-state architecture.
 
 ---
 
