@@ -1070,15 +1070,20 @@ The following records the completed implementation boundary:
   controlled vocabularies, relationships, gates, curated identities, and timestamps.
 - [x] Add a guarded transactional importer, verify the complete snapshot against real
   PostgreSQL with rollback, and import the snapshot into the persistent local database.
+- [x] Implement reusable Artist publication-readiness evaluation with isolated unit
+  tests and real PostgreSQL integration coverage.
+- [x] Add a dry-run-first transactional publication command, then publish the 126
+  passing Artists while preserving the remaining 45 as drafts with reported issues.
 
 ## Remaining implementation sequence
 
+The cross-environment path from these domain layers to the deployed frontend is
+tracked in the [backend rollout roadmap](../roadmap/backend-rollout.md).
+
 1. Keep validating and normalizing source exceptions without deleting the TypeScript
    source of truth.
-2. Implement explicit publication-readiness validation and publish only passing
-   Artists through the application layer.
-3. Expose artist-domain read APIs incrementally.
-4. Move frontend consumers only after API parity is verified.
+2. Expose artist-domain read APIs incrementally, returning published Artists only.
+3. Move frontend consumers only after API parity is verified.
 
 These remaining layers may justify small schema corrections discovered from real
 source data. They do not reopen accepted ownership or normalization decisions without

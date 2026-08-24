@@ -6,10 +6,11 @@ from uuid import uuid4
 import pytest
 from sqlalchemy import Connection, func, select, text
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.database import engine
 from app.models import Artist, SimilarArtistSet
+from app.services import evaluate_artist_publication, publish_ready_artists
 from scripts.import_artists import export_source, import_source, validate_and_summarize
 
 pytestmark = [
@@ -222,6 +223,47 @@ def test_complete_artist_snapshot_imports_in_one_transaction(
         assert cyso_set is not None
         assert cyso_set.verified_at == imported_at
         assert cyso_set.entries == []
+
+
+def test_imported_artist_publication_readiness_matches_validated_snapshot(
+    connection: Connection,
+) -> None:
+    with Session(bind=connection) as session:
+        artists = session.scalars(
+            select(Artist).options(
+                selectinload(Artist.genre_assignments),
+                selectinload(Artist.track_selections),
+            )
+        ).all()
+
+        readiness = [evaluate_artist_publication(artist) for artist in artists]
+
+    assert len(artists) == 171
+    assert sum(result.is_ready for result in readiness) == 126
+    assert sum(not result.is_ready for result in readiness) == 45
+
+
+def test_publish_ready_artists_updates_only_passing_records(
+    connection: Connection,
+) -> None:
+    with Session(bind=connection) as session:
+        batch = publish_ready_artists(session)
+
+        published_count = session.scalar(
+            select(func.count())
+            .select_from(Artist)
+            .where(Artist.publication_status == "published")
+        )
+        draft_count = session.scalar(
+            select(func.count())
+            .select_from(Artist)
+            .where(Artist.publication_status == "draft")
+        )
+
+    assert batch.ready_count == 126
+    assert batch.blocked_count == 45
+    assert published_count == 126
+    assert draft_count == 45
 
 
 def test_all_new_timestamped_tables_have_update_triggers(
