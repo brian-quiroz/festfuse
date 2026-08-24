@@ -1064,9 +1064,10 @@ The following records the completed implementation boundary before data import:
 
 ## Remaining implementation sequence
 
-1. Build an isolated, transactional importer from the current TypeScript source.
-2. Validate and normalize source exceptions without deleting the TypeScript source
-   of truth.
+1. Extend the completed TypeScript export and read-only validation boundary with an
+   isolated, transactional PostgreSQL write phase.
+2. Keep validating and normalizing source exceptions without deleting the TypeScript
+   source of truth.
 3. Import the current artist, taxonomy, lineup, media, and schedule data.
 4. Expose artist-domain read APIs incrementally.
 5. Move frontend consumers only after API parity is verified.

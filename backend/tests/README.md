@@ -58,10 +58,24 @@ The `postgres` marker categorizes database-dependent tests. The
 `RUN_POSTGRES_INTEGRATION=1` guard is the explicit opt-in that permits them to connect.
 The local database must already exist and be upgraded to Alembic head.
 
+## Artist import dry run
+
+The standard suite also exercises the artist-import serialization boundary against
+the current TypeScript source. Run the same validation as a human-readable, read-only
+report from the repository root:
+
+```bash
+backend/.venv/bin/python backend/scripts/import_artists.py --dry-run
+```
+
+The command invokes `scripts/export-artist-data.ts`, validates the complete exported
+envelope, and never connects to PostgreSQL. Database writes remain a later importer
+checkpoint.
+
 ## Current boundaries
 
 There is not yet an API integration suite that sends FastAPI requests through a real
 PostgreSQL session. There are also no automated Next.js component, browser end-to-end,
-importer, load, or clean-database migration tests. Add those layers when their
-corresponding application paths are implemented; do not treat the mocked route tests
-as proof of live database behavior.
+database-writing importer, load, or clean-database migration tests. Add those layers
+when their corresponding application paths are implemented; do not treat the mocked
+route tests as proof of live database behavior.
