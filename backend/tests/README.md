@@ -136,6 +136,35 @@ The command leaves blocked Artists unchanged and reports their readiness issues.
 does not silently unpublish an existing Artist. The operation is safe to rerun;
 already-published passing Artists remain published.
 
+## Artist listening sync
+
+Like `import_artists.py`, this is a one-time, per-environment bootstrap step, not a
+recurring editorial workflow — it backfills the listening configuration (Quick Picks
+track, and Spotify artist identity where the source has since supplied one) for the
+45 Artists left as drafts by the initial import, targeting Artists that already exist
+rather than requiring empty tables. Review the pending changes without writing
+anything:
+
+```bash
+python -m scripts.sync_artist_listening
+```
+
+Apply them in one transaction:
+
+```bash
+python -m scripts.sync_artist_listening --apply
+```
+
+The command is scoped to draft Artists only, and within an Artist to Track rows,
+ArtistTrackSelection rows, Quick Picks role, Listen First ordering, and
+`spotify_artist_id`. It never touches name, genres, images, schedule, or
+recommendation data. It does not sync `listen_first_note`: no draft Artist in the
+current source data uses a curated Listen First override, so that path is
+unimplemented rather than silently incomplete — extend the script first if a future
+draft Artist needs one. An Artist that already has any track selections is left
+unchanged, so the operation is safe to rerun; a completed sync reports no further
+changes on a second pass.
+
 ## Current boundaries
 
 There is not yet an API integration suite that sends FastAPI HTTP requests through a
