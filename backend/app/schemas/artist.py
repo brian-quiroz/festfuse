@@ -1,4 +1,5 @@
-from datetime import date
+from datetime import date, datetime
+from typing import Literal
 
 from pydantic import BaseModel
 
@@ -46,6 +47,17 @@ class ArtistListenFirstRead(BaseModel):
     tracks: list[ArtistTrackSelectionRead]
 
 
+class ArtistSocialsRead(BaseModel):
+    spotify_url: str | None
+    youtube_url: str | None
+    tiktok_url: str | None
+
+
+class ArtistVideoRead(BaseModel):
+    youtube_video_id: str
+    label: str
+
+
 class ArtistCoreRead(BaseModel):
     slug: str
     name: str
@@ -55,3 +67,53 @@ class ArtistCoreRead(BaseModel):
     genres: list[ArtistGenreRead]
     quick_picks_track: ArtistTrackRead
     listen_first: ArtistListenFirstRead
+    about: str | None
+    socials: ArtistSocialsRead
+    featured_video: ArtistVideoRead | None
+
+
+class FestivalArtistEditionRead(BaseModel):
+    slug: str
+    name: str
+    timezone: str
+
+
+class FestivalArtistRunRead(BaseModel):
+    slug: str
+    name: str
+
+
+class FestivalArtistStageRead(BaseModel):
+    slug: str
+    name: str
+
+
+class FestivalArtistAppearanceRead(BaseModel):
+    id: int
+    status: Literal["scheduled", "cancelled"]
+    festival_date: date
+    starts_at: datetime
+    ends_at: datetime
+    stage: FestivalArtistStageRead
+    cancellation_reason: str | None
+
+
+class FestivalSimilarArtistRead(BaseModel):
+    slug: str
+    name: str
+    display_order: int
+    image: ArtistImageRead | None
+    genres: list[ArtistGenreRead]
+
+
+class FestivalArtistContextRead(BaseModel):
+    edition: FestivalArtistEditionRead
+    run: FestivalArtistRunRead
+    billing_tier: Literal["headliner", "sub_headliner", "undercard"]
+    appearances: list[FestivalArtistAppearanceRead]
+    similar_artists: list[FestivalSimilarArtistRead]
+
+
+class FestivalArtistRead(BaseModel):
+    artist: ArtistCoreRead
+    festival_context: FestivalArtistContextRead

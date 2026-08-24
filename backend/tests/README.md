@@ -26,12 +26,23 @@ and PostgreSQL must work together.
 `integration/test_artist_read_query.py` uses that same rollback-contained boundary
 to prove the public Artist query's publication predicate, relationship eager loading,
 Quick Picks role selection, deterministic genre and Listen First ordering, and clear
-failure for an inconsistent published record.
+failure for an inconsistent published record. It also proves that About and supported
+social links obey their verification gates and that only an available featured video
+is exposed. Festival-context cases prove published/announced filtering, required
+billing, timezone conversion, scheduled/cancelled visibility, draft omission, and the
+valid announced-without-schedule state. Similar Artist cases prove verified
+four-or-none exposure, deterministic order, canonical target summaries, complete-set
+hiding after target unpublication, and preservation of editorial verification.
 
 `integration/test_artist_api_parity.py` compares the current TypeScript export with
 the real published PostgreSQL Artist projections. Named cases document approved-image,
-hidden-image, and curated Listen First behavior; the complete comparison verifies the
-exact 126-Artist published set and every field in the artist-core response boundary.
+hidden-image, curated Listen First, and verified direct-content behavior; the complete
+comparison verifies the exact 126-Artist published set and every field in the current
+public Artist response boundary. It also compares every published Artist's run-level
+billing and schedule projection with the retained TypeScript source, including the
+multi-appearance case. The complete comparison also derives recommendation visibility
+from target publication readiness and verifies every exposed target's canonical
+identity, image, genre order, and editorial display order.
 
 Each test creates temporary records inside an outer transaction and rolls that
 transaction back during cleanup. PostgreSQL genuinely executes the writes and
@@ -49,10 +60,13 @@ The integration suite currently verifies:
 - protection against direct deletion of referenced FestivalDay and Stage rows;
 - complete 171-Artist snapshot insertion through the production import mapper inside
   a rollback-contained transaction;
-- the 126-ready/45-blocked publication assessment; and
+- the 126-ready/45-blocked publication assessment;
 - transactional publication of only the 126 passing Artists;
-- published Artist query filtering, mapping, and consistency behavior; and
-- semantic artist-core parity for the exact 126 published source Artists.
+- published Artist query filtering, mapping, and consistency behavior;
+- semantic public-response parity for the exact 126 published source Artists;
+- semantic festival-context parity for run-level billing and all imported Appearances;
+  and
+- verified four-or-none Similar Artist visibility and canonical target parity.
 
 ## Commands
 
@@ -68,7 +82,7 @@ RUN_POSTGRES_INTEGRATION=1 python -m pytest
 # Only the PostgreSQL integration category
 RUN_POSTGRES_INTEGRATION=1 python -m pytest -m postgres
 
-# TypeScript-to-PostgreSQL artist-core parity only
+# TypeScript-to-PostgreSQL public Artist response parity only
 RUN_POSTGRES_INTEGRATION=1 python -m pytest tests/integration/test_artist_api_parity.py
 
 # Compare the migrated live schema with SQLAlchemy metadata

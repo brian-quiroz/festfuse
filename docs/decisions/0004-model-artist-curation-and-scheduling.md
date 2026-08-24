@@ -30,6 +30,9 @@ SQL, or pgAdmin, so critical invalidation cannot depend on one application code 
   external-publication metadata.
 - Store one SimilarArtistSet per source Artist and FestivalRun. SimilarArtist entries
   are directional, ordered 1–4, and reference canonical target Artists.
+- Curate Similar Artist sets only from published Artists with announced membership in
+  the exact run. Public reads expose a verified set only when all four targets remain
+  published and eligible; they never shrink a reviewed set through partial filtering.
 - Store FestivalRun membership as LineupEntry independently of scheduling. Store each
   scheduled performance as an Appearance referencing its LineupEntry, FestivalDay,
   and edition-owned Stage.
@@ -44,6 +47,9 @@ SQL, or pgAdmin, so critical invalidation cannot depend on one application code 
 - Use deferrable, initially deferred `NO ACTION` for Appearance references to
   FestivalDay and Stage. This preserves direct-delete protection while allowing a
   complete FestivalRun or FestivalEdition cascade to converge before commit.
+- Use the auto-generated Appearance primary key as its sole persisted and API-visible
+  identity for the current product. Do not maintain a parallel public identifier
+  without a concrete cross-rebuild or externally addressable identity requirement.
 - Keep all new domain timestamps database-owned through the existing shared
   `updated_at` trigger function.
 
@@ -56,10 +62,15 @@ SQL, or pgAdmin, so critical invalidation cannot depend on one application code 
   exact cardinality and contextual readiness.
 - Recommendation verification cannot silently survive a changed entry or departed
   lineup member, including writes outside FastAPI.
+- A target becoming unpublished hides the complete recommendation set without
+  clearing its editorial verification. Republishing may restore the unchanged set.
 - Deleting an aggregate and deleting one referenced schedule parent intentionally
   have different outcomes. PostgreSQL integration tests must preserve this behavior.
 - The model introduces more relationship tables and explicit administrative states,
   but avoids denormalized Artist copies and schedule-dependent lineup identity.
+- Schedule corrections preserve an Appearance primary key. A deliberately destructive
+  database rebuild may not; frontend cutover or such a rebuild may require a one-time
+  saved-schedule reset or migration.
 - The frontend TypeScript dataset remains the runtime source until an isolated,
   transactional importer and API-parity work are complete.
 
@@ -74,9 +85,18 @@ SQL, or pgAdmin, so critical invalidation cannot depend on one application code 
   have different eligible lineups.
 - **Cascade deletion of Similar Artist targets.** Rejected because silently shrinking
   an approved set destroys editorial intent.
+- **Expose whichever targets remain published.** Rejected because returning one to
+  three entries changes a reviewed four-item collection and its UI contract.
+- **Clear recommendation verification when a target becomes unpublished.** Rejected
+  because publication availability does not make the unchanged editorial judgment
+  incorrect; the public read gate is sufficient.
 - **Use immediate `RESTRICT` for Appearance-to-Day/Stage.** Rejected after PostgreSQL
   tests showed it blocks valid Run and Edition aggregate deletion through converging
   cascades.
+- **Persist the legacy per-Artist Appearance ID beside the primary key.** Deferred
+  because it is only locally scoped, duplicates operational identity, and introduces
+  drift risk. Reconsider an immutable public ID if appearances need stable identity
+  across destructive rebuilds, environments, or external links.
 - **Put every rule in PostgreSQL.** Rejected for contextual completeness and lifecycle
   rules that require multi-row product meaning and clearer application errors.
 

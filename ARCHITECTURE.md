@@ -94,7 +94,12 @@ and must be corrected by hand alongside the primary record.
 
 `about` and `similarArtists` are AI-assisted editorial content, gated behind `aboutVerified`/`similarArtistsVerified` flags — neither renders in the app until it passes a fact-check pass against a documented source hierarchy (official artist/label/festival/Spotify pages first, then reputable music publications, AllMusic, and citation-checked Wikipedia; other festival tools and MusicBrainz/community tags are used only as cross-checks, never as a sole source). This is a data-authoring standard applied during review, not something the running app computes.
 
-`similarArtists` specifically is chosen by deliberately mixing different matching dimensions per artist (sound/genre overlap, scene/scale, thematic parallel) rather than defaulting to genre-nearest-neighbors, and by always pairing at least one bigger-name act with one smaller/rising act instead of four similarly-sized names — with the reasoning behind the set and its ordering stated explicitly during review, not left implicit.
+`similarArtists` specifically is chosen only after eligible same-run Artists are
+published. The four picks deliberately mix different matching dimensions per artist
+(sound/genre overlap, scene/scale, thematic parallel) rather than defaulting to
+genre-nearest-neighbors, and always pair at least one bigger-name act with one
+smaller/rising act instead of four similarly-sized names—with the reasoning behind
+the set and its ordering stated explicitly during review, not left implicit.
 
 ---
 
@@ -408,11 +413,22 @@ FestivalRun + source Artist ─── SimilarArtistSet ─── SimilarArtist e
 - The public Artist query owns its publication predicate and eager loading. A typed
   mapper applies deterministic relationship ordering and rejects a published record
   that does not have exactly one Quick Picks selection instead of indexing an
-  assumed row.
+  assumed row. Its current direct-content projection exposes About only after About
+  verification, exposes YouTube/TikTok only after social review, keeps Spotify
+  identity independent of that gate, and returns only the featured available video.
+- The festival-scoped Artist query requires explicit edition, run, and Artist slugs.
+  It exposes only published Artists with announced membership, rejects missing
+  announced billing data, omits draft Appearances, and returns scheduled/cancelled
+  Appearances in chronological order with timestamps localized to the edition timezone.
 - ArtistVideo stores repeatable YouTube performances with explicit featured and
   display-order semantics plus availability history.
 - Similar Artists are directional, ordered, and FestivalRun-scoped. Target deletion
   is restricted so another Artist's curated set cannot silently shrink.
+- Similar Artist curation selects published, announced targets in the exact run. The
+  public query additionally returns all four entries or none: if any target later
+  becomes unpublished, the complete set is hidden rather than partially filtered.
+  Unpublishing does not clear `verified_at`, because availability and editorial
+  correctness are separate facts; republishing can restore the unchanged set.
 - SimilarArtist entry changes and announced-lineup departures clear the affected
   set's `verified_at`; returning to the lineup never restores approval automatically.
 - About and supported-social source changes clear their field-specific verification.

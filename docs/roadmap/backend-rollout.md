@@ -34,7 +34,7 @@ decisions belong in [`../decisions/`](../decisions/).
 
 ### 2. Build the artist read API
 
-**Status: first artist-core slice complete; contextual expansion pending.**
+**Status: global and run-scoped Artist Detail read boundary complete.**
 
 - Add SQLAlchemy queries, Pydantic response schemas, FastAPI routes, and endpoint
   tests for the first stable Artist API boundary.
@@ -44,15 +44,36 @@ decisions belong in [`../decisions/`](../decisions/).
 
 The first slice is `GET /api/v1/artists/{slug}`. It returns published Artist identity,
 approved image metadata, location, ordered genres, the selected Quick Picks track,
-and semantic Listen First data. It deliberately excludes editorial verification
-fields, videos, recommendations, lineup membership, and appearances until their
-public and festival-context rules are implemented.
+and semantic Listen First data. Its next incremental slice adds verified About,
+independently derived Spotify linking, verified YouTube/TikTok links, and the featured
+available video. It deliberately excludes recommendations, lineup membership, and
+appearances because those meanings require an explicit festival context.
+
+The contextual slice is
+`GET /api/v1/festivals/{edition_slug}/runs/{run_slug}/artists/{artist_slug}`. It
+reuses the global Artist projection and adds explicit edition/run identity, announced
+billing, and chronological public Appearances. An empty Appearance list validly
+represents an announced lineup whose schedule has not yet been published. Similar
+Artists are returned through the same run-scoped context.
+
+The recommendation slice preserves the four-or-none editorial contract. New
+recommendation curation runs only after eligible same-run Artists are published. For
+transitional legacy sets, the API exposes all four targets only when every target is
+still published and announced; otherwise it hides the complete set without clearing
+its editorial verification. Completing the remaining 45 draft Artists restores
+eligible stored sets without partial filtering or recuration of unchanged
+recommendations.
+
+The implemented response uses canonical target Artist data and preserves editorial
+display order. Current legacy visibility is intentionally incomplete until the
+remaining draft targets are publication-ready; the API does not manufacture partial
+sets to increase coverage.
 
 **Checkpoint:** one artist can be read through a stable, documented API response.
 
 ### 3. Verify API parity before replacing a frontend source
 
-**Status: artist-core parity complete; full consumer parity pending.**
+**Status: global and run-scoped Artist Detail parity complete.**
 
 - Compare the API representation with the current TypeScript representation for
   representative artists and edge cases.
@@ -60,11 +81,16 @@ public and festival-context rules are implemented.
 - Keep the TypeScript source available as a rollback/reference boundary during the
   transition.
 
-The artist-core parity suite documents approved-image, hidden-image, ordinary Spotify,
-and curated Listen First modes. It also verifies that the exact 126 source Artists
-derived as publication-ready match the PostgreSQL published set and that every field
-currently exposed by `GET /api/v1/artists/{slug}` is semantically equivalent to its
-TypeScript source.
+The parity suite documents approved-image, hidden-image, ordinary Spotify, curated
+Listen First, verified editorial/social content, and featured-video behavior. It also
+verifies that the exact 126 source Artists derived as publication-ready match the
+PostgreSQL published set and that every field currently exposed by
+`GET /api/v1/artists/{slug}` is semantically equivalent to its TypeScript source.
+The same suite verifies every published Artist's Lollapalooza run billing and schedule,
+including the existing multi-appearance Artist. Recommendation parity derives the
+published-target gate from the source snapshot and verifies canonical target identity,
+approved image visibility, genre order, and all-or-none set behavior for every
+published source Artist.
 
 **Checkpoint:** the API can satisfy the chosen frontend slice without a behavioral or
 content regression.
