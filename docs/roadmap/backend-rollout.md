@@ -52,11 +52,19 @@ public and festival-context rules are implemented.
 
 ### 3. Verify API parity before replacing a frontend source
 
+**Status: artist-core parity complete; full consumer parity pending.**
+
 - Compare the API representation with the current TypeScript representation for
   representative artists and edge cases.
 - Resolve intentional differences explicitly; do not silently discard curated data.
 - Keep the TypeScript source available as a rollback/reference boundary during the
   transition.
+
+The artist-core parity suite documents approved-image, hidden-image, ordinary Spotify,
+and curated Listen First modes. It also verifies that the exact 126 source Artists
+derived as publication-ready match the PostgreSQL published set and that every field
+currently exposed by `GET /api/v1/artists/{slug}` is semantically equivalent to its
+TypeScript source.
 
 **Checkpoint:** the API can satisfy the chosen frontend slice without a behavioral or
 content regression.
