@@ -1076,6 +1076,10 @@ The following records the completed implementation boundary:
   tests and real PostgreSQL integration coverage.
 - [x] Add a dry-run-first transactional publication command, then publish the 126
   passing Artists while preserving the remaining 45 as drafts with reported issues.
+- [x] Add the published-only artist-core read API with typed projections, deterministic
+  ordering, and real PostgreSQL query coverage.
+- [x] Verify semantic parity for every artist-core field and the exact 126-Artist
+  published set against the retained TypeScript source boundary.
 
 ## Remaining implementation sequence
 
@@ -1084,7 +1088,8 @@ tracked in the [backend rollout roadmap](../roadmap/backend-rollout.md).
 
 1. Keep validating and normalizing source exceptions without deleting the TypeScript
    source of truth.
-2. Expose artist-domain read APIs incrementally, returning published Artists only.
+2. Expand artist-domain read APIs incrementally beyond the verified artist-core
+   boundary, returning published Artists only.
 3. Move frontend consumers only after API parity is verified.
 
 These remaining layers may justify small schema corrections discovered from real

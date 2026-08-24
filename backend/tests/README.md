@@ -28,6 +28,11 @@ to prove the public Artist query's publication predicate, relationship eager loa
 Quick Picks role selection, deterministic genre and Listen First ordering, and clear
 failure for an inconsistent published record.
 
+`integration/test_artist_api_parity.py` compares the current TypeScript export with
+the real published PostgreSQL Artist projections. Named cases document approved-image,
+hidden-image, and curated Listen First behavior; the complete comparison verifies the
+exact 126-Artist published set and every field in the artist-core response boundary.
+
 Each test creates temporary records inside an outer transaction and rolls that
 transaction back during cleanup. PostgreSQL genuinely executes the writes and
 constraints, but successful tests do not leave fixture data behind.
@@ -41,11 +46,13 @@ The integration suite currently verifies:
 - Similar Artist entry and lineup-membership invalidation;
 - restriction of referenced Similar Artist target deletion;
 - successful FestivalRun and FestivalEdition aggregate deletion;
-- protection against direct deletion of referenced FestivalDay and Stage rows; and
+- protection against direct deletion of referenced FestivalDay and Stage rows;
 - complete 171-Artist snapshot insertion through the production import mapper inside
   a rollback-contained transaction;
 - the 126-ready/45-blocked publication assessment; and
-- transactional publication of only the 126 passing Artists.
+- transactional publication of only the 126 passing Artists;
+- published Artist query filtering, mapping, and consistency behavior; and
+- semantic artist-core parity for the exact 126 published source Artists.
 
 ## Commands
 
@@ -60,6 +67,9 @@ RUN_POSTGRES_INTEGRATION=1 python -m pytest
 
 # Only the PostgreSQL integration category
 RUN_POSTGRES_INTEGRATION=1 python -m pytest -m postgres
+
+# TypeScript-to-PostgreSQL artist-core parity only
+RUN_POSTGRES_INTEGRATION=1 python -m pytest tests/integration/test_artist_api_parity.py
 
 # Compare the migrated live schema with SQLAlchemy metadata
 alembic check
