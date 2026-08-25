@@ -239,8 +239,8 @@ def test_imported_artist_publication_readiness_matches_validated_snapshot(
         readiness = [evaluate_artist_publication(artist) for artist in artists]
 
     assert len(artists) == 171
-    assert sum(result.is_ready for result in readiness) == 126
-    assert sum(not result.is_ready for result in readiness) == 45
+    assert sum(result.is_ready for result in readiness) == 171
+    assert sum(not result.is_ready for result in readiness) == 0
 
 
 def test_publish_ready_artists_updates_only_passing_records(
@@ -260,10 +260,10 @@ def test_publish_ready_artists_updates_only_passing_records(
             .where(Artist.publication_status == "draft")
         )
 
-    assert batch.ready_count == 126
-    assert batch.blocked_count == 45
-    assert published_count == 126
-    assert draft_count == 45
+    assert batch.ready_count == 171
+    assert batch.blocked_count == 0
+    assert published_count == 171
+    assert draft_count == 0
 
 
 def test_all_new_timestamped_tables_have_update_triggers(

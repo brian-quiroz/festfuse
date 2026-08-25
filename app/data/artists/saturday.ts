@@ -960,9 +960,12 @@ const siennaSpiro: Artist = {
     { name: "Justine Skye", slug: "justine-skye" },
   ],
   tracks: [
-    { name: "Need Me", album: "Need Me", duration: "" },
-    { name: "Stay", album: "Stay", duration: "" },
-    { name: "Home", album: "Home", duration: "" },
+    {
+      name: "Die On This Hill",
+      spotifyId: "7gkZNvBHfI30qG7hA0eopT",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Sienna Spiro is a London-born singer-songwriter whose extraordinary vocal range, rich neo-soul arrangements, and tragi-comic cinematic pop anthems have earned her widespread critical adoration. Fusing traditional Motown vocal ornamentation with heavy, contemporary dark-pop instrumentation and sharp piano lines, she writes sweeping tales of resilience, loss, and emotional autonomy. Commanding the stage with profound, operatic authority, her early afternoon set stands as an undeniable showcase of pristine musical power.",
@@ -1152,14 +1155,11 @@ const wolfAlice: Artist = {
     },
   ],
   tracks: [
-    { name: "Don't Delete the Kisses", album: "Visions of a Life", duration: "" },
-    { name: "The Last Man on Earth", album: "Blue Weekend", duration: "" },
     {
-      spotifyId: "0wQKKPy050lguUxlKvHIi5",
-      name: "Smile",
-      album: "Blue Weekend",
-      duration: "3:16",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02ae6b2ae9241c11cb170a2bc5",
+      name: "Bloom Baby Bloom",
+      spotifyId: "2piywRQIsqCM9cei6ZYTkl",
+      album: "",
+      duration: "",
     },
   ],
   about:
@@ -1214,9 +1214,12 @@ const whethan: Artist = {
     { name: "Zack Martino", slug: "zack-martino" },
   ],
   tracks: [
-    { name: "High (with Dua Lipa)", album: "Fifty Shades Freed", duration: "" },
-    { name: "Savage", album: "Life of a Wallflower Vol. 1", duration: "" },
-    { name: "MONEY ON THE DASH", album: "Life of a Wallflower Vol. 2", duration: "" },
+    {
+      name: "MONEY ON THE DASH - SPED UP",
+      spotifyId: "3deZ4afG0Y4WhbSBEp97oK",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Ethan Snoreck, performing under the iconic moniker Whethan, is a Chicago-born electronic producer and DJ who completely re-engineered the crossover dance music landscape as a teenage phenom. Characterized by his unique formula of minimalist, high-tempo synth pop loops, heavy future bass steps, and pristine alternative vocal choices, his production has anchored some of global pop's biggest radio hits. Earning a highly coveted evening slot on Perry's stage, his hometown performance serves as an explosive celebration of modern electronic music history.",
@@ -1339,9 +1342,12 @@ const cameronWhitcomb: Artist = {
     },
   ],
   tracks: [
-    { name: "The Road", album: "The Road", duration: "" },
-    { name: "Quitting Time", album: "Quitting Time", duration: "" },
-    { name: "Rock Bottom", album: "Rock Bottom", duration: "" },
+    {
+      name: "Kingdom of Fear",
+      spotifyId: "7LWcUluagGJ1Zt0oG9KlmD",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Cameron Whitcomb is a Canadian-born country singer-songwriter whose brilliant combination of rugged americana roots, modern storytelling wit, and jaw-dropping vocal rasp has sparked widespread critical acclaim. Forging a distinctively high-octane lyrical universe that dissects labor, recovery, and romance, Whitcomb commands the stage with the effortless confidence of a seasoned road warrior. Known for his chaotic stage acrobatics and intense physical vocabulary, his early afternoon set provides a refreshing, beautifully raw antidote to standard festival pop noise.",
@@ -1399,9 +1405,12 @@ const ayybo: Artist = {
     },
   ],
   tracks: [
-    { name: "HYPNOTIC", album: "HYPNOTIC", duration: "" },
-    { name: "MOVE", album: "MOVE", duration: "" },
-    { name: "RIGHT NOW", album: "RIGHT NOW", duration: "" },
+    {
+      name: "RIZZ",
+      spotifyId: "3DqOJ2BoddzZpNdty3okJH",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Aaronis Jackson, performing under the singular moniker AYYBO, is an Orange County-born DJ and electronic producer who has rapidly solidified his position as one of the modern era's most prolific and essential tech-house forces. Blending the nostalgic, soulful swing of underground hip-hop with the crushing, heavy bassline weight of contemporary dance networks, his landmark projects have earned widespread institutional praise. Behind the decks, AYYBO delivers a technically flawless, high-tempo masterclass in rhythm manipulation that sets the exact standard for modern club music.",
@@ -1499,14 +1508,11 @@ const quadeca: Artist = {
     { name: "Easy Honey", slug: "easy-honey" },
   ],
   tracks: [
-    { name: "Born Yesterday", album: "I Didn't Mean to Haunt You", duration: "" },
-    { name: "Tell Me A Joke", album: "I Didn't Mean to Haunt You", duration: "" },
     {
-      spotifyId: "5jxJX7R3q0Wum8BLlqprdq",
-      name: "Sisyphus",
-      album: "From Me To You",
-      duration: "4:32",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02901b1a9b8054f02142079fc5",
+      name: "DUSTCUTTER",
+      spotifyId: "0fC23QgwF2sIM7hRTJhfov",
+      album: "",
+      duration: "",
     },
   ],
   about:
@@ -1689,9 +1695,12 @@ const goldieBoutilier: Artist = {
     },
   ],
   tracks: [
-    { name: "The Gold", album: "Emerald Year", duration: "" },
-    { name: "Cowboy", album: "The Gold EP", duration: "" },
-    { name: "Kryptonite", album: "Emerald Year", duration: "" },
+    {
+      name: "Cowboy Gangster Politician",
+      spotifyId: "2SeDdNjPvN3uwkolnG2ODi",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Goldie Boutilier is a Canadian-born singer, songwriter, and multi-instrumentalist whose meticulous combination of hazy 1970s americana melodies, driving synth-pop hooks, and smoky, melancholic storytelling has earned her widespread critical adoration. Dissecting themes of Hollywood glamour, transient fame, and personal identity with profound lyrical wit, her independent records have established her as a premier alternative pop auteur. Moving onto the Allianz stage for a high-profile opening slot, her live performance elevates raw bedroom vulnerability into an exceptionally stylish, widescreen cinematic diary entry.",
@@ -1744,9 +1753,12 @@ const dieSpitz: Artist = {
     },
   ],
   tracks: [
-    { name: "Hair of the Dog", album: "Teeth", duration: "" },
-    { name: "Monkey Brains", album: "Teeth", duration: "" },
-    { name: "Grip", album: "Grip", duration: "" },
+    {
+      name: "Throw Yourself to the Sword",
+      spotifyId: "1T4TSL2UaYjauerxFyPal0",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Die Spitz is the Austin-born punk rock powerhouse consisting of Ava Fine, Chloe Inendino, Ellie Livingston, and Kate Halter, who rapidly revitalized the Texas underground through ferocious live sets and raw audacity. Referencing the structural blueprints of classic 90s grunge and abrasive garage rock, the quartet writes blistering, uncompromising statements tracking interpersonal chaos and counter-culture rebellion. Coming off a series of widely discussed international support tours, their high-energy afternoon performance delivers a thrilling masterclass in pure analog rock adrenaline.",
@@ -1792,9 +1804,12 @@ const lucyBedroque: Artist = {
     { name: "Quadeca", slug: "quadeca" },
   ],
   tracks: [
-    { name: "Overdriven", album: "Bedroque", duration: "" },
-    { name: "Vampire", album: "Bedroque", duration: "" },
-    { name: "Blue", album: "Blue", duration: "" },
+    {
+      name: "How to Pretend",
+      spotifyId: "0H0eIjcXruQpntK0LuNa5v",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Lucy Bedroque is a New York-born singer-songwriter who built an intensely passionate internet community through her hyper-vivid, beautifully conversational brand of contemporary alt-pop. Rooted in the emotional intimacy of close-mic'd bedroom recordings but elevated by deep, brooding alternative electronic arrangements and sharp synth loops, her tracks explore young adulthood with profound precision. Handpicked for an extensive global breakout tour cycle, her early afternoon live set transforms a sprawling festival lawn into an intimate listening experience.",
@@ -1852,15 +1867,12 @@ const omnom: Artist = {
     },
   ],
   tracks: [
-    { name: "Number One", album: "Number One", duration: "" },
     {
-      spotifyId: "1rlPXuxUk4t8xVS05Uab4G",
-      name: "Losing Control",
-      album: "Losing Control",
-      duration: "2:45",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02382792749a81b76678ab1af1",
+      name: "Coming Up (It's Dare)",
+      spotifyId: "7JHkJ5mDS868b5j5h67cwL",
+      album: "",
+      duration: "",
     },
-    { name: "Mind Doctor", album: "Mind Doctor", duration: "" },
   ],
   about:
     "Cody Cunningham, performing under the singular moniker Omnom, is a Los Angeles-born DJ and electronic producer who has rapidly solidified his position as one of the modern era's most prolific and essential tech-house forces. Blending the nostalgic, soulful swing of underground hip-hop with the crushing, heavy bassline weight of contemporary dance networks, his landmark collaborative projects have earned widespread institutional praise. Behind the decks, Omnom delivers a technically flawless, high-tempo masterclass in rhythm manipulation that sets the exact standard for modern club music.",
@@ -1900,9 +1912,12 @@ const wisp: Artist = {
     { name: "Momma", slug: "momma" },
   ],
   tracks: [
-    { name: "Your face", album: "Pandora", duration: "" },
-    { name: "Enough for you", album: "Pandora", duration: "" },
-    { name: "Pandora", album: "Pandora", duration: "" },
+    {
+      name: "Your face",
+      spotifyId: "2VtXANhW6YpAzsMDQCFkAv",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Wisp is the shoegaze project of San Francisco singer-songwriter Natalie Lu. She broke through in 2023 with 'Your face,' pairing hushed, ethereal vocals with dense layers of distorted guitar, and expanded that sound on her debut EP, Pandora. Her live set turns those intimate recordings into an enveloping rush of dream-pop melody and heavy alternative-rock texture.",
@@ -2007,9 +2022,12 @@ const jaeStephens: Artist = {
     },
   ],
   tracks: [
-    { name: "24K", album: "High Class", duration: "" },
-    { name: "What You Need", album: "High Class", duration: "" },
-    { name: "Wet Hair", album: "Wet Hair", duration: "" },
+    {
+      name: "Afterbody",
+      spotifyId: "716Q0VOzPESug3igvfwAoU",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Jae Stephens is a Los Angeles-born singer-songwriter whose extraordinary vocal range, rich electronic R&B arrangements, and sleek pop anthems have earned her widespread critical adoration. Fusing traditional soul vocal ornamentation with heavy, contemporary club-ready instrumentation and sharp house loops, she writes sweeping tales of resilience, loss, and emotional autonomy. Commanding the stage with profound, modern authority, her early afternoon set stands as an undeniable showcase of pristine musical power.",
@@ -2050,9 +2068,12 @@ const ryman: Artist = {
     { name: "Calder Allen", slug: "calder-allen" },
   ],
   tracks: [
-    { name: "Rewind", album: "Ryman", duration: "" },
-    { name: "Complicated", album: "Ryman", duration: "" },
-    { name: "Daydream", album: "Daydream", duration: "" },
+    {
+      name: "Lose",
+      spotifyId: "6qNC7GRaDTrfZya3k4DLfV",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Ryman is a Nashville-born singer, songwriter, and multi-instrumentalist who built an intensely passionate global community through his hyper-vivid, beautifully conversational brand of contemporary alt-pop. Rooted in the emotional intimacy of bedroom pop recordings but elevated by incredibly bright, jazz-infused guitar lines and snappy rhythm structures, his tracks dissect young adulthood with profound precision. Backed by widely acclaimed independent singles, his early afternoon live set transforms a sprawling festival field into a vibrant outdoor listening party.",
@@ -2101,9 +2122,12 @@ const villanelle: Artist = {
     { name: "Wolf Alice", slug: "wolf-alice" },
   ],
   tracks: [
-    { name: "Blue", album: "Villanelle", duration: "" },
-    { name: "Static", album: "Villanelle", duration: "" },
-    { name: "Fade", album: "Fade", duration: "" },
+    {
+      name: "Placebo",
+      spotifyId: "26xqzgSazJMVyITb0yoriW",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Villanelle is the London-born alternative rock quartet whose hyper-vivid blend of distorted post-punk instrumentation, jangly alternative guitars, and avant-garde theatrical rock tropes has earned them a reputation as one of the most exciting young live bands in the UK underground. Writing music that operates with the urgent, unpredictable pacing of a fever dream, the band relies on incredibly crisp dual-guitar layers and raw narrative lyricism. Coming off their highly acclaimed independent support cycles, their early afternoon performance provides a thrilling, beautifully raw antidote to overprocessed pop.",
@@ -2152,9 +2176,12 @@ const sunday1994: Artist = {
     { name: "The Bends", slug: "the-bends" },
   ],
   tracks: [
-    { name: "Tired Eyes", album: "Sunday (1994)", duration: "" },
-    { name: "Stained Glass", album: "Sunday (1994)", duration: "" },
-    { name: "Softcore", album: "Softcore", duration: "" },
+    {
+      name: "Tired Boy",
+      spotifyId: "5AaP39wI0QvDSKSyivTFfX",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Sunday (1994) is the Los Angeles-born alternative rock project whose meticulous blend of fuzzed-out garage indie grit, 90s shoegaze tropes, and heavy dual-guitar songwriting has earned them widespread critical adoration. Drawing sharp atmospheric blueprints from classic alternative legends, the group writes sweeping tales of youth, ambition, and modern isolation. Backed by exceptionally tight live chemistry, their early afternoon performance provides an immersive, high-energy masterclass in pure guitar-driven rock.",
@@ -2200,9 +2227,12 @@ const mc4d: Artist = {
     { name: "Calder Allen", slug: "calder-allen" },
   ],
   tracks: [
-    { name: "Sinking", album: "Sinking", duration: "" },
-    { name: "Coming Home", album: "Coming Home", duration: "" },
-    { name: "Feels Like This", album: "Feels Like This", duration: "" },
+    {
+      name: "You Take Me Home",
+      spotifyId: "73ynoiXwQdUH3G7fZ9NSda",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "MC4D is the breakout electronic project of Chicago-born twin brothers Matt and Chris DiBari, whose meticulous combination of sun-drenched melodic house infrastructure, pristine dance-pop hooks, and massive crossover festival appeal has earned them global acclaim. Dominating streaming circuits through exceptionally polished production skills, the duo crafts a hyper-kinetic soundscape built entirely around euphoric groove loops and emotional vocal layers. Earning a highly coveted afternoon homecoming slot, their live set transforms the park into an unadulterated, celebratory dance party.",
@@ -2227,7 +2257,9 @@ const ricWilson: Artist = {
   genres: ["Hip-Hop", "Funk", "Soul"],
   location: { city: "Chicago", state: "Illinois", country: "United States" },
   tagline: "Joyful Chicago hip-hop powered by funk, soul, and irrepressible dance-floor energy.",
-  socials: {},
+  socials: {
+    spotify: "https://open.spotify.com/artist/34zbMuAgXxsgqnGXSxWvCR",
+  },
   whySee: [
     "Catch one of Chicago's most magnetic independent voices bringing a hometown celebration to the festival",
     "A jubilant blend of hip-hop, funk, disco, and soul built to keep the entire crowd moving",
@@ -2255,9 +2287,12 @@ const ricWilson: Artist = {
     },
   ],
   tracks: [
-    { name: "Soul Bounce", album: "Soul Bounce", duration: "" },
-    { name: "Chicago Bae", album: "BANBA", duration: "" },
-    { name: "Pay It No Mind", album: "They Call Me Disco", duration: "" },
+    {
+      name: "WHOA WAIT",
+      spotifyId: "1Ak9m8RlTdu6R4aCdSLGre",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Ric Wilson is a Chicago rapper, singer, and performer whose vibrant music connects hip-hop with funk, disco, and soul. Known for pairing thoughtful, socially conscious lyrics with buoyant grooves, he turns each performance into a celebration of movement, community, and Black joy. His charismatic stage presence and deep hometown roots make this early-afternoon set an ideal introduction to one of Chicago's most distinctive independent artists.",
@@ -2377,9 +2412,12 @@ const natMyers: Artist = {
     },
   ],
   tracks: [
-    { name: "Yellowhorse", album: "Yellowhorse", duration: "" },
-    { name: "Ramble", album: "Yellowhorse", duration: "" },
-    { name: "Pray for Rain", album: "Yellowhorse", duration: "" },
+    {
+      name: "Duck N'Dodge",
+      spotifyId: "6pGmdibZoXSNbU4n9QX1lB",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Nat Myers is a Korean-American singer-songwriter and poet whose brilliant blend of pre-war country blues, traditional delta roots, and visceral narrative storytelling has earned him widespread critical adoration. Drawing sharp thematic blueprints from old-time blues legends and classical poetry, he writes sweeping, emotionally honest tales of systemic isolation and transient hustle with profound precision. Commanding the stage with absolute, raw acoustic authority, his early afternoon set stands as a thrilling showcase of historical musical power.",
@@ -2420,9 +2458,12 @@ const ink: Artist = {
     { name: "Elizabeth Nichols", slug: "elizabeth-nichols" },
   ],
   tracks: [
-    { name: "Static", album: "Ink", duration: "" },
-    { name: "Fallen", album: "Ink", duration: "" },
-    { name: "Chamber", album: "Chamber", duration: "" },
+    {
+      name: "Addicted",
+      spotifyId: "5ZUIPLoTLJZrPQh2kFZEUM",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Ink is the Chicago-born alternative rock quartet whose meticulous combination of fuzzed-out garage indie grit, driving rhythms, and emotionally honest lyricism has earned them a reputation as one of the city's most essential live rock vanguards. Writing sweeping tales of industrial midwestern isolation, identity, and personal history, the group relies entirely on raw analog band energy. Coming off a series of highly discussed local support slots, their early afternoon performance brings an absolute guitar clinic to Grant Park.",
@@ -2484,9 +2525,12 @@ const peaceControl: Artist = {
     },
   ],
   tracks: [
-    { name: "Control", album: "Peace Control", duration: "" },
-    { name: "Vandal", album: "Peace Control", duration: "" },
-    { name: "Static", album: "Static", duration: "" },
+    {
+      name: "Peru - Peace Control Remix",
+      spotifyId: "4ae7kOsYM7CQqljNqMQ4lN",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Peace Control is a Chicago-born electronic producer and DJ whose raw brand of underground tech-house grooves, dark techno loops, and aggressive percussive sound design has rapidly turned heads across the alternative dance scene. Rooted deeply in the localized club production culture, his engineering shifts away from standard commercial templates toward deep, structural low-frequency weights. Earning a highly coveted hometown opening slot on Perry's stage, his performance serves as a blistering, high-tempo celebration of modern dance infrastructure.",
@@ -2528,9 +2572,12 @@ const theCreekers: Artist = {
     { name: "Elizabeth Nichols", slug: "elizabeth-nichols" },
   ],
   tracks: [
-    { name: "Creek", album: "The Creekers", duration: "" },
-    { name: "Under the Skyline", album: "The Creekers", duration: "" },
-    { name: "Closer Now", album: "Closer Now", duration: "" },
+    {
+      name: "Tennessee",
+      spotifyId: "7qAIHFtOLHXMsVH3RJA0Ug",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "The Creekers are the Chicago-born alternative rock collective whose meticulous combination of fuzzed-out garage indie rock grit, driving rhythms, and carefree storytelling has fostered a deeply dedicated regional community. Forging a distinctively laid-back, sun-drenched sonic universe, the outfit crafts tracks that track personal history, identity, and midwestern isolation. Performing a prime midday slot on the alternative stage, their live execution transforms the sprawling perimeter of Grant Park into a vibrant outdoor block party.",
@@ -2571,9 +2618,12 @@ const nextOfKin: Artist = {
     { name: "Kingfishr", slug: "kingfishr" },
   ],
   tracks: [
-    { name: "Voice Memos", album: "Next of Kin", duration: "" },
-    { name: "Overthinking", album: "Next of Kin", duration: "" },
-    { name: "Seventeen", album: "Seventeen", duration: "" },
+    {
+      name: "Homemaker",
+      spotifyId: "5gTEt7NFa06IIJnfapFQjH",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Next of Kin is a Los Angeles-based singer-songwriter who built an intensely passionate internet community through a hyper-specific, beautifully conversational brand of contemporary indie pop. Rooted in the emotional intimacy of bedroom pop recordings but elevated by bright, modern pop production, rich chamber strings, and witty lyrical choices, the tracks explore young adulthood with profound precision. Handpicked for an extensive global tour cycle, the early afternoon live execution transforms the tree-lined perimeter of Grant Park into a vibrant outdoor listening party.",
@@ -2610,9 +2660,12 @@ const cyso: Artist = {
   bestFor: ["Hometown & Local Supporters", "Storytelling Lovers", "Early Afternoon Discovery"],
   similarArtists: [],
   tracks: [
-    { name: "Symphony No. 5", album: "CYSO Live", duration: "" },
-    { name: "Rhapsody in Blue", album: "CYSO Live", duration: "" },
-    { name: "Alternative Anthems", album: "CYSO Live", duration: "" },
+    {
+      name: "Blow It Up, Start Again",
+      spotifyId: "3Qj5VOxI4WIo1ts4KJKi0D",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "The Chicago Youth Symphony Orchestra (CYSO) stands out as an exceptional, world-class musical institution that has spent decades training the absolute finest young instrumental virtuosos in America. Pairs flawless, conservatory-grade symphonic precision with a fiercely innovative performance approach that frequently bridges classical infrastructure with contemporary rock and cinematic arrangements. Making a highly visible, monumental debut on the Bud Light stage, their early afternoon performance scales symphonic vulnerability into an unmissable field spectacle.",

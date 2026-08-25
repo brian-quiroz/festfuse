@@ -1016,9 +1016,12 @@ const squirrelFlower: Artist = {
     { name: "Wolf Alice", slug: "wolf-alice" },
   ],
   tracks: [
-    { name: "Alley Light", album: "Tomorrow's Fire", duration: "" },
-    { name: "Headlights", album: "Tomorrow's Fire", duration: "" },
-    { name: "Hurt a Fly", album: "Planet (i)", duration: "" },
+    {
+      name: "Reelin",
+      spotifyId: "21Wb3wz9P8mIYCm9hNZCOx",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Squirrel Flower is the recording project of Chicago-based songwriter and multi-instrumentalist Ella Williams. Her music pairs vivid, introspective writing with a rich voice and guitars that shift from delicate restraint to scorched, expansive indie rock. Across albums including I Was Born Swimming, Planet (i), and Tomorrow's Fire, Williams has built a catalog defined by atmosphere, emotional precision, and powerful dynamic turns.",
@@ -1071,14 +1074,11 @@ const dombresky: Artist = {
     },
   ],
   tracks: [
-    { name: "Soulr", album: "Soulr", duration: "" },
-    { name: "Utopia", album: "Uuality", duration: "" },
     {
-      spotifyId: "5jbz9ONajDOe1AW5c3ob5U",
-      name: "Down Low",
-      album: "Down Low",
-      duration: "2:41",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0226fe8c26e94de4afaecdf688",
+      name: "ABC - Disco Dom Refunk",
+      spotifyId: "6oV12A5xN7SGfnOg5AmyiB",
+      album: "",
+      duration: "",
     },
   ],
   about:
@@ -1129,9 +1129,12 @@ const monaleo: Artist = {
     { name: "Sunshine Benzi", slug: "sunshine-benzi" },
   ],
   tracks: [
-    { name: "Beating Down Yo Block", album: "Where the Wild Things Are", duration: "" },
-    { name: "We Not Humping", album: "Where the Wild Things Are", duration: "" },
-    { name: "Ass Kickin", album: "Where the Wild Things Are", duration: "" },
+    {
+      name: "Putting Ya Dine",
+      spotifyId: "57TSLzWfZdQroiwtIFX97X",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Leondra Gay, performing under the iconic moniker Monaleo, is a Houston-born rapper and songwriter whose uncompromising independent path, machine-gun lyrical delivery, and raw emotional audacity established her as an essential vanguard of contemporary southern hip-hop. Fusing the gritty, physical weight of classic Texas trap percussion with fierce, empowering anthems and sharp vocal deliveries, she dissects systemic isolation and relationship breakdowns with profound precision. Her afternoon set stands as an undeniable, adrenaline-fueled masterclass in pure street rap control.",
@@ -1184,9 +1187,12 @@ const adela: Artist = {
     },
   ],
   tracks: [
-    { name: "Sám", album: "Sám", duration: "" },
-    { name: "Let Me Go", album: "Let Me Go", duration: "" },
-    { name: "True", album: "True", duration: "" },
+    {
+      name: "Ain't in LA",
+      spotifyId: "02HyFYmpzt02VJ8k0CqxKj",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Adéla Jergová, known as ADÉLA, is a rising European singer and songwriter whose extraordinary vocal range, pristine contemporary pop production, and hyper-infectious indie-pop hooks have captured intense listener focus across digital platforms. Fusing traditional vocal power with bright, radio-ready electronic syncopation, she writes sweeping, emotionally direct tales of youth, self-reliance, and modern romance. Commanding the stage with effortless authority, her early afternoon live set transforms the Allianz stage into a vibrant, celebratory outdoor listening party.",
@@ -1635,9 +1641,12 @@ const waylonWyatt: Artist = {
     },
   ],
   tracks: [
-    { name: "Arkansas", album: "Waylon Wyatt", duration: "" },
-    { name: "Back To Alabama", album: "Waylon Wyatt", duration: "" },
-    { name: "The Grass True", album: "The Grass True", duration: "" },
+    {
+      name: "Arkansas Diamond",
+      spotifyId: "0yiW81qj0xsPPljEDAyhJ5",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Waylon Wyatt is an Alabama-born country singer-songwriter whose brilliant combination of traditional roots, modern storytelling wit, and jaw-dropping vocal authority has sparked widespread critical acclaim across the independent scene. Forging a distinctively high-octane lyrical universe that dissects labor, ancestry, and romance, Wyatt commands the stage with the effortless confidence of a seasoned road warrior. Backed by highly celebrated independent single profiles, his early afternoon set provides a refreshing, beautifully raw antidote to standard festival pop noise.",
@@ -1763,9 +1772,12 @@ const losRetros: Artist = {
     { name: "Penelope Road", slug: "penelope-road" },
   ],
   tracks: [
-    { name: "Someone To Spend Time With", album: "Retrospect EP", duration: "" },
-    { name: "Friends", album: "Everlasting EP", duration: "" },
-    { name: "The Moon True", album: "The Moon True", duration: "" },
+    {
+      name: "Amtrak",
+      spotifyId: "5F6ekGcdu623mkhTVgk64Z",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Maurilio Suarez, performing under the moniker Los Retros, is a Southern California-born singer, songwriter, and multi-instrumentalist who built an intensely passionate global community through his hyper-vivid, beautifully nostalgic brand of Chicano soul. Sourcing structural templates from late-60s vintage pop records and smooth alternative R&B rhythm sections, he crafts a laid-back, sun-drenched sonic universe with profound precision. Sourced into the esteemed Stones Throw Records roster, his live performance elevates raw bedroom vulnerability into an exceptionally stylish outdoor block party.",
@@ -1818,9 +1830,12 @@ const vandelux: Artist = {
     },
   ],
   tracks: [
-    { name: "Matter of Time", album: "Foreplay", duration: "" },
-    { name: "All I Need", album: "Foreplay", duration: "" },
-    { name: "To Love", album: "To Love", duration: "" },
+    {
+      name: "Night Life - Vandelux Remix",
+      spotifyId: "0YGdIS9r7V7T5JRad3lBPc",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Evan Higgins, performing under the singular moniker Vandelux, is a Canadian-born multi-instrumentalist, singer, and electronic engineer whose meticulous combination of sun-drenched deep house, sleek tech-house grooves, and high-fashion aesthetics has captured global dance floor attention. Breaking out of the independent streaming circuits before completely scaling his project into a major recording statement, he pairs timeless analog synthesizers with modern pop precision. Live, his project strips away unnecessary club pretension, delivering a beautifully crisp, high-tempo celebration of modern electronic design.",
@@ -1874,9 +1889,12 @@ const newConstellations: Artist = {
     },
   ],
   tracks: [
-    { name: "Hot Days", album: "New Constellations", duration: "" },
-    { name: "Caught in the Rain", album: "New Constellations", duration: "" },
-    { name: "Fade", album: "Fade", duration: "" },
+    {
+      name: "Think it Over",
+      spotifyId: "1WV5RWE26ljwU4waKddd57",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "New Constellations is the Portland-born alternative project whose meticulous combination of hazy indie rock guitar hooks, crisp hip-hop rhythm pockets, and carefree lyricism has fostered a deeply dedicated independent community. Forging a distinctively laid-back, sun-drenched sonic universe, the outfit crafts tracks that feel simultaneously nostalgic and deeply current. Performing a prime midday slot, their live execution transforms the tree-lined perimeter of Grant Park into a vibrant, high-energy outdoor block party.",
@@ -1901,7 +1919,9 @@ const cruzBeckhamAndTheBreakers: Artist = {
   genres: ["Alternative Rock", "Indie Rock", "Garage Rock"],
   location: { city: "London", country: "England" },
   tagline: "Scrappy, distortion-soaked garage rock revivalism with a classic British edge.",
-  socials: {},
+  socials: {
+    spotify: "https://open.spotify.com/artist/3ZPOiGqgEbfNlKFFKxXVsD",
+  },
   whySee: [
     "A high-visibility festival debut capturing one of rock's most talked-about new frontmen breaking into the live circuit",
     "Blistering, fast-paced dual-guitar riffs that completely bypass overprocessed electronic backing tracks for raw analog grit",
@@ -1929,9 +1949,12 @@ const cruzBeckhamAndTheBreakers: Artist = {
     { name: "Die Spitz", slug: "die-spitz" },
   ],
   tracks: [
-    { name: "The Breakers", album: "The Breakers", duration: "" },
-    { name: "Running", album: "Running", duration: "" },
-    { name: "Chamber", album: "Chamber", duration: "" },
+    {
+      name: "for your love",
+      spotifyId: "6YiySDiEu0qdt9k75XD0qZ",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Cruz Beckham and the Breakers is the London-born alternative rock outfit spearheaded by Cruz Beckham, who stepped away from a prominent family spotlight to forge a fiercely authentic path in the independent guitar underground. Fusing the gritty textures of classic 90s grunge with the fast-paced, melodic hooks of early 2000s British garage rock, the group writes raw tales of adolescent chaos and interpersonal grit. Commanding the stage with absolute analog focus, their late afternoon live set transforms sprawling mainstage fields into high-energy, therapeutic guitar singalongs.",
@@ -1988,9 +2011,12 @@ const theBends: Artist = {
     },
   ],
   tracks: [
-    { name: "Static", album: "The Bends", duration: "" },
-    { name: "Fallen", album: "The Bends", duration: "" },
-    { name: "Chamber", album: "Chamber", duration: "" },
+    {
+      name: "Makeup",
+      spotifyId: "1XPxwcGKdiaFPWrBgFnDYI",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "The Bends is the Chicago-born alternative rock quartet whose meticulous combination of fuzzed-out garage indie grit, driving rhythms, and emotionally honest lyricism has earned them a reputation as one of the city's most essential live rock vanguards. Writing sweeping tales of industrial midwestern isolation, identity, and personal history, the group relies entirely on raw analog band energy. Coming off a series of highly discussed local support slots, their early afternoon performance brings an absolute guitar clinic to Grant Park.",
@@ -2036,9 +2062,12 @@ const after: Artist = {
     { name: "Oklou", slug: "oklou" },
   ],
   tracks: [
-    { name: "After", album: "After", duration: "" },
-    { name: "Static", album: "After", duration: "" },
-    { name: "Fade", album: "Fade", duration: "" },
+    {
+      name: "300 Dreams",
+      spotifyId: "3gkVuPHTyp4rHH5YrczzOL",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "After is a Chicago-born alternative hip-hop producer, singer, and songwriter who rapidly vaulted from Soundcloud isolation into local independent prominence, commanding an intensely passionate regional community. Characterized by a unique choice of hazy, loop-heavy underground production and unstructured, stream-of-consciousness flows, the project embodies the post-rage aesthetic of modern youth culture. Performing a prime midday slot, the live execution completely flips traditional festival pacing for pure, energetic crowd chaos.",
@@ -2084,9 +2113,12 @@ const whatmore: Artist = {
     },
   ],
   tracks: [
-    { name: "Whatmore", album: "Whatmore", duration: "" },
-    { name: "Under the Skyline", album: "Whatmore", duration: "" },
-    { name: "Closer Now", album: "Closer Now", duration: "" },
+    {
+      name: "2000s Pop Punk Rnb",
+      spotifyId: "4pCaGHshtacSSPRqXSLK75",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Whatmore are the Chicago-born alternative rock collective whose meticulous combination of fuzzed-out garage indie rock grit, driving rhythms, and carefree storytelling has fostered a deeply dedicated regional community. Forging a distinctively laid-back, sun-drenched sonic universe, the outfit crafts tracks that track personal history, identity, and midwestern isolation. Performing a prime midday slot on the alternative stage, their live execution transforms the sprawling perimeter of Grant Park into a vibrant outdoor block party.",
@@ -2127,9 +2159,12 @@ const porchLight: Artist = {
     { name: "Wunderhorse", slug: "wunderhorse" },
   ],
   tracks: [
-    { name: "Voice Memos", album: "Porch Light", duration: "" },
-    { name: "Overthinking", album: "Porch Light", duration: "" },
-    { name: "Seventeen", album: "Seventeen", duration: "" },
+    {
+      name: "Oxygen",
+      spotifyId: "29fc1RinBg7npe9NtS4yDO",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Porch Light is a Los Angeles-based singer-songwriter who built an intensely passionate internet community through a hyper-specific, beautifully conversational brand of contemporary indie pop. Rooted in the emotional intimacy of bedroom pop recordings but elevated by bright, modern pop production, rich chamber strings, and witty lyrical choices, the tracks explore young adulthood with profound precision. Handpicked for an extensive global tour cycle, the early afternoon live execution transforms the tree-lined perimeter of Grant Park into a vibrant outdoor listening party.",
@@ -2178,15 +2213,12 @@ const easyHoney: Artist = {
     { name: "Day We Ran", slug: "day-we-ran" },
   ],
   tracks: [
-    { name: "Steady", album: "Peach State", duration: "" },
     {
-      spotifyId: "1JlQELi7lVpeBeR9mFaZyV",
-      name: "Spells",
-      album: "Peach State",
-      duration: "3:08",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e021103de4ee6de12960aa72c6b",
+      name: "Homesick.",
+      spotifyId: "3q2Fz1ArkpcgssqGn61q5s",
+      album: "",
+      duration: "",
     },
-    { name: "Gotta Tree", album: "Gotta Tree", duration: "" },
   ],
   about:
     "Easy Honey is the Charleston-based alternative rock outfit whose meticulous combination of hazy surf rock guitar hooks, crisp indie grooves, and carefree songwriting has earned them a fiercely loyal independent community. Drawing sharp atmospheric blueprints from nostalgic garage indie and low-slung neo-psychedelia, the group crafts tracks that feel simultaneously introspective and entirely danceable. Backed by an exceptionally tight live performance history, their early afternoon set transforms a sprawling festival lawn into a vibrant outdoor block party.",
@@ -2242,9 +2274,12 @@ const jackieHollander: Artist = {
     },
   ],
   tracks: [
-    { name: "Resist", album: "Resist", duration: "" },
-    { name: "Distortion", album: "Distortion", duration: "" },
-    { name: "Control", album: "Control", duration: "" },
+    {
+      name: "Addicted",
+      spotifyId: "14yugoFdkgO8ZUxLlX6fpJ",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Jackie Hollander is a San Francisco-born producer and DJ whose meticulous blend of moody tech-house infrastructure, deep bass rollers, and hypnotic electronic loops has captured intense dancefloor focus worldwide. Originally breaking out of the Northern California underground rave circuits, she has spent the modern era carving out a lane that values raw analog swing over commercial EDM clichés. Backed by a relentless touring calendar and heavy support from global dance titans, her live performance delivers a beautifully polished, high-velocity lesson in modern club mechanics.",
@@ -2284,9 +2319,12 @@ const stellaLefty: Artist = {
     { name: "Waylon Wyatt", slug: "waylon-wyatt" },
   ],
   tracks: [
-    { name: "Voice Memos", album: "Stella Lefty", duration: "" },
-    { name: "Overthinking", album: "Stella Lefty", duration: "" },
-    { name: "Seventeen", album: "Seventeen", duration: "" },
+    {
+      name: "Boston",
+      spotifyId: "2QihEF7BIfPCJjkB0c4Rrv",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Stella Lefty is a Los Angeles-based singer-songwriter who built an intensely passionate internet community through a hyper-specific, beautifully conversational brand of contemporary indie pop. Rooted in the emotional intimacy of bedroom pop recordings but elevated by bright, modern pop production, rich chamber strings, and witty lyrical choices, the tracks explore young adulthood with profound precision. Handpicked for an extensive global tour cycle, the early afternoon live execution transforms the tree-lined perimeter of Grant Park into a vibrant outdoor listening party.",
@@ -2343,20 +2381,11 @@ const justineSkye: Artist = {
     },
   ],
   tracks: [
-    { name: "Collide", album: "Bare With Me", duration: "" },
     {
-      spotifyId: "0G3qCSe4KcWFc0EKlXCEo8",
-      name: "Build",
-      album: "Bare With Me",
-      duration: "4:07",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e0299bfdb8c3573c8db0c457478",
-    },
-    {
-      spotifyId: "5aKvdpWyjO14xB04CTEpEw",
-      name: "In My Bag",
-      album: "Space & Time",
-      duration: "3:28",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e023cb656dd067ce27a38b50886",
+      name: "Collide (feat. Tyga)",
+      spotifyId: "5kY2DRIom6dcVZbQb1SAX8",
+      album: "",
+      duration: "",
     },
   ],
   about:
@@ -2411,14 +2440,11 @@ const willSwinton: Artist = {
     { name: "Kingfishr", slug: "kingfishr" },
   ],
   tracks: [
-    { name: "Wasted On You", album: "Will Swinton", duration: "" },
-    { name: "Leave Me Dead", album: "Will Swinton", duration: "" },
     {
-      spotifyId: "3oCorEb2RJOrGlpRcUy3Bn",
-      name: "Better Days",
-      album: "Better Days",
-      duration: "2:47",
-      artworkUrl: "https://i.scdn.co/image/ab67616d00001e02bee403db120105a7e9a4f38c",
+      name: "Can't Let Go",
+      spotifyId: "2WSWOOHcY2w3guzmVMcSIY",
+      album: "",
+      duration: "",
     },
   ],
   about:
@@ -2465,9 +2491,12 @@ const sunshineBenzi: Artist = {
     { name: "Clipse", slug: "clipse" },
   ],
   tracks: [
-    { name: "TRUMP THE BILL", album: "TRUMP THE BILL", duration: "" },
-    { name: "Scottie Pippen", album: "Scottie Pippen", duration: "" },
-    { name: "EASTSIDE", album: "EASTSIDE", duration: "" },
+    {
+      name: "WAKO",
+      spotifyId: "005AxnprSNhhqOfSaXASXy",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Sunshine Benzi is a Chicago-born rapper who went from total unknown to one of hip-hop's most talked about new names in a single freestyle. Her breakout track 'TRUMP THE BILL' turned heads with rapid-fire, New York-flavored bars that echo the mixtape-era greats she grew up on, from Nicki Minaj to Foxy Brown. That momentum has carried her through a Coach partnership, a sold-out New York pop-up show, and now a festival debut, where her early afternoon Airbnb stage set introduces festivalgoers to hip-hop's newest breakout voice.",
@@ -2517,9 +2546,12 @@ const caseOats: Artist = {
     },
   ],
   tracks: [
-    { name: "Oats", album: "Case Oats", duration: "" },
-    { name: "Under the Skyline", album: "Case Oats", duration: "" },
-    { name: "Closer Now", album: "Closer Now", duration: "" },
+    {
+      name: "Bitter Root Lake",
+      spotifyId: "1N4WfOBly0tOaAVQ0HeNDC",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Case Oats are the Chicago-born alternative rock collective whose meticulous combination of fuzzed-out garage indie rock grit, driving rhythms, and carefree storytelling has fostered a deeply dedicated regional community. Forging a distinctively laid-back, sun-drenched sonic universe, the outfit crafts tracks that track personal history, identity, and midwestern isolation. Performing a prime midday slot on the alternative stage, their live execution transforms the sprawling perimeter of Grant Park into a vibrant outdoor block party.",
@@ -2568,9 +2600,12 @@ const surfingForDaisy: Artist = {
     { name: "Day We Ran", slug: "day-we-ran" },
   ],
   tracks: [
-    { name: "Steady", album: "Peach State", duration: "" },
-    { name: "Spells", album: "Peach State", duration: "" },
-    { name: "Gotta Tree", album: "Gotta Tree", duration: "" },
+    {
+      name: "Acrobat",
+      spotifyId: "6Pbbcky2Q0F314Y7X14ar4",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "Surfing for Daisy is the alternative rock outfit whose meticulous combination of hazy surf rock guitar hooks, crisp indie grooves, and carefree songwriting has earned them a fiercely loyal independent community. Drawing sharp atmospheric blueprints from nostalgic garage indie and low-slung neo-psychedelia, the group crafts tracks that feel simultaneously introspective and entirely danceable. Backed by an exceptionally tight live performance history, their early afternoon set transforms a sprawling festival lawn into a vibrant outdoor block party.",
@@ -2594,7 +2629,7 @@ const snacktime: Artist = {
   genres: ["Funk", "Brass Band", "Soul"],
   location: { city: "Philadelphia", state: "Pennsylvania", country: "United States" },
   tagline: "High-octane, intense brass-heavy funk and soul built purely for outdoor block parties.",
-  socials: { spotify: "https://open.spotify.com/artist/4Dz610GESZQXsYHxaS73Wk" },
+  socials: { spotify: "https://open.spotify.com/artist/4WdKwazXyV5Hc2YtWc2IDr" },
   whySee: [
     "The absolute ultimate raw live wildcard of the afternoon lineup, delivering an unadulterated brass-heavy funk explosion",
     "An exceptional multi-instrumental ensemble executing hyper-precise syncopated rhythms and soaring horn lines completely live",
@@ -2618,9 +2653,12 @@ const snacktime: Artist = {
     },
   ],
   tracks: [
-    { name: "Eat That Snack", album: "SNACKTIME", duration: "" },
-    { name: "Gumbo", album: "SNACKTIME", duration: "" },
-    { name: "Together", album: "Together", duration: "" },
+    {
+      name: "ENOUGH.",
+      spotifyId: "5uvnq6j5kdofhXoPuuoIqF",
+      album: "",
+      duration: "",
+    },
   ],
   about:
     "SNACKTIME is the Philadelphia-born brass-heavy funk and soul collective whose meticulous combination of raw street performance energy, syncopated rhythm loops, and multi-instrumental showmanship has earned them widespread critical acclaim across the festival circuit.pairs flawless, conservatory-grade brass precision with an intensely innovative approach that completely strips away commercial pop backing tracks. Forging an exceptionally high-tempo, celebratory soundscape built entirely around collective crowd movement, their live midday execution transforms Grant Park into an unmissable outdoor celebration.",
