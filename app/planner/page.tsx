@@ -9,6 +9,7 @@ import { getDaysForActiveFestival, ACTIVE_FESTIVAL_ID } from "@/app/data/festiva
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { usePlannerViewStore } from "@/app/store/plannerViewStore";
+import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
 import { getAllAppearanceEntries, getAppearanceKey } from "@/app/lib/schedule";
 
 // Computed once at module scope — allArtists never changes at runtime, same as
@@ -26,6 +27,7 @@ export default function PlannerPage() {
   // itself (see scheduleStore.ts) — read directly rather than recomputed here.
   const { scheduledAppearanceKeys, conflictingAppearanceKeys, toggleScheduled } =
     useScheduleStore();
+  const runAppearancesBySlug = useRunAppearancesStore((state) => state.appearancesBySlug);
 
   const myPickSlugs = useMemo(() => {
     const slugs = new Set<string>();
@@ -61,7 +63,7 @@ export default function PlannerPage() {
     const myPicksActive = showMyPicks && !myPicksDisabled;
     if (!myPicksActive && !showScheduled) return dayEntries;
     return dayEntries.filter((entry) => {
-      const key = getAppearanceKey(entry.artist, entry.appearance);
+      const key = getAppearanceKey(entry.artist, entry.appearance, runAppearancesBySlug);
       if (conflictingAppearanceKeys.has(key)) return true;
       const matchesMyPicks = !myPicksActive || myPickSlugs.has(entry.artist.slug);
       const matchesScheduled = !showScheduled || scheduledAppearanceKeys.has(key);

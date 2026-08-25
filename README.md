@@ -137,7 +137,7 @@ A few more decisions worth knowing about:
 - Normalizes 123 genres into 10 parent categories, powering genre pills, Explore filtering, and the gradient-fallback theming used when an artist has no photo.
 - Detects real schedule conflicts across a user's scheduled picks, scoped by festival and calendar date.
 - Uses deterministic carousel sampling to keep server and client rendering consistent while preserving variety between visits.
-- Persists decisions and schedule state in the browser with Zustand, automatically upgrading a returning user's saved data when the stored format changes, instead of losing it.
+- Persists decisions and schedule state in the browser with Zustand.
 - Gates AI-drafted artist bios and similar-artist picks behind a verified flag, so unverified content never renders. All 171 artists' similar-artist picks are verified; bio verification is ongoing.
 
 For deeper implementation notes and design decisions, see [ARCHITECTURE.md](ARCHITECTURE.md).

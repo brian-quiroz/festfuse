@@ -32,6 +32,8 @@ from app.schemas.artist import (
     FestivalArtistRead,
     FestivalArtistRunRead,
     FestivalArtistStageRead,
+    FestivalRunAppearanceRead,
+    FestivalRunArtistRead,
     FestivalSimilarArtistRead,
 )
 
@@ -307,3 +309,86 @@ def read_festival_artist_by_slug(
             similar_artists=similar_artists,
         ),
     )
+
+
+def read_festival_run_appearances(
+    session: Session,
+    *,
+    edition_slug: str,
+    run_slug: str,
+) -> list[FestivalRunAppearanceRead] | None:
+    """Every published, announced Artist's scheduled Appearances for one run."""
+    festival_run = session.scalar(
+        select(FestivalRun)
+        .join(FestivalRun.festival_edition)
+        .options(raiseload("*"), joinedload(FestivalRun.festival_edition))
+        .where(
+            FestivalRun.slug == run_slug,
+            FestivalEdition.slug == edition_slug,
+        )
+    )
+    if festival_run is None:
+        return None
+
+    edition = festival_run.festival_edition
+    timezone = ZoneInfo(edition.timezone)
+
+    statement = (
+        select(Appearance)
+        .join(Appearance.lineup_entry)
+        .join(LineupEntry.artist)
+        .options(
+            raiseload("*"),
+            joinedload(Appearance.stage),
+            joinedload(Appearance.festival_day),
+            joinedload(Appearance.lineup_entry).joinedload(LineupEntry.artist),
+            joinedload(Appearance.lineup_entry)
+            .joinedload(LineupEntry.artist)
+            .selectinload(Artist.genre_assignments)
+            .selectinload(ArtistGenre.genre)
+            .selectinload(Genre.family),
+        )
+        .where(
+            LineupEntry.festival_run_id == festival_run.id,
+            LineupEntry.lineup_status == "announced",
+            Artist.publication_status == "published",
+            # Cancelled excluded too, unlike read_festival_artist_by_slug — see ADR-0004.
+            Appearance.appearance_status == "scheduled",
+        )
+        .order_by(Appearance.starts_at)
+    )
+    appearances = session.scalars(statement).all()
+
+    for appearance in appearances:
+        if appearance.lineup_entry.billing_tier is None:
+            raise PublishedArtistConsistencyError(
+                f"Announced festival artist {appearance.lineup_entry.artist.slug!r} "
+                "has no billing tier"
+            )
+
+    return [
+        FestivalRunAppearanceRead(
+            id=appearance.id,
+            festival_date=appearance.festival_day.date,
+            starts_at=appearance.starts_at.astimezone(timezone),
+            ends_at=appearance.ends_at.astimezone(timezone),
+            stage=FestivalArtistStageRead(
+                slug=appearance.stage.slug,
+                name=appearance.stage.name,
+            ),
+            billing_tier=appearance.lineup_entry.billing_tier,
+            artist=FestivalRunArtistRead(
+                slug=appearance.lineup_entry.artist.slug,
+                name=appearance.lineup_entry.artist.name,
+                image=_map_artist_image(appearance.lineup_entry.artist),
+                genres=[
+                    _map_genre(assignment)
+                    for assignment in sorted(
+                        appearance.lineup_entry.artist.genre_assignments,
+                        key=lambda assignment: assignment.display_order,
+                    )
+                ],
+            ),
+        )
+        for appearance in appearances
+    ]

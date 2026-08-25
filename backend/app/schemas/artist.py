@@ -117,3 +117,20 @@ class FestivalArtistContextRead(BaseModel):
 class FestivalArtistRead(BaseModel):
     artist: ArtistCoreRead
     festival_context: FestivalArtistContextRead
+
+
+class FestivalRunArtistRead(BaseModel):
+    slug: str
+    name: str
+    image: ArtistImageRead | None
+    genres: list[ArtistGenreRead]
+
+
+class FestivalRunAppearanceRead(BaseModel):
+    id: int
+    festival_date: date
+    starts_at: datetime
+    ends_at: datetime
+    stage: FestivalArtistStageRead
+    billing_tier: Literal["headliner", "sub_headliner", "undercard"]
+    artist: FestivalRunArtistRead

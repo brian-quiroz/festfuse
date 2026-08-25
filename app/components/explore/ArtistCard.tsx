@@ -7,6 +7,7 @@ import { COLORS } from "@/app/data/colors";
 import type { Artist } from "@/app/types/artist";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
+import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import {
   getPrimaryAppearance,
@@ -31,6 +32,7 @@ export default function ArtistCard({
   const { decisionsByArtist, setDecision } = useDecisionStore();
   const { scheduledAppearanceKeys, conflictingArtistSlugs, toggleAllAppearances } =
     useScheduleStore();
+  const runAppearancesBySlug = useRunAppearancesStore((state) => state.appearancesBySlug);
 
   // Read from store
   const decision = decisionsByArtist[artist.slug];
@@ -49,7 +51,12 @@ export default function ArtistCard({
   // festival — "full" means every appearance is scheduled, "partial" means some were
   // scheduled individually via the Planner, "none" means nothing scheduled. See
   // ARCHITECTURE.md § Multi-Appearance Support.
-  const scheduleState = getArtistScheduleState(artist, ACTIVE_FESTIVAL_ID, scheduledAppearanceKeys);
+  const scheduleState = getArtistScheduleState(
+    artist,
+    ACTIVE_FESTIVAL_ID,
+    scheduledAppearanceKeys,
+    runAppearancesBySlug
+  );
   const isScheduled = scheduleState === "full";
   const isPartiallyScheduled = scheduleState === "partial";
   const isConflicting = conflictingArtistSlugs.has(artist.slug);
