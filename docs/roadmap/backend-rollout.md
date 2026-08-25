@@ -13,9 +13,9 @@ decisions belong in [`../decisions/`](../decisions/).
 - The validated TypeScript artist snapshot has been imported into the local database.
 - Artist publication-readiness rules exist as pure application logic, with unit and
   PostgreSQL integration coverage.
-- The guarded publication workflow has published 126 passing Artists in one
-  transaction. The remaining 45 stay intentionally visible as drafts with reported
-  readiness issues.
+- The guarded publication workflow has published all 171 Artists locally in one
+  transaction; the hosted Railway database still reflects the prior 126/45 split
+  pending the same rollout there.
 - The production frontend still reads its existing TypeScript data. It does not yet
   depend on FastAPI or a hosted PostgreSQL database.
 
@@ -144,17 +144,20 @@ TypeScript-backed.
 
 ### 6. Complete remaining Artist publication
 
-**Status: pending.**
+**Status: completed.**
 
-- Resolve the reported Quick Picks and Listen First readiness gaps that currently
-  leave 45 of 171 Artists as drafts.
-- Re-run the guarded publication workflow rather than changing publication status
-  manually.
-- Verify that the intended lineup is fully published and that previously hidden
-  Similar Artist sets become eligible without partial filtering or recuration.
+- Curated one playable Quick Picks track for each of the 45 remaining draft Artists,
+  and resolved a Spotify artist identity for the two Artists that previously had
+  neither one nor a curated Listen First override.
+- Synchronized the curated listening configuration into PostgreSQL with a dedicated,
+  idempotent backfill script, then re-ran the guarded publication workflow rather
+  than changing publication status manually.
+- Verified all 171 Artists are published with zero remaining drafts, that all 170
+  verified Similar Artist sets are now fully visible without partial filtering or
+  recuration, and reran the full backend test suite.
 
-**Checkpoint:** every intended lineup Artist is publication-ready and public under
-the documented readiness policy.
+**Checkpoint reached:** every intended lineup Artist is publication-ready and public
+under the documented readiness policy.
 
 ### 7. Expand and cut over deliberately
 

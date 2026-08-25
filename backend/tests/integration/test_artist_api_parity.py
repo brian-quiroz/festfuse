@@ -234,7 +234,7 @@ def test_all_published_artist_cores_match_typescript_source(
             artist_slug="<published-set>",
             field="count",
             actual=len(published_slugs),
-            expected=126,
+            expected=171,
         )
 
         for artist_slug in published_slugs:

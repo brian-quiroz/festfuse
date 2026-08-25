@@ -870,10 +870,12 @@ records rather than assuming the TypeScript shape was migration-ready.
 - both curated Listen First overrides contain exactly three identified tracks.
 
 The later publication rollout exposed a transitional legacy mismatch: among verified
-sets owned by the 126 currently published Artists, 119 recommendation entries target
-one of the remaining 45 draft Artists. These sets predate the published-target
-heuristic. They remain stored and verified but must be hidden as complete sets until
-all four targets are published; they are not partially truncated.
+sets owned by the initially published 126 Artists, 119 recommendation entries
+targeted one of the remaining 45 draft Artists. These sets predated the
+published-target heuristic. They remained stored and verified but were hidden as
+complete sets until all four targets were published; they were not partially
+truncated. Publishing the remaining 45 Artists resolved this gap: all 170 verified
+sets are now fully visible.
 
 ### Required cleanup or staged publication
 
@@ -885,12 +887,17 @@ all four targets are published; they are not partially truncated.
 | MPH and Chicago Made had `socialsVerified: true` without a confirmed group-level YouTube/TikTok link | Source corrected to unverified; revisit candidate links before setting verification rather than treating either record as reviewed-empty |
 | The Chainsmokers repeats one Spotify track in a dormant extra array position | Ignore it because v1 migrates only the explicit Quick Picks selection and curated Listen First selections, not every legacy track |
 
+The 45-Artist and Ric Wilson/Cruz Beckham & The Breakers findings above were resolved
+in a later publication rollout: all 45 gained a curated Quick Picks track, and both
+artists gained a Spotify artist identity. All 171 Artists are now published.
+
 Under the accepted publication rules and after the explicit aespa Genre cleanup, 126
-of 171 Artists are currently ready and 45 are not. The initial import created every
-Artist as `draft` and preserved all real announced LineupEntries and scheduled
-Appearances. Publishing the passing Artists remains an explicit follow-up operation.
-The TypeScript source remains the live frontend source until API parity is verified,
-so staged database publication does not remove current UI coverage.
+of 171 Artists were immediately ready and 45 were not. The initial import created
+every Artist as `draft` and preserved all real announced LineupEntries and scheduled
+Appearances. Publishing the passing Artists was an explicit follow-up operation,
+later followed by curating and publishing the remaining 45; all 171 Artists are now
+published. The TypeScript source remains the live frontend source until API parity is
+verified, so staged database publication does not remove current UI coverage.
 
 ### Historical timestamp and gate backfill
 
@@ -1113,6 +1120,12 @@ The following records the completed implementation boundary:
 - [x] Expose verified Similar Artist sets through that run-scoped boundary only when
   all four canonical targets remain published and announced; return four or none,
   preserve `verified_at` on unpublication, and verify all-source parity.
+- [x] Curate a Quick Picks track for the remaining 45 draft Artists and a Spotify
+  artist identity for Ric Wilson and Cruz Beckham & The Breakers, synchronize the
+  listening configuration into PostgreSQL with a dedicated idempotent backfill
+  script, then re-run the guarded publication workflow. Verify all 171 Artists are
+  published, all 170 verified Similar Artist sets are fully visible, and the full
+  backend test suite passes.
 
 ## Remaining implementation sequence
 

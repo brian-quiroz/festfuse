@@ -58,5 +58,5 @@ def test_current_typescript_source_passes_import_validation() -> None:
     assert counts["about_verified"] == 50
     assert counts["about_unverified_preserved"] == 121
     assert counts["approved_images_imported"] == 21
-    assert counts["publication_ready"] == 126
-    assert counts["remaining_draft"] == 45
+    assert counts["publication_ready"] == 171
+    assert counts["remaining_draft"] == 0
