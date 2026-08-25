@@ -23,6 +23,13 @@ tables, SQL, constraints, indexes, trigger functions, cascades, and deferred for
 keys. This is the integration boundary: Python, SQLAlchemy, Psycopg, the migration,
 and PostgreSQL must work together.
 
+When adding coverage for a new query, cross-reference the Enforcement Ownership
+matrix in [artist-data-model.md](../../docs/design/artist-data-model.md) for the
+entity being queried — it names specific rules (ordering, primary-flag placement,
+status filtering) that are easy to under-test by accident. Relationship-loaded
+collections (via `selectinload`/`joinedload`) are never trusted for order; the
+mapping layer always applies an explicit `sorted(..., key=...)` instead.
+
 `integration/test_artist_read_query.py` uses that same rollback-contained boundary
 to prove the public Artist query's publication predicate, relationship eager loading,
 Quick Picks role selection, deterministic genre and Listen First ordering, and clear
