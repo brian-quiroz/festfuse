@@ -163,12 +163,18 @@ under the documented readiness policy.
 
 ### 7. Expand and cut over deliberately
 
+- A run-scoped `GET /festivals/{edition}/runs/{run}/appearances` endpoint now gives
+  every scheduling-identity consumer (Artist Detail, Explore, Planner) one canonical
+  source for an Artist's real `Appearance.id`, ahead of broadening Artist Detail's own
+  content allowlist. It is the shared foundation later consumers (Quick Picks,
+  Festival Story) can also migrate onto, rather than a single-purpose fix.
 - Migrate additional consumers only after the first slice is stable.
 - Choose and test a production cache policy—such as timed revalidation, explicit
   tag-based invalidation, or continued uncached reads—before broadening the allowlist.
 - Add observability and a rollback path before production becomes API-dependent.
-- Remove the legacy runtime data path only after all consumers have parity and the
-  imported data has a maintained source/update workflow.
+- Remove `app/data/artists` as a runtime dependency only after all consumers have
+  parity, both as a read source (this rollout) and eventually as an authoring source
+  (import scripts today, an admin workflow later).
 
 ## Guardrails
 

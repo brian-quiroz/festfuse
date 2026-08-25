@@ -3,8 +3,7 @@ from datetime import date
 from sqlalchemy import select
 
 from app.database import SessionLocal
-from app.models import FestivalSeries, FestivalEdition, FestivalRun, FestivalDay
-
+from app.models import FestivalDay, FestivalEdition, FestivalRun, FestivalSeries
 
 FESTIVAL_SERIES_SLUG = "lollapalooza-chicago"
 FESTIVAL_SLUG = "lollapalooza-2026"
@@ -21,9 +20,7 @@ def seed_festival() -> None:
             return
 
         festival_series = session.scalar(
-            select(FestivalSeries).where(
-                FestivalSeries.slug == FESTIVAL_SERIES_SLUG
-            )
+            select(FestivalSeries).where(FestivalSeries.slug == FESTIVAL_SERIES_SLUG)
         )
 
         if festival_series is None:

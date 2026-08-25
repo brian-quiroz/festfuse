@@ -34,6 +34,16 @@ valid announced-without-schedule state. Similar Artist cases prove verified
 four-or-none exposure, deterministic order, canonical target summaries, complete-set
 hiding after target unpublication, and preservation of editorial verification.
 
+`integration/test_run_appearances_query.py` uses the same rollback-contained
+boundary to prove the run-scoped appearances feed behind the scheduling-identity
+fix: draft Artist, non-announced lineup, draft-status, and cancelled-status
+Appearances are all excluded (cancelled is deliberately excluded here, unlike the
+per-Artist query — see ADR-0004); returned Appearances are ordered by start time and
+mapped with the real database Appearance ID, correct timezone conversion, and
+primary-genre-first ordering; an announced entry missing its billing tier raises the
+same consistency error as the per-Artist query; and an unknown edition/run slug
+returns nothing to resolve, matching the API's not-found behavior.
+
 `integration/test_artist_api_parity.py` compares the current TypeScript export with
 the real published PostgreSQL Artist projections. Named cases document approved-image,
 hidden-image, curated Listen First, and verified direct-content behavior; the complete
@@ -65,8 +75,9 @@ The integration suite currently verifies:
 - published Artist query filtering, mapping, and consistency behavior;
 - semantic public-response parity for the exact 126 published source Artists;
 - semantic festival-context parity for run-level billing and all imported Appearances;
-  and
-- verified four-or-none Similar Artist visibility and canonical target parity.
+- verified four-or-none Similar Artist visibility and canonical target parity; and
+- the run-scoped appearances feed's publication/lineup/schedule filtering, ordering,
+  and field mapping.
 
 ## Commands
 

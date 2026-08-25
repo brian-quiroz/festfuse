@@ -4,6 +4,7 @@ import { Calendar, Star, Heart } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
+import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getAppearancesForFestival } from "@/app/lib/appearances";
 import { getArtistScheduleState } from "@/app/lib/schedule";
@@ -15,6 +16,7 @@ interface ArtistActionsProps {
 export default function ArtistActions({ artist }: ArtistActionsProps) {
   const { decisionsByArtist, setDecision } = useDecisionStore();
   const { scheduledAppearanceKeys, toggleAllAppearances } = useScheduleStore();
+  const runAppearancesBySlug = useRunAppearancesStore((state) => state.appearancesBySlug);
 
   const decision = decisionsByArtist[artist.slug];
   const verdict = decision?.verdict ?? null;
@@ -23,7 +25,12 @@ export default function ArtistActions({ artist }: ArtistActionsProps) {
   // festival — see ARCHITECTURE.md § Multi-Appearance Support. "Add to Schedule" is a
   // single control regardless of appearance count; the button text discloses the count
   // for multi-appearance artists without exposing individual appearance times.
-  const scheduleState = getArtistScheduleState(artist, ACTIVE_FESTIVAL_ID, scheduledAppearanceKeys);
+  const scheduleState = getArtistScheduleState(
+    artist,
+    ACTIVE_FESTIVAL_ID,
+    scheduledAppearanceKeys,
+    runAppearancesBySlug
+  );
   const isScheduled = scheduleState === "full";
   const isPartiallyScheduled = scheduleState === "partial";
   const appearanceCount = getAppearancesForFestival(artist, ACTIVE_FESTIVAL_ID).length;

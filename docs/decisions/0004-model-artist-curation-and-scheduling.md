@@ -100,6 +100,31 @@ SQL, or pgAdmin, so critical invalidation cannot depend on one application code 
 - **Put every rule in PostgreSQL.** Rejected for contextual completeness and lifecycle
   rules that require multi-row product meaning and clearer application errors.
 
+## Follow-up (2026-08-25)
+
+The Appearance primary key now resolves correctly end to end. A new
+`GET /festivals/{edition}/runs/{run}/appearances` endpoint and frontend
+`runAppearancesStore` give every scheduling call site (Artist Detail, Explore,
+Planner) one canonical source for an artist's `Appearance.id`, regardless of which
+data source populated the calling component's artist/appearance objects. The
+deferred parallel-legacy-ID alternative remains correctly rejected; no second
+identifier was introduced.
+
+The anticipated "one-time saved-schedule reset" did not require a persisted-key
+rename or migration function. Stale `localStorage` schedule keys are cleared
+manually — the product has no real user data yet to migrate.
+
+The new endpoint, query, and store are named "appearances" throughout
+(`read_festival_run_appearances`, `FestivalRunAppearanceRead`,
+`runAppearancesStore`), not "lineup" — `LineupEntry` already means booking/
+membership, independent of schedule — or "catalog", a transient planning term
+that was never adopted.
+
+`read_festival_run_appearances` excludes cancelled appearances, unlike
+`read_festival_artist_by_slug`. No scheduling surface renders cancellation state
+yet; widen this filter together with adding a status field to
+`FestivalRunAppearanceRead` once that UI exists.
+
 ## References
 
 - [Artist and festival data-model design](../design/artist-data-model.md)

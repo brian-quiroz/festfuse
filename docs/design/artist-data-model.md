@@ -1126,6 +1126,13 @@ The following records the completed implementation boundary:
   script, then re-run the guarded publication workflow. Verify all 171 Artists are
   published, all 170 verified Similar Artist sets are fully visible, and the full
   backend test suite passes.
+- [x] Add a lightweight, run-scoped read boundary
+  (`read_festival_run_appearances`) returning every published, announced Artist's
+  scheduled Appearances in one flat, unpaginated list — the canonical source every
+  frontend scheduling-identity consumer resolves an Artist's real `Appearance.id`
+  against, alongside (not replacing) the heavier per-Artist detail boundary. Add
+  real PostgreSQL integration coverage for its filters, ordering, field mapping,
+  and billing-tier consistency check.
 
 ## Remaining implementation sequence
 

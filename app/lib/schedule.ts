@@ -2,13 +2,30 @@ import type { Artist, FestivalAppearance } from "@/app/types/artist";
 import { getAppearancesForFestival } from "@/app/lib/appearances";
 import { getDaysForActiveFestival } from "@/app/data/festivals";
 import { timeStringToMinutes } from "@/app/lib/time";
+import { resolveCanonicalAppearanceId } from "@/app/store/runAppearancesStore";
+import type { ApiRunAppearance } from "@/app/types/festivalRunAppearancesApi";
+
+export type RunAppearancesBySlug = Map<string, ApiRunAppearance[]>;
 
 // Festival-scoped, ID-based — not derived from day/time, so correcting an appearance's
 // schedule details later never invalidates a persisted key. The artist's slug is
 // included here (not baked into appearance.id itself) since every real lookup needs
 // both the artist and the appearance together anyway.
-export function getAppearanceKey(artist: Artist, appearance: FestivalAppearance): string {
-  return `${appearance.festivalId}::${artist.slug}::${appearance.id}`;
+//
+// `appearance.id` alone isn't trustworthy: it's the TypeScript-legacy per-artist ID for
+// a TS-sourced artist, but PostgreSQL's own Appearance primary key for an API-sourced
+// one — two different ID spaces for the same real appearance. `runAppearancesBySlug`,
+// when provided, resolves to the canonical database ID regardless of which source
+// `artist`/`appearance` came from. See docs/decisions/0004 and its follow-up note.
+export function getAppearanceKey(
+  artist: Artist,
+  appearance: FestivalAppearance,
+  runAppearancesBySlug?: RunAppearancesBySlug
+): string {
+  const canonicalId = runAppearancesBySlug
+    ? resolveCanonicalAppearanceId(artist.slug, appearance, runAppearancesBySlug)
+    : appearance.id;
+  return `${appearance.festivalId}::${artist.slug}::${canonicalId}`;
 }
 
 // Shared by ArtistCard, ArtistActions, and filters.ts's scheduleStatus facet so they
@@ -16,10 +33,11 @@ export function getAppearanceKey(artist: Artist, appearance: FestivalAppearance)
 export function getArtistScheduleState(
   artist: Artist,
   festivalId: string,
-  scheduledAppearanceKeys: Set<string>
+  scheduledAppearanceKeys: Set<string>,
+  runAppearancesBySlug?: RunAppearancesBySlug
 ): "none" | "partial" | "full" {
   const keys = getAppearancesForFestival(artist, festivalId).map((a) =>
-    getAppearanceKey(artist, a)
+    getAppearanceKey(artist, a, runAppearancesBySlug)
   );
   const scheduledCount = keys.filter((k) => scheduledAppearanceKeys.has(k)).length;
   if (scheduledCount === 0) return "none";
@@ -36,11 +54,19 @@ export function getArtistScheduleState(
 export function getScheduledArtistSlugs(
   scheduledAppearanceKeys: Set<string>,
   allArtists: Artist[],
-  festivalId: string
+  festivalId: string,
+  runAppearancesBySlug?: RunAppearancesBySlug
 ): Set<string> {
   const slugs = new Set<string>();
   for (const artist of allArtists) {
-    if (getArtistScheduleState(artist, festivalId, scheduledAppearanceKeys) !== "none") {
+    if (
+      getArtistScheduleState(
+        artist,
+        festivalId,
+        scheduledAppearanceKeys,
+        runAppearancesBySlug
+      ) !== "none"
+    ) {
       slugs.add(artist.slug);
     }
   }
@@ -50,14 +76,19 @@ export function getScheduledArtistSlugs(
 export function getConflictingArtistSlugs(
   conflictingAppearanceKeys: Set<string>,
   allArtists: Artist[],
-  festivalId: string
+  festivalId: string,
+  runAppearancesBySlug?: RunAppearancesBySlug
 ): Set<string> {
   const slugs = new Set<string>();
   for (const artist of allArtists) {
     // Scoped to this festival's own appearances only — an artist with a conflicting
     // appearance at a different festival must not be flagged here.
     for (const appearance of getAppearancesForFestival(artist, festivalId)) {
-      if (conflictingAppearanceKeys.has(getAppearanceKey(artist, appearance))) {
+      if (
+        conflictingAppearanceKeys.has(
+          getAppearanceKey(artist, appearance, runAppearancesBySlug)
+        )
+      ) {
         slugs.add(artist.slug);
         break;
       }
@@ -119,14 +150,15 @@ export function sortAppearancesChronologically(entries: AppearanceEntry[]): Appe
 // a stale or unrecognized key is simply never matched, never an error.
 export function getConflictingArtists(
   scheduledAppearanceKeys: Set<string>,
-  allArtists: Artist[]
+  allArtists: Artist[],
+  runAppearancesBySlug?: RunAppearancesBySlug
 ): Set<string> {
   const conflicting = new Set<string>();
   const scheduledByDate = new Map<string, Array<{ appearance: FestivalAppearance; key: string }>>();
 
   for (const artist of allArtists) {
     for (const appearance of artist.appearances) {
-      const key = getAppearanceKey(artist, appearance);
+      const key = getAppearanceKey(artist, appearance, runAppearancesBySlug);
       if (!scheduledAppearanceKeys.has(key)) continue;
       const groupKey = `${appearance.festivalId}::${appearance.date}`;
       if (!scheduledByDate.has(groupKey)) scheduledByDate.set(groupKey, []);

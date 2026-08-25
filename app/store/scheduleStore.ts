@@ -11,6 +11,7 @@ import {
   getConflictingArtistSlugs,
 } from "@/app/lib/schedule";
 import { getAppearancesForFestival } from "@/app/lib/appearances";
+import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
 import type { Artist } from "@/app/types/artist";
 
 interface ScheduleState {
@@ -73,19 +74,26 @@ const scheduleStorage = {
 // helper so toggleScheduled/toggleAllAppearances/onRehydrateStorage can't drift out of
 // sync with each other about which derived fields get recomputed.
 function deriveScheduleState(scheduledAppearanceKeys: Set<string>) {
-  const conflictingAppearanceKeys = getConflictingArtists(scheduledAppearanceKeys, allArtists);
+  const runAppearancesBySlug = useRunAppearancesStore.getState().appearancesBySlug;
+  const conflictingAppearanceKeys = getConflictingArtists(
+    scheduledAppearanceKeys,
+    allArtists,
+    runAppearancesBySlug
+  );
   return {
     scheduledAppearanceKeys,
     conflictingAppearanceKeys,
     scheduledArtistSlugs: getScheduledArtistSlugs(
       scheduledAppearanceKeys,
       allArtists,
-      ACTIVE_FESTIVAL_ID
+      ACTIVE_FESTIVAL_ID,
+      runAppearancesBySlug
     ),
     conflictingArtistSlugs: getConflictingArtistSlugs(
       conflictingAppearanceKeys,
       allArtists,
-      ACTIVE_FESTIVAL_ID
+      ACTIVE_FESTIVAL_ID,
+      runAppearancesBySlug
     ),
   };
 }
@@ -124,8 +132,9 @@ export const useScheduleStore = create<ScheduleState>()(
 
         toggleAllAppearances: (artist: Artist, festivalId: string) => {
           set((state) => {
+            const runAppearancesBySlug = useRunAppearancesStore.getState().appearancesBySlug;
             const keys = getAppearancesForFestival(artist, festivalId).map((a) =>
-              getAppearanceKey(artist, a)
+              getAppearanceKey(artist, a, runAppearancesBySlug)
             );
             const allScheduled = keys.every((k) => state.scheduledAppearanceKeys.has(k));
             const newScheduled = new Set(state.scheduledAppearanceKeys);

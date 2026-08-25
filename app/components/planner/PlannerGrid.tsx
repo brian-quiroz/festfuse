@@ -17,6 +17,7 @@ import {
 import { timeStringToMinutes } from "@/app/lib/time";
 import PlannerArtistBlock from "@/app/components/planner/PlannerArtistBlock";
 import type { ArtistDecision } from "@/app/store/decisionStore";
+import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
 
 interface PlannerGridProps {
   allDayEntries: AppearanceEntry[];
@@ -35,6 +36,7 @@ export default function PlannerGrid({
   decisionsByArtist,
   onToggleScheduled,
 }: PlannerGridProps) {
+  const runAppearancesBySlug = useRunAppearancesStore((state) => state.appearancesBySlug);
   const stages = getStagesForActiveFestival();
   // Range is always derived from the full day's lineup, never the filtered set — otherwise
   // toggling a filter would rescale the whole timeline and every remaining block would jump.
@@ -152,7 +154,7 @@ export default function PlannerGrid({
                 {(entriesByStage.get(stage) ?? []).map((entry) => {
                   const start = timeStringToMinutes(entry.appearance.startTime);
                   const end = timeStringToMinutes(entry.appearance.endTime);
-                  const key = getAppearanceKey(entry.artist, entry.appearance);
+                  const key = getAppearanceKey(entry.artist, entry.appearance, runAppearancesBySlug);
                   const verdict = decisionsByArtist[entry.artist.slug]?.verdict ?? null;
                   return (
                     <PlannerArtistBlock
