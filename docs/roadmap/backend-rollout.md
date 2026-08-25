@@ -13,9 +13,8 @@ decisions belong in [`../decisions/`](../decisions/).
 - The validated TypeScript artist snapshot has been imported into the local database.
 - Artist publication-readiness rules exist as pure application logic, with unit and
   PostgreSQL integration coverage.
-- The guarded publication workflow has published all 171 Artists locally in one
-  transaction; the hosted Railway database still reflects the prior 126/45 split
-  pending the same rollout there.
+- The guarded publication workflow has published all 171 Artists, both locally and
+  on the hosted Railway database.
 - The production frontend still reads its existing TypeScript data. It does not yet
   depend on FastAPI or a hosted PostgreSQL database.
 
@@ -105,8 +104,8 @@ content regression.
   seeding, Artist import, and publication remain deliberate operations and never run
   during ordinary application startup or deploy.
 - The hosted database contains the Lollapalooza hierarchy and validated Artist
-  snapshot: 126 Artists are published and 45 remain drafts under the same readiness
-  policy used locally.
+  snapshot. All 171 Artists are published under the same readiness policy used
+  locally.
 - Local and hosted credentials remain separate and uncommitted. Administrative data
   bootstrap uses an encrypted Railway tunnel rather than exposing PostgreSQL publicly.
 - Prefer server-side or same-domain access where practical. If the browser calls a
@@ -151,10 +150,13 @@ TypeScript-backed.
   neither one nor a curated Listen First override.
 - Synchronized the curated listening configuration into PostgreSQL with a dedicated,
   idempotent backfill script, then re-ran the guarded publication workflow rather
-  than changing publication status manually.
-- Verified all 171 Artists are published with zero remaining drafts, that all 170
-  verified Similar Artist sets are now fully visible without partial filtering or
-  recuration, and reran the full backend test suite.
+  than changing publication status manually. Ran both steps locally and, through the
+  encrypted Railway tunnel, against the hosted database.
+- Verified all 171 Artists are published with zero remaining drafts on both
+  databases, that all 170 verified Similar Artist sets are now fully visible without
+  partial filtering or recuration, and reran the full backend test suite. Spot-checked
+  the live hosted API for previously-draft Artists (e.g. `adela`, `ric-wilson`) to
+  confirm the new Quick Picks track and Spotify identity resolve correctly end to end.
 
 **Checkpoint reached:** every intended lineup Artist is publication-ready and public
 under the documented readiness policy.

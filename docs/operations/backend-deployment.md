@@ -81,6 +81,32 @@ repository or shared.
 The initial hosted snapshot produced 171 Artists: 126 publication-ready and 45 drafts.
 Those totals are a verification aid for this snapshot, not permanent business rules.
 
+## Backfilling listening configuration after a source correction
+
+`import_artists.py --apply` refuses to run against tables that already hold Artist
+data, so it cannot repair an environment that was already bootstrapped before the
+TypeScript source had a complete Quick Picks track for every Artist. A brand-new
+environment does not need this section: today's TypeScript source already has every
+Artist's listening configuration, so `import_artists.py --apply` alone produces a
+complete import.
+
+For an environment bootstrapped before that curation was finished, use the dedicated
+backfill script instead, through the same tunnel as above. From `backend/`:
+
+```bash
+railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.sync_artist_listening'
+```
+
+Only after the dry run succeeds, apply it:
+
+```bash
+railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.sync_artist_listening --apply'
+```
+
+Then re-run the `publish_artists` commands above. The backfill is safe to rerun; a
+completed run reports no further changes. See `backend/tests/README.md` for its exact
+scope and `docs/design/artist-data-model.md` for the listening-configuration model.
+
 ## Verification
 
 Verify infrastructure and public behavior after bootstrap:
