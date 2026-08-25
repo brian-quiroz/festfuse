@@ -5,9 +5,9 @@ import { persist } from "zustand/middleware";
 
 export interface PlannerViewState {
   // My Picks defaults on, Scheduled defaults off — surfaces "what have I flagged but not
-  // scheduled yet" on first visit, matching CLAUDE.md's framing of this feature as
-  // organizing a plan *after* decisions have already been made (picks first, schedule
-  // second). Persisted so navigating away (e.g. into an artist page) and back doesn't
+  // scheduled yet" on first visit, matching AGENTS.md's Planner design intent: the
+  // intended next step once you have some picks (picks first, schedule second).
+  // Persisted so navigating away (e.g. into an artist page) and back doesn't
   // reset the view — the Planner is specifically the screen where that back-and-forth is
   // a frequent, core interaction, unlike Explore's filters, which already survive
   // in-app navigation via a plain, non-persisted store.

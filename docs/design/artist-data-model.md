@@ -262,6 +262,9 @@ The design does not introduce a generic `draft`/`verified`/`rejected`/`stale`
 editorial workflow yet. Active content keeps the smallest gate that matches its
 actual behavior.
 
+A documented editorial process exists for verifying and correcting artist records
+against real sources before these gates are set — see the `artist-review` skill.
+
 ## Genres
 
 Genre families already exist in the frontend taxonomy. They are authoritative

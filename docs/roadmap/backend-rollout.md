@@ -185,3 +185,10 @@ under the documented readiness policy.
 - Do not run schema migrations or the artist importer on ordinary user requests.
 - Keep migrations, bootstrap/import commands, required environment variables, and
   verification commands documented before calling the backend reproducible.
+- Do not assume `.env.local` points at a local backend — it points at the hosted
+  Railway API by default. Testing an endpoint that isn't deployed yet requires an
+  explicit local override, not just a running local server.
+- Do not conflate the content allowlist (`FESTFUSE_API_ARTIST_SLUGS`, which Artist
+  Detail pages read from the API) with scheduling-identity resolution
+  (`runAppearancesStore`, which is unscoped and covers every artist regardless of
+  the allowlist). They are independent mechanisms.
