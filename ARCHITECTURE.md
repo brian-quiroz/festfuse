@@ -1259,11 +1259,11 @@ Planner/Explore attendance behavior; the AI-prose data-policy (`tagline`/`whySee
 
 ### Product Context
 
-**Confirmed** — From CLAUDE.md:
+**Confirmed** — Design intent, per `AGENTS.md`'s Screen Design Intent section:
 
-- Schedule is a separate feature from Quick Picks decisions (Must See / Interested / Passed)
-- "Organize a finalized festival plan after decisions have already been made"
-- Planning, conflict detection, and scheduling were deferred until the core discovery experience felt polished
+- Planner is a separate feature from Quick Picks decisions (Must See / Interested / Passed)
+- Planner is the intended next step once you have some picks — not a required one, but the deliberate design
+- Planning, conflict detection, and scheduling were deferred until the core discovery experience felt polished (historical: true at build time, now shipped)
 - Artist Detail page "should inspire rather than compare" — no conflict warnings on that page per design philosophy
 
 ### Data Model
@@ -1364,7 +1364,7 @@ function getConflictingArtists(
 - Three visual states driven by `getArtistScheduleState()`: inactive (none), subtle
   indeterminate (partial — reachable if some of the artist's appearances were
   scheduled individually via the Planner), fully active (full).
-- No conflict warning shown per CLAUDE.md ("should inspire rather than compare")
+- No conflict warning shown per `AGENTS.md` ("should inspire rather than compare")
 - Behavior: click schedules every appearance at the active festival unless all are
   already scheduled, in which case it unschedules all of them
 - Label: "Schedule" for single-appearance artists (consistent across Artist Detail and
@@ -1379,7 +1379,7 @@ function getConflictingArtists(
 
 **File:** `app/components/explore/ArtistCard.tsx`
 
-- **Schedule toggle icon** (calendar icon, cyan per CLAUDE.md "Primary workflow actions")
+- **Schedule toggle icon** (calendar icon, cyan per `.claude/rules/design-principles.md` "Primary workflow actions")
   - Click calls `toggleAllAppearances(artist, festivalId)` — same aggregate action as
     Artist Detail, never per-appearance
   - Three visual states via `getArtistScheduleState()`: inactive (none), subtle
@@ -1400,7 +1400,7 @@ function getConflictingArtists(
 - **Conflict highlight** (red border/highlight only if conflicting)
   - Shown if any of the artist's appearance keys is in the conflict set returned by
     `getConflictingArtists()` — independent of the three schedule states above
-  - Uses red per CLAUDE.md ("Schedule conflicts" → Red)
+  - Uses red per `.claude/rules/design-principles.md` ("Schedule conflicts" → Red)
   - Example: thin red border, or subtle background tint
   - Subtle styling — not aggressive, doesn't distract from the card itself
 
@@ -1431,7 +1431,7 @@ represents the actual relationship more accurately than nesting would.
 1. **My Picks** — NEW
    - Calls `applyPreset("myPicks")`, then navigates to `/explore`
    - Shows count: "My Picks (X)" where X = count of Must See + count of Interested
-   - Yellow color per CLAUDE.md ("User Intent & Personalization") — matches Must See/
+   - Yellow color per `.claude/rules/design-principles.md` ("User Intent & Personalization") — matches Must See/
      Interested directly below it; was cyan originally, corrected after noticing it
      contradicted its own two constituent categories in the same list
 
@@ -1451,7 +1451,7 @@ represents the actual relationship more accurately than nesting would.
    - Shows count: "Scheduled (X)" — X is an **artist count** (artists with
      `getArtistScheduleState(...) !== "none"`), not an appearance count, so it matches
      the number of cards Explore actually shows when this filter is applied
-   - Cyan color per CLAUDE.md ("Primary workflow actions")
+   - Cyan color per `.claude/rules/design-principles.md` ("Primary workflow actions")
 
 5. **Conflicts** — NEW, conditionally rendered
    - Only shown if conflict count > 0
@@ -1459,7 +1459,7 @@ represents the actual relationship more accurately than nesting would.
    - Filters Explore to show ONLY conflicting artists (strict subset of scheduled)
    - Shows count: "Conflicts (X)" — X is likewise an **artist count** (artists with at
      least one conflicting appearance), same reasoning as "Scheduled" above
-   - Red color per CLAUDE.md ("Schedule conflicts")
+   - Red color per `.claude/rules/design-principles.md` ("Schedule conflicts")
 
 **Technical implementation:**
 
@@ -1484,7 +1484,7 @@ represents the actual relationship more accurately than nesting would.
 
 - Values: Must See / Interested / Passed / Undecided
 - Multi-select within facet (OR logic)
-- Represents user's discovery/decision state per CLAUDE.md
+- Represents user's discovery/decision state per `AGENTS.md`
 
 **Facet 2: Schedule Status** (new facet)
 
@@ -1544,15 +1544,15 @@ represents the actual relationship more accurately than nesting would.
 - Artist name and start/end time displayed in each grid cell
 - No lazy-loading/code-splitting for MVP — just conditionally render the active day's content
 
-#### Visual Treatment (Per CLAUDE.md Color Semantics)
+#### Visual Treatment (Per `.claude/rules/design-principles.md` Color Semantics)
 
 **Confirmed** — Fill, border, and pick icon are three independent channels, not a
 priority-ordered stack — a block can be scheduled, conflicting, and a pick all at once
 with nothing silently hidden:
 
 - **Fill** — driven only by scheduled state: cyan tint if scheduled, neutral otherwise. Always renders regardless of either toggle.
-- **Border** — driven only by conflict state: red per CLAUDE.md ("Schedule conflicts") if conflicting, otherwise falls back to the scheduled/neutral border color.
-- **Icon** — a small static (non-interactive) glyph reflecting the artist's pick verdict, per CLAUDE.md ("User Intent & Personalization"): a solid star for Must See, a flat muted-gold heart for Interested (an opaque color, not an alpha variant of Must See's, since translucent color blends inconsistently depending on what's underneath it), nothing if no verdict. Always renders regardless of either toggle — see Interactions below.
+- **Border** — driven only by conflict state: red per `.claude/rules/design-principles.md` ("Schedule conflicts") if conflicting, otherwise falls back to the scheduled/neutral border color.
+- **Icon** — a small static (non-interactive) glyph reflecting the artist's pick verdict, per `.claude/rules/design-principles.md` ("User Intent & Personalization"): a solid star for Must See, a flat muted-gold heart for Interested (an opaque color, not an alpha variant of Must See's, since translucent color blends inconsistently depending on what's underneath it), nothing if no verdict. Always renders regardless of either toggle — see Interactions below.
 
 #### Interactions
 
@@ -1947,7 +1947,7 @@ still uses `getPrimaryAppearance` unchanged.
 
 `StartScreen`/`StartOptions` present three vertically stacked steps — Festival, Days
 Attending, Grouping. Days Attending renders one selectable card per configured
-festival day (yellow when selected, per CLAUDE.md's user-intent color semantics;
+festival day (yellow when selected, per `.claude/rules/design-principles.md`'s user-intent color semantics;
 neutral otherwise; a checkmark badge so selection state doesn't depend on color
 alone), sourcing each day's short date from `getDatesByDay(allArtists, festivalId)`
 (`app/lib/appearances.ts`) rather than a duplicated day→date table. Deselecting every
@@ -2419,7 +2419,7 @@ this section is the actual record.
 
 Home = orientation ("where do I start"), the Help modal = explanation on demand (opened
 from Home or Sidebar), individual pages = contextual guidance (unchanged). Home does not
-try to explain the app itself — CLAUDE.md's "prefer progressive disclosure" principle
+try to explain the app itself — `.claude/rules/design-principles.md`'s "prefer progressive disclosure" principle
 means Home stays three entry cards plus a "How FestFuse works" link; the actual
 explaining happens in the modal.
 
@@ -2428,22 +2428,22 @@ explaining happens in the modal.
 Quick Picks, Explore, and Planner render as three equally-sized cards, differentiated
 only by copy and row position (Planner last), never by size or decorative weight —
 equal decorative weight (gradient + icon watermark + full-opacity text) on all three,
-with Planner's "downstream of a decision" framing (per CLAUDE.md's Schedule
-description, "organize a plan after decisions have already been made") carried entirely
-by its copy ("Already have some picks? Turn them into a schedule.") and its position at
-the end of the row.
+with Planner's "downstream of a decision" framing (per `AGENTS.md`'s Planner design
+intent — "the intended next step once you have some picks") carried entirely by its
+copy ("Already have some picks? Turn them into a schedule.") and its position at the
+end of the row.
 
 Each card sits at a different point along the same cool/cyan spectrum rather than one
 uniform teal for all three — electric cyan (Quick Picks), seafoam/turquoise (Explore),
 azure (Planner). Deliberately stays inside that spectrum and never reaches toward
-violet/magenta: CLAUDE.md reserves celebration magenta for actual celebration moments
+violet/magenta: `.claude/rules/design-principles.md` reserves celebration magenta for actual celebration moments
 (Festival Story/Wrapped-style accents) used sparingly — diffusing it onto a homepage
 card, which every session touches, would erode the rarity that makes it read as special
 where it's actually used (Quick Picks' own screens already lean on `COLORS.celebration`
 — see `QuickPicksCompleteScreen.tsx`, `DayCompleteScreen.tsx`, `DecisionScreen.tsx`,
 `StartScreen.tsx`).
 
-No hierarchy is implied between Quick Picks and Explore specifically — CLAUDE.md frames
+No hierarchy is implied between Quick Picks and Explore specifically — `AGENTS.md` frames
 them as two equally legitimate, different approaches to discovery ("guided
 decision-making" vs. "curious, self-directed"), not a primary/secondary pair. The one
 existing asymmetry (Quick Picks' label uses a verb, "Start"/"Continue," while Explore
@@ -2457,7 +2457,7 @@ max ~2° `rotateX`/`rotateY` derived from pointer position within the card, comb
 with the existing `-4px` lift, applied as an inline `style` (not a Tailwind hover
 class) since the rotation angle is continuous and pointer-position-dependent, not a
 fixed on/off state. Deliberately capped low: this is a hover accent, not a 3D gimmick,
-and CLAUDE.md's "the direction already carries meaning, don't add personality on top of
+and `AGENTS.md`'s "the direction already carries meaning, don't add personality on top of
 geometry" guidance (written for Quick Picks) applies here too — the tilt should read as
 polish, not distract from the card's own color identity doing the differentiation work.
 
@@ -2622,7 +2622,7 @@ exceeds the viewport, since flex items don't shrink below their own content size
 
 **Background containment on the Quick Picks page** (`app/quick-picks/page.tsx`): the decorative grain/gradient/blob layer is `fixed inset-0`, not `absolute inset-0` — it stays pinned to the viewport rather than scrolling with page content, matching the pattern `DecisionScreen.tsx`'s own radial glow already uses (`fixed inset-0`). The page's `<main>` also carries `min-h-0` alongside `flex-1 overflow-y-auto`, the standard fix for a flex item's `overflow-y-auto` being ignored in favor of the item simply growing past its allotted space (compare `planner/page.tsx`'s `min-h-0` for the same pattern). Both matter together: without `fixed`, the backdrop scrolls out of view and exposes the ancestor `bg-[#110D24]` flat color underneath once a screen's content exceeds one viewport height; without `min-h-0`, scrolling isn't reliably contained to `<main>` in the first place.
 
-**StartScreen has no "Festival" selection step.** Since MVP is single-festival scoped (see CLAUDE.md's "Current MVP Scope"), a prior "Step 1: Festival" card rendering festival branding had no `onClick` — it was inert, and visually indistinguishable in weight from the two real interactive steps beside it. It's now a plain text line ("Lollapalooza 2026 · dates · venue") under the subtitle in `StartScreen.tsx`, and the two remaining real steps (Days Attending, Grouping) are numbered Step 1/Step 2 in `StartOptions.tsx`.
+**StartScreen has no "Festival" selection step.** Since MVP 1.0 was single-festival scoped (see `AGENTS.md`'s "Current Milestone" — multi-festival support is now an active MVP 2.0 goal, so this constraint is exactly what's being worked away from and may need revisiting once that ships), a prior "Step 1: Festival" card rendering festival branding had no `onClick` — it was inert, and visually indistinguishable in weight from the two real interactive steps beside it. It's now a plain text line ("Lollapalooza 2026 · dates · venue") under the subtitle in `StartScreen.tsx`, and the two remaining real steps (Days Attending, Grouping) are numbered Step 1/Step 2 in `StartOptions.tsx`.
 
 **StartScreen's hero `Zap` icon is absolutely positioned to the left of the "Quick Picks" `<h1>`**, not inline in the flex row with it, so the headline text alone — not the icon+headline pair — determines the centered box; this is what keeps the title visually centered against the subtitle beneath it. The icon and headline both drop a size below the `sm:` breakpoint (`w-8 h-8`/`text-5xl` vs `w-10 h-10`/`text-6xl`): at full size on a narrow phone the headline alone is already close to viewport-width, leaving no room for the icon to render without going off-screen to the left.
 

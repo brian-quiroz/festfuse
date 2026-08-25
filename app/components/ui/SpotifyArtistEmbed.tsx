@@ -16,7 +16,7 @@ interface SpotifyArtistEmbedProps {
 //
 // Neutral outer border (matching Live Performance's embedded-media border), not cyan —
 // the Listen First heading's music icon already carries the cyan cue; the outer
-// container of embedded third-party media stays neutral per CLAUDE.md color hierarchy.
+// container of embedded third-party media stays neutral per .claude/rules/design-principles.md.
 export default function SpotifyArtistEmbed({ artistId, artistName }: SpotifyArtistEmbedProps) {
   const artistUrl = `https://open.spotify.com/artist/${artistId}`;
 

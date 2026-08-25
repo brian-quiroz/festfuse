@@ -21,14 +21,20 @@ Every feature should reduce the friction of those decisions.
 - TypeScript
 - Tailwind CSS
 
-### Backend (planned)
+### Backend
 
 - FastAPI
 - Python
+- SQLAlchemy
+- Alembic
 
-### Database (planned)
+### Database
 
 - PostgreSQL
+
+The frontend still defaults to TypeScript data during the ongoing backend cutover —
+see `docs/roadmap/backend-rollout.md` for current status rather than treating this as
+a fixed point-in-time claim.
 
 ---
 
@@ -55,11 +61,17 @@ Guide users toward confident decisions instead of overwhelming them with informa
 
 Discovery should feel exciting, playful, and premium rather than like filling out a spreadsheet.
 
+Whenever proposing a new feature, ask first: does this help the user decide who to see? If not, it probably doesn't belong in the MVP.
+
 ---
 
-## Core User Modes
+## Screen Design Intent
 
-FestFuse intentionally separates discovery into distinct experiences rather than combining everything into one screen.
+Each screen has a distinct purpose and tone — don't blur them together. Color and visual design rules live in `.claude/rules/design-principles.md`.
+
+### Home
+
+Inviting, low-information entry point. Large cards direct the user toward the three main workflows (Explore, Quick Picks, Planner) without bombarding them with information. A light nudge toward "how it works," not a dashboard.
 
 ### Explore
 
@@ -86,185 +98,31 @@ Favor forward progress over exhaustive review. Provide lightweight error recover
 
 The button confirmation is the emotional hierarchy. The card transition is the flow hierarchy. The direction already carries meaning. Don’t add personality on top of geometry.
 
+### Planner
+
+The intended next step once you have some picks — turn interest into an actual schedule and surface conflicts. Usable on its own too, but that's flexibility, not the intended path; Explore and Quick Picks (in either order, or mixed) are how picks get made first.
+
 ### Festival Story
 
 Celebrate the user's festival journey.
 Summarize their taste, discoveries, and decisions in a memorable, shareable format.
 
-Future expansions:
-
-- **Compare:** Resolve difficult tradeoffs between artists.
-- **Schedule:** Organize a finalized festival plan after decisions have already been made.
-
 ---
 
-## Design Principles
+## Current Milestone
 
-### Color Semantics
+**Shipped (MVP 1.0):** Artist Page, Explore, Quick Picks, Festival Story, Planner.
 
-Colors communicate meaning, not just aesthetics. Use them consistently throughout the product.
+**In progress (MVP 2.0):**
 
-#### Cyan (#00E5FF) — Information & Navigation
+1. Complete the backend rollout — see `docs/roadmap/backend-rollout.md`.
+2. Multi-festival support — any festival beyond Lollapalooza.
+3. Multi-run support — festivals (e.g. ACL) with multiple weekends per edition.
+4. Support an announced lineup entry with no schedule yet — see ADR-0004 and `FUTURE_CONSIDERATIONS.md`.
+5. More robust automated test coverage — backend and frontend.
+6. A better artist-adding/updating workflow — pipeline (backend migration) and editorial (`artist-review` skill) sides.
 
-Use cyan for things the user learns, explores, or uses to navigate.
-
-Examples:
-
-- Active navigation and tabs
-- Primary workflow actions (e.g. Add to Schedule, Compare)
-- Genre pills
-- Playing At
-- Music-related UI
-- Informational icons
-- Links and navigational affordances
-
-Cyan should communicate:
-
-> "Here's something to discover or use."
-
----
-
-#### Yellow (#E8FF47) — User Intent & Personalization
-
-Use yellow for things the user has intentionally chosen or personalized.
-
-Examples:
-
-- Must See
-- Saved
-- Personalized recommendations
-- Best For
-- User-created collections
-- Festival Story highlights
-
-Yellow should communicate:
-
-> "This reflects your taste."
-
----
-
-#### Celebration (#D946EF) — Festival Energy & Celebration
-
-Use celebration magenta sparingly to reinforce the festival atmosphere and moments of delight.
-
-Examples:
-
-- Festival branding
-- Decorative gradients
-- Celebration states
-- Wrapped / Festival Story accents
-- Limited promotional moments
-
-Avoid using celebration magenta for standard navigation or persistent actions.
-
-Celebration magenta should communicate:
-
-> "This is exciting."
-
----
-
-#### Red — Conflict & Warning
-
-Reserve red for situations requiring attention.
-
-Examples:
-
-- Schedule conflicts
-- Delete / Remove actions
-- Error states
-- Warning messages
-- Conflict indicators
-
-Avoid decorative use of red.
-
-Red should communicate:
-
-> "Pay attention."
-
----
-
-#### Pass (#6B7080) — Neutral Dismissal
-
-Use neutral gray for low-stakes skip actions that do not require attention or emphasis.
-
-Examples:
-
-- Pass / Skip button in Quick Picks
-- Neutral decision that implies "not interested, no issue"
-
-Pass gray should communicate:
-
-> "This is a neutral choice."
-
----
-
-#### Foundation
-
-Deep violet (#110D24) and surrounding dark neutrals form the visual foundation of FestFuse.
-
-Favor:
-
-- photography over illustrations
-- whitespace over borders
-- hierarchy over information density
-- subtle depth over heavy visual effects
-
-Use color intentionally. Users should be able to infer meaning from color alone after spending time with the product.
-
-### Visual Design Principles
-
-Favor:
-
-- photography over illustrations
-- whitespace over borders
-- hierarchy over information density
-- subtle depth over heavy visual effects
-- editorial presentation over dashboard density
-- emotional storytelling over exhaustive reference data
-
-The UI should feel closer to Spotify, Apple Music, Linear, or Raycast than an admin dashboard.
-
-Every screen should have a primary visual focus. Avoid competing points of emphasis.
-
-Prefer progressive disclosure: reveal additional information as the user shows interest rather than presenting everything at once.
-
-Avoid unnecessary widgets, cards, or metrics that do not help users discover artists, build excitement, or make confident decisions.
-
----
-
-## UX Philosophy
-
-Overview:
-Help me decide.
-
-Stats:
-Give me objective facts.
-
-Trivia:
-Help me geek out.
-
-Each section should answer a specific user question.
-
-Whenever proposing a new feature, first ask:
-
-"Does this help the user decide who to see?"
-
-If not, it probably doesn't belong in the MVP.
-
----
-
-## Current MVP Scope
-
-Focus on a single festival.
-
-Core workflow:
-
-1. Discover artists
-2. Learn about artists
-3. Build interest through Quick Picks
-4. Produce a shareable festival story summarizing the user's taste and picks
-
-Planning, conflict detection, and scheduling will be expanded after the core discovery experience feels polished.
+**Not in scope right now:** accessibility/performance work; accounts and Compare.
 
 ---
 
@@ -272,85 +130,43 @@ Planning, conflict detection, and scheduling will be expanded after the core dis
 
 ### Artist Data
 
-Artist records live in `app/data/artists/`, split into one file per festival day for easier editing:
+Artist records live in `app/data/artists/`, split into one file per festival day for editing convenience only — never a data boundary. **Always import from `index.ts` (`allArtists`/`artistsBySlug`), never from an individual day file** — see ARCHITECTURE.md's "Storage" section for the full explanation and why day files break silently if used as a shortcut.
 
-- `thursday.ts`, `friday.ts`, `saturday.ts`, `sunday.ts` — storage only
-- `index.ts` — combines all four and exports `allArtists` and `artistsBySlug`
+Some artists now resolve through the FastAPI/PostgreSQL backend instead of this TypeScript data — see `docs/roadmap/backend-rollout.md` for current cutover status.
 
-**Rule: always import from `index.ts`, never from individual day files.**
+### Editorial Review
 
-The day files are an editing convenience, not a data boundary. Any feature that needs to filter by day (e.g. Quick Picks for Friday only) must import `allArtists` from `index.ts` and filter by `artist.appearance.day === "Friday"`. Never use a day file as a shortcut to get that day's artists — it will silently break if an artist is miscategorized or moved.
-
----
-
-## About Section Voice
-
-`about` is the only AI-authored artist-prose field actually rendered in the UI (Artist Detail's About section). `tagline`, `whySee`, and `whatToExpect` are unverified content that don't currently drive any rendered copy — `about` is the one worth getting right.
-
-### Verify every fact before writing it
-
-Album titles, release years, awards, chart positions, stream counts, band members, hometowns, tour details — check each against a real source before it goes in. Don't guess and don't reuse a claim from memory. If a fact can't be verified, cut it rather than soften it into something vaguer that's still unverified.
-
-### Excitement comes from specifics, not adjectives
-
-Don't reach for a critic's verdict: "legendary," "masterclass," "premier," "one of the most exciting figures in X." Those are claims only someone with real listening authority can back up, and this copy doesn't have that authority.
-
-A good test: would the sentence still be true if a stranger who'd never heard the artist's music wrote it? A real album, a real award, a real stream count passes. A taste verdict doesn't.
-
-State the actual achievement plainly and it carries its own charge — no hype adjective needed on top.
-
-### A notch of warmth, not flat recitation
-
-Real achievements can be delivered with genuine appreciation, not spec sheet neutrality. If an artist has a real award, a viral single, a startling stream count, let the tone register that it's actually impressive. That's a matter of delivery, not word choice: stating an achievement plainly and clearly as the sentence's highlight can read as warm without any hype adjective attached to it.
-
-Calibrate to what's actually there. An artist with real accolades earns a slightly more celebratory tone. An artist where research only turns up sparse, ordinary facts doesn't need padding to compensate, don't manufacture warmth that isn't backed by anything. The same applies to live performance details specifically: include them only when something concrete and documented actually turns up, never add a live show sentence just to round out the paragraph. Most smaller or underground artists simply won't have much public information here, and that's fine to leave as is.
-
-### No dashes
-
-No em dashes or standalone hyphens as punctuation. Use a period or colon instead. Reads as AI-generated otherwise.
-
-### Titles in single quotes
-
-Album, EP, and song titles referenced in `about` are wrapped in single quotes (`'BRAT'`, `'Halcyon'`), not double quotes.
-
-### Describe the show, don't instruct the reader
-
-Avoid "Expect X" or "You'll experience X" framing. Telling the reader what they will feel is an authoritative claim this copy hasn't earned. Say what the show consists of instead ("His sets run on relentless low end..." not "Expect relentless low end...").
-
-### Live performance details are fair game when documented, not witnessed
-
-Format and reputation facts about how an artist performs are verifiable the same way any other fact is: "expanded to a five-piece for live shows," "performs as a four-way back-to-back set," "known for elaborate theatrical staging" are all fine when multiple independent sources consistently describe them as an ongoing, established part of the act, not one reviewer's account of a single show.
-
-What's not fine: describing what a show feels like as if the copy witnessed it firsthand, or presenting a single review's subjective impression as settled fact. That's a different failure than the one above, but the same root cause: an authority the copy hasn't earned.
-
-### Nothing tied to one specific appearance
-
-Never name a specific stage, date, or "this weekend," and never call a show a "hometown set." An artist record isn't scoped to a single festival or booking (see `festivalId` on `appearances`) — anything that's only true for _this_ appearance breaks the moment the same data is reused for a different one or the schedule changes. Biographical origin facts ("emerged from Chicago") are permanent and fine; tying that origin to "this show" is not.
-
-> Would this sentence still be true next year, at a different festival, written by someone who's never heard the music? If not, it doesn't belong in `about`.
+Fact-checking an artist's `about` copy, socials, location, and genres; correcting name/slug stylization; curating the four `similarArtists` picks; and selecting the flagship Quick Picks track are all handled by the `artist-review` skill — use it rather than improvising this work from scratch.
 
 ---
 
 ## Refactoring & Code Integrity
 
-When restructuring layouts or reorganizing component hierarchies, **never remove or break existing UI components in the process**, even when they look redundant or are being moved around.
-
-During refactoring:
-
-1. **Test the full page**, not just the section being changed. A restructure in one part can silently break rendering elsewhere.
-2. **Keep critical UI components in your mental checklist** — before considering a refactor done, verify that things like filter displays, buttons, and navigational elements are still working in all contexts they should appear.
-3. **Make smaller, testable changes** rather than aggressive restructuring in one shot. This makes it easier to spot what broke.
-4. **Use version control as a safety net** — if something disappears, `git diff` should make it obvious.
-
-A component that's hard to find in a refactor is still a problem. Better to err on the side of being conservative with code removal until you're certain nothing is using it.
+- Never remove or break existing UI silently during a restructure, even if it looks redundant or is just being moved.
+- Test the full page, not just the section being changed — a restructure in one part can break rendering elsewhere.
+- Prefer smaller, testable changes over one aggressive restructure.
+- Use `git diff` as the safety net if something disappears.
+- When in doubt, be conservative about removing code until you're certain nothing uses it.
 
 ---
 
 ## Engineering Workflow
 
-**Verify before calling a change complete.** Before calling a change to a shared/utility function complete, trace every call site (grep, not memory). When a plan has you build something structurally parallel to existing code, diff the new implementation against that sibling's actual behavior for every shared concern before trusting the plan's literal wording — a plan can under-specify or quietly contradict existing precedent.
+**Verify before calling a change complete.**
 
-**Ask before searching.** For facts about this project the developer would know directly (is this file auto-generated, does this pattern already exist, why was this built this way), ask first instead of spending a search step. Default to searching for facts not about this codebase — external tool/library behavior, official documentation.
+- Before calling a change to a shared/utility function complete, trace every call site (grep, not memory).
+- When a plan has you build something structurally parallel to existing code, diff the new implementation against that sibling's actual behavior for every shared concern before trusting the plan's literal wording — a plan can under-specify or quietly contradict existing precedent.
+
+**Ask before searching.**
+
+- For facts about this project the developer would know directly (is this file auto-generated, does this pattern already exist, why was this built this way), ask first instead of spending a search step.
+- Default to searching for facts not about this codebase — external tool/library behavior, official documentation.
+
+**File size.**
+
+- Target under ~200 lines for this file (Claude Code's own documented threshold — longer measurably reduces adherence); prefer bullets over prose.
+- Move content only relevant to part of the codebase into `.claude/rules/` (path-scoped) or a skill rather than expanding this file inline.
+- Soft constraint — exceed it when content genuinely needs to be always-loaded, not by default.
 
 **Documentation completeness — check each trigger before calling a change done:**
 
@@ -361,21 +177,10 @@ A component that's hard to find in a refactor is still a problem. Better to err 
 - A completed backend data-model implementation milestone → `docs/design/artist-data-model.md`'s Implementation status checklist.
 - A notable new frontend behavior/pattern worth a technical record → `ARCHITECTURE.md`.
 - A deliberately deferred gap, frontend or backend → `docs/FUTURE_CONSIDERATIONS.md`.
+- Shipped or completed something tracked in Current Milestone → update that section
+  directly, and re-check Stack for matching stale status language — this file's
+  claims can drift out of sync with themselves, not just with the code.
 
 **Comments.** Default to short code comments. When a decision needs real justification, put it in the relevant ADR/FUTURE_CONSIDERATIONS entry instead of the comment itself.
 
 **Commits.** Never run `git commit` or `git push` directly — hand over the message text and let the developer run it.
-
----
-
-## Build Order
-
-✅ Artist Page
-✅ Explore
-✅ Quick Picks
-✅ Festival Story / Wrapped-style summary
-✅ Schedule
-
-Next priority:
-
-1. Compare

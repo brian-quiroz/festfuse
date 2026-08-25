@@ -80,7 +80,7 @@ Quick Picks' decisioning screen resolves `currentAppearance` (`app/quick-picks/p
 
 ## Future Consideration: Seeded Quick Picks Queue Shuffle
 
-The Quick Picks queue shuffle (`shuffleArray`, used by `interleaveByTierWithinDay` and `buildUngroupedQueue` in `app/lib/quick-picks-queue.ts`) uses plain `Math.random()`, producing a genuinely different artist order every time a session starts. This is intentional — it matches the "go with your gut," momentum-over-precision philosophy in CLAUDE.md's Quick Picks section — and is a different tradeoff than `createSeededRandom` (`app/lib/random.ts`), which other features (Explore's carousels, Festival Story's sampling) use deliberately where _within-session_ stability matters.
+The Quick Picks queue shuffle (`shuffleArray`, used by `interleaveByTierWithinDay` and `buildUngroupedQueue` in `app/lib/quick-picks-queue.ts`) uses plain `Math.random()`, producing a genuinely different artist order every time a session starts. This is intentional — it matches the "go with your gut," momentum-over-precision philosophy in AGENTS.md's Quick Picks section — and is a different tradeoff than `createSeededRandom` (`app/lib/random.ts`), which other features (Explore's carousels, Festival Story's sampling) use deliberately where _within-session_ stability matters.
 
 **The tradeoff:** because the shuffle isn't seeded, a specific queue order can't be reproduced across reloads, which makes verifying a bug report about ordering harder than it would be with a seeded shuffle.
 
@@ -102,7 +102,7 @@ The locked Festival Story card's recovery path ("Take a Second Look") always rou
 
 ## Future Consideration: Light Mode
 
-`app/globals.css` sets `color-scheme: dark` on `:root` unconditionally, and the new `.themed-scrollbar` utility hardcodes white-based `rgba()` values for its thumb/track — both assume a permanently dark app. This is correct for the current dark-only design (CLAUDE.md: "Deep violet (#110D24) and surrounding dark neutrals form the visual foundation"), but neither will automatically adapt if light mode is ever added.
+`app/globals.css` sets `color-scheme: dark` on `:root` unconditionally, and the new `.themed-scrollbar` utility hardcodes white-based `rgba()` values for its thumb/track — both assume a permanently dark app. This is correct for the current dark-only design (`.claude/rules/design-principles.md`: "Deep violet (#110D24) and surrounding dark neutrals form the visual foundation"), but neither will automatically adapt if light mode is ever added.
 
 **If light mode is built:** `color-scheme` needs to become conditional — driven by a theme class/attribute (e.g. `color-scheme: light` or `color-scheme: light dark` swapped based on the active theme) rather than a blanket root-level `dark`. `.themed-scrollbar`'s thumb/track colors would similarly need theme-aware values (e.g. dark-based `rgba()` values for a light theme, mirroring the current white-based ones) rather than a single hardcoded palette.
 
