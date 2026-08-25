@@ -188,7 +188,9 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-No environment variables are required for the current frontend MVP.
+`npm run dev` runs against the hosted backend by default, no environment variables
+are required for that path. To test against a local backend instead, see
+[local development](docs/operations/local-development.md).
 
 ## Available Scripts
 
