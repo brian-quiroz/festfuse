@@ -163,18 +163,41 @@ under the documented readiness policy.
 
 ### 7. Expand and cut over deliberately
 
-- A run-scoped `GET /festivals/{edition}/runs/{run}/appearances` endpoint now gives
-  every scheduling-identity consumer (Artist Detail, Explore, Planner) one canonical
-  source for an Artist's real `Appearance.id`, ahead of broadening Artist Detail's own
-  content allowlist. It is the shared foundation later consumers (Quick Picks,
-  Festival Story) can also migrate onto, rather than a single-purpose fix.
-- Migrate additional consumers only after the first slice is stable.
-- Choose and test a production cache policy—such as timed revalidation, explicit
-  tag-based invalidation, or continued uncached reads—before broadening the allowlist.
-- Add observability and a rollback path before production becomes API-dependent.
-- Remove `app/data/artists` as a runtime dependency only after all consumers have
-  parity, both as a read source (this rollout) and eventually as an authoring source
-  (import scripts today, an admin workflow later).
+**Status: in progress.**
+
+Consumers migrate one at a time, deepest-integrated first, deliberately keeping the
+Artist Detail allowlist narrow and reads uncached while the read paths themselves are
+still being proven out. Broadening exposure (cache policy, allowlist size,
+observability) is a late, grouped decision, not an early gate — masking integration
+bugs behind a cache or spreading a partial migration across many artists at once
+would make them harder to isolate, not easier.
+
+1. **Finish `5sos`'s own integration gaps.** Its Similar Artist cards still resolve
+   target image/genre from `app/data/artists` — a temporary carryover from step 5.
+   Close that gap so the single allowlisted artist is fully API-backed.
+2. **Migrate Planner's display data onto the appearances endpoint**, not just the
+   `Appearance.id` resolution `runAppearancesStore` already provides. Applies
+   globally to Planner, independent of the Artist Detail allowlist. Keep reads
+   uncached.
+3. **Migrate Explore onto the existing `/appearances` endpoint.** It already returns
+   every artist in the run (slug, name, image, genres, billing tier, schedule) via
+   `FestivalRunArtistRead`/`FestivalRunAppearanceRead` — no new endpoint required.
+   The one known gap is `artist.location`, which Explore filters on but the schema
+   doesn't yet expose; add it there. Keep reads uncached.
+4. **Migrate Quick Picks onto the same `/appearances` data**, checking for other
+   field gaps (e.g. the curated Quick Picks track) the same way before assuming new
+   backend work is needed.
+5. **Migrate Festival Story.** Same bulk-catalog shape as Quick Picks
+   (genre/location/tier across the full artist set); can follow or run alongside
+   step 4.
+6. **Decide the production cache policy, revisit observability/rollback scope, and
+   broaden the Artist Detail allowlist from one artist to roughly five** — together,
+   once every consumer above is integrated. Don't assume a bespoke rollback mechanism
+   is needed by default; Vercel and Railway both already provide deployment-level
+   rollback, so weigh that before building a dedicated kill switch.
+7. **Remove `app/data/artists` as a runtime dependency** only after all consumers
+   have parity, both as a read source (this rollout) and eventually as an authoring
+   source (import scripts today, an admin workflow later).
 
 ## Guardrails
 
