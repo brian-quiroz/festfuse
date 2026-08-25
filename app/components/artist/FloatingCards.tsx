@@ -80,25 +80,26 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
           <div className="grid grid-cols-2 gap-2">
             {artist.similarArtists.map((a) => {
               // Every similar artist is always in the lineup (pulled from the roster by
-              // the recommendation algorithm), so this reuses their own already-curated
-              // hero photo/genres instead of the separate similarArtists[].imageUrl field
-              // (sourced from an external script, with its own coverage and fair-use
-              // questions) — same asset already shown on their own page, so it can't go
-              // stale relative to a manual genre correction the way a separately-fetched
-              // image could.
+              // the recommendation algorithm), so this prefers their own already-curated
+              // hero photo/genres over a separately-sourced image. For API-sourced
+              // entries (a.genres present — see mapFestivalArtist.ts), that curated data
+              // is already embedded on the entry itself, straight from the same approved
+              // record their own page reads. For TS-sourced entries, a.genres is always
+              // undefined, so this falls back to resolving the same data live via
+              // artistsBySlug — deliberately still ignoring the TS-only
+              // similarArtists[].imageUrl field (sourced from an external script, with
+              // its own coverage and fair-use questions) in favor of the target's own
+              // current record.
               const linked = a.slug ? artistsBySlug[a.slug] : undefined;
+              const imageUrl = a.genres ? a.imageUrl : linked ? getVerifiedImageUrl(linked) : undefined;
+              const genres = a.genres ?? linked?.genres ?? [];
               return (
                 <Link
                   key={a.name}
                   href={a.slug ? `/artist/${a.slug}` : "#"}
                   className="flex flex-col items-center gap-1.5 py-3 rounded-xl hover:bg-white/4 hover:-translate-y-0.5 transition-[background-color,transform] duration-200 ease-out group w-full"
                 >
-                  <ArtistAvatar
-                    name={a.name}
-                    imageUrl={linked ? getVerifiedImageUrl(linked) : undefined}
-                    genres={linked?.genres ?? []}
-                    size={56}
-                  />
+                  <ArtistAvatar name={a.name} imageUrl={imageUrl} genres={genres} size={56} />
                   <span className="text-xs font-medium text-white/75 group-hover:text-white leading-tight text-center transition-colors px-1 w-full">
                     {a.name}
                   </span>

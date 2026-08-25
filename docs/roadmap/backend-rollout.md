@@ -175,6 +175,15 @@ would make them harder to isolate, not easier.
 1. **Finish `5sos`'s own integration gaps.** Its Similar Artist cards still resolve
    target image/genre from `app/data/artists` — a temporary carryover from step 5.
    Close that gap so the single allowlisted artist is fully API-backed.
+
+   **Status: completed.** The backend already returned each similar-artist target's
+   full `image`/`genres` in the run-scoped response; the frontend mapper was discarding
+   them down to `{name, slug}`. `mapFestivalArtistResponse` now populates `imageUrl`
+   and `genres` per similar-artist entry via the existing `mapImage`/`mapGenres`
+   helpers, and `FloatingCards` prefers that API-sourced data directly when present,
+   falling back to the live `artistsBySlug` lookup only for TS-sourced entries (the
+   distrusted TS-only `similarArtists[].imageUrl` field is still bypassed there, as
+   before). `5sos`'s Similar Artist cards no longer depend on TS data.
 2. **Migrate Planner's display data onto the appearances endpoint**, not just the
    `Appearance.id` resolution `runAppearancesStore` already provides. Applies
    globally to Planner, independent of the Artist Detail allowlist. Keep reads
@@ -210,7 +219,8 @@ would make them harder to isolate, not easier.
   verification commands documented before calling the backend reproducible.
 - Do not assume `.env.local` points at a local backend — it points at the hosted
   Railway API by default. Testing an endpoint that isn't deployed yet requires an
-  explicit local override, not just a running local server.
+  explicit local override, not just a running local server — see
+  [`local-development.md`](../operations/local-development.md).
 - Do not conflate the content allowlist (`FESTFUSE_API_ARTIST_SLUGS`, which Artist
   Detail pages read from the API) with scheduling-identity resolution
   (`runAppearancesStore`, which is unscoped and covers every artist regardless of

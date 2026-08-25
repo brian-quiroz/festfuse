@@ -150,6 +150,8 @@ export function mapFestivalArtistResponse(response: FestivalArtistApiResponse): 
       .map((similarArtist) => ({
         name: similarArtist.name,
         slug: similarArtist.slug,
+        imageUrl: mapImage(similarArtist.image).imageUrl,
+        genres: mapGenres(similarArtist.genres),
       })),
     similarArtistsVerified: context.similar_artists.length === 4,
     tracks: listenFirstTracks,

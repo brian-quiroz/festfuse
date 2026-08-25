@@ -51,7 +51,11 @@ export type Artist = {
   whySee: string[];
   whatToExpect: WhatToExpectTag[];
   bestFor: BestForTag[];
-  similarArtists: Array<{ name: string; slug?: string; imageUrl?: string }>;
+  // genres is only ever populated for API-sourced entries (see mapFestivalArtist.ts) —
+  // its presence is what FloatingCards uses to decide whether to trust this entry's
+  // own imageUrl/genres directly instead of resolving them via a TS artistsBySlug
+  // lookup.
+  similarArtists: Array<{ name: string; slug?: string; imageUrl?: string; genres?: Genre[] }>;
   // Undefined/false hides the Similar Artists card even when similarArtists is
   // populated — many entries are AI-drafted and not yet fact-checked.
   similarArtistsVerified?: boolean;
