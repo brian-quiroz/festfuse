@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import type { Artist, FestivalAppearance } from "@/app/types/artist";
+import type { FestivalAppearance } from "@/app/types/artist";
+import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
 import type { ArtistDecision } from "@/app/store/decisionStore";
 import { GENRE_TO_FAMILY } from "@/app/data/categories";
 import type { GenreFamily } from "@/app/data/categories";
@@ -33,7 +34,7 @@ export interface ComputeStorySignalsParams {
   // attendanceStore (see ARCHITECTURE.md § Quick Picks Attendance and § Festival
   // Story). Pure input — this function never reads Zustand state itself.
   attendanceDays: string[];
-  allArtists: Artist[];
+  allArtists: RunArtist[];
   decisionsByArtist: Record<string, ArtistDecision>;
 }
 
@@ -104,8 +105,8 @@ const DIMENSION_DISPLAY_PRIORITY = [
 export function getEligibleArtists(
   festivalId: string,
   attendanceDays: string[],
-  allArtists: Artist[]
-): Artist[] {
+  allArtists: RunArtist[]
+): RunArtist[] {
   return allArtists.filter(
     (a) => getSelectedDayAppearance(a, festivalId, attendanceDays) !== undefined
   );
@@ -119,9 +120,9 @@ export function getEligibleArtists(
 export function getValidPositivePicks(
   festivalId: string,
   attendanceDays: string[],
-  allArtists: Artist[],
+  allArtists: RunArtist[],
   decisionsByArtist: Record<string, ArtistDecision>
-): Artist[] {
+): RunArtist[] {
   const eligibleArtists = getEligibleArtists(festivalId, attendanceDays, allArtists);
   return eligibleArtists.filter((a) => {
     const decision = decisionsByArtist[a.slug];
@@ -232,8 +233,8 @@ interface AggregateMetrics {
 }
 
 function computeAggregateMetrics(
-  artists: Artist[],
-  appearanceOf: (artist: Artist) => FestivalAppearance,
+  artists: RunArtist[],
+  appearanceOf: (artist: RunArtist) => FestivalAppearance,
   attendanceDays: string[],
   lineupStageCount: number,
   lineupGenreCount: number,
@@ -323,7 +324,7 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     const appearance = getSelectedDayAppearance(artist, festivalId, attendanceDays);
     if (appearance) appearanceByArtist.set(artist.slug, appearance);
   }
-  const appearanceOf = (artist: Artist): FestivalAppearance => appearanceByArtist.get(artist.slug)!;
+  const appearanceOf = (artist: RunArtist): FestivalAppearance => appearanceByArtist.get(artist.slug)!;
 
   // ===== The user's own leading genre family (or families, on a tie) =====
   // Used only for *naming* the family in copy and for the min-picks guard — the

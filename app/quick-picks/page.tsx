@@ -292,7 +292,7 @@ export default function QuickPicksPage() {
     ? getValidPositivePicks(
         session.config.festivalId,
         session.config.attendanceDays,
-        allArtists,
+        quickPicksArtists,
         decisionsByArtist
       ).length >= MIN_POSITIVE_PICKS_FOR_STORY
     : false;

@@ -407,6 +407,34 @@ This is distinct from the round-2 fix (`useDialogA11y` wired into the drawer, se
 
 ---
 
+## Future Consideration: Stale Chicago-Baseline Fixture in verify-story-signals.ts
+
+`verify-story-signals.ts`'s hometown-signal check ("fixture: Saturday eligible
+Chicago baseline clears the old 12pp threshold territory") asserts the real Saturday
+lineup's actual Chicago-artist rate exceeds 12% — a precondition for the regression
+check right after it (zero Chicago picks against that baseline should produce no
+hometown card). This currently fails: the real rate is 11.6%, just under the
+assumed threshold.
+
+**Not a logic bug.** Confirmed pre-existing and unrelated to the `RunArtist`
+migration work in progress around it — fails identically on `main`, before any of
+those changes. This is data drift: the real Saturday lineup's Chicago-artist
+proportion has settled below the value assumed when this fixture was written, most
+likely because the artist roster changed since (an addition, removal, or location
+correction) without anyone revisiting this one precondition.
+
+**Effect:** only this one fixture precondition fails; the dependent regression check
+never actually ran against real data confirming its precondition held (though it
+likely still would). Every other check in the suite (86 of 87) passes.
+
+**Not fixed now** — out of scope for whichever change happens to surface it next.
+Fixing means either finding a Saturday-eligible subset that still clears 12% today,
+or reworking the fixture to compute its own threshold from the current real baseline
+rather than hardcoding one. **Revisit when:** next touching
+`verify-story-signals.ts` directly, or if this drifts further.
+
+---
+
 ## Future Consideration: Quick Picks Bypasses Similar-Artist Verification Gate
 
 Artist Detail's `FloatingCards.tsx` renders Similar Artists only when
@@ -447,15 +475,14 @@ cancellation UI design exists for these bulk-consuming surfaces too.
 
 ## Future Consideration: Wider Consumption of the Run-Appearances Store
 
-`runAppearancesStore` (fed by `GET .../appearances`) was built to fix
+**Resolved.** `runAppearancesStore` (fed by `GET .../appearances`) was built to fix
 scheduling-identity resolution, then extended into the display-data source for
 Planner and Explore — see [ADR-0006](decisions/0006-shared-run-appearances-store.md)
 for the full pattern (lean per-consumer projection types, the TS/API constructor
-pair gated on `hasLoaded`).
-
-**Still not built**: Quick Picks' deck-building (currently entirely TypeScript-sourced
-via `app/lib/appearances.ts`) and Festival Story's sampling. Each needs its own lean
-projection type following the same pattern, not a shared one — see ADR-0006's
-Alternatives Considered for why. Revisit as part of the `app/data/artists` removal
-already tracked in the [backend rollout roadmap](roadmap/backend-rollout.md)'s step
-7 items 4-5, not as a standalone effort.
+pair gated on `hasLoaded`). Quick Picks (backend rollout step 7 item 4,
+`QuickPicksRunArtist`, see [ADR-0007](decisions/0007-quick-picks-track-and-similar-artists-on-bulk-appearances.md))
+and Festival Story (step 7 item 5, retyped onto `RunArtist` directly — no new
+projection type needed, since its signal computation never touches an editorial
+field) now both read from this store, following the same pattern. `app/data/artists`
+remains the fallback source for all consumers while `runAppearancesStore` hasn't
+loaded; its removal as a runtime dependency is step 7 item 7, still open.
