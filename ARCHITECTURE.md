@@ -1908,6 +1908,58 @@ an artist's data:
 
 ---
 
+## Run-Appearances Store
+
+**Confirmed** — `runAppearancesStore` (`app/store/runAppearancesStore.ts`) is the
+canonical, run-scoped source both scheduling-identity resolution and
+migrating-consumer display data read from. See
+[ADR-0006](docs/decisions/0006-shared-run-appearances-store.md) for why.
+
+### Shape and hydration
+
+```typescript
+interface RunAppearancesState {
+  hasLoaded: boolean;
+  appearancesBySlug: Map<string, ApiRunAppearance[]>;
+}
+```
+
+Populated once per hard page load by `RunAppearancesHydrator`
+(`app/components/RunAppearancesHydrator.tsx`), seeded synchronously via a lazy
+`useState` initializer from data the root layout (`app/layout.tsx`) already fetched
+server-side — `fetchFestivalRunAppearances`, uncached (`cache: "no-store"`),
+unscoped by `FESTFUSE_API_ARTIST_SLUGS`. `hasLoaded` stays `false` for the rest of
+that page load if the fetch fails; there is no later retry or background refresh —
+see ADR-0006's Consequences for what that means for staleness.
+
+### Identity resolution
+
+`resolveCanonicalAppearanceId` (same file) resolves an artist's real database
+`Appearance.id` regardless of whether the calling surface's own appearance data is
+TypeScript- or API-shaped. For a multi-appearance artist (currently only DEVAULT) it
+disambiguates by matching `day`/`startTime` against each stored candidate, not by
+trusting the caller's id space. `getAppearanceKey` (`app/lib/schedule.ts`) is the one
+function every scheduling call site funnels through to reach it.
+
+### Per-consumer projection types
+
+Two live instances follow the same convention: a lean type carrying only the fields
+that one consumer actually renders, built via a matching pair of constructor
+functions — one from the store (preferred, once `hasLoaded`), one from
+`app/data/artists` (fallback, an operational-failure case).
+
+| Consumer | Type | Grain | Constructors |
+| --- | --- | --- | --- |
+| Planner | `AppearanceEntry` (`app/lib/schedule.ts`) | per-appearance | `getAllAppearanceEntries` / `getAppearanceEntriesFromApi` |
+| Explore | `RunArtist` (`app/lib/api/mapRunAppearance.ts`) | per-artist | `getAllRunArtists` / `getRunArtistsFromApi` |
+
+Neither reuses or extends the full `Artist` type — see ADR-0006's Alternatives
+Considered for why fabricating its unused editorial fields was rejected each time.
+A future Quick Picks/Festival Story migration is expected to add its own projection
+type following this same shape, not share one of the two above.
+
+---
+
 ## Quick Picks Attendance
 
 **Confirmed** — Quick Picks asks which festival days the user is actually attending

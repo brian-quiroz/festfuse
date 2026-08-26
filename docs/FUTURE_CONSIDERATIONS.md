@@ -436,27 +436,26 @@ store behavior should appear before mapping them into the legacy frontend `Artis
 shape. Until both designs are approved, the API adapter rejects these states so the
 temporary TypeScript fallback preserves existing behavior.
 
+The bulk `read_festival_run_appearances` query (behind `runAppearancesStore`, shared
+by Explore/Planner/Quick Picks/Festival Story) takes the simpler route of excluding
+cancelled Appearances server-side entirely, rather than returning and ignoring them —
+see [ADR-0006](decisions/0006-shared-run-appearances-store.md). Widen that filter
+together with adding a status field to `FestivalRunAppearanceRead` once a
+cancellation UI design exists for these bulk-consuming surfaces too.
+
 ---
 
 ## Future Consideration: Wider Consumption of the Run-Appearances Store
 
 `runAppearancesStore` (fed by `GET .../appearances`) was built to fix
-scheduling-identity resolution: every consumer that builds a schedule key
-(`getAppearanceKey` and its callers in Artist Detail, Explore, Planner) now resolves
-an Artist's real `Appearance.id` against it, regardless of whether the surrounding
-page's own content came from the API or TypeScript data. That's the only thing wired
-up so far.
+scheduling-identity resolution, then extended into the display-data source for
+Planner and Explore — see [ADR-0006](decisions/0006-shared-run-appearances-store.md)
+for the full pattern (lean per-consumer projection types, the TS/API constructor
+pair gated on `hasLoaded`).
 
-The store's shape (per-appearance artist projection: slug, name, image, genres) is
-general enough that it could become the canonical source for more than identity
-resolution — Explore's card grid/filtering, Quick Picks' deck-building (currently
-entirely TypeScript-sourced via `app/lib/appearances.ts`), Planner's own rendered
-content (only identity resolution goes through the store today, not the grid's
-artist/appearance data itself), Festival Story's sampling.
-
-**Not built now** — broadening consumption is real, separate frontend work. Each of
-those consumers has its own resolution/sorting/grouping logic built around the
-TypeScript `Artist`/`FestivalAppearance` shape, which doesn't map one-to-one onto the
-lighter API shape. Revisit as part of the `app/data/artists` removal already tracked
-in the [backend rollout roadmap](roadmap/backend-rollout.md)'s step 7, not as a
-standalone effort.
+**Still not built**: Quick Picks' deck-building (currently entirely TypeScript-sourced
+via `app/lib/appearances.ts`) and Festival Story's sampling. Each needs its own lean
+projection type following the same pattern, not a shared one — see ADR-0006's
+Alternatives Considered for why. Revisit as part of the `app/data/artists` removal
+already tracked in the [backend rollout roadmap](roadmap/backend-rollout.md)'s step
+7 items 4-5, not as a standalone effort.

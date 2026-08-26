@@ -201,8 +201,8 @@ would make them harder to isolate, not easier.
    derived from `festival_date` the same way `mapFestivalArtist.ts` already does for
    Artist Detail. Cross-surface testing (Explore/Artist Detail/Planner, in every
    direction, for both the single- and multi-appearance case) caught and fixed a real
-   schedule-key mismatch for DEVAULT — see ADR-0004's follow-up note for the DEVAULT
-   fix, and `formatApiTime`'s own comment (`app/lib/api/mapRunAppearance.ts`) for the
+   schedule-key mismatch for DEVAULT — see ADR-0006 for the DEVAULT fix, and
+   `formatApiTime`'s own comment (`app/lib/api/mapRunAppearance.ts`) for the
    timezone reasoning. Reads remain uncached and ungated by `FESTFUSE_API_ARTIST_SLUGS`.
 
    The same testing also caught a pre-existing, unrelated bug (confirmed present before
