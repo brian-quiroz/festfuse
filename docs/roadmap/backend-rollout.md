@@ -293,6 +293,32 @@ would make them harder to isolate, not easier.
 5. **Migrate Festival Story.** Same bulk-catalog shape as Quick Picks
    (genre/location/tier across the full artist set); can follow or run alongside
    step 4.
+
+   **Status: completed.** No backend work needed — Festival Story's signal engine
+   (`app/hooks/useStorySignals.ts`) only ever reads `slug`, `genres`,
+   `location.city`/`location.country`, and the resolved appearance's
+   `billingTier`/`stage`/`day`, all already on `RunArtist`. Retyped
+   `ComputeStorySignalsParams.allArtists`, `getEligibleArtists`,
+   `getValidPositivePicks`, and `computeAggregateMetrics` from `Artist[]` to
+   `RunArtist[]` — zero lines of the actual scoring/selection/copy logic changed.
+   `FestivalStorySequence.tsx` now builds `runArtists` via the same
+   `hasLoaded`/TS-fallback/API-backed gating idiom as Explore/Planner/Quick Picks;
+   `quick-picks/page.tsx`'s `storyUnlocked` check reuses the `quickPicksArtists` it
+   already computes (`QuickPicksRunArtist` already structurally satisfies
+   `RunArtist[]`).
+
+   `app/lib/verify-story-signals.ts` (the `npm run verify:story` script, ~87 checks)
+   was deliberately left untouched — a full `Artist` structurally satisfies the
+   narrower `RunArtist` type, so its real-data and synthetic-fixture calls continue
+   compiling and behaving identically. Confirmed with `tsc`, not just assumed:
+   `npx tsc --noEmit` is clean, and the full verify:story suite still passes 86 of 87
+   checks; the one failure is pre-existing real-data drift unrelated to this
+   migration, see `docs/FUTURE_CONSIDERATIONS.md`'s "Stale Chicago-Baseline Fixture"
+   entry.
+   Manually verified end to end against a local backend: all 4 signal cards plus
+   intro/final render with real API-sourced data (genre/billing/stage-footprint
+   signals, decision-profile threshold logic), zero console/page errors. Explore,
+   Planner, Quick Picks, and Artist Detail re-checked for regressions — none found.
 6. **Decide the production cache policy, revisit observability/rollback scope, and
    broaden the Artist Detail allowlist from one artist to roughly five** — together,
    once every consumer above is integrated. Don't assume a bespoke rollback mechanism

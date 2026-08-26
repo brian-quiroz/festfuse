@@ -37,3 +37,34 @@ FESTFUSE_API_BASE_URL=http://127.0.0.1:8000 npm run dev
 Only artists in `FESTFUSE_API_ARTIST_SLUGS` (also set in `.env.local`) are actually
 read from the API; every other Artist Detail page still reads TypeScript data
 regardless of which backend `FESTFUSE_API_BASE_URL` points at.
+
+## 3. Fast-tracking Festival Story locally
+
+Festival Story only unlocks after a Quick Picks session's queue is fully decided —
+for one day, that's 40+ individual decisions. To skip the grind while testing, write
+the equivalent state directly into the browser's `localStorage` (the same place
+Quick Picks persists decisions) via DevTools' Console, then reload before navigating
+to Quick Picks:
+
+```js
+const thu = ["kim-theory", "pearly-drops", /* ...every artist slug for the target day */];
+const decisionsByArtist = Object.fromEntries(
+  thu.map((slug, i) => [slug, { verdict: i < 6 ? "mustSee" : "passed", source: "quickPicks", updatedAt: Date.now() }])
+);
+localStorage.setItem("decision-store", JSON.stringify({ state: { decisionsByArtist, hasHydrated: false }, version: 0 }));
+localStorage.setItem("attendance-store", JSON.stringify({ state: { attendanceDaysByFestival: { "lollapalooza-2026": ["Thursday"] }, hasHydrated: false }, version: 0 }));
+```
+
+Two things that trip this up:
+
+- **Get the slug list via `curl` against the backend in a terminal, not `fetch()`
+  inside the browser console.** The backend's CORS policy only allows server-side
+  (Next.js) requests by design (see step 4's guardrail in
+  `docs/roadmap/backend-rollout.md`) — a direct browser-side `fetch()` to the local
+  backend is correctly rejected, not a bug.
+- **Hard-reload (not a client-side navigation) after writing to `localStorage`,
+  before clicking anything.** Zustand's `persist` middleware only reads
+  `localStorage` once, when a store is first created on a fresh page load — writing
+  new data doesn't affect a store already hydrated in memory from earlier in that
+  same tab. An incognito/private window sidesteps this entirely by guaranteeing
+  empty state to start from.
