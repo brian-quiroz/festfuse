@@ -125,6 +125,8 @@ class FestivalRunArtistRead(BaseModel):
     image: ArtistImageRead | None
     location: ArtistLocationRead
     genres: list[ArtistGenreRead]
+    quick_picks_track: ArtistTrackRead
+    similar_artists: list[FestivalSimilarArtistRead]
 
 
 class FestivalRunAppearanceRead(BaseModel):
