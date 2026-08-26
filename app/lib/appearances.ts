@@ -2,8 +2,13 @@ import type { Artist, FestivalAppearance } from "@/app/types/artist";
 import { getDaysForFestival } from "@/app/data/festivals";
 import { timeStringToMinutes } from "@/app/lib/time";
 
+// Pick<Artist, "slug" | "appearances"> rather than the full Artist — every function
+// below only ever touches those two fields, and this lets a leaner artist shape
+// (e.g. app/lib/api/mapRunAppearance.ts's RunArtist) satisfy them directly without a
+// cast. A full Artist already satisfies this structurally, so every existing caller
+// keeps compiling unchanged.
 export function getAppearancesForFestival(
-  artist: Artist,
+  artist: Pick<Artist, "slug" | "appearances">,
   festivalId: string
 ): FestivalAppearance[] {
   return artist.appearances.filter((a) => a.festivalId === festivalId);
@@ -32,7 +37,10 @@ function pickPrimaryFromCandidates(
 
 // The single source of truth for "which appearance represents this artist" outside
 // the Planner (display, sort, carousel/queue grouping, filters, search).
-export function getPrimaryAppearance(artist: Artist, festivalId: string): FestivalAppearance {
+export function getPrimaryAppearance(
+  artist: Pick<Artist, "slug" | "appearances">,
+  festivalId: string
+): FestivalAppearance {
   const atFestival = getAppearancesForFestival(artist, festivalId);
   // Uses the requested festivalId's own configured day order, not the active
   // festival's — this function is called with an explicit festivalId precisely so it
@@ -49,7 +57,7 @@ export function getPrimaryAppearance(artist: Artist, festivalId: string): Festiv
   return primary;
 }
 
-export function getPrimaryBillingTier(artist: Artist, festivalId: string) {
+export function getPrimaryBillingTier(artist: Pick<Artist, "slug" | "appearances">, festivalId: string) {
   return getPrimaryAppearance(artist, festivalId).billingTier;
 }
 
@@ -61,7 +69,7 @@ export function getPrimaryBillingTier(artist: Artist, festivalId: string) {
 // has no appearance on any selected day — an expected outcome, not a data error, since
 // which days are "selected" is a user choice, not part of the dataset's own integrity.
 export function getSelectedDayAppearance(
-  artist: Artist,
+  artist: Pick<Artist, "slug" | "appearances">,
   festivalId: string,
   selectedDays: readonly string[]
 ): FestivalAppearance | undefined {
@@ -72,7 +80,7 @@ export function getSelectedDayAppearance(
 }
 
 export function getSelectedDayBillingTier(
-  artist: Artist,
+  artist: Pick<Artist, "slug" | "appearances">,
   festivalId: string,
   selectedDays: readonly string[]
 ) {
@@ -80,7 +88,7 @@ export function getSelectedDayBillingTier(
 }
 
 export function getAppearanceById(
-  artist: Artist,
+  artist: Pick<Artist, "slug" | "appearances">,
   festivalId: string,
   appearanceId: string
 ): FestivalAppearance | undefined {

@@ -1,4 +1,4 @@
-import type { Artist } from "@/app/types/artist";
+import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance } from "@/app/lib/appearances";
 import { isUKConstituentCountry } from "@/app/lib/location";
@@ -27,7 +27,7 @@ import { isUKConstituentCountry } from "@/app/lib/location";
  * @param artists - Array of artists to search
  * @returns Ranked array of matching artists (best matches first)
  */
-export function searchArtists(query: string, artists: Artist[]): Artist[] {
+export function searchArtists(query: string, artists: RunArtist[]): RunArtist[] {
   const normalizedQuery = query.toLowerCase().trim();
 
   // Early exit: empty query
@@ -109,7 +109,7 @@ export function searchArtists(query: string, artists: Artist[]): Artist[] {
 
       return null;
     })
-    .filter((result): result is { artist: Artist; priority: number } => result !== null)
+    .filter((result): result is { artist: RunArtist; priority: number } => result !== null)
     .sort((a, b) => a.priority - b.priority)
     .map((result) => result.artist);
 

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Heart, Star, Calendar, AlertTriangle } from "lucide-react";
 import { COLORS } from "@/app/data/colors";
-import type { Artist } from "@/app/types/artist";
+import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
@@ -19,7 +19,7 @@ import { getVerifiedImageUrl } from "@/app/lib/artistImage";
 import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
 interface ArtistCardProps {
-  artist: Artist;
+  artist: RunArtist;
   size?: "default" | "large";
   responsive?: boolean;
 }

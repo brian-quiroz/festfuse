@@ -123,6 +123,7 @@ class FestivalRunArtistRead(BaseModel):
     slug: str
     name: str
     image: ArtistImageRead | None
+    location: ArtistLocationRead
     genres: list[ArtistGenreRead]
 
 

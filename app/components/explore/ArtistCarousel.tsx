@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { Artist } from "@/app/types/artist";
+import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
 import ArtistCard from "./ArtistCard";
 
 // How close to an edge (in px) the cursor needs to be before that side's arrow reveals.
@@ -10,7 +10,7 @@ const EDGE_ZONE = 80;
 
 interface ArtistCarouselProps {
   title: string;
-  artists: Artist[];
+  artists: RunArtist[];
   cardSize?: "default" | "large";
   carouselType?: "festival-favorites" | "international-picks" | "chicagos-own" | "after-dark";
   onSeeAll?: () => void;

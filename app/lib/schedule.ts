@@ -36,7 +36,7 @@ export function getAppearanceKey(
 // Shared by ArtistCard, ArtistActions, and filters.ts's scheduleStatus facet so they
 // can never disagree about an artist's aggregate schedule state.
 export function getArtistScheduleState(
-  artist: Artist,
+  artist: Pick<Artist, "slug" | "appearances">,
   festivalId: string,
   scheduledAppearanceKeys: Set<string>,
   runAppearancesBySlug?: RunAppearancesBySlug

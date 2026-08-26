@@ -16,7 +16,10 @@ import type {
   FestivalArtistApiResponse,
 } from "@/app/types/festivalArtistApi";
 
-const BILLING_TIERS: Record<
+// Exported for reuse by app/lib/api/mapRunAppearance.ts, which needs the same
+// snake_case-to-display-string translation for the bulk appearances endpoint's
+// billing_tier field.
+export const BILLING_TIERS: Record<
   FestivalArtistApiResponse["festival_context"]["billing_tier"],
   BillingTier
 > = {
@@ -40,13 +43,15 @@ export function requireKnownValue<T extends string>(
   return value as T;
 }
 
-function mapGenres(genres: ApiArtistGenre[]): Genre[] {
+// Exported for reuse by app/lib/api/mapRunAppearance.ts.
+export function mapGenres(genres: ApiArtistGenre[]): Genre[] {
   return [...genres]
     .sort((left, right) => left.display_order - right.display_order)
     .map(({ name }) => requireKnownValue<Genre>(name, GENRES, "genre"));
 }
 
-function mapImage(image: ApiArtistImage | null): {
+// Exported for reuse by app/lib/api/mapRunAppearance.ts.
+export function mapImage(image: ApiArtistImage | null): {
   imageUrl?: string;
   imageVerified?: boolean;
   imageCredit?: Artist["imageCredit"];

@@ -210,9 +210,9 @@ PostgreSQL integration tests are documented in the
 ## Current Scope and Roadmap
 
 FestFuse is currently a frontend MVP centered on one festival. Artist Detail (for an
-initial allowlisted artist) and Planner read from the FastAPI/PostgreSQL backend, with
-an automatic fallback to typed source files if that read fails; Explore, Quick Picks,
-and Festival Story still run entirely on typed source files during the staged
+initial allowlisted artist), Planner, and Explore read from the FastAPI/PostgreSQL
+backend, with an automatic fallback to typed source files if that read fails; Quick
+Picks and Festival Story still run entirely on typed source files during the staged
 migration — see [backend rollout status](docs/roadmap/backend-rollout.md) for current
 detail. The next major iteration will focus on:
 

@@ -1,4 +1,4 @@
-import type { Artist } from "@/app/types/artist";
+import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
 import type { Genre, Stage } from "@/app/data/categories";
 import type { Verdict, PickStatusFilterValue } from "@/app/types/decision";
 import type { ScheduleStatusValue } from "@/app/types/schedule";
@@ -11,7 +11,7 @@ import { getPrimaryAppearance } from "@/app/lib/appearances";
  * Requires decisionsByArtist map to filter by verdict status.
  */
 export function filterArtists(
-  artists: Artist[],
+  artists: RunArtist[],
   options: {
     genres?: Genre[];
     day?: string;
@@ -25,7 +25,7 @@ export function filterArtists(
     conflictingArtistSlugs?: Set<string>;
   },
   decisionsByArtist?: Record<string, { verdict: Verdict }>
-): Artist[] {
+): RunArtist[] {
   const {
     genres,
     day,

@@ -13,6 +13,7 @@ preserve the context, alternatives, and tradeoffs behind that system.
 | [0003](0003-separate-festival-series-and-editions.md) | Separate recurring festival series from dated editions | Accepted |
 | [0004](0004-model-artist-curation-and-scheduling.md) | Model artist curation, lineup membership, and scheduled appearances | Accepted |
 | [0005](0005-deploy-initial-backend-on-railway.md) | Deploy the initial hosted backend on Railway | Accepted |
+| [0006](0006-shared-run-appearances-store.md) | Share canonical Appearance identity and display data through one run-appearances store | Accepted |
 
 ## Lightweight convention
 
@@ -34,3 +35,7 @@ Each record should contain:
 Accepted records preserve history. If an accepted decision materially changes,
 create a new ADR and mark the earlier one `Superseded` with a link to its
 replacement. Correcting typos and broken links does not require a replacement ADR.
+An accepted record's Context/Decision/Alternatives/Consequences do not get amended
+afterward, including for a related but distinct decision that builds on it — that
+gets its own new ADR, cross-referenced from this one's References section, not an
+appended note in this one's body.

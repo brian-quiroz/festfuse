@@ -100,46 +100,13 @@ SQL, or pgAdmin, so critical invalidation cannot depend on one application code 
 - **Put every rule in PostgreSQL.** Rejected for contextual completeness and lifecycle
   rules that require multi-row product meaning and clearer application errors.
 
-## Follow-up (2026-08-25)
-
-The Appearance primary key now resolves correctly end to end. A new
-`GET /festivals/{edition}/runs/{run}/appearances` endpoint and frontend
-`runAppearancesStore` give every scheduling call site (Artist Detail, Explore,
-Planner) one canonical source for an artist's `Appearance.id`, regardless of which
-data source populated the calling component's artist/appearance objects. The
-deferred parallel-legacy-ID alternative remains correctly rejected; no second
-identifier was introduced.
-
-The anticipated "one-time saved-schedule reset" did not require a persisted-key
-rename or migration function. Stale `localStorage` schedule keys are cleared
-manually — the product has no real user data yet to migrate.
-
-The new endpoint, query, and store are named "appearances" throughout
-(`read_festival_run_appearances`, `FestivalRunAppearanceRead`,
-`runAppearancesStore`), not "lineup" — `LineupEntry` already means booking/
-membership, independent of schedule — or "catalog", a transient planning term
-that was never adopted.
-
-`read_festival_run_appearances` excludes cancelled appearances, unlike
-`read_festival_artist_by_slug`. No scheduling surface renders cancellation state
-yet; widen this filter together with adding a status field to
-`FestivalRunAppearanceRead` once that UI exists.
-
-Planner now reads its per-appearance display data (day, date, start/end time, stage)
-from `runAppearancesStore` rather than only its `Appearance.id`. This surfaced the gap
-`resolveCanonicalAppearanceId`'s comment already flagged as a "Known Phase 1
-limitation": TS-shaped and API-shaped callers now hand it different id spaces for
-DEVAULT (the one multi-appearance Artist), so scheduling from one surface didn't show
-as scheduled on another. `resolveCanonicalAppearanceId` now disambiguates a
-multi-candidate Artist by matching `day`/`startTime` against each candidate, rather
-than trusting whichever id space the caller happened to pass — safe, not probabilistic,
-since one Artist can't play two overlapping sets. Remains explicitly transitional: it
-goes away, alongside the id-space split itself, once every consumer sources
-appearances from the API and always passes real database ids (step 7 item 7).
-
 ## References
 
 - [Artist and festival data-model design](../design/artist-data-model.md)
 - [ADR-0003](0003-separate-festival-series-and-editions.md)
 - [Artist-domain migration](../../backend/migrations/versions/7cee3ac4be86_add_artist_domain_schema.py)
+- [ADR-0006](0006-shared-run-appearances-store.md) — the canonical Appearance-identity
+  and display-data work that followed this decision. Previously lived here as an
+  informal "Follow-up" note; migrated to its own record once we recognized that
+  practice wasn't an actual convention (see `docs/decisions/README.md`).
 - [PostgreSQL integration tests](../../backend/tests/integration/test_artist_schema.py)

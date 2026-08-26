@@ -35,7 +35,7 @@ interface ScheduleState {
   // Aggregate control used everywhere else (Explore's ArtistCard, Artist Detail's
   // ArtistActions): schedules every appearance the artist has at that festival unless
   // all are already scheduled, in which case it unschedules all of them.
-  toggleAllAppearances: (artist: Artist, festivalId: string) => void;
+  toggleAllAppearances: (artist: Pick<Artist, "slug" | "appearances">, festivalId: string) => void;
 }
 
 // Custom storage that converts Set to/from Array for JSON serialization
@@ -130,7 +130,7 @@ export const useScheduleStore = create<ScheduleState>()(
           });
         },
 
-        toggleAllAppearances: (artist: Artist, festivalId: string) => {
+        toggleAllAppearances: (artist: Pick<Artist, "slug" | "appearances">, festivalId: string) => {
           set((state) => {
             const runAppearancesBySlug = useRunAppearancesStore.getState().appearancesBySlug;
             const keys = getAppearancesForFestival(artist, festivalId).map((a) =>
