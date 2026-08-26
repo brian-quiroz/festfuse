@@ -1,4 +1,4 @@
-import type { Artist } from "@/app/types/artist";
+import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
 import { BILLING_TIERS } from "@/app/data/categories";
 import { getDaysForActiveFestival, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { timeStringToMinutes } from "@/app/lib/time";
@@ -16,7 +16,7 @@ const DAY_ORDER = getDaysForActiveFestival();
  * Ensures consistent ordering regardless of input order.
  * Uses each artist's primary appearance — see app/lib/appearances.ts.
  */
-export function sortByDay(artists: Artist[]): Artist[] {
+export function sortByDay(artists: RunArtist[]): RunArtist[] {
   return [...artists].sort((a, b) => {
     const dayA = DAY_ORDER.indexOf(getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).day);
     const dayB = DAY_ORDER.indexOf(getPrimaryAppearance(b, ACTIVE_FESTIVAL_ID).day);
@@ -30,7 +30,7 @@ export function sortByDay(artists: Artist[]): Artist[] {
  * Ensures billing order is explicitly enforced rather than assumed from file position.
  * Uses each artist's primary appearance — see app/lib/appearances.ts.
  */
-export function sortByBillingTier(artists: Artist[]): Artist[] {
+export function sortByBillingTier(artists: RunArtist[]): RunArtist[] {
   return [...artists].sort((a, b) => {
     const tierA = getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).billingTier;
     const tierB = getPrimaryAppearance(b, ACTIVE_FESTIVAL_ID).billingTier;
@@ -55,7 +55,7 @@ export function sortByBillingTier(artists: Artist[]): Artist[] {
  * Planner, which needs to order individual appearances instead — see
  * sortAppearancesChronologically in app/lib/schedule.ts.
  */
-export function sortChronologically(artists: Artist[]): Artist[] {
+export function sortChronologically(artists: RunArtist[]): RunArtist[] {
   return [...artists].sort((a, b) => {
     const appearanceA = getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID);
     const appearanceB = getPrimaryAppearance(b, ACTIVE_FESTIVAL_ID);
@@ -80,7 +80,7 @@ export function sortChronologically(artists: Artist[]): Artist[] {
  * Billing tier order (Headliner → Sub-headliner → Undercard) is preserved within each day.
  * Uses each artist's primary appearance — see app/lib/appearances.ts.
  */
-export function sortFestivalFavoritesForFullView(artists: Artist[]): Artist[] {
+export function sortFestivalFavoritesForFullView(artists: RunArtist[]): RunArtist[] {
   return [...artists].sort((a, b) => {
     const appearanceA = getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID);
     const appearanceB = getPrimaryAppearance(b, ACTIVE_FESTIVAL_ID);

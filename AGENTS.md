@@ -172,13 +172,14 @@ Fact-checking an artist's `about` copy, socials, location, and genres; correctin
 
 - New automated test file (frontend or backend) → its test README needs a new paragraph and a coverage-list bullet.
 - A change that confirms or completes something an existing ADR's Consequences section already anticipated → a dated follow-up note on that same ADR, not a new one.
-- A decision that took real back-and-forth to reach AND clears docs/decisions/README.md's ADR bar (materially
-  affects structure, interfaces, data integrity, operational behavior, or an expensive-to-reverse dependency)
-  → a new ADR. Effort alone isn't the bar — a long discussion about a local implementation detail (a
+- A choice that materially affects structure, interfaces, data integrity, operational behavior, or an
+  expensive-to-reverse dependency clears docs/decisions/README.md's ADR bar → a new ADR (the why), written
+  retroactively if needed. A long discussion alone isn't the bar — a local implementation detail (a
   formatting choice, a workaround) belongs in a code comment, not an ADR.
 - Changed rollout status or sequence → `docs/roadmap/backend-rollout.md`.
 - A completed backend data-model implementation milestone → `docs/design/artist-data-model.md`'s Implementation status checklist.
-- A notable new frontend behavior/pattern worth a technical record → `ARCHITECTURE.md`.
+- A notable new frontend behavior/pattern worth a technical record → `ARCHITECTURE.md` (the what only) —
+  if it also has a why worth capturing, that belongs in an ADR, not as rationale prose here.
 - A deliberately deferred gap, frontend or backend → `docs/FUTURE_CONSIDERATIONS.md`.
 - Shipped or completed something tracked in Current Milestone → update that section
   directly, and re-check Stack for matching stale status language — this file's

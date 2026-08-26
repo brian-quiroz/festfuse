@@ -4,6 +4,7 @@ export type ApiRunArtist = {
   slug: string;
   name: string;
   image: ApiArtistImage | null;
+  location: { city: string; state: string | null; country: string };
   genres: ApiArtistGenre[];
 };
 

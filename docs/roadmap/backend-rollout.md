@@ -217,6 +217,46 @@ would make them harder to isolate, not easier.
    `FestivalRunArtistRead`/`FestivalRunAppearanceRead` — no new endpoint required.
    The one known gap is `artist.location`, which Explore filters on but the schema
    doesn't yet expose; add it there. Keep reads uncached.
+
+   **Status: completed.** `FestivalRunArtistRead` gained `location`, mapped by a new
+   shared `_map_location` helper (`backend/app/queries/artists.py`) reused by both the
+   global Artist projection and this run-scoped one, closing the one real gap between
+   this endpoint and Explore's needs.
+
+   On the frontend, `RunArtist` (`app/lib/api/mapRunAppearance.ts`) is the new lean,
+   source-agnostic per-artist type Explore's whole pipeline (`filterArtists`,
+   `searchArtists`, `sortByDay`/`sortByBillingTier`/`sortChronologically`/
+   `sortFestivalFavoritesForFullView`, `shuffleDayBlocks`/`interleaveByDayShuffled`,
+   `ArtistCard`/`ArtistCarousel`/`ArtistResultsGrid`) now operates on instead of the
+   full `Artist`, mirroring Planner's `AppearanceEntry` precedent but at artist grain
+   rather than appearance grain. Every field is real data with the same type as its
+   `Artist` counterpart — never a placeholder for the editorial-only fields (`tagline`,
+   `whySee`, `about`, etc.) the bulk endpoint deliberately doesn't return. Two
+   constructors produce it, gated on `runAppearancesStore.hasLoaded` exactly like
+   Planner's `getAllAppearanceEntries`/`getAppearanceEntriesFromApi`:
+   `getAllRunArtists` (TS fallback) and `getRunArtistsFromApi` (preferred).
+
+   The shared appearance/schedule helpers that only ever touched `slug`/`appearances`
+   (`getPrimaryAppearance`, `getPrimaryBillingTier`, `getAppearancesForFestival`,
+   `getSelectedDayAppearance`, `getSelectedDayBillingTier`, `getAppearanceById` in
+   `app/lib/appearances.ts`; `getArtistScheduleState` in `app/lib/schedule.ts`;
+   `toggleAllAppearances` in `app/store/scheduleStore.ts`; `getVerifiedImageUrl` in
+   `app/lib/artistImage.ts`) were narrowed from `Artist` to `Pick<Artist, "slug" |
+   "appearances">` (or the equivalent image-field pick) — a genuine structural
+   subtype, not a new named interface, so every existing full-`Artist` call site
+   (Quick Picks, Artist Detail, Planner) kept compiling and behaving unchanged.
+   `BILLING_TIERS`, `mapGenres`, and `mapImage` (`app/lib/api/mapFestivalArtist.ts`)
+   were widened from module-private to exported for reuse here, the same way
+   `KNOWN_STAGES`/`requireKnownValue` already were for Planner.
+
+   Cross-surface testing (Explore, Planner, and Artist Detail together, both
+   directions) confirmed DEVAULT — the one multi-appearance Artist — schedules
+   correctly from Explore using real database Appearance ids (not TS-legacy ids) and
+   that `scheduleStore`'s persisted state is read identically on Planner. Carousel
+   membership (Festival Favorites, International Picks, Chicago's Own, After Dark),
+   search ranking (including the UK-constituent-country rollup), and the `!hasLoaded`
+   TS-fallback path were all verified against a local backend and match the intended
+   behavior with zero regressions.
 4. **Migrate Quick Picks onto the same `/appearances` data**, checking for other
    field gaps (e.g. the curated Quick Picks track) the same way before assuming new
    backend work is needed.

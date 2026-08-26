@@ -1,8 +1,8 @@
-import type { Artist } from "@/app/types/artist";
+import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
 import ArtistCard from "./ArtistCard";
 
 interface ArtistResultsGridProps {
-  results: Artist[];
+  results: RunArtist[];
 }
 
 export default function ArtistResultsGrid({ results }: ArtistResultsGridProps) {

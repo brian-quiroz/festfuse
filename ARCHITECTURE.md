@@ -125,7 +125,8 @@ Raw artist data contained overlapping, redundant, and inconsistent values:
 Normalization ensures:
 
 - Type safety (TypeScript derivation from constants)
-- Single source of truth (`app/data/categories.ts`)
+- A frontend-owned, type-checked allowlist (`app/data/categories.ts`) — see below for
+  how this relates to the database's own Genre/Stage tables
 - Consistent filtering and search behavior
 - Editorial control over language and meaning
 
@@ -151,6 +152,24 @@ together — that distinction was the actual rule applied, not name length alone
 - **K-Pop:** K-Pop
 - **Heavy:** Alternative Metal, Emo, Hardcore Punk, Metalcore, Punk Rock, etc.
 - **Classical:** Classical, Symphonic Rock, etc.
+
+### Genre/Stage: Database Source of Truth vs. Frontend Allowlist
+
+`Genre`/`GenreFamily`/`Stage` are real, normalized PostgreSQL tables (see
+`docs/design/artist-data-model.md`) — the database is authoritative for which
+genres/stages exist and which artist has which one. `app/data/categories.ts`'s
+`GENRES` constant and `app/data/festivals.ts`'s `FESTIVAL_STAGES` are a separate,
+hand-maintained mirror the frontend needs for its own purposes: a compile-time
+TypeScript union (`Genre`, `Stage`), dropdown grouping, and the genre-family gradient
+color lookup — none of which can be derived from a live API response at compile time.
+
+`requireKnownValue()` (`app/lib/api/mapFestivalArtist.ts`) is the seam reconciling the
+two: every genre/stage name the API returns is checked against the frontend's own list
+when mapping into frontend types, and mapping throws if it doesn't match, rather than
+silently rendering something the UI doesn't know how to categorize. This is a
+permanent pattern for how a strongly-typed frontend reconciles a backend-owned
+taxonomy, not scaffolding tied to any particular data source — it applies the same way
+whether a given page's data comes from the API or a typed fallback.
 
 ---
 

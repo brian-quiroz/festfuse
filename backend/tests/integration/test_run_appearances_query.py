@@ -300,6 +300,9 @@ def test_read_festival_run_appearances_orders_by_start_time_and_maps_fields(
     assert earlier.starts_at == datetime(2026, 7, 30, 18, 0, tzinfo=timezone.utc)
     assert [genre.display_order for genre in earlier.artist.genres] == [1, 2]
     assert [genre.is_primary for genre in earlier.artist.genres] == [True, False]
+    assert earlier.artist.location.city == "Chicago"
+    assert earlier.artist.location.state is None
+    assert earlier.artist.location.country == "United States"
 
 
 def test_read_festival_run_appearances_rejects_missing_billing_tier(

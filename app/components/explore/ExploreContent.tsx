@@ -3,6 +3,7 @@
 import { useState, useMemo, useRef, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 import { allArtists } from "@/app/data/artists";
+import { GENRES } from "@/app/data/categories";
 import Footer from "@/app/components/Footer";
 import ArtistCarousel from "@/app/components/explore/ArtistCarousel";
 import QuickPicksBanner from "@/app/components/explore/QuickPicksBanner";
@@ -22,11 +23,16 @@ import { sortChronologically, sortFestivalFavoritesForFullView } from "@/app/lib
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
+import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance, getPrimaryBillingTier } from "@/app/lib/appearances";
 import { timeStringToMinutes } from "@/app/lib/time";
 import { isChicago } from "@/app/lib/location";
-import type { Artist } from "@/app/types/artist";
+import {
+  getAllRunArtists,
+  getRunArtistsFromApi,
+  type RunArtist,
+} from "@/app/lib/api/mapRunAppearance";
 
 interface ExploreContentProps {
   seed: number;
@@ -59,10 +65,31 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const [showSurpriseTooltip, setShowSurpriseTooltip] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
 
+  // Preferred once runAppearancesStore has loaded (see app/lib/api/mapRunAppearance.ts);
+  // TS fallback while it hasn't — an operational-failure case, not a normal steady
+  // state, since RunAppearancesHydrator seeds the store synchronously before this
+  // component's own first render. Mirrors app/planner/page.tsx's identical pattern.
+  const runAppearancesBySlug = useRunAppearancesStore((s) => s.appearancesBySlug);
+  const hasLoadedRunAppearances = useRunAppearancesStore((s) => s.hasLoaded);
+  const runArtists = useMemo(
+    () =>
+      hasLoadedRunAppearances
+        ? getRunArtistsFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID)
+        : getAllRunArtists(allArtists),
+    [hasLoadedRunAppearances, runAppearancesBySlug]
+  );
+
+  // Genres actually present in the current roster, so the Genre filter dropdown never
+  // offers an option with zero matching artists.
+  const availableGenres = useMemo(
+    () => GENRES.filter((genre) => runArtists.some((artist) => artist.genres.includes(genre))),
+    [runArtists]
+  );
+
   // Calculate eligible artists for Surprise Me: only those with no entry in decisionsByArtist
   const eligibleArtists = useMemo(
-    () => allArtists.filter((artist) => !decisionsByArtist[artist.slug]),
-    [decisionsByArtist]
+    () => runArtists.filter((artist) => !decisionsByArtist[artist.slug]),
+    [runArtists, decisionsByArtist]
   );
 
   // Handle Surprise Me click: pick random eligible artist and navigate
@@ -113,48 +140,48 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const festivalFavorites = useMemo(
     () =>
       shuffleDayBlocks(
-        allArtists.filter((a) => {
+        runArtists.filter((a) => {
           const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
           return tier === "Headliner" || tier === "Sub-headliner";
         }),
         festivalFavoritesRandom
       ),
-    [festivalFavoritesRandom]
+    [runArtists, festivalFavoritesRandom]
   );
 
   const internationalPicks = useMemo(
     () =>
       interleaveByDayShuffled(
-        allArtists.filter((a) => a.location.country !== "United States"),
+        runArtists.filter((a) => a.location.country !== "United States"),
         internationalPicksRandom
       ),
-    [internationalPicksRandom]
+    [runArtists, internationalPicksRandom]
   );
 
   const chicagosOwn = useMemo(
     () =>
       interleaveByDayShuffled(
-        allArtists.filter((a) => isChicago(a.location.city)),
+        runArtists.filter((a) => isChicago(a.location.city)),
         chicagosOwnRandom
       ),
-    [chicagosOwnRandom]
+    [runArtists, chicagosOwnRandom]
   );
 
   const afterDark = useMemo(
     () =>
       interleaveByDayShuffled(
-        allArtists.filter(
+        runArtists.filter(
           (a) =>
             timeStringToMinutes(getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).startTime) >=
             AFTER_DARK_THRESHOLD_MINUTES
         ),
         afterDarkRandom
       ),
-    [afterDarkRandom]
+    [runArtists, afterDarkRandom]
   );
 
   // Carousel data map — computed after all carousels are ready, for use in both header and view
-  const carouselMap: Record<string, { title: string; artists: Artist[] }> = {
+  const carouselMap: Record<string, { title: string; artists: RunArtist[] }> = {
     "festival-favorites": { title: "Festival Favorites", artists: festivalFavorites },
     "international-picks": { title: "International Picks", artists: internationalPicks },
     "chicagos-own": { title: "Chicago's Own", artists: chicagosOwn },
@@ -230,6 +257,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
         {/* Filters — always show */}
         <div className="px-4 sm:px-8 pt-6 pb-0">
           <ExploreFilters
+            availableGenres={availableGenres}
             searchQuery={searchQuery}
             selectedGenres={activeGenres}
             selectedDay={activeDay}
@@ -259,7 +287,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
             if (!hasFilters && !hasSearch) return null;
 
             const filtered = filterArtists(
-              allArtists,
+              runArtists,
               {
                 genres: activeGenres.length > 0 ? activeGenres : undefined,
                 day: activeDay || undefined,
@@ -392,7 +420,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
 
             // Apply filters first, then search within filtered results
             const filtered = filterArtists(
-              allArtists,
+              runArtists,
               {
                 genres: activeGenres.length > 0 ? activeGenres : undefined,
                 day: activeDay || undefined,

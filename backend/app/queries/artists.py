@@ -75,11 +75,7 @@ def _map_published_artist(artist: Artist) -> ArtistCoreRead:
         name=artist.name,
         spotify_artist_id=artist.spotify_artist_id,
         image=_map_artist_image(artist),
-        location=ArtistLocationRead(
-            city=artist.location_city,
-            state=artist.location_state,
-            country=artist.location_country,
-        ),
+        location=_map_location(artist),
         genres=[_map_genre(assignment) for assignment in genre_assignments],
         quick_picks_track=ArtistTrackRead(
             spotify_track_id=quick_picks_selection.track.spotify_track_id,
@@ -114,6 +110,14 @@ def _map_published_artist(artist: Artist) -> ArtistCoreRead:
             if featured_video is not None
             else None
         ),
+    )
+
+
+def _map_location(artist: Artist) -> ArtistLocationRead:
+    return ArtistLocationRead(
+        city=artist.location_city,
+        state=artist.location_state,
+        country=artist.location_country,
     )
 
 
@@ -381,6 +385,7 @@ def read_festival_run_appearances(
                 slug=appearance.lineup_entry.artist.slug,
                 name=appearance.lineup_entry.artist.name,
                 image=_map_artist_image(appearance.lineup_entry.artist),
+                location=_map_location(appearance.lineup_entry.artist),
                 genres=[
                     _map_genre(assignment)
                     for assignment in sorted(

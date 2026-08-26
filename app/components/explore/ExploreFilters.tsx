@@ -4,13 +4,11 @@ import { useState, useRef, useEffect } from "react";
 import { Search, X } from "lucide-react";
 import type { Genre, Stage } from "@/app/data/categories";
 import {
-  GENRES,
   PICK_STATUS_FILTER_LABELS,
   SCHEDULE_STATUS_LABELS,
   groupGenresByFamily,
 } from "@/app/data/categories";
 import { getDaysForActiveFestival, getStagesForActiveFestival } from "@/app/data/festivals";
-import { allArtists } from "@/app/data/artists";
 import type { PickStatusFilterValue } from "@/app/types/decision";
 import type { ScheduleStatusValue } from "@/app/types/schedule";
 import MultiSelectDropdown from "@/app/components/explore/MultiSelectDropdown";
@@ -18,6 +16,7 @@ import GroupedMultiSelectDropdown from "@/app/components/explore/GroupedMultiSel
 import SingleSelectDropdown from "@/app/components/explore/SingleSelectDropdown";
 
 interface ExploreFiltersProps {
+  availableGenres: Genre[];
   searchQuery?: string;
   selectedGenres?: Genre[];
   selectedDay?: string;
@@ -36,6 +35,7 @@ interface ExploreFiltersProps {
 // reported directly via the onXChange callbacks — no local mirror of any of the six
 // values, so there's no sync effect needed and nothing that can go stale for a frame.
 export default function ExploreFilters({
+  availableGenres,
   searchQuery: externalSearchQuery = "",
   selectedGenres: externalGenres = [],
   selectedDay: externalDay = "",
@@ -88,11 +88,6 @@ export default function ExploreFilters({
       requestAnimationFrame(() => window.scrollTo(0, 0));
     });
   };
-
-  // Get available genres (filter GENRES to only those present in allArtists)
-  const availableGenres = GENRES.filter((genre) =>
-    allArtists.some((artist) => artist.genres.includes(genre))
-  );
 
   // Festival days and stages (sourced from festival configuration)
   const days = getDaysForActiveFestival() as string[];
