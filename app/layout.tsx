@@ -7,6 +7,7 @@ import MobileTopBar from "@/app/components/MobileTopBar";
 import RunAppearancesHydrator from "@/app/components/RunAppearancesHydrator";
 import { fetchFestivalRunAppearances } from "@/app/lib/api/appearances";
 import { ACTIVE_FESTIVAL_ID, ACTIVE_FESTIVAL_RUN_SLUG } from "@/app/data/festivals";
+import { sendFailureAlert } from "@/app/lib/alerts/sendFailureAlert";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -31,6 +32,10 @@ export default async function RootLayout({
     });
   } catch (error) {
     console.error("Failed to fetch festival run appearances", error);
+    sendFailureAlert(
+      "FestFuse: Appearances API fallback triggered",
+      `Failed to fetch festival run appearances: ${error}`
+    );
   }
 
   return (

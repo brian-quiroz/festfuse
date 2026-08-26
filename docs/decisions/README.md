@@ -15,6 +15,8 @@ preserve the context, alternatives, and tradeoffs behind that system.
 | [0005](0005-deploy-initial-backend-on-railway.md) | Deploy the initial hosted backend on Railway | Accepted |
 | [0006](0006-shared-run-appearances-store.md) | Share canonical Appearance identity and display data through one run-appearances store | Accepted |
 | [0007](0007-quick-picks-track-and-similar-artists-on-bulk-appearances.md) | Extend the bulk appearances endpoint with Quick Picks' editorial fields, in its own frontend type | Accepted |
+| [0008](0008-time-based-fetch-revalidation.md) | Time-based revalidation for the two FastAPI fetch sites | Accepted |
+| [0009](0009-rollback-and-observability-scope.md) | Minimal email alerting; rely on platform deployment rollback; no full observability service | Accepted |
 
 ## Lightweight convention
 

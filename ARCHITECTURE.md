@@ -1927,10 +1927,11 @@ interface RunAppearancesState {
 Populated once per hard page load by `RunAppearancesHydrator`
 (`app/components/RunAppearancesHydrator.tsx`), seeded synchronously via a lazy
 `useState` initializer from data the root layout (`app/layout.tsx`) already fetched
-server-side — `fetchFestivalRunAppearances`, uncached (`cache: "no-store"`),
-unscoped by `FESTFUSE_API_ARTIST_SLUGS`. `hasLoaded` stays `false` for the rest of
-that page load if the fetch fails; there is no later retry or background refresh —
-see ADR-0006's Consequences for what that means for staleness.
+server-side — `fetchFestivalRunAppearances`, revalidated every 10 minutes
+(`next: { revalidate: 600 }`, see ADR-0008), unscoped by `FESTFUSE_API_ARTIST_SLUGS`.
+`hasLoaded` stays `false` for the rest of that page load if the fetch fails; there is
+no later retry or background refresh — see ADR-0006's Consequences for what that
+means for staleness.
 
 ### Identity resolution
 

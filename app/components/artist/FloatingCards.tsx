@@ -10,12 +10,11 @@ import ArtistAvatar from "@/app/components/ui/ArtistAvatar";
 
 export default function FloatingCards({ artist }: { artist: Artist }) {
   // Displays the artist's primary appearance — see app/lib/appearances.ts. This card
-  // still only ever renders one appearance's actual day/time/stage, never both — the
-  // aggregate Schedule control's own "N sets" disclosure (ArtistActions, rendered
-  // elsewhere on this page inside ArtistHero) is still the only place that shows a
-  // second appearance's real date/time/stage. This card just adds a lightweight count
-  // next to the heading so a multi-appearance artist doesn't look single-appearance by
-  // omission.
+  // only ever renders one appearance's actual day/time/stage, never both. No surface
+  // on Artist Detail shows a second appearance's real date/time/stage — ArtistActions'
+  // own "N sets" button text discloses only the count, by design (see its comment).
+  // This card just adds a lightweight count next to the heading so a multi-appearance
+  // artist doesn't look single-appearance by omission.
   const appearance = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID);
   const appearanceCount = getAppearancesForFestival(artist, ACTIVE_FESTIVAL_ID).length;
 

@@ -110,3 +110,7 @@ consumers one at a time, so any page can be mid-transition at any point.
 - [ADR-0004: Model artist curation, lineup membership, and scheduled appearances](0004-model-artist-curation-and-scheduling.md)
 - [Backend rollout roadmap](../roadmap/backend-rollout.md), step 7
 - [ARCHITECTURE.md § Run-Appearances Store](../../ARCHITECTURE.md)
+- [ADR-0008](0008-time-based-fetch-revalidation.md) — revisits the `cache: "no-store"`
+  freshness detail noted above in Consequences, which this record flagged as
+  incidental rather than an examined decision. The store, endpoint, and
+  identity-resolution decisions here are unaffected.
