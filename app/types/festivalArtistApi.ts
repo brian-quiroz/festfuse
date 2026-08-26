@@ -19,7 +19,9 @@ export type ApiArtistGenre = {
   };
 };
 
-type ApiArtistTrack = {
+// Exported for reuse by app/types/festivalRunAppearancesApi.ts, which needs the same
+// shape for the bulk appearances endpoint's quick_picks_track field.
+export type ApiArtistTrack = {
   spotify_track_id: string;
   name: string;
 };
@@ -77,12 +79,16 @@ export type FestivalArtistApiResponse = {
       };
       cancellation_reason: string | null;
     }>;
-    similar_artists: Array<{
-      slug: string;
-      name: string;
-      display_order: number;
-      image: ApiArtistImage | null;
-      genres: ApiArtistGenre[];
-    }>;
+    similar_artists: ApiSimilarArtist[];
   };
+};
+
+// Exported for reuse by app/types/festivalRunAppearancesApi.ts, which needs the same
+// shape for the bulk appearances endpoint's similar_artists field.
+export type ApiSimilarArtist = {
+  slug: string;
+  name: string;
+  display_order: number;
+  image: ApiArtistImage | null;
+  genres: ApiArtistGenre[];
 };

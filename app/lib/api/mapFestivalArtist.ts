@@ -13,6 +13,7 @@ import type { Artist, FestivalAppearance } from "@/app/types/artist";
 import type {
   ApiArtistGenre,
   ApiArtistImage,
+  ApiSimilarArtist,
   FestivalArtistApiResponse,
 } from "@/app/types/festivalArtistApi";
 
@@ -74,6 +75,22 @@ export function mapImage(image: ApiArtistImage | null): {
       : undefined,
     objectPosition: image.focal_y_percent === null ? undefined : `center ${image.focal_y_percent}%`,
   };
+}
+
+// Exported for reuse by app/lib/api/mapRunAppearance.ts, which needs the same
+// display-order sort and image/genre mapping for the bulk appearances endpoint's
+// similar_artists field.
+export function mapSimilarArtists(
+  similarArtists: ApiSimilarArtist[]
+): Array<{ name: string; slug: string; imageUrl?: string; genres: Genre[] }> {
+  return [...similarArtists]
+    .sort((left, right) => left.display_order - right.display_order)
+    .map((similarArtist) => ({
+      name: similarArtist.name,
+      slug: similarArtist.slug,
+      imageUrl: mapImage(similarArtist.image).imageUrl,
+      genres: mapGenres(similarArtist.genres),
+    }));
 }
 
 function mapAppearance(
@@ -152,14 +169,7 @@ export function mapFestivalArtistResponse(response: FestivalArtistApiResponse): 
     whySee: [],
     whatToExpect: [],
     bestFor: [],
-    similarArtists: [...context.similar_artists]
-      .sort((left, right) => left.display_order - right.display_order)
-      .map((similarArtist) => ({
-        name: similarArtist.name,
-        slug: similarArtist.slug,
-        imageUrl: mapImage(similarArtist.image).imageUrl,
-        genres: mapGenres(similarArtist.genres),
-      })),
+    similarArtists: mapSimilarArtists(context.similar_artists),
     similarArtistsVerified: context.similar_artists.length === 4,
     tracks: listenFirstTracks,
     listenFirst:

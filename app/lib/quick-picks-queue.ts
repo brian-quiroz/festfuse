@@ -1,4 +1,5 @@
-import type { Artist, FestivalAppearance } from "@/app/types/artist";
+import type { FestivalAppearance } from "@/app/types/artist";
+import type { QuickPicksRunArtist } from "@/app/lib/api/mapRunAppearance";
 import type { ArtistDecision } from "@/app/store/decisionStore";
 import { getSelectedDayAppearance } from "@/app/lib/appearances";
 
@@ -9,7 +10,7 @@ import { getSelectedDayAppearance } from "@/app/lib/appearances";
  * never from a separately-recomputed global primary.
  */
 export interface QueueEntry {
-  artist: Artist;
+  artist: QuickPicksRunArtist;
   appearance: FestivalAppearance;
 }
 
@@ -21,13 +22,13 @@ export interface QueueEntry {
  * getSelectedDayAppearance in app/lib/appearances.ts for the day-representative rule.
  */
 export function getEligibleEntries(
-  allArtists: Artist[],
+  quickPicksArtists: QuickPicksRunArtist[],
   festivalId: string,
   days: readonly string[],
   decisionsByArtist: Record<string, ArtistDecision>
 ): QueueEntry[] {
   const eligible: QueueEntry[] = [];
-  for (const artist of allArtists) {
+  for (const artist of quickPicksArtists) {
     if (decisionsByArtist[artist.slug]) continue; // exclude any prior verdict, any source
     const appearance = getSelectedDayAppearance(artist, festivalId, days);
     if (!appearance) continue; // no appearance on any of the given days
