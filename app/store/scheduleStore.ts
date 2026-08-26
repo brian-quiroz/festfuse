@@ -134,7 +134,7 @@ export const useScheduleStore = create<ScheduleState>()(
           set((state) => {
             const runAppearancesBySlug = useRunAppearancesStore.getState().appearancesBySlug;
             const keys = getAppearancesForFestival(artist, festivalId).map((a) =>
-              getAppearanceKey(artist, a, runAppearancesBySlug)
+              getAppearanceKey(artist.slug, a.id, a.festivalId, a.day, a.startTime, runAppearancesBySlug)
             );
             const allScheduled = keys.every((k) => state.scheduledAppearanceKeys.has(k));
             const newScheduled = new Set(state.scheduledAppearanceKeys);
@@ -172,3 +172,18 @@ export const useScheduleStore = create<ScheduleState>()(
     }
   )
 );
+
+// scheduleStore's own localStorage hydration runs before runAppearancesStore
+// populates, so its first-computed conflict/scheduled-artist state is stale (wrong
+// TypeScript-vs-database id space) until this re-derives it once runAppearancesStore
+// actually loads. No visible flash: RunAppearancesHydrator renders before
+// HydrationGate in layout.tsx, so this resolves before the gate ever opens.
+//
+// The typeof document guard is load-bearing, not defensive boilerplate: this also
+// fires during Next.js's server render of RunAppearancesHydrator, where setState would
+// try to write through to localStorage and crash without it.
+useRunAppearancesStore.subscribe((state, prevState) => {
+  if (state.hasLoaded && !prevState.hasLoaded && typeof document !== "undefined") {
+    useScheduleStore.setState((current) => deriveScheduleState(current.scheduledAppearanceKeys));
+  }
+});

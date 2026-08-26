@@ -25,9 +25,11 @@ const BILLING_TIERS: Record<
   undercard: "Undercard",
 };
 
-const KNOWN_STAGES = Object.values(FESTIVAL_STAGES).flat();
+// Exported for reuse by app/lib/api/mapRunAppearance.ts, which validates the same
+// API-returned stage names against the same known-stages list.
+export const KNOWN_STAGES = Object.values(FESTIVAL_STAGES).flat();
 
-function requireKnownValue<T extends string>(
+export function requireKnownValue<T extends string>(
   value: string,
   knownValues: readonly string[],
   label: string

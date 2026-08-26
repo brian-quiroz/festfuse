@@ -26,8 +26,8 @@ export function getPlannerHourRange(dayEntries: AppearanceEntry[]): PlannerHourR
   let minMinutes = Infinity;
   let maxMinutes = -Infinity;
   for (const entry of dayEntries) {
-    const start = timeStringToMinutes(entry.appearance.startTime);
-    const end = timeStringToMinutes(entry.appearance.endTime);
+    const start = timeStringToMinutes(entry.startTime);
+    const end = timeStringToMinutes(entry.endTime);
     if (start < minMinutes) minMinutes = start;
     if (end > maxMinutes) maxMinutes = end;
   }

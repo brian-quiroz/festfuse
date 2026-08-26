@@ -20,6 +20,15 @@ When festival data moves to a real database, store `date` as an ISO calendar dat
 rather than authoring both independently. Until then, both fields must be kept
 consistent by hand whenever appearance data is added or edited.
 
+**Update (2026-08-25):** Resolved for the API-sourced path. Planner's
+`getAppearanceEntriesFromApi` (`app/lib/schedule.ts`) now derives both `day` and `date`
+from the API's `festival_date` alone (`formatApiDayAndDate` in
+`app/lib/api/mapRunAppearance.ts`), rather than authoring them independently. The
+TypeScript-sourced fallback path (`getAllAppearanceEntries`, used only while
+`runAppearancesStore` hasn't loaded) still hand-authors both fields as before, so this
+entry stays open until that fallback is retired alongside `app/data/artists` — see
+`docs/roadmap/backend-rollout.md` step 7 item 7.
+
 ---
 
 ## Future Consideration: Festival-Agnostic Bookmarking

@@ -2,11 +2,15 @@
 
 import Link from "next/link";
 import { ArrowUpRight, Star, Heart } from "lucide-react";
-import type { Artist, FestivalAppearance } from "@/app/types/artist";
+import type { Stage } from "@/app/data/categories";
 
 interface PlannerArtistBlockProps {
-  artist: Artist;
-  appearance: FestivalAppearance;
+  artistSlug: string;
+  artistName: string;
+  day: string;
+  startTime: string;
+  endTime: string;
+  stage: Stage;
   appearanceKey: string;
   top: number;
   height: number;
@@ -17,8 +21,12 @@ interface PlannerArtistBlockProps {
 }
 
 export default function PlannerArtistBlock({
-  artist,
-  appearance,
+  artistSlug,
+  artistName,
+  day,
+  startTime,
+  endTime,
+  stage,
   appearanceKey,
   top,
   height,
@@ -69,7 +77,7 @@ export default function PlannerArtistBlock({
       className={`absolute inset-x-1 rounded-md border px-2 py-1 overflow-hidden cursor-pointer transition-colors ${fillClass} ${borderClass}`}
       style={{ top, height, minHeight: 30 }}
       aria-pressed={isScheduled}
-      aria-label={`${isScheduled ? "Remove" : "Add"} ${artist.name}${verdictLabel} — ${appearance.day}, ${appearance.startTime} at ${appearance.stage} Stage — ${isScheduled ? "from" : "to"} schedule`}
+      aria-label={`${isScheduled ? "Remove" : "Add"} ${artistName}${verdictLabel} — ${day}, ${startTime} at ${stage} Stage — ${isScheduled ? "from" : "to"} schedule`}
     >
       {/* Subtle top-highlight sheen, purely decorative — safe to be translucent since it
           sits on top of the already-opaque fill above (a known, solid color), not the
@@ -110,20 +118,20 @@ export default function PlannerArtistBlock({
                 aria-hidden="true"
               />
             )}
-            <span className="line-clamp-2">{artist.name}</span>
+            <span className="line-clamp-2">{artistName}</span>
           </p>
           <Link
-            href={`/artist/${artist.slug}`}
+            href={`/artist/${artistSlug}`}
             onClick={(e) => e.stopPropagation()}
             onKeyDown={(e) => e.stopPropagation()}
             className="flex-shrink-0 text-white/40 hover:text-white transition-colors p-1 -m-1"
-            aria-label={`View ${artist.name} details`}
+            aria-label={`View ${artistName} details`}
           >
             <ArrowUpRight size={12} strokeWidth={2} />
           </Link>
         </div>
         <p className="text-[10px] text-white/50 truncate mt-0.5">
-          {appearance.startTime} – {appearance.endTime}
+          {startTime} – {endTime}
         </p>
       </div>
     </div>

@@ -2,6 +2,8 @@
 
 import { create } from "zustand";
 import type { ApiRunAppearance } from "@/app/types/festivalRunAppearancesApi";
+import { formatApiDayAndDate, formatApiTime } from "@/app/lib/api/mapRunAppearance";
+import { timeStringToMinutes } from "@/app/lib/time";
 
 interface RunAppearancesState {
   hasLoaded: boolean;
@@ -29,19 +31,30 @@ export const useRunAppearancesStore = create<RunAppearancesState>()((set) => ({
 }));
 
 // Resolves the canonical PostgreSQL Appearance.id for a given artist slug, regardless
-// of whether `appearance` itself came from the TypeScript source or the API. For an
-// artist with exactly one appearance (170 of 171 in the current lineup) this is exact.
-// For a multi-appearance artist (currently only DEVAULT), TS-side day/time strings and
-// the API's date/datetime formats aren't directly comparable — see FUTURE_CONSIDERATIONS.md
-// § Date/Day Normalization — so this falls back to the given appearance's own id rather
-// than guess. Known Phase 1 limitation, not a silent bug: revisit once day/time formats
-// are normalized.
+// of whether `appearance` came from the TypeScript source or the API. For an artist
+// with exactly one appearance (170 of 171) this is exact, since there's only one
+// candidate to resolve to.
+//
+// For a multi-appearance artist (currently only DEVAULT), TS-shaped and API-shaped
+// callers hand this function different id spaces (TS-legacy vs. real database id), so
+// it disambiguates by matching `day`/`startTime` against each candidate instead — safe,
+// not probabilistic, since one artist can't play two overlapping sets. Still a
+// transitional workaround, not permanent: delete this branch once every consumer
+// sources appearances from the API and only passes real database ids — see
+// docs/roadmap/backend-rollout.md step 7 item 7 and ADR-0004's follow-up note.
 export function resolveCanonicalAppearanceId(
   artistSlug: string,
-  appearance: { id: string },
+  appearance: { id: string; day: string; startTime: string },
   appearancesBySlug: Map<string, ApiRunAppearance[]>
 ): string {
   const candidates = appearancesBySlug.get(artistSlug);
-  if (candidates?.length === 1) return String(candidates[0].id);
-  return appearance.id;
+  if (!candidates || candidates.length === 0) return appearance.id;
+  if (candidates.length === 1) return String(candidates[0].id);
+
+  const targetMinutes = timeStringToMinutes(appearance.startTime);
+  const match = candidates.find((candidate) => {
+    const { day } = formatApiDayAndDate(candidate.festival_date);
+    return day === appearance.day && timeStringToMinutes(formatApiTime(candidate.starts_at)) === targetMinutes;
+  });
+  return match ? String(match.id) : appearance.id;
 }

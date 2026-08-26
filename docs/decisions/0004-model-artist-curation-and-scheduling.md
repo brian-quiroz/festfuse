@@ -125,6 +125,18 @@ that was never adopted.
 yet; widen this filter together with adding a status field to
 `FestivalRunAppearanceRead` once that UI exists.
 
+Planner now reads its per-appearance display data (day, date, start/end time, stage)
+from `runAppearancesStore` rather than only its `Appearance.id`. This surfaced the gap
+`resolveCanonicalAppearanceId`'s comment already flagged as a "Known Phase 1
+limitation": TS-shaped and API-shaped callers now hand it different id spaces for
+DEVAULT (the one multi-appearance Artist), so scheduling from one surface didn't show
+as scheduled on another. `resolveCanonicalAppearanceId` now disambiguates a
+multi-candidate Artist by matching `day`/`startTime` against each candidate, rather
+than trusting whichever id space the caller happened to pass — safe, not probabilistic,
+since one Artist can't play two overlapping sets. Remains explicitly transitional: it
+goes away, alongside the id-space split itself, once every consumer sources
+appearances from the API and always passes real database ids (step 7 item 7).
+
 ## References
 
 - [Artist and festival data-model design](../design/artist-data-model.md)
