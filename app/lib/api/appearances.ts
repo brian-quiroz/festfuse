@@ -1,5 +1,6 @@
 import "server-only";
 
+import { FESTIVAL_API_REVALIDATE_SECONDS } from "@/app/lib/api/cacheConfig";
 import type { FestivalRunAppearancesApiResponse } from "@/app/types/festivalRunAppearancesApi";
 
 const DEFAULT_API_BASE_URL = "http://127.0.0.1:8000";
@@ -19,7 +20,8 @@ export async function fetchFestivalRunAppearances({
   const run = encodeURIComponent(runSlug);
   const response = await fetch(
     `${getApiBaseUrl()}/api/v1/festivals/${edition}/runs/${run}/appearances`,
-    { cache: "no-store" }
+    // Cache/revalidation policy decided in ADR-0008.
+    { next: { revalidate: FESTIVAL_API_REVALIDATE_SECONDS } }
   );
 
   if (response.status === 404) return null;

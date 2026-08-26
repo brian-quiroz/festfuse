@@ -15,8 +15,12 @@ decisions belong in [`../decisions/`](../decisions/).
   PostgreSQL integration coverage.
 - The guarded publication workflow has published all 171 Artists, both locally and
   on the hosted Railway database.
-- The production frontend still reads its existing TypeScript data. It does not yet
-  depend on FastAPI or a hosted PostgreSQL database.
+- The production frontend depends on FastAPI and the hosted Railway PostgreSQL
+  database along two paths: Artist Detail content for the artists listed in
+  `FESTFUSE_API_ARTIST_SLUGS` (currently five), and appearance/schedule data for
+  every artist across Explore, Planner, Quick Picks, and Festival Story via the
+  run-scoped appearances endpoint. Artist Detail for every other artist, and any
+  page not yet migrated, still reads `app/data/artists`.
 
 ## Rollout sequence
 
@@ -203,7 +207,8 @@ would make them harder to isolate, not easier.
    direction, for both the single- and multi-appearance case) caught and fixed a real
    schedule-key mismatch for DEVAULT — see ADR-0006 for the DEVAULT fix, and
    `formatApiTime`'s own comment (`app/lib/api/mapRunAppearance.ts`) for the
-   timezone reasoning. Reads remain uncached and ungated by `FESTFUSE_API_ARTIST_SLUGS`.
+   timezone reasoning. Reads remain ungated by `FESTFUSE_API_ARTIST_SLUGS` (cache
+   policy for this fetch is covered by step 7 item 6 and ADR-0008).
 
    The same testing also caught a pre-existing, unrelated bug (confirmed present before
    this step's changes via `git stash`): `scheduleStore`'s own `localStorage` hydration
@@ -279,7 +284,8 @@ would make them harder to isolate, not easier.
    idiom as Explore and Planner. `createSession` takes the resolved artist array as
    an explicit parameter instead of importing `allArtists` at module scope, keeping
    it source-agnostic and directly callable from verification scripts. Reads stay
-   uncached and unscoped by `FESTFUSE_API_ARTIST_SLUGS`, matching Explore/Planner.
+   unscoped by `FESTFUSE_API_ARTIST_SLUGS`, matching Explore/Planner (cache policy
+   is covered by step 7 item 6 and ADR-0008).
 
    Verified end to end against a local backend: TypeScript compiles clean, the full
    backend test suite passes (42/42, including new coverage for `quick_picks_track`/
@@ -324,6 +330,37 @@ would make them harder to isolate, not easier.
    once every consumer above is integrated. Don't assume a bespoke rollback mechanism
    is needed by default; Vercel and Railway both already provide deployment-level
    rollback, so weigh that before building a dedicated kill switch.
+
+   **Status: completed.** Both FastAPI fetch sites (`fetchFestivalArtist`,
+   `fetchFestivalRunAppearances`) moved from `cache: "no-store"` to a shared
+   `next: { revalidate: 600 }` (10 minutes), defined once in a new
+   `app/lib/api/cacheConfig.ts` — see ADR-0008 for why one shared window rather than
+   two, and why 10 minutes given FestFuse's product framing as a pre-festival
+   decision assistant rather than a live schedule source of truth. No bespoke kill
+   switch was built: Vercel/Railway's existing deployment-level rollback and the
+   automatic per-request TypeScript fallback already cover both realistic failure
+   modes. A minimal email failure alert (`app/lib/alerts/sendFailureAlert.ts`, via
+   Resend's REST API, no SDK) was added alongside the existing `console.error` calls
+   so an operational failure is no longer only visible by checking Vercel's log
+   viewer — see ADR-0009 for the full reasoning, including why a full observability
+   service (Sentry or similar) was rejected as disproportionate at current scale.
+   `FESTFUSE_API_ARTIST_SLUGS` was broadened from `5sos` alone to
+   `5sos,devault,kettama,worship,lorde`, each chosen to exercise a distinct code
+   path: `devault` (the one multi-appearance artist), `kettama` and `worship`
+   (hidden/unapproved image), `worship` (curated Listen First override), and `lorde`
+   (featured video). Verified locally against the hosted Railway API: all five
+   artist pages render successfully with no fallback triggered; repeated requests to
+   the same artist showed a clear latency drop consistent with the cache collapsing
+   requests; hidden-image artists render without a broken image; `devault` renders
+   both its Thursday and Sunday appearances with correct times; `lorde` renders its
+   featured video. A forced-failure test (pointing `FESTFUSE_API_BASE_URL` at an
+   unreachable host) confirmed both fetch sites degrade gracefully to TypeScript
+   data without breaking the page, and that the new alert call sites never throw or
+   block the response even without alerting credentials configured. `npx tsc
+   --noEmit` and `eslint` are clean on every changed file. Sending a real alert
+   email requires a Resend account and API key, which is a manual step outside this
+   session — `RESEND_API_KEY` remains blank in `.env.local` (a no-op) until
+   provided.
 7. **Remove `app/data/artists` as a runtime dependency** only after all consumers
    have parity, both as a read source (this rollout) and eventually as an authoring
    source (import scripts today, an admin workflow later).
