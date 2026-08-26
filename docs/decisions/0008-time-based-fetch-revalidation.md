@@ -45,19 +45,31 @@ getting-started docs default to.
   wiring on-demand revalidation would require a new authenticated webhook route
   handler that those scripts call after every mutation: real new infrastructure with
   no current need behind it.
-- No change to route segment config (`export const dynamic`/`revalidate`) — the
-  per-fetch option is sufficient and more precise than forcing either route fully
-  static or fully dynamic.
+- No explicit route segment config (`export const dynamic`/`revalidate`) was set —
+  the per-fetch option alone was intended to be sufficient. In practice this had a
+  side effect worth naming explicitly (see Consequences): removing `no-store`, which
+  had been forcing dynamic rendering, let Next's automatic static/dynamic inference
+  promote every route with no other dynamic dependency (`/`, `/explore`, `/planner`,
+  `/quick-picks`, `/credits`) to a prerendered static page with its own independent
+  10-minute ISR revalidation window. `/artist/[slug]` remains dynamic.
 
 ## Consequences
 
 - Bounded staleness of up to 600 seconds instead of always-fresh; an open tab or a
   fresh request can serve data up to 10 minutes old.
-- A real reduction in backend request volume: Next's Data Cache is a shared,
-  server-side cache keyed by URL and options, so many concurrent requests within the
-  same window are served from one cached entry instead of each triggering its own
-  round trip to FastAPI/Postgres. This also means most requests get a faster
-  response, since a cache hit skips the network round-trip entirely.
+- A real reduction in backend request volume, though not through one pooled cache
+  entry shared across every consumer — each of the now-static routes above
+  (`/`, `/explore`, `/planner`, `/quick-picks`, `/credits`) is its own independently
+  prerendered page with its own 10-minute ISR clock. In production, this shows up as
+  a handful of near-simultaneous requests to Railway whenever several of those
+  routes happen to go stale close together (confirmed via Railway's request logs:
+  clusters of 2–5 requests around each ~10-minute boundary, never a second request
+  for the same route inside its own window), rather than one single request
+  refreshing a value every consumer then shares. It's still a large reduction from
+  `no-store`'s every-page-load behavior, and every observed request succeeded in
+  under 350ms — just a different caching shape than "one shared entry" implies.
+  Most requests still get a faster response, since a page served from its static
+  cache skips the network round-trip entirely.
 - Extends, rather than resolves, the tradeoff ADR-0006 already flagged: an open tab
   still won't see a schedule/lineup change until both the window elapses and a fresh
   request occurs.
