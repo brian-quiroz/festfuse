@@ -51,6 +51,29 @@ def create_artist(
         {"slug": artist_slug, "status": publication_status},
     ).scalar_one()
 
+    track_id = connection.execute(
+        text(
+            """
+            INSERT INTO tracks (spotify_track_id, name)
+            VALUES (:spotify_track_id, :name)
+            RETURNING id
+            """
+        ),
+        {
+            "spotify_track_id": f"{artist_slug}-track",
+            "name": "Run Appearances Test Track",
+        },
+    ).scalar_one()
+    connection.execute(
+        text(
+            """
+            INSERT INTO artist_track_selections (artist_id, track_id, is_quick_picks)
+            VALUES (:artist_id, :track_id, true)
+            """
+        ),
+        {"artist_id": artist_id, "track_id": track_id},
+    )
+
     if with_genres:
         family_id = connection.execute(
             text(
@@ -303,6 +326,52 @@ def test_read_festival_run_appearances_orders_by_start_time_and_maps_fields(
     assert earlier.artist.location.city == "Chicago"
     assert earlier.artist.location.state is None
     assert earlier.artist.location.country == "United States"
+    assert earlier.artist.quick_picks_track.spotify_track_id == f"{earlier_artist}-track"
+    assert earlier.artist.quick_picks_track.name == "Run Appearances Test Track"
+    assert earlier.artist.similar_artists == []
+
+
+def test_read_festival_run_appearances_includes_similar_artists_for_verified_set(
+    connection: Connection,
+) -> None:
+    """Mirrors read_festival_artist_by_slug's four-or-none coverage
+    (test_festival_artist_query_returns_all_four_or_none_without_unverifying),
+    against the bulk endpoint's batched query instead of the single-artist one, using
+    the same seeded 5sos similar-artist set.
+    """
+    with Session(bind=connection) as session:
+        appearances = read_festival_run_appearances(
+            session, edition_slug="lollapalooza-2026", run_slug="main"
+        )
+
+    assert appearances is not None
+    by_slug = {appearance.artist.slug: appearance.artist for appearance in appearances}
+    assert "5sos" in by_slug
+    assert len(by_slug["5sos"].similar_artists) == 4
+    assert [
+        artist.display_order for artist in by_slug["5sos"].similar_artists
+    ] == [1, 2, 3, 4]
+
+    first_target_slug = next(
+        artist.slug
+        for artist in by_slug["5sos"].similar_artists
+        if artist.display_order == 1
+    )
+    connection.execute(
+        text("UPDATE artists SET publication_status = 'draft' WHERE slug = :slug"),
+        {"slug": first_target_slug},
+    )
+
+    with Session(bind=connection) as session:
+        hidden_appearances = read_festival_run_appearances(
+            session, edition_slug="lollapalooza-2026", run_slug="main"
+        )
+
+    assert hidden_appearances is not None
+    hidden_by_slug = {
+        appearance.artist.slug: appearance.artist for appearance in hidden_appearances
+    }
+    assert hidden_by_slug["5sos"].similar_artists == []
 
 
 def test_read_festival_run_appearances_rejects_missing_billing_tier(

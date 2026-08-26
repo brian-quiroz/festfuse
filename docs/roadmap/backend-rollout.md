@@ -260,6 +260,36 @@ would make them harder to isolate, not easier.
 4. **Migrate Quick Picks onto the same `/appearances` data**, checking for other
    field gaps (e.g. the curated Quick Picks track) the same way before assuming new
    backend work is needed.
+
+   **Status: completed.** The field-gap check found two: the curated Quick Picks
+   track and `similarArtists` ("Sounds like"), neither returned by the bulk endpoint.
+   Rather than a per-card fetch to the single-artist endpoint (rejected — backend
+   load would scale with swipe behavior) or a temporary TS-sourced carryover (the
+   step 1 item 1 pattern), `FestivalRunArtistRead` was extended with
+   `quick_picks_track` and a batched, run-scoped `similar_artists` query — ~5 total
+   indexed queries per bulk request instead of 171 separate ones. See ADR-0007 for
+   the full query-shape analysis, the endpoint-shape reasoning behind that choice,
+   and why the two new fields live on a new `QuickPicksRunArtist` sibling type
+   (`app/lib/api/mapRunAppearance.ts`) rather than growing `RunArtist` itself.
+
+   `app/lib/quick-picks-queue.ts`, `app/quick-picks/page.tsx`,
+   `app/components/quick-picks/StartScreen.tsx`, and
+   `app/components/quick-picks/DecisionScreen.tsx` now build their queue and render
+   from `QuickPicksRunArtist` via the same `hasLoaded`/TS-fallback/API-backed gating
+   idiom as Explore and Planner. `createSession` takes the resolved artist array as
+   an explicit parameter instead of importing `allArtists` at module scope, keeping
+   it source-agnostic and directly callable from verification scripts. Reads stay
+   uncached and unscoped by `FESTFUSE_API_ARTIST_SLUGS`, matching Explore/Planner.
+
+   Verified end to end against a local backend: TypeScript compiles clean, the full
+   backend test suite passes (42/42, including new coverage for `quick_picks_track`/
+   `similar_artists` field mapping and the four-or-none gate against real seeded
+   5sos data), and a full Quick Picks session run in a real browser confirmed the
+   Quick Listen embed and Sounds Like section render real API data (verified via the
+   Spotify iframe's actual `src`, not just presence) with zero console/page errors.
+   Explore, Planner, and Artist Detail (5sos, Chicago Made, WORSHIP) were also
+   re-checked for regressions from the shared files this step touched
+   (`app/lib/api/mapFestivalArtist.ts`, `app/lib/appearances.ts`) — none found.
 5. **Migrate Festival Story.** Same bulk-catalog shape as Quick Picks
    (genre/location/tier across the full artist set); can follow or run alongside
    step 4.

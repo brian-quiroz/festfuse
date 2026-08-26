@@ -50,7 +50,12 @@ mapped with the real database Appearance ID, correct timezone conversion,
 primary-genre-first ordering, and correct artist location mapping; an announced
 entry missing its billing tier raises the same consistency error as the per-Artist
 query; and an unknown edition/run slug returns nothing to resolve, matching the
-API's not-found behavior.
+API's not-found behavior. It also proves the bulk endpoint's own curated Quick
+Picks track mapping, and — using the same seeded 5sos similar-artist set as
+`test_artist_read_query.py`'s equivalent single-artist case — that the batched,
+run-scoped `similar_artists` query returns the same verified four-or-none result
+and correctly re-hides the set once a target artist is unpublished (see ADR-0007
+for why this became a batched query instead of a per-artist one).
 
 `integration/test_artist_api_parity.py` compares the current TypeScript export with
 the real published PostgreSQL Artist projections. Named cases document approved-image,
