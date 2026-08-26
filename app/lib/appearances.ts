@@ -98,10 +98,7 @@ export function getAppearanceById(
 // Maps each configured festival day to its calendar date (e.g. "Friday" -> "Jul 31"),
 // sourced from the artist data's own per-appearance `date` field rather than a
 // duplicated day->date table. Used by Quick Picks' attendance-day cards.
-export function getDatesByDay(
-  artists: Pick<Artist, "slug" | "appearances">[],
-  festivalId: string
-): Record<string, string> {
+export function getDatesByDay(artists: Artist[], festivalId: string): Record<string, string> {
   const result: Record<string, string> = {};
   for (const artist of artists) {
     for (const appearance of getAppearancesForFestival(artist, festivalId)) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useChromeStore } from "@/app/store/chromeStore";
 import StartScreen from "@/app/components/quick-picks/StartScreen";
@@ -13,19 +13,13 @@ import { COLORS } from "@/app/data/colors";
 import { allArtists } from "@/app/data/artists";
 import { useDecisionStore, type ArtistDecision } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
-import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
-import {
-  getAllQuickPicksRunArtists,
-  getQuickPicksRunArtistsFromApi,
-  type QuickPicksRunArtist,
-} from "@/app/lib/api/mapRunAppearance";
 import {
   interleaveByTierWithinDay,
   buildUngroupedQueue,
   getEligibleEntries,
   type QueueEntry,
 } from "@/app/lib/quick-picks-queue";
-import { ACTIVE_FESTIVAL_ID, getDaysForFestival } from "@/app/data/festivals";
+import { getDaysForFestival } from "@/app/data/festivals";
 import { getAppearanceById, getAppearancesForFestival } from "@/app/lib/appearances";
 import { getValidPositivePicks, MIN_POSITIVE_PICKS_FOR_STORY } from "@/app/hooks/useStorySignals";
 import type {
@@ -36,20 +30,21 @@ import type {
   QuickPicksVerdict,
 } from "@/app/types/quick-picks";
 
-// Builds the queue from eligible {artist, appearance} entries — see
-// getSelectedDayAppearance in app/lib/appearances.ts for how each artist's
-// representative appearance is chosen. Exported so verification scripts share this
-// orchestration; quickPicksArtists is a parameter (not a module import) so it works
-// with both the TS-fallback and API-backed artist arrays.
+// Build the queue from eligible {artist, appearance} entries — one entry per
+// undecided artist with at least one appearance on a selected attendance day, using
+// that artist's selected-day representative appearance (see getSelectedDayAppearance
+// in app/lib/appearances.ts) for day-bucketing and billing-tier classification.
+// The queue-generation strategy may evolve later (recommendations, popularity, etc.) without changing the session architecture.
+// Exported (not just page-local) so verification scripts can call the exact same
+// orchestration production uses, rather than re-implementing a second copy.
 export function createSession(
   config: QuickPicksSessionConfig,
-  decisionsByArtist: Record<string, ArtistDecision>,
-  quickPicksArtists: QuickPicksRunArtist[]
+  decisionsByArtist: Record<string, ArtistDecision>
 ): QuickPicksSession {
   const { festivalId, groupByDay, attendanceDays } = config;
 
   const eligible: QueueEntry[] = getEligibleEntries(
-    quickPicksArtists,
+    allArtists,
     festivalId,
     attendanceDays,
     decisionsByArtist
@@ -100,25 +95,12 @@ export default function QuickPicksPage() {
   const [isScreenExiting, setIsScreenExiting] = useState(false);
   const [showFestivalStory, setShowFestivalStory] = useState(false);
 
-  // Preferred once runAppearancesStore has loaded; TS fallback while it hasn't —
-  // mirrors ExploreContent.tsx/planner/page.tsx's identical gating idiom, with
-  // QuickPicksRunArtist in place of RunArtist/AppearanceEntry.
-  const runAppearancesBySlug = useRunAppearancesStore((s) => s.appearancesBySlug);
-  const hasLoadedRunAppearances = useRunAppearancesStore((s) => s.hasLoaded);
-  const quickPicksArtists = useMemo(
-    () =>
-      hasLoadedRunAppearances
-        ? getQuickPicksRunArtistsFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID)
-        : getAllQuickPicksRunArtists(allArtists),
-    [hasLoadedRunAppearances, runAppearancesBySlug]
-  );
-
   function handleStart(config: QuickPicksSessionConfig) {
     setHasUndone(false);
     setUndoneVerdict(null);
     setUndoToast(null);
     setIsScreenExiting(false);
-    const newSession = createSession(config, decisionsByArtist, quickPicksArtists);
+    const newSession = createSession(config, decisionsByArtist);
 
     // If no undecided artists, show "all reviewed" screen instead of blank page
     if (newSession.queue.length === 0) {
@@ -223,7 +205,7 @@ export default function QuickPicksPage() {
   // Derive what DecisionScreen needs from the current session state
   const currentQueueItem = session?.queue[session.currentIndex] ?? null;
   const currentArtist = currentQueueItem
-    ? (quickPicksArtists.find((a) => a.slug === currentQueueItem.artistId) ?? null)
+    ? (allArtists.find((a) => a.slug === currentQueueItem.artistId) ?? null)
     : null;
   // Resolve the session's chosen appearance from the queue item's appearanceId —
   // DecisionScreen displays this rather than independently recomputing a primary.
@@ -359,9 +341,7 @@ export default function QuickPicksPage() {
         <div className="absolute top-[-60px] left-[-60px] w-[500px] h-[400px] rounded-full bg-[#A78BFA]/10 blur-[110px]" />
       </div>
 
-      {step === "start" && (
-        <StartScreen onStart={handleStart} quickPicksArtists={quickPicksArtists} />
-      )}
+      {step === "start" && <StartScreen onStart={handleStart} />}
 
       {step === "decisioning" && session && currentArtist && currentAppearance && progress && (
         <DecisionScreen

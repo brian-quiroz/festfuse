@@ -4,8 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X, Heart, Star, Calendar, Layers, Clock, Undo2 } from "lucide-react";
-import type { FestivalAppearance } from "@/app/types/artist";
-import type { QuickPicksRunArtist } from "@/app/lib/api/mapRunAppearance";
+import type { Artist, FestivalAppearance } from "@/app/types/artist";
 import type { QuickPicksVerdict } from "@/app/types/quick-picks";
 import { COLORS } from "@/app/data/colors";
 import SpotifyTrackEmbed from "@/app/components/ui/SpotifyTrackEmbed";
@@ -95,7 +94,7 @@ function verdictToExitDir(verdict: QuickPicksVerdict): ExitDir {
 }
 
 interface Props {
-  artist: QuickPicksRunArtist;
+  artist: Artist;
   // The session's chosen representative appearance for this artist (see
   // getSelectedDayAppearance in app/lib/appearances.ts) — resolved by the parent from
   // the queue item's appearanceId, never independently recomputed here.
@@ -136,9 +135,11 @@ export default function DecisionScreen({
   // appearance alone; any other appearance's own time/stage never surfaces here. See
   // ARCHITECTURE.md § Multi-Appearance Support / Quick Picks Attendance.
   const isMultiAppearance = selectedDaySetCount > 1;
-  // The curated Quick Picks track — a dedicated backend selection (ArtistTrackSelection
-  // .is_quick_picks), not the first entry of a general track list. See ADR-0007.
-  const quickListenTrack = artist.quickPicksTrack;
+  // Quick Listen convention: only artist.tracks[0] is ever eligible — never search later
+  // tracks for an available ID. This is the exact signal a data pass uses to choose the
+  // Quick Picks song (put it first), so a first track without a spotifyId means no
+  // player, even if a later track happens to have one.
+  const quickListenTrack = artist.tracks[0]?.spotifyId ? artist.tracks[0] : null;
   const verifiedImageUrl = getVerifiedImageUrl(artist);
   const [confirming, setConfirming] = useState<QuickPicksVerdict | null>(null);
   const confirmingRef = useRef<QuickPicksVerdict | null>(null);
@@ -431,16 +432,15 @@ export default function DecisionScreen({
                     <div className="w-full md:w-72 flex-shrink-0 flex flex-col gap-3 md:gap-4 md:pb-0.5">
                       {/* Quick Listen — one compact official Spotify embed, never a
                           custom player. A lightweight sample, not a claim that this
-                          track represents the artist. See artist.quickPicksTrack's
-                          definition (app/lib/api/mapRunAppearance.ts) for where this
-                          curated selection comes from. */}
+                          track represents the artist. See artist.tracks[0] convention
+                          in the component-level comment above. */}
                       {quickListenTrack && (
                         <div className="flex flex-col gap-2">
                           <span className="text-white/35 text-[10px] font-semibold uppercase tracking-widest">
                             Quick Listen
                           </span>
                           <SpotifyTrackEmbed
-                            spotifyId={quickListenTrack.spotifyId}
+                            spotifyId={quickListenTrack.spotifyId!}
                             trackName={quickListenTrack.name}
                             priority
                           />

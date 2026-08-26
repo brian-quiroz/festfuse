@@ -1,9 +1,4 @@
-import type {
-  ApiArtistGenre,
-  ApiArtistImage,
-  ApiArtistTrack,
-  ApiSimilarArtist,
-} from "@/app/types/festivalArtistApi";
+import type { ApiArtistGenre, ApiArtistImage } from "@/app/types/festivalArtistApi";
 
 export type ApiRunArtist = {
   slug: string;
@@ -11,8 +6,6 @@ export type ApiRunArtist = {
   image: ApiArtistImage | null;
   location: { city: string; state: string | null; country: string };
   genres: ApiArtistGenre[];
-  quick_picks_track: ApiArtistTrack;
-  similar_artists: ApiSimilarArtist[];
 };
 
 export type ApiRunAppearance = {

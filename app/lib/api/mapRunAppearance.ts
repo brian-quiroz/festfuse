@@ -13,7 +13,6 @@ import {
   KNOWN_STAGES,
   mapGenres,
   mapImage,
-  mapSimilarArtists,
   requireKnownValue,
 } from "@/app/lib/api/mapFestivalArtist";
 import type { Artist, FestivalAppearance } from "@/app/types/artist";
@@ -146,62 +145,4 @@ export function getRunArtistsFromApi(
     });
   }
   return runArtists;
-}
-
-// Quick Picks' own sibling of RunArtist — everything RunArtist has, plus the two
-// editorial fields the bulk endpoint returns that no other current consumer
-// (Explore/Planner) reads: the curated Quick Picks track and similarArtists ("Sounds
-// like"). Kept as its own type rather than added to RunArtist so Explore/Planner's
-// objects don't carry fields they never touch — see ADR-0007.
-export interface QuickPicksRunArtist extends RunArtist {
-  quickPicksTrack: { spotifyId: string; name: string } | null;
-  // DecisionScreen only ever reads `.name` off these entries (never slug/imageUrl/
-  // genres), so the legacy Artist shape — where only `name` is guaranteed — stays the
-  // right type here too; mapSimilarArtists' fuller API-sourced objects satisfy it
-  // structurally without narrowing.
-  similarArtists: Artist["similarArtists"];
-}
-
-// TS fallback — mirrors getAllRunArtists, plus the two Quick-Picks-only fields read
-// directly from the legacy Artist shape (tracks[0] convention, similarArtists as-is).
-export function getAllQuickPicksRunArtists(allArtists: Artist[]): QuickPicksRunArtist[] {
-  return getAllRunArtists(allArtists).map((runArtist, index) => {
-    const artist = allArtists[index];
-    const track = artist.tracks[0];
-    return {
-      ...runArtist,
-      quickPicksTrack: track?.spotifyId ? { spotifyId: track.spotifyId, name: track.name } : null,
-      similarArtists: artist.similarArtists,
-    };
-  });
-}
-
-// Preferred once runAppearancesStore has loaded. Mirrors getRunArtistsFromApi, plus
-// the two Quick-Picks-only fields read from the same first-row artist object.
-export function getQuickPicksRunArtistsFromApi(
-  appearancesBySlug: Map<string, ApiRunAppearance[]>,
-  festivalId: string
-): QuickPicksRunArtist[] {
-  const quickPicksRunArtists: QuickPicksRunArtist[] = [];
-  for (const appearances of appearancesBySlug.values()) {
-    const [first] = appearances;
-    if (!first) continue;
-    quickPicksRunArtists.push({
-      slug: first.artist.slug,
-      name: first.artist.name,
-      ...mapImage(first.artist.image),
-      genres: mapGenres(first.artist.genres),
-      location: mapArtistLocation(first.artist.location),
-      appearances: appearances.map((appearance) => mapFestivalAppearance(appearance, festivalId)) as [
-        FestivalAppearance,
-        ...FestivalAppearance[],
-      ],
-      quickPicksTrack: {
-        spotifyId: first.artist.quick_picks_track.spotify_track_id,
-        name: first.artist.quick_picks_track.name,
-      },
-      similarArtists: mapSimilarArtists(first.artist.similar_artists),
-    });
-  }
-  return quickPicksRunArtists;
 }

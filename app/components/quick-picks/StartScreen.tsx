@@ -4,10 +4,10 @@ import { useMemo, useState } from "react";
 import StartOptions from "@/app/components/quick-picks/StartOptions";
 import { ArrowRight, Zap, Lock } from "lucide-react";
 import { COLORS } from "@/app/data/colors";
+import { allArtists } from "@/app/data/artists";
 import { ACTIVE_FESTIVAL_ID, getDaysForActiveFestival } from "@/app/data/festivals";
 import { getDatesByDay } from "@/app/lib/appearances";
 import { getEligibleEntries } from "@/app/lib/quick-picks-queue";
-import type { QuickPicksRunArtist } from "@/app/lib/api/mapRunAppearance";
 import { useAttendanceDays, useAttendanceStore } from "@/app/store/attendanceStore";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import type { QuickPicksSessionConfig } from "@/app/types/quick-picks";
@@ -23,20 +23,16 @@ function formatDayList(days: string[]): string {
 
 interface Props {
   onStart: (config: QuickPicksSessionConfig) => void;
-  quickPicksArtists: QuickPicksRunArtist[];
 }
 
-export default function StartScreen({ onStart, quickPicksArtists }: Props) {
+export default function StartScreen({ onStart }: Props) {
   const [groupByDay, setGroupByDay] = useState(true);
   const [pressing, setPressing] = useState(false);
 
   const festivalDays = getDaysForActiveFestival();
   const attendanceDays = useAttendanceDays(ACTIVE_FESTIVAL_ID);
   const setAttendanceDays = useAttendanceStore((state) => state.setAttendanceDays);
-  const datesByDay = useMemo(
-    () => getDatesByDay(quickPicksArtists, ACTIVE_FESTIVAL_ID),
-    [quickPicksArtists]
-  );
+  const datesByDay = useMemo(() => getDatesByDay(allArtists, ACTIVE_FESTIVAL_ID), []);
   const decisionsByArtist = useDecisionStore((state) => state.decisionsByArtist);
 
   const noDaysSelected = attendanceDays.length === 0;
@@ -59,10 +55,9 @@ export default function StartScreen({ onStart, quickPicksArtists }: Props) {
       festivalDays.filter(
         (day) =>
           attendanceDays.includes(day) &&
-          getEligibleEntries(quickPicksArtists, ACTIVE_FESTIVAL_ID, [day], decisionsByArtist)
-            .length === 0
+          getEligibleEntries(allArtists, ACTIVE_FESTIVAL_ID, [day], decisionsByArtist).length === 0
       ),
-    [festivalDays, attendanceDays, decisionsByArtist, quickPicksArtists]
+    [festivalDays, attendanceDays, decisionsByArtist]
   );
 
   function handleToggleDay(day: string) {

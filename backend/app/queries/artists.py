@@ -42,7 +42,7 @@ class PublishedArtistConsistencyError(RuntimeError):
     """Raised when a published Artist violates the public read contract."""
 
 
-def _map_quick_picks_track(artist: Artist) -> ArtistTrackRead:
+def _map_published_artist(artist: Artist) -> ArtistCoreRead:
     quick_picks = [
         selection for selection in artist.track_selections if selection.is_quick_picks
     ]
@@ -51,14 +51,7 @@ def _map_quick_picks_track(artist: Artist) -> ArtistTrackRead:
             f"Published artist {artist.slug!r} has {len(quick_picks)} Quick Picks "
             "selections; expected exactly one"
         )
-    selection = quick_picks[0]
-    return ArtistTrackRead(
-        spotify_track_id=selection.track.spotify_track_id,
-        name=selection.track.name,
-    )
 
-
-def _map_published_artist(artist: Artist) -> ArtistCoreRead:
     genre_assignments = sorted(
         artist.genre_assignments,
         key=lambda assignment: assignment.display_order,
@@ -76,6 +69,7 @@ def _map_published_artist(artist: Artist) -> ArtistCoreRead:
         None,
     )
 
+    quick_picks_selection = quick_picks[0]
     return ArtistCoreRead(
         slug=artist.slug,
         name=artist.name,
@@ -83,7 +77,10 @@ def _map_published_artist(artist: Artist) -> ArtistCoreRead:
         image=_map_artist_image(artist),
         location=_map_location(artist),
         genres=[_map_genre(assignment) for assignment in genre_assignments],
-        quick_picks_track=_map_quick_picks_track(artist),
+        quick_picks_track=ArtistTrackRead(
+            spotify_track_id=quick_picks_selection.track.spotify_track_id,
+            name=quick_picks_selection.track.name,
+        ),
         listen_first=ArtistListenFirstRead(
             note=artist.listen_first_note,
             tracks=[
@@ -318,76 +315,6 @@ def read_festival_artist_by_slug(
     )
 
 
-def _read_run_similar_artists(
-    session: Session,
-    festival_run_id: int,
-) -> dict[int, list[FestivalSimilarArtistRead]]:
-    """Batches every source Artist's four-or-none similar-artist recommendations for
-    one run, keyed by source_artist_id — the run-scoped analog of
-    read_festival_artist_by_slug's single-artist similarity_set query, one WHERE
-    clause across all sources instead of N per-artist queries. The lineup_entries
-    load is scoped to this run via `.and_(...)` so the "still announced" check never
-    loads a target artist's history from other runs/festivals.
-    """
-    similarity_sets = session.scalars(
-        select(SimilarArtistSet)
-        .options(
-            raiseload("*"),
-            selectinload(SimilarArtistSet.entries)
-            .joinedload(SimilarArtist.target_artist)
-            .selectinload(Artist.genre_assignments)
-            .selectinload(ArtistGenre.genre)
-            .selectinload(Genre.family),
-            selectinload(SimilarArtistSet.entries)
-            .joinedload(SimilarArtist.target_artist)
-            .selectinload(
-                Artist.lineup_entries.and_(
-                    LineupEntry.festival_run_id == festival_run_id
-                )
-            ),
-        )
-        .where(
-            SimilarArtistSet.festival_run_id == festival_run_id,
-            SimilarArtistSet.verified_at.is_not(None),
-        )
-    ).all()
-
-    similar_artists_by_source_id: dict[int, list[FestivalSimilarArtistRead]] = {}
-    for similarity_set in similarity_sets:
-        if len(similarity_set.entries) != 4:
-            continue
-        ordered_entries = sorted(
-            similarity_set.entries, key=lambda entry: entry.display_order
-        )
-        all_targets_are_public = all(
-            entry.target_artist.publication_status == "published"
-            and any(
-                target_lineup.lineup_status == "announced"
-                for target_lineup in entry.target_artist.lineup_entries
-            )
-            for entry in ordered_entries
-        )
-        if not all_targets_are_public:
-            continue
-        similar_artists_by_source_id[similarity_set.source_artist_id] = [
-            FestivalSimilarArtistRead(
-                slug=entry.target_artist.slug,
-                name=entry.target_artist.name,
-                display_order=entry.display_order,
-                image=_map_artist_image(entry.target_artist),
-                genres=[
-                    _map_genre(assignment)
-                    for assignment in sorted(
-                        entry.target_artist.genre_assignments,
-                        key=lambda assignment: assignment.display_order,
-                    )
-                ],
-            )
-            for entry in ordered_entries
-        ]
-    return similar_artists_by_source_id
-
-
 def read_festival_run_appearances(
     session: Session,
     *,
@@ -424,10 +351,6 @@ def read_festival_run_appearances(
             .selectinload(Artist.genre_assignments)
             .selectinload(ArtistGenre.genre)
             .selectinload(Genre.family),
-            joinedload(Appearance.lineup_entry)
-            .joinedload(LineupEntry.artist)
-            .selectinload(Artist.track_selections)
-            .selectinload(ArtistTrackSelection.track),
         )
         .where(
             LineupEntry.festival_run_id == festival_run.id,
@@ -446,8 +369,6 @@ def read_festival_run_appearances(
                 f"Announced festival artist {appearance.lineup_entry.artist.slug!r} "
                 "has no billing tier"
             )
-
-    similar_artists_by_source_id = _read_run_similar_artists(session, festival_run.id)
 
     return [
         FestivalRunAppearanceRead(
@@ -472,10 +393,6 @@ def read_festival_run_appearances(
                         key=lambda assignment: assignment.display_order,
                     )
                 ],
-                quick_picks_track=_map_quick_picks_track(appearance.lineup_entry.artist),
-                similar_artists=similar_artists_by_source_id.get(
-                    appearance.lineup_entry.artist_id, []
-                ),
             ),
         )
         for appearance in appearances

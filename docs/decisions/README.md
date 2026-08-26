@@ -14,7 +14,6 @@ preserve the context, alternatives, and tradeoffs behind that system.
 | [0004](0004-model-artist-curation-and-scheduling.md) | Model artist curation, lineup membership, and scheduled appearances | Accepted |
 | [0005](0005-deploy-initial-backend-on-railway.md) | Deploy the initial hosted backend on Railway | Accepted |
 | [0006](0006-shared-run-appearances-store.md) | Share canonical Appearance identity and display data through one run-appearances store | Accepted |
-| [0007](0007-quick-picks-track-and-similar-artists-on-bulk-appearances.md) | Extend the bulk appearances endpoint with Quick Picks' editorial fields, in its own frontend type | Accepted |
 
 ## Lightweight convention
 
