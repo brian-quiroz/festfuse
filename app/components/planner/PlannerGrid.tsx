@@ -58,7 +58,7 @@ export default function PlannerGrid({
     entriesByStage.set(stage, []);
   }
   for (const entry of sortedEntries) {
-    entriesByStage.get(entry.appearance.stage)?.push(entry);
+    entriesByStage.get(entry.stage)?.push(entry);
   }
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -152,15 +152,26 @@ export default function PlannerGrid({
                   />
                 ))}
                 {(entriesByStage.get(stage) ?? []).map((entry) => {
-                  const start = timeStringToMinutes(entry.appearance.startTime);
-                  const end = timeStringToMinutes(entry.appearance.endTime);
-                  const key = getAppearanceKey(entry.artist, entry.appearance, runAppearancesBySlug);
-                  const verdict = decisionsByArtist[entry.artist.slug]?.verdict ?? null;
+                  const start = timeStringToMinutes(entry.startTime);
+                  const end = timeStringToMinutes(entry.endTime);
+                  const key = getAppearanceKey(
+                    entry.artistSlug,
+                    entry.appearanceId,
+                    entry.festivalId,
+                    entry.day,
+                    entry.startTime,
+                    runAppearancesBySlug
+                  );
+                  const verdict = decisionsByArtist[entry.artistSlug]?.verdict ?? null;
                   return (
                     <PlannerArtistBlock
                       key={key}
-                      artist={entry.artist}
-                      appearance={entry.appearance}
+                      artistSlug={entry.artistSlug}
+                      artistName={entry.artistName}
+                      day={entry.day}
+                      startTime={entry.startTime}
+                      endTime={entry.endTime}
+                      stage={entry.stage}
                       appearanceKey={key}
                       top={minutesToPlannerOffset(start, range)}
                       // The 30px floor assumes a block can always fit a name (up to 2

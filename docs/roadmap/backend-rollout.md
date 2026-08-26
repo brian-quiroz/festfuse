@@ -188,6 +188,30 @@ would make them harder to isolate, not easier.
    `Appearance.id` resolution `runAppearancesStore` already provides. Applies
    globally to Planner, independent of the Artist Detail allowlist. Keep reads
    uncached.
+
+   **Status: completed.** Planner's per-appearance display type (`AppearanceEntry` in
+   `app/lib/schedule.ts`) is now a lean, source-agnostic shape (artist slug/name, day,
+   date, start/end time, stage) built either from `runAppearancesStore` (preferred,
+   once `hasLoaded`) or from `app/data/artists` (fallback while the store hasn't
+   loaded — an operational failure, not a normal state). `getAppearanceKey` now takes
+   the scalars it always actually needed rather than full `Artist`/`FestivalAppearance`
+   objects, so both sources compute identical keys through one shared function.
+   Time-of-day is read directly from the API's already festival-local-converted
+   timestamps (no timezone name needed, no hardcoding); day and calendar date are
+   derived from `festival_date` the same way `mapFestivalArtist.ts` already does for
+   Artist Detail. Cross-surface testing (Explore/Artist Detail/Planner, in every
+   direction, for both the single- and multi-appearance case) caught and fixed a real
+   schedule-key mismatch for DEVAULT — see ADR-0004's follow-up note for the DEVAULT
+   fix, and `formatApiTime`'s own comment (`app/lib/api/mapRunAppearance.ts`) for the
+   timezone reasoning. Reads remain uncached and ungated by `FESTFUSE_API_ARTIST_SLUGS`.
+
+   The same testing also caught a pre-existing, unrelated bug (confirmed present before
+   this step's changes via `git stash`): `scheduleStore`'s own `localStorage` hydration
+   runs synchronously before `runAppearancesStore` populates, so conflict detection and
+   the Sidebar's scheduled count silently zeroed out on every fresh page load. Fixed by
+   having `scheduleStore` re-derive its conflict/scheduled-artist state once
+   `runAppearancesStore` finishes loading — see the comment above
+   `useRunAppearancesStore.subscribe(...)` in `app/store/scheduleStore.ts`.
 3. **Migrate Explore onto the existing `/appearances` endpoint.** It already returns
    every artist in the run (slug, name, image, genres, billing tier, schedule) via
    `FestivalRunArtistRead`/`FestivalRunAppearanceRead` — no new endpoint required.

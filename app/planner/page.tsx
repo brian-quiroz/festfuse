@@ -10,12 +10,11 @@ import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { usePlannerViewStore } from "@/app/store/plannerViewStore";
 import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
-import { getAllAppearanceEntries, getAppearanceKey } from "@/app/lib/schedule";
-
-// Computed once at module scope — allArtists never changes at runtime, same as
-// allArtists/artistsBySlug themselves being plain module-level constants. Scoped to
-// the active festival — the Planner only ever renders one festival's grid at a time.
-const allAppearanceEntries = getAllAppearanceEntries(allArtists, ACTIVE_FESTIVAL_ID);
+import {
+  getAllAppearanceEntries,
+  getAppearanceEntriesFromApi,
+  getAppearanceKey,
+} from "@/app/lib/schedule";
 
 export default function PlannerPage() {
   const days = getDaysForActiveFestival();
@@ -28,6 +27,18 @@ export default function PlannerPage() {
   const { scheduledAppearanceKeys, conflictingAppearanceKeys, toggleScheduled } =
     useScheduleStore();
   const runAppearancesBySlug = useRunAppearancesStore((state) => state.appearancesBySlug);
+  const hasLoadedRunAppearances = useRunAppearancesStore((state) => state.hasLoaded);
+
+  // TS fallback — once docs/roadmap/backend-rollout.md step 7 item 7 (app/data/artists
+  // removal) lands, remove the false branch and getAllAppearanceEntries itself.
+  // getAppearanceEntriesFromApi stays — it's the permanent, source-agnostic path.
+  const allAppearanceEntries = useMemo(
+    () =>
+      hasLoadedRunAppearances
+        ? getAppearanceEntriesFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID)
+        : getAllAppearanceEntries(allArtists, ACTIVE_FESTIVAL_ID),
+    [hasLoadedRunAppearances, runAppearancesBySlug]
+  );
 
   const myPickSlugs = useMemo(() => {
     const slugs = new Set<string>();
@@ -43,8 +54,8 @@ export default function PlannerPage() {
   // Thursday and a Friday appearance shows up on both day tabs, each showing only that
   // day's block. See ARCHITECTURE.md § Multi-Appearance Support.
   const dayEntries = useMemo(
-    () => allAppearanceEntries.filter((e) => e.appearance.day === activeDay),
-    [activeDay]
+    () => allAppearanceEntries.filter((e) => e.day === activeDay),
+    [allAppearanceEntries, activeDay]
   );
 
   // Zero *positive* picks (mustSee/interested) means "My Picks" can't filter to anything —
@@ -63,9 +74,16 @@ export default function PlannerPage() {
     const myPicksActive = showMyPicks && !myPicksDisabled;
     if (!myPicksActive && !showScheduled) return dayEntries;
     return dayEntries.filter((entry) => {
-      const key = getAppearanceKey(entry.artist, entry.appearance, runAppearancesBySlug);
+      const key = getAppearanceKey(
+        entry.artistSlug,
+        entry.appearanceId,
+        entry.festivalId,
+        entry.day,
+        entry.startTime,
+        runAppearancesBySlug
+      );
       if (conflictingAppearanceKeys.has(key)) return true;
-      const matchesMyPicks = !myPicksActive || myPickSlugs.has(entry.artist.slug);
+      const matchesMyPicks = !myPicksActive || myPickSlugs.has(entry.artistSlug);
       const matchesScheduled = !showScheduled || scheduledAppearanceKeys.has(key);
       return matchesMyPicks && matchesScheduled;
     });

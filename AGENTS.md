@@ -172,7 +172,10 @@ Fact-checking an artist's `about` copy, socials, location, and genres; correctin
 
 - New automated test file (frontend or backend) → its test README needs a new paragraph and a coverage-list bullet.
 - A change that confirms or completes something an existing ADR's Consequences section already anticipated → a dated follow-up note on that same ADR, not a new one.
-- A decision that took real back-and-forth to reach, or whose reasoning is worth preserving, regardless of domain → a new ADR.
+- A decision that took real back-and-forth to reach AND clears docs/decisions/README.md's ADR bar (materially
+  affects structure, interfaces, data integrity, operational behavior, or an expensive-to-reverse dependency)
+  → a new ADR. Effort alone isn't the bar — a long discussion about a local implementation detail (a
+  formatting choice, a workaround) belongs in a code comment, not an ADR.
 - Changed rollout status or sequence → `docs/roadmap/backend-rollout.md`.
 - A completed backend data-model implementation milestone → `docs/design/artist-data-model.md`'s Implementation status checklist.
 - A notable new frontend behavior/pattern worth a technical record → `ARCHITECTURE.md`.
@@ -181,6 +184,7 @@ Fact-checking an artist's `about` copy, socials, location, and genres; correctin
   directly, and re-check Stack for matching stale status language — this file's
   claims can drift out of sync with themselves, not just with the code.
 
-**Comments.** Default to short code comments. When a decision needs real justification, put it in the relevant ADR/FUTURE_CONSIDERATIONS entry instead of the comment itself.
+**Comments.** Default to short code comments. When a decision clears the ADR bar above, put its
+justification there instead of the comment; otherwise keep the reasoning in the comment itself, briefly.
 
 **Commits.** Never run `git commit` or `git push` directly — hand over the message text and let the developer run it.
