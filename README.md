@@ -6,7 +6,7 @@
 
 > FestFuse currently features the Lollapalooza 2026 lineup. Support for additional festivals is planned.
 
-Designed and built solo: product design, UI, and artist data curation, across 171 artists and 4 festival days.
+Designed and built solo: product design, full-stack development, and artist data curation across 171 artists and 4 festival days.
 
 <p align="center">
   <img src="docs/screenshots/home.jpg" width="49%" alt="FestFuse home screen with Quick Picks, Explore, and Planner entry points" />
@@ -126,8 +126,9 @@ The onboarding modal.
 
 ## Technical Highlights
 
-Built with the Next.js App Router, React, TypeScript, and Tailwind CSS.
+Built with the Next.js App Router, React, TypeScript, and Tailwind CSS, with a FastAPI/PostgreSQL backend deployed on Railway.
 
+- **Backend cutover**: migrated every artist-facing screen from local TypeScript reads to a deployed FastAPI/PostgreSQL backend, with a normalized artist schema, guarded transactional import and publication steps, and PostgreSQL integration tests over the query layer.
 - **Festival Story's insight engine** computes a personalized recap from the user's actual attendance scope and picks each time, instead of displaying a fixed or randomly generated script.
 - **Multi-appearance modeling** lets a repeat festival performance exist as its own scoped appearance record instead of duplicating the artist, so the same artist can play multiple sets without the two copies drifting out of sync.
 - **Rehydration resilience**: fixed three separate causes of a blank-screen bug on page load, each traced back to how a returning user's saved picks were being restored from the browser, not patched over ([details](ARCHITECTURE.md#hydrationgate-resilience-to-rehydration-errors)).
@@ -162,7 +163,7 @@ For deeper implementation notes and design decisions, see [ARCHITECTURE.md](ARCH
 - [SQLAlchemy 2](https://www.sqlalchemy.org/)
 - [Psycopg 3](https://www.psycopg.org/psycopg3/)
 - [Alembic](https://alembic.sqlalchemy.org/) migrations
-- Transactional TypeScript-to-PostgreSQL data import
+- Transactional TypeScript-to-PostgreSQL artist import, plus idempotent seeding and publication workflows
 
 **Testing and quality**
 
