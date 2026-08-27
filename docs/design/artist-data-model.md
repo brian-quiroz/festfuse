@@ -136,6 +136,7 @@ required by publication validation without being non-null database columns.
 | `id` | Integer | No | Auto-generated primary key |
 | `slug` | `VARCHAR(100)` | No | Unique public/API identifier |
 | `name` | `VARCHAR(200)` | No | Unicode public name; not unique |
+| `mbid` | `VARCHAR(36)` | Yes | MusicBrainz identifier; unique when present. A stable external key for future data work, with no current runtime consumer |
 | `spotify_artist_id` | `VARCHAR(100)` | Yes | Unique when present; core external identity, not an ordinary social link |
 | `image_url` | `TEXT` | Yes | Presence means the image is approved for display |
 | `image_focal_y_percent` | Small integer | Yes | Vertical focal point from 0 through 100; null uses the default center |
@@ -840,7 +841,6 @@ PostgreSQL `unaccent`, or a normalized search value.
 
 ### Defer or deliberately omit
 
-- MBID (only 14 current records and no runtime consumer; preserve legacy values);
 - dormant `tagline`, `whySee`, `whatToExpect`, and `bestFor` content;
 - track album, duration, and artwork URL;
 - `similarArtists[].imageUrl` and other duplicated artist data;
@@ -917,7 +917,8 @@ verified, so staged database publication does not remove current UI coverage.
 - historical lineup `announced_at` remains null when the true announcement time is
   unknown, while `lineup_status` still truthfully records `announced`;
 - only the 21 currently approved image URLs populate canonical image fields;
-- the 14 dormant MBIDs remain preserved in the legacy source but are not imported;
+- the 14 MBIDs were not imported by the v1 snapshot; `mbid` was added as a column and
+  backfilled afterward (`backfill_artist_mbid.py`, ADR-0011);
 - current formatted appearance dates/times are combined with FestivalDay and the
   FestivalEdition IANA timezone to produce `starts_at`/`ends_at`; and
 - current data contains no withdrawal, cancellation, or overnight-set backfill case.

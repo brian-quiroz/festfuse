@@ -326,7 +326,9 @@ def test_read_festival_run_appearances_orders_by_start_time_and_maps_fields(
     assert earlier.artist.location.city == "Chicago"
     assert earlier.artist.location.state is None
     assert earlier.artist.location.country == "United States"
-    assert earlier.artist.quick_picks_track.spotify_track_id == f"{earlier_artist}-track"
+    assert (
+        earlier.artist.quick_picks_track.spotify_track_id == f"{earlier_artist}-track"
+    )
     assert earlier.artist.quick_picks_track.name == "Run Appearances Test Track"
     assert earlier.artist.similar_artists == []
 
@@ -348,9 +350,12 @@ def test_read_festival_run_appearances_includes_similar_artists_for_verified_set
     by_slug = {appearance.artist.slug: appearance.artist for appearance in appearances}
     assert "5sos" in by_slug
     assert len(by_slug["5sos"].similar_artists) == 4
-    assert [
-        artist.display_order for artist in by_slug["5sos"].similar_artists
-    ] == [1, 2, 3, 4]
+    assert [artist.display_order for artist in by_slug["5sos"].similar_artists] == [
+        1,
+        2,
+        3,
+        4,
+    ]
 
     first_target_slug = next(
         artist.slug

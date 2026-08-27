@@ -1,0 +1,63 @@
+"""Pure parsers and controlled vocabularies for artist authoring input.
+
+These mirror the format rules ``scripts/import_artists.py`` applies to the TypeScript
+export. They are duplicated here rather than imported so the ``app`` package does not
+depend on a script module; ``import_artists.py`` keeps its own copies until the
+importer is reworked (see the artist authoring roadmap, section 6). No I/O, no database.
+``app.lib`` is for pure, dependency-free helpers, mirroring the frontend's ``app/lib``.
+"""
+
+import re
+from datetime import datetime
+from urllib.parse import urlparse
+from zoneinfo import ZoneInfo
+
+SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+FOCAL_Y_PATTERN = re.compile(r"^center\s+(\d{1,3})%$")
+SPOTIFY_ARTIST_PATTERN = re.compile(r"^https://open\.spotify\.com/artist/([^/?#]+)")
+MBID_PATTERN = re.compile(
+    r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+)
+
+# Source billing-tier label -> stored LineupEntry.billing_tier value.
+BILLING_TIERS = {
+    "Headliner": "headliner",
+    "Sub-headliner": "sub_headliner",
+    "Undercard": "undercard",
+}
+
+
+def valid_url(value: str) -> bool:
+    parsed = urlparse(value)
+    return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
+def parse_focal_y(value: str | None) -> int | None:
+    """``"center 40%"`` -> ``40``. Raises ValueError on any other shape."""
+    if value is None:
+        return None
+    match = FOCAL_Y_PATTERN.fullmatch(value)
+    if not match:
+        raise ValueError(f"unsupported objectPosition {value!r}")
+    percent = int(match.group(1))
+    if percent > 100:
+        raise ValueError(f"objectPosition percentage exceeds 100: {value!r}")
+    return percent
+
+
+def parse_spotify_artist_id(value: str | None) -> str | None:
+    """Extract the artist id from an ``open.spotify.com/artist/<id>`` URL."""
+    if value is None:
+        return None
+    match = SPOTIFY_ARTIST_PATTERN.match(value)
+    if not match:
+        raise ValueError(f"unsupported Spotify artist URL {value!r}")
+    return match.group(1)
+
+
+def parse_appearance_time(
+    date_value: str, time_value: str, *, year: int, timezone: str
+) -> datetime:
+    """``("Jul 30", "8:30 PM", year=2026, tz)`` -> an aware datetime in that zone."""
+    naive = datetime.strptime(f"{date_value} {year} {time_value}", "%b %d %Y %I:%M %p")
+    return naive.replace(tzinfo=ZoneInfo(timezone))
