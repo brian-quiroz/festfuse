@@ -23,11 +23,13 @@ consistent by hand whenever appearance data is added or edited.
 **Update (2026-08-25):** Resolved for the API-sourced path. Planner's
 `getAppearanceEntriesFromApi` (`app/lib/schedule.ts`) now derives both `day` and `date`
 from the API's `festival_date` alone (`formatApiDayAndDate` in
-`app/lib/api/mapRunAppearance.ts`), rather than authoring them independently. The
-TypeScript-sourced fallback path (`getAllAppearanceEntries`, used only while
-`runAppearancesStore` hasn't loaded) still hand-authors both fields as before, so this
-entry stays open until that fallback is retired alongside `app/data/artists` — see
-`docs/roadmap/backend-rollout.md` step 7 item 7.
+`app/lib/api/mapRunAppearance.ts`), rather than authoring them independently.
+
+**Update (2026-08-26):** Fully resolved. `getAllAppearanceEntries`, the
+TypeScript-sourced fallback that still hand-authored both fields independently, was
+deleted along with its sole caller when `app/data/artists` was retired as a frontend
+runtime dependency (`docs/roadmap/backend-rollout.md` step 7 item 7). No hand-authored
+path remains.
 
 ---
 
@@ -478,11 +480,16 @@ cancellation UI design exists for these bulk-consuming surfaces too.
 **Resolved.** `runAppearancesStore` (fed by `GET .../appearances`) was built to fix
 scheduling-identity resolution, then extended into the display-data source for
 Planner and Explore — see [ADR-0006](decisions/0006-shared-run-appearances-store.md)
-for the full pattern (lean per-consumer projection types, the TS/API constructor
-pair gated on `hasLoaded`). Quick Picks (backend rollout step 7 item 4,
+for the full pattern (lean per-consumer projection types, originally a TS/API
+constructor pair gated on `hasLoaded`). Quick Picks (backend rollout step 7 item 4,
 `QuickPicksRunArtist`, see [ADR-0007](decisions/0007-quick-picks-track-and-similar-artists-on-bulk-appearances.md))
 and Festival Story (step 7 item 5, retyped onto `RunArtist` directly — no new
 projection type needed, since its signal computation never touches an editorial
-field) now both read from this store, following the same pattern. `app/data/artists`
-remains the fallback source for all consumers while `runAppearancesStore` hasn't
-loaded; its removal as a runtime dependency is step 7 item 7, still open.
+field) now both read from this store, following the same pattern.
+
+**Update (2026-08-26):** Fully resolved, including the item this entry originally
+left open. `app/data/artists`'s removal as a frontend runtime dependency (step 7 item
+7) is complete — every consumer's TS-fallback constructor was deleted alongside its
+sole caller, so the per-consumer projection types above now each have exactly one
+live (API-only) constructor rather than a fallback pair. `app/data/artists` remains
+in the repo only as the authoring/import source (step 8, not yet started).

@@ -7,14 +7,10 @@ services:
   directory and exposed at `https://festfuse-production.up.railway.app`.
 - `Postgres`: the managed PostgreSQL database. It is not publicly exposed.
 
-The Railway environment is named `production`, and the production frontend does
-depend on it: Artist Detail for the artists listed in `FESTFUSE_API_ARTIST_SLUGS`,
-and appearance/schedule data for every artist across Explore, Planner, Quick Picks,
-and Festival Story via the run-scoped appearances endpoint. Artist Detail for every
-other artist, and any page not yet migrated, still reads `app/data/artists` — see
-`docs/roadmap/backend-rollout.md`'s "Current boundary" section for the exact
-current split. Do not interpret the Railway label as a completed frontend cutover;
-that happens at backend-rollout.md step 7 item 7.
+The Railway environment is named `production`, and the production frontend depends
+on it for every artist-facing read across the app. `app/data/artists` is not part of
+the frontend's runtime read path — it remains only as the authoring/import source
+(see `docs/roadmap/backend-rollout.md`'s "Current boundary" section and step 8).
 
 ## Service configuration
 
@@ -124,6 +120,5 @@ Verify infrastructure and public behavior after bootstrap:
   run-scoped Artist access.
 - A draft or nonexistent Artist slug must return the same public `404` response.
 
-The deployed API is a real production dependency for the consumers described above,
-not merely a preview. `app/data/artists` remains the runtime source for the rest of
-the frontend until `docs/roadmap/backend-rollout.md` step 7 item 7.
+The deployed API is a real production dependency for the frontend, not merely a
+preview.

@@ -7,10 +7,9 @@ import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useAttendanceDays } from "@/app/store/attendanceStore";
 import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
-import { allArtists } from "@/app/data/artists";
 import { ACTIVE_FESTIVAL_ID, festivals } from "@/app/data/festivals";
 import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
-import { getAllRunArtists, getRunArtistsFromApi } from "@/app/lib/api/mapRunAppearance";
+import { getRunArtistsFromApi } from "@/app/lib/api/mapRunAppearance";
 import { useStorySignals, type StorySignal } from "@/app/hooks/useStorySignals";
 import { useDialogA11y } from "@/app/hooks/useDialogA11y";
 import { FestivalStoryCard } from "./FestivalStoryCard";
@@ -37,17 +36,13 @@ export function FestivalStorySequence({
   const persistedAttendanceDays = useAttendanceDays(ACTIVE_FESTIVAL_ID);
   const scopedAttendanceDays = attendanceDays ?? persistedAttendanceDays;
 
-  // Preferred once runAppearancesStore has loaded; TS fallback while it hasn't —
-  // mirrors ExploreContent.tsx/planner/page.tsx/quick-picks/page.tsx's identical
-  // gating idiom.
+  // Structurally unreachable while runAppearancesStore hasn't loaded — this component
+  // only mounts once quick-picks/page.tsx's storyUnlocked gate passes, which requires
+  // a non-empty quickPicksArtists list sourced from this same store.
   const runAppearancesBySlug = useRunAppearancesStore((s) => s.appearancesBySlug);
-  const hasLoadedRunAppearances = useRunAppearancesStore((s) => s.hasLoaded);
   const runArtists = useMemo(
-    () =>
-      hasLoadedRunAppearances
-        ? getRunArtistsFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID)
-        : getAllRunArtists(allArtists),
-    [hasLoadedRunAppearances, runAppearancesBySlug]
+    () => getRunArtistsFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID),
+    [runAppearancesBySlug]
   );
 
   // Compute story signals — pure function call, explicit inputs only. See

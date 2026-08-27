@@ -1136,6 +1136,12 @@ The following records the completed implementation boundary:
   against, alongside (not replacing) the heavier per-Artist detail boundary. Add
   real PostgreSQL integration coverage for its filters, ordering, field mapping,
   and billing-tier consistency check.
+- [x] Retire `app/data/artists` as a frontend runtime read boundary — every
+  consumer (Explore, Planner, Quick Picks, Festival Story, Artist Detail, Credits)
+  now reads exclusively from the API/PostgreSQL, with no TypeScript fallback on an
+  operational failure. The TypeScript source remains only as the authoring/import
+  boundary (`scripts/export-artist-data.ts` → `backend/scripts/import_artists.py`);
+  see `backend-rollout.md` step 8 for its planned replacement.
 
 ## Remaining implementation sequence
 

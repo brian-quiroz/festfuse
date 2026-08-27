@@ -32,9 +32,8 @@ Every feature should reduce the friction of those decisions.
 
 - PostgreSQL
 
-The frontend still defaults to TypeScript data during the ongoing backend cutover —
-see `docs/roadmap/backend-rollout.md` for current status rather than treating this as
-a fixed point-in-time claim.
+The frontend reads artist data exclusively from the FastAPI/PostgreSQL backend —
+see `docs/roadmap/backend-rollout.md` for current status.
 
 ---
 
@@ -107,6 +106,11 @@ The intended next step once you have some picks — turn interest into an actual
 Celebrate the user's festival journey.
 Summarize their taste, discoveries, and decisions in a memorable, shareable format.
 
+### Credits
+
+Utility, not discovery. Attributes externally-sourced artist photos. No product goal
+above applies here — keep it plain and out of the way of the rest of the app.
+
 ---
 
 ## Current Milestone
@@ -132,7 +136,7 @@ Summarize their taste, discoveries, and decisions in a memorable, shareable form
 
 Artist records live in `app/data/artists/`, split into one file per festival day for editing convenience only — never a data boundary. **Always import from `index.ts` (`allArtists`/`artistsBySlug`), never from an individual day file** — see ARCHITECTURE.md's "Storage" section for the full explanation and why day files break silently if used as a shortcut.
 
-Some artists now resolve through the FastAPI/PostgreSQL backend instead of this TypeScript data — see `docs/roadmap/backend-rollout.md` for current cutover status.
+The frontend reads artist data exclusively from the FastAPI/PostgreSQL backend at runtime. These TypeScript files are the authoring source, synchronized into the backend via `scripts/export-artist-data.ts` — see `docs/roadmap/backend-rollout.md` for details.
 
 ### Editorial Review
 
