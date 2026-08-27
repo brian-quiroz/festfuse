@@ -121,23 +121,28 @@ railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD=
 Only after the dry run succeeds, apply it with `--apply` in place of `--dry-run`. Safe
 to rerun; it only touches rows where `mbid` is currently `NULL`.
 
-## Adding or removing an artist
+## Adding, editing, or removing an artist
 
-Direct-to-PostgreSQL artist authoring (ADR-0011, `docs/roadmap/artist-authoring.md`).
-Each requires an explicit mode: `--preview` runs the operation in a transaction and
-rolls it back (surfaces errors, persists nothing); `--apply` commits. Against the hosted
-database, run them through the same tunnel. From `backend/`:
+Direct-to-PostgreSQL artist authoring (ADR-0011 and ADR-0012,
+`docs/roadmap/artist-authoring.md`). Each requires an explicit mode: `--preview` runs
+the operation in a transaction and rolls it back (surfaces errors, persists nothing);
+`--apply` commits. Against the hosted database, run them through the same tunnel. From
+`backend/`:
 
 ```bash
 railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.add_artist --input <file>.json --preview'
+railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.edit_artist --input <file>.json --preview'
 railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.delete_artist --slug <slug> --preview'
 ```
 
 `add_artist` reads a strict `{ schemaVersion, edition, run, billingTier?, artist }` file
 (see `backend/app/schemas/artist_authoring.py`) and creates the artist as a `draft`;
-run the `publish_artists` commands afterward. `delete_artist` needs `--force` to remove
-an artist that another artist's Similar Artist set points at. See
-`backend/tests/README.md` for exact scope.
+run the `publish_artists` commands afterward. `edit_artist` reads a strict
+`{ schemaVersion, edition, run, slug, artist }` patch — every key in `artist` is a
+change, an absent key is left alone, a `null` key is cleared — and applies it to one
+existing artist; the `--preview` plan shows each changed field and the recomputed
+publication readiness. `delete_artist` needs `--force` to remove an artist that another
+artist's Similar Artist set points at. See `backend/tests/README.md` for exact scope.
 
 ## Verification
 

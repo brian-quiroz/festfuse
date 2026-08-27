@@ -156,6 +156,8 @@ clean-bootstrap path, so the database can be stood up without the TypeScript sou
 ## References
 
 - [Artist authoring roadmap](../roadmap/artist-authoring.md)
+- [ADR-0012: Field-level artist edit workflow](0012-field-level-artist-edits.md) —
+  the deferred edit slice
 - [Backend rollout roadmap](../roadmap/backend-rollout.md), "Next" section
 - [ADR-0004: Model artist curation, lineup membership, and scheduled appearances](0004-model-artist-curation-and-scheduling.md)
 - [Artist data model](../design/artist-data-model.md), "Initial import boundary"

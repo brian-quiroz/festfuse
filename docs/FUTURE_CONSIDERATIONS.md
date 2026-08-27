@@ -513,6 +513,37 @@ there is one list; until then, "add a genre" is a two-file change.
 
 ---
 
+## Future Consideration: Staged / Reviewed Artist Edits
+
+`edit_artist` (ADR-0012) applies a patch straight to the record in one transaction.
+There is no way to draft a set of changes, review them, and then choose which to
+publish — every applied edit is immediately the live value (subject only to the
+frontend's revalidation interval).
+
+To keep `edit_artist` from stranding a published record in a broken state, it currently
+just **refuses** any edit that would drop a currently-publishable published artist
+below the readiness bar. That is the right floor for a CLI, but a staging model —
+propose changes, diff them against the live record, approve, then apply — would be the
+fuller answer, and is most natural once there is an admin dashboard and accounts to
+attribute reviews to. Not built now; revisit when the dashboard work starts.
+
+---
+
+## Future Consideration: Multi-Video Editing in the Authoring Workflow
+
+`artist_videos` is a one-to-many table (per-video `display_order`, `is_featured`,
+`is_available`, `last_checked_at`, `published_at`), but `add_artist` only ever creates
+one featured video and `edit_artist` only replaces or clears that single featured video
+(`liveVideoId` + `liveVideoLabel`, defaults `is_featured=True` / `display_order=1` /
+`is_available=True`). Nothing in the product uses more than one video per artist today.
+
+**Not built now.** A real multi-video feature (add / remove / reorder / re-feature
+individual videos, manage availability/health) is its own slice. Revisit alongside the
+"future gallery may return every available video" note in
+`docs/design/artist-data-model.md`.
+
+---
+
 ## Future Consideration: No Runtime Fallback for a "Verified" Image That 404s
 
 `getVerifiedImageUrl` (`app/lib/artistImage.ts`) returns an artist's `imageUrl` only

@@ -19,6 +19,12 @@ keys, migrations, or PostgreSQL behavior works.
 the strict `ArtistAuthoringInput` Pydantic schema (rejection of legacy TypeScript-only
 fields, required-field enforcement, slug/mbid/track-id/date/time shape checks,
 four-or-none and self-reference rules) and the pure parsers in `app/lib/artist_source.py`.
+It also covers the `ArtistEditInput` patch schema (ADR-0012): the empty patch, the
+absent-vs-`null` distinction via `model_fields_set`, that `name`/`slug` cannot be
+cleared, that clearing About forbids `aboutVerified`, that `listenFirst` needs `tracks`
+in the same patch, and the rules now shared by both the create and edit schemas —
+`imageUrl` ⟹ `imageVerified`, any image metadata requires `imageUrl`, and plausible
+`imageTakenYear` / `imageSourcedAt` values.
 
 ## PostgreSQL integration tests
 
@@ -85,7 +91,16 @@ clear refusals for a duplicate slug, a taken Spotify identity, an unknown
 genre/similar-target/stage. For delete it proves owned rows are removed while shared
 `Track` rows are kept, and that deleting a Similar Artist *target* is refused unless
 forced, in which case the incoming references are cleared and the referencing set loses
-its verification.
+its verification. For `edit_artist` (ADR-0012) it proves the write-then-restamp
+sequence for About and social verification (including the reviewed-empty socials
+state), image set-then-clear, featured-video replace-then-clear, wholesale genre and
+listening replacement with an idempotent re-apply, similar-set replacement re-stamping
+`verified_at` while an unchanged set is left untouched, a slug clash with a different
+artist refused (and the artist's own slug re-submitted as a no-op), refusals for an
+unknown genre / artist / edition / run, that publication readiness is recomputed after
+editing a draft, and that an edit which would drop a currently-publishable published
+artist below the readiness bar is refused while a published artist that stays ready (or
+was already below the bar) is still editable.
 
 Each test creates temporary records inside an outer transaction and rolls that
 transaction back during cleanup. PostgreSQL genuinely executes the writes and
@@ -113,7 +128,12 @@ The integration suite currently verifies:
   and field mapping; and
 - single-artist create and hard-delete through the authoring service, including
   verification-trigger ordering, partial (draft) creates, and Similar Artist
-  target-deletion protection.
+  target-deletion protection; and
+- single-artist field-level edits through the authoring service (ADR-0012):
+  verification re-stamping after a triggered content change, wholesale collection
+  replacement with idempotent re-apply, image/video set-and-clear, identity
+  self-exclusion, reference refusals, readiness recomputation, and the
+  published-stays-publishable guard.
 
 ## Commands
 
@@ -212,20 +232,23 @@ draft Artist needs one. An Artist that already has any track selections is left
 unchanged, so the operation is safe to rerun; a completed sync reports no further
 changes on a second pass.
 
-## Adding, removing, and backfilling an artist
+## Adding, editing, removing, and backfilling an artist
 
-The direct-to-PostgreSQL authoring workflow (ADR-0011,
+The direct-to-PostgreSQL authoring workflow (ADR-0011 and ADR-0012,
 `docs/roadmap/artist-authoring.md`). Each requires an explicit mode — a bare invocation
 errors out. Against the hosted database, run them through the encrypted Railway tunnel
 like `import_artists` (see `docs/operations/backend-deployment.md`).
 
-`add_artist` and `delete_artist` execute the operation in a transaction, so their
-non-committing mode is `--preview` (it runs the real INSERT/DELETE statements and rolls
-back — surfacing database errors, persisting nothing):
+`add_artist`, `edit_artist`, and `delete_artist` execute the operation in a
+transaction, so their non-committing mode is `--preview` (it runs the real
+INSERT/UPDATE/DELETE statements and rolls back — surfacing database errors, persisting
+nothing):
 
 ```bash
 python -m scripts.add_artist --input <file>.json --preview
 python -m scripts.add_artist --input <file>.json --apply
+python -m scripts.edit_artist --input <file>.json --preview
+python -m scripts.edit_artist --input <file>.json --apply
 ```
 
 `add_artist` reads a strict `{ schemaVersion, edition, run, billingTier?, artist }`
@@ -233,6 +256,15 @@ file (see `app/schemas/artist_authoring.py`), creates one complete or partial ar
 a `draft` for an existing run, and prints its publication readiness. It refuses a slug,
 mbid, or Spotify identity already in use, and an unknown genre / similar-artist target
 / stage. Publication stays a separate `publish_artists` step.
+
+`edit_artist` reads a strict `{ schemaVersion, edition, run, slug, artist }` patch
+(`ArtistEditFields`): every key present in `artist` is a change, an absent key is left
+alone, a `null` key is cleared, and set-valued fields are replaced wholesale. It
+touches every artist-owned field `add_artist` can set (identity, image, featured video,
+About, socials, location, genres, listening, the run-scoped similar-artist set) but not
+lineup/schedule/publication state. The `--preview` plan lists each changed field group
+and the recomputed publication readiness. It refuses the same reference errors as
+`add_artist` plus a slug/mbid/Spotify clash with a *different* artist.
 
 ```bash
 python -m scripts.delete_artist --slug <slug> --preview

@@ -13,7 +13,7 @@ in ``app.services.artist_authoring``, not here.
 """
 
 import re
-from datetime import datetime
+from datetime import UTC, date, datetime
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, field_validator, model_validator
@@ -32,6 +32,27 @@ SPOTIFY_TRACK_ID_PATTERN = re.compile(r"^[A-Za-z0-9]{22}$")
 _SOURCE_TIME_FORMAT = "%I:%M %p"
 # Leap year so "Feb 29" validates; the real year comes from the edition at build time.
 _SHAPE_CHECK_YEAR = 2000
+_OLDEST_PLAUSIBLE_PHOTO_YEAR = 1900
+
+
+def _validate_image_taken_year(value: int | None) -> int | None:
+    """A plausible photograph year: not before photography, not in the future. A
+    dynamic check rather than a database constraint tied to the calendar (see
+    docs/design/artist-data-model.md)."""
+    if value is not None:
+        current_year = datetime.now(UTC).year
+        if not _OLDEST_PLAUSIBLE_PHOTO_YEAR <= value <= current_year:
+            raise ValueError(
+                f"imageTakenYear must be between {_OLDEST_PLAUSIBLE_PHOTO_YEAR} "
+                f"and {current_year}"
+            )
+    return value
+
+
+def _validate_image_sourced_at(value: date | None) -> date | None:
+    if value is not None and value > datetime.now(UTC).date():
+        raise ValueError("imageSourcedAt cannot be in the future")
+    return value
 
 
 class _AuthoringModel(BaseModel):
@@ -153,6 +174,8 @@ class ArtistAuthoringArtist(_AuthoringModel):
     image_verified: bool | None = None
     image_credit: ImageCreditInput | None = None
     object_position: str | None = None
+    image_taken_year: int | None = None
+    image_sourced_at: date | None = None
     live_video_id: str | None = None
     live_video_label: str | None = None
     genres: list[str] = []
@@ -187,6 +210,16 @@ class ArtistAuthoringArtist(_AuthoringModel):
         parse_focal_y(value)  # raises ValueError on a bad shape
         return value
 
+    @field_validator("image_taken_year")
+    @classmethod
+    def _taken_year(cls, value: int | None) -> int | None:
+        return _validate_image_taken_year(value)
+
+    @field_validator("image_sourced_at")
+    @classmethod
+    def _sourced_at(cls, value: date | None) -> date | None:
+        return _validate_image_sourced_at(value)
+
     @field_validator("genres")
     @classmethod
     def _at_most_three_distinct_genres(cls, value: list[str]) -> list[str]:
@@ -200,6 +233,14 @@ class ArtistAuthoringArtist(_AuthoringModel):
     def _cross_field_rules(self) -> "ArtistAuthoringArtist":
         if self.image_credit is not None and not self.image_url:
             raise ValueError("imageCredit requires imageUrl")
+        if self.image_url and not self.image_verified:
+            raise ValueError("imageUrl requires imageVerified: true")
+        if (
+            self.object_position
+            or self.image_taken_year is not None
+            or self.image_sourced_at is not None
+        ) and not self.image_url:
+            raise ValueError("image metadata requires imageUrl")
         if self.live_video_id and not self.live_video_label:
             raise ValueError("liveVideoId requires liveVideoLabel")
         if self.location is not None:
@@ -246,3 +287,149 @@ class ArtistAuthoringInput(_AuthoringModel):
         if value is not None and value not in BILLING_TIERS:
             raise ValueError(f"unsupported billing tier {value!r}")
         return value
+
+
+class ArtistEditFields(_AuthoringModel):
+    """A patch over one existing artist. Every field is optional; ``model_fields_set``
+    tells "not provided" (leave the column alone) from an explicit ``null`` (clear it).
+    Set-valued fields (``genres``, ``tracks`` + ``listenFirst``, ``similarArtists``) are
+    replaced wholesale, not merged. See ADR-0012.
+    """
+
+    name: str | None = None
+    slug: str | None = None
+    mbid: str | None = None
+    image_url: str | None = None
+    image_verified: bool | None = None
+    image_credit: ImageCreditInput | None = None
+    object_position: str | None = None
+    image_taken_year: int | None = None
+    image_sourced_at: date | None = None
+    live_video_id: str | None = None
+    live_video_label: str | None = None
+    socials: SocialsInput | None = None
+    socials_verified: bool | None = None
+    about: str | None = None
+    about_verified: bool | None = None
+    location: LocationInput | None = None
+    genres: list[str] | None = None
+    tracks: list[TrackInput] | None = None
+    listen_first: ListenFirstInput | None = None
+    similar_artists: list[SimilarArtistInput] | None = None
+    similar_artists_verified: bool | None = None
+
+    @field_validator("slug")
+    @classmethod
+    def _slug_shape(cls, value: str | None) -> str | None:
+        if value is not None and not SLUG_PATTERN.fullmatch(value):
+            raise ValueError("not a valid slug")
+        return value
+
+    @field_validator("mbid")
+    @classmethod
+    def _mbid_shape(cls, value: str | None) -> str | None:
+        if value is not None and not MBID_PATTERN.fullmatch(value):
+            raise ValueError("not a canonical lowercase UUID")
+        return value
+
+    @field_validator("object_position")
+    @classmethod
+    def _focal_shape(cls, value: str | None) -> str | None:
+        parse_focal_y(value)  # raises ValueError on a bad shape
+        return value
+
+    @field_validator("image_taken_year")
+    @classmethod
+    def _taken_year(cls, value: int | None) -> int | None:
+        return _validate_image_taken_year(value)
+
+    @field_validator("image_sourced_at")
+    @classmethod
+    def _sourced_at(cls, value: date | None) -> date | None:
+        return _validate_image_sourced_at(value)
+
+    @field_validator("genres")
+    @classmethod
+    def _genre_set_shape(cls, value: list[str] | None) -> list[str] | None:
+        if value is None:
+            return value
+        if len(value) > 3:
+            raise ValueError("at most 3 genres")
+        if len(set(value)) != len(value):
+            raise ValueError("duplicate genre")
+        return value
+
+    @model_validator(mode="after")
+    def _cross_field_rules(self) -> "ArtistEditFields":
+        provided = self.model_fields_set
+        if "name" in provided and self.name is None:
+            raise ValueError("name cannot be cleared")
+        if "slug" in provided and self.slug is None:
+            raise ValueError("slug cannot be cleared")
+
+        if "about" in provided and self.about is None and self.about_verified:
+            raise ValueError("cannot set aboutVerified when about is cleared")
+
+        if self.image_url and not self.image_verified:
+            raise ValueError("imageUrl requires imageVerified: true")
+        if (
+            self.image_credit is not None
+            or self.object_position is not None
+            or self.image_taken_year is not None
+            or self.image_sourced_at is not None
+        ) and not self.image_url:
+            raise ValueError("image metadata requires imageUrl")
+
+        if "live_video_label" in provided and "live_video_id" not in provided:
+            raise ValueError("liveVideoLabel requires liveVideoId in the same patch")
+        if self.live_video_id and not self.live_video_label:
+            raise ValueError("liveVideoId requires liveVideoLabel")
+
+        if "listen_first" in provided and "tracks" not in provided:
+            raise ValueError("listenFirst can only be set together with tracks")
+        if "listen_first" in provided and self.listen_first is not None:
+            if self.tracks is None or len(self.tracks) != 3:
+                raise ValueError("listenFirst requires exactly 3 tracks")
+        elif self.tracks is not None and len(self.tracks) > 1:
+            raise ValueError("without listenFirst, provide only the Quick Picks track")
+        if self.tracks:
+            track_ids = [track.spotify_id for track in self.tracks]
+            if len(set(track_ids)) != len(track_ids):
+                raise ValueError("duplicate track spotifyId")
+
+        if self.similar_artists is not None and len(self.similar_artists) > 4:
+            raise ValueError("at most 4 similar artists")
+        if self.similar_artists_verified:
+            if self.similar_artists is None or len(self.similar_artists) not in (0, 4):
+                raise ValueError("a verified similar-artist set has 0 or 4 entries")
+        if self.similar_artists:
+            slugs = [entry.slug for entry in self.similar_artists]
+            if len(set(slugs)) != len(slugs):
+                raise ValueError("duplicate similar-artist target")
+        return self
+
+
+class ArtistEditInput(_AuthoringModel):
+    schema_version: Literal[1]
+    edition: str
+    run: str
+    slug: str  # identifies the target artist; a slug inside `artist` is a rename
+    artist: ArtistEditFields
+
+    @field_validator("slug")
+    @classmethod
+    def _slug_shape(cls, value: str) -> str:
+        if not SLUG_PATTERN.fullmatch(value):
+            raise ValueError("not a valid slug")
+        return value
+
+    @model_validator(mode="after")
+    def _no_self_reference(self) -> "ArtistEditInput":
+        if not self.artist.similar_artists:
+            return self
+        identities = {self.slug}
+        if self.artist.slug:
+            identities.add(self.artist.slug)
+        if any(entry.slug in identities for entry in self.artist.similar_artists):
+            raise ValueError("an artist cannot be similar to itself")
+        return self
