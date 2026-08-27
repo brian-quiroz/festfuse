@@ -1,6 +1,6 @@
 """Fast tests: authoring input schema and the pure source parsers. No database."""
 
-from datetime import datetime
+from datetime import UTC, datetime
 
 import pytest
 from pydantic import ValidationError
@@ -10,7 +10,7 @@ from app.lib.artist_source import (
     parse_focal_y,
     parse_spotify_artist_id,
 )
-from app.schemas.artist_authoring import ArtistAuthoringInput
+from app.schemas.artist_authoring import ArtistAuthoringInput, ArtistEditInput
 
 MINIMAL = {
     "schemaVersion": 1,
@@ -18,6 +18,18 @@ MINIMAL = {
     "run": "main",
     "artist": {"name": "Stub", "slug": "stub"},
 }
+
+EDIT_MINIMAL = {
+    "schemaVersion": 1,
+    "edition": "lollapalooza-2026",
+    "run": "main",
+    "slug": "stub",
+    "artist": {},
+}
+
+
+def _edit(**changes: object) -> dict:
+    return {**EDIT_MINIMAL, "artist": changes}
 
 
 def _artist(**overrides: object) -> dict:
@@ -187,3 +199,138 @@ def test_image_credit_requires_image_url() -> None:
 def test_unsupported_billing_tier_is_rejected() -> None:
     with pytest.raises(ValidationError, match="billing tier"):
         ArtistAuthoringInput.model_validate({**MINIMAL, "billingTier": "Superstar"})
+
+
+def test_authoring_image_url_requires_image_verified() -> None:
+    with pytest.raises(ValidationError, match="imageVerified"):
+        ArtistAuthoringInput.model_validate(_artist(imageUrl="/artists/x.jpg"))
+    ArtistAuthoringInput.model_validate(
+        _artist(imageUrl="/artists/x.jpg", imageVerified=True)
+    )
+
+
+def test_authoring_image_year_and_sourced_at_are_validated() -> None:
+    next_year = datetime.now(UTC).year + 1
+    with pytest.raises(ValidationError, match="imageTakenYear"):
+        ArtistAuthoringInput.model_validate(
+            _artist(imageUrl="/x.jpg", imageVerified=True, imageTakenYear=next_year)
+        )
+    with pytest.raises(ValidationError, match="imageSourcedAt cannot be in the future"):
+        ArtistAuthoringInput.model_validate(
+            _artist(imageUrl="/x.jpg", imageVerified=True, imageSourcedAt="2999-01-01")
+        )
+    with pytest.raises(ValidationError, match="image metadata requires imageUrl"):
+        ArtistAuthoringInput.model_validate(_artist(imageTakenYear=2020))
+    ArtistAuthoringInput.model_validate(
+        _artist(
+            imageUrl="/x.jpg",
+            imageVerified=True,
+            imageTakenYear=2018,
+            imageSourcedAt="2026-01-15",
+        )
+    )
+
+
+# --- edit schema ----------------------------------------------------------
+
+
+def test_edit_empty_patch_is_valid() -> None:
+    payload = ArtistEditInput.model_validate(EDIT_MINIMAL)
+    assert payload.slug == "stub"
+    assert payload.artist.model_fields_set == set()
+
+
+def test_edit_absent_vs_null_is_distinguishable() -> None:
+    absent = ArtistEditInput.model_validate(_edit()).artist
+    cleared = ArtistEditInput.model_validate(_edit(about=None)).artist
+    assert "about" not in absent.model_fields_set
+    assert "about" in cleared.model_fields_set and cleared.about is None
+
+
+def test_edit_rejects_legacy_and_unknown_fields() -> None:
+    with pytest.raises(ValidationError, match="Extra inputs"):
+        ArtistEditInput.model_validate(_edit(tagline="x"))
+
+
+def test_edit_name_and_slug_cannot_be_cleared() -> None:
+    with pytest.raises(ValidationError, match="name cannot be cleared"):
+        ArtistEditInput.model_validate(_edit(name=None))
+    with pytest.raises(ValidationError, match="slug cannot be cleared"):
+        ArtistEditInput.model_validate(_edit(slug=None))
+
+
+def test_edit_slug_shape_is_enforced() -> None:
+    with pytest.raises(ValidationError, match="valid slug"):
+        ArtistEditInput.model_validate(_edit(slug="Not A Slug"))
+
+
+def test_edit_clearing_about_forbids_verified() -> None:
+    with pytest.raises(ValidationError, match="aboutVerified"):
+        ArtistEditInput.model_validate(_edit(about=None, aboutVerified=True))
+
+
+def test_edit_image_url_requires_image_verified() -> None:
+    with pytest.raises(ValidationError, match="imageVerified"):
+        ArtistEditInput.model_validate(_edit(imageUrl="/artists/x.jpg"))
+
+
+def test_edit_image_year_sourced_at_validated() -> None:
+    with pytest.raises(ValidationError, match="image metadata requires imageUrl"):
+        ArtistEditInput.model_validate(_edit(imageSourcedAt="2026-01-01"))
+    with pytest.raises(ValidationError, match="imageSourcedAt cannot be in the future"):
+        ArtistEditInput.model_validate(
+            _edit(imageUrl="/x.jpg", imageVerified=True, imageSourcedAt="2999-01-01")
+        )
+    ArtistEditInput.model_validate(
+        _edit(
+            imageUrl="/x.jpg",
+            imageVerified=True,
+            imageTakenYear=2017,
+            imageSourcedAt="2026-01-01",
+        )
+    )
+
+
+def test_edit_live_video_id_requires_label() -> None:
+    with pytest.raises(ValidationError, match="liveVideoLabel"):
+        ArtistEditInput.model_validate(_edit(liveVideoId="abc12345678"))
+
+
+def test_edit_listen_first_requires_three_tracks() -> None:
+    with pytest.raises(ValidationError, match="exactly 3 tracks"):
+        ArtistEditInput.model_validate(
+            _edit(
+                listenFirst={"mode": "tracks"},
+                tracks=[{"spotifyId": "a" * 22, "name": "One"}],
+            )
+        )
+
+
+def test_edit_listen_first_needs_tracks_in_the_same_patch() -> None:
+    with pytest.raises(ValidationError, match="together with tracks"):
+        ArtistEditInput.model_validate(_edit(listenFirst=None))
+
+
+def test_edit_verified_similar_set_must_be_zero_or_four() -> None:
+    with pytest.raises(ValidationError, match="0 or 4"):
+        ArtistEditInput.model_validate(
+            _edit(similarArtistsVerified=True, similarArtists=[{"slug": "x"}])
+        )
+
+
+def test_edit_rejects_similar_self_reference() -> None:
+    with pytest.raises(ValidationError, match="similar to itself"):
+        ArtistEditInput.model_validate(
+            {
+                **EDIT_MINIMAL,
+                "artist": {
+                    "similarArtists": [
+                        {"slug": "stub"},
+                        {"slug": "b"},
+                        {"slug": "c"},
+                        {"slug": "d"},
+                    ],
+                    "similarArtistsVerified": True,
+                },
+            }
+        )

@@ -19,7 +19,8 @@ is in [`artist-data-model.md`](../design/artist-data-model.md).
   → `backend/scripts/import_artists.py` serialize them into Postgres.
 - `import_artists.py` is the only path that reconstructs the database from scratch, so
   Postgres cannot yet be rebuilt without the TypeScript source.
-- There is no way to add, edit, or remove a single artist's facts in Postgres directly.
+- A single artist can be created, edited field by field, or hard-deleted directly in
+  Postgres (`scripts/add_artist.py`, `scripts/edit_artist.py`, `scripts/delete_artist.py`).
 
 ## Rollout sequence
 
@@ -66,15 +67,31 @@ integration layers.
 
 ### 3. Field-level edits
 
-**Status: not started.**
+**Status: completed.**
 
-- Targeted, idempotent, transactional updates for About, socials, location, genres, the
-  similar-artist set, listening selections, and name/slug stylization, over the same
-  service layer. Each edit re-runs publication assessment for that artist.
-- Out of scope: appearance time/stage edits, lineup billing edits, and publication
-  status changes.
+- `app/services/artist_authoring.py` (`edit_artist`) and the `scripts/edit_artist.py`
+  CLI (`--preview` / `--apply`, like `add_artist`) apply a targeted, idempotent,
+  transactional patch over the same service layer. Decisions recorded in
+  [ADR-0012](../decisions/0012-field-level-artist-edits.md).
+- **Scope is parity with `add_artist`**: every artist-owned field `create_artist` can
+  set — identity (`slug`, `name`, `spotify_artist_id`, `mbid`), the approved image and
+  its credit/focal point/photograph year/sourced-at date, the featured video, About,
+  socials, location, the genre set, listening selections, and the run-scoped
+  similar-artist set. Building this added `imageTakenYear` / `imageSourcedAt` input
+  fields to **both** workflows (the columns existed; the fields did not). The input is
+  a strict `{ schemaVersion, edition, run, slug, artist }` patch where an absent key is
+  left alone and a `null` key is cleared; set-valued fields are replaced wholesale.
+  Verification stays opt-in per field. The CLI re-runs publication assessment.
+- `edit_artist` never writes `publication_status`, and it refuses an edit that would
+  drop a currently-publishable published artist below the readiness bar (no override,
+  no auto-unpublish).
+- Out of scope: appearance time/stage edits, lineup billing/status edits, publication
+  status changes, and multi-video editing.
+- One `add_artist` change came with this: `imageUrl` without `imageVerified: true` is
+  now a validation error in both workflows rather than a silent drop.
 
-**Checkpoint:** an existing artist's facts can be corrected in place.
+**Checkpoint reached:** an existing artist's facts can be corrected in place, with test
+coverage at the schema and PostgreSQL integration layers.
 
 ### 4. Decide the editorial authoring and review process
 

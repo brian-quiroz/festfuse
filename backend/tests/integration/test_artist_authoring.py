@@ -18,11 +18,12 @@ from sqlalchemy.orm import Session
 
 from app.database import engine
 from app.models import Artist, SimilarArtist, SimilarArtistSet, Track
-from app.schemas.artist_authoring import ArtistAuthoringInput
+from app.schemas.artist_authoring import ArtistAuthoringInput, ArtistEditInput
 from app.services import (
     ArtistAuthoringError,
     create_artist,
     delete_artist,
+    edit_artist,
     evaluate_artist_publication,
 )
 
@@ -70,6 +71,8 @@ def _full_payload(**artist_overrides: object) -> dict:
         "imageVerified": True,
         "imageUrl": "/artists/global/test.jpg",
         "objectPosition": "center 5%",
+        "imageTakenYear": 2019,
+        "imageSourcedAt": "2026-02-14",
         "aboutVerified": True,
         "about": "A verified about paragraph.",
         "socialsVerified": True,
@@ -132,6 +135,9 @@ def test_full_create_round_trip(session: Session) -> None:
     assert sorted(
         s.listen_first_order for s in artist.track_selections if s.listen_first_order
     ) == [1, 2, 3]
+
+    assert artist.image_taken_year == 2019
+    assert artist.image_sourced_at.isoformat() == "2026-02-14"
 
     assert len(artist.videos) == 1 and artist.videos[0].is_featured
 
@@ -246,6 +252,287 @@ def test_delete_removes_owned_rows_and_keeps_shared_tracks(session: Session) -> 
     assert summary.similar_artist_sets == 1
     assert session.scalar(select(Artist).where(Artist.slug == slug)) is None
     assert session.scalar(select(func.count()).select_from(Track)) == track_count_before
+
+
+def _edit(target: str, **changes: object) -> ArtistEditInput:
+    return ArtistEditInput.model_validate(
+        {
+            "schemaVersion": 1,
+            "edition": "lollapalooza-2026",
+            "run": "main",
+            "slug": target,
+            "artist": changes,
+        }
+    )
+
+
+def _seed_artist(session: Session, **overrides: object) -> Artist:
+    artist = create_artist(session, _payload(_full_payload(**overrides)))
+    session.flush()
+    return artist
+
+
+def test_edit_about_reclears_then_restamps_verification(session: Session) -> None:
+    artist = _seed_artist(session)
+    assert artist.about_verified_at is not None
+
+    # Change About without re-verifying: the trigger clears the stamp.
+    summary = edit_artist(session, _edit(artist.slug, about="Rewritten about."))
+    assert artist.about == "Rewritten about."
+    assert artist.about_verified_at is None
+    assert {c.group for c in summary.changed} == {"about", "aboutVerified"}
+
+    # Change again and re-verify in the same patch.
+    edit_artist(session, _edit(artist.slug, about="Final about.", aboutVerified=True))
+    assert artist.about == "Final about."
+    assert artist.about_verified_at is not None
+
+
+def test_edit_social_url_reclears_then_restamps(session: Session) -> None:
+    artist = _seed_artist(session)
+    assert artist.socials_verified is True
+
+    edit_artist(
+        session, _edit(artist.slug, socials={"tiktok": "https://tiktok.com/@x"})
+    )
+    assert artist.tiktok_url == "https://tiktok.com/@x"
+    assert artist.socials_verified is False
+
+    edit_artist(
+        session,
+        _edit(
+            artist.slug,
+            socials={"youtube": None, "tiktok": None},
+            socialsVerified=True,
+        ),
+    )
+    assert artist.youtube_url is None and artist.tiktok_url is None
+    assert artist.socials_verified is True  # reviewed-empty is valid
+
+
+def test_edit_image_set_then_cleared(session: Session) -> None:
+    artist = _seed_artist(
+        session,
+        imageVerified=False,
+        imageUrl=None,
+        objectPosition=None,
+        imageTakenYear=None,
+        imageSourcedAt=None,
+    )
+    assert artist.image_url is None
+
+    edit_artist(
+        session,
+        _edit(
+            artist.slug,
+            imageUrl="/artists/global/new.jpg",
+            imageVerified=True,
+            objectPosition="center 20%",
+            imageTakenYear=2021,
+            imageSourcedAt="2026-03-01",
+        ),
+    )
+    assert artist.image_url == "/artists/global/new.jpg"
+    assert artist.image_focal_y_percent == 20
+    assert artist.image_taken_year == 2021
+    assert artist.image_sourced_at.isoformat() == "2026-03-01"
+
+    edit_artist(session, _edit(artist.slug, imageUrl=None))
+    assert artist.image_url is None
+    assert artist.image_focal_y_percent is None
+    assert artist.image_credit_author is None
+    assert artist.image_taken_year is None
+    assert artist.image_sourced_at is None
+
+
+def test_edit_featured_video_replaced_then_cleared(session: Session) -> None:
+    artist = _seed_artist(session)
+    assert artist.videos[0].youtube_video_id == "abc12345678"
+
+    edit_artist(
+        session,
+        _edit(artist.slug, liveVideoId="zzz99999999", liveVideoLabel="New clip"),
+    )
+    assert [v.youtube_video_id for v in artist.videos] == ["zzz99999999"]
+
+    edit_artist(session, _edit(artist.slug, liveVideoId=None))
+    assert artist.videos == []
+
+
+def test_edit_genres_replaced_and_reapply_is_a_no_op(session: Session) -> None:
+    artist = _seed_artist(session)
+    new_genres = ["Art Pop", "Electropop", "Alt-Pop"]  # reorder of the seeded set
+
+    summary = edit_artist(session, _edit(artist.slug, genres=new_genres))
+    assert [a.genre.name for a in artist.genre_assignments] == new_genres
+    assert [a.is_primary for a in artist.genre_assignments] == [True, False, False]
+    assert [c.group for c in summary.changed] == ["genres"]
+
+    again = edit_artist(session, _edit(artist.slug, genres=new_genres))
+    assert again.changed == []
+
+
+def test_edit_listening_selections_replaced(session: Session) -> None:
+    artist = _seed_artist(session)
+    edit_artist(
+        session,
+        _edit(
+            artist.slug,
+            tracks=[
+                {"spotifyId": "6ie2Bw3xLj2JcGowOlcMhb", "name": "Green Light"},
+                {"spotifyId": RIBS, "name": "Ribs"},
+                {"spotifyId": "1gvOEwQbIEjkpLdcZwtBoB", "name": "Man Of The Year"},
+            ],
+            listenFirst={"mode": "tracks", "note": "New order."},
+        ),
+    )
+    quick = [s for s in artist.track_selections if s.is_quick_picks]
+    assert len(quick) == 1
+    assert quick[0].track.spotify_track_id == "6ie2Bw3xLj2JcGowOlcMhb"
+    assert artist.listen_first_note == "New order."
+
+    same = edit_artist(
+        session,
+        _edit(
+            artist.slug,
+            tracks=[
+                {"spotifyId": "6ie2Bw3xLj2JcGowOlcMhb", "name": "Green Light"},
+                {"spotifyId": RIBS, "name": "Ribs"},
+                {"spotifyId": "1gvOEwQbIEjkpLdcZwtBoB", "name": "Man Of The Year"},
+            ],
+            listenFirst={"mode": "tracks", "note": "New order."},
+        ),
+    )
+    assert same.changed == []
+
+
+def test_edit_similar_set_replaced_restamps_and_unchanged_is_untouched(
+    session: Session,
+) -> None:
+    artist = _seed_artist(session)
+    original = artist.similarity_sets[0]
+    assert original.verified_at is not None
+    stamped_at = original.verified_at
+
+    replacement = ["charli-xcx", "the-xx", "the-smashing-pumpkins", "lorde"]
+    edit_artist(
+        session,
+        _edit(
+            artist.slug,
+            similarArtists=[{"slug": s} for s in replacement],
+            similarArtistsVerified=True,
+        ),
+    )
+    session.expire_all()
+    refreshed = artist.similarity_sets[0]
+    assert [e.target_artist.slug for e in refreshed.entries] == replacement
+    assert refreshed.verified_at is not None and refreshed.verified_at > stamped_at
+
+    unchanged = edit_artist(
+        session,
+        _edit(
+            artist.slug,
+            similarArtists=[{"slug": s} for s in replacement],
+            similarArtistsVerified=True,
+        ),
+    )
+    assert unchanged.changed == []
+
+
+def test_edit_slug_clash_with_other_artist_is_refused(session: Session) -> None:
+    artist = _seed_artist(session)
+    with pytest.raises(ArtistAuthoringError, match="already belongs to another artist"):
+        edit_artist(session, _edit(artist.slug, slug="5sos"))
+
+    # Re-submitting the artist's own slug is a clean no-op.
+    assert edit_artist(session, _edit(artist.slug, slug=artist.slug)).changed == []
+
+
+def test_edit_refuses_unknown_references(session: Session) -> None:
+    artist = _seed_artist(session)
+    with pytest.raises(ArtistAuthoringError, match="unknown genre"):
+        edit_artist(session, _edit(artist.slug, genres=["Alt-Pop", "Nope", "Art Pop"]))
+    with pytest.raises(ArtistAuthoringError, match="does not exist"):
+        edit_artist(
+            session,
+            ArtistEditInput.model_validate(
+                {
+                    "schemaVersion": 1,
+                    "edition": "lollapalooza-2026",
+                    "run": "main",
+                    "slug": "no-such-artist",
+                    "artist": {"about": "x"},
+                }
+            ),
+        )
+
+
+def test_edit_refuses_unknown_edition_or_run(session: Session) -> None:
+    artist = _seed_artist(session)
+    for edition, run, expected in (
+        ("no-such-edition", "main", "festival edition"),
+        ("lollapalooza-2026", "no-such-run", "festival run"),
+    ):
+        with pytest.raises(ArtistAuthoringError, match=expected):
+            edit_artist(
+                session,
+                ArtistEditInput.model_validate(
+                    {
+                        "schemaVersion": 1,
+                        "edition": edition,
+                        "run": run,
+                        "slug": artist.slug,
+                        "artist": {"about": "x"},
+                    }
+                ),
+            )
+
+
+def test_edit_recomputes_publication_readiness_on_a_draft(session: Session) -> None:
+    # A draft artist may be edited into a not-ready state; readiness is recomputed.
+    artist = _seed_artist(session)
+    assert artist.publication_status == "draft"
+    assert evaluate_artist_publication(artist).is_ready
+
+    edit_artist(session, _edit(artist.slug, genres=["Alt-Pop"]))
+    issues = {i.value for i in evaluate_artist_publication(artist).issues}
+    assert "invalid_genre_set" in issues
+
+
+def test_edit_blocks_making_a_published_artist_unpublishable(session: Session) -> None:
+    artist = _seed_artist(session)
+    artist.publication_status = "published"
+    session.flush()
+
+    # The service raises before returning; the caller (CLI) then rolls back, exactly
+    # like the other refusal cases in this file.
+    with pytest.raises(ArtistAuthoringError, match="publication readiness"):
+        edit_artist(session, _edit(artist.slug, genres=["Alt-Pop"]))
+
+
+def test_edit_allowed_when_a_published_artist_stays_ready(session: Session) -> None:
+    artist = _seed_artist(session)
+    artist.publication_status = "published"
+    session.flush()
+
+    summary = edit_artist(session, _edit(artist.slug, about="Fresh copy."))
+    assert "about" in {c.group for c in summary.changed}
+    assert artist.about == "Fresh copy."
+
+
+def test_edit_does_not_trap_an_already_unpublishable_published_artist(
+    session: Session,
+) -> None:
+    artist = _seed_artist(session)
+    artist.genre_assignments.pop()  # drop to 2 genres — below the bar
+    artist.publication_status = "published"  # forced past the readiness gate
+    session.flush()
+    assert not evaluate_artist_publication(artist).is_ready
+
+    # An unrelated edit is still allowed; the invariant only protects a record that
+    # currently meets the bar.
+    edit_artist(session, _edit(artist.slug, about="Still editable."))
+    assert artist.about == "Still editable."
 
 
 def test_delete_refused_for_similar_target_then_forced(session: Session) -> None:
