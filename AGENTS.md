@@ -32,8 +32,7 @@ Every feature should reduce the friction of those decisions.
 
 - PostgreSQL
 
-The frontend reads artist data exclusively from the FastAPI/PostgreSQL backend —
-see `docs/roadmap/backend-rollout.md` for current status.
+The frontend reads all artist data from the FastAPI/PostgreSQL backend.
 
 ---
 
@@ -119,12 +118,11 @@ above applies here — keep it plain and out of the way of the rest of the app.
 
 **In progress (MVP 2.0):**
 
-1. Complete the backend rollout — see `docs/roadmap/backend-rollout.md`.
+1. Replace `app/data/artists` as the artist authoring source — the frontend read cutover is done; this covers the direct-to-PostgreSQL write workflow and the editorial process behind it. See `docs/roadmap/artist-authoring.md`.
 2. Multi-festival support — any festival beyond Lollapalooza.
 3. Multi-run support — festivals (e.g. ACL) with multiple weekends per edition.
 4. Support an announced lineup entry with no schedule yet — see ADR-0004 and `FUTURE_CONSIDERATIONS.md`.
 5. More robust automated test coverage — backend and frontend.
-6. A better artist-adding/updating workflow — pipeline (backend migration) and editorial (`artist-review` skill) sides.
 
 **Not in scope right now:** accessibility/performance work; accounts and Compare.
 
@@ -134,9 +132,9 @@ above applies here — keep it plain and out of the way of the rest of the app.
 
 ### Artist Data
 
-Artist records live in `app/data/artists/`, split into one file per festival day for editing convenience only — never a data boundary. **Always import from `index.ts` (`allArtists`/`artistsBySlug`), never from an individual day file** — see ARCHITECTURE.md's "Storage" section for the full explanation and why day files break silently if used as a shortcut.
+The frontend reads all artist data from the FastAPI/PostgreSQL backend at runtime. `app/data/artists/` is the authoring source, serialized by `scripts/export-artist-data.ts` and loaded by `backend/scripts/import_artists.py`. Replacing it with a direct-to-PostgreSQL workflow is tracked in `docs/roadmap/artist-authoring.md`.
 
-The frontend reads artist data exclusively from the FastAPI/PostgreSQL backend at runtime. These TypeScript files are the authoring source, synchronized into the backend via `scripts/export-artist-data.ts` — see `docs/roadmap/backend-rollout.md` for details.
+The day-file split in `app/data/artists/` is a file-layout convenience, never a data boundary. **Always import from `index.ts` (`allArtists`/`artistsBySlug`), never from an individual day file** — see ARCHITECTURE.md's "Storage" section for why day files break silently if used as a shortcut.
 
 ### Editorial Review
 
@@ -182,8 +180,8 @@ Fact-checking an artist's `about` copy, socials, location, and genres; correctin
   docs/decisions/README.md). A related but distinct decision gets its own new ADR instead.
 - A long discussion alone isn't the ADR bar — a local implementation detail (a formatting choice, a
   workaround) belongs in a code comment, not an ADR.
-- Changed rollout status or sequence → `docs/roadmap/backend-rollout.md`.
-- A completed backend data-model implementation milestone → `docs/design/artist-data-model.md`'s Implementation status checklist.
+- Changed roadmap status or sequence → the relevant `docs/roadmap/` file (`artist-authoring.md` for authoring/backend-data work).
+- An actual change to the artist domain schema → `docs/design/artist-data-model.md` (a reference for the model as built, not a progress tracker).
 - A notable new frontend behavior/pattern worth a technical record → `ARCHITECTURE.md` (the what only) —
   if it also has a why worth capturing, that belongs in an ADR, not as rationale prose here.
 - A deliberately deferred gap, frontend or backend → `docs/FUTURE_CONSIDERATIONS.md`.

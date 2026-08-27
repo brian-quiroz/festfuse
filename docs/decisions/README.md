@@ -18,6 +18,7 @@ preserve the context, alternatives, and tradeoffs behind that system.
 | [0008](0008-time-based-fetch-revalidation.md) | Time-based revalidation for the two FastAPI fetch sites | Accepted |
 | [0009](0009-rollback-and-observability-scope.md) | Minimal email alerting; rely on platform deployment rollback; no full observability service | Accepted |
 | [0010](0010-api-failure-ux-after-typescript-fallback-removal.md) | Two-mode failure UX after retiring the TypeScript fallback | Accepted |
+| [0011](0011-direct-to-postgresql-artist-authoring.md) | Direct-to-PostgreSQL artist authoring workflow | Accepted |
 
 ## Lightweight convention
 
