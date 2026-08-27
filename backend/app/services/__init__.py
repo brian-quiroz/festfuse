@@ -1,3 +1,9 @@
+from app.services.artist_authoring import (
+    ArtistAuthoringError,
+    DeletionSummary,
+    create_artist,
+    delete_artist,
+)
 from app.services.artist_publication import (
     ArtistPublicationBatch,
     ArtistPublicationCandidate,
@@ -9,6 +15,10 @@ from app.services.artist_publication import (
 )
 
 __all__ = [
+    "ArtistAuthoringError",
+    "DeletionSummary",
+    "create_artist",
+    "delete_artist",
     "ArtistPublicationBatch",
     "ArtistPublicationCandidate",
     "ArtistPublicationIssue",

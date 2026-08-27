@@ -472,7 +472,9 @@ def read_festival_run_appearances(
                         key=lambda assignment: assignment.display_order,
                     )
                 ],
-                quick_picks_track=_map_quick_picks_track(appearance.lineup_entry.artist),
+                quick_picks_track=_map_quick_picks_track(
+                    appearance.lineup_entry.artist
+                ),
                 similar_artists=similar_artists_by_source_id.get(
                     appearance.lineup_entry.artist_id, []
                 ),

@@ -15,6 +15,11 @@ requiring PostgreSQL.
 They are fast and run by default, but they do not prove that generated SQL, foreign
 keys, migrations, or PostgreSQL behavior works.
 
+`test_artist_authoring_schema.py` is fast and needs no database either: it exercises
+the strict `ArtistAuthoringInput` Pydantic schema (rejection of legacy TypeScript-only
+fields, required-field enforcement, slug/mbid/track-id/date/time shape checks,
+four-or-none and self-reference rules) and the pure parsers in `app/lib/artist_source.py`.
+
 ## PostgreSQL integration tests
 
 `integration/test_artist_schema.py` connects through the real SQLAlchemy engine to a
@@ -67,6 +72,21 @@ multi-appearance case. The complete comparison also derives recommendation visib
 from target publication readiness and verifies every exposed target's canonical
 identity, image, genre order, and editorial display order.
 
+`integration/test_artist_authoring.py` exercises the artist authoring service
+(`create_artist` / `delete_artist`, ADR-0011) against the seeded database. It proves a
+full create round-trip (genre order and primary flag, Quick Picks and Listen First
+track roles, featured video, announced lineup entry with billing derived from the
+appearances, one scheduled Appearance); that `about_verified_at` survives a create
+because the invalidation trigger is `BEFORE UPDATE` only; that `SimilarArtistSet.verified_at`
+is re-stamped after the `AFTER INSERT` entry trigger has fired; a partial create
+(name/slug only) landing as a draft with a draft lineup entry and a readiness report
+listing the gaps; the announced-without-schedule case using wrapper-level billing; and
+clear refusals for a duplicate slug, a taken Spotify identity, an unknown
+genre/similar-target/stage. For delete it proves owned rows are removed while shared
+`Track` rows are kept, and that deleting a Similar Artist *target* is refused unless
+forced, in which case the incoming references are cleared and the referencing set loses
+its verification.
+
 Each test creates temporary records inside an outer transaction and rolls that
 transaction back during cleanup. PostgreSQL genuinely executes the writes and
 constraints, but successful tests do not leave fixture data behind.
@@ -88,9 +108,12 @@ The integration suite currently verifies:
 - published Artist query filtering, mapping, and consistency behavior;
 - semantic public-response parity for the exact 126 published source Artists;
 - semantic festival-context parity for run-level billing and all imported Appearances;
-- verified four-or-none Similar Artist visibility and canonical target parity; and
+- verified four-or-none Similar Artist visibility and canonical target parity;
 - the run-scoped appearances feed's publication/lineup/schedule filtering, ordering,
-  and field mapping.
+  and field mapping; and
+- single-artist create and hard-delete through the authoring service, including
+  verification-trigger ordering, partial (draft) creates, and Similar Artist
+  target-deletion protection.
 
 ## Commands
 
@@ -188,6 +211,50 @@ unimplemented rather than silently incomplete — extend the script first if a f
 draft Artist needs one. An Artist that already has any track selections is left
 unchanged, so the operation is safe to rerun; a completed sync reports no further
 changes on a second pass.
+
+## Adding, removing, and backfilling an artist
+
+The direct-to-PostgreSQL authoring workflow (ADR-0011,
+`docs/roadmap/artist-authoring.md`). Each requires an explicit mode — a bare invocation
+errors out. Against the hosted database, run them through the encrypted Railway tunnel
+like `import_artists` (see `docs/operations/backend-deployment.md`).
+
+`add_artist` and `delete_artist` execute the operation in a transaction, so their
+non-committing mode is `--preview` (it runs the real INSERT/DELETE statements and rolls
+back — surfacing database errors, persisting nothing):
+
+```bash
+python -m scripts.add_artist --input <file>.json --preview
+python -m scripts.add_artist --input <file>.json --apply
+```
+
+`add_artist` reads a strict `{ schemaVersion, edition, run, billingTier?, artist }`
+file (see `app/schemas/artist_authoring.py`), creates one complete or partial artist as
+a `draft` for an existing run, and prints its publication readiness. It refuses a slug,
+mbid, or Spotify identity already in use, and an unknown genre / similar-artist target
+/ stage. Publication stays a separate `publish_artists` step.
+
+```bash
+python -m scripts.delete_artist --slug <slug> --preview
+python -m scripts.delete_artist --slug <slug> [--force] --apply
+```
+
+`delete_artist` hard-deletes one artist and its owned rows (genres, track selections,
+videos, its Similar Artist sets, lineup entries, appearances); shared `Track` rows are
+kept. It refuses an artist that another artist's Similar Artist set points at unless
+`--force` also clears those references.
+
+`backfill_artist_mbid` attempts no write in its non-committing mode, so it keeps
+`--dry-run` (matching `publish_artists`):
+
+```bash
+python -m scripts.backfill_artist_mbid --dry-run
+python -m scripts.backfill_artist_mbid --apply
+```
+
+`backfill_artist_mbid` is a one-time, per-environment step (like `sync_artist_listening`):
+it sets `artists.mbid` from the TypeScript source for the ~14 rows that have one and are
+currently `NULL`. Safe to rerun. Folded into the importer in the roadmap's section 6.
 
 ## Current boundaries
 

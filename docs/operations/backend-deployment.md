@@ -108,6 +108,37 @@ Then re-run the `publish_artists` commands above. The backfill is safe to rerun;
 completed run reports no further changes. See `backend/tests/README.md` for its exact
 scope and `docs/design/artist-data-model.md` for the listening-configuration model.
 
+## Backfilling artist MusicBrainz identifiers
+
+`artists.mbid` was added after the initial import. The schema change reaches production
+through the pre-deploy `alembic upgrade head`; the ~14 legacy values are a one-time data
+step, like the listening backfill above, through the same tunnel. From `backend/`:
+
+```bash
+railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.backfill_artist_mbid --dry-run'
+```
+
+Only after the dry run succeeds, apply it with `--apply` in place of `--dry-run`. Safe
+to rerun; it only touches rows where `mbid` is currently `NULL`.
+
+## Adding or removing an artist
+
+Direct-to-PostgreSQL artist authoring (ADR-0011, `docs/roadmap/artist-authoring.md`).
+Each requires an explicit mode: `--preview` runs the operation in a transaction and
+rolls it back (surfaces errors, persists nothing); `--apply` commits. Against the hosted
+database, run them through the same tunnel. From `backend/`:
+
+```bash
+railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.add_artist --input <file>.json --preview'
+railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.delete_artist --slug <slug> --preview'
+```
+
+`add_artist` reads a strict `{ schemaVersion, edition, run, billingTier?, artist }` file
+(see `backend/app/schemas/artist_authoring.py`) and creates the artist as a `draft`;
+run the `publish_artists` commands afterward. `delete_artist` needs `--force` to remove
+an artist that another artist's Similar Artist set points at. See
+`backend/tests/README.md` for exact scope.
+
 ## Verification
 
 Verify infrastructure and public behavior after bootstrap:

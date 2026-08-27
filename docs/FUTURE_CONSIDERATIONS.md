@@ -493,3 +493,40 @@ left open. `app/data/artists`'s removal as a frontend runtime dependency (step 7
 sole caller, so the per-consumer projection types above now each have exactly one
 live (API-only) constructor rather than a fallback pair. `app/data/artists` remains
 in the repo only as the authoring/import source (see `docs/roadmap/artist-authoring.md`).
+
+---
+
+## Future Consideration: Genre Vocabulary Lives in Two Places
+
+`app/data/categories.ts` (`GENRES`, `GENRE_FAMILIES`, `GENRE_TO_FAMILY`) is the
+frontend's genre vocabulary for Explore's filter UI and the gradient-fallback theming;
+the PostgreSQL `genres` / `genre_families` tables are the source of truth for what the
+database supports. They were populated from the same list at import and currently match,
+but nothing enforces that. This is intentional for now (ADR-0011) — the authoring
+workflow validates against the `genres` table, the frontend against the TS list.
+
+The cost surfaces when a genuinely new genre is needed: the eventual `add-genre`
+operation writes a `genres` row, and `categories.ts` has to be updated by hand in the
+same change, or the drift is real (an artist tagged with a genre the filter UI does not
+know about). The clean resolution is to serve the filter vocabulary from the API so
+there is one list; until then, "add a genre" is a two-file change.
+
+---
+
+## Future Consideration: No Runtime Fallback for a "Verified" Image That 404s
+
+`getVerifiedImageUrl` (`app/lib/artistImage.ts`) returns an artist's `imageUrl` only
+when `imageVerified` is true; `ArtistCard`, `ArtistHero`, and `ArtistAvatar` then render
+either `<Image>` or `GenreGradientFallback` based on that. The gradient fallback is a
+data-time decision — "is this image approved?" — with no runtime `onError` on the
+`<Image>`. So an approved `imageUrl` that fails to load at runtime (asset removed after
+approval, a path typo that passed review, a CDN failure) renders the browser's
+broken-image placeholder instead of degrading to the gradient.
+
+Not currently reachable in production — every `imageVerified: true` record points at a
+real asset in `public/`. It becomes more likely once the authoring workflow
+(`add-artist` / a future `edit-artist`) can set `imageVerified` without a human eyeing
+the rendered result. A fix is an `onError` handler on those `<Image>` sites that swaps
+to `GenreGradientFallback`. An authoring-side mitigation for external URLs is a `HEAD`
+check before allowing `imageVerified: true`; a local `public/` path can't be checked
+from the backend.
