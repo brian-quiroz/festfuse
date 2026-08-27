@@ -492,4 +492,4 @@ left open. `app/data/artists`'s removal as a frontend runtime dependency (step 7
 7) is complete — every consumer's TS-fallback constructor was deleted alongside its
 sole caller, so the per-consumer projection types above now each have exactly one
 live (API-only) constructor rather than a fallback pair. `app/data/artists` remains
-in the repo only as the authoring/import source (step 8, not yet started).
+in the repo only as the authoring/import source (see `docs/roadmap/artist-authoring.md`).

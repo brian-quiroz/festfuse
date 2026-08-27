@@ -209,16 +209,16 @@ PostgreSQL integration tests are documented in the
 
 ## Current Scope and Roadmap
 
-FestFuse is currently a frontend MVP centered on one festival, reading exclusively
-from the FastAPI/PostgreSQL backend — see
-[backend rollout status](docs/roadmap/backend-rollout.md) for current detail. The
-next major iteration will focus on:
+FestFuse covers the Lollapalooza 2026 lineup and reads all artist data from its
+FastAPI/PostgreSQL backend. The next iteration focuses on:
 
-- Supporting multiple festivals
-- Adding explicit artist publication validation and a maintainable, source-verifiable
-  update workflow
+- Multiple festivals, including editions that run more than one weekend
+- Replacing the TypeScript artist files with a direct-to-PostgreSQL authoring workflow
+  ([`docs/roadmap/artist-authoring.md`](docs/roadmap/artist-authoring.md))
+- Supporting an announced lineup before its schedule is published
 - Expanding frontend and backend automated test coverage
-- Continuing accessibility and performance improvements
+
+User accounts and artist comparison are not planned for this iteration.
 
 ## Project Structure
 

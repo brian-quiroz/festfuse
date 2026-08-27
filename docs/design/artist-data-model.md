@@ -1,18 +1,23 @@
 # Artist Data Model Design
 
-- **Status:** Schema and initial data import complete; API expansion pending
+- **Status:** Implemented and in use.
 - **Started:** 2026-08-23
 - **Implemented by:** Alembic revision `7cee3ac4be86`
 - **Scope:** PostgreSQL persistence for artists and the data needed to support the
   existing FestFuse experience
 
+This is a reference for the schema and import boundary as built. Update it only when
+that model changes or when something written here is wrong — future work lives in the
+roadmaps and ADRs, not here.
+
 ## Purpose
 
-FestFuse currently serves frontend artist experiences from typed TypeScript source
-files while PostgreSQL contains the normalized initial snapshot. This document is the
-detailed reference for the implemented schema and import boundary, which persist that
-data without mechanically copying the frontend shape or prematurely becoming a
-general-purpose music knowledge graph.
+FestFuse serves every frontend artist experience from PostgreSQL through FastAPI. The
+typed TypeScript files under `app/data/artists/` remain the authoring source that
+`scripts/export-artist-data.ts` → `backend/scripts/import_artists.py` load into the
+database. This document is the detailed reference for the schema and import boundary,
+which persist that data without mechanically copying the frontend shape or prematurely
+becoming a general-purpose music knowledge graph.
 
 The model must support the current festival discovery experience while preserving
 reasonable paths toward:
@@ -26,8 +31,7 @@ reasonable paths toward:
 This document owns detailed fields, relationships, constraints, and enforcement-layer
 assignments. `ARCHITECTURE.md` summarizes the current system, while
 [ADR-0004](../decisions/0004-model-artist-curation-and-scheduling.md) preserves the
-major alternatives and tradeoffs. The TypeScript-to-PostgreSQL importer is complete;
-broader artist APIs remain pending and may reveal narrowly scoped follow-up changes.
+major alternatives and tradeoffs.
 
 ## Design principles
 
@@ -53,8 +57,9 @@ broader artist APIs remain pending and may reveal narrowly scoped follow-up chan
 
 ## Existing source model
 
-The current source of truth is [`app/types/artist.ts`](../../app/types/artist.ts),
-with curated records under `app/data/artists/`. Important current behaviors include:
+The authoring source is [`app/types/artist.ts`](../../app/types/artist.ts), with curated
+records under `app/data/artists/`; the frontend itself reads from PostgreSQL. Important
+behaviors of that source shape include:
 
 - `appearances` is non-empty because every current record belongs to the active
   festival lineup, not because an artist inherently requires an appearance;
@@ -1140,20 +1145,4 @@ The following records the completed implementation boundary:
   consumer (Explore, Planner, Quick Picks, Festival Story, Artist Detail, Credits)
   now reads exclusively from the API/PostgreSQL, with no TypeScript fallback on an
   operational failure. The TypeScript source remains only as the authoring/import
-  boundary (`scripts/export-artist-data.ts` → `backend/scripts/import_artists.py`);
-  see `backend-rollout.md` step 8 for its planned replacement.
-
-## Remaining implementation sequence
-
-The cross-environment path from these domain layers to the deployed frontend is
-tracked in the [backend rollout roadmap](../roadmap/backend-rollout.md).
-
-1. Keep validating and normalizing source exceptions without deleting the TypeScript
-   source of truth.
-2. Expand artist-domain read APIs incrementally beyond the verified core and direct
-   Artist-content boundary, returning published Artists only.
-3. Move frontend consumers only after API parity is verified.
-
-These remaining layers may justify small schema corrections discovered from real
-source data. They do not reopen accepted ownership or normalization decisions without
-a concrete conflicting requirement.
+  boundary (`scripts/export-artist-data.ts` → `backend/scripts/import_artists.py`).

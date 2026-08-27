@@ -19,7 +19,7 @@ decisions belong in [`../decisions/`](../decisions/).
   database for every artist-facing read, via the run-scoped appearances endpoint and
   the global artist endpoint. `app/data/artists` is not part of the frontend's
   runtime read path — it remains only as the authoring source `scripts/export-artist-data.ts`
-  serializes for backend import (see step 8).
+  serializes for backend import (see the "Next" section).
 
 ## Rollout sequence
 
@@ -364,7 +364,8 @@ would make them harder to isolate, not easier.
    have parity, both as a read source (this rollout) and eventually as an authoring
    source (import scripts today, an admin workflow later).
 
-   **Status: completed (runtime read-path scope only — see step 8 for authoring).**
+   **Status: completed (runtime read-path scope only — authoring is covered by the
+   "Next" section).**
 
    Every remaining runtime importer of `app/data/artists` was inventoried and closed:
    the four `hasLoaded`-gated TS-fallback consumers (Explore, Planner, Quick Picks,
@@ -410,7 +411,8 @@ would make them harder to isolate, not easier.
    dependency would mean fetching live API data at verify-time rather than a type
    swap — a real scope addition, deferred alongside the eventual TS-file-deletion
    work. `scripts/export-artist-data.ts` is unaffected by design — it's the backend's
-   authoring/import ingestion path, not a frontend runtime consumer (see step 8).
+   authoring/import ingestion path, not a frontend runtime consumer (see the "Next"
+   section).
 
    Verified: `npx tsc --noEmit` clean; manual pass across Explore, Planner, Quick
    Picks, Festival Story, Artist Detail, and Credits against a local backend; a
@@ -426,26 +428,17 @@ would make them harder to isolate, not easier.
    wasn't verifiable against a live backend in this pass; left as a deliberate,
    disclosed follow-up rather than an unverified simplification.
 
-### 8. Replace `app/data/artists` as the authoring source
+## Next: replace the authoring source
 
-**Status: not started.**
+Step 7 finished the frontend *read* path. Replacing `app/data/artists/*.ts` as the
+*authoring* source — a direct-to-PostgreSQL write workflow, a decision on the editorial
+process, a database-level backup/restore path, and deleting the files — is a distinct
+concern, tracked in [`artist-authoring.md`](./artist-authoring.md) with its rationale in
+[ADR-0011](../decisions/0011-direct-to-postgresql-artist-authoring.md).
 
-Step 7 item 7 scoped the runtime-dependency removal to the frontend's read paths
-only. The TS files remain in the repo as the authoring source — still edited by the
-(global, out-of-repo) `artist-review` skill, still serialized by
-`scripts/export-artist-data.ts` for `backend/scripts/import_artists.py` to import.
-
-What remains: a reliable, repeatable way to write artist facts directly to
-PostgreSQL — expected to be a script-based workflow, not an admin UI (out of scope
-for the foreseeable future). The `artist-review` skill will need to target that
-workflow instead of editing `app/data/artists/*.ts` once it exists.
-
-One additional prerequisite, not yet designed: actually deleting
-`app/data/artists/*.ts` later requires more than routing every read and write off
-the TS files. Today's disaster-recovery/bootstrap path (`import_artists.py`)
-reconstructs Postgres *from* those TS files — deleting them first requires a real
-database-level backup/restore or migration strategy (e.g. `pg_dump`-based) to stand
-up a new database instance from Postgres alone, independent of the TS source.
+Until that roadmap's final section deletes the files, this document's "Current boundary"
+and "Guardrails" still describe `app/data/artists` as the authoring source, and the
+sequence above is complete through step 7.
 
 ## Guardrails
 
@@ -462,4 +455,4 @@ up a new database instance from Postgres alone, independent of the TS source.
   [`local-development.md`](../operations/local-development.md).
 - Do not edit `app/data/artists/*.ts` expecting it to reach production — the
   frontend does not read it. It remains the authoring source `scripts/export-artist-data.ts`
-  serializes for backend import (step 8).
+  serializes for backend import (see the "Next" section).
