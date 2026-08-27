@@ -8,14 +8,13 @@ import DecisionScreen from "@/app/components/quick-picks/DecisionScreen";
 import DayCompleteScreen from "@/app/components/quick-picks/DayCompleteScreen";
 import QuickPicksCompleteScreen from "@/app/components/quick-picks/QuickPicksCompleteScreen";
 import { FestivalStorySequence } from "@/app/components/festival-story/FestivalStorySequence";
+import AppearancesUnavailable from "@/app/components/AppearancesUnavailable";
 import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
 import { COLORS } from "@/app/data/colors";
-import { allArtists } from "@/app/data/artists";
 import { useDecisionStore, type ArtistDecision } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
 import {
-  getAllQuickPicksRunArtists,
   getQuickPicksRunArtistsFromApi,
   type QuickPicksRunArtist,
 } from "@/app/lib/api/mapRunAppearance";
@@ -100,17 +99,11 @@ export default function QuickPicksPage() {
   const [isScreenExiting, setIsScreenExiting] = useState(false);
   const [showFestivalStory, setShowFestivalStory] = useState(false);
 
-  // Preferred once runAppearancesStore has loaded; TS fallback while it hasn't —
-  // mirrors ExploreContent.tsx/planner/page.tsx's identical gating idiom, with
-  // QuickPicksRunArtist in place of RunArtist/AppearanceEntry.
   const runAppearancesBySlug = useRunAppearancesStore((s) => s.appearancesBySlug);
   const hasLoadedRunAppearances = useRunAppearancesStore((s) => s.hasLoaded);
   const quickPicksArtists = useMemo(
-    () =>
-      hasLoadedRunAppearances
-        ? getQuickPicksRunArtistsFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID)
-        : getAllQuickPicksRunArtists(allArtists),
-    [hasLoadedRunAppearances, runAppearancesBySlug]
+    () => getQuickPicksRunArtistsFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID),
+    [runAppearancesBySlug]
   );
 
   function handleStart(config: QuickPicksSessionConfig) {
@@ -327,41 +320,51 @@ export default function QuickPicksPage() {
     return () => setSidebarVisible(true);
   }, [setSidebarVisible]);
 
+  // The failure screen is a generic system message, not Quick Picks content — it
+  // should look identical to Explore/Planner/Credits' plain-background version
+  // rather than carrying this screen's decorative energy.
+  const showAppearancesUnavailable = step === "start" && !hasLoadedRunAppearances;
+
   return (
     <main className="relative flex-1 min-w-0 min-h-0 overflow-y-auto overflow-x-hidden flex flex-col">
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <svg
-          className="absolute inset-0 w-full h-full opacity-[0.04]"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <filter id="grain">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.65"
-              numOctaves="3"
-              stitchTiles="stitch"
-            />
-            <feColorMatrix type="saturate" values="0" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#grain)" />
-        </svg>
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 85% 75% at 50% 45%, transparent 35%, rgba(17,13,36,0.6) 100%)",
-          }}
-        />
-        <div
-          className="absolute bottom-[-80px] right-[-80px] w-[640px] h-[520px] rounded-full blur-[130px]"
-          style={{ backgroundColor: `${COLORS.celebration}1f` }}
-        />
-        <div className="absolute top-[-60px] left-[-60px] w-[500px] h-[400px] rounded-full bg-[#A78BFA]/10 blur-[110px]" />
-      </div>
-
-      {step === "start" && (
-        <StartScreen onStart={handleStart} quickPicksArtists={quickPicksArtists} />
+      {!showAppearancesUnavailable && (
+        <div className="pointer-events-none fixed inset-0 overflow-hidden">
+          <svg
+            className="absolute inset-0 w-full h-full opacity-[0.04]"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <filter id="grain">
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.65"
+                numOctaves="3"
+                stitchTiles="stitch"
+              />
+              <feColorMatrix type="saturate" values="0" />
+            </filter>
+            <rect width="100%" height="100%" filter="url(#grain)" />
+          </svg>
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse 85% 75% at 50% 45%, transparent 35%, rgba(17,13,36,0.6) 100%)",
+            }}
+          />
+          <div
+            className="absolute bottom-[-80px] right-[-80px] w-[640px] h-[520px] rounded-full blur-[130px]"
+            style={{ backgroundColor: `${COLORS.celebration}1f` }}
+          />
+          <div className="absolute top-[-60px] left-[-60px] w-[500px] h-[400px] rounded-full bg-[#A78BFA]/10 blur-[110px]" />
+        </div>
       )}
+
+      {step === "start" &&
+        (showAppearancesUnavailable ? (
+          <AppearancesUnavailable />
+        ) : (
+          <StartScreen onStart={handleStart} quickPicksArtists={quickPicksArtists} />
+        ))}
 
       {step === "decisioning" && session && currentArtist && currentAppearance && progress && (
         <DecisionScreen

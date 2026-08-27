@@ -2,9 +2,9 @@
 
 import { useState, useMemo, useRef, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
-import { allArtists } from "@/app/data/artists";
 import { GENRES } from "@/app/data/categories";
 import Footer from "@/app/components/Footer";
+import AppearancesUnavailable from "@/app/components/AppearancesUnavailable";
 import ArtistCarousel from "@/app/components/explore/ArtistCarousel";
 import QuickPicksBanner from "@/app/components/explore/QuickPicksBanner";
 import ExploreFilters from "@/app/components/explore/ExploreFilters";
@@ -28,11 +28,7 @@ import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance, getPrimaryBillingTier } from "@/app/lib/appearances";
 import { timeStringToMinutes } from "@/app/lib/time";
 import { isChicago } from "@/app/lib/location";
-import {
-  getAllRunArtists,
-  getRunArtistsFromApi,
-  type RunArtist,
-} from "@/app/lib/api/mapRunAppearance";
+import { getRunArtistsFromApi, type RunArtist } from "@/app/lib/api/mapRunAppearance";
 
 interface ExploreContentProps {
   seed: number;
@@ -65,18 +61,14 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const [showSurpriseTooltip, setShowSurpriseTooltip] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
 
-  // Preferred once runAppearancesStore has loaded (see app/lib/api/mapRunAppearance.ts);
-  // TS fallback while it hasn't — an operational-failure case, not a normal steady
-  // state, since RunAppearancesHydrator seeds the store synchronously before this
-  // component's own first render. Mirrors app/planner/page.tsx's identical pattern.
+  // RunAppearancesHydrator seeds the store synchronously before this component's own
+  // first render in the normal case; hasLoadedRunAppearances staying false past that
+  // point is an operational failure, handled by the early return below.
   const runAppearancesBySlug = useRunAppearancesStore((s) => s.appearancesBySlug);
   const hasLoadedRunAppearances = useRunAppearancesStore((s) => s.hasLoaded);
   const runArtists = useMemo(
-    () =>
-      hasLoadedRunAppearances
-        ? getRunArtistsFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID)
-        : getAllRunArtists(allArtists),
-    [hasLoadedRunAppearances, runAppearancesBySlug]
+    () => getRunArtistsFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID),
+    [runAppearancesBySlug]
   );
 
   // Genres actually present in the current roster, so the Genre filter dropdown never
@@ -190,6 +182,14 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
 
   // Get current carousel data if viewing a carousel
   const currentCarousel = viewingCarousel ? carouselMap[viewingCarousel] : null;
+
+  if (!hasLoadedRunAppearances) {
+    return (
+      <main className="flex-1 min-w-0 overflow-y-auto themed-scrollbar flex flex-col">
+        <AppearancesUnavailable />
+      </main>
+    );
+  }
 
   return (
     <main ref={mainRef} className="flex-1 min-w-0 overflow-y-auto themed-scrollbar flex flex-col">

@@ -5,7 +5,12 @@ import { getDaysForActiveFestival } from "@/app/data/festivals";
 import { timeStringToMinutes } from "@/app/lib/time";
 import { resolveCanonicalAppearanceId } from "@/app/store/runAppearancesStore";
 import type { ApiRunAppearance } from "@/app/types/festivalRunAppearancesApi";
-import { formatApiDayAndDate, formatApiTime, mapStage } from "@/app/lib/api/mapRunAppearance";
+import {
+  formatApiDayAndDate,
+  formatApiTime,
+  mapStage,
+  mapFestivalAppearance,
+} from "@/app/lib/api/mapRunAppearance";
 
 export type RunAppearancesBySlug = Map<string, ApiRunAppearance[]>;
 
@@ -58,21 +63,25 @@ export function getArtistScheduleState(
 
 export function getScheduledArtistSlugs(
   scheduledAppearanceKeys: Set<string>,
-  allArtists: Artist[],
-  festivalId: string,
-  runAppearancesBySlug?: RunAppearancesBySlug
+  appearancesBySlug: RunAppearancesBySlug,
+  festivalId: string
 ): Set<string> {
   const slugs = new Set<string>();
-  for (const artist of allArtists) {
+  for (const [slug, apiAppearances] of appearancesBySlug) {
+    // Every key present in appearancesBySlug has at least one appearance by
+    // construction (it was only added because one existed) — same non-empty
+    // invariant RunArtist.appearances relies on in mapRunAppearance.ts.
+    const artist = {
+      slug,
+      appearances: apiAppearances.map((a) => mapFestivalAppearance(a, festivalId)) as [
+        FestivalAppearance,
+        ...FestivalAppearance[],
+      ],
+    };
     if (
-      getArtistScheduleState(
-        artist,
-        festivalId,
-        scheduledAppearanceKeys,
-        runAppearancesBySlug
-      ) !== "none"
+      getArtistScheduleState(artist, festivalId, scheduledAppearanceKeys, appearancesBySlug) !== "none"
     ) {
-      slugs.add(artist.slug);
+      slugs.add(slug);
     }
   }
   return slugs;
@@ -80,28 +89,28 @@ export function getScheduledArtistSlugs(
 
 export function getConflictingArtistSlugs(
   conflictingAppearanceKeys: Set<string>,
-  allArtists: Artist[],
-  festivalId: string,
-  runAppearancesBySlug?: RunAppearancesBySlug
+  appearancesBySlug: RunAppearancesBySlug,
+  festivalId: string
 ): Set<string> {
   const slugs = new Set<string>();
-  for (const artist of allArtists) {
-    // Scoped to this festival's own appearances only — an artist with a conflicting
-    // appearance at a different festival must not be flagged here.
-    for (const appearance of getAppearancesForFestival(artist, festivalId)) {
+  // Every appearance in appearancesBySlug already belongs to this one run/festival —
+  // no separate cross-festival scoping needed, unlike the old Artist[]-based version.
+  for (const [slug, apiAppearances] of appearancesBySlug) {
+    for (const apiAppearance of apiAppearances) {
+      const appearance = mapFestivalAppearance(apiAppearance, festivalId);
       if (
         conflictingAppearanceKeys.has(
           getAppearanceKey(
-            artist.slug,
+            slug,
             appearance.id,
             appearance.festivalId,
             appearance.day,
             appearance.startTime,
-            runAppearancesBySlug
+            appearancesBySlug
           )
         )
       ) {
-        slugs.add(artist.slug);
+        slugs.add(slug);
         break;
       }
     }
@@ -114,10 +123,8 @@ export function getConflictingArtistSlugs(
 // a primary appearance (app/lib/appearances.ts); the Planner needs one entry per
 // appearance instead, so an artist with two appearances renders as two separate blocks.
 //
-// Source-agnostic: the same shape whether built from TypeScript artist data
-// (getAllAppearanceEntries) or the appearances API (getAppearanceEntriesFromApi). Only
-// the handful of scalar fields the Planner grid actually renders — no image, genre, or
-// other editorial content, unlike the full Artist type other pages need.
+// Only the handful of scalar fields the Planner grid actually renders — no image,
+// genre, or other editorial content, unlike the full Artist type other pages need.
 export interface AppearanceEntry {
   appearanceId: string;
   artistSlug: string;
@@ -130,38 +137,8 @@ export interface AppearanceEntry {
   endTime: string;
 }
 
-// TS fallback — once docs/roadmap/backend-rollout.md step 7 item 7 (app/data/artists
-// removal) lands, remove this function and its callers. AppearanceEntry itself and
-// getAppearanceEntriesFromApi stay — they're the permanent, source-agnostic shape, not
-// part of the TS fallback.
-export function getAllAppearanceEntries(
-  allArtists: Artist[],
-  festivalId: string
-): AppearanceEntry[] {
-  const entries: AppearanceEntry[] = [];
-  for (const artist of allArtists) {
-    // Scoped to this festival — the Planner only ever renders one festival's grid at a
-    // time, and must never show an appearance that belongs to a different festival.
-    for (const appearance of getAppearancesForFestival(artist, festivalId)) {
-      entries.push({
-        appearanceId: appearance.id,
-        artistSlug: artist.slug,
-        artistName: artist.name,
-        festivalId: appearance.festivalId,
-        stage: appearance.stage,
-        day: appearance.day,
-        date: appearance.date,
-        startTime: appearance.startTime,
-        endTime: appearance.endTime,
-      });
-    }
-  }
-  return entries;
-}
-
-// Preferred source once runAppearancesStore has loaded — see page.tsx. Flattens every
-// artist's appearances out of the store's slug-keyed map, same per-appearance
-// granularity as getAllAppearanceEntries.
+// Flattens every artist's appearances out of runAppearancesStore's slug-keyed map,
+// one entry per appearance — see page.tsx.
 export function getAppearanceEntriesFromApi(
   appearancesBySlug: RunAppearancesBySlug,
   festivalId: string
@@ -215,21 +192,22 @@ export function sortAppearancesChronologically(entries: AppearanceEntry[]): Appe
 // a stale or unrecognized key is simply never matched, never an error.
 export function getConflictingArtists(
   scheduledAppearanceKeys: Set<string>,
-  allArtists: Artist[],
-  runAppearancesBySlug?: RunAppearancesBySlug
+  appearancesBySlug: RunAppearancesBySlug,
+  festivalId: string
 ): Set<string> {
   const conflicting = new Set<string>();
   const scheduledByDate = new Map<string, Array<{ appearance: FestivalAppearance; key: string }>>();
 
-  for (const artist of allArtists) {
-    for (const appearance of artist.appearances) {
+  for (const [slug, apiAppearances] of appearancesBySlug) {
+    for (const apiAppearance of apiAppearances) {
+      const appearance = mapFestivalAppearance(apiAppearance, festivalId);
       const key = getAppearanceKey(
-        artist.slug,
+        slug,
         appearance.id,
         appearance.festivalId,
         appearance.day,
         appearance.startTime,
-        runAppearancesBySlug
+        appearancesBySlug
       );
       if (!scheduledAppearanceKeys.has(key)) continue;
       const groupKey = `${appearance.festivalId}::${appearance.date}`;

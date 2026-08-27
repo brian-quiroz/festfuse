@@ -349,13 +349,13 @@ export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
 };
 ```
 
-Artist Detail is moving to the API through an explicit server-side slug allowlist.
-Only slugs in `FESTFUSE_API_ARTIST_SLUGS` use the run-scoped FastAPI response; all
-other Artist pages continue to read the TypeScript snapshot. A mapper preserves the
-existing frontend `Artist` contract during this transition. API 404s retain the
-published-only boundary, while operational failures temporarily log and fall back to
-the validated TypeScript record. This dual-source path is a bounded rollout and
-rollback mechanism, not the final steady-state architecture.
+Artist Detail reads exclusively from the run-scoped FastAPI response for every slug
+(see ADR-0010). A mapper preserves the existing frontend `Artist` contract. API 404s
+retain the published-only boundary via `notFound()`; an operational fetch failure is
+logged, alerted (ADR-0009), and re-thrown to `app/artist/[slug]/error.tsx`, a Next.js
+error boundary — see ADR-0010 for the full failure-mode design, which also covers the
+shared `AppearancesUnavailable` component every `hasLoaded`-gated consumer
+renders when the appearances fetch itself never loads.
 
 ---
 
@@ -1928,36 +1928,54 @@ Populated once per hard page load by `RunAppearancesHydrator`
 (`app/components/RunAppearancesHydrator.tsx`), seeded synchronously via a lazy
 `useState` initializer from data the root layout (`app/layout.tsx`) already fetched
 server-side — `fetchFestivalRunAppearances`, revalidated every 10 minutes
-(`next: { revalidate: 600 }`, see ADR-0008), unscoped by `FESTFUSE_API_ARTIST_SLUGS`.
-`hasLoaded` stays `false` for the rest of that page load if the fetch fails; there is
-no later retry or background refresh — see ADR-0006's Consequences for what that
-means for staleness.
+(`next: { revalidate: 600 }`, see ADR-0008). `hasLoaded` stays `false` for the rest
+of that page load if the fetch fails; there is no later retry or background refresh —
+see ADR-0006's Consequences for what that means for staleness. A permanently-false
+`hasLoaded` is visible to visitors: every `hasLoaded`-gated consumer renders a shared
+`AppearancesUnavailable` component (`app/components/AppearancesUnavailable.tsx`) —
+see ADR-0010.
+
+**Testing this against a deliberately broken backend:** a page you already loaded
+successfully before breaking the backend can still show its earlier, real content —
+briefly on an in-app link click (Next holds the previous page on screen while the
+next one's data is fetched, so navigation never blanks to nothing), or for longer via
+the browser's back/forward buttons (a separate client-side cache, kept specifically
+to avoid layout shift and lost scroll position — Next's `staleTimes` docs are
+explicit that this is unaffected by any cache-timing config). This is standard
+Next.js navigation behavior, not a gap in the failure-mode design above, and it only
+surfaces because a real page was already cached client-side before the backend broke
+— a real visitor hitting a real outage has no such cache to fall back on.
 
 ### Identity resolution
 
 `resolveCanonicalAppearanceId` (same file) resolves an artist's real database
-`Appearance.id` regardless of whether the calling surface's own appearance data is
-TypeScript- or API-shaped. For a multi-appearance artist (currently only DEVAULT) it
+`Appearance.id`. For a multi-appearance artist (currently only DEVAULT) it
 disambiguates by matching `day`/`startTime` against each stored candidate, not by
 trusting the caller's id space. `getAppearanceKey` (`app/lib/schedule.ts`) is the one
-function every scheduling call site funnels through to reach it.
+function every scheduling call site funnels through to reach it. Every caller passes
+a real database id, making this a same-space lookup — not simplified further; see
+the comment above it in `runAppearancesStore.ts` for why.
 
 ### Per-consumer projection types
 
-Two live instances follow the same convention: a lean type carrying only the fields
-that one consumer actually renders, built via a matching pair of constructor
-functions — one from the store (preferred, once `hasLoaded`), one from
-`app/data/artists` (fallback, an operational-failure case).
+Every consumer projection type follows the same convention: a lean type carrying only
+the fields that one consumer actually renders, built by mapping `runAppearancesStore`'s
+own `appearancesBySlug` through exactly one constructor.
 
-| Consumer | Type | Grain | Constructors |
+| Consumer | Type | Grain | Constructor |
 | --- | --- | --- | --- |
-| Planner | `AppearanceEntry` (`app/lib/schedule.ts`) | per-appearance | `getAllAppearanceEntries` / `getAppearanceEntriesFromApi` |
-| Explore | `RunArtist` (`app/lib/api/mapRunAppearance.ts`) | per-artist | `getAllRunArtists` / `getRunArtistsFromApi` |
+| Planner | `AppearanceEntry` (`app/lib/schedule.ts`) | per-appearance | `getAppearanceEntriesFromApi` |
+| Explore / Festival Story / Credits | `RunArtist` (`app/lib/api/mapRunAppearance.ts`) | per-artist | `getRunArtistsFromApi` |
+| Quick Picks | `QuickPicksRunArtist` (`app/lib/api/mapRunAppearance.ts`) | per-artist | `getQuickPicksRunArtistsFromApi` |
 
-Neither reuses or extends the full `Artist` type — see ADR-0006's Alternatives
-Considered for why fabricating its unused editorial fields was rejected each time.
-A future Quick Picks/Festival Story migration is expected to add its own projection
-type following this same shape, not share one of the two above.
+None reuse or extend the full `Artist` type — see ADR-0006's Alternatives Considered
+for why fabricating unused editorial fields was rejected. `QuickPicksRunArtist`
+extends `RunArtist` with the two editorial fields (`quickPicksTrack`,
+`similarArtists`) only Quick Picks reads — see ADR-0007 for why those live on a
+sibling type rather than growing `RunArtist` itself. `scheduleStore.ts`'s own
+conflict/scheduled-state derivation (`app/lib/schedule.ts`'s `getConflictingArtists`
+etc.) iterates `appearancesBySlug` directly rather than constructing one of these
+projection types, since it doesn't need genre/image/location data.
 
 ---
 

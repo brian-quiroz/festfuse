@@ -4,8 +4,6 @@ import type { Artist } from "@/app/types/artist";
 import { COLORS } from "@/app/data/colors";
 import { festivals, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getAppearancesForFestival, getPrimaryAppearance } from "@/app/lib/appearances";
-import { artistsBySlug } from "@/app/data/artists";
-import { getVerifiedImageUrl } from "@/app/lib/artistImage";
 import ArtistAvatar from "@/app/components/ui/ArtistAvatar";
 
 export default function FloatingCards({ artist }: { artist: Artist }) {
@@ -78,20 +76,14 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
           </h3>
           <div className="grid grid-cols-2 gap-2">
             {artist.similarArtists.map((a) => {
-              // Every similar artist is always in the lineup (pulled from the roster by
-              // the recommendation algorithm), so this prefers their own already-curated
-              // hero photo/genres over a separately-sourced image. For API-sourced
-              // entries (a.genres present — see mapFestivalArtist.ts), that curated data
-              // is already embedded on the entry itself, straight from the same approved
-              // record their own page reads. For TS-sourced entries, a.genres is always
-              // undefined, so this falls back to resolving the same data live via
-              // artistsBySlug — deliberately still ignoring the TS-only
-              // similarArtists[].imageUrl field (sourced from an external script, with
-              // its own coverage and fair-use questions) in favor of the target's own
-              // current record.
-              const linked = a.slug ? artistsBySlug[a.slug] : undefined;
-              const imageUrl = a.genres ? a.imageUrl : linked ? getVerifiedImageUrl(linked) : undefined;
-              const genres = a.genres ?? linked?.genres ?? [];
+              // Every similar-artist entry now always comes from mapFestivalArtistResponse
+              // (see mapFestivalArtist.ts's mapSimilarArtists), which always embeds the
+              // target's own current curated image/genres directly on the entry — no
+              // separate lookup needed. genres stays defensively defaulted since
+              // Artist["similarArtists"]'s type stays structurally optional on the
+              // TS-authoring side.
+              const imageUrl = a.imageUrl;
+              const genres = a.genres ?? [];
               return (
                 <Link
                   key={a.name}

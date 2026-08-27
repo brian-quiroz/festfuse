@@ -2,7 +2,6 @@
 
 import { create } from "zustand";
 import { persist, type StorageValue } from "zustand/middleware";
-import { allArtists } from "@/app/data/artists";
 import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import {
   getConflictingArtists,
@@ -77,23 +76,21 @@ function deriveScheduleState(scheduledAppearanceKeys: Set<string>) {
   const runAppearancesBySlug = useRunAppearancesStore.getState().appearancesBySlug;
   const conflictingAppearanceKeys = getConflictingArtists(
     scheduledAppearanceKeys,
-    allArtists,
-    runAppearancesBySlug
+    runAppearancesBySlug,
+    ACTIVE_FESTIVAL_ID
   );
   return {
     scheduledAppearanceKeys,
     conflictingAppearanceKeys,
     scheduledArtistSlugs: getScheduledArtistSlugs(
       scheduledAppearanceKeys,
-      allArtists,
-      ACTIVE_FESTIVAL_ID,
-      runAppearancesBySlug
+      runAppearancesBySlug,
+      ACTIVE_FESTIVAL_ID
     ),
     conflictingArtistSlugs: getConflictingArtistSlugs(
       conflictingAppearanceKeys,
-      allArtists,
-      ACTIVE_FESTIVAL_ID,
-      runAppearancesBySlug
+      runAppearancesBySlug,
+      ACTIVE_FESTIVAL_ID
     ),
   };
 }
@@ -174,10 +171,11 @@ export const useScheduleStore = create<ScheduleState>()(
 );
 
 // scheduleStore's own localStorage hydration runs before runAppearancesStore
-// populates, so its first-computed conflict/scheduled-artist state is stale (wrong
-// TypeScript-vs-database id space) until this re-derives it once runAppearancesStore
-// actually loads. No visible flash: RunAppearancesHydrator renders before
-// HydrationGate in layout.tsx, so this resolves before the gate ever opens.
+// populates, so its first-computed conflict/scheduled-artist state is derived against
+// an empty appearancesBySlug (nothing yet to match a persisted key against) until this
+// re-derives it once runAppearancesStore actually loads. No visible flash:
+// RunAppearancesHydrator renders before HydrationGate in layout.tsx, so this resolves
+// before the gate ever opens.
 //
 // The typeof document guard is load-bearing, not defensive boilerplate: this also
 // fires during Next.js's server render of RunAppearancesHydrator, where setState would

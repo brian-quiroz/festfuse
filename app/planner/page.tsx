@@ -4,17 +4,13 @@ import { useMemo, useState } from "react";
 import Switch from "@/app/components/Switch";
 import PlannerGrid from "@/app/components/planner/PlannerGrid";
 import PlannerMobileFilters from "@/app/components/planner/PlannerMobileFilters";
-import { allArtists } from "@/app/data/artists";
+import AppearancesUnavailable from "@/app/components/AppearancesUnavailable";
 import { getDaysForActiveFestival, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { usePlannerViewStore } from "@/app/store/plannerViewStore";
 import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
-import {
-  getAllAppearanceEntries,
-  getAppearanceEntriesFromApi,
-  getAppearanceKey,
-} from "@/app/lib/schedule";
+import { getAppearanceEntriesFromApi, getAppearanceKey } from "@/app/lib/schedule";
 
 export default function PlannerPage() {
   const days = getDaysForActiveFestival();
@@ -29,15 +25,9 @@ export default function PlannerPage() {
   const runAppearancesBySlug = useRunAppearancesStore((state) => state.appearancesBySlug);
   const hasLoadedRunAppearances = useRunAppearancesStore((state) => state.hasLoaded);
 
-  // TS fallback — once docs/roadmap/backend-rollout.md step 7 item 7 (app/data/artists
-  // removal) lands, remove the false branch and getAllAppearanceEntries itself.
-  // getAppearanceEntriesFromApi stays — it's the permanent, source-agnostic path.
   const allAppearanceEntries = useMemo(
-    () =>
-      hasLoadedRunAppearances
-        ? getAppearanceEntriesFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID)
-        : getAllAppearanceEntries(allArtists, ACTIVE_FESTIVAL_ID),
-    [hasLoadedRunAppearances, runAppearancesBySlug]
+    () => getAppearanceEntriesFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID),
+    [runAppearancesBySlug]
   );
 
   const myPickSlugs = useMemo(() => {
@@ -96,6 +86,14 @@ export default function PlannerPage() {
     scheduledAppearanceKeys,
     conflictingAppearanceKeys,
   ]);
+
+  if (!hasLoadedRunAppearances) {
+    return (
+      <main className="flex-1 flex flex-col overflow-hidden">
+        <AppearancesUnavailable />
+      </main>
+    );
+  }
 
   return (
     <main className="flex-1 flex flex-col overflow-hidden">

@@ -34,9 +34,8 @@ takes precedence for that run only:
 FESTFUSE_API_BASE_URL=http://127.0.0.1:8000 npm run dev
 ```
 
-Only artists in `FESTFUSE_API_ARTIST_SLUGS` (also set in `.env.local`) are actually
-read from the API; every other Artist Detail page still reads TypeScript data
-regardless of which backend `FESTFUSE_API_BASE_URL` points at.
+Every frontend read goes through whichever backend `FESTFUSE_API_BASE_URL` points
+at, with no TypeScript-backed fallback (see [ADR-0010](../decisions/0010-api-failure-ux-after-typescript-fallback-removal.md)).
 
 ## 3. Fast-tracking Festival Story locally
 

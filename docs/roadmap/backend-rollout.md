@@ -16,11 +16,10 @@ decisions belong in [`../decisions/`](../decisions/).
 - The guarded publication workflow has published all 171 Artists, both locally and
   on the hosted Railway database.
 - The production frontend depends on FastAPI and the hosted Railway PostgreSQL
-  database along two paths: Artist Detail content for the artists listed in
-  `FESTFUSE_API_ARTIST_SLUGS` (currently five), and appearance/schedule data for
-  every artist across Explore, Planner, Quick Picks, and Festival Story via the
-  run-scoped appearances endpoint. Artist Detail for every other artist, and any
-  page not yet migrated, still reads `app/data/artists`.
+  database for every artist-facing read, via the run-scoped appearances endpoint and
+  the global artist endpoint. `app/data/artists` is not part of the frontend's
+  runtime read path — it remains only as the authoring source `scripts/export-artist-data.ts`
+  serializes for backend import (see step 8).
 
 ## Rollout sequence
 
@@ -296,7 +295,7 @@ would make them harder to isolate, not easier.
    Explore, Planner, and Artist Detail (5sos, Chicago Made, WORSHIP) were also
    re-checked for regressions from the shared files this step touched
    (`app/lib/api/mapFestivalArtist.ts`, `app/lib/appearances.ts`) — none found.
-5. **Migrate Festival Story.** Same bulk-catalog shape as Quick Picks
+5. **Migrate Festival Story.** Same bulk appearances shape as Quick Picks
    (genre/location/tier across the full artist set); can follow or run alongside
    step 4.
 
@@ -365,6 +364,89 @@ would make them harder to isolate, not easier.
    have parity, both as a read source (this rollout) and eventually as an authoring
    source (import scripts today, an admin workflow later).
 
+   **Status: completed (runtime read-path scope only — see step 8 for authoring).**
+
+   Every remaining runtime importer of `app/data/artists` was inventoried and closed:
+   the four `hasLoaded`-gated TS-fallback consumers (Explore, Planner, Quick Picks,
+   Festival Story) had their TS branch deleted outright, not just disabled, along
+   with the now-dead `getAllRunArtists`/`getAllQuickPicksRunArtists`
+   (`app/lib/api/mapRunAppearance.ts`) and `getAllAppearanceEntries`
+   (`app/lib/schedule.ts`) constructors those branches were the sole callers of.
+   Artist Detail's `FESTFUSE_API_ARTIST_SLUGS` allowlist is retired entirely —
+   `app/artist/[slug]/page.tsx` now calls the API unconditionally for every slug, with
+   no TypeScript fallback on error. `FloatingCards.tsx`'s parallel `artistsBySlug`
+   fallback for Similar Artist cards is gone the same way, since every similar-artist
+   entry the run-scoped API returns already carries its own image/genres.
+
+   Two consumers were never TS-fallback-gated in the first place and needed real
+   restructuring rather than a deleted `else` branch. `scheduleStore.ts`'s
+   `deriveScheduleState()` enumerated the full artist roster from `allArtists`
+   unconditionally for conflict/scheduled-state derivation; `getConflictingArtists`,
+   `getScheduledArtistSlugs`, and `getConflictingArtistSlugs` (`app/lib/schedule.ts`)
+   now iterate `runAppearancesStore`'s own `appearancesBySlug` map directly, building
+   each artist's appearance data via the already-exported `mapFestivalAppearance`
+   rather than constructing an intermediate `RunArtist[]` first. `credits/page.tsx`
+   read `allArtists` unconditionally for `imageCredit` and was a Server Component;
+   it's now a Client Component reading `runAppearancesStore` like every other
+   consumer. No backend change was needed for Credits — `imageCredit` was already
+   flowing end-to-end through `FestivalRunArtistRead`'s existing `image` field, the
+   page just wasn't wired to consume it.
+
+   Removing the TS fallback means an API failure is now a real, visitor-facing
+   failure for the first time (previously masked by the silent TypeScript fallback —
+   see ADR-0009). Two structurally different failure modes were designed for and
+   built, documented in full in **ADR-0010**: Artist Detail's own per-slug fetch
+   failure now propagates to a new `app/artist/[slug]/error.tsx` Next.js error
+   boundary (using 16.2's `unstable_retry`) instead of being silently caught; the
+   shared appearances fetch never loading is now surfaced by a new
+   `AppearancesUnavailable` component (named after this codebase's established
+   "appearances" domain term, per ADR-0006 — not "catalog"), rendered by Explore,
+   Planner, Quick Picks' `StartScreen`, and Credits before their normal empty-state
+   logic.
+
+   `app/lib/verify-story-signals.ts` was deliberately left unchanged: it filters the
+   real 171-artist dataset across 60+ real-data assertions (city/country/billing-tier/
+   day distributions), not a couple of mock fixtures, so removing its `allArtists`
+   dependency would mean fetching live API data at verify-time rather than a type
+   swap — a real scope addition, deferred alongside the eventual TS-file-deletion
+   work. `scripts/export-artist-data.ts` is unaffected by design — it's the backend's
+   authoring/import ingestion path, not a frontend runtime consumer (see step 8).
+
+   Verified: `npx tsc --noEmit` clean; manual pass across Explore, Planner, Quick
+   Picks, Festival Story, Artist Detail, and Credits against a local backend; a
+   forced-failure test (`FESTFUSE_API_BASE_URL` pointed at an unreachable host)
+   confirmed both new failure-mode UI paths render instead of a crash or blank page —
+   a class of behavior that was structurally unreachable before this step.
+
+   `resolveCanonicalAppearanceId`'s (`app/store/runAppearancesStore.ts`) TS-vs-database
+   id-space disambiguation branch was deliberately left in place, not simplified, even
+   though every remaining `getAppearanceKey` caller now provably passes a real
+   database id — see the comment there. Simplifying it touches DEVAULT's
+   already-fixed multi-appearance conflict-detection behavior (see ADR-0006) and
+   wasn't verifiable against a live backend in this pass; left as a deliberate,
+   disclosed follow-up rather than an unverified simplification.
+
+### 8. Replace `app/data/artists` as the authoring source
+
+**Status: not started.**
+
+Step 7 item 7 scoped the runtime-dependency removal to the frontend's read paths
+only. The TS files remain in the repo as the authoring source — still edited by the
+(global, out-of-repo) `artist-review` skill, still serialized by
+`scripts/export-artist-data.ts` for `backend/scripts/import_artists.py` to import.
+
+What remains: a reliable, repeatable way to write artist facts directly to
+PostgreSQL — expected to be a script-based workflow, not an admin UI (out of scope
+for the foreseeable future). The `artist-review` skill will need to target that
+workflow instead of editing `app/data/artists/*.ts` once it exists.
+
+One additional prerequisite, not yet designed: actually deleting
+`app/data/artists/*.ts` later requires more than routing every read and write off
+the TS files. Today's disaster-recovery/bootstrap path (`import_artists.py`)
+reconstructs Postgres *from* those TS files — deleting them first requires a real
+database-level backup/restore or migration strategy (e.g. `pg_dump`-based) to stand
+up a new database instance from Postgres alone, independent of the TS source.
+
 ## Guardrails
 
 - Do not point a deployed frontend at a local API or database.
@@ -378,7 +460,6 @@ would make them harder to isolate, not easier.
   Railway API by default. Testing an endpoint that isn't deployed yet requires an
   explicit local override, not just a running local server — see
   [`local-development.md`](../operations/local-development.md).
-- Do not conflate the content allowlist (`FESTFUSE_API_ARTIST_SLUGS`, which Artist
-  Detail pages read from the API) with scheduling-identity resolution
-  (`runAppearancesStore`, which is unscoped and covers every artist regardless of
-  the allowlist). They are independent mechanisms.
+- Do not edit `app/data/artists/*.ts` expecting it to reach production — the
+  frontend does not read it. It remains the authoring source `scripts/export-artist-data.ts`
+  serializes for backend import (step 8).
