@@ -52,6 +52,10 @@ def evaluate_artist_publication(artist: Artist) -> ArtistPublicationReadiness:
 
     Callers must load ``genre_assignments`` and ``track_selections`` before passing a
     detached Artist. This function is pure: it reports policy and never changes state.
+
+    ``about`` and the run-scoped similar-artist set are deliberately *not* readiness
+    gates: they are additive editorial layers (ADR-0013) that an artist publishes
+    without, and the frontend simply omits the section until each is verified.
     """
     issues: list[ArtistPublicationIssue] = []
 

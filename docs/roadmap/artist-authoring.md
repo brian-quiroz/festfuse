@@ -123,23 +123,50 @@ hoc.
 
 ### 4b. Editorial pipeline tooling
 
-**Status: not started.**
+**Status: completed.**
 
-Thin CLIs over the existing service layer that make the process doc's pipeline runnable:
+Three thin CLIs in `backend/scripts/` over the existing service layer, all matching the
+`--preview` / `--apply` and env-selected-database conventions of `add_artist` /
+`edit_artist`. Operator docs in
+[`backend-deployment.md`](../operations/backend-deployment.md); test coverage in
+[`backend/tests/README.md`](../../backend/tests/README.md).
 
-- `build_roster_payloads.py` — fan a hand-authored roster CSV into draft `add_artist`
-  payloads (`--preview` / `--apply`, per-artist, reports and skips a bad row).
-- `check_artist_links.py` — resolve every external identifier on an artist (Spotify
-  artist/track, YouTube video, socials, image source/license) via oEmbed and HTTP;
-  read-only, non-zero exit on any failure. The documented pre-publish gate, not wired
-  into `publish_artists.py` (see Guardrails).
-- `show_artist.py` — dump a draft/published artist's full record, readiness, and inbound
-  similar-artist reference count; `--roster` for the whole-roster snapshot from Postgres
-  (`slug | name | genres | billing | day` + inbound count), replacing the retired
-  `list-lineup-artists.ts` and feeding the similar-artist membership check and balance
-  sweep.
+- `build_roster_payloads.py` — fans a hand-authored roster CSV
+  (`slug, name, spotify_url, youtube_url, tiktok_url, mbid, billing_tier, stage, date,
+  start_time, end_time`; one row per appearance, repeated slug for multiple sets) into
+  draft `add_artist` payloads and runs `create_artist`. The weekday is derived from the
+  date and the edition year; `socialsVerified` is set on the strength of the editor's
+  own link check. `--preview` validates every row against the database and rolls back;
+  `--apply` creates each artist in its own transaction, skips an existing slug (so a
+  partial run repeats safely), and isolates a failed row without blocking the rest.
+- `check_artist_links.py` — resolves every external identifier on an artist (Spotify
+  artist/track, YouTube video, YouTube/TikTok/image-source/image-license URLs) via
+  oEmbed and HTTP, mechanical resolve checks only. Reports OK / BROKEN / UNVERIFIABLE
+  and exits non-zero only on BROKEN. `--jobs N` (default 8) parallelises the fetches
+  with one retry on UNVERIFIABLE; a whole-run check works but Spotify throttles the
+  burst, so it is meant for the pre-publish batch. Read-only, not wired into
+  `publish_artists.py` (see Guardrails).
+- `show_artist.py` — dumps a draft/published artist's full record, readiness, similar
+  set, and inbound similar-artist reference count; `--roster` prints the whole-roster
+  snapshot from Postgres (`slug, name, billing, day, refs, genres`), replacing the
+  retired `list-lineup-artists.ts` and feeding the similar-artist membership check and
+  balance sweep. `--sort` is `similar-count` (default), `slug`, or `schedule`.
 
-**Checkpoint:** the pipeline in the process doc runs end to end.
+Also: a one-line clarification in `evaluate_artist_publication`'s docstring that `about`
+and the similar-artist set are deliberately not readiness gates (ADR-0013). Fast tests
+cover the roster parser and the link classifier; PostgreSQL integration tests in
+`test_artist_authoring.py` cover the batch create/skip/rerun behaviour and the
+`show_artist` renderers.
+
+Two doc additions from running the pipeline once against a real artist: the process doc
+gained a mode-branching table (the skill runs `show_artist` to tell a fresh research
+pass from a re-review) and a re-stamp mechanic for the freshness re-review; and a new
+[`artist-editorial-handbook.md`](../process/artist-editorial-handbook.md) holds the
+editor's own guidance (session rhythm, pacing, cost) that does not belong in the
+skill-loaded process doc.
+
+**Checkpoint reached:** the pipeline in the process doc runs end to end, exercised on a
+real artist (Charli XCX freshness re-review).
 
 ### 5. Backup, restore, and clean bootstrap
 
@@ -161,6 +188,11 @@ section 6.
 - Relocate `app/data/artists/_flagged-issues.md` (candidate: `docs/process/`) and triage
   its entries — some predate the direct-to-PostgreSQL workflow (4a) and are stale or
   already resolved.
+- Fix the malformed values `check_artist_links.py` flags in the imported data. Known so
+  far: `suki-waterhouse`'s `image_source_url` holds two comma-joined Wikimedia URLs (a
+  bad cell in the original TypeScript source) — a one-field `edit_artist` patch once the
+  URL to keep is chosen. Re-run the whole-roster link check here to catch any others.
+  Apply the fix to both the local and the hosted Railway database (per Guardrails).
 - Delete the per-day record files and `index.ts`. Keep `app/types/artist.ts`,
   `app/data/categories.ts`, and `app/data/festivals.ts` — the frontend still uses their
   types, vocabularies, and config.
