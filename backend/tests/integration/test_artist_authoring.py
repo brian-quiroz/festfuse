@@ -26,6 +26,8 @@ from app.services import (
     edit_artist,
     evaluate_artist_publication,
 )
+from scripts.build_roster_payloads import create_from_payloads, parse_roster
+from scripts.show_artist import _render_detail, _render_roster
 
 pytestmark = [
     pytest.mark.postgres,
@@ -577,3 +579,100 @@ def test_delete_refused_for_similar_target_then_forced(session: Session) -> None
         )
         == 3
     )
+
+
+# --- editorial pipeline tooling ---------------------------------------
+
+
+def _roster_row(**overrides: str) -> dict[str, str]:
+    row = {
+        "slug": f"test-{uuid4().hex[:12]}",
+        "name": "Roster Skeleton",
+        "spotify_url": f"https://open.spotify.com/artist/{_spotify_id()}",
+        "youtube_url": "",
+        "tiktok_url": "",
+        "mbid": "",
+        "billing_tier": "Undercard",
+        "stage": "T-Mobile",
+        "date": "Jul 30",
+        "start_time": "2:00 PM",
+        "end_time": "3:00 PM",
+    }
+    row.update(overrides)
+    return row
+
+
+def test_roster_skeleton_persists_as_a_draft_with_schedule(session: Session) -> None:
+    row = _roster_row()
+    payloads, errors = parse_roster(
+        [row], edition="lollapalooza-2026", run="main", year=2026
+    )
+    assert errors == []
+
+    outcomes = create_from_payloads(session, payloads, apply=False)
+    assert [(o.slug, o.status) for o in outcomes] == [(row["slug"], "would create")]
+    # readiness gaps are expected for a skeleton
+    assert "missing_location" in outcomes[0].readiness_issues
+
+    # prove the built payload actually creates the graph
+    artist = create_artist(session, _payload(payloads[row["slug"]]))
+    session.flush()
+    assert artist.publication_status == "draft"
+    assert artist.socials_verified is True
+    lineup = artist.lineup_entries[0]
+    assert lineup.lineup_status == "announced" and lineup.billing_tier == "undercard"
+    assert lineup.appearances[0].festival_day.date.strftime("%A") == "Thursday"
+
+
+def test_roster_batch_isolates_a_failed_row_and_skips_an_existing_slug(
+    session: Session,
+) -> None:
+    good = _roster_row()
+    bad = _roster_row(stage="No Such Stage")
+    existing = _roster_row(slug="5sos")  # a seeded artist
+
+    payloads, errors = parse_roster(
+        [good, bad, existing], edition="lollapalooza-2026", run="main", year=2026
+    )
+    assert errors == []
+
+    outcomes = {
+        o.slug: o.status for o in create_from_payloads(session, payloads, apply=False)
+    }
+    assert outcomes[good["slug"]] == "would create"
+    assert outcomes[bad["slug"]] == "failed"
+    assert outcomes["5sos"] == "skipped"
+
+
+def test_roster_apply_commits_and_a_rerun_skips(session: Session) -> None:
+    row = _roster_row()
+    payloads, _ = parse_roster(
+        [row], edition="lollapalooza-2026", run="main", year=2026
+    )
+
+    first = create_from_payloads(session, payloads, apply=True)
+    assert first[0].status == "created"
+    assert session.scalar(select(Artist).where(Artist.slug == row["slug"])) is not None
+
+    payloads_again, _ = parse_roster(
+        [row], edition="lollapalooza-2026", run="main", year=2026
+    )
+    second = create_from_payloads(session, payloads_again, apply=True)
+    assert second[0].status == "skipped"
+
+
+def test_show_artist_detail_and_roster_render(
+    session: Session, capsys: pytest.CaptureFixture[str]
+) -> None:
+    artist = _seed_artist(session)
+    session.commit()
+
+    assert _render_detail(session, artist.slug) == 0
+    detail = capsys.readouterr().out
+    assert artist.slug in detail
+    assert "Publication readiness: READY." in detail
+    assert "cited as similar by" in detail
+
+    assert _render_roster(session, sort="similar-count", include_drafts=True) == 0
+    roster = capsys.readouterr().out
+    assert artist.slug in roster

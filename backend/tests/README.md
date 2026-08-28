@@ -26,6 +26,23 @@ in the same patch, and the rules now shared by both the create and edit schemas 
 `imageUrl` ⟹ `imageVerified`, any image metadata requires `imageUrl`, and plausible
 `imageTakenYear` / `imageSourcedAt` values.
 
+`test_build_roster_payloads.py` (fast, no database) covers `parse_roster` from the
+editorial pipeline (roadmap 4b, `docs/process/artist-editorial-process.md`): a single
+row builds a valid draft-skeleton `ArtistAuthoringInput`, the weekday is derived from
+the date and the edition year, `socialsVerified` is always `true` (even with no social
+links), `mbid` is included only when present, multiple rows sharing a slug collapse into
+one multi-appearance payload, and every unparseable case is reported without dropping
+the rest of the file — a missing required cell, an unknown billing tier, rows for one
+slug that disagree on a shared field, and two artists sharing a Spotify URL.
+
+`test_check_artist_links.py` (fast, no network) covers the link classifier: `classify`
+maps each HTTP status (and a network failure) to OK / BROKEN / UNVERIFIABLE, with
+oEmbed 400/401 treated as BROKEN but a plain 401/403 as UNVERIFIABLE; `link_targets`
+extracts every stored identifier (Spotify artist and track ids, YouTube video id,
+social and image-source URLs) and gives a local `public/` image path no check URL; and
+`_check_artist` maps a mixed set of mocked statuses, marking a local asset UNVERIFIABLE
+and an oEmbed 401 BROKEN.
+
 ## PostgreSQL integration tests
 
 `integration/test_artist_schema.py` connects through the real SQLAlchemy engine to a
@@ -102,6 +119,15 @@ editing a draft, and that an edit which would drop a currently-publishable publi
 artist below the readiness bar is refused while a published artist that stays ready (or
 was already below the bar) is still editable.
 
+The same file also covers the editorial pipeline tooling (roadmap 4b): a roster
+skeleton built by `parse_roster` and `create_from_payloads` persists as a `draft` with
+its announced lineup entry and schedule and readiness gaps for the research pass; a
+batch isolates a failed row (unknown stage) in its own savepoint without blocking the
+good rows and skips a slug that already exists; `--apply` commits each artist and a
+rerun of the same roster reports every artist as skipped; and `show_artist.py`'s detail
+and roster renderers run against a seeded artist without error, showing readiness and
+the inbound similar-artist reference count.
+
 Each test creates temporary records inside an outer transaction and rolls that
 transaction back during cleanup. PostgreSQL genuinely executes the writes and
 constraints, but successful tests do not leave fixture data behind.
@@ -133,7 +159,11 @@ The integration suite currently verifies:
   verification re-stamping after a triggered content change, wholesale collection
   replacement with idempotent re-apply, image/video set-and-clear, identity
   self-exclusion, reference refusals, readiness recomputation, and the
-  published-stays-publishable guard.
+  published-stays-publishable guard; and
+- the editorial pipeline tooling (roadmap 4b): roster-skeleton creation through
+  `parse_roster` / `create_from_payloads` (draft lineup and schedule, per-savepoint
+  isolation of a failed row, skip-if-exists, rerun safety) and the `show_artist.py`
+  detail and roster renderers.
 
 ## Commands
 
@@ -287,6 +317,10 @@ python -m scripts.backfill_artist_mbid --apply
 `backfill_artist_mbid` is a one-time, per-environment step (like `sync_artist_listening`):
 it sets `artists.mbid` from the TypeScript source for the ~14 rows that have one and are
 currently `NULL`. Safe to rerun. Folded into the importer in the roadmap's section 6.
+
+The editorial-pipeline scripts (`build_roster_payloads`, `check_artist_links`,
+`show_artist`) are operator tooling, documented in
+`docs/operations/backend-deployment.md`; their test coverage is described above.
 
 ## Current boundaries
 

@@ -596,3 +596,43 @@ automated signal for *which* artists are due — no query over `about_verified_a
 **If built:** a `--stale` mode listing verified records past some age threshold, and/or
 a periodic report. Low priority while the roster is small and single-festival; the cost
 of missing a stale record is a slightly outdated bio, not a broken page.
+
+---
+
+## Future Consideration: `socials_verified` May No Longer Earn Its Keep
+
+`socials_verified` (Artist) gates whether the YouTube/TikTok links render, and a DB
+trigger clears it when either URL changes. Under the editorial process (ADR-0013) the
+editor owns socials outright — they are entered in the roster and always editor-checked,
+so `build_roster_payloads.py` sets `socialsVerified: true` unconditionally, and
+`edit_artist` only touches them on a reviewed change. For every record authored the new
+way the flag is therefore always `true` and distinguishes nothing.
+
+It still means something for the imported legacy data (some records reviewed-empty, some
+not), so it cannot just be dropped. **If revisited:** once no unreviewed-socials legacy
+record remains, consider removing the column and its trigger, and the frontend gate with
+it — a schema change plus a frontend change, tracked together with the "Genre Vocabulary
+Lives in Two Places" cleanup as authoring-workflow simplifications. Not now.
+
+---
+
+## Future Consideration: `edit_artist` Cannot Cleanly Re-Stamp an Unchanged Verified Record
+
+The freshness re-review (ADR-0013, `docs/process/artist-editorial-process.md`) re-checks
+a verified `about` and similar-artist set against current sources and re-stamps when
+they still hold. Two rough edges in `edit_artist` (ADR-0012):
+
+- **`about`:** a patch of `{ aboutVerified: true }` on an already-verified artist does
+  refresh `about_verified_at` on `--apply`, but `_apply_about_verification` only emits a
+  `FieldChange` when the boolean state flips — so `--preview` reports "no field changes"
+  even though the timestamp will move. Harmless, mildly confusing.
+- **Similar set:** `_apply_similar` re-stamps `SimilarArtistSet.verified_at` only on a
+  membership change or a verification-state flip. An unchanged, already-verified set has
+  no path to a refreshed `verified_at` — so a re-review that confirms the set is a
+  no-op, and the "last re-confirmed" signal for that set is lost.
+
+**If revisited:** treat an explicit `aboutVerified: true` / `similarArtistsVerified: true`
+in a patch as a deliberate re-verification that always refreshes the timestamp and
+reports a `re-verified` `FieldChange`, even with no content change. A small,
+self-contained `edit_artist` change; low priority until re-reviews are a routine cadence
+rather than occasional.

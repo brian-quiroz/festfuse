@@ -12,7 +12,10 @@ it sits on is [ADR-0011](../decisions/0011-direct-to-postgresql-artist-authoring
 [`artist-data-model.md`](../design/artist-data-model.md). Past incidents that motivate
 specific rules here are in
 [`artist-editorial-incidents.md`](artist-editorial-incidents.md) — read that only when a
-check is getting shaky, not as routine background.
+check is getting shaky, not as routine background. The editor's own guide to running
+this — session rhythm, pacing, cost — is
+[`artist-editorial-handbook.md`](artist-editorial-handbook.md) (for the human, not
+loaded here).
 
 Everything below is framed around the **bulk case**: authoring a whole festival's
 roster. Adding or fixing a single artist later is the same pipeline with a one-row
@@ -95,9 +98,18 @@ Every artist is created `draft`. Nothing else is populated yet.
 
 ### 3. Combined research pass (AI proposes, editor approves)
 
+**First, determine the mode.** Run `show_artist.py --slug <slug>`:
+
+| What it shows | Mode |
+|---|---|
+| Not found | The artist is not in the database. If it is a new lineup artist, it goes on the roster and through `build_roster_payloads.py` first (stages 1–2). Stop here. |
+| `draft`, empty genres / location / about | **Research pass** — draft all three fresh. `about` is Tier 3 unless the editor supplies a skeleton. |
+| Populated and `*Verified`-stamped | **Freshness re-review** — the current content is the Tier 2 baseline; verify it still holds and re-stamp. See [Freshness re-review](#freshness-re-review). |
+| Partly filled / mixed | State what is present and what is not, and ask the editor which mode. |
+
 Genres, location, and `about` draw on the same sources, so they are one research effort
-per artist. Work in rounds of about five to eight artists so a review session is
-finishable.
+per artist. Keep the research sub-task scoped to those three — not flagship-track or
+similar-artist work. Rounds of about five to eight artists.
 
 Per artist, the AI:
 
@@ -118,11 +130,14 @@ The AI presents a **per-artist report**, walking the fields in a fixed order:
 Every field gets a line even when unchanged ("Confirmed" / "No change"). Every changed
 or proposed field carries a one-line rationale **and its sources**. Where the research
 did not settle on one answer, the report says so and lists the candidates — see
-[Surfacing uncertainty](#surfacing-uncertainty).
+[Surfacing uncertainty](#surfacing-uncertainty). Raw research output (a sub-task's
+findings dump) may be shown alongside, but label it clearly as the raw material — the
+report is the thing the editor reviews.
 
-The editor approves per field or per artist. Approved changes are written through
-`edit_artist`: build the patch payload, run `edit_artist.py --input patch.json
---preview`, read the change plan and the re-run readiness assessment, then `--apply`.
+The editor approves per field or per artist, then the flow in
+[Review and approval mechanics](#review-and-approval-mechanics) applies. Stage 3 and
+stage 4 (the flagship track) can land in one `edit_artist` patch once the editor has
+approved both.
 
 ### 4. Flagship track (editor)
 
@@ -246,12 +261,18 @@ the gradient-fallback color, so it must be the most defining, self-identified ge
 not a broad catch-all when a specific one is more representative, unless the broad one
 genuinely is the identity.
 
-Check the `genres` table first (Tier 0). If an existing genre genuinely communicates
-the artist's sound, use it — do not add a near-duplicate. Adding a genre has a real
-cost: with `add-genre` deferred (ADR-0011) it is a manual two-file change (a `genres`
-row plus the matching `app/data/categories.ts` entry, which currently mirror each other
-by hand — see "Genre Vocabulary Lives in Two Places" in `FUTURE_CONSIDERATIONS.md`), and
-every added genre is one more thing to keep aligned.
+**Order of operations.** Let the web research (and the artist's own framing) establish
+what the sound *is* first — do not start from a genre you assume from memory. Then
+Tier 0 is *validation*: check the researched descriptors against the `genres` table
+(exact spelling), and check how a comparable artist already in the roster is recorded
+(`show_artist.py --roster`, or `--slug` on a peer) for house style.
+
+If an existing genre genuinely communicates the sound, use it — do not add a
+near-duplicate. Adding a genre has a real cost: with `add-genre` deferred (ADR-0011) it
+is a manual two-file change (a `genres` row plus the matching `app/data/categories.ts`
+entry, which currently mirror each other by hand — see "Genre Vocabulary Lives in Two
+Places" in `FUTURE_CONSIDERATIONS.md`), and every added genre is one more thing to keep
+aligned.
 
 The reverse extreme is worse, though: never force an artist into a "close enough" genre
 that is not actually accurate just because it is already in the table. If the artist's
@@ -430,19 +451,30 @@ answer (`FUTURE_CONSIDERATIONS.md`).
 
 ## Review and approval mechanics
 
+The loop: **(1)** AI research → report. **(2)** editor reviews, spot-checks the cited
+sources, says what to fix. **(3)** AI folds in the fixes → revised report. **(4)**
+editor approves — this *is* the `*Verified` sign-off. **(5)** AI builds the `edit_artist`
+JSON from the approved report, runs `--preview`, shows the plan. **(6)** editor confirms
+the plan matches what they approved. **(7)** AI runs `--apply`.
+
+Steps 1, 3, 5, 7 are mechanical and the AI does them. The editor owns 2, 4, 6. The AI
+never decides a fact is correct, never sets a `*Verified` flag on its own judgment
+(it transcribes `aboutVerified: true` *because* the editor approved), and never skips
+the `--preview`.
+
 The service CLIs (approval and `--preview`-before-`--apply` are Non-negotiables):
 
 - `build_roster_payloads.py` — bulk skeleton creation.
 - `edit_artist.py --input patch.json --preview | --apply` — field-level changes. The
   preview prints a per-field change plan, a slug-change warning, and the re-run
   publication readiness.
-- `check_artist_links.py` — the pre-publish gate.
+- `check_artist_links.py` — the pre-publish gate, run on the batch being published.
 - `publish_artists` — draft to published.
 
-The database is chosen by environment (`backend/.env` / `POSTGRES_*`), exactly like the
-existing scripts. Against the hosted database this runs through the encrypted Railway
-tunnel — see [`backend-deployment.md`](../operations/backend-deployment.md), "Adding,
-editing, or removing an artist".
+Full flags, the roster CSV format, and the hosted-database tunnel commands are in
+[`backend-deployment.md`](../operations/backend-deployment.md) ("Adding, editing, or
+removing an artist" and "Editorial pipeline scripts"). The database is chosen by
+environment (`backend/.env` / `POSTGRES_*`), exactly like the existing scripts.
 
 ---
 
@@ -453,6 +485,21 @@ lineup changes. The editor invokes a **freshness re-review** for an artist: re-v
 `about` and the similar set against current sources (Tier 2, existing content as
 baseline), then re-stamp. This is a manual mode, not automated — auto-detecting stale
 `verified_at` is a `FUTURE_CONSIDERATIONS.md` item.
+
+**Applying the result.** Whatever the review found, it lands as one `edit_artist` patch:
+
+- **Corrections found** — put the corrected fields plus `aboutVerified: true` in the
+  patch. Editing `about` clears its flag (trigger), so the flag must ride in the same
+  patch — see [About copy](#about-copy).
+- **Nothing changed** — the patch carries only `aboutVerified: true`. `--apply`
+  refreshes `about_verified_at` to now (recording the re-confirmation); `--preview`
+  reports "no field changes" because the boolean state did not flip, which is expected.
+- **Similar set** — pass the (possibly re-ordered or re-picked) four slugs plus
+  `similarArtistsVerified: true`. An *unchanged* verified set cannot have its
+  `verified_at` refreshed through `edit_artist` today (it only re-stamps on a
+  membership or verification-state change) — a known limitation, see
+  `FUTURE_CONSIDERATIONS.md`. So a no-change similar-set re-review is a no-op; only
+  re-stamp when something actually moved.
 
 ---
 
