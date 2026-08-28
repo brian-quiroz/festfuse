@@ -331,7 +331,7 @@ def create_artist(session: Session, payload: ArtistAuthoringInput) -> Artist:
         session.add(similarity_set)
         session.flush()
         # The AFTER INSERT trigger on similar_artists clears verified_at, so stamp it
-        # only after every entry exists (mirrors import_source).
+        # only after every entry exists.
         similarity_set.verified_at = now
         session.flush()
 

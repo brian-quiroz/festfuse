@@ -127,11 +127,14 @@ export const useScheduleStore = create<ScheduleState>()(
           });
         },
 
-        toggleAllAppearances: (artist: Pick<Artist, "slug" | "appearances">, festivalId: string) => {
+        toggleAllAppearances: (
+          artist: Pick<Artist, "slug" | "appearances">,
+          festivalId: string
+        ) => {
           set((state) => {
             const runAppearancesBySlug = useRunAppearancesStore.getState().appearancesBySlug;
             const keys = getAppearancesForFestival(artist, festivalId).map((a) =>
-              getAppearanceKey(artist.slug, a.id, a.festivalId, a.day, a.startTime, runAppearancesBySlug)
+              getAppearanceKey(artist.slug, a.id, a.festivalId, runAppearancesBySlug)
             );
             const allScheduled = keys.every((k) => state.scheduledAppearanceKeys.has(k));
             const newScheduled = new Set(state.scheduledAppearanceKeys);

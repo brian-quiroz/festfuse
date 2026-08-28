@@ -1,4 +1,4 @@
-from app.queries.artists import (
+from app.repositories.artists import (
     PublishedArtistConsistencyError,
     read_festival_artist_by_slug,
     read_festival_run_appearances,

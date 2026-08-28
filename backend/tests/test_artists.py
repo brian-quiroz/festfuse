@@ -4,7 +4,7 @@ from zoneinfo import ZoneInfo
 
 from fastapi.testclient import TestClient
 
-from app.queries import artists as artist_queries
+from app.repositories import artists as artist_queries
 from app.schemas.artist import (
     ArtistCoreRead,
     ArtistGenreFamilyRead,

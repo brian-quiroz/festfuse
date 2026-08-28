@@ -505,10 +505,10 @@ baseline), then re-stamp. This is a manual mode, not automated — auto-detectin
 
 ## Out-of-scope findings
 
-`app/data/artists/_flagged-issues.md` logs a real, sourced correction found during a
+`docs/process/artist-flagged-issues.md` logs a real, sourced correction found during a
 pass that lives outside that pass's scope — not a general TODO list. Add to it rather
-than losing a finding. Some of its entries predate this workflow and are stale; the file
-is triaged and relocated in [roadmap section 6](../roadmap/artist-authoring.md).
+than losing a finding. Several existing entries predate this workflow and are likely
+stale; that file's header explains that working them is a pending dedicated pass.
 
 Fields the process does not touch unless explicitly asked: `tagline`, `whySee`,
 `whatToExpect`, `bestFor` (dormant, unrendered), `mbid` (no runtime consumer),

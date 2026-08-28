@@ -7,7 +7,7 @@ from sqlalchemy import Connection, text
 from sqlalchemy.orm import Session
 
 from app.database import engine
-from app.queries import (
+from app.repositories import (
     PublishedArtistConsistencyError,
     read_festival_artist_by_slug,
     read_published_artist_by_slug,

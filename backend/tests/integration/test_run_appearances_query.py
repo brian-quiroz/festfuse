@@ -8,7 +8,7 @@ from sqlalchemy import Connection, text
 from sqlalchemy.orm import Session
 
 from app.database import engine
-from app.queries import PublishedArtistConsistencyError, read_festival_run_appearances
+from app.repositories import PublishedArtistConsistencyError, read_festival_run_appearances
 
 pytestmark = [
     pytest.mark.postgres,

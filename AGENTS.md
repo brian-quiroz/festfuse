@@ -114,17 +114,14 @@ above applies here — keep it plain and out of the way of the rest of the app.
 
 ## Current Milestone
 
-**Shipped (MVP 1.0):** Artist Page, Explore, Quick Picks, Festival Story, Planner.
+Shipped: MVP 1.0 (Artist Page, Explore, Quick Picks, Festival Story, Planner) and the
+backend data cutover (PostgreSQL is the sole artist data source, read and write).
 
-**In progress (MVP 2.0):**
+In progress (MVP 2.0): multi-festival and multi-run support (e.g. ACL's multiple
+weekends per edition), announced-lineup-without-schedule entries (ADR-0004), broader
+automated test coverage. Roadmaps in `docs/roadmap/`.
 
-1. Replace `app/data/artists` as the artist authoring source — the frontend read cutover is done; this covers the direct-to-PostgreSQL write workflow and the editorial process behind it. See `docs/roadmap/artist-authoring.md`.
-2. Multi-festival support — any festival beyond Lollapalooza.
-3. Multi-run support — festivals (e.g. ACL) with multiple weekends per edition.
-4. Support an announced lineup entry with no schedule yet — see ADR-0004 and `FUTURE_CONSIDERATIONS.md`.
-5. More robust automated test coverage — backend and frontend.
-
-**Not in scope right now:** accessibility/performance work; accounts and Compare.
+Not in scope now: accessibility/performance work; accounts; Compare.
 
 ---
 
@@ -132,17 +129,18 @@ above applies here — keep it plain and out of the way of the rest of the app.
 
 ### Artist Data
 
-The frontend reads all artist data from the FastAPI/PostgreSQL backend at runtime. `app/data/artists/` is the authoring source, serialized by `scripts/export-artist-data.ts` and loaded by `backend/scripts/import_artists.py`. Replacing it with a direct-to-PostgreSQL workflow is tracked in `docs/roadmap/artist-authoring.md`.
-
-The day-file split in `app/data/artists/` is a file-layout convenience, never a data boundary. **Always import from `index.ts` (`allArtists`/`artistsBySlug`), never from an individual day file** — see ARCHITECTURE.md's "Storage" section for why day files break silently if used as a shortcut.
+PostgreSQL is the sole artist data source, read and write: the frontend reads it via
+FastAPI, and artist facts are authored directly in PostgreSQL through `backend/scripts/`
+(`add_artist` / `edit_artist` / `build_roster_payloads`). `app/types/artist.ts`,
+`app/data/categories.ts`, and `app/data/festivals.ts` hold the frontend's artist type,
+category vocabularies, and festival config. Detail: `docs/roadmap/artist-authoring.md`.
 
 ### Editorial Review
 
 The editorial process (ownership split, research/review flow, about-copy voice, the
 similar-artist heuristic) is in `docs/process/artist-editorial-process.md`; rationale in
-ADR-0013, and the `artist-review` skill points there. Artist data is authored directly
-in PostgreSQL via `backend/scripts/` (`add_artist`/`edit_artist`/`build_roster_payloads`),
-never by editing `app/data/artists/`. Follow that doc rather than improvising.
+ADR-0013, and the `artist-review` skill points there. Follow that doc rather than
+improvising.
 
 ---
 

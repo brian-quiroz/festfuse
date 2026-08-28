@@ -158,8 +158,6 @@ export default function PlannerGrid({
                     entry.artistSlug,
                     entry.appearanceId,
                     entry.festivalId,
-                    entry.day,
-                    entry.startTime,
                     runAppearancesBySlug
                   );
                   const verdict = decisionsByArtist[entry.artistSlug]?.verdict ?? null;

@@ -36,14 +36,16 @@ A few decisions below are worth reading first if you're skimming:
 
 ### Storage
 
-Artist records live in `app/data/artists/`, organized by festival day for easier editing:
+Artist data lives in PostgreSQL and reaches the frontend only through the FastAPI
+backend, over two read paths: the run-scoped appearances feed (behind
+`runAppearancesStore`, shared by Explore, Planner, Quick Picks, Festival Story, and
+Credits) and the per-artist detail fetch (`/artist/[slug]`). See "Backend Persistence
+Foundation" below and `docs/roadmap/backend-rollout.md`.
 
-- `thursday.ts`, `friday.ts`, `saturday.ts`, `sunday.ts` — storage only
-- `index.ts` — combines all four and exports `allArtists` and `artistsBySlug`
-
-**Rule: Always import from `index.ts`, never from individual day files.**
-
-The day files are an editing convenience, not a data boundary. Any feature that needs to filter by day must import `allArtists` from `index.ts` and filter using the artist's primary appearance — `getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).day === "Friday"` (see "Multi-Appearance Support" below for why the primary appearance, not `artist.appearance`, which no longer exists as a singular field). This prevents silent bugs when artists are miscategorized or moved between days.
+The frontend keeps the artist *type* (`app/types/artist.ts`) plus the category
+vocabularies and festival config it depends on (`app/data/categories.ts`,
+`app/data/festivals.ts`). `provenance/artists-lollapalooza-2026.json` is a frozen data
+snapshot used only by `app/lib/verify-story-signals.ts`, never at runtime.
 
 ### Types
 

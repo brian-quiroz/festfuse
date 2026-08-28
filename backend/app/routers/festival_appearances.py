@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 
 from app.dependencies import SessionDep
-from app.queries import artists as artist_queries
+from app.repositories import artists as artist_queries
 from app.schemas.artist import FestivalRunAppearanceRead
 
 router = APIRouter(

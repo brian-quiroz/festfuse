@@ -68,8 +68,6 @@ export default function PlannerPage() {
         entry.artistSlug,
         entry.appearanceId,
         entry.festivalId,
-        entry.day,
-        entry.startTime,
         runAppearancesBySlug
       );
       if (conflictingAppearanceKeys.has(key)) return true;

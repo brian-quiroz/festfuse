@@ -1,16 +1,21 @@
 /**
  * Focused validation for Festival Story's attendance-scoped algorithm
  * (app/hooks/useStorySignals.ts). Not a test framework integration (this repo has
- * none) and not a mirrored reimplementation of the algorithm — every check below
+ * none) and not a mirrored reimplementation of the algorithm: every check below
  * calls the real exported production functions directly: computeStorySignals,
  * getValidPositivePicks, getEligibleArtists (app/hooks/useStorySignals.ts),
  * buildStorySeed (app/lib/story-sampling.ts), getSelectedDayAppearance
  * (app/lib/appearances.ts).
  *
+ * The roster is read from the frozen provenance snapshot
+ * (provenance/artists-lollapalooza-2026.json), not the live database, so this check
+ * stays offline and deterministic. It verifies algorithm behavior against a fixed
+ * baseline, not the current roster's accuracy.
+ *
  * Run with: npm run verify:story
  */
 import type { Artist } from "@/app/types/artist";
-import { allArtists } from "@/app/data/artists";
+import provenanceSnapshot from "@/provenance/artists-lollapalooza-2026.json";
 import { ACTIVE_FESTIVAL_ID, getDaysForActiveFestival } from "@/app/data/festivals";
 import { getSelectedDayAppearance } from "@/app/lib/appearances";
 import { GENRE_TO_FAMILY } from "@/app/data/categories";
@@ -22,6 +27,10 @@ import {
   MIN_POSITIVE_PICKS_FOR_STORY,
 } from "@/app/hooks/useStorySignals";
 import type { ArtistDecision } from "@/app/store/decisionStore";
+
+// The snapshot's `artists` is a plain-JSON array of the full Artist shape; the cast
+// restores the domain unions the JSON import widens to string.
+const allArtists = provenanceSnapshot.artists as unknown as Artist[];
 
 // Matches production's SAMPLE_COUNT (app/hooks/useStorySignals.ts) — not exported, so
 // mirrored here as a plain constant (not algorithm logic) purely for this one direct

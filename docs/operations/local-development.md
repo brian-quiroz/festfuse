@@ -25,20 +25,11 @@ alembic upgrade head             # build the schema
 python -m scripts.seed_festival  # create the festival hierarchy
 ```
 
-That leaves an empty lineup. To load artist data, choose one:
+That leaves an empty lineup. Load artist data by restoring a `pg_dump` of an existing
+database: follow [`backup-restore.md`](backup-restore.md) (`pg_restore` into the local
+database, then reconcile with `alembic upgrade head` and `alembic check`).
 
-- **From a PostgreSQL dump** (no TypeScript source needed): follow
-  [`backup-restore.md`](backup-restore.md).
-- **From the committed TypeScript snapshot**: run `npm install` at the repo root first
-  (the exporter needs `tsx`), then from `backend/`:
-
-  ```bash
-  python -m scripts.import_artists --dry-run   # then --apply
-  python -m scripts.publish_artists --apply
-  ```
-
-`scripts/seed_festival.py` is idempotent; `import_artists.py` refuses a non-empty
-target. Backend test commands are in the
+`scripts/seed_festival.py` is idempotent. Backend test commands are in the
 [backend testing guide](../../backend/tests/README.md).
 
 ## 1. Start the local backend

@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
-    "export:artists": "tsx scripts/export-artist-data.ts",
     "verify:story": "tsx app/lib/verify-story-signals.ts"
   },
   "dependencies": {
