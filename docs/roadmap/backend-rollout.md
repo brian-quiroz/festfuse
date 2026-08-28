@@ -431,9 +431,10 @@ would make them harder to isolate, not easier.
 ## Next: replace the authoring source
 
 Step 7 finished the frontend *read* path. Replacing `app/data/artists/*.ts` as the
-*authoring* source — a direct-to-PostgreSQL write workflow, a decision on the editorial
-process, a database-level backup/restore path, and deleting the files — is a distinct
-concern, tracked in [`artist-authoring.md`](./artist-authoring.md) with its rationale in
+*authoring* source — a direct-to-PostgreSQL write workflow, the editorial process
+(decided in [ADR-0013](../decisions/0013-editorial-authoring-and-review-process.md)), a
+database-level backup/restore path, and deleting the files — is a distinct concern,
+tracked in [`artist-authoring.md`](./artist-authoring.md) with its rationale in
 [ADR-0011](../decisions/0011-direct-to-postgresql-artist-authoring.md).
 
 Until that roadmap's final section deletes the files, this document's "Current boundary"

@@ -4,6 +4,11 @@ Facts surfaced during artist-review passes that live in a field outside that pas
 (most often `about`, since fast/rapid passes skip it). Not auto-fixed at the time they're found —
 logged here for a future review pass to address. Remove an entry once its issue is fixed.
 
+> **Note:** some entries below predate the direct-to-PostgreSQL editorial workflow
+> (ADR-0013) and may be stale or already resolved. This file, and the triage of its
+> entries, is relocated in [artist-authoring roadmap](../../../docs/roadmap/artist-authoring.md)
+> section 6. Reviewing the entries is out of scope until then.
+
 ## ayybo (about)
 
 Real name stated as "Aaronis Jackson" — sources confirm Aaron Bonnema.

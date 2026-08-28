@@ -224,7 +224,7 @@ User accounts and artist comparison are not planned for this iteration.
 ## Project Structure
 
 ```text
-docs/                    # Screenshots and supplementary notes (see ARCHITECTURE.md)
+docs/                    # Decision records, roadmaps, design and process notes, screenshots
 backend/                 # FastAPI, SQLAlchemy models, Alembic migrations, and tests
 app/
 ├── artist/[slug]/       # Artist detail routes

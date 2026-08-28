@@ -561,3 +561,38 @@ the rendered result. A fix is an `onError` handler on those `<Image>` sites that
 to `GenreGradientFallback`. An authoring-side mitigation for external URLs is a `HEAD`
 check before allowing `imageVerified: true`; a local `public/` path can't be checked
 from the backend.
+
+---
+
+## Future Consideration: Similar-Artist Relationship Graph
+
+The editorial process (ADR-0013, `docs/process/artist-editorial-process.md`) manages
+over/under-recommendation in the run-scoped similar-artist sets with three cheap layers:
+a soft preference for the less-referenced candidate when two fit comparably, a
+whole-roster reference-count snapshot (`show_artist.py --roster`), and a count-driven
+balance sweep run after each curation wave and each lineup change that proposes
+comparable-fit swaps for the outliers.
+
+That is deliberately greedy and local. The fuller answer is a real relationship model —
+directional edges with typed similarity dimensions (sound, scene, scale, thematic),
+globally-optimal balancing rather than outlier patching, and reuse across runs and
+festivals instead of re-curating per run. `artist-data-model.md`'s Similar Artist
+section already anticipates this ("Mutual/symmetric graph semantics and richer
+relationship metadata are deferred until a concrete graph feature requires them").
+
+**Revisit when:** there is a genuine second festival, the per-run re-curation cost
+becomes real, or the count-driven sweep visibly fails to keep the distribution sane.
+
+---
+
+## Future Consideration: Automated Freshness Re-Review Detection
+
+A verified `about` goes stale over a year; a similar-artist set drifts as scenes and
+scales change. The editorial process handles this with a manual freshness re-review mode
+the editor invokes per artist (re-verify against current sources, re-stamp). There is no
+automated signal for *which* artists are due — no query over `about_verified_at` /
+`SimilarArtistSet.verified_at` age, no surfacing in `show_artist.py` or a report.
+
+**If built:** a `--stale` mode listing verified records past some age threshold, and/or
+a periodic report. Low priority while the roster is small and single-festival; the cost
+of missing a stale record is a slightly outdated bio, not a broken page.
