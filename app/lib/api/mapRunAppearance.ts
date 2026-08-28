@@ -46,9 +46,11 @@ export function formatApiDayAndDate(festivalDate: string): { day: string; date: 
   const anchor = new Date(`${festivalDate}T12:00:00Z`);
   return {
     day: new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: "UTC" }).format(anchor),
-    date: new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(
-      anchor
-    ),
+    date: new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    }).format(anchor),
   };
 }
 
@@ -66,7 +68,10 @@ export function mapBillingTier(tier: ApiRunAppearance["billing_tier"]): BillingT
 export function mapArtistLocation(location: ApiRunAppearance["artist"]["location"]): Location {
   return {
     city: location.city,
-    state: location.state === null ? undefined : requireKnownValue<USState>(location.state, US_STATES, "US state"),
+    state:
+      location.state === null
+        ? undefined
+        : requireKnownValue<USState>(location.state, US_STATES, "US state"),
     country: requireKnownValue<Country>(location.country, COUNTRIES, "country"),
   };
 }
@@ -123,10 +128,9 @@ export function getRunArtistsFromApi(
       ...mapImage(first.artist.image),
       genres: mapGenres(first.artist.genres),
       location: mapArtistLocation(first.artist.location),
-      appearances: appearances.map((appearance) => mapFestivalAppearance(appearance, festivalId)) as [
-        FestivalAppearance,
-        ...FestivalAppearance[],
-      ],
+      appearances: appearances.map((appearance) =>
+        mapFestivalAppearance(appearance, festivalId)
+      ) as [FestivalAppearance, ...FestivalAppearance[]],
     });
   }
   return runArtists;
@@ -162,10 +166,9 @@ export function getQuickPicksRunArtistsFromApi(
       ...mapImage(first.artist.image),
       genres: mapGenres(first.artist.genres),
       location: mapArtistLocation(first.artist.location),
-      appearances: appearances.map((appearance) => mapFestivalAppearance(appearance, festivalId)) as [
-        FestivalAppearance,
-        ...FestivalAppearance[],
-      ],
+      appearances: appearances.map((appearance) =>
+        mapFestivalAppearance(appearance, festivalId)
+      ) as [FestivalAppearance, ...FestivalAppearance[]],
       quickPicksTrack: {
         spotifyId: first.artist.quick_picks_track.spotify_track_id,
         name: first.artist.quick_picks_track.name,

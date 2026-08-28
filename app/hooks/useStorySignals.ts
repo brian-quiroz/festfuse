@@ -324,7 +324,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     const appearance = getSelectedDayAppearance(artist, festivalId, attendanceDays);
     if (appearance) appearanceByArtist.set(artist.slug, appearance);
   }
-  const appearanceOf = (artist: RunArtist): FestivalAppearance => appearanceByArtist.get(artist.slug)!;
+  const appearanceOf = (artist: RunArtist): FestivalAppearance =>
+    appearanceByArtist.get(artist.slug)!;
 
   // ===== The user's own leading genre family (or families, on a tie) =====
   // Used only for *naming* the family in copy and for the min-picks guard — the

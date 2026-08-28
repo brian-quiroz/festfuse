@@ -74,7 +74,7 @@ The service runs its mutations under `session.no_autoflush` and issues explicit
 an existing row:
 
 - **Collection replacement** (genres, track selections, the featured video, similar
-  entries) clears the mapped rows and flushes the `DELETE`s *before* re-inserting,
+  entries) clears the mapped rows and flushes the `DELETE`s _before_ re-inserting,
   because the `(artist_id, display_order)` / `(artist_id, listen_first_order)` /
   one-primary / one-featured / one-quick-picks uniqueness is immediate, not deferrable
   — an in-place reorder would collide mid-statement.
@@ -89,8 +89,8 @@ because it is the least obvious part of the implementation.
 ### A published record must stay publishable
 
 `edit_artist` never touches `publication_status`. To keep that boundary from producing
-a broken live record, the service **refuses** an edit that would leave a *currently
-publishable* artist (published and meeting the readiness bar) below that bar — for
+a broken live record, the service **refuses** an edit that would leave a _currently
+publishable_ artist (published and meeting the readiness bar) below that bar — for
 example dropping a published artist to one genre. The refusal is hard: there is no
 override flag, and the artist is not auto-unpublished (silently pulling a live artist
 off the festival site is a larger, riskier action than rejecting one edit). A draft, or
@@ -146,7 +146,7 @@ itself, exactly as `add_artist.py` does.
 
 - **Subcommands or one script per field group.** Rejected — it fragments the service
   API a future admin `PATCH` endpoint would wrap; a single `edit_artist(session,
-  payload)` with private per-group helpers stays testable without that cost.
+payload)` with private per-group helpers stays testable without that cost.
 - **Infer the run from the artist's single lineup entry** instead of requiring
   `edition` / `run`. Rejected — the multi-run roadmap is next, and the similar-artist
   set is already run-keyed.

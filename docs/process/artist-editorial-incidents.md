@@ -3,7 +3,7 @@
 Case studies behind specific rules in
 [`artist-editorial-process.md`](artist-editorial-process.md). Read this only when a
 check is getting shaky (identity will not converge, location sources conflict) and the
-context helps. The rules in the process doc are self-sufficient; this is the *why*.
+context helps. The rules in the process doc are self-sufficient; this is the _why_.
 
 ---
 
@@ -18,7 +18,7 @@ noticed; do not let it quietly bias the rest of the research.
 
 ### Fabricated personas sitting on a real Spotify ID
 
-Cases where the *stored record itself*, not just search results, described a persona
+Cases where the _stored record itself_, not just search results, described a persona
 that did not match the artist actually behind the stored Spotify ID:
 
 - **Chezile** — `about`, similar artists, and tracks described a fictional persona
@@ -35,7 +35,7 @@ that did not match the artist actually behind the stored Spotify ID:
 This is distinct from a search collision: the stored record reads internally
 consistent, so it is easy to trust it and only spot-check individual facts rather than
 question whether the whole persona is real. When identity feels shaky, fetch the stored
-Spotify URL and read who it names — cheap and decisive. It confirms *an* identity, not
+Spotify URL and read who it names — cheap and decisive. It confirms _an_ identity, not
 that the bio you then find for it is the right one; require multi-source convergence
 before asserting a correction.
 

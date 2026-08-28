@@ -190,55 +190,17 @@ exists yet; revisit alongside standing up frontend testing generally, post-MVP.
 
 ## Future Consideration: Reproducible Backend Bootstrap From a Clean Clone
 
-The committed database tooling now has distinct responsibilities: Alembic migrations
-recreate structure, `scripts.seed_festival` idempotently creates the foundational
-festival hierarchy, and `scripts.import_artists` performs a guarded one-time import of
-the validated TypeScript artist snapshot. Keeping the initial importer is valuable
-even though it intentionally refuses a populated target: it records provenance,
-supports rebuilding development/staging data, and makes the normalization process
-auditable instead of relying on manual pgAdmin edits.
-
-The pieces have been tested individually and the complete importer has run against a
-real migrated PostgreSQL schema, but a new contributor cannot yet rely on one fully
-documented and automatically verified clean-clone path. The root README documents only
-frontend startup, no safe `.env.example` exists, and no test currently creates a brand-
-new disposable database and proves the entire sequence from migration zero through the
-final imported counts.
-
-**Desired bootstrap order:** install frontend dependencies (the exporter requires
-`tsx`), create the backend virtual environment and install `requirements-dev.txt`,
-create/configure PostgreSQL, run `alembic upgrade head`, run
-`python -m scripts.seed_festival`, validate with
-`python -m scripts.import_artists --dry-run`, and finally run
-`python -m scripts.import_artists --apply`.
-
-**Completion criteria:**
-
-- add a backend setup section with exact working-directory assumptions and commands;
-- commit a credential-free `.env.example` containing every required setting;
-- add an isolated clean-database smoke test that applies every migration, runs the
-  festival seed and artist importer, and verifies canonical row totals/relationships;
-- ensure cleanup cannot target or mutate a developer's normal database; and
-- optionally add one convenience command that orchestrates the existing steps without
-  duplicating migration, seed, or importer logic.
-
-Do not describe the backend as fully reproducible from a clean clone until that smoke
-test passes. The festival seed may remain idempotent, while the artist importer should
-remain a guarded initial-snapshot operation; ordinary updates belong to APIs or a
-purpose-built synchronization workflow rather than rerunning the bootstrap importer.
-
-**Resolution (artist authoring roadmap sections 5 and 6, ADR-0014):** resolved.
+**Resolved** (artist authoring roadmap sections 5-6, ADR-0014).
 `docs/operations/local-development.md` has a from-scratch backend bootstrap section
 (linked from the root README); `backend/.env.example` is committed with an explicit
-`.gitignore` exception; `backend/tests/integration/test_clean_bootstrap.py`
-applies every migration to a disposable database, asserts `alembic check` finds no
-drift, runs the festival seed, checks the canonical hierarchy counts, and cannot touch
-a database it did not generate. The reproducible artist-data path is a PostgreSQL
-`pg_dump` / `pg_restore` procedure ([`backup-restore.md`](operations/backup-restore.md)),
-so the smoke test stops at migrations plus seed. Section 6 deleted `import_artists.py`
-and its tests, so there is no longer a TypeScript-coupled bootstrap path to document or
-guard. Still open (minor): the optional single convenience command that orchestrates
-migrations plus seed.
+`.gitignore` exception; `backend/tests/integration/test_clean_bootstrap.py` applies
+every migration to a disposable database, asserts `alembic check` finds no drift, runs
+the festival seed, checks the canonical hierarchy counts, and cannot touch a database
+it did not generate. A new environment's artist dataset comes from a `pg_dump` /
+`pg_restore` restore ([`backup-restore.md`](operations/backup-restore.md)).
+
+**Still open (minor):** an optional single convenience command that orchestrates
+`alembic upgrade head` plus `scripts.seed_festival` without duplicating their logic.
 
 ---
 
@@ -508,8 +470,7 @@ projection type needed, since its signal computation never touches an editorial
 field) now both read from this store, following the same pattern.
 
 **Update (2026-08-26):** Fully resolved, including the item this entry originally
-left open. `app/data/artists`'s removal as a frontend runtime dependency (step 7 item
-7) is complete — every consumer's TS-fallback constructor was deleted alongside its
+left open. `app/data/artists`'s removal as a frontend runtime dependency (step 7 item 7) is complete — every consumer's TS-fallback constructor was deleted alongside its
 sole caller, so the per-consumer projection types above now each have exactly one
 live (API-only) constructor rather than a fallback pair. `app/data/artists` remains
 in the repo only as the authoring/import source (see `docs/roadmap/artist-authoring.md`).
@@ -610,7 +571,7 @@ becomes real, or the count-driven sweep visibly fails to keep the distribution s
 A verified `about` goes stale over a year; a similar-artist set drifts as scenes and
 scales change. The editorial process handles this with a manual freshness re-review mode
 the editor invokes per artist (re-verify against current sources, re-stamp). There is no
-automated signal for *which* artists are due — no query over `about_verified_at` /
+automated signal for _which_ artists are due — no query over `about_verified_at` /
 `SimilarArtistSet.verified_at` age, no surfacing in `show_artist.py` or a report.
 
 **If built:** a `--stale` mode listing verified records past some age threshold, and/or
@@ -656,3 +617,22 @@ in a patch as a deliberate re-verification that always refreshes the timestamp a
 reports a `re-verified` `FieldChange`, even with no content change. A small,
 self-contained `edit_artist` change; low priority until re-reviews are a routine cadence
 rather than occasional.
+
+---
+
+## Future Consideration: `ARCHITECTURE.md` vs ADR Boundary
+
+`ARCHITECTURE.md` carries a lot of decisioning narrative (why a shape was chosen, what
+alternatives were rejected, debugging writeups) alongside its description of the system
+as built. That narrative is what ADRs are for, and mixing the two makes the doc long
+enough that the current-state description is harder to find and keep accurate.
+
+**The intent:** progressively extract the historical and decision content into ADRs so
+`ARCHITECTURE.md` can shrink toward a plain current-state reference, with the "why"
+one link away. Case by case, not a wholesale backdating of ADRs. Some sections are
+purely current-state and stay; some are mostly a decision record and could move almost
+entirely; most are a mix and need a judgement call on what stays as a short summary
+versus what moves.
+
+**Not scheduled.** Do it opportunistically when touching a section for another reason,
+or as a dedicated pass once the boundary rule is settled.

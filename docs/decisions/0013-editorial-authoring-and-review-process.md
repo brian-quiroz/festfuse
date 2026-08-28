@@ -142,7 +142,7 @@ The out-of-repo `~/.claude/skills/artist-review/` copy is deleted.
 
 ### Deferred
 
-- The `add-genre` / `delete-genre` *operations* stay deferred (ADR-0011). Adding a genre
+- The `add-genre` / `delete-genre` _operations_ stay deferred (ADR-0011). Adding a genre
   when one is genuinely needed is expected, not discouraged — it is just a manual
   two-file change (the `genres` table plus `app/data/categories.ts`) rather than a CLI
   for now. The research pass flags a missing genre with sources and the editor adds it;

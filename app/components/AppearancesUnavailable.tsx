@@ -8,8 +8,15 @@ import { CircleAlert } from "lucide-react";
 export default function AppearancesUnavailable() {
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center px-8">
-      <CircleAlert size={40} strokeWidth={1.5} aria-hidden="true" className="text-[#EF4444]/80 mb-5" />
-      <h1 className="text-3xl font-extrabold text-white tracking-tight mb-2">Festival data unavailable</h1>
+      <CircleAlert
+        size={40}
+        strokeWidth={1.5}
+        aria-hidden="true"
+        className="text-[#EF4444]/80 mb-5"
+      />
+      <h1 className="text-3xl font-extrabold text-white tracking-tight mb-2">
+        Festival data unavailable
+      </h1>
       <p className="text-sm text-white/50 mb-8 max-w-sm">
         We couldn&apos;t load festival data. Try reloading.
       </p>

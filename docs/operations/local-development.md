@@ -62,12 +62,24 @@ Quick Picks persists decisions) via DevTools' Console, then reload before naviga
 to Quick Picks:
 
 ```js
-const thu = ["kim-theory", "pearly-drops", /* ...every artist slug for the target day */];
+const thu = ["kim-theory", "pearly-drops" /* ...every artist slug for the target day */];
 const decisionsByArtist = Object.fromEntries(
-  thu.map((slug, i) => [slug, { verdict: i < 6 ? "mustSee" : "passed", source: "quickPicks", updatedAt: Date.now() }])
+  thu.map((slug, i) => [
+    slug,
+    { verdict: i < 6 ? "mustSee" : "passed", source: "quickPicks", updatedAt: Date.now() },
+  ])
 );
-localStorage.setItem("decision-store", JSON.stringify({ state: { decisionsByArtist, hasHydrated: false }, version: 0 }));
-localStorage.setItem("attendance-store", JSON.stringify({ state: { attendanceDaysByFestival: { "lollapalooza-2026": ["Thursday"] }, hasHydrated: false }, version: 0 }));
+localStorage.setItem(
+  "decision-store",
+  JSON.stringify({ state: { decisionsByArtist, hasHydrated: false }, version: 0 })
+);
+localStorage.setItem(
+  "attendance-store",
+  JSON.stringify({
+    state: { attendanceDaysByFestival: { "lollapalooza-2026": ["Thursday"] }, hasHydrated: false },
+    version: 0,
+  })
+);
 ```
 
 Two things that trip this up:

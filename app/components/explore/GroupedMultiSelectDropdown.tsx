@@ -59,7 +59,12 @@ export default function GroupedMultiSelectDropdown({
   // for what's guaranteed (no stale-filter flash) versus what's environment-dependent
   // (browser back/forward restoration). A hard page reload always resets it to empty.
   const [expandedFamilies, setExpandedFamilies] = useState<Set<GenreFamily>>(
-    () => new Set(groups.filter((g) => g.genres.some((genre) => selected.includes(genre))).map((g) => g.family))
+    () =>
+      new Set(
+        groups
+          .filter((g) => g.genres.some((genre) => selected.includes(genre)))
+          .map((g) => g.family)
+      )
   );
 
   const selectedCountByFamily = useMemo(() => {

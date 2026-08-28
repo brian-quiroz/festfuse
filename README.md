@@ -31,7 +31,7 @@ The goal is not to catalog everything about every artist. It is to help festival
 
 - **Quick Picks**
 
-  Review artists one at a time, with a Quick Listen preview and similar-artist suggestions for context, and choose *Pass*, *Interested*, or *Must See*, with the option to step back and revisit your last call.
+  Review artists one at a time, with a Quick Listen preview and similar-artist suggestions for context, and choose _Pass_, _Interested_, or _Must See_, with the option to step back and revisit your last call.
 
 - **Planner**
 
@@ -128,7 +128,7 @@ The onboarding modal.
 
 Built with the Next.js App Router, React, TypeScript, and Tailwind CSS, with a FastAPI/PostgreSQL backend deployed on Railway.
 
-- **Backend cutover**: migrated every artist-facing screen from local TypeScript reads to a deployed FastAPI/PostgreSQL backend, with a normalized artist schema, guarded transactional import and publication steps, and PostgreSQL integration tests over the query layer.
+- **PostgreSQL-backed artist data**: every artist-facing screen reads from a deployed FastAPI/PostgreSQL backend with a normalized artist schema and PostgreSQL integration tests. Artist records are authored directly in the database through small transactional CLI workflows, backed by an editorial research-and-review process.
 - **Festival Story's insight engine** computes a personalized recap from the user's actual attendance scope and picks each time, instead of displaying a fixed or randomly generated script.
 - **Multi-appearance modeling** lets a repeat festival performance exist as its own scoped appearance record instead of duplicating the artist, so the same artist can play multiple sets without the two copies drifting out of sync.
 - **Rehydration resilience**: fixed three separate causes of a blank-screen bug on page load, each traced back to how a returning user's saved picks were being restored from the browser, not patched over ([details](ARCHITECTURE.md#hydrationgate-resilience-to-rehydration-errors)).
@@ -163,7 +163,6 @@ For deeper implementation notes and design decisions, see [ARCHITECTURE.md](ARCH
 - [SQLAlchemy 2](https://www.sqlalchemy.org/)
 - [Psycopg 3](https://www.psycopg.org/psycopg3/)
 - [Alembic](https://alembic.sqlalchemy.org/) migrations
-- Transactional TypeScript-to-PostgreSQL artist import, plus idempotent seeding and publication workflows
 
 **Testing and quality**
 
@@ -215,8 +214,6 @@ FestFuse covers the Lollapalooza 2026 lineup and reads all artist data from its
 FastAPI/PostgreSQL backend. The next iteration focuses on:
 
 - Multiple festivals, including editions that run more than one weekend
-- Replacing the TypeScript artist files with a direct-to-PostgreSQL authoring workflow
-  ([`docs/roadmap/artist-authoring.md`](docs/roadmap/artist-authoring.md))
 - Supporting an announced lineup before its schedule is published
 - Expanding frontend and backend automated test coverage
 
@@ -230,7 +227,7 @@ backend/                 # FastAPI, SQLAlchemy models, Alembic migrations, and t
 app/
 ├── artist/[slug]/       # Artist detail routes
 ├── components/          # Shared and feature-specific UI
-├── data/                # Festival, artist, taxonomy, and story data
+├── data/                # Festival config, category vocabularies, and story data
 ├── explore/             # Lineup discovery
 ├── hooks/               # Shared React behavior and story signals
 ├── lib/                 # Search, filtering, scheduling, and sampling logic

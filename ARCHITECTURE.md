@@ -6,7 +6,7 @@ System design decisions and data structure rationale for FestFuse.
 
 This document covers the current, built system: how artist and festival data is
 modeled and normalized, how the Explore/Quick Picks/Planner/Festival Story features
-work internally, and how the new backend persistence foundation is structured.
+work internally, and how the backend persistence foundation is structured.
 
 Significant choices and their tradeoffs are recorded separately in the
 [architecture decision log](docs/decisions/README.md). This document describes the
@@ -22,11 +22,11 @@ this document stays focused on what actually exists.
 A few decisions below are worth reading first if you're skimming:
 
 - **[Multi-appearance modeling](#multi-appearance-support)** — repeat festival performances are modeled as separate appearance records tied back to one artist, not duplicated artist rows, so the same artist can play multiple sets without data drift between them.
-- **[Backend persistence foundation](#backend-persistence-foundation)** — FastAPI, SQLAlchemy, PostgreSQL, and Alembic now provide a versioned path from the frontend's typed source data to a database-backed multi-festival system.
+- **[Backend persistence foundation](#backend-persistence-foundation)** — a normalized PostgreSQL schema behind FastAPI is the sole artist data source, read and write, with Alembic-managed migrations and PostgreSQL integration tests over the read layer.
 - **[Category normalization at scale](#categories-design)** — 448 raw "what to expect" phrases collapsed to 36 canonical tags, 285 "best for" phrases to 15, and 123 genres grouped into 10 families, all typed from one source of truth.
 - **[Festival Story's insight engine](#festival-story)** — the personalized recap is computed from a user's actual attendance scope and picks each time, not a fixed or randomized script.
 - **[Schedule conflict detection](#schedule-feature-mvp)** — the Planner grid flags real time/stage overlaps across a user's scheduled picks, not just a static calendar view.
-- **[The interest-state model](#interest-state)** — Must See / Interested / Passed is a deliberately small, festival-scoped decision model, with a documented reason for *not* generalizing it further (see [Future Considerations](docs/FUTURE_CONSIDERATIONS.md)).
+- **[The interest-state model](#interest-state)** — Must See / Interested / Passed is a deliberately small, festival-scoped decision model, with a documented reason for _not_ generalizing it further (see [Future Considerations](docs/FUTURE_CONSIDERATIONS.md)).
 - **[Deterministic carousel sampling](#carousel-duplicate-suppression)** — Explore's featured rows look freshly shuffled but render identically between server and client, avoiding hydration mismatches.
 - **[A rehydration-error debugging writeup](#hydrationgate-resilience-to-rehydration-errors)** — three separate, layered failure modes in the Zustand persist + localStorage + Next.js stack, each traced to root cause and fixed, not just patched over.
 
@@ -42,7 +42,7 @@ backend, over two read paths: the run-scoped appearances feed (behind
 Credits) and the per-artist detail fetch (`/artist/[slug]`). See "Backend Persistence
 Foundation" below and `docs/roadmap/backend-rollout.md`.
 
-The frontend keeps the artist *type* (`app/types/artist.ts`) plus the category
+The frontend keeps the artist _type_ (`app/types/artist.ts`) plus the category
 vocabularies and festival config it depends on (`app/data/categories.ts`,
 `app/data/festivals.ts`). `provenance/artists-lollapalooza-2026.json` is a frozen data
 snapshot used only by `app/lib/verify-story-signals.ts`, never at runtime.
@@ -478,22 +478,25 @@ FestivalRun + source Artist ─── SimilarArtistSet ─── SimilarArtist e
 - Image metadata cannot exist without the canonical `image_url`, while an Artist may
   validly have no image at all.
 
-Initial application data is created through committed seed/import scripts rather
-than embedded in schema migrations. Alembic owns structure; seed and import workflows
-own application records. The festival seed is idempotent. The artist importer is a
-guarded initial-snapshot operation: a TypeScript serializer emits versioned JSON,
-Python validates and normalizes it, and one PostgreSQL transaction creates the full
-graph or rolls everything back. It intentionally refuses to merge into populated
-artist/taxonomy/track or edition-stage tables; routine updates belong to future API or
-purpose-built synchronization workflows. The hierarchy migration's Lollapalooza
-series insertion is a one-time backfill required to preserve an already-seeded
-edition while transforming the existing table in place.
+Application data is created through committed scripts rather than embedded in schema
+migrations. Alembic owns structure; the scripts own records. The festival seed
+(`scripts/seed_festival.py`) is idempotent. Artist facts are authored directly in
+PostgreSQL through transactional CLIs (`add_artist` / `edit_artist` / `delete_artist`,
+plus `build_roster_payloads` for a hand-authored roster CSV), each running its
+operation in one transaction that commits or rolls back as a unit. A new environment
+loads its artist dataset by restoring a `pg_dump` of an existing database (see
+[backup-restore](docs/operations/backup-restore.md)). The hierarchy migration's
+Lollapalooza series insertion is a one-time backfill required to preserve an
+already-seeded edition while transforming the existing table in place.
 
 See [ADR-0001](docs/decisions/0001-introduce-fastapi-postgresql-backend.md),
 [ADR-0003](docs/decisions/0003-separate-festival-series-and-editions.md), and
 [ADR-0004](docs/decisions/0004-model-artist-curation-and-scheduling.md) for context,
 alternatives, and consequences. ADR-0003 supersedes the original hierarchy in
 ADR-0002 while retaining its run/day reasoning.
+[ADR-0011](docs/decisions/0011-direct-to-postgresql-artist-authoring.md) and
+[ADR-0014](docs/decisions/0014-postgresql-backup-and-clean-rebuild.md) cover the
+direct-to-PostgreSQL authoring workflow and the database rebuild path.
 
 ---
 
@@ -1964,11 +1967,11 @@ Every consumer projection type follows the same convention: a lean type carrying
 the fields that one consumer actually renders, built by mapping `runAppearancesStore`'s
 own `appearancesBySlug` through exactly one constructor.
 
-| Consumer | Type | Grain | Constructor |
-| --- | --- | --- | --- |
-| Planner | `AppearanceEntry` (`app/lib/schedule.ts`) | per-appearance | `getAppearanceEntriesFromApi` |
-| Explore / Festival Story / Credits | `RunArtist` (`app/lib/api/mapRunAppearance.ts`) | per-artist | `getRunArtistsFromApi` |
-| Quick Picks | `QuickPicksRunArtist` (`app/lib/api/mapRunAppearance.ts`) | per-artist | `getQuickPicksRunArtistsFromApi` |
+| Consumer                           | Type                                                      | Grain          | Constructor                      |
+| ---------------------------------- | --------------------------------------------------------- | -------------- | -------------------------------- |
+| Planner                            | `AppearanceEntry` (`app/lib/schedule.ts`)                 | per-appearance | `getAppearanceEntriesFromApi`    |
+| Explore / Festival Story / Credits | `RunArtist` (`app/lib/api/mapRunAppearance.ts`)           | per-artist     | `getRunArtistsFromApi`           |
+| Quick Picks                        | `QuickPicksRunArtist` (`app/lib/api/mapRunAppearance.ts`) | per-artist     | `getQuickPicksRunArtistsFromApi` |
 
 None reuse or extend the full `Artist` type — see ADR-0006's Alternatives Considered
 for why fabricating unused editorial fields was rejected. `QuickPicksRunArtist`

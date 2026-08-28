@@ -107,23 +107,23 @@ supersedes the affected hierarchy without rewriting the historical decision.
 
 ### Entity and relationship ownership
 
-| Concept | Current decision |
-| --- | --- |
-| Artist | Independent entity, globally reusable across festivals |
-| Genre Family | Independent taxonomy entity |
-| Genre | Independent taxonomy entity with exactly one family |
-| Artist–Genre | Many-to-many relationship with explicit display order and primary status |
-| Track | Independent external media identity with a Spotify track ID and name |
+| Concept              | Current decision                                                                         |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+| Artist               | Independent entity, globally reusable across festivals                                   |
+| Genre Family         | Independent taxonomy entity                                                              |
+| Genre                | Independent taxonomy entity with exactly one family                                      |
+| Artist–Genre         | Many-to-many relationship with explicit display order and primary status                 |
+| Track                | Independent external media identity with a Spotify track ID and name                     |
 | ArtistTrackSelection | Artist-to-track curation carrying explicit Quick Picks and/or ordered Listen First roles |
-| ArtistVideo | Repeatable artist-owned entity with per-video metadata and health information |
-| Similar Artist set | FestivalRun-scoped, set-verified recommendation collection |
-| Similar Artist entry | Directional, ordered reference from the set to a canonical Artist |
-| FestivalSeries | Stable identity for a recurring festival in one market |
-| FestivalEdition | One dated occurrence of a FestivalSeries |
-| LineupEntry | Artist booking/membership in one FestivalRun, independent of schedule availability |
-| Appearance | One scheduled performance owned by a LineupEntry |
-| Stage | Festival-edition-owned entity referenced by appearances |
-| Location/Place | Deferred as an independent entity; current location remains artist-owned |
+| ArtistVideo          | Repeatable artist-owned entity with per-video metadata and health information            |
+| Similar Artist set   | FestivalRun-scoped, set-verified recommendation collection                               |
+| Similar Artist entry | Directional, ordered reference from the set to a canonical Artist                        |
+| FestivalSeries       | Stable identity for a recurring festival in one market                                   |
+| FestivalEdition      | One dated occurrence of a FestivalSeries                                                 |
+| LineupEntry          | Artist booking/membership in one FestivalRun, independent of schedule availability       |
+| Appearance           | One scheduled performance owned by a LineupEntry                                         |
+| Stage                | Festival-edition-owned entity referenced by appearances                                  |
+| Location/Place       | Deferred as an independent entity; current location remains artist-owned                 |
 
 ## Artist persistence
 
@@ -132,32 +132,32 @@ required by publication validation without being non-null database columns.
 
 ### Artist fields
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `id` | Integer | No | Auto-generated primary key |
-| `slug` | `VARCHAR(100)` | No | Unique public/API identifier |
-| `name` | `VARCHAR(200)` | No | Unicode public name; not unique |
-| `mbid` | `VARCHAR(36)` | Yes | MusicBrainz identifier; unique when present. A stable external key for future data work, with no current runtime consumer |
-| `spotify_artist_id` | `VARCHAR(100)` | Yes | Unique when present; core external identity, not an ordinary social link |
-| `image_url` | `TEXT` | Yes | Presence means the image is approved for display |
-| `image_focal_y_percent` | Small integer | Yes | Vertical focal point from 0 through 100; null uses the default center |
-| `image_credit_author` | `VARCHAR(200)` | Yes | Attribution metadata |
-| `image_source_url` | `TEXT` | Yes | Original source page |
-| `image_license_url` | `TEXT` | Yes | License reference |
-| `image_taken_year` | Small integer | Yes | Approximate photograph year when known; do not invent precision |
-| `image_sourced_at` | Date | Yes | Date the current image was selected for FestFuse |
-| `location_city` | `VARCHAR(100)` | Yes | One display-oriented location associated with the artist |
-| `location_state` | `VARCHAR(100)` | Yes | Currently used for US states |
-| `location_country` | `VARCHAR(100)` | Yes | Current controlled country value |
-| `about` | `TEXT` | Yes | Editorial description |
-| `about_verified_at` | Timestamp with timezone | Yes | Null hides unverified content; editing About must clear this value |
-| `youtube_url` | `TEXT` | Yes | Optional promotional link |
-| `tiktok_url` | `TEXT` | Yes | Optional promotional link |
-| `socials_verified` | Boolean | No | Defaults false; preserves the current YouTube/TikTok visibility gate |
-| `listen_first_note` | `TEXT` | Yes | Optional note describing the curated Listen First collection as a whole |
-| `publication_status` | `VARCHAR(20)` | No | Initially `draft` or `published`; defaults to `draft` |
-| `created_at` | Timestamp with timezone | No | Database-record creation time |
-| `updated_at` | Timestamp with timezone | No | Most recent change to the artist row |
+| Field                   | PostgreSQL concept      | Nullable | Notes                                                                                                                     |
+| ----------------------- | ----------------------- | -------: | ------------------------------------------------------------------------------------------------------------------------- |
+| `id`                    | Integer                 |       No | Auto-generated primary key                                                                                                |
+| `slug`                  | `VARCHAR(100)`          |       No | Unique public/API identifier                                                                                              |
+| `name`                  | `VARCHAR(200)`          |       No | Unicode public name; not unique                                                                                           |
+| `mbid`                  | `VARCHAR(36)`           |      Yes | MusicBrainz identifier; unique when present. A stable external key for future data work, with no current runtime consumer |
+| `spotify_artist_id`     | `VARCHAR(100)`          |      Yes | Unique when present; core external identity, not an ordinary social link                                                  |
+| `image_url`             | `TEXT`                  |      Yes | Presence means the image is approved for display                                                                          |
+| `image_focal_y_percent` | Small integer           |      Yes | Vertical focal point from 0 through 100; null uses the default center                                                     |
+| `image_credit_author`   | `VARCHAR(200)`          |      Yes | Attribution metadata                                                                                                      |
+| `image_source_url`      | `TEXT`                  |      Yes | Original source page                                                                                                      |
+| `image_license_url`     | `TEXT`                  |      Yes | License reference                                                                                                         |
+| `image_taken_year`      | Small integer           |      Yes | Approximate photograph year when known; do not invent precision                                                           |
+| `image_sourced_at`      | Date                    |      Yes | Date the current image was selected for FestFuse                                                                          |
+| `location_city`         | `VARCHAR(100)`          |      Yes | One display-oriented location associated with the artist                                                                  |
+| `location_state`        | `VARCHAR(100)`          |      Yes | Currently used for US states                                                                                              |
+| `location_country`      | `VARCHAR(100)`          |      Yes | Current controlled country value                                                                                          |
+| `about`                 | `TEXT`                  |      Yes | Editorial description                                                                                                     |
+| `about_verified_at`     | Timestamp with timezone |      Yes | Null hides unverified content; editing About must clear this value                                                        |
+| `youtube_url`           | `TEXT`                  |      Yes | Optional promotional link                                                                                                 |
+| `tiktok_url`            | `TEXT`                  |      Yes | Optional promotional link                                                                                                 |
+| `socials_verified`      | Boolean                 |       No | Defaults false; preserves the current YouTube/TikTok visibility gate                                                      |
+| `listen_first_note`     | `TEXT`                  |      Yes | Optional note describing the curated Listen First collection as a whole                                                   |
+| `publication_status`    | `VARCHAR(20)`           |       No | Initially `draft` or `published`; defaults to `draft`                                                                     |
+| `created_at`            | Timestamp with timezone |       No | Database-record creation time                                                                                             |
+| `updated_at`            | Timestamp with timezone |       No | Most recent change to the artist row                                                                                      |
 
 ### Artist constraints and validation
 
@@ -233,13 +233,13 @@ license/source verification process exists.
 
 Different timestamps answer different questions:
 
-| Timestamp | Meaning |
-| --- | --- |
-| `created_at` | When the database record was created |
-| `updated_at` | When anything on that row last changed |
-| `verified_at` | When specific editorial content was approved |
-| `last_checked_at` | When an external resource was last confirmed available |
-| external `published_at` | When external media was originally released |
+| Timestamp               | Meaning                                                |
+| ----------------------- | ------------------------------------------------------ |
+| `created_at`            | When the database record was created                   |
+| `updated_at`            | When anything on that row last changed                 |
+| `verified_at`           | When specific editorial content was approved           |
+| `last_checked_at`       | When an external resource was last confirmed available |
+| external `published_at` | When external media was originally released            |
 
 `about_verified_at` is intentionally field-specific. A PostgreSQL trigger clears it
 whenever the About text changes. Likewise, changing `youtube_url` or `tiktok_url`
@@ -290,28 +290,28 @@ A Genre-to-Family junction is unnecessary while a genre has exactly one family.
 
 ### GenreFamily fields
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `id` | Integer | No | Auto-generated primary key |
-| `slug` | `VARCHAR(100)` | No | Unique stable API/code identifier |
-| `name` | `VARCHAR(100)` | No | Unique human-facing name |
-| `display_order` | Integer | No | Positive and unique; preserves family presentation order |
-| `created_at` | Timezone-aware timestamp | No | Database-record creation time |
-| `updated_at` | Timezone-aware timestamp | No | Last database-record update |
+| Field           | PostgreSQL concept       | Nullable | Notes                                                    |
+| --------------- | ------------------------ | -------: | -------------------------------------------------------- |
+| `id`            | Integer                  |       No | Auto-generated primary key                               |
+| `slug`          | `VARCHAR(100)`           |       No | Unique stable API/code identifier                        |
+| `name`          | `VARCHAR(100)`           |       No | Unique human-facing name                                 |
+| `display_order` | Integer                  |       No | Positive and unique; preserves family presentation order |
+| `created_at`    | Timezone-aware timestamp |       No | Database-record creation time                            |
+| `updated_at`    | Timezone-aware timestamp |       No | Last database-record update                              |
 
 Genre-family gradient colors remain frontend presentation configuration keyed by the
 stable family slug.
 
 ### Genre fields
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `id` | Integer | No | Auto-generated primary key |
-| `family_id` | Integer | No | Foreign key to GenreFamily |
-| `slug` | `VARCHAR(100)` | No | Unique stable identifier |
-| `name` | `VARCHAR(100)` | No | Unique human-facing name |
-| `created_at` | Timezone-aware timestamp | No | Database-record creation time |
-| `updated_at` | Timezone-aware timestamp | No | Last database-record update |
+| Field        | PostgreSQL concept       | Nullable | Notes                         |
+| ------------ | ------------------------ | -------: | ----------------------------- |
+| `id`         | Integer                  |       No | Auto-generated primary key    |
+| `family_id`  | Integer                  |       No | Foreign key to GenreFamily    |
+| `slug`       | `VARCHAR(100)`           |       No | Unique stable identifier      |
+| `name`       | `VARCHAR(100)`           |       No | Unique human-facing name      |
+| `created_at` | Timezone-aware timestamp |       No | Database-record creation time |
+| `updated_at` | Timezone-aware timestamp |       No | Last database-record update   |
 
 Genres do not have a curated taxonomy-level display order. Backend queries that need
 taxonomy presentation explicitly alphabetize genres by name within each family; the
@@ -319,14 +319,14 @@ SQLAlchemy relationship itself does not impose an order on every load.
 
 ### Artist–Genre fields
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `artist_id` | Integer | No | Foreign key to Artist |
-| `genre_id` | Integer | No | Foreign key to Genre |
-| `display_order` | Integer | No | Position 1 through 3; unique within the artist |
-| `is_primary` | Boolean | No | Explicit primary classification; defaults false |
-| `created_at` | Timezone-aware timestamp | No | Time the assignment was created |
-| `updated_at` | Timezone-aware timestamp | No | Last order/primary-role update |
+| Field           | PostgreSQL concept       | Nullable | Notes                                           |
+| --------------- | ------------------------ | -------: | ----------------------------------------------- |
+| `artist_id`     | Integer                  |       No | Foreign key to Artist                           |
+| `genre_id`      | Integer                  |       No | Foreign key to Genre                            |
+| `display_order` | Integer                  |       No | Position 1 through 3; unique within the artist  |
+| `is_primary`    | Boolean                  |       No | Explicit primary classification; defaults false |
+| `created_at`    | Timezone-aware timestamp |       No | Time the assignment was created                 |
+| `updated_at`    | Timezone-aware timestamp |       No | Last order/primary-role update                  |
 
 `artist_id` plus `genre_id` forms the composite primary key, preventing duplicate
 assignments. `artist_id` plus `display_order` is unique. A partial unique index allows
@@ -349,15 +349,15 @@ Deletion behavior is:
 
 ### Current product behavior
 
-| Use case | Genre data used |
-| --- | --- |
-| Artist Detail pills | All assignments in presentation order |
-| Quick Picks pills | First two ordered genres |
-| Compact artist-card label | Explicit primary genre |
-| Image fallback gradient | Primary genre's family |
-| Filtering and search | Any assigned genre |
-| Festival Story genre breadth | Every distinct assigned genre across the selected artists |
-| Festival Story family affinity | Every assigned genre mapped to its family |
+| Use case                       | Genre data used                                           |
+| ------------------------------ | --------------------------------------------------------- |
+| Artist Detail pills            | All assignments in presentation order                     |
+| Quick Picks pills              | First two ordered genres                                  |
+| Compact artist-card label      | Explicit primary genre                                    |
+| Image fallback gradient        | Primary genre's family                                    |
+| Filtering and search           | Any assigned genre                                        |
+| Festival Story genre breadth   | Every distinct assigned genre across the selected artists |
+| Festival Story family affinity | Every assigned genre mapped to its family                 |
 
 Festival Story does not weight the primary genre. For family-affinity calculations,
 it maps all of an artist's genres to families and counts each family at most once per
@@ -401,13 +401,13 @@ Spotify has two separate roles that must not be conflated:
 
 The initial Track entity contains:
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `id` | Integer | No | Auto-generated primary key |
-| `spotify_track_id` | `VARCHAR(100)` | No | Unique external identity |
-| `name` | `VARCHAR(200)` | No | Recognizable display name |
-| `created_at` | Timezone-aware timestamp | No | Database-record creation time |
-| `updated_at` | Timezone-aware timestamp | No | Last database-record update |
+| Field              | PostgreSQL concept       | Nullable | Notes                         |
+| ------------------ | ------------------------ | -------: | ----------------------------- |
+| `id`               | Integer                  |       No | Auto-generated primary key    |
+| `spotify_track_id` | `VARCHAR(100)`           |       No | Unique external identity      |
+| `name`             | `VARCHAR(200)`           |       No | Recognizable display name     |
+| `created_at`       | Timezone-aware timestamp |       No | Database-record creation time |
+| `updated_at`       | Timezone-aware timestamp |       No | Last database-record update   |
 
 Album, duration, artwork URL, full discographies, and full performer/credit modeling
 are deferred because current product behavior does not need them.
@@ -417,14 +417,14 @@ are deferred because current product behavior does not need them.
 `ArtistTrackSelection` represents FestFuse curation, not recording credits or a
 claim that the selected artist is the track's only performer.
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `artist_id` | Integer | No | Foreign key to Artist |
-| `track_id` | Integer | No | Foreign key to Track |
-| `is_quick_picks` | Boolean | No | Explicit Quick Picks role; defaults false |
-| `listen_first_order` | Small integer | Yes | Curated Listen First position 1 through 3 |
-| `created_at` | Timezone-aware timestamp | No | Time the selection was created |
-| `updated_at` | Timezone-aware timestamp | No | Last role/order update |
+| Field                | PostgreSQL concept       | Nullable | Notes                                     |
+| -------------------- | ------------------------ | -------: | ----------------------------------------- |
+| `artist_id`          | Integer                  |       No | Foreign key to Artist                     |
+| `track_id`           | Integer                  |       No | Foreign key to Track                      |
+| `is_quick_picks`     | Boolean                  |       No | Explicit Quick Picks role; defaults false |
+| `listen_first_order` | Small integer            |      Yes | Curated Listen First position 1 through 3 |
+| `created_at`         | Timezone-aware timestamp |       No | Time the selection was created            |
+| `updated_at`         | Timezone-aware timestamp |       No | Last role/order update                    |
 
 `artist_id` plus `track_id` forms the composite primary key. A single selection can
 serve both roles: it may be the Quick Picks track and also occupy a curated Listen
@@ -492,19 +492,19 @@ credible future requirement and health metadata belongs to each individual video
 
 ### ArtistVideo fields
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `id` | Integer | No | Auto-generated primary key |
-| `artist_id` | Integer | No | Foreign key to Artist |
-| `youtube_video_id` | `VARCHAR(100)` | No | External YouTube identifier |
-| `label` | `VARCHAR(200)` | No | Curated human-facing performance description |
-| `is_featured` | Boolean | No | Explicit Artist Detail role; defaults false |
-| `display_order` | Integer | No | Positive and unique within the artist |
-| `published_at` | Date | Yes | External publication/performance date when known |
-| `is_available` | Boolean | No | Most recently known playback state; defaults true for a manually confirmed video |
-| `last_checked_at` | Timezone-aware timestamp | Yes | Time availability was last checked |
-| `created_at` | Timezone-aware timestamp | No | Database-record creation time |
-| `updated_at` | Timezone-aware timestamp | No | Last database-record update |
+| Field              | PostgreSQL concept       | Nullable | Notes                                                                            |
+| ------------------ | ------------------------ | -------: | -------------------------------------------------------------------------------- |
+| `id`               | Integer                  |       No | Auto-generated primary key                                                       |
+| `artist_id`        | Integer                  |       No | Foreign key to Artist                                                            |
+| `youtube_video_id` | `VARCHAR(100)`           |       No | External YouTube identifier                                                      |
+| `label`            | `VARCHAR(200)`           |       No | Curated human-facing performance description                                     |
+| `is_featured`      | Boolean                  |       No | Explicit Artist Detail role; defaults false                                      |
+| `display_order`    | Integer                  |       No | Positive and unique within the artist                                            |
+| `published_at`     | Date                     |      Yes | External publication/performance date when known                                 |
+| `is_available`     | Boolean                  |       No | Most recently known playback state; defaults true for a manually confirmed video |
+| `last_checked_at`  | Timezone-aware timestamp |      Yes | Time availability was last checked                                               |
+| `created_at`       | Timezone-aware timestamp |       No | Database-record creation time                                                    |
+| `updated_at`       | Timezone-aware timestamp |       No | Last database-record update                                                      |
 
 An artist may own multiple video rows. The same YouTube ID may appear for different
 artists because a collaborative performance can legitimately be curated for each,
@@ -534,34 +534,34 @@ sets in different runs.
 
 ### SimilarArtistSet fields
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `id` | Integer | No | Auto-generated primary key |
-| `festival_run_id` | Integer | No | Foreign key to the lineup context |
-| `source_artist_id` | Integer | No | Artist receiving the recommendations |
-| `verified_at` | Timezone-aware timestamp | Yes | Approval time for the complete set |
-| `created_at` | Timezone-aware timestamp | No | Database-record creation time |
-| `updated_at` | Timezone-aware timestamp | No | Last database-record update |
+| Field              | PostgreSQL concept       | Nullable | Notes                                |
+| ------------------ | ------------------------ | -------: | ------------------------------------ |
+| `id`               | Integer                  |       No | Auto-generated primary key           |
+| `festival_run_id`  | Integer                  |       No | Foreign key to the lineup context    |
+| `source_artist_id` | Integer                  |       No | Artist receiving the recommendations |
+| `verified_at`      | Timezone-aware timestamp |      Yes | Approval time for the complete set   |
+| `created_at`       | Timezone-aware timestamp |       No | Database-record creation time        |
+| `updated_at`       | Timezone-aware timestamp |       No | Last database-record update          |
 
 `festival_run_id` plus `source_artist_id` is unique. This parent row distinguishes
 not-yet-curated, draft, verified-complete, and verified-intentionally-empty states:
 
-| Stored state | Meaning |
-| --- | --- |
-| No set row | Curation has not started for this artist and run |
-| Set with null `verified_at` | Draft or in-progress curation |
-| Verified set with four entries | Reviewed and ready for display |
-| Verified set with zero entries | Reviewed and intentionally left empty |
+| Stored state                   | Meaning                                          |
+| ------------------------------ | ------------------------------------------------ |
+| No set row                     | Curation has not started for this artist and run |
+| Set with null `verified_at`    | Draft or in-progress curation                    |
+| Verified set with four entries | Reviewed and ready for display                   |
+| Verified set with zero entries | Reviewed and intentionally left empty            |
 
 ### SimilarArtist fields
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `similarity_set_id` | Integer | No | Foreign key to SimilarArtistSet |
-| `target_artist_id` | Integer | No | Canonical recommended Artist |
-| `display_order` | Integer | No | Position 1 through 4; unique within the set |
-| `created_at` | Timezone-aware timestamp | No | Time the recommendation was added |
-| `updated_at` | Timezone-aware timestamp | No | Last relationship/order update |
+| Field               | PostgreSQL concept       | Nullable | Notes                                       |
+| ------------------- | ------------------------ | -------: | ------------------------------------------- |
+| `similarity_set_id` | Integer                  |       No | Foreign key to SimilarArtistSet             |
+| `target_artist_id`  | Integer                  |       No | Canonical recommended Artist                |
+| `display_order`     | Integer                  |       No | Position 1 through 4; unique within the set |
+| `created_at`        | Timezone-aware timestamp |       No | Time the recommendation was added           |
+| `updated_at`        | Timezone-aware timestamp |       No | Last relationship/order update              |
 
 `similarity_set_id` plus `target_artist_id` forms the composite primary key. The
 database prevents duplicate targets, duplicate display positions, and positions
@@ -629,29 +629,29 @@ is deferred until a concrete feature needs cross-market grouping.
 
 ### FestivalSeries fields
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `id` | Integer | No | Auto-generated primary key |
-| `slug` | `VARCHAR(100)` | No | Unique recurring-event identifier |
-| `name` | `VARCHAR(200)` | No | Stable human-facing series name |
-| `created_at` | Timezone-aware timestamp | No | Database-record creation time |
-| `updated_at` | Timezone-aware timestamp | No | Last database-record update |
+| Field        | PostgreSQL concept       | Nullable | Notes                             |
+| ------------ | ------------------------ | -------: | --------------------------------- |
+| `id`         | Integer                  |       No | Auto-generated primary key        |
+| `slug`       | `VARCHAR(100)`           |       No | Unique recurring-event identifier |
+| `name`       | `VARCHAR(200)`           |       No | Stable human-facing series name   |
+| `created_at` | Timezone-aware timestamp |       No | Database-record creation time     |
+| `updated_at` | Timezone-aware timestamp |       No | Last database-record update       |
 
 ### FestivalEdition fields
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `id` | Integer | No | Auto-generated primary key |
-| `festival_series_id` | Integer | No | Recurring FestivalSeries |
-| `slug` | `VARCHAR(100)` | No | Globally unique public/API identifier |
-| `name` | `VARCHAR(200)` | No | Human-facing edition name |
-| `year` | Small integer | No | Edition year; not its only identity |
-| `city` | `VARCHAR(100)` | No | Historical edition location |
-| `state` | `VARCHAR(100)` | Yes | State/region where applicable |
-| `country` | `VARCHAR(100)` | No | Historical edition country |
-| `timezone` | `VARCHAR(100)` | No | IANA timezone used for schedule display |
-| `created_at` | Timezone-aware timestamp | No | Database-record creation time |
-| `updated_at` | Timezone-aware timestamp | No | Last database-record update |
+| Field                | PostgreSQL concept       | Nullable | Notes                                   |
+| -------------------- | ------------------------ | -------: | --------------------------------------- |
+| `id`                 | Integer                  |       No | Auto-generated primary key              |
+| `festival_series_id` | Integer                  |       No | Recurring FestivalSeries                |
+| `slug`               | `VARCHAR(100)`           |       No | Globally unique public/API identifier   |
+| `name`               | `VARCHAR(200)`           |       No | Human-facing edition name               |
+| `year`               | Small integer            |       No | Edition year; not its only identity     |
+| `city`               | `VARCHAR(100)`           |       No | Historical edition location             |
+| `state`              | `VARCHAR(100)`           |      Yes | State/region where applicable           |
+| `country`            | `VARCHAR(100)`           |       No | Historical edition country              |
+| `timezone`           | `VARCHAR(100)`           |       No | IANA timezone used for schedule display |
+| `created_at`         | Timezone-aware timestamp |       No | Database-record creation time           |
+| `updated_at`         | Timezone-aware timestamp |       No | Last database-record update             |
 
 Location and timezone remain edition-owned so later changes do not rewrite history.
 `year` supports querying but is not unique by itself; the edition slug remains the
@@ -676,17 +676,17 @@ Appearances.
 
 ### LineupEntry fields
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `id` | Integer | No | Auto-generated primary key |
-| `festival_run_id` | Integer | No | FestivalRun whose lineup contains the artist |
-| `artist_id` | Integer | No | Canonical Artist |
-| `lineup_status` | `VARCHAR(20)` | No | `draft`, `announced`, or `withdrawn`; defaults draft |
-| `billing_tier` | `VARCHAR(20)` | Yes | `headliner`, `sub_headliner`, or `undercard` |
-| `announced_at` | Timezone-aware timestamp | Yes | Exact public-announcement time when known; null does not mean unannounced—`lineup_status` answers that |
-| `withdrawn_at` | Timezone-aware timestamp | Yes | Exact withdrawal time when known; populated only for a withdrawn entry |
-| `created_at` | Timezone-aware timestamp | No | Database-record creation time |
-| `updated_at` | Timezone-aware timestamp | No | Last database-record update |
+| Field             | PostgreSQL concept       | Nullable | Notes                                                                                                  |
+| ----------------- | ------------------------ | -------: | ------------------------------------------------------------------------------------------------------ |
+| `id`              | Integer                  |       No | Auto-generated primary key                                                                             |
+| `festival_run_id` | Integer                  |       No | FestivalRun whose lineup contains the artist                                                           |
+| `artist_id`       | Integer                  |       No | Canonical Artist                                                                                       |
+| `lineup_status`   | `VARCHAR(20)`            |       No | `draft`, `announced`, or `withdrawn`; defaults draft                                                   |
+| `billing_tier`    | `VARCHAR(20)`            |      Yes | `headliner`, `sub_headliner`, or `undercard`                                                           |
+| `announced_at`    | Timezone-aware timestamp |      Yes | Exact public-announcement time when known; null does not mean unannounced—`lineup_status` answers that |
+| `withdrawn_at`    | Timezone-aware timestamp |      Yes | Exact withdrawal time when known; populated only for a withdrawn entry                                 |
+| `created_at`      | Timezone-aware timestamp |       No | Database-record creation time                                                                          |
+| `updated_at`      | Timezone-aware timestamp |       No | Last database-record update                                                                            |
 
 `festival_run_id` plus `artist_id` is unique. Billing tier belongs to the run-level
 booking rather than a scheduled set because it describes lineup prominence and may
@@ -697,12 +697,12 @@ Appearance-specific override, but no current record requires one.
 historical precision when that precision is actually known; they do not determine
 the state themselves.
 
-| Example | `lineup_status` | `announced_at` | `withdrawn_at` |
-| --- | --- | --- | --- |
-| Internal booking not public yet | `draft` | null | null |
-| Legacy Lollapalooza import—we know the artist was announced but not the original announcement instant | `announced` | null | null |
-| New announcement performed through FestFuse | `announced` | Set to transition time | null |
-| Newly recorded withdrawal | `withdrawn` | Preserved if known | Set to transition time |
+| Example                                                                                               | `lineup_status` | `announced_at`         | `withdrawn_at`         |
+| ----------------------------------------------------------------------------------------------------- | --------------- | ---------------------- | ---------------------- |
+| Internal booking not public yet                                                                       | `draft`         | null                   | null                   |
+| Legacy Lollapalooza import—we know the artist was announced but not the original announcement instant | `announced`     | null                   | null                   |
+| New announcement performed through FestFuse                                                           | `announced`     | Set to transition time | null                   |
+| Newly recorded withdrawal                                                                             | `withdrawn`     | Preserved if known     | Set to transition time |
 
 The normal lifecycle is `draft → announced → withdrawn`. New application-owned
 transitions record their event timestamps automatically. Historical imports may
@@ -723,34 +723,34 @@ Stages belong to the FestivalEdition (for example, Lollapalooza 2026), not to a
 FestivalRun. Edition-level ownership permits a stage to be used by all runs or only
 one run without introducing run-specific stage identity prematurely.
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `id` | Integer | No | Auto-generated primary key |
-| `festival_edition_id` | Integer | No | FestivalEdition that owns the stage |
-| `slug` | `VARCHAR(100)` | No | Stable identifier unique within the FestivalEdition |
-| `name` | `VARCHAR(200)` | No | Official human-facing name |
-| `display_order` | Integer | No | Positive Planner column/presentation order |
-| `created_at` | Timezone-aware timestamp | No | Database-record creation time |
-| `updated_at` | Timezone-aware timestamp | No | Last database-record update |
+| Field                 | PostgreSQL concept       | Nullable | Notes                                               |
+| --------------------- | ------------------------ | -------: | --------------------------------------------------- |
+| `id`                  | Integer                  |       No | Auto-generated primary key                          |
+| `festival_edition_id` | Integer                  |       No | FestivalEdition that owns the stage                 |
+| `slug`                | `VARCHAR(100)`           |       No | Stable identifier unique within the FestivalEdition |
+| `name`                | `VARCHAR(200)`           |       No | Official human-facing name                          |
+| `display_order`       | Integer                  |       No | Positive Planner column/presentation order          |
+| `created_at`          | Timezone-aware timestamp |       No | Database-record creation time                       |
+| `updated_at`          | Timezone-aware timestamp |       No | Last database-record update                         |
 
 Stage slug, name, and display order are each unique within a FestivalEdition. A Stage
 used by an Appearance is protected from ordinary deletion.
 
 ### Appearance fields
 
-| Field | PostgreSQL concept | Nullable | Notes |
-| --- | --- | ---: | --- |
-| `id` | Integer | No | Stable auto-generated primary key |
-| `lineup_entry_id` | Integer | No | LineupEntry whose artist performs this set |
-| `festival_day_id` | Integer | No | Scheduled day within the run |
-| `stage_id` | Integer | No | Scheduled Stage |
-| `starts_at` | Timezone-aware timestamp | No | Absolute start instant |
-| `ends_at` | Timezone-aware timestamp | No | Absolute end instant |
-| `appearance_status` | `VARCHAR(20)` | No | `draft`, `scheduled`, or `cancelled`; defaults draft |
-| `cancelled_at` | Timezone-aware timestamp | Yes | Time cancellation became known |
-| `cancellation_reason` | `TEXT` | Yes | Optional administrative or public explanation |
-| `created_at` | Timezone-aware timestamp | No | Database-record creation time |
-| `updated_at` | Timezone-aware timestamp | No | Last schedule modification |
+| Field                 | PostgreSQL concept       | Nullable | Notes                                                |
+| --------------------- | ------------------------ | -------: | ---------------------------------------------------- |
+| `id`                  | Integer                  |       No | Stable auto-generated primary key                    |
+| `lineup_entry_id`     | Integer                  |       No | LineupEntry whose artist performs this set           |
+| `festival_day_id`     | Integer                  |       No | Scheduled day within the run                         |
+| `stage_id`            | Integer                  |       No | Scheduled Stage                                      |
+| `starts_at`           | Timezone-aware timestamp |       No | Absolute start instant                               |
+| `ends_at`             | Timezone-aware timestamp |       No | Absolute end instant                                 |
+| `appearance_status`   | `VARCHAR(20)`            |       No | `draft`, `scheduled`, or `cancelled`; defaults draft |
+| `cancelled_at`        | Timezone-aware timestamp |      Yes | Time cancellation became known                       |
+| `cancellation_reason` | `TEXT`                   |      Yes | Optional administrative or public explanation        |
+| `created_at`          | Timezone-aware timestamp |       No | Database-record creation time                        |
+| `updated_at`          | Timezone-aware timestamp |       No | Last schedule modification                           |
 
 Full timestamps replace duplicated date/day/formatted-time strings. The API converts
 them into the FestivalEdition's configured timezone. This supports overnight sets, reliable
@@ -890,13 +890,13 @@ sets are now fully visible.
 
 ### Required cleanup or staged publication
 
-| Finding | Import handling |
-| --- | --- |
-| 45 Artists lack a playable `tracks[0].spotifyId` | Import Artist/lineup/schedule data, but they cannot pass Artist publication readiness until a Quick Picks selection is curated |
-| aespa had four Genres | Source corrected to the canonical three by removing `Dance Pop`; the importer must still reject rather than silently truncate future over-limit records |
-| Ric Wilson and Cruz Beckham & The Breakers have neither Spotify artist identity nor a curated override | Remain draft until identity or a complete override is supplied; both also lack Quick Picks selection |
-| MPH and Chicago Made had `socialsVerified: true` without a confirmed group-level YouTube/TikTok link | Source corrected to unverified; revisit candidate links before setting verification rather than treating either record as reviewed-empty |
-| The Chainsmokers repeats one Spotify track in a dormant extra array position | Ignore it because v1 migrates only the explicit Quick Picks selection and curated Listen First selections, not every legacy track |
+| Finding                                                                                                | Import handling                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 45 Artists lack a playable `tracks[0].spotifyId`                                                       | Import Artist/lineup/schedule data, but they cannot pass Artist publication readiness until a Quick Picks selection is curated                           |
+| aespa had four Genres                                                                                  | Source corrected to the canonical three by removing `Dance Pop`; the authoring schema rejects an over-limit genre set rather than silently truncating it |
+| Ric Wilson and Cruz Beckham & The Breakers have neither Spotify artist identity nor a curated override | Remain draft until identity or a complete override is supplied; both also lack Quick Picks selection                                                     |
+| MPH and Chicago Made had `socialsVerified: true` without a confirmed group-level YouTube/TikTok link   | Source corrected to unverified; revisit candidate links before setting verification rather than treating either record as reviewed-empty                 |
+| The Chainsmokers repeats one Spotify track in a dormant extra array position                           | Ignore it because v1 migrates only the explicit Quick Picks selection and curated Listen First selections, not every legacy track                        |
 
 The 45-Artist and Ric Wilson/Cruz Beckham & The Breakers findings above were resolved
 in a later publication rollout: all 45 gained a curated Quick Picks track, and both
@@ -949,101 +949,101 @@ A rule may intentionally span layers. For example, PostgreSQL prevents multiple
 primary genres, while backend publication validation requires that a published
 artist have one.
 
-| Area | Rule | Database | Backend/import | Derived/frontend | Notes |
-| --- | --- | :---: | :---: | :---: | --- |
-| Artist identity | `name` and `slug` are non-null | Yes |  |  | Draft records still require minimum identity |
-| Artist identity | Artist slug is unique | Yes |  |  | Public/API lookup key |
-| Artist identity | Spotify artist ID is unique when populated | Yes |  |  | Multiple nulls remain valid |
-| Artist input | Public text is normalized to Unicode NFC |  | Yes |  | Preserve legitimate visible Unicode |
-| Artist input | Accidental invisible/control spacing is sanitized or rejected |  | Yes |  | PostgreSQL safely stores it but cannot infer intent |
-| Artist input | Slug format is ASCII-safe and valid |  | Yes |  | Stored slug remains explicitly curated |
-| Artist input | URL formats are valid |  | Yes |  | Applies to image, license/source, YouTube, and TikTok URLs |
-| Image | Focal Y percentage is between 0 and 100 | Yes |  |  | Null uses the default center |
-| Image | Image metadata cannot exist without an image URL | Yes |  |  | Artists may still have no image |
-| Image | Only approved legacy images populate the canonical image URL |  | Yes |  | Replaces the legacy `imageVerified` placeholder gate |
-| Image | A dynamic image-year value is plausible and not unintentionally future-dated |  | Yes |  | Avoid a database constraint tied to the current calendar year |
-| Image | Missing focal position uses the default center |  |  | Yes | Do not persist a redundant default |
-| Editorial content | `about_verified_at` cannot exist without About content | Yes |  |  | Structural consistency |
-| Editorial content | Changing About clears `about_verified_at` | Yes |  |  | Same-row trigger protects every write path |
-| Social links | `socials_verified` defaults false | Yes |  |  | Preserves the current YouTube/TikTok gate |
-| Social links | Changing YouTube or TikTok URL clears `socials_verified` | Yes |  |  | Spotify identity is intentionally excluded |
-| Social links | A reviewed artist may intentionally have neither supported social URL | Yes | Yes |  | Verified empty differs from not yet reviewed |
-| Social links | Unverified YouTube/TikTok links remain hidden |  |  | Yes | Spotify identity is independent of this gate |
-| Publication | Publication status is limited to `draft` or `published` | Yes |  |  | New records default to `draft` |
-| Publication | Transitioning an Artist to `published` validates artist-content readiness |  | Yes |  | Festival membership and schedule are separate lifecycles |
-| Publication | Public artist queries exclude drafts |  | Yes |  | Query/application policy, not row structure |
-| Timestamps | `created_at` and initial `updated_at` use timezone-aware `DEFAULT now()` | Yes |  |  | Initial import time is not the domain entity's real-world origin date |
-| Timestamps | A shared database trigger refreshes `updated_at` for every write path | Yes |  |  | SQLAlchemy does not own `onupdate` behavior |
-| Timestamps | Child updates do not automatically touch parent timestamps | Yes |  |  | Aggregate freshness remains a separate future concern |
-| Location | Current city/state/country values retain their intentionally broad meaning |  | Yes |  | Import validation must not claim birthplace/base semantics the source cannot prove |
-| Location | UK constituent-country values roll up to “United Kingdom” where required |  |  | Yes | Stored constituent-country value remains unchanged |
-| Genre taxonomy | GenreFamily slug, name, and display order are unique | Yes |  |  | Family order is curated |
-| Genre taxonomy | Genre slug and name are unique | Yes |  |  | Stable identity plus human-facing label |
-| Genre taxonomy | Every Genre belongs to exactly one GenreFamily | Yes |  |  | Non-null foreign key; no junction while ownership is singular |
-| Artist–Genre | The same Genre cannot be assigned to one Artist twice | Yes |  |  | Composite `artist_id`/`genre_id` primary key |
-| Artist–Genre | Display order is limited to 1–3 and unique within an Artist | Yes |  |  | Draft sets may be incomplete but cannot be overcomplete |
-| Artist–Genre | An Artist has at most one primary Genre | Yes |  |  | Partial unique index on primary assignments |
-| Artist–Genre | A published Artist has exactly three Genres |  | Yes |  | Current data exception: aespa has four and requires curation before import |
-| Artist–Genre | A published Artist has exactly one primary Genre |  | Yes |  | Complements the database's at-most-one rule |
-| Artist–Genre | API presentation places the primary Genre first |  | Yes |  | Remaining assignments follow display order |
-| Genre deletion | Deleting an Artist removes its Genre assignments | Yes |  |  | Cascades only association rows |
-| Genre deletion | Assigned Genres and non-empty GenreFamilies cannot be deleted | Yes |  |  | Prevents silent classification loss |
-| Genre presentation | Genres within a family are alphabetized |  | Yes |  | No taxonomy-level Genre display order is persisted |
-| Genre presentation | Family gradient colors are selected by family slug |  |  | Yes | Frontend theme configuration |
-| Festival Story | Genre breadth uses every distinct assigned Genre |  |  | Yes | No primary-genre weighting |
-| Festival Story | Family affinity maps all Genres and counts each family once per Artist |  |  | Yes | No Story-specific database column |
-| Track identity | Spotify track ID is non-null and unique | Yes |  |  | Canonical external track identity |
-| Artist–Track | The same Track cannot be selected for one Artist twice | Yes |  |  | Composite `artist_id`/`track_id` primary key |
-| Artist–Track | Every selection has Quick Picks, Listen First, or both roles | Yes |  |  | Prevents meaningless association rows |
-| Artist–Track | An Artist has at most one Quick Picks selection | Yes |  |  | Partial unique index; publication requires exactly one |
-| Artist–Track | Listen First order is unique per Artist and limited to 1–3 | Yes |  |  | Draft sets can temporarily be incomplete |
-| Artist–Track | Every published Artist has exactly one Quick Picks selection |  | Yes |  | Cross-row publication validation |
-| Listen First | Published curated overrides contain positions 1, 2, and 3 exactly once |  | Yes |  | Exactly three tracks, not “up to three” |
-| Listen First | Ordinary published artists require Spotify identity when no curated override exists |  | Yes |  | Curated override makes Spotify artist ID optional |
-| Listen First | A note exists only alongside a curated override |  | Yes |  | Note belongs to the collection-level Artist configuration |
-| Listen First | Resolver selects curated tracks, otherwise artist embed, otherwise nothing |  | Yes |  | Returned mode is derived, not persisted |
-| Track deletion | Deleting an Artist removes selections; selected Tracks cannot be deleted | Yes |  |  | Avoids silent curation loss |
-| Act classification | Ensemble/supergroup status is neither stored nor inferred from track count |  |  | Yes | Add explicit classification only when a feature requires it |
-| ArtistVideo | The same YouTube video cannot be assigned to one Artist twice | Yes |  |  | The same video may still be assigned to different artists |
-| ArtistVideo | Display order is positive and unique within an Artist | Yes |  |  | Supports deterministic future galleries |
-| ArtistVideo | An Artist has at most one featured video | Yes |  |  | Partial unique index on featured rows |
-| ArtistVideo | New manually confirmed videos default to available | Yes | Yes |  | Import/application confirms the source before insertion |
-| ArtistVideo | Unavailable videos are retained and marked unavailable |  | Yes |  | Preserves curation and health history |
-| ArtistVideo | Artist Detail returns only the featured available video |  | Yes |  | Videos are not required for publication |
-| ArtistVideo | A future gallery orders available videos by display order |  | Yes |  | No additional persisted presentation field needed |
-| Video deletion | Deleting an Artist removes its ArtistVideo rows | Yes |  |  | Artist-owned dependent content |
-| Similar Artist set | One set exists at most per source Artist and FestivalRun | Yes |  |  | Composite unique constraint |
-| Similar Artist entry | A target and display position from 1–4 are each unique within a set | Yes |  |  | Composite primary key, bounded order, and scoped order uniqueness |
-| Similar Artist entry | Source and every target are published and have announced LineupEntries in the same FestivalRun before curation |  | Yes |  | Heuristic runs after eligible Artists are published; does not depend on schedule availability |
-| Similar Artist entry | An Artist cannot recommend itself |  | Yes |  | Source lives on the parent set, so validate contextually |
-| Similar Artist review | Only sets with exactly four entries or intentionally zero can be verified |  | Yes |  | Zero preserves the reviewed-empty CYSO case |
-| Similar Artist review | Entry insert/update/delete clears parent-set verification | Yes |  |  | Child trigger updates the parent, whose timestamp trigger refreshes `updated_at` |
-| Similar Artist API | Only verified sets with exactly four currently published, same-run announced targets are exposed |  | Yes |  | Return all four or none; empty verified set remains distinguishable for administration |
-| Similar Artist publication gate | Unpublishing any target hides the complete set without clearing `verified_at` |  | Yes |  | Availability differs from editorial correctness; never partially filter |
-| Similar Artist heuristic | After eligible Artists are published, four picks mix matching dimensions and artist scale |  | Yes |  | Editorial review rule; richer edge metadata deferred |
-| LineupEntry | An Artist appears at most once in a FestivalRun lineup | Yes |  |  | Unique `festival_run_id`/`artist_id` pair |
-| LineupEntry | Status is `draft`, `announced`, or `withdrawn` | Yes |  |  | Real withdrawal is retained rather than deleted |
-| LineupEntry | Billing tier is null or a supported value | Yes |  |  | Run-level prominence, independent of schedule publication |
-| LineupEntry | Announced entries have billing tier |  | Yes |  | Required by current public lineup experiences |
-| LineupEntry | Populated event timestamps are compatible with status | Yes |  |  | Draft has neither; withdrawal time belongs only to withdrawn status |
-| LineupEntry | New announce/withdraw transitions record their event time |  | Yes |  | Status remains authoritative when a historical timestamp is unknown |
-| LineupEntry | Public lineup queries expose announced entries |  | Yes |  | Drafts remain administrative; withdrawn entries remain historical |
-| LineupEntry | Leaving/deleting announced membership invalidates affected Similar Artist sets | Yes |  |  | Source and target sets in that run must be reviewed again |
-| Stage | Slug, name, and display order are unique within a FestivalEdition | Yes |  |  | Display order is positive |
-| Stage | A referenced Stage is protected from ordinary deletion | Yes | Yes |  | Rename or update instead of silently destroying schedule data |
-| Appearance | Status is `draft`, `scheduled`, or `cancelled` | Yes |  |  | Cancellation is retained as a domain event |
-| Appearance | Internal primary key is the current API/frontend identity | Yes |  |  | Revisit a separate immutable public ID only for cross-rebuild or externally addressable identity |
-| Appearance | Cancellation time/reason exist only for cancelled rows | Yes | Yes |  | Transition records when cancellation became known |
-| Appearance | End timestamp is later than start timestamp | Yes |  |  | Supports duration and conflict calculations |
-| Appearance | LineupEntry and FestivalDay belong to the same FestivalRun |  | Yes |  | Contextual cross-table validation |
-| Appearance | Stage belongs to the FestivalEdition owning that run |  | Yes |  | Prevents cross-edition stage assignments |
-| Appearance | Localized start date matches FestivalDay |  | Yes |  | Uses the FestivalEdition's configured timezone |
-| Appearance | Active sets do not overlap for one Artist or Stage |  | Yes |  | Multiple non-overlapping sets on one day remain valid |
-| Appearance | Weekday, formatted times, duration, and primary status are derived |  | Yes | Yes | Do not persist redundant presentation values |
-| Appearance | Cancelling a set retains its stable ID and schedule record |  | Yes |  | Saved schedule references can detect cancellation |
-| Festival hierarchy | FestivalSeries slug and FestivalEdition slug are unique | Yes |  |  | Series is recurring identity; edition slug is the public occurrence key |
-| Festival hierarchy | FestivalRun and Stage reference FestivalEdition explicitly | Yes |  |  | Avoids ambiguous `festival_id` semantics |
-| Festival hierarchy | Edition location/timezone remain historical edition facts | Yes | Yes |  | A later series change cannot rewrite prior editions |
+| Area                            | Rule                                                                                                           | Database | Backend/import | Derived/frontend | Notes                                                                                            |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------- | :------: | :------------: | :--------------: | ------------------------------------------------------------------------------------------------ |
+| Artist identity                 | `name` and `slug` are non-null                                                                                 |   Yes    |                |                  | Draft records still require minimum identity                                                     |
+| Artist identity                 | Artist slug is unique                                                                                          |   Yes    |                |                  | Public/API lookup key                                                                            |
+| Artist identity                 | Spotify artist ID is unique when populated                                                                     |   Yes    |                |                  | Multiple nulls remain valid                                                                      |
+| Artist input                    | Public text is normalized to Unicode NFC                                                                       |          |      Yes       |                  | Preserve legitimate visible Unicode                                                              |
+| Artist input                    | Accidental invisible/control spacing is sanitized or rejected                                                  |          |      Yes       |                  | PostgreSQL safely stores it but cannot infer intent                                              |
+| Artist input                    | Slug format is ASCII-safe and valid                                                                            |          |      Yes       |                  | Stored slug remains explicitly curated                                                           |
+| Artist input                    | URL formats are valid                                                                                          |          |      Yes       |                  | Applies to image, license/source, YouTube, and TikTok URLs                                       |
+| Image                           | Focal Y percentage is between 0 and 100                                                                        |   Yes    |                |                  | Null uses the default center                                                                     |
+| Image                           | Image metadata cannot exist without an image URL                                                               |   Yes    |                |                  | Artists may still have no image                                                                  |
+| Image                           | Only approved legacy images populate the canonical image URL                                                   |          |      Yes       |                  | Replaces the legacy `imageVerified` placeholder gate                                             |
+| Image                           | A dynamic image-year value is plausible and not unintentionally future-dated                                   |          |      Yes       |                  | Avoid a database constraint tied to the current calendar year                                    |
+| Image                           | Missing focal position uses the default center                                                                 |          |                |       Yes        | Do not persist a redundant default                                                               |
+| Editorial content               | `about_verified_at` cannot exist without About content                                                         |   Yes    |                |                  | Structural consistency                                                                           |
+| Editorial content               | Changing About clears `about_verified_at`                                                                      |   Yes    |                |                  | Same-row trigger protects every write path                                                       |
+| Social links                    | `socials_verified` defaults false                                                                              |   Yes    |                |                  | Preserves the current YouTube/TikTok gate                                                        |
+| Social links                    | Changing YouTube or TikTok URL clears `socials_verified`                                                       |   Yes    |                |                  | Spotify identity is intentionally excluded                                                       |
+| Social links                    | A reviewed artist may intentionally have neither supported social URL                                          |   Yes    |      Yes       |                  | Verified empty differs from not yet reviewed                                                     |
+| Social links                    | Unverified YouTube/TikTok links remain hidden                                                                  |          |                |       Yes        | Spotify identity is independent of this gate                                                     |
+| Publication                     | Publication status is limited to `draft` or `published`                                                        |   Yes    |                |                  | New records default to `draft`                                                                   |
+| Publication                     | Transitioning an Artist to `published` validates artist-content readiness                                      |          |      Yes       |                  | Festival membership and schedule are separate lifecycles                                         |
+| Publication                     | Public artist queries exclude drafts                                                                           |          |      Yes       |                  | Query/application policy, not row structure                                                      |
+| Timestamps                      | `created_at` and initial `updated_at` use timezone-aware `DEFAULT now()`                                       |   Yes    |                |                  | Initial import time is not the domain entity's real-world origin date                            |
+| Timestamps                      | A shared database trigger refreshes `updated_at` for every write path                                          |   Yes    |                |                  | SQLAlchemy does not own `onupdate` behavior                                                      |
+| Timestamps                      | Child updates do not automatically touch parent timestamps                                                     |   Yes    |                |                  | Aggregate freshness remains a separate future concern                                            |
+| Location                        | Current city/state/country values retain their intentionally broad meaning                                     |          |      Yes       |                  | Import validation must not claim birthplace/base semantics the source cannot prove               |
+| Location                        | UK constituent-country values roll up to “United Kingdom” where required                                       |          |                |       Yes        | Stored constituent-country value remains unchanged                                               |
+| Genre taxonomy                  | GenreFamily slug, name, and display order are unique                                                           |   Yes    |                |                  | Family order is curated                                                                          |
+| Genre taxonomy                  | Genre slug and name are unique                                                                                 |   Yes    |                |                  | Stable identity plus human-facing label                                                          |
+| Genre taxonomy                  | Every Genre belongs to exactly one GenreFamily                                                                 |   Yes    |                |                  | Non-null foreign key; no junction while ownership is singular                                    |
+| Artist–Genre                    | The same Genre cannot be assigned to one Artist twice                                                          |   Yes    |                |                  | Composite `artist_id`/`genre_id` primary key                                                     |
+| Artist–Genre                    | Display order is limited to 1–3 and unique within an Artist                                                    |   Yes    |                |                  | Draft sets may be incomplete but cannot be overcomplete                                          |
+| Artist–Genre                    | An Artist has at most one primary Genre                                                                        |   Yes    |                |                  | Partial unique index on primary assignments                                                      |
+| Artist–Genre                    | A published Artist has exactly three Genres                                                                    |          |      Yes       |                  | Current data exception: aespa has four and requires curation before import                       |
+| Artist–Genre                    | A published Artist has exactly one primary Genre                                                               |          |      Yes       |                  | Complements the database's at-most-one rule                                                      |
+| Artist–Genre                    | API presentation places the primary Genre first                                                                |          |      Yes       |                  | Remaining assignments follow display order                                                       |
+| Genre deletion                  | Deleting an Artist removes its Genre assignments                                                               |   Yes    |                |                  | Cascades only association rows                                                                   |
+| Genre deletion                  | Assigned Genres and non-empty GenreFamilies cannot be deleted                                                  |   Yes    |                |                  | Prevents silent classification loss                                                              |
+| Genre presentation              | Genres within a family are alphabetized                                                                        |          |      Yes       |                  | No taxonomy-level Genre display order is persisted                                               |
+| Genre presentation              | Family gradient colors are selected by family slug                                                             |          |                |       Yes        | Frontend theme configuration                                                                     |
+| Festival Story                  | Genre breadth uses every distinct assigned Genre                                                               |          |                |       Yes        | No primary-genre weighting                                                                       |
+| Festival Story                  | Family affinity maps all Genres and counts each family once per Artist                                         |          |                |       Yes        | No Story-specific database column                                                                |
+| Track identity                  | Spotify track ID is non-null and unique                                                                        |   Yes    |                |                  | Canonical external track identity                                                                |
+| Artist–Track                    | The same Track cannot be selected for one Artist twice                                                         |   Yes    |                |                  | Composite `artist_id`/`track_id` primary key                                                     |
+| Artist–Track                    | Every selection has Quick Picks, Listen First, or both roles                                                   |   Yes    |                |                  | Prevents meaningless association rows                                                            |
+| Artist–Track                    | An Artist has at most one Quick Picks selection                                                                |   Yes    |                |                  | Partial unique index; publication requires exactly one                                           |
+| Artist–Track                    | Listen First order is unique per Artist and limited to 1–3                                                     |   Yes    |                |                  | Draft sets can temporarily be incomplete                                                         |
+| Artist–Track                    | Every published Artist has exactly one Quick Picks selection                                                   |          |      Yes       |                  | Cross-row publication validation                                                                 |
+| Listen First                    | Published curated overrides contain positions 1, 2, and 3 exactly once                                         |          |      Yes       |                  | Exactly three tracks, not “up to three”                                                          |
+| Listen First                    | Ordinary published artists require Spotify identity when no curated override exists                            |          |      Yes       |                  | Curated override makes Spotify artist ID optional                                                |
+| Listen First                    | A note exists only alongside a curated override                                                                |          |      Yes       |                  | Note belongs to the collection-level Artist configuration                                        |
+| Listen First                    | Resolver selects curated tracks, otherwise artist embed, otherwise nothing                                     |          |      Yes       |                  | Returned mode is derived, not persisted                                                          |
+| Track deletion                  | Deleting an Artist removes selections; selected Tracks cannot be deleted                                       |   Yes    |                |                  | Avoids silent curation loss                                                                      |
+| Act classification              | Ensemble/supergroup status is neither stored nor inferred from track count                                     |          |                |       Yes        | Add explicit classification only when a feature requires it                                      |
+| ArtistVideo                     | The same YouTube video cannot be assigned to one Artist twice                                                  |   Yes    |                |                  | The same video may still be assigned to different artists                                        |
+| ArtistVideo                     | Display order is positive and unique within an Artist                                                          |   Yes    |                |                  | Supports deterministic future galleries                                                          |
+| ArtistVideo                     | An Artist has at most one featured video                                                                       |   Yes    |                |                  | Partial unique index on featured rows                                                            |
+| ArtistVideo                     | New manually confirmed videos default to available                                                             |   Yes    |      Yes       |                  | Import/application confirms the source before insertion                                          |
+| ArtistVideo                     | Unavailable videos are retained and marked unavailable                                                         |          |      Yes       |                  | Preserves curation and health history                                                            |
+| ArtistVideo                     | Artist Detail returns only the featured available video                                                        |          |      Yes       |                  | Videos are not required for publication                                                          |
+| ArtistVideo                     | A future gallery orders available videos by display order                                                      |          |      Yes       |                  | No additional persisted presentation field needed                                                |
+| Video deletion                  | Deleting an Artist removes its ArtistVideo rows                                                                |   Yes    |                |                  | Artist-owned dependent content                                                                   |
+| Similar Artist set              | One set exists at most per source Artist and FestivalRun                                                       |   Yes    |                |                  | Composite unique constraint                                                                      |
+| Similar Artist entry            | A target and display position from 1–4 are each unique within a set                                            |   Yes    |                |                  | Composite primary key, bounded order, and scoped order uniqueness                                |
+| Similar Artist entry            | Source and every target are published and have announced LineupEntries in the same FestivalRun before curation |          |      Yes       |                  | Heuristic runs after eligible Artists are published; does not depend on schedule availability    |
+| Similar Artist entry            | An Artist cannot recommend itself                                                                              |          |      Yes       |                  | Source lives on the parent set, so validate contextually                                         |
+| Similar Artist review           | Only sets with exactly four entries or intentionally zero can be verified                                      |          |      Yes       |                  | Zero preserves the reviewed-empty CYSO case                                                      |
+| Similar Artist review           | Entry insert/update/delete clears parent-set verification                                                      |   Yes    |                |                  | Child trigger updates the parent, whose timestamp trigger refreshes `updated_at`                 |
+| Similar Artist API              | Only verified sets with exactly four currently published, same-run announced targets are exposed               |          |      Yes       |                  | Return all four or none; empty verified set remains distinguishable for administration           |
+| Similar Artist publication gate | Unpublishing any target hides the complete set without clearing `verified_at`                                  |          |      Yes       |                  | Availability differs from editorial correctness; never partially filter                          |
+| Similar Artist heuristic        | After eligible Artists are published, four picks mix matching dimensions and artist scale                      |          |      Yes       |                  | Editorial review rule; richer edge metadata deferred                                             |
+| LineupEntry                     | An Artist appears at most once in a FestivalRun lineup                                                         |   Yes    |                |                  | Unique `festival_run_id`/`artist_id` pair                                                        |
+| LineupEntry                     | Status is `draft`, `announced`, or `withdrawn`                                                                 |   Yes    |                |                  | Real withdrawal is retained rather than deleted                                                  |
+| LineupEntry                     | Billing tier is null or a supported value                                                                      |   Yes    |                |                  | Run-level prominence, independent of schedule publication                                        |
+| LineupEntry                     | Announced entries have billing tier                                                                            |          |      Yes       |                  | Required by current public lineup experiences                                                    |
+| LineupEntry                     | Populated event timestamps are compatible with status                                                          |   Yes    |                |                  | Draft has neither; withdrawal time belongs only to withdrawn status                              |
+| LineupEntry                     | New announce/withdraw transitions record their event time                                                      |          |      Yes       |                  | Status remains authoritative when a historical timestamp is unknown                              |
+| LineupEntry                     | Public lineup queries expose announced entries                                                                 |          |      Yes       |                  | Drafts remain administrative; withdrawn entries remain historical                                |
+| LineupEntry                     | Leaving/deleting announced membership invalidates affected Similar Artist sets                                 |   Yes    |                |                  | Source and target sets in that run must be reviewed again                                        |
+| Stage                           | Slug, name, and display order are unique within a FestivalEdition                                              |   Yes    |                |                  | Display order is positive                                                                        |
+| Stage                           | A referenced Stage is protected from ordinary deletion                                                         |   Yes    |      Yes       |                  | Rename or update instead of silently destroying schedule data                                    |
+| Appearance                      | Status is `draft`, `scheduled`, or `cancelled`                                                                 |   Yes    |                |                  | Cancellation is retained as a domain event                                                       |
+| Appearance                      | Internal primary key is the current API/frontend identity                                                      |   Yes    |                |                  | Revisit a separate immutable public ID only for cross-rebuild or externally addressable identity |
+| Appearance                      | Cancellation time/reason exist only for cancelled rows                                                         |   Yes    |      Yes       |                  | Transition records when cancellation became known                                                |
+| Appearance                      | End timestamp is later than start timestamp                                                                    |   Yes    |                |                  | Supports duration and conflict calculations                                                      |
+| Appearance                      | LineupEntry and FestivalDay belong to the same FestivalRun                                                     |          |      Yes       |                  | Contextual cross-table validation                                                                |
+| Appearance                      | Stage belongs to the FestivalEdition owning that run                                                           |          |      Yes       |                  | Prevents cross-edition stage assignments                                                         |
+| Appearance                      | Localized start date matches FestivalDay                                                                       |          |      Yes       |                  | Uses the FestivalEdition's configured timezone                                                   |
+| Appearance                      | Active sets do not overlap for one Artist or Stage                                                             |          |      Yes       |                  | Multiple non-overlapping sets on one day remain valid                                            |
+| Appearance                      | Weekday, formatted times, duration, and primary status are derived                                             |          |      Yes       |       Yes        | Do not persist redundant presentation values                                                     |
+| Appearance                      | Cancelling a set retains its stable ID and schedule record                                                     |          |      Yes       |                  | Saved schedule references can detect cancellation                                                |
+| Festival hierarchy              | FestivalSeries slug and FestivalEdition slug are unique                                                        |   Yes    |                |                  | Series is recurring identity; edition slug is the public occurrence key                          |
+| Festival hierarchy              | FestivalRun and Stage reference FestivalEdition explicitly                                                     |   Yes    |                |                  | Avoids ambiguous `festival_id` semantics                                                         |
+| Festival hierarchy              | Edition location/timezone remain historical edition facts                                                      |   Yes    |      Yes       |                  | A later series change cannot rewrite prior editions                                              |
 
 ## Implementation status
 
@@ -1067,89 +1067,89 @@ commands.
 The following records the completed implementation boundary:
 
 - [x] Perform a comprehensive model/design/DDL review across both the new artist
-  domain and the existing festival hierarchy.
+      domain and the existing festival hierarchy.
 - [x] Add reverse-lookup indexes on `artist_genres.genre_id` and
-  `artist_track_selections.track_id`.
+      `artist_track_selections.track_id`.
 - [x] Configure deterministic SQLAlchemy constraint/index naming compatible with
-  accurate names already present in PostgreSQL.
+      accurate names already present in PostgreSQL.
 - [x] Remove the redundant standalone `festival_runs.festival_edition_id` and
-  `festival_days.festival_run_id` indexes from the model metadata.
+      `festival_days.festival_run_id` indexes from the model metadata.
 - [x] Model positive, parent-scoped unique `display_order` constraints for
-  FestivalRun and FestivalDay.
+      FestivalRun and FestivalDay.
 - [x] Replace stale model-level `Festival` wording with `FestivalEdition`, rename the
-  conceptual diagram's `Video` to `ArtistVideo`, and document Similar Artist deletion
-  behavior explicitly.
+      conceptual diagram's `Video` to `ArtistVideo`, and document Similar Artist deletion
+      behavior explicitly.
 - [x] Preserve `RESTRICT` for deleting an Artist referenced as a Similar Artist target;
-  do not silently shrink another Artist's curated set.
+      do not silently shrink another Artist's curated set.
 - [x] Configure Ruff for Python formatting, import sorting, and linting, then format
-  and review the backend diff.
+      and review the backend diff.
 - [x] Generate the artist-schema Alembic revision and manually review every table,
-  foreign key, composite primary key, constraint, index, default, and downgrade.
+      foreign key, composite primary key, constraint, index, default, and downgrade.
 - [x] Confirm the generated migration preserves the intended deterministic names,
-  drops both redundant festival indexes, and creates the new FestivalRun/FestivalDay
-  order constraints; then run `alembic check` after applying it.
+      drops both redundant festival indexes, and creates the new FestivalRun/FestivalDay
+      order constraints; then run `alembic check` after applying it.
 - [x] Add `updated_at` triggers to all 12 new timestamped tables using the existing
-  shared PostgreSQL trigger function.
+      shared PostgreSQL trigger function.
 - [x] Add a migration-owned Artist trigger that clears `about_verified_at` when
-  `about` changes.
+      `about` changes.
 - [x] Add a migration-owned Artist trigger that clears `socials_verified` when
-  `youtube_url` or `tiktok_url` changes; verified-empty socials remain valid until a
-  supported URL changes.
+      `youtube_url` or `tiktok_url` changes; verified-empty socials remain valid until a
+      supported URL changes.
 - [x] Add a migration-owned SimilarArtist trigger that clears its parent
-  SimilarArtistSet's `verified_at` after entry insert, update, or delete.
+      SimilarArtistSet's `verified_at` after entry insert, update, or delete.
 - [x] Add migration-owned LineupEntry invalidation so announced-membership changes
-  clear affected source and target SimilarArtistSet verification in the same run.
+      clear affected source and target SimilarArtistSet verification in the same run.
 - [x] Update `ARCHITECTURE.md` and superseded/current ADR references once the physical
-  migration is final.
+      migration is final.
 - [x] Add real PostgreSQL integration tests for constraints, all trigger behavior,
-  direct protected deletes, and the converging FestivalRun/FestivalEdition cascade
-  paths.
+      direct protected deletes, and the converging FestivalRun/FestivalEdition cascade
+      paths.
 - [x] Verify aggregate FestivalRun/FestivalEdition deletion with the original
-  Appearance-to-Day/Stage `RESTRICT` foreign keys; both valid aggregate paths were
-  blocked, so replace only those references with deferrable, initially deferred
-  `NO ACTION` while preserving ordinary Day/Stage deletion protection.
+      Appearance-to-Day/Stage `RESTRICT` foreign keys; both valid aggregate paths were
+      blocked, so replace only those references with deferrable, initially deferred
+      `NO ACTION` while preserving ordinary Day/Stage deletion protection.
 - [x] Reapply the corrected migration and verify aggregate deletion succeeds while
-  direct deletion of a referenced FestivalDay or Stage still fails at commit.
+      direct deletion of a referenced FestivalDay or Stage still fails at commit.
 - [x] Add a versioned TypeScript JSON export boundary and runtime validation for all
-  controlled vocabularies, relationships, gates, curated identities, and timestamps.
+      controlled vocabularies, relationships, gates, curated identities, and timestamps.
 - [x] Add a guarded transactional importer, verify the complete snapshot against real
-  PostgreSQL with rollback, and import the snapshot into the persistent local database.
+      PostgreSQL with rollback, and import the snapshot into the persistent local database.
 - [x] Implement reusable Artist publication-readiness evaluation with isolated unit
-  tests and real PostgreSQL integration coverage.
+      tests and real PostgreSQL integration coverage.
 - [x] Add a dry-run-first transactional publication command, then publish the 126
-  passing Artists while preserving the remaining 45 as drafts with reported issues.
+      passing Artists while preserving the remaining 45 as drafts with reported issues.
 - [x] Add the published-only artist-core read API with typed projections, deterministic
-  ordering, and real PostgreSQL query coverage.
+      ordering, and real PostgreSQL query coverage.
 - [x] Verify semantic parity for every artist-core field and the exact 126-Artist
-  published set against the retained TypeScript source boundary.
+      published set against the retained TypeScript source boundary.
 - [x] Expand the public Artist projection with verified About, independently derived
-  Spotify linking, verified YouTube/TikTok links, and the featured available video;
-  verify visibility gates and full-source parity.
+      Spotify linking, verified YouTube/TikTok links, and the featured available video;
+      verify visibility gates and full-source parity.
 - [x] Add the explicit FestivalEdition/FestivalRun-scoped Artist read boundary with
-  announced billing, timezone-localized scheduled/cancelled Appearances, valid empty
-  schedules, and complete imported-source parity.
+      announced billing, timezone-localized scheduled/cancelled Appearances, valid empty
+      schedules, and complete imported-source parity.
 - [x] Expose verified Similar Artist sets through that run-scoped boundary only when
-  all four canonical targets remain published and announced; return four or none,
-  preserve `verified_at` on unpublication, and verify all-source parity.
+      all four canonical targets remain published and announced; return four or none,
+      preserve `verified_at` on unpublication, and verify all-source parity.
 - [x] Curate a Quick Picks track for the remaining 45 draft Artists and a Spotify
-  artist identity for Ric Wilson and Cruz Beckham & The Breakers, synchronize the
-  listening configuration into PostgreSQL with a dedicated idempotent backfill
-  script, then re-run the guarded publication workflow. Verify all 171 Artists are
-  published, all 170 verified Similar Artist sets are fully visible, and the full
-  backend test suite passes.
+      artist identity for Ric Wilson and Cruz Beckham & The Breakers, synchronize the
+      listening configuration into PostgreSQL with a dedicated idempotent backfill
+      script, then re-run the guarded publication workflow. Verify all 171 Artists are
+      published, all 170 verified Similar Artist sets are fully visible, and the full
+      backend test suite passes.
 - [x] Add a lightweight, run-scoped read boundary
-  (`read_festival_run_appearances`) returning every published, announced Artist's
-  scheduled Appearances in one flat, unpaginated list — the canonical source every
-  frontend scheduling-identity consumer resolves an Artist's real `Appearance.id`
-  against, alongside (not replacing) the heavier per-Artist detail boundary. Add
-  real PostgreSQL integration coverage for its filters, ordering, field mapping,
-  and billing-tier consistency check.
+      (`read_festival_run_appearances`) returning every published, announced Artist's
+      scheduled Appearances in one flat, unpaginated list — the canonical source every
+      frontend scheduling-identity consumer resolves an Artist's real `Appearance.id`
+      against, alongside (not replacing) the heavier per-Artist detail boundary. Add
+      real PostgreSQL integration coverage for its filters, ordering, field mapping,
+      and billing-tier consistency check.
 - [x] Retire `app/data/artists` as a frontend runtime read boundary — every
-  consumer (Explore, Planner, Quick Picks, Festival Story, Artist Detail, Credits)
-  now reads exclusively from the API/PostgreSQL, with no TypeScript fallback on an
-  operational failure.
+      consumer (Explore, Planner, Quick Picks, Festival Story, Artist Detail, Credits)
+      now reads exclusively from the API/PostgreSQL, with no TypeScript fallback on an
+      operational failure.
 - [x] Make PostgreSQL the sole artist data source for both read and write
-  (`artist-authoring.md` section 6): the TypeScript dataset and import tooling are
-  gone, the shared source parsers live in `backend/app/lib/artist_source.py`, the read
-  layer is `app/repositories/`, and `provenance/artists-lollapalooza-2026.json` is a
-  frozen archival snapshot.
+      (`artist-authoring.md` section 6): the TypeScript dataset and import tooling are
+      gone, the shared source parsers live in `backend/app/lib/artist_source.py`, the read
+      layer is `app/repositories/`, and `provenance/artists-lollapalooza-2026.json` is a
+      frozen archival snapshot.

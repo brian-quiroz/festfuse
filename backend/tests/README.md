@@ -96,7 +96,7 @@ is re-stamped after the `AFTER INSERT` entry trigger has fired; a partial create
 listing the gaps; the announced-without-schedule case using wrapper-level billing; and
 clear refusals for a duplicate slug, a taken Spotify identity, an unknown
 genre/similar-target/stage. For delete it proves owned rows are removed while shared
-`Track` rows are kept, and that deleting a Similar Artist *target* is refused unless
+`Track` rows are kept, and that deleting a Similar Artist _target_ is refused unless
 forced, in which case the incoming references are cleared and the referencing set loses
 its verification. For `edit_artist` (ADR-0012) it proves the write-then-restamp
 sequence for About and social verification (including the reviewed-empty socials
@@ -238,7 +238,7 @@ touches every artist-owned field `add_artist` can set (identity, image, featured
 About, socials, location, genres, listening, the run-scoped similar-artist set) but not
 lineup/schedule/publication state. The `--preview` plan lists each changed field group
 and the recomputed publication readiness. It refuses the same reference errors as
-`add_artist` plus a slug/mbid/Spotify clash with a *different* artist.
+`add_artist` plus a slug/mbid/Spotify clash with a _different_ artist.
 
 ```bash
 python -m scripts.delete_artist --slug <slug> --preview

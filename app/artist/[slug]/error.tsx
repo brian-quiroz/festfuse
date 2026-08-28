@@ -21,7 +21,12 @@ export default function ArtistError({
 
   return (
     <main className="flex-1 min-w-0 overflow-y-auto flex flex-col items-center justify-center px-8 text-center">
-      <CircleAlert size={40} strokeWidth={1.5} aria-hidden="true" className="text-[#EF4444]/80 mb-5" />
+      <CircleAlert
+        size={40}
+        strokeWidth={1.5}
+        aria-hidden="true"
+        className="text-[#EF4444]/80 mb-5"
+      />
       <h1 className="text-3xl font-extrabold text-white tracking-tight mb-2">
         Something went wrong
       </h1>

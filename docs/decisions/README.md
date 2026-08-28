@@ -6,22 +6,22 @@ preserve the context, alternatives, and tradeoffs behind that system.
 
 ## Decisions
 
-| ADR | Decision | Status |
-| --- | --- | --- |
-| [0001](0001-introduce-fastapi-postgresql-backend.md) | Introduce a FastAPI and PostgreSQL backend | Accepted |
-| [0002](0002-model-festival-runs-and-days.md) | Model festival editions with runs and days | Superseded by 0003 |
-| [0003](0003-separate-festival-series-and-editions.md) | Separate recurring festival series from dated editions | Accepted |
-| [0004](0004-model-artist-curation-and-scheduling.md) | Model artist curation, lineup membership, and scheduled appearances | Accepted |
-| [0005](0005-deploy-initial-backend-on-railway.md) | Deploy the initial hosted backend on Railway | Accepted |
-| [0006](0006-shared-run-appearances-store.md) | Share canonical Appearance identity and display data through one run-appearances store | Accepted |
-| [0007](0007-quick-picks-track-and-similar-artists-on-bulk-appearances.md) | Extend the bulk appearances endpoint with Quick Picks' editorial fields, in its own frontend type | Accepted |
-| [0008](0008-time-based-fetch-revalidation.md) | Time-based revalidation for the two FastAPI fetch sites | Accepted |
-| [0009](0009-rollback-and-observability-scope.md) | Minimal email alerting; rely on platform deployment rollback; no full observability service | Accepted |
-| [0010](0010-api-failure-ux-after-typescript-fallback-removal.md) | Two-mode failure UX after retiring the TypeScript fallback | Accepted |
-| [0011](0011-direct-to-postgresql-artist-authoring.md) | Direct-to-PostgreSQL artist authoring workflow | Accepted |
-| [0012](0012-field-level-artist-edits.md) | Field-level artist edit workflow | Accepted |
-| [0013](0013-editorial-authoring-and-review-process.md) | Editorial authoring and review process | Accepted |
-| [0014](0014-postgresql-backup-and-clean-rebuild.md) | PostgreSQL-level backup and clean-rebuild strategy | Accepted |
+| ADR                                                                       | Decision                                                                                          | Status             |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------ |
+| [0001](0001-introduce-fastapi-postgresql-backend.md)                      | Introduce a FastAPI and PostgreSQL backend                                                        | Accepted           |
+| [0002](0002-model-festival-runs-and-days.md)                              | Model festival editions with runs and days                                                        | Superseded by 0003 |
+| [0003](0003-separate-festival-series-and-editions.md)                     | Separate recurring festival series from dated editions                                            | Accepted           |
+| [0004](0004-model-artist-curation-and-scheduling.md)                      | Model artist curation, lineup membership, and scheduled appearances                               | Accepted           |
+| [0005](0005-deploy-initial-backend-on-railway.md)                         | Deploy the initial hosted backend on Railway                                                      | Accepted           |
+| [0006](0006-shared-run-appearances-store.md)                              | Share canonical Appearance identity and display data through one run-appearances store            | Accepted           |
+| [0007](0007-quick-picks-track-and-similar-artists-on-bulk-appearances.md) | Extend the bulk appearances endpoint with Quick Picks' editorial fields, in its own frontend type | Accepted           |
+| [0008](0008-time-based-fetch-revalidation.md)                             | Time-based revalidation for the two FastAPI fetch sites                                           | Accepted           |
+| [0009](0009-rollback-and-observability-scope.md)                          | Minimal email alerting; rely on platform deployment rollback; no full observability service       | Accepted           |
+| [0010](0010-api-failure-ux-after-typescript-fallback-removal.md)          | Two-mode failure UX after retiring the TypeScript fallback                                        | Accepted           |
+| [0011](0011-direct-to-postgresql-artist-authoring.md)                     | Direct-to-PostgreSQL artist authoring workflow                                                    | Accepted           |
+| [0012](0012-field-level-artist-edits.md)                                  | Field-level artist edit workflow                                                                  | Accepted           |
+| [0013](0013-editorial-authoring-and-review-process.md)                    | Editorial authoring and review process                                                            | Accepted           |
+| [0014](0014-postgresql-backup-and-clean-rebuild.md)                       | PostgreSQL-level backup and clean-rebuild strategy                                                | Accepted           |
 
 ## Lightweight convention
 
