@@ -85,16 +85,6 @@ run-scoped `similar_artists` query returns the same verified four-or-none result
 and correctly re-hides the set once a target artist is unpublished (see ADR-0007
 for why this became a batched query instead of a per-artist one).
 
-`integration/test_artist_api_parity.py` compares the current TypeScript export with
-the real published PostgreSQL Artist projections. Named cases document approved-image,
-hidden-image, curated Listen First, and verified direct-content behavior; the complete
-comparison verifies the exact 126-Artist published set and every field in the current
-public Artist response boundary. It also compares every published Artist's run-level
-billing and schedule projection with the retained TypeScript source, including the
-multi-appearance case. The complete comparison also derives recommendation visibility
-from target publication readiness and verifies every exposed target's canonical
-identity, image, genre order, and editorial display order.
-
 `integration/test_artist_authoring.py` exercises the artist authoring service
 (`create_artist` / `delete_artist`, ADR-0011) against the seeded database. It proves a
 full create round-trip (genre order and primary flag, Quick Picks and Listen First
@@ -152,14 +142,11 @@ The integration suite currently verifies:
 - restriction of referenced Similar Artist target deletion;
 - successful FestivalRun and FestivalEdition aggregate deletion;
 - protection against direct deletion of referenced FestivalDay and Stage rows;
-- complete 171-Artist snapshot insertion through the production import mapper inside
-  a rollback-contained transaction;
-- the 126-ready/45-blocked publication assessment;
-- transactional publication of only the 126 passing Artists;
+- that the seeded roster (currently 171 Artists) is entirely publication-ready under
+  the application-owned policy, and that `publish_ready_artists` publishes all of them
+  and leaves no drafts;
 - published Artist query filtering, mapping, and consistency behavior;
-- semantic public-response parity for the exact 126 published source Artists;
-- semantic festival-context parity for run-level billing and all imported Appearances;
-- verified four-or-none Similar Artist visibility and canonical target parity;
+- verified four-or-none Similar Artist visibility and canonical target summaries;
 - the run-scoped appearances feed's publication/lineup/schedule filtering, ordering,
   and field mapping; and
 - single-artist create and hard-delete through the authoring service, including
@@ -192,9 +179,6 @@ RUN_POSTGRES_INTEGRATION=1 python -m pytest
 # Only the PostgreSQL integration category
 RUN_POSTGRES_INTEGRATION=1 python -m pytest -m postgres
 
-# TypeScript-to-PostgreSQL public Artist response parity only
-RUN_POSTGRES_INTEGRATION=1 python -m pytest tests/integration/test_artist_api_parity.py
-
 # Compare the migrated live schema with SQLAlchemy metadata
 alembic check
 ```
@@ -203,34 +187,10 @@ The `postgres` marker categorizes database-dependent tests. The
 `RUN_POSTGRES_INTEGRATION=1` guard is the explicit opt-in that permits them to connect.
 The local database must already exist and be upgraded to Alembic head.
 
-## Artist import dry run
-
-The standard suite also exercises the artist-import serialization boundary against
-the current TypeScript source. From `backend/` with its virtual environment active,
-run the same validation as a human-readable, read-only report:
-
-```bash
-python -m scripts.import_artists --dry-run
-```
-
-The command invokes `scripts/export-artist-data.ts`, validates the complete exported
-envelope, and never connects to PostgreSQL.
-
-The guarded initial write mode uses one transaction:
-
-```bash
-python -m scripts.import_artists --apply
-```
-
-It requires the FestivalEdition, FestivalRun, and FestivalDays to be seeded, refuses
-to mix the snapshot with existing artist/taxonomy/track or festival-stage rows, and
-rolls the entire import back on any error. It imports every Artist as `draft`; later
-publication remains an explicit application operation.
-
 ## Artist publication
 
-Assess the imported Artists against the application-owned publication policy without
-changing the database:
+`publish_artists` assesses draft Artists against the application-owned publication
+policy without changing the database:
 
 ```bash
 python -m scripts.publish_artists
@@ -246,41 +206,12 @@ The command leaves blocked Artists unchanged and reports their readiness issues.
 does not silently unpublish an existing Artist. The operation is safe to rerun;
 already-published passing Artists remain published.
 
-## Artist listening sync
-
-Like `import_artists.py`, this is a one-time, per-environment bootstrap step, not a
-recurring editorial workflow — it backfills the listening configuration (Quick Picks
-track, and Spotify artist identity where the source has since supplied one) for the
-45 Artists left as drafts by the initial import, targeting Artists that already exist
-rather than requiring empty tables. Review the pending changes without writing
-anything:
-
-```bash
-python -m scripts.sync_artist_listening
-```
-
-Apply them in one transaction:
-
-```bash
-python -m scripts.sync_artist_listening --apply
-```
-
-The command is scoped to draft Artists only, and within an Artist to Track rows,
-ArtistTrackSelection rows, Quick Picks role, Listen First ordering, and
-`spotify_artist_id`. It never touches name, genres, images, schedule, or
-recommendation data. It does not sync `listen_first_note`: no draft Artist in the
-current source data uses a curated Listen First override, so that path is
-unimplemented rather than silently incomplete — extend the script first if a future
-draft Artist needs one. An Artist that already has any track selections is left
-unchanged, so the operation is safe to rerun; a completed sync reports no further
-changes on a second pass.
-
-## Adding, editing, removing, and backfilling an artist
+## Adding, editing, and removing an artist
 
 The direct-to-PostgreSQL authoring workflow (ADR-0011 and ADR-0012,
 `docs/roadmap/artist-authoring.md`). Each requires an explicit mode — a bare invocation
 errors out. Against the hosted database, run them through the encrypted Railway tunnel
-like `import_artists` (see `docs/operations/backend-deployment.md`).
+like the other data operations (see `docs/operations/backend-deployment.md`).
 
 `add_artist`, `edit_artist`, and `delete_artist` execute the operation in a
 transaction, so their non-committing mode is `--preview` (it runs the real
@@ -319,18 +250,6 @@ videos, its Similar Artist sets, lineup entries, appearances); shared `Track` ro
 kept. It refuses an artist that another artist's Similar Artist set points at unless
 `--force` also clears those references.
 
-`backfill_artist_mbid` attempts no write in its non-committing mode, so it keeps
-`--dry-run` (matching `publish_artists`):
-
-```bash
-python -m scripts.backfill_artist_mbid --dry-run
-python -m scripts.backfill_artist_mbid --apply
-```
-
-`backfill_artist_mbid` is a one-time, per-environment step (like `sync_artist_listening`):
-it sets `artists.mbid` from the TypeScript source for the ~14 rows that have one and are
-currently `NULL`. Safe to rerun. Folded into the importer in the roadmap's section 6.
-
 The editorial-pipeline scripts (`build_roster_payloads`, `check_artist_links`,
 `show_artist`) are operator tooling, documented in
 `docs/operations/backend-deployment.md`; their test coverage is described above.
@@ -341,6 +260,6 @@ There is not yet an API integration suite that sends FastAPI HTTP requests throu
 real PostgreSQL session; the Artist query itself now has PostgreSQL integration
 coverage. The clean-bootstrap smoke test covers migrations-from-empty and the
 festival seed, but not an automated `pg_dump` / `pg_restore` round trip. There are
-also no automated Next.js component, browser end-to-end, committed-import smoke, or
-load tests. Add those layers when their corresponding application paths are
-implemented; do not treat the mocked route tests as proof of live database behavior.
+also no automated Next.js component, browser end-to-end, or load tests. Add those
+layers when their corresponding application paths are implemented; do not treat the
+mocked route tests as proof of live database behavior.

@@ -17,9 +17,8 @@ decisions belong in [`../decisions/`](../decisions/).
   on the hosted Railway database.
 - The production frontend depends on FastAPI and the hosted Railway PostgreSQL
   database for every artist-facing read, via the run-scoped appearances endpoint and
-  the global artist endpoint. `app/data/artists` is not part of the frontend's
-  runtime read path — it remains only as the authoring source `scripts/export-artist-data.ts`
-  serializes for backend import (see the "Next" section).
+  the global artist endpoint. The authoring cutover that followed is complete too (see
+  the "Next" section).
 
 ## Rollout sequence
 
@@ -431,15 +430,16 @@ would make them harder to isolate, not easier.
 ## Next: replace the authoring source
 
 Step 7 finished the frontend *read* path. Replacing `app/data/artists/*.ts` as the
-*authoring* source — a direct-to-PostgreSQL write workflow, the editorial process
-(decided in [ADR-0013](../decisions/0013-editorial-authoring-and-review-process.md)), a
-database-level backup/restore path, and deleting the files — is a distinct concern,
+*authoring* source (a direct-to-PostgreSQL write workflow, the editorial process
+decided in [ADR-0013](../decisions/0013-editorial-authoring-and-review-process.md), a
+database-level backup/restore path, and deleting the files) is a distinct concern,
 tracked in [`artist-authoring.md`](./artist-authoring.md) with its rationale in
 [ADR-0011](../decisions/0011-direct-to-postgresql-artist-authoring.md).
 
-Until that roadmap's final section deletes the files, this document's "Current boundary"
-and "Guardrails" still describe `app/data/artists` as the authoring source, and the
-sequence above is complete through step 7.
+That roadmap is now complete: `app/data/artists/*.ts` and the TypeScript import tooling
+are deleted, and PostgreSQL is the sole artist data source for both read and write.
+This document is a historical record of the read-path rollout; see `artist-authoring.md`
+for the current data-authoring boundary.
 
 ## Guardrails
 
@@ -447,13 +447,10 @@ sequence above is complete through step 7.
 - Do not expose draft artists through public endpoints.
 - Do not make production depend on the API before preview parity is verified.
 - Do not treat pgAdmin edits as a repeatable data workflow.
-- Do not run schema migrations or the artist importer on ordinary user requests.
-- Keep migrations, bootstrap/import commands, required environment variables, and
+- Do not run schema migrations on ordinary user requests.
+- Keep migrations, bootstrap commands, required environment variables, and
   verification commands documented before calling the backend reproducible.
-- Do not assume `.env.local` points at a local backend — it points at the hosted
+- Do not assume `.env.local` points at a local backend. It points at the hosted
   Railway API by default. Testing an endpoint that isn't deployed yet requires an
-  explicit local override, not just a running local server — see
+  explicit local override, not just a running local server, see
   [`local-development.md`](../operations/local-development.md).
-- Do not edit `app/data/artists/*.ts` expecting it to reach production — the
-  frontend does not read it. It remains the authoring source `scripts/export-artist-data.ts`
-  serializes for backend import (see the "Next" section).

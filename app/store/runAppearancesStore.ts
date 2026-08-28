@@ -2,8 +2,6 @@
 
 import { create } from "zustand";
 import type { ApiRunAppearance } from "@/app/types/festivalRunAppearancesApi";
-import { formatApiDayAndDate, formatApiTime } from "@/app/lib/api/mapRunAppearance";
-import { timeStringToMinutes } from "@/app/lib/time";
 
 interface RunAppearancesState {
   hasLoaded: boolean;
@@ -12,10 +10,8 @@ interface RunAppearancesState {
 }
 
 // The canonical run-appearances catalog: API-backed data for one festival run, shared
-// by every consumer that needs real Appearance identity or display data. Phase 1 wires
-// only schedule-key resolution (via resolveCanonicalAppearanceId below) into it; cards,
-// filters, Planner, and navigation reading it directly for their own display data is
-// later phase work, once those areas migrate off app/data/artists.
+// by every consumer that needs real Appearance identity or display data. Every
+// scheduling, card, filter, Planner, and navigation surface reads it.
 export const useRunAppearancesStore = create<RunAppearancesState>()((set) => ({
   hasLoaded: false,
   appearancesBySlug: new Map(),
@@ -30,31 +26,19 @@ export const useRunAppearancesStore = create<RunAppearancesState>()((set) => ({
   },
 }));
 
-// Resolves the canonical PostgreSQL Appearance.id for a given artist slug, regardless
-// of whether `appearance` came from the TypeScript source or the API. For an artist
-// with exactly one appearance (170 of 171) this is exact, since there's only one
-// candidate to resolve to.
-//
-// For a multi-appearance artist (currently only DEVAULT), TS-shaped and API-shaped
-// callers hand this function different id spaces (TS-legacy vs. real database id), so
-// it disambiguates by matching `day`/`startTime` against each candidate instead — safe,
-// not probabilistic, since one artist can't play two overlapping sets. Still a
-// transitional workaround, not permanent: delete this branch once every consumer
-// sources appearances from the API and only passes real database ids — see
-// docs/roadmap/backend-rollout.md step 7 item 7 and ADR-0004's follow-up note.
+// Resolves the canonical PostgreSQL Appearance.id for a given artist slug. Every caller
+// now sources appearances from the API and passes a real database id, so this is a
+// light guard rather than a translation layer: for a single-appearance artist (170 of
+// 171) it returns that one appearance's id; otherwise it returns the id it was given.
+// The `appearancesBySlug` map can be empty for a slug while the run feed is still
+// loading, in which case the passed id is used as-is.
 export function resolveCanonicalAppearanceId(
   artistSlug: string,
-  appearance: { id: string; day: string; startTime: string },
+  appearanceId: string,
   appearancesBySlug: Map<string, ApiRunAppearance[]>
 ): string {
   const candidates = appearancesBySlug.get(artistSlug);
-  if (!candidates || candidates.length === 0) return appearance.id;
+  if (!candidates || candidates.length === 0) return appearanceId;
   if (candidates.length === 1) return String(candidates[0].id);
-
-  const targetMinutes = timeStringToMinutes(appearance.startTime);
-  const match = candidates.find((candidate) => {
-    const { day } = formatApiDayAndDate(candidate.festival_date);
-    return day === appearance.day && timeStringToMinutes(formatApiTime(candidate.starts_at)) === targetMinutes;
-  });
-  return match ? String(match.id) : appearance.id;
+  return appearanceId;
 }

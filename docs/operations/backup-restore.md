@@ -1,13 +1,12 @@
 # Rebuild the Database From PostgreSQL Alone
 
 This procedure backs up the hosted database and restores it into a fresh instance
-using PostgreSQL's own tools, with no dependency on `app/data/artists/*.ts` or
-`scripts/import_artists.py`. It is the disaster-recovery and new-environment path.
+using PostgreSQL's own tools. It is the disaster-recovery and new-environment path for
+the artist dataset.
 
-`scripts/seed_festival.py` plus `scripts/import_artists.py` remains documented in
-[`backend-deployment.md`](backend-deployment.md) as the way to reconstruct the
-_original TypeScript snapshot_; that path stays until the roadmap's final section
-retires it.
+Schema comes from the Alembic migrations and the foundational festival hierarchy from
+`scripts/seed_festival.py` (see [`backend-deployment.md`](backend-deployment.md)); this
+procedure restores everything else.
 
 ## What this touches
 

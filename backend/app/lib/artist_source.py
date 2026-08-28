@@ -1,10 +1,9 @@
 """Pure parsers and controlled vocabularies for artist authoring input.
 
-These mirror the format rules ``scripts/import_artists.py`` applies to the TypeScript
-export. They are duplicated here rather than imported so the ``app`` package does not
-depend on a script module; ``import_artists.py`` keeps its own copies until the
-importer is reworked (see the artist authoring roadmap, section 6). No I/O, no database.
-``app.lib`` is for pure, dependency-free helpers, mirroring the frontend's ``app/lib``.
+Format rules for the fields that arrive as strings (Spotify artist URLs, the image
+focal point, appearance times) and the source billing-tier vocabulary. No I/O, no
+database. ``app.lib`` is for pure, dependency-free helpers, mirroring the frontend's
+``app/lib``.
 """
 
 import re

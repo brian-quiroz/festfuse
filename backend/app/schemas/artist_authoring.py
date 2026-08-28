@@ -6,10 +6,12 @@ TypeScript-only fields (``tagline``, ``whySee``, ``whatToExpect``, ``bestFor``, 
 rejected, not ignored — reviving any of them is a new column plus a ``schemaVersion``
 bump. See ADR-0011.
 
-Field names mirror the ``npm run export:artists`` shape (camelCase) so an authoring
-file can be started by copying one artist from that output. Cross-row checks that need
-the database (genre exists, similar target exists, edition/run/stage/day resolve) live
-in ``app.services.artist_authoring``, not here.
+Field names are camelCase, matching the frontend ``Artist`` type shape
+(``app/types/artist.ts``) and the archived provenance snapshot
+(``provenance/artists-lollapalooza-2026.json``), so an authoring file can be started by
+copying one artist from either. Cross-row checks that need the database (genre exists,
+similar target exists, edition/run/stage/day resolve) live in
+``app.services.artist_authoring``, not here.
 """
 
 import re

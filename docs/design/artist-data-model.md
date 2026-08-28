@@ -12,12 +12,13 @@ roadmaps and ADRs, not here.
 
 ## Purpose
 
-FestFuse serves every frontend artist experience from PostgreSQL through FastAPI. The
-typed TypeScript files under `app/data/artists/` remain the authoring source that
-`scripts/export-artist-data.ts` → `backend/scripts/import_artists.py` load into the
-database. This document is the detailed reference for the schema and import boundary,
-which persist that data without mechanically copying the frontend shape or prematurely
-becoming a general-purpose music knowledge graph.
+FestFuse serves every frontend artist experience from PostgreSQL through FastAPI, and
+artist facts are authored directly in PostgreSQL (`backend/scripts/add_artist.py` /
+`edit_artist.py` / `build_roster_payloads.py`). This document is the detailed reference
+for the schema, which persists that data without mechanically copying the frontend
+shape or prematurely becoming a general-purpose music knowledge graph. The "Initial
+import boundary" section below is a historical record of the one-time import that first
+populated the database.
 
 The model must support the current festival discovery experience while preserving
 reasonable paths toward:
@@ -57,9 +58,9 @@ major alternatives and tradeoffs.
 
 ## Existing source model
 
-The authoring source is [`app/types/artist.ts`](../../app/types/artist.ts), with curated
-records under `app/data/artists/`; the frontend itself reads from PostgreSQL. Important
-behaviors of that source shape include:
+This section describes the frontend `Artist` shape
+([`app/types/artist.ts`](../../app/types/artist.ts)) that the schema below was designed
+to persist. Important behaviors of that source shape include:
 
 - `appearances` is non-empty because every current record belongs to the active
   festival lineup, not because an artist inherently requires an appearance;
@@ -906,8 +907,7 @@ of 171 Artists were immediately ready and 45 were not. The initial import create
 every Artist as `draft` and preserved all real announced LineupEntries and scheduled
 Appearances. Publishing the passing Artists was an explicit follow-up operation,
 later followed by curating and publishing the remaining 45; all 171 Artists are now
-published. The TypeScript source remains the live frontend source until API parity is
-verified, so staged database publication does not remove current UI coverage.
+published.
 
 ### Historical timestamp and gate backfill
 
@@ -1147,5 +1147,9 @@ The following records the completed implementation boundary:
 - [x] Retire `app/data/artists` as a frontend runtime read boundary — every
   consumer (Explore, Planner, Quick Picks, Festival Story, Artist Detail, Credits)
   now reads exclusively from the API/PostgreSQL, with no TypeScript fallback on an
-  operational failure. The TypeScript source remains only as the authoring/import
-  boundary (`scripts/export-artist-data.ts` → `backend/scripts/import_artists.py`).
+  operational failure.
+- [x] Make PostgreSQL the sole artist data source for both read and write
+  (`artist-authoring.md` section 6): the TypeScript dataset and import tooling are
+  gone, the shared source parsers live in `backend/app/lib/artist_source.py`, the read
+  layer is `app/repositories/`, and `provenance/artists-lollapalooza-2026.json` is a
+  frozen archival snapshot.

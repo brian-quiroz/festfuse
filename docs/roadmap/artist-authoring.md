@@ -13,19 +13,18 @@ is in [`artist-data-model.md`](../design/artist-data-model.md).
 
 ## Current boundary
 
+This roadmap is complete. PostgreSQL is the sole artist data source.
+
 - Every artist-facing frontend read is served by FastAPI/PostgreSQL.
-- `app/data/artists/*.ts` remains the frozen import source for the existing lineup:
-  `scripts/export-artist-data.ts` → `backend/scripts/import_artists.py` serialize it into
-  Postgres. New editorial work does not touch it — it writes directly to Postgres per
-  [`docs/process/artist-editorial-process.md`](../process/artist-editorial-process.md)
-  (4a).
-- Postgres can be rebuilt without the TypeScript source: a `pg_dump` / `pg_restore`
-  procedure ([`docs/operations/backup-restore.md`](../operations/backup-restore.md),
-  ADR-0014) stands up a new instance from a database dump alone. `import_artists.py`
-  remains the path for reconstructing the _original TypeScript snapshot_ until section
-  6 retires it.
-- A single artist can be created, edited field by field, or hard-deleted directly in
-  Postgres (`scripts/add_artist.py`, `scripts/edit_artist.py`, `scripts/delete_artist.py`).
+- Artist facts are authored directly in Postgres per
+  [`docs/process/artist-editorial-process.md`](../process/artist-editorial-process.md):
+  a single artist via `scripts/add_artist.py` / `edit_artist.py` / `delete_artist.py`,
+  a hand-authored roster CSV via `scripts/build_roster_payloads.py`.
+- Postgres rebuilds from a `pg_dump` alone: the `pg_dump` / `pg_restore` procedure
+  ([`docs/operations/backup-restore.md`](../operations/backup-restore.md), ADR-0014),
+  reconciled with `alembic upgrade head` and a clean `alembic check`.
+- `provenance/artists-lollapalooza-2026.json` is a frozen archival snapshot from before
+  section 6; nothing reads it at runtime.
 
 ## Rollout sequence
 
@@ -199,38 +198,48 @@ gates section 6.
 
 ### 6. Delete `app/data/artists/*.ts` and retire the TypeScript-coupled tooling
 
-**Status: not started.**
+**Status: completed.**
 
-- Freeze the final export as a committed provenance JSON snapshot.
-- Relocate `app/data/artists/_flagged-issues.md` (candidate: `docs/process/`) and triage
-  its entries — some predate the direct-to-PostgreSQL workflow (4a) and are stale or
-  already resolved.
-- Delete the per-day record files and `index.ts`. Keep `app/types/artist.ts`,
-  `app/data/categories.ts`, and `app/data/festivals.ts` — the frontend still uses their
-  types, vocabularies, and config.
-- Delete `scripts/export-artist-data.ts`. Re-point or retire `import_artists.py` and
-  `sync_artist_listening.py`. Resolve `app/lib/verify-story-signals.ts`'s dependency on
-  the TypeScript dataset.
-- Remove the parser duplication introduced in section 2: `import_artists.py` still has
-  its own `parse_spotify_artist_id` / `parse_focal_y` / `parse_appearance_time` / slug
-  regex / `BILLING_TIERS`, copied into `app/lib/artist_source.py` for the authoring
-  code. When the importer is reworked here, have it import those from
-  `app/lib/artist_source.py` so there is one definition. (`sync_artist_listening.py`
-  imports one of them from `import_artists.py` today — update or drop that too.)
-- Rename `app/queries/` → `app/repositories/`. It holds reads plus ORM→schema mapping,
-  no writes; `queries/` is accurate but `repositories/` is the better long-term name for
-  the artist read/persistence boundary, and `crud/` would be misleading. Update the
-  package, its `__init__`, and the ~2 import sites (`routers/artists.py`,
-  `routers/festival_artists.py`, tests).
-- Fold in the `resolveCanonicalAppearanceId` simplification
-  (`app/store/runAppearancesStore.ts`) now that every caller passes a real database id,
-  verifying DEVAULT's multi-appearance conflict detection against a live backend first.
-- In `backend-rollout.md`, mark the sequence complete through 7 and update the "Current
-  boundary" and guardrails that still name `app/data/artists`. Update
-  `artist-data-model.md`'s implementation checklist and resolve the related
-  `FUTURE_CONSIDERATIONS.md` entries.
+- The final `export-artist-data.ts` output is frozen as
+  [`provenance/artists-lollapalooza-2026.json`](../../provenance/artists-lollapalooza-2026.json)
+  (`provenance/README.md` explains its two roles: the archival record of what the
+  files held, and `verify-story-signals.ts`'s offline data source). It is committed
+  once and not maintained; it is not a database rebuild input (that is `pg_restore`,
+  ADR-0014).
+- `app/data/artists/_flagged-issues.md` moved to
+  [`docs/process/artist-flagged-issues.md`](../process/artist-flagged-issues.md) with a
+  "triage pending" header. Working its entries against the current records (several
+  predate 4a and are likely stale) is a dedicated editorial follow-up, not part of this
+  section.
+- The five per-day / `index.ts` record files are deleted. `app/types/artist.ts`,
+  `app/data/categories.ts`, and `app/data/festivals.ts` stay: the frontend still uses
+  their types, vocabularies, and config.
+- `scripts/export-artist-data.ts` and the `export:artists` npm script are deleted.
+  `import_artists.py`, `sync_artist_listening.py`, and `backfill_artist_mbid.py` are
+  deleted outright rather than re-pointed: the two reconciliation scripts had already
+  run against both databases (verified: zero drafts, all 14 legacy `mbid` values set,
+  no missing Quick Picks tracks), and the importer's only remaining callers were tests.
+  `app/lib/artist_source.py` is now the sole home of the shared parsers, so the
+  section-2 duplication is gone with the importer.
+- `verify-story-signals.ts` reads the provenance snapshot instead of `allArtists`; it
+  stays offline and deterministic. Its one pre-existing failure (the Chicago-baseline
+  fixture, `FUTURE_CONSIDERATIONS.md`) is unchanged, now against the frozen data.
+- `app/queries/` is renamed to `app/repositories/` (reads plus ORM to schema mapping,
+  no writes; the better long-term name for the read/persistence boundary). The package,
+  its `__init__`, and every import site (three routers, three test modules) are updated.
+- Test coverage: `test_import_artists.py` and `test_artist_api_parity.py` are removed
+  (the read cutover they guarded is long done; trigger / query / endpoint behaviour is
+  covered by `test_artist_schema.py`, `test_artist_read_query.py`, and
+  `test_run_appearances_query.py`). `test_artist_schema.py` loses its three
+  snapshot-import tests and keeps the trigger / constraint / deletion coverage.
+- The `resolveCanonicalAppearanceId` simplification
+  (`app/store/runAppearancesStore.ts`) folds in now that every caller passes a real
+  database `Appearance.id`.
 
-**Checkpoint:** PostgreSQL is the sole artist data source, read and write.
+**Checkpoint reached:** PostgreSQL is the sole artist data source, read and write. The
+frontend reads it through the API; artist facts are written to it directly through
+`add_artist` / `edit_artist` / `build_roster_payloads`; and it rebuilds from a
+`pg_dump`.
 
 ## Guardrails
 

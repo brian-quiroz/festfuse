@@ -111,7 +111,7 @@ record and runs in re-review mode — Tier 2, the current content as the baselin
 - A fact the AI cannot pin down: it should say so and give you the options, not guess.
   If it sounds certain about something thin, push back.
 - A finding outside the current pass's scope: it goes in
-  `app/data/artists/_flagged-issues.md`, not applied silently.
+  `docs/process/artist-flagged-issues.md`, not applied silently.
 - A genre the artist needs that is not in the table: the AI flags it with sources; you
   add the row to the `genres` table and to `app/data/categories.ts` (there is no
   `add-genre` command yet).

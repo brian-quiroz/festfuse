@@ -8,9 +8,8 @@ services:
 - `Postgres`: the managed PostgreSQL database. It is not publicly exposed.
 
 The Railway environment is named `production`, and the production frontend depends
-on it for every artist-facing read across the app. `app/data/artists` is not part of
-the frontend's runtime read path — it remains only as the authoring/import source
-(see `docs/roadmap/backend-rollout.md`'s "Current boundary" section and step 8).
+on it for every artist-facing read across the app. PostgreSQL is the sole artist data
+source, read and write (see `docs/roadmap/artist-authoring.md`).
 
 ## Service configuration
 
@@ -31,99 +30,21 @@ migration prevents the new application deployment from proceeding.
 ## Initial data bootstrap
 
 Data bootstrap is deliberate and separate from deployment. Never place these scripts
-in the start or pre-deploy command: the festival seed is application data, and the
-artist importer is a guarded initial-snapshot operation rather than an ordinary
-synchronization mechanism.
+in the start or pre-deploy command: the festival seed is application data, and artist
+data restore is a recovery operation, not an ordinary synchronization mechanism.
 
-This section reconstructs the original TypeScript snapshot. To stand up a database
-from a PostgreSQL dump instead, with no TypeScript source, see
-[`backup-restore.md`](backup-restore.md) (ADR-0014).
+A new environment is stood up in two steps after `alembic upgrade head`:
 
-Run the festival seed from the FastAPI service's Railway console after migrations:
+1. The festival hierarchy, from the FastAPI service's Railway console:
 
-```bash
-python -m scripts.seed_festival
-```
+   ```bash
+   python -m scripts.seed_festival
+   ```
 
-The artist exporter reads frontend source files from the local repository, so run the
-artist import from a local checkout through an encrypted Railway tunnel. From the
-repository root, link the CLI to the `joyful-mercy` project, `production` environment,
-and `festfuse` service if it is not already linked:
-
-```bash
-railway link
-```
-
-In terminal 1, keep the database tunnel open:
-
-```bash
-railway connect Postgres --tunnel-only --port 55432
-```
-
-In terminal 2, change to `backend/` and validate the import first:
-
-```bash
-railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.import_artists --dry-run'
-```
-
-Only after the dry run succeeds, apply it:
-
-```bash
-railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.import_artists --apply'
-```
-
-Then inspect publication readiness and publish passing Artists:
-
-```bash
-railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.publish_artists'
-railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.publish_artists --apply'
-```
-
-Stop the tunnel with `Ctrl+C` when finished. The SSH private key used by Railway stays
-only in the developer's `~/.ssh/` directory and must never be copied into this
-repository or shared.
-
-The initial hosted snapshot produced 171 Artists: 126 publication-ready and 45 drafts.
-Those totals are a verification aid for this snapshot, not permanent business rules.
-
-## Backfilling listening configuration after a source correction
-
-`import_artists.py --apply` refuses to run against tables that already hold Artist
-data, so it cannot repair an environment that was already bootstrapped before the
-TypeScript source had a complete Quick Picks track for every Artist. A brand-new
-environment does not need this section: today's TypeScript source already has every
-Artist's listening configuration, so `import_artists.py --apply` alone produces a
-complete import.
-
-For an environment bootstrapped before that curation was finished, use the dedicated
-backfill script instead, through the same tunnel as above. From `backend/`:
-
-```bash
-railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.sync_artist_listening'
-```
-
-Only after the dry run succeeds, apply it:
-
-```bash
-railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.sync_artist_listening --apply'
-```
-
-Then re-run the `publish_artists` commands above. The backfill is safe to rerun; a
-completed run reports no further changes. See `backend/tests/README.md` for its exact
-scope and `docs/design/artist-data-model.md` for the listening-configuration model.
-
-## Backfilling artist MusicBrainz identifiers
-
-`artists.mbid` was added after the initial import. The schema change reaches production
-through the pre-deploy `alembic upgrade head`; the ~14 legacy values are a one-time data
-step, like the listening backfill above, through the same tunnel. From `backend/`:
-
-```bash
-railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.backfill_artist_mbid --dry-run'
-```
-
-Only after the dry run succeeds, apply it with `--apply` in place of `--dry-run`. Safe
-to rerun; it only touches rows where `mbid` is currently `NULL`.
+2. The artist dataset, restored from a `pg_dump` of an existing database. The full
+   procedure (taking the dump through the encrypted Railway tunnel, `pg_restore` into
+   the empty database, then reconciling with `alembic upgrade head` and a clean
+   `alembic check`) is in [`backup-restore.md`](backup-restore.md) (ADR-0014).
 
 ## Adding, editing, or removing an artist
 

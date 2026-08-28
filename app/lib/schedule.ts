@@ -15,25 +15,18 @@ import {
 export type RunAppearancesBySlug = Map<string, ApiRunAppearance[]>;
 
 // Festival-scoped, ID-based — not derived from day/time, so correcting an appearance's
-// schedule details later never invalidates a persisted key.
-//
-// `appearanceId` alone isn't trustworthy: it's a TypeScript-legacy id for a TS-sourced
-// caller, the real database id for an API-sourced one. `runAppearancesBySlug` resolves
-// to the canonical id; `day`/`startTime` help it disambiguate a multi-appearance artist.
-// See `resolveCanonicalAppearanceId` and ADR-0004's follow-up note for the full story.
-//
-// Takes primitives, not full Artist/FestivalAppearance objects, so every caller (TS- or
-// API-shaped) shares one function instead of a parallel lean/full pair.
+// schedule details later never invalidates a persisted key. `appearanceId` is a real
+// database `Appearance.id`; `runAppearancesBySlug`, when passed, canonicalizes it
+// through `resolveCanonicalAppearanceId`. Takes primitives, not full
+// Artist/FestivalAppearance objects, so every caller shares one function.
 export function getAppearanceKey(
   artistSlug: string,
   appearanceId: string,
   festivalId: string,
-  day: string,
-  startTime: string,
   runAppearancesBySlug?: RunAppearancesBySlug
 ): string {
   const canonicalId = runAppearancesBySlug
-    ? resolveCanonicalAppearanceId(artistSlug, { id: appearanceId, day, startTime }, runAppearancesBySlug)
+    ? resolveCanonicalAppearanceId(artistSlug, appearanceId, runAppearancesBySlug)
     : appearanceId;
   return `${festivalId}::${artistSlug}::${canonicalId}`;
 }
@@ -47,7 +40,7 @@ export function getArtistScheduleState(
   runAppearancesBySlug?: RunAppearancesBySlug
 ): "none" | "partial" | "full" {
   const keys = getAppearancesForFestival(artist, festivalId).map((a) =>
-    getAppearanceKey(artist.slug, a.id, a.festivalId, a.day, a.startTime, runAppearancesBySlug)
+    getAppearanceKey(artist.slug, a.id, a.festivalId, runAppearancesBySlug)
   );
   const scheduledCount = keys.filter((k) => scheduledAppearanceKeys.has(k)).length;
   if (scheduledCount === 0) return "none";
@@ -79,7 +72,8 @@ export function getScheduledArtistSlugs(
       ],
     };
     if (
-      getArtistScheduleState(artist, festivalId, scheduledAppearanceKeys, appearancesBySlug) !== "none"
+      getArtistScheduleState(artist, festivalId, scheduledAppearanceKeys, appearancesBySlug) !==
+      "none"
     ) {
       slugs.add(slug);
     }
@@ -100,14 +94,7 @@ export function getConflictingArtistSlugs(
       const appearance = mapFestivalAppearance(apiAppearance, festivalId);
       if (
         conflictingAppearanceKeys.has(
-          getAppearanceKey(
-            slug,
-            appearance.id,
-            appearance.festivalId,
-            appearance.day,
-            appearance.startTime,
-            appearancesBySlug
-          )
+          getAppearanceKey(slug, appearance.id, appearance.festivalId, appearancesBySlug)
         )
       ) {
         slugs.add(slug);
@@ -201,14 +188,7 @@ export function getConflictingArtists(
   for (const [slug, apiAppearances] of appearancesBySlug) {
     for (const apiAppearance of apiAppearances) {
       const appearance = mapFestivalAppearance(apiAppearance, festivalId);
-      const key = getAppearanceKey(
-        slug,
-        appearance.id,
-        appearance.festivalId,
-        appearance.day,
-        appearance.startTime,
-        appearancesBySlug
-      );
+      const key = getAppearanceKey(slug, appearance.id, appearance.festivalId, appearancesBySlug);
       if (!scheduledAppearanceKeys.has(key)) continue;
       const groupKey = `${appearance.festivalId}::${appearance.date}`;
       if (!scheduledByDate.has(groupKey)) scheduledByDate.set(groupKey, []);

@@ -1,13 +1,17 @@
 # Flagged out-of-scope issues
 
 Facts surfaced during artist-review passes that live in a field outside that pass's scope
-(most often `about`, since fast/rapid passes skip it). Not auto-fixed at the time they're found —
-logged here for a future review pass to address. Remove an entry once its issue is fixed.
+(most often `about`, since fast/rapid passes skip it). Not auto-fixed at the time they're
+found: logged here for a future review pass to address. Remove an entry once its issue is
+fixed. New entries record the artist slug and the affected field, plus a sourced summary
+of the correction.
 
-> **Note:** some entries below predate the direct-to-PostgreSQL editorial workflow
-> (ADR-0013) and may be stale or already resolved. This file, and the triage of its
-> entries, is relocated in [artist-authoring roadmap](../../../docs/roadmap/artist-authoring.md)
-> section 6. Reviewing the entries is out of scope until then.
+> **Triage pending.** Several entries below predate the direct-to-PostgreSQL editorial
+> workflow (ADR-0013) and are likely stale or already fixed. Working each entry against
+> the current record (`python -m scripts.show_artist <slug>`), applying the cheap
+> corrections via `edit_artist`, and re-routing the full rewrites through the editorial
+> process is a dedicated follow-up, not part of artist-authoring roadmap section 6 (which
+> only moved this file here). Do not treat the entries as current until that pass runs.
 
 ## ayybo (about)
 

@@ -227,18 +227,18 @@ test passes. The festival seed may remain idempotent, while the artist importer 
 remain a guarded initial-snapshot operation; ordinary updates belong to APIs or a
 purpose-built synchronization workflow rather than rerunning the bootstrap importer.
 
-**Resolution (artist authoring roadmap section 5, ADR-0014):** mostly resolved.
+**Resolution (artist authoring roadmap sections 5 and 6, ADR-0014):** resolved.
 `docs/operations/local-development.md` has a from-scratch backend bootstrap section
 (linked from the root README); `backend/.env.example` is committed with an explicit
 `.gitignore` exception; `backend/tests/integration/test_clean_bootstrap.py`
 applies every migration to a disposable database, asserts `alembic check` finds no
 drift, runs the festival seed, checks the canonical hierarchy counts, and cannot touch
-a database it did not generate. The reproducible artist-data path is now a PostgreSQL
+a database it did not generate. The reproducible artist-data path is a PostgreSQL
 `pg_dump` / `pg_restore` procedure ([`backup-restore.md`](operations/backup-restore.md)),
-so the smoke test deliberately stops at migrations plus seed rather than driving
-`import_artists` (that path keeps its own coverage in `test_import_artists.py` and
-`test_artist_schema.py`, and is retired in the roadmap's section 6). Still open: the
-optional single convenience command that orchestrates the bootstrap steps.
+so the smoke test stops at migrations plus seed. Section 6 deleted `import_artists.py`
+and its tests, so there is no longer a TypeScript-coupled bootstrap path to document or
+guard. Still open (minor): the optional single convenience command that orchestrates
+migrations plus seed.
 
 ---
 
@@ -443,10 +443,17 @@ never actually ran against real data confirming its precondition held (though it
 likely still would). Every other check in the suite (86 of 87) passes.
 
 **Not fixed now** — out of scope for whichever change happens to surface it next.
-Fixing means either finding a Saturday-eligible subset that still clears 12% today,
-or reworking the fixture to compute its own threshold from the current real baseline
-rather than hardcoding one. **Revisit when:** next touching
-`verify-story-signals.ts` directly, or if this drifts further.
+Fixing means either finding a Saturday-eligible subset that still clears 12%, or
+reworking the fixture to compute its own threshold from the current baseline rather
+than hardcoding one.
+
+**Update (artist authoring roadmap section 6):** `verify-story-signals.ts` now reads
+the frozen provenance snapshot (`provenance/artists-lollapalooza-2026.json`) instead of
+the live `allArtists`, so this check is a per-lineup calibration artifact against a
+fixed baseline rather than against a drifting roster. The failure persists (the
+snapshot's Saturday Chicago rate is the same 11.6%) and is left in place on purpose:
+the fixture would need re-calibrating for any new lineup regardless. **Revisit when:**
+reworking `verify-story-signals.ts` for a genuinely different festival lineup.
 
 ---
 
