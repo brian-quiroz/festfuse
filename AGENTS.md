@@ -138,7 +138,11 @@ The day-file split in `app/data/artists/` is a file-layout convenience, never a 
 
 ### Editorial Review
 
-Fact-checking an artist's `about` copy, socials, location, and genres; correcting name/slug stylization; curating the four `similarArtists` picks; and selecting the flagship Quick Picks track are all handled by the `artist-review` skill — use it rather than improvising this work from scratch.
+The editorial process (ownership split, research/review flow, about-copy voice, the
+similar-artist heuristic) is in `docs/process/artist-editorial-process.md`; rationale in
+ADR-0013, and the `artist-review` skill points there. Artist data is authored directly
+in PostgreSQL via `backend/scripts/` (`add_artist`/`edit_artist`/`build_roster_payloads`),
+never by editing `app/data/artists/`. Follow that doc rather than improvising.
 
 ---
 

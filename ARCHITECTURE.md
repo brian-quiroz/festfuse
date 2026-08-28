@@ -101,14 +101,14 @@ migration path that remaps a renamed slug inside already-persisted local data.
 
 ### Editorial content: curation standard, not a runtime computation
 
-`about` and `similarArtists` are AI-assisted editorial content, gated behind `aboutVerified`/`similarArtistsVerified` flags — neither renders in the app until it passes a fact-check pass against a documented source hierarchy (official artist/label/festival/Spotify pages first, then reputable music publications, AllMusic, and citation-checked Wikipedia; other festival tools and MusicBrainz/community tags are used only as cross-checks, never as a sole source). This is a data-authoring standard applied during review, not something the running app computes.
+`about` and `similarArtists` are AI-assisted editorial content, gated behind per-field verification (`aboutVerified`/`similarArtistsVerified` on the frontend, `about_verified_at`/`SimilarArtistSet.verified_at` in Postgres) — a public API returns neither until it is verified. Verification is a human sign-off after a fact-check against a documented source hierarchy (official artist/label/festival/Spotify pages first, then reputable music publications, AllMusic, and citation-checked Wikipedia; other festival tools and MusicBrainz/community tags are cross-checks only, never a sole source). This is a data-authoring standard applied during review, not something the running app computes. The full process, including who owns which field, is `docs/process/artist-editorial-process.md` (rationale: ADR-0013).
 
-`similarArtists` specifically is chosen only after eligible same-run Artists are
-published. The four picks deliberately mix different matching dimensions per artist
-(sound/genre overlap, scene/scale, thematic parallel) rather than defaulting to
-genre-nearest-neighbors, and always pair at least one bigger-name act with one
-smaller/rising act instead of four similarly-sized names—with the reasoning behind
-the set and its ordering stated explicitly during review, not left implicit.
+`similarArtists` is curated only after eligible same-run Artists are published. The four
+picks deliberately mix matching dimensions per artist (sound/genre overlap, scene/scale,
+thematic parallel) rather than defaulting to genre-nearest-neighbors, and pair at least
+one bigger-name act with one smaller or rising one, with the reasoning behind the set
+and its ordering stated during review. A count-driven balance sweep keeps the picks from
+clustering on the same few artists across the roster.
 
 ---
 

@@ -14,9 +14,11 @@ is in [`artist-data-model.md`](../design/artist-data-model.md).
 ## Current boundary
 
 - Every artist-facing frontend read is served by FastAPI/PostgreSQL.
-- `app/data/artists/*.ts` remains the authoring source. The (out-of-repo)
-  `artist-review` skill edits the per-day files directly; `scripts/export-artist-data.ts`
-  → `backend/scripts/import_artists.py` serialize them into Postgres.
+- `app/data/artists/*.ts` remains the frozen import source for the existing lineup:
+  `scripts/export-artist-data.ts` → `backend/scripts/import_artists.py` serialize it into
+  Postgres. New editorial work does not touch it — it writes directly to Postgres per
+  [`docs/process/artist-editorial-process.md`](../process/artist-editorial-process.md)
+  (4a).
 - `import_artists.py` is the only path that reconstructs the database from scratch, so
   Postgres cannot yet be rebuilt without the TypeScript source.
 - A single artist can be created, edited field by field, or hard-deleted directly in
@@ -93,16 +95,51 @@ integration layers.
 **Checkpoint reached:** an existing artist's facts can be corrected in place, with test
 coverage at the schema and PostgreSQL integration layers.
 
-### 4. Decide the editorial authoring and review process
+### 4a. Editorial authoring and review process
+
+**Status: completed.**
+
+- Decisions recorded in
+  [ADR-0013](../decisions/0013-editorial-authoring-and-review-process.md).
+- The process — stage ownership (editor-owned identity, schedule, socials, flagship
+  track, and every `*Verified` sign-off; AI proposes genres, location, `about`, and
+  similar artists with mandatory sources and surfaced uncertainty), the combined
+  genres/location/`about` research pass, the research-intensity model, the
+  similar-artist heuristic, and the count-driven distribution sweep — is documented in
+  [`docs/process/artist-editorial-process.md`](../process/artist-editorial-process.md),
+  with the incident case studies in
+  [`artist-editorial-incidents.md`](../process/artist-editorial-incidents.md).
+- The `artist-review` skill is retargeted, not retired: its editorial judgment moved
+  into the process doc, and the skill is now a thin in-repo pointer
+  (`.claude/skills/artist-review/`), mirrored for Codex (`.agents/skills/artist-review/`)
+  and Cursor (`.cursor/rules/artist-editorial.mdc`), with a one-line pointer in
+  `AGENTS.md`. The out-of-repo `~/.claude/skills/artist-review/` copy is deleted.
+- The `add-genre` / `delete-genre` CLIs stay deferred (ADR-0011); adding a genuinely
+  needed genre remains a manual two-file change (`genres` table + `categories.ts`),
+  flagged with sources in the research report.
+
+**Checkpoint reached:** the editorial process is defined and versioned rather than ad
+hoc.
+
+### 4b. Editorial pipeline tooling
 
 **Status: not started.**
 
-Settle where artist data originates, how a draft is produced, how it is reviewed and
-approved, and whether the `artist-review` skill is retargeted onto the edit workflow,
-replaced, or retired. Deferred until sections 2 and 3 make the write path concrete. Gets
-its own decision record plus the in-repo documentation of the editorial process.
+Thin CLIs over the existing service layer that make the process doc's pipeline runnable:
 
-**Checkpoint:** the editorial process is defined rather than ad hoc.
+- `build_roster_payloads.py` — fan a hand-authored roster CSV into draft `add_artist`
+  payloads (`--preview` / `--apply`, per-artist, reports and skips a bad row).
+- `check_artist_links.py` — resolve every external identifier on an artist (Spotify
+  artist/track, YouTube video, socials, image source/license) via oEmbed and HTTP;
+  read-only, non-zero exit on any failure. The documented pre-publish gate, not wired
+  into `publish_artists.py` (see Guardrails).
+- `show_artist.py` — dump a draft/published artist's full record, readiness, and inbound
+  similar-artist reference count; `--roster` for the whole-roster snapshot from Postgres
+  (`slug | name | genres | billing | day` + inbound count), replacing the retired
+  `list-lineup-artists.ts` and feeding the similar-artist membership check and balance
+  sweep.
+
+**Checkpoint:** the pipeline in the process doc runs end to end.
 
 ### 5. Backup, restore, and clean bootstrap
 
@@ -121,6 +158,9 @@ section 6.
 **Status: not started.**
 
 - Freeze the final export as a committed provenance JSON snapshot.
+- Relocate `app/data/artists/_flagged-issues.md` (candidate: `docs/process/`) and triage
+  its entries — some predate the direct-to-PostgreSQL workflow (4a) and are stale or
+  already resolved.
 - Delete the per-day record files and `index.ts`. Keep `app/types/artist.ts`,
   `app/data/categories.ts`, and `app/data/festivals.ts` — the frontend still uses their
   types, vocabularies, and config.
