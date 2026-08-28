@@ -227,6 +227,19 @@ test passes. The festival seed may remain idempotent, while the artist importer 
 remain a guarded initial-snapshot operation; ordinary updates belong to APIs or a
 purpose-built synchronization workflow rather than rerunning the bootstrap importer.
 
+**Resolution (artist authoring roadmap section 5, ADR-0014):** mostly resolved.
+`docs/operations/local-development.md` has a from-scratch backend bootstrap section
+(linked from the root README); `backend/.env.example` is committed with an explicit
+`.gitignore` exception; `backend/tests/integration/test_clean_bootstrap.py`
+applies every migration to a disposable database, asserts `alembic check` finds no
+drift, runs the festival seed, checks the canonical hierarchy counts, and cannot touch
+a database it did not generate. The reproducible artist-data path is now a PostgreSQL
+`pg_dump` / `pg_restore` procedure ([`backup-restore.md`](operations/backup-restore.md)),
+so the smoke test deliberately stops at migrations plus seed rather than driving
+`import_artists` (that path keeps its own coverage in `test_import_artists.py` and
+`test_artist_schema.py`, and is retired in the roadmap's section 6). Still open: the
+optional single convenience command that orchestrates the bootstrap steps.
+
 ---
 
 ## Future Consideration: Footer Links

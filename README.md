@@ -175,8 +175,9 @@ For deeper implementation notes and design decisions, see [ARCHITECTURE.md](ARCH
 
 ### Prerequisites
 
-- Node.js
-- npm
+- Node.js and npm
+- For the backend: Python 3.14, PostgreSQL 16+, and (for a rebuild from a dump) the
+  `pg_dump` / `pg_restore` client tools
 
 ### Installation
 
@@ -190,8 +191,8 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 `npm run dev` runs against the hosted backend by default, no environment variables
-are required for that path. To test against a local backend instead, see
-[local development](docs/operations/local-development.md).
+are required for that path. To run or bootstrap the FastAPI/PostgreSQL backend
+locally, see [local development](docs/operations/local-development.md).
 
 ## Available Scripts
 

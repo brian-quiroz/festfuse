@@ -6,15 +6,40 @@ needed for that path. This doc covers the alternative: running the frontend agai
 local FastAPI/PostgreSQL backend instead, for example while working on an endpoint
 that hasn't been deployed yet.
 
-This assumes a local PostgreSQL database already exists and is migrated/seeded, with
-its connection details in `backend/.env` (`POSTGRES_HOST`, `POSTGRES_PORT`,
-`POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`). If the schema is behind, apply
-migrations first:
+Sections 1-3 assume a local PostgreSQL database that already exists and is
+migrated/seeded, with its connection details in `backend/.env`. To create one from
+scratch, do the bootstrap below first. If the schema is only behind, `cd backend &&
+alembic upgrade head` is enough.
+
+## 0. Bootstrap a local backend from scratch
+
+Requires Python 3.14 and a running PostgreSQL 16+ server with an empty database. All
+commands run from `backend/`.
 
 ```bash
 cd backend
-alembic upgrade head
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements-dev.txt
+cp .env.example .env              # then edit .env with your local PostgreSQL details
+alembic upgrade head             # build the schema
+python -m scripts.seed_festival  # create the festival hierarchy
 ```
+
+That leaves an empty lineup. To load artist data, choose one:
+
+- **From a PostgreSQL dump** (no TypeScript source needed): follow
+  [`backup-restore.md`](backup-restore.md).
+- **From the committed TypeScript snapshot**: run `npm install` at the repo root first
+  (the exporter needs `tsx`), then from `backend/`:
+
+  ```bash
+  python -m scripts.import_artists --dry-run   # then --apply
+  python -m scripts.publish_artists --apply
+  ```
+
+`scripts/seed_festival.py` is idempotent; `import_artists.py` refuses a non-empty
+target. Backend test commands are in the
+[backend testing guide](../../backend/tests/README.md).
 
 ## 1. Start the local backend
 

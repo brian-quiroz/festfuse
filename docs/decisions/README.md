@@ -21,6 +21,7 @@ preserve the context, alternatives, and tradeoffs behind that system.
 | [0011](0011-direct-to-postgresql-artist-authoring.md) | Direct-to-PostgreSQL artist authoring workflow | Accepted |
 | [0012](0012-field-level-artist-edits.md) | Field-level artist edit workflow | Accepted |
 | [0013](0013-editorial-authoring-and-review-process.md) | Editorial authoring and review process | Accepted |
+| [0014](0014-postgresql-backup-and-clean-rebuild.md) | PostgreSQL-level backup and clean-rebuild strategy | Accepted |
 
 ## Lightweight convention
 
