@@ -35,6 +35,10 @@ in the start or pre-deploy command: the festival seed is application data, and t
 artist importer is a guarded initial-snapshot operation rather than an ordinary
 synchronization mechanism.
 
+This section reconstructs the original TypeScript snapshot. To stand up a database
+from a PostgreSQL dump instead, with no TypeScript source, see
+[`backup-restore.md`](backup-restore.md) (ADR-0014).
+
 Run the festival seed from the FastAPI service's Railway console after migrations:
 
 ```bash

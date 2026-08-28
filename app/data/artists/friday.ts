@@ -696,7 +696,7 @@ const sukiWaterhouse: Artist = {
   imageCredit: {
     author: "Justin Higuchi",
     sourceUrl:
-      "https://commons.wikimedia.org/wiki/File:Suki_Waterhouse_@_Greek_Theatre_10_23_2024_(54229498838).jpg , https://commons.wikimedia.org/wiki/File:Suki_Waterhouse_@_Greek_Theatre_10_23_2024_(54229509369).jpg",
+      "https://commons.wikimedia.org/wiki/File:Suki_Waterhouse_@_Greek_Theatre_10_23_2024_(54229498838).jpg",
     licenseUrl: "https://creativecommons.org/licenses/by/2.0",
   },
   objectPosition: "center 70%",

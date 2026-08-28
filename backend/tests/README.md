@@ -128,9 +128,19 @@ rerun of the same roster reports every artist as skipped; and `show_artist.py`'s
 and roster renderers run against a seeded artist without error, showing readiness and
 the inbound similar-artist reference count.
 
-Each test creates temporary records inside an outer transaction and rolls that
-transaction back during cleanup. PostgreSQL genuinely executes the writes and
-constraints, but successful tests do not leave fixture data behind.
+`integration/test_clean_bootstrap.py` is the exception to the rollback-contained
+pattern: it proves the from-empty half of "rebuild the database from PostgreSQL alone"
+(roadmap section 5, ADR-0014). It creates a disposable `festfuse_cleanboot_*` database,
+runs `alembic upgrade head` against it, asserts `alembic check` reports no drift
+between the migrated schema and the SQLAlchemy metadata, runs `scripts.seed_festival`,
+checks the canonical festival hierarchy counts, and drops the database on teardown. It
+refuses any database name it did not generate or that matches the configured database.
+The `pg_dump` / `pg_restore` round trip itself is verified by running
+`docs/operations/backup-restore.md` by hand.
+
+Every other integration test creates temporary records inside an outer transaction and
+rolls that transaction back during cleanup. PostgreSQL genuinely executes the writes
+and constraints, but successful tests do not leave fixture data behind.
 
 The integration suite currently verifies:
 
@@ -163,7 +173,10 @@ The integration suite currently verifies:
 - the editorial pipeline tooling (roadmap 4b): roster-skeleton creation through
   `parse_roster` / `create_from_payloads` (draft lineup and schedule, per-savepoint
   isolation of a failed row, skip-if-exists, rerun safety) and the `show_artist.py`
-  detail and roster renderers.
+  detail and roster renderers; and
+- the clean-bootstrap path (roadmap section 5): every migration applying to a
+  brand-new database, `alembic check` finding no schema drift afterward, and the
+  festival seed producing the canonical hierarchy.
 
 ## Commands
 
@@ -326,7 +339,8 @@ The editorial-pipeline scripts (`build_roster_payloads`, `check_artist_links`,
 
 There is not yet an API integration suite that sends FastAPI HTTP requests through a
 real PostgreSQL session; the Artist query itself now has PostgreSQL integration
-coverage. There are also no automated Next.js component, browser end-to-end,
-committed-import smoke, load, or clean-database migration tests. Add those layers
-when their corresponding application paths are implemented; do not treat the mocked
-route tests as proof of live database behavior.
+coverage. The clean-bootstrap smoke test covers migrations-from-empty and the
+festival seed, but not an automated `pg_dump` / `pg_restore` round trip. There are
+also no automated Next.js component, browser end-to-end, committed-import smoke, or
+load tests. Add those layers when their corresponding application paths are
+implemented; do not treat the mocked route tests as proof of live database behavior.

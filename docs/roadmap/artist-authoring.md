@@ -1,8 +1,8 @@
 # Artist Authoring Roadmap
 
 This roadmap picks up where [`backend-rollout.md`](./backend-rollout.md) leaves off. That
-roadmap moved every frontend *read* onto FastAPI/PostgreSQL; this one replaces
-`app/data/artists/*.ts` as the *authoring* source with a workflow that writes directly to
+roadmap moved every frontend _read_ onto FastAPI/PostgreSQL; this one replaces
+`app/data/artists/*.ts` as the _authoring_ source with a workflow that writes directly to
 PostgreSQL.
 
 It is the implementation sequence — deliverables and checkpoints. The reasoning behind
@@ -19,8 +19,11 @@ is in [`artist-data-model.md`](../design/artist-data-model.md).
   Postgres. New editorial work does not touch it — it writes directly to Postgres per
   [`docs/process/artist-editorial-process.md`](../process/artist-editorial-process.md)
   (4a).
-- `import_artists.py` is the only path that reconstructs the database from scratch, so
-  Postgres cannot yet be rebuilt without the TypeScript source.
+- Postgres can be rebuilt without the TypeScript source: a `pg_dump` / `pg_restore`
+  procedure ([`docs/operations/backup-restore.md`](../operations/backup-restore.md),
+  ADR-0014) stands up a new instance from a database dump alone. `import_artists.py`
+  remains the path for reconstructing the _original TypeScript snapshot_ until section
+  6 retires it.
 - A single artist can be created, edited field by field, or hard-deleted directly in
   Postgres (`scripts/add_artist.py`, `scripts/edit_artist.py`, `scripts/delete_artist.py`).
 
@@ -133,7 +136,7 @@ Three thin CLIs in `backend/scripts/` over the existing service layer, all match
 
 - `build_roster_payloads.py` — fans a hand-authored roster CSV
   (`slug, name, spotify_url, youtube_url, tiktok_url, mbid, billing_tier, stage, date,
-  start_time, end_time`; one row per appearance, repeated slug for multiple sets) into
+start_time, end_time`; one row per appearance, repeated slug for multiple sets) into
   draft `add_artist` payloads and runs `create_artist`. The weekday is derived from the
   date and the edition year; `socialsVerified` is set on the strength of the editor's
   own link check. `--preview` validates every row against the database and rolls back;
@@ -170,15 +173,29 @@ real artist (Charli XCX freshness re-review).
 
 ### 5. Backup, restore, and clean bootstrap
 
-**Status: not started.**
+**Status: completed.**
 
-- A `pg_dump` / `pg_restore` procedure that stands up a new database instance from
-  PostgreSQL alone, through the existing encrypted Railway tunnel pattern.
-- A credential-free `backend/.env.example`, a backend bootstrap section in the root
-  README, and an isolated clean-database smoke test.
+- Decisions recorded in
+  [ADR-0014](../decisions/0014-postgresql-backup-and-clean-rebuild.md).
+- [`docs/operations/backup-restore.md`](../operations/backup-restore.md) is the
+  `pg_dump` / `pg_restore` procedure: a read-only whole-database custom-format dump of
+  the hosted database through the existing encrypted Railway tunnel, restored with
+  `pg_restore` into an empty database, then reconciled with `alembic upgrade head` and
+  a clean `alembic check`. The dump is an operational artifact, not committed.
+- `backend/.env.example` documents the five required `POSTGRES_*` variables (root
+  `.gitignore` carries an explicit exception to the `.env*` rule).
+  [`local-development.md`](../operations/local-development.md) gains a from-scratch
+  backend bootstrap section, linked from the root README.
+- `backend/tests/integration/test_clean_bootstrap.py` guards the from-empty schema
+  path: a disposable database, `alembic upgrade head`, a clean `alembic check`, and
+  `scripts/seed_festival.py`, dropped on teardown. It refuses any database name it did
+  not generate or that matches the configured database.
+- The malformed data flagged for section 6 was fixed here first so the first canonical
+  dump is clean: `suki-waterhouse`'s doubled `image_source_url` reduced to one URL via
+  `edit_artist`, and a whole-roster `check_artist_links` run confirming nothing else.
 
-**Checkpoint:** the database can be rebuilt without the TypeScript source. This gates
-section 6.
+**Checkpoint reached:** the database can be rebuilt without the TypeScript source. This
+gates section 6.
 
 ### 6. Delete `app/data/artists/*.ts` and retire the TypeScript-coupled tooling
 
@@ -188,11 +205,6 @@ section 6.
 - Relocate `app/data/artists/_flagged-issues.md` (candidate: `docs/process/`) and triage
   its entries — some predate the direct-to-PostgreSQL workflow (4a) and are stale or
   already resolved.
-- Fix the malformed values `check_artist_links.py` flags in the imported data. Known so
-  far: `suki-waterhouse`'s `image_source_url` holds two comma-joined Wikimedia URLs (a
-  bad cell in the original TypeScript source) — a one-field `edit_artist` patch once the
-  URL to keep is chosen. Re-run the whole-roster link check here to catch any others.
-  Apply the fix to both the local and the hosted Railway database (per Guardrails).
 - Delete the per-day record files and `index.ts`. Keep `app/types/artist.ts`,
   `app/data/categories.ts`, and `app/data/festivals.ts` — the frontend still uses their
   types, vocabularies, and config.
