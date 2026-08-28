@@ -76,7 +76,7 @@ used by the single-artist endpoints. Two ways to close that gap were considered.
   multi-festival support ships.
 - `_map_quick_picks_track` (extracted from `_map_published_artist` and reused by both
   endpoints) still raises `PublishedArtistConsistencyError` if a published artist
-  lacks exactly one `is_quick_picks` selection — and now does so for the *entire*
+  lacks exactly one `is_quick_picks` selection — and now does so for the _entire_
   bulk response if any single artist violates it, not just that artist's own page.
   This wasn't relaxed into a per-artist skip: `read_festival_run_appearances` already
   has the identical "fail loud for the whole batch" pattern for a missing

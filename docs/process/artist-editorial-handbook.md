@@ -15,14 +15,14 @@ loaded by any skill.
 
 ## What only you do
 
-| Stage | Your job |
-|---|---|
-| **Roster** | Transcribe the official schedule into `roster.csv` — stylized name, slug, the Spotify **artist** URL you verified, YouTube/TikTok, day/stage/time, billing tier. Resolve identity on Spotify yourself: a name can point at several acts, and a wrong id is silent corruption. |
-| **Skeletons** | Run `build_roster_payloads.py --preview`, read the report, fix any flagged rows, then `--apply`. |
-| **Research pass** | Read the AI's per-artist report. Approve per field or per artist. Where it surfaced two or three options, pick one. Nothing is written until you say so. |
-| **Flagship track** | Pick it in Spotify — you can see play counts, song age, and the "Popular" order. This is a judgment call (a defining track vs. a current-moment one). The AI gives you nothing here; use `show_artist --slug` for the rest of the record as context. |
-| **Publish** | `check_artist_links` passes, then `publish_artists`. Needs identity + 3 genres + location + flagship. Not `about`, not similar artists. |
-| **Sign-off** | You set every `*Verified` flag, always, after reading the evidence. The AI never does. |
+| Stage              | Your job                                                                                                                                                                                                                                                                      |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Roster**         | Transcribe the official schedule into `roster.csv` — stylized name, slug, the Spotify **artist** URL you verified, YouTube/TikTok, day/stage/time, billing tier. Resolve identity on Spotify yourself: a name can point at several acts, and a wrong id is silent corruption. |
+| **Skeletons**      | Run `build_roster_payloads.py --preview`, read the report, fix any flagged rows, then `--apply`.                                                                                                                                                                              |
+| **Research pass**  | Read the AI's per-artist report. Approve per field or per artist. Where it surfaced two or three options, pick one. Nothing is written until you say so.                                                                                                                      |
+| **Flagship track** | Pick it in Spotify — you can see play counts, song age, and the "Popular" order. This is a judgment call (a defining track vs. a current-moment one). The AI gives you nothing here; use `show_artist --slug` for the rest of the record as context.                          |
+| **Publish**        | `check_artist_links` passes, then `publish_artists`. Needs identity + 3 genres + location + flagship. Not `about`, not similar artists.                                                                                                                                       |
+| **Sign-off**       | You set every `*Verified` flag, always, after reading the evidence. The AI never does.                                                                                                                                                                                        |
 
 Similar-artist sets come later, after enough of the roster is published to draw from.
 

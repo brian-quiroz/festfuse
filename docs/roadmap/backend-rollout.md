@@ -186,6 +186,7 @@ would make them harder to isolate, not easier.
    falling back to the live `artistsBySlug` lookup only for TS-sourced entries (the
    distrusted TS-only `similarArtists[].imageUrl` field is still bypassed there, as
    before). `5sos`'s Similar Artist cards no longer depend on TS data.
+
 2. **Migrate Planner's display data onto the appearances endpoint**, not just the
    `Appearance.id` resolution `runAppearancesStore` already provides. Applies
    globally to Planner, independent of the Artist Detail allowlist. Keep reads
@@ -215,6 +216,7 @@ would make them harder to isolate, not easier.
    having `scheduleStore` re-derive its conflict/scheduled-artist state once
    `runAppearancesStore` finishes loading — see the comment above
    `useRunAppearancesStore.subscribe(...)` in `app/store/scheduleStore.ts`.
+
 3. **Migrate Explore onto the existing `/appearances` endpoint.** It already returns
    every artist in the run (slug, name, image, genres, billing tier, schedule) via
    `FestivalRunArtistRead`/`FestivalRunAppearanceRead` — no new endpoint required.
@@ -245,7 +247,7 @@ would make them harder to isolate, not easier.
    `app/lib/appearances.ts`; `getArtistScheduleState` in `app/lib/schedule.ts`;
    `toggleAllAppearances` in `app/store/scheduleStore.ts`; `getVerifiedImageUrl` in
    `app/lib/artistImage.ts`) were narrowed from `Artist` to `Pick<Artist, "slug" |
-   "appearances">` (or the equivalent image-field pick) — a genuine structural
+"appearances">` (or the equivalent image-field pick) — a genuine structural
    subtype, not a new named interface, so every existing full-`Artist` call site
    (Quick Picks, Artist Detail, Planner) kept compiling and behaving unchanged.
    `BILLING_TIERS`, `mapGenres`, and `mapImage` (`app/lib/api/mapFestivalArtist.ts`)
@@ -260,6 +262,7 @@ would make them harder to isolate, not easier.
    search ranking (including the UK-constituent-country rollup), and the `!hasLoaded`
    TS-fallback path were all verified against a local backend and match the intended
    behavior with zero regressions.
+
 4. **Migrate Quick Picks onto the same `/appearances` data**, checking for other
    field gaps (e.g. the curated Quick Picks track) the same way before assuming new
    backend work is needed.
@@ -294,6 +297,7 @@ would make them harder to isolate, not easier.
    Explore, Planner, and Artist Detail (5sos, Chicago Made, WORSHIP) were also
    re-checked for regressions from the shared files this step touched
    (`app/lib/api/mapFestivalArtist.ts`, `app/lib/appearances.ts`) — none found.
+
 5. **Migrate Festival Story.** Same bulk appearances shape as Quick Picks
    (genre/location/tier across the full artist set); can follow or run alongside
    step 4.
@@ -323,6 +327,7 @@ would make them harder to isolate, not easier.
    intro/final render with real API-sourced data (genre/billing/stage-footprint
    signals, decision-profile threshold logic), zero console/page errors. Explore,
    Planner, Quick Picks, and Artist Detail re-checked for regressions — none found.
+
 6. **Decide the production cache policy, revisit observability/rollback scope, and
    broaden the Artist Detail allowlist from one artist to roughly five** — together,
    once every consumer above is integrated. Don't assume a bespoke rollback mechanism
@@ -355,10 +360,11 @@ would make them harder to isolate, not easier.
    unreachable host) confirmed both fetch sites degrade gracefully to TypeScript
    data without breaking the page, and that the new alert call sites never throw or
    block the response even without alerting credentials configured. `npx tsc
-   --noEmit` and `eslint` are clean on every changed file. Sending a real alert
+--noEmit` and `eslint` are clean on every changed file. Sending a real alert
    email requires a Resend account and API key, which is a manual step outside this
    session — `RESEND_API_KEY` remains blank in `.env.local` (a no-op) until
    provided.
+
 7. **Remove `app/data/artists` as a runtime dependency** only after all consumers
    have parity, both as a read source (this rollout) and eventually as an authoring
    source (import scripts today, an admin workflow later).
@@ -429,8 +435,8 @@ would make them harder to isolate, not easier.
 
 ## Next: replace the authoring source
 
-Step 7 finished the frontend *read* path. Replacing `app/data/artists/*.ts` as the
-*authoring* source (a direct-to-PostgreSQL write workflow, the editorial process
+Step 7 finished the frontend _read_ path. Replacing `app/data/artists/*.ts` as the
+_authoring_ source (a direct-to-PostgreSQL write workflow, the editorial process
 decided in [ADR-0013](../decisions/0013-editorial-authoring-and-review-process.md), a
 database-level backup/restore path, and deleting the files) is a distinct concern,
 tracked in [`artist-authoring.md`](./artist-authoring.md) with its rationale in

@@ -46,14 +46,14 @@ If you read nothing else:
 
 ## The pipeline
 
-| # | Stage | Owner | Output |
-|---|---|---|---|
-| 1 | Roster file | Editor | `roster.csv` |
-| 2 | Skeletons | `build_roster_payloads.py` | draft artists in Postgres |
-| 3 | Combined research pass | AI proposes, editor approves | genres, location, `about` |
-| 4 | Flagship track | Editor | one `isQuickPicks` track selection |
-| 5 | Link check + publish | Editor | published artists |
-| 6 | Similar artists | AI proposes, editor approves | verified similar-artist sets |
+| #   | Stage                  | Owner                        | Output                             |
+| --- | ---------------------- | ---------------------------- | ---------------------------------- |
+| 1   | Roster file            | Editor                       | `roster.csv`                       |
+| 2   | Skeletons              | `build_roster_payloads.py`   | draft artists in Postgres          |
+| 3   | Combined research pass | AI proposes, editor approves | genres, location, `about`          |
+| 4   | Flagship track         | Editor                       | one `isQuickPicks` track selection |
+| 5   | Link check + publish   | Editor                       | published artists                  |
+| 6   | Similar artists        | AI proposes, editor approves | verified similar-artist sets       |
 
 Publishing (stage 5) requires only identity, three genres with one primary, location,
 one flagship track, and either a Spotify artist ID or a complete Listen First override
@@ -70,17 +70,17 @@ with multiple sets (e.g. DEVAULT) has one row per set, sharing `slug`.
 
 Columns:
 
-| Column | Notes |
-|---|---|
-| `name` | Stylized as the artist writes it in running prose, not a logo treatment. |
-| `slug` | Lowercase, hyphen-separated. Spell out a leading number ("five-seconds-of-summer") unless the numeral is inseparable from the identity ("54-ultra"). See ARCHITECTURE.md "Slug Naming Convention". |
-| `spotify_url` | The canonical `https://open.spotify.com/artist/{id}` URL. Resolve identity on Spotify before entering it — a name can refer to several acts. |
-| `youtube_url` | Optional. Official/verified > artist-managed > label-supported. A `- Topic` auto-channel counts as absent. |
-| `tiktok_url` | Optional. Canonical `@handle` profile URL. |
-| `billing_tier` | `Headliner`, `Sub-headliner`, or `Undercard`. |
-| `stage` | Must match a seeded stage name for the edition. |
-| `date` | `Jul 30` format; must match a seeded festival day. |
-| `start_time`, `end_time` | `8:30 PM` format. |
+| Column                   | Notes                                                                                                                                                                                              |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                   | Stylized as the artist writes it in running prose, not a logo treatment.                                                                                                                           |
+| `slug`                   | Lowercase, hyphen-separated. Spell out a leading number ("five-seconds-of-summer") unless the numeral is inseparable from the identity ("54-ultra"). See ARCHITECTURE.md "Slug Naming Convention". |
+| `spotify_url`            | The canonical `https://open.spotify.com/artist/{id}` URL. Resolve identity on Spotify before entering it — a name can refer to several acts.                                                       |
+| `youtube_url`            | Optional. Official/verified > artist-managed > label-supported. A `- Topic` auto-channel counts as absent.                                                                                         |
+| `tiktok_url`             | Optional. Canonical `@handle` profile URL.                                                                                                                                                         |
+| `billing_tier`           | `Headliner`, `Sub-headliner`, or `Undercard`.                                                                                                                                                      |
+| `stage`                  | Must match a seeded stage name for the edition.                                                                                                                                                    |
+| `date`                   | `Jul 30` format; must match a seeded festival day.                                                                                                                                                 |
+| `start_time`, `end_time` | `8:30 PM` format.                                                                                                                                                                                  |
 
 Identity and schedule never go through AI. The editor verifies the Spotify artist,
 YouTube, and TikTok links while building this file; `build_roster_payloads.py` then sets
@@ -100,12 +100,12 @@ Every artist is created `draft`. Nothing else is populated yet.
 
 **First, determine the mode.** Run `show_artist.py --slug <slug>`:
 
-| What it shows | Mode |
-|---|---|
-| Not found | The artist is not in the database. If it is a new lineup artist, it goes on the roster and through `build_roster_payloads.py` first (stages 1–2). Stop here. |
-| `draft`, empty genres / location / about | **Research pass** — draft all three fresh. `about` is Tier 3 unless the editor supplies a skeleton. |
-| Populated and `*Verified`-stamped | **Freshness re-review** — the current content is the Tier 2 baseline; verify it still holds and re-stamp. See [Freshness re-review](#freshness-re-review). |
-| Partly filled / mixed | State what is present and what is not, and ask the editor which mode. |
+| What it shows                            | Mode                                                                                                                                                         |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Not found                                | The artist is not in the database. If it is a new lineup artist, it goes on the roster and through `build_roster_payloads.py` first (stages 1–2). Stop here. |
+| `draft`, empty genres / location / about | **Research pass** — draft all three fresh. `about` is Tier 3 unless the editor supplies a skeleton.                                                          |
+| Populated and `*Verified`-stamped        | **Freshness re-review** — the current content is the Tier 2 baseline; verify it still holds and re-stamp. See [Freshness re-review](#freshness-re-review).   |
+| Partly filled / mixed                    | State what is present and what is not, and ask the editor which mode.                                                                                        |
 
 Genres, location, and `about` draw on the same sources, so they are one research effort
 per artist. Keep the research sub-task scoped to those three — not flagship-track or
@@ -119,8 +119,8 @@ Per artist, the AI:
    not research further.
 2. **Genres** — see [Genres](#genres) below.
 3. **Location** — see [Location](#location) below.
-4. **`about`** — drafts it per [About copy](#about-copy), *or* the editor supplies a
-   skeleton and the AI only verifies and tightens it (Tier 2 instead of Tier 3), *or*
+4. **`about`** — drafts it per [About copy](#about-copy), _or_ the editor supplies a
+   skeleton and the AI only verifies and tightens it (Tier 2 instead of Tier 3), _or_
    it is skipped for this artist and left for a later pass (it does not gate publishing).
 
 The AI presents a **per-artist report**, walking the fields in a fixed order:
@@ -221,12 +221,12 @@ surfacing it as unresolved, not dropping it.
 Use the cheapest level that answers the question; escalate only when it genuinely
 cannot.
 
-| Tier | What | Typical use |
-|---|---|---|
-| 0 | Local files / database only, no web | genre exists in the `genres` table; similar-artist lineup membership; URL shape |
-| 1 | One web lookup against a real source | a release year; which act a Spotify URL names; an artist's current scale |
-| 2 | Focused verification of existing text | checking each claim in an editor-supplied `about` skeleton (~7–10 calls) |
-| 3 | Research from scratch | an AI-written `about` for an artist with no baseline (~20–35 calls) |
+| Tier | What                                  | Typical use                                                                     |
+| ---- | ------------------------------------- | ------------------------------------------------------------------------------- |
+| 0    | Local files / database only, no web   | genre exists in the `genres` table; similar-artist lineup membership; URL shape |
+| 1    | One web lookup against a real source  | a release year; which act a Spotify URL names; an artist's current scale        |
+| 2    | Focused verification of existing text | checking each claim in an editor-supplied `about` skeleton (~7–10 calls)        |
+| 3    | Research from scratch                 | an AI-written `about` for an artist with no baseline (~20–35 calls)             |
 
 - **Genres** — Tier 0 (validate against the `genres` table) plus Tier 1.
 - **Location** — Tier 1; a bounded Tier 2 only when sources conflict, then stop and
@@ -250,7 +250,7 @@ involvement is the cross-check in stage 3.
 Two failure modes worth knowing (see the incidents doc): search results for a name can
 pull in unrelated same-named acts; and a stored record can describe a fabricated persona
 while its Spotify ID points to a real, different act. When identity feels shaky, fetch
-the stored Spotify URL directly and read who it names. That confirms *an* identity, not
+the stored Spotify URL directly and read who it names. That confirms _an_ identity, not
 that the bio found for it is the right one — require multi-source convergence before
 asserting a correction.
 
@@ -262,8 +262,8 @@ not a broad catch-all when a specific one is more representative, unless the bro
 genuinely is the identity.
 
 **Order of operations.** Let the web research (and the artist's own framing) establish
-what the sound *is* first — do not start from a genre you assume from memory. Then
-Tier 0 is *validation*: check the researched descriptors against the `genres` table
+what the sound _is_ first — do not start from a genre you assume from memory. Then
+Tier 0 is _validation_: check the researched descriptors against the `genres` table
 (exact spelling), and check how a comparable artist already in the roster is recorded
 (`show_artist.py --roster`, or `--slug` on a peer) for house style.
 
@@ -279,7 +279,7 @@ that is not actually accurate just because it is already in the table. If the ar
 real genre is not represented, adding it is the right call — flag it in the report with
 sources for why none of the existing entries fit, and the editor adds the row.
 
-**Disclose a substitution.** If you settle on an existing genre that is *close to* but
+**Disclose a substitution.** If you settle on an existing genre that is _close to_ but
 not exactly what the sources point to — the nearest available rather than a true match —
 say so in the report: name the genre the research pointed at and the one you used, so
 the editor can decide whether to add the precise one. This does not apply to trivial
@@ -378,7 +378,7 @@ padded four. Evaluated on `name` + `slug` only.
   claim or that pick and flag it.
 - The four deliberately **mix matching dimensions** (sound/genre, scene/scale, thematic
   parallel) rather than four genre-nearest-neighbors, and **mix at least one
-  bigger-name act with one smaller or rising one** — based on *current* scale, checked,
+  bigger-name act with one smaller or rising one** — based on _current_ scale, checked,
   not remembered.
 - **Soft preference:** when two candidates fit comparably, prefer the less-referenced
   lineup artist (see below).
@@ -387,7 +387,7 @@ padded four. Evaluated on `name` + `slug` only.
   match: the clearest, most representative comparison first, then the rest so the set
   reads as a considered progression.
 
-State the reasoning behind the set *and* its ordering, with sources for the
+State the reasoning behind the set _and_ its ordering, with sources for the
 characterization claims. The editor signs `similarArtistsVerified`.
 
 ---
@@ -441,7 +441,7 @@ same):
    picks are gone (each of their targets lost an inbound reference) and the step-2
    replacements added inbound references elsewhere. The sweep reads the full count table
    and, where an artist is now notably over- or under-referenced, proposes a swap in a
-   few sets. It *considers* every set but *changes* only the outliers; if nothing is an
+   few sets. It _considers_ every set but _changes_ only the outliers; if nothing is an
    outlier it is a no-op. It never re-researches a set.
 
 A relationship-graph model with globally optimal balancing is the deferred fuller
@@ -453,13 +453,13 @@ answer (`FUTURE_CONSIDERATIONS.md`).
 
 The loop: **(1)** AI research → report. **(2)** editor reviews, spot-checks the cited
 sources, says what to fix. **(3)** AI folds in the fixes → revised report. **(4)**
-editor approves — this *is* the `*Verified` sign-off. **(5)** AI builds the `edit_artist`
+editor approves — this _is_ the `*Verified` sign-off. **(5)** AI builds the `edit_artist`
 JSON from the approved report, runs `--preview`, shows the plan. **(6)** editor confirms
 the plan matches what they approved. **(7)** AI runs `--apply`.
 
 Steps 1, 3, 5, 7 are mechanical and the AI does them. The editor owns 2, 4, 6. The AI
 never decides a fact is correct, never sets a `*Verified` flag on its own judgment
-(it transcribes `aboutVerified: true` *because* the editor approved), and never skips
+(it transcribes `aboutVerified: true` _because_ the editor approved), and never skips
 the `--preview`.
 
 The service CLIs (approval and `--preview`-before-`--apply` are Non-negotiables):
@@ -495,7 +495,7 @@ baseline), then re-stamp. This is a manual mode, not automated — auto-detectin
   refreshes `about_verified_at` to now (recording the re-confirmation); `--preview`
   reports "no field changes" because the boolean state did not flip, which is expected.
 - **Similar set** — pass the (possibly re-ordered or re-picked) four slugs plus
-  `similarArtistsVerified: true`. An *unchanged* verified set cannot have its
+  `similarArtistsVerified: true`. An _unchanged_ verified set cannot have its
   `verified_at` refreshed through `edit_artist` today (it only re-stamps on a
   membership or verification-state change) — a known limitation, see
   `FUTURE_CONSIDERATIONS.md`. So a no-change similar-set re-review is a no-op; only

@@ -57,7 +57,10 @@ export function getPrimaryAppearance(
   return primary;
 }
 
-export function getPrimaryBillingTier(artist: Pick<Artist, "slug" | "appearances">, festivalId: string) {
+export function getPrimaryBillingTier(
+  artist: Pick<Artist, "slug" | "appearances">,
+  festivalId: string
+) {
   return getPrimaryAppearance(artist, festivalId).billingTier;
 }
 

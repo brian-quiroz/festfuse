@@ -21,9 +21,7 @@ export const metadata: Metadata = {
     "Explore the artists, lock in your must-sees, and stop stressing about the set times.",
 };
 
-export default async function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   let appearances = null;
   try {
     appearances = await fetchFestivalRunAppearances({

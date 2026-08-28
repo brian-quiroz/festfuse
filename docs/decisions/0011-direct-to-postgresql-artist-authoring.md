@@ -6,8 +6,8 @@
 ## Context
 
 [Backend rollout](../roadmap/backend-rollout.md) step 7 retired `app/data/artists/*.ts`
-as a frontend *runtime* dependency. Every artist-facing screen now reads from
-FastAPI/PostgreSQL. The TypeScript files remain the *authoring* source: the
+as a frontend _runtime_ dependency. Every artist-facing screen now reads from
+FastAPI/PostgreSQL. The TypeScript files remain the _authoring_ source: the
 (out-of-repo) `artist-review` skill edits the per-day files directly, and
 `scripts/export-artist-data.ts` → `backend/scripts/import_artists.py` serialize them
 into Postgres. `import_artists.py` is also the only path that reconstructs the database

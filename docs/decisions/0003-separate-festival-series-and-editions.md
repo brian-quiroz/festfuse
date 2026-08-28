@@ -6,8 +6,7 @@
 
 ## Context
 
-The initial backend modeled `Festival` as one dated occurrence such as Lollapalooza
-2026. Its unique slug, location, timezone, runs, and days all described that single
+The initial backend modeled `Festival` as one dated occurrence such as Lollapalooza 2026. Its unique slug, location, timezone, runs, and days all described that single
 edition correctly, but the model had no stable parent for Lollapalooza Chicago across
 2026, 2027, and later years.
 
