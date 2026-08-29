@@ -1,9 +1,10 @@
 """Create draft artists in PostgreSQL from a hand-authored roster CSV.
 
 Stage 2 of the editorial pipeline (`docs/process/artist-editorial-process.md`): fan
-each CSV row into an `add_artist` payload and run `create_artist`, leaving genres,
-location, about, tracks, and similar artists for the research pass. The CSV columns
-and the `--preview` / `--apply` flags are documented in
+each CSV row into an `add_artist` payload. A new slug runs `create_artist`; an
+existing slug is added to the target run with `add_existing_artist_to_run`. Genres,
+location, about, tracks, and similar artists are left for the research pass. The CSV
+columns and the `--preview` / `--apply` flags are documented in
 `docs/operations/backend-deployment.md` ("Editorial pipeline scripts").
 
   python -m scripts.build_roster_payloads --input roster.csv \
@@ -23,10 +24,11 @@ from sqlalchemy import select
 
 from app.database import SessionLocal
 from app.lib.artist_source import BILLING_TIERS
-from app.models import Artist, FestivalEdition
+from app.models import Artist, FestivalEdition, FestivalRun, LineupEntry
 from app.schemas.artist_authoring import ArtistAuthoringInput
 from app.services import (
     ArtistAuthoringError,
+    add_existing_artist_to_run,
     create_artist,
     evaluate_artist_publication,
 )
@@ -46,7 +48,8 @@ class RosterError:
 class ArtistOutcome:
     slug: str
     name: str
-    status: str  # "would create" | "created" | "skipped" | "failed"
+    # would create | created | would add to run | added to run | skipped | failed
+    status: str
     detail: str = ""
     readiness_issues: list[str] = field(default_factory=list)
 
@@ -167,11 +170,13 @@ def parse_roster(
 
 
 def create_from_payloads(
-    session, payloads: dict[str, dict], *, apply: bool
+    session, payloads: dict[str, dict], run: FestivalRun, *, apply: bool
 ) -> list[ArtistOutcome]:
-    """Validate and create each payload. `--apply` commits each artist in its own
-    transaction and skips a slug that already exists; `--preview` rolls every artist
-    back after checking it against the real database."""
+    """Validate and apply each payload against `run`. A new slug is created with
+    `create_artist`; a slug that already exists is added to `run` with
+    `add_existing_artist_to_run`, or reported skipped when it is already in that run.
+    `--apply` commits each artist in its own transaction; `--preview` rolls every
+    change back after checking it against the real database."""
     outcomes: list[ArtistOutcome] = []
     for slug, payload_dict in payloads.items():
         name = payload_dict["artist"]["name"]
@@ -185,8 +190,35 @@ def create_from_payloads(
             outcomes.append(ArtistOutcome(slug, name, "failed", summary))
             continue
 
-        if session.scalar(select(Artist.id).where(Artist.slug == slug)):
-            outcomes.append(ArtistOutcome(slug, name, "skipped", "already exists"))
+        artist_id = session.scalar(select(Artist.id).where(Artist.slug == slug))
+        if artist_id is not None:
+            already_in_run = session.scalar(
+                select(LineupEntry.id).where(
+                    LineupEntry.artist_id == artist_id,
+                    LineupEntry.festival_run_id == run.id,
+                )
+            )
+            if already_in_run is not None:
+                outcomes.append(
+                    ArtistOutcome(slug, name, "skipped", "already in this run")
+                )
+                continue
+
+            savepoint = session.begin_nested()
+            try:
+                add_existing_artist_to_run(session, payload)
+            except ArtistAuthoringError as error:
+                savepoint.rollback()
+                outcomes.append(ArtistOutcome(slug, name, "failed", str(error)))
+                continue
+
+            if apply:
+                savepoint.commit()
+                session.commit()
+                outcomes.append(ArtistOutcome(slug, name, "added to run"))
+            else:
+                savepoint.rollback()
+                outcomes.append(ArtistOutcome(slug, name, "would add to run"))
             continue
 
         savepoint = session.begin_nested()
@@ -234,13 +266,25 @@ def _render_report(
         detail = f": {outcome.detail}" if outcome.detail else ""
         print(f"  {outcome.slug:<28} {outcome.status.upper()}{detail}{gaps}")
 
-    tally = {status: 0 for status in ("would create", "created", "skipped", "failed")}
+    tally = {
+        status: 0
+        for status in (
+            "would create",
+            "created",
+            "would add to run",
+            "added to run",
+            "skipped",
+            "failed",
+        )
+    }
     for outcome in outcomes:
         tally[outcome.status] = tally.get(outcome.status, 0) + 1
     parsed = len(outcomes)
     made = tally["created"] if apply else tally["would create"]
+    added = tally["added to run"] if apply else tally["would add to run"]
     print(
         f"\n{parsed} parsed · {made} {'created' if apply else 'would create'} · "
+        f"{added} {'added to run' if apply else 'would add to run'} · "
         f"{tally['skipped']} skipped · {tally['failed']} failed · "
         f"{len(errors)} unparsed row group(s)"
     )
@@ -288,10 +332,23 @@ def main() -> int:
             print(f"Festival edition {args.edition!r} does not exist.")
             return 1
 
+        run = session.scalar(
+            select(FestivalRun).where(
+                FestivalRun.festival_edition_id == edition.id,
+                FestivalRun.slug == args.run,
+            )
+        )
+        if run is None:
+            print(
+                f"Festival run {args.run!r} does not exist for edition "
+                f"{args.edition!r}."
+            )
+            return 1
+
         payloads, errors = parse_roster(
             rows, edition=args.edition, run=args.run, year=edition.year
         )
-        outcomes = create_from_payloads(session, payloads, apply=args.apply)
+        outcomes = create_from_payloads(session, payloads, run, apply=args.apply)
 
     _render_report(outcomes, errors, apply=args.apply)
     any_failed = any(outcome.status == "failed" for outcome in outcomes)

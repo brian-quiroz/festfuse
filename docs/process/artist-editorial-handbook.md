@@ -97,9 +97,15 @@ record and runs in re-review mode — Tier 2, the current content as the baselin
 
 ## Adding or dropping an artist after launch
 
-- **Added:** roster row → `build_roster_payloads` → research pass → flagship → publish.
-  Then their similar-artist set, and a balance sweep to work them into existing sets
-  where they fit (see the process doc's "Similar-artist distribution").
+- **Added, new artist:** roster row → `build_roster_payloads` → research pass →
+  flagship → publish. Then their similar-artist set, and a balance sweep to work them
+  into existing sets where they fit (see the process doc's "Similar-artist
+  distribution").
+- **Added, artist already in FestFuse** (shared with another festival, or the second
+  ACL weekend): `build_roster_payloads` only adds the new run's lineup entry against
+  the existing global record, which is already authored and published. No research
+  pass, flagship, or publish. New work is just that run's similar-artist set, plus a
+  balance sweep.
 - **Dropped:** the database clears verification on every similar set that named them;
   re-review just those sets for a replacement pick, then a balance sweep. The other
   sets are untouched.

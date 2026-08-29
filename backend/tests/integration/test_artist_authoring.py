@@ -17,10 +17,19 @@ from sqlalchemy import Connection, func, select
 from sqlalchemy.orm import Session
 
 from app.database import engine
-from app.models import Artist, SimilarArtist, SimilarArtistSet, Track
+from app.models import (
+    Artist,
+    FestivalEdition,
+    FestivalRun,
+    LineupEntry,
+    SimilarArtist,
+    SimilarArtistSet,
+    Track,
+)
 from app.schemas.artist_authoring import ArtistAuthoringInput, ArtistEditInput
 from app.services import (
     ArtistAuthoringError,
+    add_existing_artist_to_run,
     create_artist,
     delete_artist,
     edit_artist,
@@ -272,6 +281,14 @@ def _seed_artist(session: Session, **overrides: object) -> Artist:
     artist = create_artist(session, _payload(_full_payload(**overrides)))
     session.flush()
     return artist
+
+
+def _run(session: Session, edition_slug: str, run_slug: str) -> FestivalRun:
+    return session.scalar(
+        select(FestivalRun)
+        .join(FestivalEdition)
+        .where(FestivalEdition.slug == edition_slug, FestivalRun.slug == run_slug)
+    )
 
 
 def test_edit_about_reclears_then_restamps_verification(session: Session) -> None:
@@ -581,6 +598,103 @@ def test_delete_refused_for_similar_target_then_forced(session: Session) -> None
     )
 
 
+# --- add an existing artist to another run ---------------------------
+
+
+def _acl_payload(slug: str, **overrides: object) -> ArtistAuthoringInput:
+    """A weekend-1 ACL 2026 authoring payload for an artist that already exists.
+    Only the run target, slug, and appearances matter to `add_existing_artist_to_run`;
+    the rest of `_full_payload`'s global fields are ignored on this path."""
+    artist_fields: dict[str, object] = {
+        "slug": slug,
+        "appearances": [
+            {
+                "billingTier": "Headliner",
+                "stage": "T-Mobile",
+                "day": "Friday",
+                "date": "Oct 2",
+                "startTime": "8:30 PM",
+                "endTime": "10:00 PM",
+            }
+        ],
+    }
+    artist_fields.update(overrides)
+    data = _full_payload(**artist_fields)
+    data["edition"] = "acl-2026"
+    data["run"] = "weekend-1"
+    return _payload(data)
+
+
+def test_add_existing_artist_to_a_second_run(session: Session) -> None:
+    artist = _seed_artist(session)  # lollapalooza-2026 / main
+    original_id = artist.id
+
+    entry = add_existing_artist_to_run(session, _acl_payload(artist.slug))
+    session.flush()
+
+    assert entry.artist_id == original_id
+    assert (
+        session.scalar(
+            select(func.count()).select_from(Artist).where(Artist.slug == artist.slug)
+        )
+        == 1
+    )
+    runs = {
+        e.festival_run.slug
+        for e in session.scalars(
+            select(LineupEntry).where(LineupEntry.artist_id == original_id)
+        )
+    }
+    assert runs == {"main", "weekend-1"}
+    assert entry.festival_run.festival_edition.slug == "acl-2026"
+    assert entry.lineup_status == "announced" and entry.billing_tier == "headliner"
+    assert len(entry.appearances) == 1
+    assert entry.appearances[0].appearance_status == "scheduled"
+    assert entry.appearances[0].festival_day.date.isoformat() == "2026-10-02"
+
+
+def test_add_existing_artist_refuses_unknown_slug(session: Session) -> None:
+    with pytest.raises(ArtistAuthoringError, match="does not exist"):
+        add_existing_artist_to_run(session, _acl_payload(f"test-{uuid4().hex[:12]}"))
+
+
+def test_add_existing_artist_refuses_duplicate_run_membership(
+    session: Session,
+) -> None:
+    artist = _seed_artist(session)
+    add_existing_artist_to_run(session, _acl_payload(artist.slug))
+    session.flush()
+
+    with pytest.raises(ArtistAuthoringError, match="already in run"):
+        add_existing_artist_to_run(session, _acl_payload(artist.slug))
+
+
+def test_add_existing_artist_rejects_an_appearance_outside_the_target_run(
+    session: Session,
+) -> None:
+    # 'Jul 30' is a real Lollapalooza main day, but not an ACL weekend-1 day:
+    # _attach_appearances resolves days from the entry's own run.
+    artist = _seed_artist(session)
+    payload = _acl_payload(
+        artist.slug,
+        appearances=[
+            {
+                "billingTier": "Headliner",
+                "stage": "T-Mobile",
+                "day": "Thursday",
+                "date": "Jul 30",
+                "startTime": "8:30 PM",
+                "endTime": "10:00 PM",
+            }
+        ],
+    )
+    with pytest.raises(
+        ArtistAuthoringError,
+        match="no festival day for 2026-07-30 in run 'weekend-1'",
+    ):
+        add_existing_artist_to_run(session, payload)
+
+
 # --- editorial pipeline tooling ---------------------------------------
 
 
@@ -609,7 +723,9 @@ def test_roster_skeleton_persists_as_a_draft_with_schedule(session: Session) -> 
     )
     assert errors == []
 
-    outcomes = create_from_payloads(session, payloads, apply=False)
+    outcomes = create_from_payloads(
+        session, payloads, _run(session, "lollapalooza-2026", "main"), apply=False
+    )
     assert [(o.slug, o.status) for o in outcomes] == [(row["slug"], "would create")]
     # readiness gaps are expected for a skeleton
     assert "missing_location" in outcomes[0].readiness_issues
@@ -637,11 +753,14 @@ def test_roster_batch_isolates_a_failed_row_and_skips_an_existing_slug(
     assert errors == []
 
     outcomes = {
-        o.slug: o.status for o in create_from_payloads(session, payloads, apply=False)
+        o.slug: o.status
+        for o in create_from_payloads(
+            session, payloads, _run(session, "lollapalooza-2026", "main"), apply=False
+        )
     }
     assert outcomes[good["slug"]] == "would create"
     assert outcomes[bad["slug"]] == "failed"
-    assert outcomes["5sos"] == "skipped"
+    assert outcomes["5sos"] == "skipped"  # already in lollapalooza-2026/main
 
 
 def test_roster_apply_commits_and_a_rerun_skips(session: Session) -> None:
@@ -650,15 +769,48 @@ def test_roster_apply_commits_and_a_rerun_skips(session: Session) -> None:
         [row], edition="lollapalooza-2026", run="main", year=2026
     )
 
-    first = create_from_payloads(session, payloads, apply=True)
+    main_run = _run(session, "lollapalooza-2026", "main")
+    first = create_from_payloads(session, payloads, main_run, apply=True)
     assert first[0].status == "created"
     assert session.scalar(select(Artist).where(Artist.slug == row["slug"])) is not None
 
     payloads_again, _ = parse_roster(
         [row], edition="lollapalooza-2026", run="main", year=2026
     )
-    second = create_from_payloads(session, payloads_again, apply=True)
-    assert second[0].status == "skipped"
+    second = create_from_payloads(session, payloads_again, main_run, apply=True)
+    assert second[0].status == "skipped"  # now exists and is in this run
+
+
+def test_roster_adds_an_existing_artist_to_a_different_run(session: Session) -> None:
+    artist = _seed_artist(session)  # lollapalooza-2026 / main
+    artist_id = artist.id
+    session.commit()  # a preview run rolls back, so commit the seeded artist first
+    row = _roster_row(slug=artist.slug, date="Oct 2")
+
+    payloads, errors = parse_roster(
+        [row], edition="acl-2026", run="weekend-1", year=2026
+    )
+    assert errors == []
+    weekend_1 = _run(session, "acl-2026", "weekend-1")
+
+    preview = create_from_payloads(session, payloads, weekend_1, apply=False)
+    assert preview[0].status == "would add to run"
+
+    payloads_apply, _ = parse_roster(
+        [row], edition="acl-2026", run="weekend-1", year=2026
+    )
+    applied = create_from_payloads(session, payloads_apply, weekend_1, apply=True)
+    assert applied[0].status == "added to run"
+    entries = session.scalars(
+        select(LineupEntry).where(LineupEntry.artist_id == artist_id)
+    ).all()
+    assert {e.festival_run.slug for e in entries} == {"main", "weekend-1"}
+
+    payloads_again, _ = parse_roster(
+        [row], edition="acl-2026", run="weekend-1", year=2026
+    )
+    rerun = create_from_payloads(session, payloads_again, weekend_1, apply=True)
+    assert rerun[0].status == "skipped"
 
 
 def test_show_artist_detail_and_roster_render(

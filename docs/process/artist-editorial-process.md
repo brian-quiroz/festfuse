@@ -88,13 +88,17 @@ YouTube, and TikTok links while building this file; `build_roster_payloads.py` t
 
 ### 2. Skeletons (`build_roster_payloads.py`)
 
-Reads `roster.csv`, validates each row into the `add_artist` payload schema, and runs
-`create_artist` per artist. `--preview` runs everything against the target database in a
-transaction and rolls back, printing a create plan and publication-readiness assessment
-per artist; `--apply` commits. A malformed row is reported and skipped without blocking
-the rest.
+Reads `roster.csv`, validates each row into the `add_artist` payload schema, and per
+artist runs `create_artist` for a new slug or `add_existing_artist_to_run` for a slug
+that already exists (an artist shared with another festival or run gains this run's
+`LineupEntry` against the one global record; a slug already in the target run is
+skipped so a partial run repeats safely). `--preview` runs everything against the
+target database in a transaction and rolls back, printing a plan and
+publication-readiness assessment per artist; `--apply` commits. A malformed row is
+reported and skipped without blocking the rest.
 
-Every artist is created `draft`. Nothing else is populated yet.
+A newly created artist is `draft` with nothing else populated yet. An existing artist
+added to a run keeps its already-authored record untouched.
 
 ### 3. Combined research pass (AI proposes, editor approves)
 

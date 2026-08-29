@@ -142,16 +142,17 @@ step that builds it, not here.
 
 ## Current boundary
 
-Section 2 has shipped: seeding is config-driven and ACL 2026's hierarchy (two runs,
-days, stages) is seeded on both databases. The backend hierarchy already supported the
-rest: the run-scoped read API (`/festivals/{edition}/runs/{run}/…`) resolves a run by
-edition-slug + run-slug with no single-run assumption; `LineupEntry` and
-`SimilarArtistSet` are per-run; artist identity, genres, tracks, about, image, and
-videos are global and reusable across editions and runs. The remaining gaps: no
-authoring path adds an existing artist to a new run; the bulk appearances feed cannot
-surface an announced entry with no scheduled appearance; and the entire frontend is
-wired to one hard-coded festival and run with no festival/run in any URL and picks
-keyed by artist slug alone.
+Sections 2 and 3 have shipped: seeding is config-driven, ACL 2026's hierarchy (two
+runs, days, stages) is seeded on both databases, and `build_roster_payloads.py` can
+add an artist who already exists to another run through `add_existing_artist_to_run`.
+The backend hierarchy already supported the rest: the run-scoped read API
+(`/festivals/{edition}/runs/{run}/…`) resolves a run by edition-slug plus run-slug with
+no single-run assumption; `LineupEntry` and `SimilarArtistSet` are per-run; artist
+identity, genres, tracks, about, image, and videos are global and reusable across
+editions and runs. The remaining gaps: the bulk appearances feed cannot surface an
+announced entry with no scheduled appearance; and the entire frontend is wired to one
+hard-coded festival and run with no festival/run in any URL and picks keyed by artist
+slug alone.
 
 ## Rollout sequence
 
@@ -212,30 +213,35 @@ untouched.
 
 ### 3. Add an existing artist to a new run's lineup
 
-**Status: not started.**
+**Status: completed.**
 
-Every path that creates a `LineupEntry` today is `create_artist`, which refuses a slug
-that already exists. `build_roster_payloads.py` skips an existing slug entirely;
-`edit_artist` requires a pre-existing lineup entry. A shared Lollapalooza/ACL artist
-therefore cannot be added to ACL by any tool, even though the schema fully supports it
-(`uq_lineup_entries_run_artist` is per-run; all artist editorial data is global).
+- `build_roster_payloads.py` fans an existing slug into `add_existing_artist_to_run`
+  in `backend/app/services/artist_authoring.py`: that run's `LineupEntry` plus its
+  `Appearance`s from the CSV, against the one global `Artist`. A genuinely new slug
+  still runs through `create_artist`; a slug already in the target run is reported
+  skipped so a partial import repeats safely. The script resolves the `--run` before
+  the fan-out.
+- No standalone single-artist CLI. The roster fan-out is the only consumer this
+  milestone needs (section 10 imports per run). A thin hand-operated CLI is deferred
+  in `docs/FUTURE_CONSIDERATIONS.md` until a real late-addition need appears.
+- The cross-row rule (an `Appearance`'s `festival_day` belongs to its lineup entry's
+  run, its `stage` to that run's edition) is anchored in `_attach_appearances`, which
+  derives the run and edition from the lineup entry itself rather than from
+  caller-supplied values. It stays backend/import validation, not a database
+  constraint (ADR-0004, `artist-data-model.md` "Appearances and stages"); no schema
+  change.
+- No placeholder `SimilarArtistSet` is created for the added run. "No set row" is the
+  correct "curation has not started" state (`artist-data-model.md` "Similar artists");
+  the editorial `edit_artist` path creates the set when a per-run set is curated.
+- Coverage lives in `backend/tests/integration/test_artist_authoring.py` (the service
+  function and the roster fan-out); the paragraph and coverage bullets in
+  `backend/tests/README.md` are updated.
 
-- **Required path:** `build_roster_payloads.py` — an existing slug adds _that run's_
-  `LineupEntry` (plus its `Appearance`s from the CSV, plus optionally an empty run
-  `SimilarArtistSet`), reusing `_resolve_run` / `_attach_appearances` in
-  `backend/app/services/artist_authoring.py`. A genuinely new slug still runs through
-  `create_artist`.
-- **Step decision:** whether a standalone single-artist CLI is also warranted, and if
-  so, a name consistent with `add_artist` / `edit_artist` / `delete_artist`. No new
-  top-level vocabulary for what is, at minimum, a branch in the roster fan-out.
-- Add the cross-row validation that is only implicit in the service layer today: an
-  `Appearance`'s `festival_day` must belong to its lineup entry's run, and its `stage`
-  to that run's edition. This gap widens the moment there is more than one run.
-- Test coverage at the schema and PostgreSQL integration layers; a new-file paragraph
-  and coverage bullet in `backend/tests/README.md`.
-
-**Checkpoint:** a shared artist is part of Lollapalooza and ACL with one global
-`Artist` row and a `LineupEntry` per run — no duplicate artist.
+**Checkpoint reached:** the authoring path can add an artist who already exists to
+another run's lineup: a second `LineupEntry` against the same global `Artist`, carrying
+its own appearances. An appearance whose day or stage falls outside that run is
+rejected. Proven end to end in the backend test suite. No ACL roster data is imported
+here; that is section 10.
 
 ### 4. Serve an announced lineup that has no schedule yet
 
