@@ -35,10 +35,14 @@ data restore is a recovery operation, not an ordinary synchronization mechanism.
 
 A new environment is stood up in two steps after `alembic upgrade head`:
 
-1. The festival hierarchy, from the FastAPI service's Railway console:
+1. Every configured festival hierarchy (series, runs, days, stages), from the FastAPI
+   service's Railway console. Run `--preview` first and read the diff — it must show
+   only the inserts you expect — then `--apply`; the seed is insert-only and never
+   modifies an existing row:
 
    ```bash
-   python -m scripts.seed_festival
+   python -m scripts.seed_festivals --preview
+   python -m scripts.seed_festivals --apply
    ```
 
 2. The artist dataset, restored from a `pg_dump` of an existing database. The full

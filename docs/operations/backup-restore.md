@@ -5,7 +5,7 @@ using PostgreSQL's own tools. It is the disaster-recovery and new-environment pa
 the artist dataset.
 
 Schema comes from the Alembic migrations and the foundational festival hierarchy from
-`scripts/seed_festival.py` (see [`backend-deployment.md`](backend-deployment.md)); this
+`scripts/seed_festivals.py` (see [`backend-deployment.md`](backend-deployment.md)); this
 procedure restores everything else.
 
 ## What this touches
@@ -104,5 +104,6 @@ POSTGRES_DB=festfuse_restore uvicorn app.main:app --port 8000
 
 `backend/tests/integration/test_clean_bootstrap.py` proves the from-empty half of
 this independently: it creates a disposable database, runs `alembic upgrade head`,
-asserts `alembic check` is clean, and runs `scripts/seed_festival.py`. The
+asserts `alembic check` is clean, and runs `scripts/seed_festivals.py --apply` twice
+(and `--preview` once) to prove the seed is insert-only and idempotent. The
 `pg_dump`/`pg_restore` round trip itself is verified by running this procedure.

@@ -179,8 +179,10 @@ improvising.
 - A choice that materially affects structure, interfaces, data integrity, operational behavior, or an
   expensive-to-reverse dependency clears docs/decisions/README.md's ADR bar → a new ADR (the why), written
   retroactively if needed.
-- Never amend an existing accepted ADR's body — only typo/broken-link fixes are exempt (see
-  docs/decisions/README.md). A related but distinct decision gets its own new ADR instead.
+- Never amend an existing accepted ADR's body — only typo, broken-link, and stale-reference fixes
+  are exempt (a renamed/moved file, a changed path or symbol name: a pointer that no longer resolves
+  is a broken link, correct it). See docs/decisions/README.md. A related but distinct decision gets
+  its own new ADR instead; the bar is adding or changing meaning, not keeping references accurate.
 - A long discussion alone isn't the ADR bar — a local implementation detail (a formatting choice, a
   workaround) belongs in a code comment, not an ADR.
 - Changed roadmap status or sequence → the relevant `docs/roadmap/` file (`artist-authoring.md` for authoring/backend-data work).

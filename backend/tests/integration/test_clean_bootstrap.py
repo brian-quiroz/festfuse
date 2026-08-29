@@ -17,6 +17,7 @@ from collections.abc import Iterator
 
 import pytest
 from sqlalchemy import create_engine, text
+from sqlalchemy.engine import Engine
 
 from app.config import BACKEND_DIR, settings
 from app.database import database_url
@@ -69,6 +70,36 @@ def _run(module_args: list[str], db_name: str) -> subprocess.CompletedProcess[st
     )
 
 
+_TABLES = ("festival_editions", "festival_runs", "festival_days", "stages")
+
+
+def _counts(engine: Engine) -> dict[str, int]:
+    with engine.connect() as connection:
+        return {
+            table: connection.scalar(text(f"SELECT count(*) FROM {table}"))
+            for table in _TABLES
+        }
+
+
+def _per_edition(engine: Engine) -> dict[str, dict[str, int]]:
+    query = text(
+        """
+        SELECT e.slug,
+               (SELECT count(*) FROM festival_runs r WHERE r.festival_edition_id = e.id),
+               (SELECT count(*) FROM festival_days d
+                  JOIN festival_runs r ON r.id = d.festival_run_id
+                 WHERE r.festival_edition_id = e.id),
+               (SELECT count(*) FROM stages s WHERE s.festival_edition_id = e.id)
+          FROM festival_editions e
+        """
+    )
+    with engine.connect() as connection:
+        return {
+            slug: {"runs": runs, "days": days, "stages": stages}
+            for slug, runs, days, stages in connection.execute(query)
+        }
+
+
 def test_clean_bootstrap_from_empty(disposable_db: str) -> None:
     upgrade = _run(["alembic", "upgrade", "head"], disposable_db)
     assert upgrade.returncode == 0, upgrade.stderr
@@ -76,21 +107,26 @@ def test_clean_bootstrap_from_empty(disposable_db: str) -> None:
     check = _run(["alembic", "check"], disposable_db)
     assert check.returncode == 0, check.stdout + check.stderr
 
-    seed = _run(["scripts.seed_festival"], disposable_db)
+    seed = _run(["scripts.seed_festivals", "--apply"], disposable_db)
     assert seed.returncode == 0, seed.stderr
 
     engine = create_engine(database_url.set(database=disposable_db))
     try:
-        with engine.connect() as connection:
-            counts = {
-                table: connection.scalar(text(f"SELECT count(*) FROM {table}"))
-                for table in ("festival_editions", "festival_runs", "festival_days")
-            }
+        seeded = _counts(engine)
+        per_edition = _per_edition(engine)
+
+        # Re-running --apply is a no-op (per-entity idempotency).
+        reseed = _run(["scripts.seed_festivals", "--apply"], disposable_db)
+        assert reseed.returncode == 0, reseed.stderr
+        assert _counts(engine) == seeded
+
+        # --preview persists nothing.
+        preview = _run(["scripts.seed_festivals", "--preview"], disposable_db)
+        assert preview.returncode == 0, preview.stderr
+        assert _counts(engine) == seeded
     finally:
         engine.dispose()
 
-    assert counts == {
-        "festival_editions": 1,
-        "festival_runs": 1,
-        "festival_days": 4,
-    }
+    assert seeded["festival_editions"] == 2
+    assert per_edition["lollapalooza-2026"] == {"runs": 1, "days": 4, "stages": 7}
+    assert per_edition["acl-2026"] == {"runs": 2, "days": 6, "stages": 7}

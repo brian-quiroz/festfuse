@@ -45,7 +45,7 @@ different reason: a record of what the TypeScript files contained at deletion.
 
 `backend/tests/integration/test_clean_bootstrap.py` creates a disposable database,
 runs `alembic upgrade head`, asserts `alembic check` is clean, and runs
-`scripts/seed_festival.py`, then drops the database. It is opt-in under
+`scripts/seed_festivals.py`, then drops the database. It is opt-in under
 `RUN_POSTGRES_INTEGRATION=1` like the other integration tests, and refuses to operate
 on any database name it did not generate or that matches the configured database.
 

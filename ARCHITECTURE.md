@@ -480,7 +480,8 @@ FestivalRun + source Artist ─── SimilarArtistSet ─── SimilarArtist e
 
 Application data is created through committed scripts rather than embedded in schema
 migrations. Alembic owns structure; the scripts own records. The festival seed
-(`scripts/seed_festival.py`) is idempotent. Artist facts are authored directly in
+(`scripts/seed_festivals.py`) reads per-edition configs in `scripts/festival_configs/`
+and is insert-only and idempotent (`--preview` / `--apply`). Artist facts are authored directly in
 PostgreSQL through transactional CLIs (`add_artist` / `edit_artist` / `delete_artist`,
 plus `build_roster_payloads` for a hand-authored roster CSV), each running its
 operation in one transaction that commits or rolls back as a unit. A new environment

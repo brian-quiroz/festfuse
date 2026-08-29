@@ -187,7 +187,7 @@ real artist (Charli XCX freshness re-review).
   backend bootstrap section, linked from the root README.
 - `backend/tests/integration/test_clean_bootstrap.py` guards the from-empty schema
   path: a disposable database, `alembic upgrade head`, a clean `alembic check`, and
-  `scripts/seed_festival.py`, dropped on teardown. It refuses any database name it did
+  `scripts/seed_festivals.py`, dropped on teardown. It refuses any database name it did
   not generate or that matches the configured database.
 - The malformed data flagged for section 6 was fixed here first so the first canonical
   dump is clean: `suki-waterhouse`'s doubled `image_source_url` reduced to one URL via
@@ -246,7 +246,7 @@ frontend reads it through the API; artist facts are written to it directly throu
 - Do not modify `import_artists.py`, `sync_artist_listening.py`, or `publish_artists.py`
   while building the new workflow. Reuse their pure helpers; decide their fate in
   section 6.
-- Festival, run, and day creation stay `seed_festival.py`'s responsibility.
+- Festival, run, and day creation stay `seed_festivals.py`'s responsibility.
 - Do not delete `app/data/artists/*.ts` before the backup/restore path (section 5)
   exists.
 - Scope limits (no admin dashboard, no publication queue, no general editorial-review
