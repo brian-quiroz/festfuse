@@ -21,15 +21,19 @@ cd backend
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements-dev.txt
 cp .env.example .env              # then edit .env with your local PostgreSQL details
-alembic upgrade head             # build the schema
-python -m scripts.seed_festival  # create the festival hierarchy
+# build the schema, then seed every festival hierarchy (series, runs, days, stages)
+alembic upgrade head
+python -m scripts.seed_festivals --apply
 ```
 
 That leaves an empty lineup. Load artist data by restoring a `pg_dump` of an existing
 database: follow [`backup-restore.md`](backup-restore.md) (`pg_restore` into the local
 database, then reconcile with `alembic upgrade head` and `alembic check`).
 
-`scripts/seed_festival.py` is idempotent. Backend test commands are in the
+`scripts/seed_festivals.py` reads the per-edition configs in `scripts/festival_configs/`
+and is insert-only and idempotent: `--preview` shows what it would create and persists
+nothing, `--apply` commits, `--edition <slug>` limits it to one edition. Backend test
+commands are in the
 [backend testing guide](../../backend/tests/README.md).
 
 ## 1. Start the local backend

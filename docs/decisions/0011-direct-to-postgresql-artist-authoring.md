@@ -62,7 +62,7 @@ fields the current schema does not store are resolved as follows:
 
 Creation follows festival edition/run/day → genre → artist:
 
-- Festival edition, run, and day creation stay `seed_festival.py`'s responsibility.
+- Festival edition, run, and day creation stay `seed_festivals.py`'s responsibility.
   Generalizing that for arbitrary festivals is the next roadmap, not this one.
 - A dedicated operation adds a `genres` row to its family. Introducing a genre is no
   longer editing a TypeScript array.

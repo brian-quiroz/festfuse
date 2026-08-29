@@ -225,12 +225,12 @@ exists yet; revisit alongside standing up frontend testing generally, post-MVP.
 (linked from the root README); `backend/.env.example` is committed with an explicit
 `.gitignore` exception; `backend/tests/integration/test_clean_bootstrap.py` applies
 every migration to a disposable database, asserts `alembic check` finds no drift, runs
-the festival seed, checks the canonical hierarchy counts, and cannot touch a database
-it did not generate. A new environment's artist dataset comes from a `pg_dump` /
+the config-driven festival seed, checks each edition's hierarchy counts, and cannot
+touch a database it did not generate. A new environment's artist dataset comes from a `pg_dump` /
 `pg_restore` restore ([`backup-restore.md`](operations/backup-restore.md)).
 
 **Still open (minor):** an optional single convenience command that orchestrates
-`alembic upgrade head` plus `scripts.seed_festival` without duplicating their logic.
+`alembic upgrade head` plus `scripts.seed_festivals` without duplicating their logic.
 
 ---
 

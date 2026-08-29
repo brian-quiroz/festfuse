@@ -35,6 +35,15 @@ one multi-appearance payload, and every unparseable case is reported without dro
 the rest of the file — a missing required cell, an unknown billing tier, rows for one
 slug that disagree on a shared field, and two artists sharing a Spotify URL.
 
+`test_festival_configs.py` (fast, no database) guards the hand-authored seed configs in
+`scripts/festival_configs/` and the pure `build_edition()` config-to-ORM mapping in
+`seed_festivals.py`: edition slugs are unique across the registry, each edition's runs
+and stages carry `1..N` display orders with unique slugs, days are strictly ascending
+and unique per run, `build_edition()` maps every field of every config onto the ORM
+graph, and a dedicated snapshot pins the Lollapalooza 2026 config to the hierarchy that
+shipped before seeding became config-driven. Persistence and idempotency are covered
+against real PostgreSQL in `integration/test_clean_bootstrap.py`.
+
 `test_check_artist_links.py` (fast, no network) covers the link classifier: `classify`
 maps each HTTP status (and a network failure) to OK / BROKEN / UNVERIFIABLE, with
 oEmbed 400/401 treated as BROKEN but a plain 401/403 as UNVERIFIABLE; `link_targets`
@@ -122,8 +131,9 @@ the inbound similar-artist reference count.
 pattern: it proves the from-empty half of "rebuild the database from PostgreSQL alone"
 (roadmap section 5, ADR-0014). It creates a disposable `festfuse_cleanboot_*` database,
 runs `alembic upgrade head` against it, asserts `alembic check` reports no drift
-between the migrated schema and the SQLAlchemy metadata, runs `scripts.seed_festival`,
-checks the canonical festival hierarchy counts, and drops the database on teardown. It
+between the migrated schema and the SQLAlchemy metadata, runs `scripts.seed_festivals
+--apply` (and again, and `--preview`, to prove the seed is insert-only and idempotent),
+checks the per-edition festival hierarchy counts, and drops the database on teardown. It
 refuses any database name it did not generate or that matches the configured database.
 The `pg_dump` / `pg_restore` round trip itself is verified by running
 `docs/operations/backup-restore.md` by hand.
@@ -163,7 +173,8 @@ The integration suite currently verifies:
   detail and roster renderers; and
 - the clean-bootstrap path (roadmap section 5): every migration applying to a
   brand-new database, `alembic check` finding no schema drift afterward, and the
-  festival seed producing the canonical hierarchy.
+  config-driven festival seed producing every configured edition's hierarchy
+  (series, runs, days, stages) idempotently.
 
 ## Commands
 

@@ -43,7 +43,10 @@ Each record should contain:
 
 Accepted records preserve history. If an accepted decision materially changes,
 create a new ADR and mark the earlier one `Superseded` with a link to its
-replacement. Correcting typos and broken links does not require a replacement ADR.
+replacement. Correcting typos and broken links does not require a replacement ADR,
+and a stale reference — a renamed or moved file, a changed path or symbol name — is a
+broken link: fix it in place. The bar for a new ADR is adding or changing meaning, not
+keeping pointers accurate.
 An accepted record's Context/Decision/Alternatives/Consequences do not get amended
 afterward, including for a related but distinct decision that builds on it — that
 gets its own new ADR, cross-referenced from this one's References section, not an

@@ -24,7 +24,7 @@ What is not built:
 - `decisionsByArtist` (Must See / Interested / Pass) is keyed by artist slug alone.
   `ARCHITECTURE.md` flags this as a MUST-fix before a second festival: a decision for
   an artist at one festival would silently apply to that artist at every festival.
-- `seed_festival.py` is hard-coded to Lollapalooza and seeds no stages (stages arrive
+- `seed_festivals.py` is hard-coded to Lollapalooza and seeds no stages (stages arrive
   only through `pg_restore` today).
 - No authoring path adds an _existing_ artist to a _new_ run — `create_artist` refuses
   a taken slug, `build_roster_payloads.py` skips it, `edit_artist` requires a
@@ -95,7 +95,7 @@ acceptable this time.
 
 ### Config-driven seeding
 
-`seed_festival.py` becomes config-driven — a per-edition config rather than inline
+`seed_festivals.py` becomes config-driven — a per-edition config rather than inline
 Lollapalooza literals — and seeds series → edition → every run → days **and stages**,
 idempotently per entity. Adding a festival is adding a config entry plus a roster, not
 editing the seed script's body.
