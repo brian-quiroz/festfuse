@@ -2,7 +2,6 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { FESTIVAL_DAYS } from "@/app/data/festivals";
 
 interface AttendanceState {
   attendanceDaysByFestival: Record<string, string[]>;
@@ -12,7 +11,10 @@ interface AttendanceState {
   // selected, which would otherwise flash Quick Picks' Start Screen and Festival
   // Story's attendance-scoped signals wrong for a moment).
   hasHydrated: boolean;
-  setAttendanceDays: (festivalId: string, days: string[]) => void;
+  // Keyed by festivalId (edition slug). `validDays` is the active run's weekday order,
+  // passed in by the caller (which reads it from route context) rather than looked up
+  // from a constant here.
+  setAttendanceDays: (festivalId: string, days: string[], validDays: readonly string[]) => void;
 }
 
 // Single source of sanitization: no valid days configured for the festival stay out;
@@ -21,8 +23,10 @@ interface AttendanceState {
 // *stale* saved selection — non-empty, but none of its days exist in the current
 // festival configuration anymore — falls back to "all configured days," same as no
 // selection ever having been made.
-export function sanitizeAttendanceDays(festivalId: string, saved: unknown): string[] {
-  const validDays = FESTIVAL_DAYS[festivalId] ?? [];
+export function sanitizeAttendanceDays(
+  validDays: readonly string[],
+  saved: unknown
+): string[] {
   if (saved === undefined) return [...validDays];
   if (!Array.isArray(saved)) return [...validDays];
 
@@ -46,11 +50,11 @@ export const useAttendanceStore = create<AttendanceState>()(
       return {
         attendanceDaysByFestival: {},
         hasHydrated: false,
-        setAttendanceDays: (festivalId, days) =>
+        setAttendanceDays: (festivalId, days, validDays) =>
           set((state) => ({
             attendanceDaysByFestival: {
               ...state.attendanceDaysByFestival,
-              [festivalId]: sanitizeAttendanceDays(festivalId, days),
+              [festivalId]: sanitizeAttendanceDays(validDays, days),
             },
           })),
       };
@@ -71,7 +75,11 @@ export const useAttendanceStore = create<AttendanceState>()(
 );
 
 // Reactive, sanitized selector — the only way components should read attendance days.
-export function useAttendanceDays(festivalId: string): string[] {
+// `validDays` is the active run's weekday order (from route context).
+export function useAttendanceDays(
+  festivalId: string,
+  validDays: readonly string[]
+): string[] {
   const saved = useAttendanceStore((state) => state.attendanceDaysByFestival[festivalId]);
-  return sanitizeAttendanceDays(festivalId, saved);
+  return sanitizeAttendanceDays(validDays, saved);
 }

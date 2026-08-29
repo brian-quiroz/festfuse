@@ -2,7 +2,6 @@
 
 import { create } from "zustand";
 import { persist, type StorageValue } from "zustand/middleware";
-import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import {
   getConflictingArtists,
   getAppearanceKey,
@@ -10,7 +9,11 @@ import {
   getConflictingArtistSlugs,
 } from "@/app/lib/schedule";
 import { getAppearancesForFestival } from "@/app/lib/appearances";
-import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
+import {
+  useRunAppearancesStore,
+  getRunAppearancesSlice,
+} from "@/app/store/runAppearancesStore";
+import { useActiveContextStore } from "@/app/store/activeContextStore";
 import type { Artist } from "@/app/types/artist";
 
 interface ScheduleState {
@@ -71,13 +74,17 @@ const scheduleStorage = {
 
 // Computes every derived value from a fresh scheduledAppearanceKeys Set — kept as one
 // helper so toggleScheduled/toggleAllAppearances/onRehydrateStorage can't drift out of
-// sync with each other about which derived fields get recomputed.
+// sync with each other about which derived fields get recomputed. Scoped to the active
+// context: schedule keys are edition-keyed, so the edition slug is the `festivalId`
+// these helpers take, and the appearances come from that context's slice of
+// runAppearancesStore.
 function deriveScheduleState(scheduledAppearanceKeys: Set<string>) {
-  const runAppearancesBySlug = useRunAppearancesStore.getState().appearancesBySlug;
+  const { editionSlug, runSlug } = useActiveContextStore.getState();
+  const runAppearancesBySlug = getRunAppearancesSlice(editionSlug, runSlug).appearancesBySlug;
   const conflictingAppearanceKeys = getConflictingArtists(
     scheduledAppearanceKeys,
     runAppearancesBySlug,
-    ACTIVE_FESTIVAL_ID
+    editionSlug
   );
   return {
     scheduledAppearanceKeys,
@@ -85,12 +92,12 @@ function deriveScheduleState(scheduledAppearanceKeys: Set<string>) {
     scheduledArtistSlugs: getScheduledArtistSlugs(
       scheduledAppearanceKeys,
       runAppearancesBySlug,
-      ACTIVE_FESTIVAL_ID
+      editionSlug
     ),
     conflictingArtistSlugs: getConflictingArtistSlugs(
       conflictingAppearanceKeys,
       runAppearancesBySlug,
-      ACTIVE_FESTIVAL_ID
+      editionSlug
     ),
   };
 }
@@ -132,7 +139,11 @@ export const useScheduleStore = create<ScheduleState>()(
           festivalId: string
         ) => {
           set((state) => {
-            const runAppearancesBySlug = useRunAppearancesStore.getState().appearancesBySlug;
+            const { editionSlug, runSlug } = useActiveContextStore.getState();
+            const runAppearancesBySlug = getRunAppearancesSlice(
+              editionSlug,
+              runSlug
+            ).appearancesBySlug;
             const keys = getAppearancesForFestival(artist, festivalId).map((a) =>
               getAppearanceKey(artist.slug, a.id, a.festivalId, runAppearancesBySlug)
             );
@@ -173,18 +184,23 @@ export const useScheduleStore = create<ScheduleState>()(
   )
 );
 
-// scheduleStore's own localStorage hydration runs before runAppearancesStore
-// populates, so its first-computed conflict/scheduled-artist state is derived against
-// an empty appearancesBySlug (nothing yet to match a persisted key against) until this
-// re-derives it once runAppearancesStore actually loads. No visible flash:
-// RunAppearancesHydrator renders before HydrationGate in layout.tsx, so this resolves
-// before the gate ever opens.
+// deriveScheduleState reads two moving inputs it can't subscribe to itself: the active
+// context's slice of runAppearancesStore, and the active context. Re-derive whenever
+// either changes.
 //
-// The typeof document guard is load-bearing, not defensive boilerplate: this also
-// fires during Next.js's server render of RunAppearancesHydrator, where setState would
-// try to write through to localStorage and crash without it.
-useRunAppearancesStore.subscribe((state, prevState) => {
-  if (state.hasLoaded && !prevState.hasLoaded && typeof document !== "undefined") {
-    useScheduleStore.setState((current) => deriveScheduleState(current.scheduledAppearanceKeys));
-  }
-});
+// scheduleStore's own localStorage hydration runs before runAppearancesStore populates,
+// so its first-computed conflict/scheduled-artist state is derived against an empty
+// appearancesBySlug (nothing yet to match a persisted key against) until the feed lands
+// here. No visible flash: the root layout's RunAppearancesHydrator renders before
+// HydrationGate, so this resolves before the gate ever opens. Switching editions/runs
+// also swaps which feed and which `festivalId` the derived sets are built from.
+//
+// The typeof document guard is load-bearing, not defensive boilerplate: this also fires
+// during Next.js's server render of RunAppearancesHydrator, where setState would try to
+// write through to localStorage and crash without it.
+function rederiveScheduleState() {
+  if (typeof document === "undefined") return;
+  useScheduleStore.setState((current) => deriveScheduleState(current.scheduledAppearanceKeys));
+}
+useRunAppearancesStore.subscribe(rederiveScheduleState);
+useActiveContextStore.subscribe(rederiveScheduleState);

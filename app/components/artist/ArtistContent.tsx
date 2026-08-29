@@ -10,7 +10,17 @@ import FloatingCards from "./FloatingCards";
 // available), About (when verified), in that vertical order. ListenFirstSection and
 // LiveVideoSection self-omit when their data is missing; About is gated inline here
 // since it has no separate component.
-export default function ArtistContent({ artist }: { artist: Artist }) {
+export default function ArtistContent({
+  artist,
+  editionSlug,
+  runSlug,
+  dayOrder,
+}: {
+  artist: Artist;
+  editionSlug: string;
+  runSlug: string;
+  dayOrder: readonly string[];
+}) {
   return (
     <div className="px-8 pt-2 pb-16 max-w-[1760px] mx-auto">
       {/* Mobile-only — desktop keeps its own copy of ArtistActions overlaid inside
@@ -44,7 +54,12 @@ export default function ArtistContent({ artist }: { artist: Artist }) {
 
         {/* Floating cards — sticky while content scrolls */}
         <div className="w-full lg:w-72 flex-shrink-0 lg:sticky lg:top-6 pb-12">
-          <FloatingCards artist={artist} />
+          <FloatingCards
+            artist={artist}
+            editionSlug={editionSlug}
+            runSlug={runSlug}
+            dayOrder={dayOrder}
+          />
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import type { Artist, FestivalAppearance } from "@/app/types/artist";
 import type { Stage } from "@/app/data/categories";
 import { getAppearancesForFestival } from "@/app/lib/appearances";
-import { getDaysForActiveFestival } from "@/app/data/festivals";
 import { timeStringToMinutes } from "@/app/lib/time";
 import { resolveCanonicalAppearanceId } from "@/app/store/runAppearancesStore";
 import type { ApiRunAppearance } from "@/app/types/festivalRunAppearancesApi";
@@ -155,8 +154,10 @@ export function getAppearanceEntriesFromApi(
 // on individual appearance entries instead, for the Planner grid specifically. Kept
 // separate rather than changing sortChronologically itself, since its other callers
 // need the primary-appearance behavior unchanged.
-export function sortAppearancesChronologically(entries: AppearanceEntry[]): AppearanceEntry[] {
-  const dayOrder = getDaysForActiveFestival();
+export function sortAppearancesChronologically(
+  entries: AppearanceEntry[],
+  dayOrder: readonly string[]
+): AppearanceEntry[] {
   return [...entries].sort((a, b) => {
     const dayA = dayOrder.indexOf(a.day);
     const dayB = dayOrder.indexOf(b.day);

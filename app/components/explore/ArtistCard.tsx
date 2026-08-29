@@ -7,8 +7,9 @@ import { COLORS } from "@/app/data/colors";
 import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
-import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
-import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { useRunAppearances } from "@/app/store/runAppearancesStore";
+import { artistHref } from "@/app/data/festivals";
+import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
 import {
   getPrimaryAppearance,
   getPrimaryBillingTier,
@@ -29,10 +30,12 @@ export default function ArtistCard({
   size = "default",
   responsive = false,
 }: ArtistCardProps) {
+  const { editionSlug, runSlug } = useRunContext();
+  const dayOrder = useRunDays();
   const { decisionsByArtist, setDecision } = useDecisionStore();
   const { scheduledAppearanceKeys, conflictingArtistSlugs, toggleAllAppearances } =
     useScheduleStore();
-  const runAppearancesBySlug = useRunAppearancesStore((state) => state.appearancesBySlug);
+  const { appearancesBySlug: runAppearancesBySlug } = useRunAppearances(editionSlug, runSlug);
 
   // Read from store
   const decision = decisionsByArtist[artist.slug];
@@ -44,8 +47,8 @@ export default function ArtistCard({
   const interested = verdict === "interested";
 
   // Displays the artist's primary appearance — see app/lib/appearances.ts.
-  const primaryAppearance = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID);
-  const billingTier = getPrimaryBillingTier(artist, ACTIVE_FESTIVAL_ID);
+  const primaryAppearance = getPrimaryAppearance(artist, editionSlug, dayOrder);
+  const billingTier = getPrimaryBillingTier(artist, editionSlug, dayOrder);
 
   // Aggregate schedule state across all of this artist's appearances at the active
   // festival — "full" means every appearance is scheduled, "partial" means some were
@@ -53,14 +56,14 @@ export default function ArtistCard({
   // ARCHITECTURE.md § Multi-Appearance Support.
   const scheduleState = getArtistScheduleState(
     artist,
-    ACTIVE_FESTIVAL_ID,
+    editionSlug,
     scheduledAppearanceKeys,
     runAppearancesBySlug
   );
   const isScheduled = scheduleState === "full";
   const isPartiallyScheduled = scheduleState === "partial";
   const isConflicting = conflictingArtistSlugs.has(artist.slug);
-  const appearanceCount = getAppearancesForFestival(artist, ACTIVE_FESTIVAL_ID).length;
+  const appearanceCount = getAppearancesForFestival(artist, editionSlug).length;
   const isMultiAppearance = appearanceCount > 1;
 
   const handleMustSee = (e: React.MouseEvent) => {
@@ -75,7 +78,7 @@ export default function ArtistCard({
 
   const handleScheduleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
-    toggleAllAppearances(artist, ACTIVE_FESTIVAL_ID);
+    toggleAllAppearances(artist, editionSlug);
   };
 
   const isLarge = size === "large";
@@ -103,7 +106,7 @@ export default function ArtistCard({
           naturally stacks above it, keeping the nested action buttons clickable; z-0/z-10
           make that stacking explicit rather than relying on DOM-order alone. */}
       <Link
-        href={`/artist/${artist.slug}`}
+        href={artistHref({ editionSlug, runSlug }, artist.slug)}
         className="absolute inset-0 z-0"
         aria-label={`View ${artist.name}`}
       />

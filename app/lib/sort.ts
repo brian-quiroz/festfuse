@@ -1,25 +1,25 @@
 import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
 import { BILLING_TIERS } from "@/app/data/categories";
-import { getDaysForActiveFestival, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { timeStringToMinutes } from "@/app/lib/time";
 import { getPrimaryAppearance } from "@/app/lib/appearances";
 
-// Festival day order (defensive: don't rely on data file arrangement)
-// Sourced from festival configuration to enable multi-festival support
-const DAY_ORDER = getDaysForActiveFestival();
-
-// Billing tier prominence order (defensive: don't rely on file-order artist arrangement)
-// Used by shuffleDayBlocks to explicitly enforce tier hierarchy within each day
+// `festivalId` (edition slug) and `dayOrder` (the run's weekday order) are passed in by
+// the caller — which resolves them from the active edition/run — so these stay pure
+// sorts with no dependency on a hard-coded active festival.
 
 /**
- * Sort artists by day in festival order (Thursday → Sunday).
+ * Sort artists by day in festival order.
  * Ensures consistent ordering regardless of input order.
  * Uses each artist's primary appearance — see app/lib/appearances.ts.
  */
-export function sortByDay(artists: RunArtist[]): RunArtist[] {
+export function sortByDay(
+  artists: RunArtist[],
+  festivalId: string,
+  dayOrder: readonly string[]
+): RunArtist[] {
   return [...artists].sort((a, b) => {
-    const dayA = DAY_ORDER.indexOf(getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).day);
-    const dayB = DAY_ORDER.indexOf(getPrimaryAppearance(b, ACTIVE_FESTIVAL_ID).day);
+    const dayA = dayOrder.indexOf(getPrimaryAppearance(a, festivalId, dayOrder).day);
+    const dayB = dayOrder.indexOf(getPrimaryAppearance(b, festivalId, dayOrder).day);
     return dayA - dayB;
   });
 }
@@ -30,10 +30,14 @@ export function sortByDay(artists: RunArtist[]): RunArtist[] {
  * Ensures billing order is explicitly enforced rather than assumed from file position.
  * Uses each artist's primary appearance — see app/lib/appearances.ts.
  */
-export function sortByBillingTier(artists: RunArtist[]): RunArtist[] {
+export function sortByBillingTier(
+  artists: RunArtist[],
+  festivalId: string,
+  dayOrder: readonly string[]
+): RunArtist[] {
   return [...artists].sort((a, b) => {
-    const tierA = getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).billingTier;
-    const tierB = getPrimaryAppearance(b, ACTIVE_FESTIVAL_ID).billingTier;
+    const tierA = getPrimaryAppearance(a, festivalId, dayOrder).billingTier;
+    const tierB = getPrimaryAppearance(b, festivalId, dayOrder).billingTier;
 
     // Handle missing billing tiers: undefined sorts after all explicit tiers
     if (tierA === undefined && tierB === undefined) return 0;
@@ -55,14 +59,18 @@ export function sortByBillingTier(artists: RunArtist[]): RunArtist[] {
  * Planner, which needs to order individual appearances instead — see
  * sortAppearancesChronologically in app/lib/schedule.ts.
  */
-export function sortChronologically(artists: RunArtist[]): RunArtist[] {
+export function sortChronologically(
+  artists: RunArtist[],
+  festivalId: string,
+  dayOrder: readonly string[]
+): RunArtist[] {
   return [...artists].sort((a, b) => {
-    const appearanceA = getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID);
-    const appearanceB = getPrimaryAppearance(b, ACTIVE_FESTIVAL_ID);
+    const appearanceA = getPrimaryAppearance(a, festivalId, dayOrder);
+    const appearanceB = getPrimaryAppearance(b, festivalId, dayOrder);
 
     // First: sort by day
-    const dayA = DAY_ORDER.indexOf(appearanceA.day);
-    const dayB = DAY_ORDER.indexOf(appearanceB.day);
+    const dayA = dayOrder.indexOf(appearanceA.day);
+    const dayB = dayOrder.indexOf(appearanceB.day);
     if (dayA !== dayB) return dayA - dayB;
 
     // Second: sort by appearance time
@@ -80,14 +88,18 @@ export function sortChronologically(artists: RunArtist[]): RunArtist[] {
  * Billing tier order (Headliner → Sub-headliner → Undercard) is preserved within each day.
  * Uses each artist's primary appearance — see app/lib/appearances.ts.
  */
-export function sortFestivalFavoritesForFullView(artists: RunArtist[]): RunArtist[] {
+export function sortFestivalFavoritesForFullView(
+  artists: RunArtist[],
+  festivalId: string,
+  dayOrder: readonly string[]
+): RunArtist[] {
   return [...artists].sort((a, b) => {
-    const appearanceA = getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID);
-    const appearanceB = getPrimaryAppearance(b, ACTIVE_FESTIVAL_ID);
+    const appearanceA = getPrimaryAppearance(a, festivalId, dayOrder);
+    const appearanceB = getPrimaryAppearance(b, festivalId, dayOrder);
 
     // First: sort by day
-    const dayA = DAY_ORDER.indexOf(appearanceA.day);
-    const dayB = DAY_ORDER.indexOf(appearanceB.day);
+    const dayA = dayOrder.indexOf(appearanceA.day);
+    const dayB = dayOrder.indexOf(appearanceB.day);
     if (dayA !== dayB) return dayA - dayB;
 
     // Second: sort by billing tier (Headliner → Sub-headliner → Undercard)

@@ -13,7 +13,7 @@ import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
 import { COLORS } from "@/app/data/colors";
 import { useDecisionStore, type ArtistDecision } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
-import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
+import { useRunAppearances } from "@/app/store/runAppearancesStore";
 import {
   getQuickPicksRunArtistsFromApi,
   type QuickPicksRunArtist,
@@ -24,9 +24,10 @@ import {
   getEligibleEntries,
   type QueueEntry,
 } from "@/app/lib/quick-picks-queue";
-import { ACTIVE_FESTIVAL_ID, getDaysForFestival } from "@/app/data/festivals";
+import { contextHref, getDaysForFestival } from "@/app/data/festivals";
 import { getAppearanceById, getAppearancesForFestival } from "@/app/lib/appearances";
 import { getValidPositivePicks, MIN_POSITIVE_PICKS_FOR_STORY } from "@/app/hooks/useStorySignals";
+import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
 import type {
   QuickPicksStep,
   QuickPicksSession,
@@ -45,16 +46,18 @@ export function createSession(
   decisionsByArtist: Record<string, ArtistDecision>,
   quickPicksArtists: QuickPicksRunArtist[]
 ): QuickPicksSession {
-  const { festivalId, groupByDay, attendanceDays } = config;
+  const { festivalId, runSlug, groupByDay, attendanceDays } = config;
+  const dayOrder = getDaysForFestival(festivalId, runSlug);
 
   const eligible: QueueEntry[] = getEligibleEntries(
     quickPicksArtists,
     festivalId,
     attendanceDays,
-    decisionsByArtist
+    decisionsByArtist,
+    dayOrder
   );
 
-  const orderedDays = getDaysForFestival(festivalId).filter((day) => attendanceDays.includes(day));
+  const orderedDays = dayOrder.filter((day) => attendanceDays.includes(day));
 
   const sortedEntries: QueueEntry[] = groupByDay
     ? orderedDays.flatMap((day) =>
@@ -99,11 +102,13 @@ export default function QuickPicksPage() {
   const [isScreenExiting, setIsScreenExiting] = useState(false);
   const [showFestivalStory, setShowFestivalStory] = useState(false);
 
-  const runAppearancesBySlug = useRunAppearancesStore((s) => s.appearancesBySlug);
-  const hasLoadedRunAppearances = useRunAppearancesStore((s) => s.hasLoaded);
+  const { editionSlug, runSlug } = useRunContext();
+  const dayOrder = useRunDays();
+  const { appearancesBySlug: runAppearancesBySlug, hasLoaded: hasLoadedRunAppearances } =
+    useRunAppearances(editionSlug, runSlug);
   const quickPicksArtists = useMemo(
-    () => getQuickPicksRunArtistsFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID),
-    [runAppearancesBySlug]
+    () => getQuickPicksRunArtistsFromApi(runAppearancesBySlug, editionSlug),
+    [runAppearancesBySlug, editionSlug]
   );
 
   function handleStart(config: QuickPicksSessionConfig) {
@@ -286,7 +291,8 @@ export default function QuickPicksPage() {
         session.config.festivalId,
         session.config.attendanceDays,
         quickPicksArtists,
-        decisionsByArtist
+        decisionsByArtist,
+        dayOrder
       ).length >= MIN_POSITIVE_PICKS_FOR_STORY
     : false;
 
@@ -401,7 +407,7 @@ export default function QuickPicksPage() {
             attendanceDays={session?.config.attendanceDays ?? []}
             storyUnlocked={storyUnlocked}
             onGoToFestivalStory={() => setShowFestivalStory(true)}
-            onGoToSchedule={() => router.push("/planner")}
+            onGoToSchedule={() => router.push(contextHref({ editionSlug, runSlug }, "planner"))}
             // Assumes at least one Passed artist exists in scope whenever this is
             // reachable (the Story is locked) — proven true for the current dataset,
             // not enforced here. See ARCHITECTURE.md § Future Consideration: Locked
@@ -409,7 +415,7 @@ export default function QuickPicksPage() {
             // the revisit trigger.
             onExploreArtists={() => {
               showPassedArtists();
-              router.push("/explore");
+              router.push(contextHref({ editionSlug, runSlug }, "explore"));
             }}
             onExit={handleExit}
           />

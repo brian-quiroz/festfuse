@@ -4,12 +4,12 @@ import { useMemo, useState } from "react";
 import StartOptions from "@/app/components/quick-picks/StartOptions";
 import { ArrowRight, Zap, Lock } from "lucide-react";
 import { COLORS } from "@/app/data/colors";
-import { ACTIVE_FESTIVAL_ID, getDaysForActiveFestival } from "@/app/data/festivals";
 import { getDatesByDay } from "@/app/lib/appearances";
 import { getEligibleEntries } from "@/app/lib/quick-picks-queue";
 import type { QuickPicksRunArtist } from "@/app/lib/api/mapRunAppearance";
 import { useAttendanceDays, useAttendanceStore } from "@/app/store/attendanceStore";
 import { useDecisionStore } from "@/app/store/decisionStore";
+import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
 import type { QuickPicksSessionConfig } from "@/app/types/quick-picks";
 
 // "Thursday" / "Thursday and Saturday" / "Thursday, Friday, and Sunday" — every day in
@@ -30,12 +30,13 @@ export default function StartScreen({ onStart, quickPicksArtists }: Props) {
   const [groupByDay, setGroupByDay] = useState(true);
   const [pressing, setPressing] = useState(false);
 
-  const festivalDays = getDaysForActiveFestival();
-  const attendanceDays = useAttendanceDays(ACTIVE_FESTIVAL_ID);
+  const { editionSlug, runSlug } = useRunContext();
+  const festivalDays = useRunDays();
+  const attendanceDays = useAttendanceDays(editionSlug, festivalDays);
   const setAttendanceDays = useAttendanceStore((state) => state.setAttendanceDays);
   const datesByDay = useMemo(
-    () => getDatesByDay(quickPicksArtists, ACTIVE_FESTIVAL_ID),
-    [quickPicksArtists]
+    () => getDatesByDay(quickPicksArtists, editionSlug),
+    [quickPicksArtists, editionSlug]
   );
   const decisionsByArtist = useDecisionStore((state) => state.decisionsByArtist);
 
@@ -59,17 +60,22 @@ export default function StartScreen({ onStart, quickPicksArtists }: Props) {
       festivalDays.filter(
         (day) =>
           attendanceDays.includes(day) &&
-          getEligibleEntries(quickPicksArtists, ACTIVE_FESTIVAL_ID, [day], decisionsByArtist)
-            .length === 0
+          getEligibleEntries(
+            quickPicksArtists,
+            editionSlug,
+            [day],
+            decisionsByArtist,
+            festivalDays
+          ).length === 0
       ),
-    [festivalDays, attendanceDays, decisionsByArtist, quickPicksArtists]
+    [festivalDays, attendanceDays, decisionsByArtist, quickPicksArtists, editionSlug]
   );
 
   function handleToggleDay(day: string) {
     const next = attendanceDays.includes(day)
       ? attendanceDays.filter((d) => d !== day)
       : [...attendanceDays, day];
-    setAttendanceDays(ACTIVE_FESTIVAL_ID, next);
+    setAttendanceDays(editionSlug, next, festivalDays);
   }
 
   function handleStart() {
@@ -82,7 +88,8 @@ export default function StartScreen({ onStart, quickPicksArtists }: Props) {
     // session that's about to start.
     const orderedAttendanceDays = festivalDays.filter((day) => attendanceDays.includes(day));
     const config: QuickPicksSessionConfig = {
-      festivalId: ACTIVE_FESTIVAL_ID,
+      festivalId: editionSlug,
+      runSlug,
       groupByDay,
       attendanceDays: orderedAttendanceDays,
     };

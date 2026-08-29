@@ -6,6 +6,8 @@ import { Search, Zap, CalendarDays, HelpCircle } from "lucide-react";
 import Footer from "@/app/components/Footer";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useHelpStore } from "@/app/store/helpStore";
+import { useActiveContextStore } from "@/app/store/activeContextStore";
+import { contextHref } from "@/app/data/festivals";
 
 // Extremely restrained cursor-tracked tilt (max ~2deg) for the three entry cards —
 // a hover signal separate from the lift/shadow, kept as a hook so each card gets its
@@ -38,6 +40,10 @@ function useCardTilt(maxDeg = 2) {
 export default function HomeContent() {
   const { decisionsByArtist } = useDecisionStore();
   const openHelp = useHelpStore((state) => state.openHelp);
+  // Homepage has no route params — its cards deep-link into the active context.
+  const editionSlug = useActiveContextStore((s) => s.editionSlug);
+  const runSlug = useActiveContextStore((s) => s.runSlug);
+  const ctx = { editionSlug, runSlug };
   const quickPicksTilt = useCardTilt();
   const exploreTilt = useCardTilt();
   const plannerTilt = useCardTilt();
@@ -89,7 +95,7 @@ export default function HomeContent() {
               cyan on all three — that's a functional "clickable" signal, not identity. */}
           <div className="flex flex-col items-center sm:flex-row sm:items-stretch gap-8">
             <Link
-              href="/quick-picks"
+              href={contextHref(ctx, "quick-picks")}
               onMouseMove={quickPicksTilt.handleMouseMove}
               onMouseLeave={quickPicksTilt.handleMouseLeave}
               style={quickPicksTilt.style}
@@ -120,7 +126,7 @@ export default function HomeContent() {
             </Link>
 
             <Link
-              href="/explore"
+              href={contextHref(ctx, "explore")}
               onMouseMove={exploreTilt.handleMouseMove}
               onMouseLeave={exploreTilt.handleMouseLeave}
               style={exploreTilt.style}
@@ -143,7 +149,7 @@ export default function HomeContent() {
             </Link>
 
             <Link
-              href="/planner"
+              href={contextHref(ctx, "planner")}
               onMouseMove={plannerTilt.handleMouseMove}
               onMouseLeave={plannerTilt.handleMouseLeave}
               style={plannerTilt.style}

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { getStagesForActiveFestival } from "@/app/data/festivals";
 import {
   getPlannerHourRange,
   getPlannerGridHeight,
@@ -17,7 +16,8 @@ import {
 import { timeStringToMinutes } from "@/app/lib/time";
 import PlannerArtistBlock from "@/app/components/planner/PlannerArtistBlock";
 import type { ArtistDecision } from "@/app/store/decisionStore";
-import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
+import { useRunAppearances } from "@/app/store/runAppearancesStore";
+import { useRunContext, useRunDays, useRunStages } from "@/app/components/RunContextProvider";
 
 interface PlannerGridProps {
   allDayEntries: AppearanceEntry[];
@@ -36,8 +36,10 @@ export default function PlannerGrid({
   decisionsByArtist,
   onToggleScheduled,
 }: PlannerGridProps) {
-  const runAppearancesBySlug = useRunAppearancesStore((state) => state.appearancesBySlug);
-  const stages = getStagesForActiveFestival();
+  const { editionSlug, runSlug } = useRunContext();
+  const dayOrder = useRunDays();
+  const stages = useRunStages();
+  const { appearancesBySlug: runAppearancesBySlug } = useRunAppearances(editionSlug, runSlug);
   // Range is always derived from the full day's lineup, never the filtered set — otherwise
   // toggling a filter would rescale the whole timeline and every remaining block would jump.
   const range = getPlannerHourRange(allDayEntries);
@@ -51,7 +53,7 @@ export default function PlannerGrid({
   // Sorted chronologically so DOM/tab order matches visual (top-to-bottom) order —
   // block positioning itself is absolute and doesn't depend on this, but keyboard
   // navigation and screen readers do.
-  const sortedEntries = sortAppearancesChronologically(visibleEntries);
+  const sortedEntries = sortAppearancesChronologically(visibleEntries, dayOrder);
 
   const entriesByStage = new Map<string, AppearanceEntry[]>();
   for (const stage of stages) {

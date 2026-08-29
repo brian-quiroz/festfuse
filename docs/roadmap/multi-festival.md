@@ -142,18 +142,24 @@ step that builds it, not here.
 
 ## Current boundary
 
-Sections 2, 3, and 4 have shipped: seeding is config-driven, ACL 2026's hierarchy (two
-runs, days, stages) is seeded on both databases, `build_roster_payloads.py` can add an
-artist who already exists to another run through `add_existing_artist_to_run`, and the
-bulk read path fully describes a run whose lineup is announced before its schedule
-exists (`GET /festivals/{edition}/runs/{run}/artists` plus a derived per-run
-`schedule_state` on the festival endpoint, ADR-0016). The backend hierarchy already
-supported the rest: the run-scoped read API (`/festivals/{edition}/runs/{run}/…`)
-resolves a run by edition-slug plus run-slug with no single-run assumption;
-`LineupEntry` and `SimilarArtistSet` are per-run; artist identity, genres, tracks,
-about, image, and videos are global and reusable across editions and runs. The
-remaining gap is the frontend: it is wired to one hard-coded festival and run with no
-festival/run in any URL and picks keyed by artist slug alone.
+Sections 2 through 5 have shipped. The backend (2, 3, 4): seeding is config-driven, ACL
+2026's hierarchy (two runs, days, stages) is seeded on both databases,
+`build_roster_payloads.py` can add an artist who already exists to another run through
+`add_existing_artist_to_run`, and the bulk read path fully describes a run whose lineup
+is announced before its schedule exists (`GET /festivals/{edition}/runs/{run}/artists`
+plus a derived per-run `schedule_state` on the festival endpoint, ADR-0016). The
+frontend routing cutover (5): every workflow page lives under
+`app/festivals/[edition]/[run]/…`, festival/run identity comes from the route (not a
+constant), `app/data/festivals.ts` is a registry of both editions, `runAppearancesStore`
+is keyed by `edition::run`, and a non-persisted `activeContextStore` carries the active
+context to the few non-hook readers.
+
+The remaining frontend gaps are the later sections: the sidebar edition/run selector and
+homepage no-context gate (6), the persisted-state re-keying and localStorage migration
+(7) — picks are still keyed by artist slug alone and schedules by edition, so a
+multi-run edition's weekends would share a schedule until 7 lands — the
+announced-lineup-without-schedule UI (8), and festival/city-generic copy (9). The ACL
+roster is not imported (10).
 
 ## Rollout sequence
 
@@ -277,25 +283,40 @@ that is section 10.
 
 ### 5. `/festivals/{edition}/{run}` routing and data scoping
 
-**Status: not started.**
+**Status: completed.**
 
-- Move `/explore`, `/quick-picks`, `/planner`, `/credits`, `/artist/[slug]` under
-  `app/festivals/[edition]/[run]/…`. A segment layout does the run-scoped appearances
-  fetch (moved out of the root layout) and hydrates `runAppearancesStore`.
-- `runAppearancesStore` keys its data by edition + run rather than holding one unkeyed
-  run feed.
-- `app/data/festivals.ts` becomes a registry: editions → runs → days → stages, a
-  hand-maintained frontend mirror (same rationale as the genre allowlist in
-  `ARCHITECTURE.md`; serving it from the festival endpoint is a later consolidation).
-  The `Stage` union type and `KNOWN_STAGES` widen to every edition's stages.
-- The module-load `const DAY_ORDER = getDaysForActiveFestival()` in `carousel.ts`,
-  `sort.ts`, and `schedule.ts` becomes per-run resolution.
-- Every `ACTIVE_FESTIVAL_ID` / `ACTIVE_FESTIVAL_RUN_SLUG` / `getDaysForActiveFestival`
-  / `getStagesForActiveFestival` call site (~30 files) takes context from route
-  params or the active context. `getDaysForFestival` generalizes to `(edition, run)`.
+- `/explore`, `/quick-picks`, `/planner`, `/credits`, `/artist/[slug]` moved under
+  `app/festivals/[edition]/[run]/…`. A server segment layout resolves the run from the
+  route params, does the run-scoped appearances fetch, and renders `RunContextProvider`
+  + `RunAppearancesHydrator`. The root layout keeps a `DEFAULT_CONTEXT` fetch+hydrate so
+  `Sidebar`'s counts and `/` stay populated before a scoped route mounts.
+- `runAppearancesStore` keys each run's feed by `edition::run` (`byContext` map); a
+  `useRunAppearances(edition, run)` hook and a `getRunAppearancesSlice` getter replace
+  the two bare selectors.
+- `app/data/festivals.ts` is a registry: `FESTIVAL_REGISTRY` (editions → runs → days)
+  plus edition-owned `FESTIVAL_STAGES`, both editions present. `Stage` / `KNOWN_STAGES`
+  widen automatically. New non-persisted `activeContextStore` (`DEFAULT_CONTEXT` initial
+  value) carries the context to non-hook readers; section 6 wraps it in `persist` and
+  builds the selector on it.
+- `carousel.ts` / `sort.ts` / `schedule.ts` and the story/queue/filter/search helpers
+  take an explicit `dayOrder` array (and `festivalId` where needed) rather than reading
+  a module-load constant. `getDaysForFestival` is now `(edition, run)`; new
+  `getStagesForFestival(edition)`.
+- Client components read `useRunContext` / `useRunDays` / `useRunStages`
+  (`app/components/RunContextProvider.tsx`); `Sidebar` (root layout, no params) and
+  `Footer` read `activeContextStore`. Server components on the artist page take the
+  context as props. `contextHref` / `artistHref` build the scoped URLs. Old unscoped
+  routes 404 (no redirect — deferred, ADR-0015).
+- `verify-story-signals.ts` stays pinned to Lollapalooza via local same-name wrappers
+  that inject its fixed day order. `ARCHITECTURE.md`'s "Festival Configuration" section
+  rewritten; the full ARCHITECTURE pass is section 11.
 
-**Checkpoint:** `/festivals/lollapalooza-2026/main/explore` and its siblings render
-identically to today's routes — zero regression — and a second edition/run renders.
+**Checkpoint reached:** `/festivals/lollapalooza-2026/main/*` renders identically to the
+old routes (verified: carousels, filters, day tabs, stage columns, artist pages, picks
++ schedule persistence across reload and on `/`); `acl-2026/weekend-1` and
+`/weekend-2` render with ACL's own days and stages, empty but not broken (roster is
+section 10). `next build` and `tsc` pass; `npm run verify:story` is unchanged at 86/87
+(the one failure is the pre-existing stale Chicago-baseline fixture, `docs/FUTURE_CONSIDERATIONS.md`).
 
 ### 6. Active-context store, homepage, and sidebar selector
 
@@ -330,6 +351,9 @@ establishes the pattern. Closest existing precedents: `scheduleStore`'s custom
   `deriveScheduleState` is de-hardcoded to the active run.
 - `attendanceStore`: rekey from `{editionId}` to `{editionSlug}:{runSlug}`; `migrate`
   maps `lollapalooza-2026` to `lollapalooza-2026:main`.
+- `plannerViewStore` (the fourth persisted store) is intentionally left unscoped: it
+  holds two view-preference booleans, not festival-scoped user data, so there is
+  nothing to rekey and no migration.
 - Verify each migration against a real pre-existing localStorage blob from the current
   production build.
 
@@ -394,7 +418,11 @@ weekends, on the local and hosted database.
 
 - `ARCHITECTURE.md`: rewrite "Festival Configuration" for the registry +
   active-context + routing model; document the no-schedule states; resolve the
-  "Festival Scoping" MUST-fix note.
+  "Festival Scoping" MUST-fix note. Also sweep the stale references the section 5
+  route move left scattered through other sections: `app/{explore,quick-picks,planner,
+  credits,artist}/...` file paths that are now under `app/festivals/[edition]/[run]/`,
+  bare `/explore` and `/planner` URLs in navigation prose that now resolve through
+  `contextHref`, and lingering `ACTIVE_FESTIVAL_ID` mentions in code snippets.
 - `docs/design/artist-data-model.md`: only if the schema actually changed.
 - `README.md` "Current Scope and Roadmap", AGENTS.md "Current Milestone" and Stack.
 - `docs/FUTURE_CONSIDERATIONS.md`: top-navigation and context-selector migration;

@@ -2,7 +2,6 @@ import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
 import type { Genre, Stage } from "@/app/data/categories";
 import type { Verdict, PickStatusFilterValue } from "@/app/types/decision";
 import type { ScheduleStatusValue } from "@/app/types/schedule";
-import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance } from "@/app/lib/appearances";
 
 /**
@@ -13,6 +12,10 @@ import { getPrimaryAppearance } from "@/app/lib/appearances";
 export function filterArtists(
   artists: RunArtist[],
   options: {
+    // The active edition slug and the run's weekday order, for resolving each artist's
+    // primary appearance — passed in rather than read from a constant.
+    festivalId: string;
+    dayOrder: readonly string[];
     genres?: Genre[];
     day?: string;
     stages?: Stage[];
@@ -27,6 +30,8 @@ export function filterArtists(
   decisionsByArtist?: Record<string, { verdict: Verdict }>
 ): RunArtist[] {
   const {
+    festivalId,
+    dayOrder,
     genres,
     day,
     stages,
@@ -47,7 +52,7 @@ export function filterArtists(
     // Day/Stage filters consider only the artist's primary appearance — see
     // app/lib/appearances.ts. A secondary appearance never causes an artist to match
     // a filter the rest of the UI isn't otherwise showing.
-    const primaryAppearance = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID);
+    const primaryAppearance = getPrimaryAppearance(artist, festivalId, dayOrder);
 
     // Day filter: artist must perform on the selected day
     if (day) {
