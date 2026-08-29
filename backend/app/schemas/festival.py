@@ -1,4 +1,5 @@
 from datetime import date as DateValue
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
 
@@ -27,6 +28,10 @@ class FestivalRunRead(BaseModel):
     slug: str
     name: str
     display_order: int
+    # "scheduled" once the run has at least one scheduled Appearance on an announced,
+    # published lineup entry (the same gate the /appearances feed applies); "announced"
+    # while only the lineup exists. Derived at read time, never stored. See ADR-0016.
+    schedule_state: Literal["announced", "scheduled"]
     days: list[FestivalDayRead]
 
 

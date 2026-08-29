@@ -10,7 +10,10 @@ purposes and intentionally have different database boundaries.
 mock. Artist router tests additionally mock the dedicated query boundary. These
 tests exercise routing, endpoint behavior, status codes, nested response
 serialization, not-found handling, and explicit inconsistent-data handling without
-requiring PostgreSQL.
+requiring PostgreSQL. This includes the derived per-run `schedule_state` on the
+festival endpoint (ADR-0016) passing through for both the announced and scheduled
+cases, and the run-scoped `GET /festivals/{edition}/runs/{run}/artists` collection
+route returning its announced artists and a 404 for an unknown run.
 
 They are fast and run by default, but they do not prove that generated SQL, foreign
 keys, migrations, or PostgreSQL behavior works.
@@ -78,7 +81,7 @@ valid announced-without-schedule state. Similar Artist cases prove verified
 four-or-none exposure, deterministic order, canonical target summaries, complete-set
 hiding after target unpublication, and preservation of editorial verification.
 
-`integration/test_run_appearances_query.py` uses the same rollback-contained
+`integration/test_run_read_query.py` uses the same rollback-contained
 boundary to prove the run-scoped appearances feed behind the scheduling-identity
 fix: draft Artist, non-announced lineup, draft-status, and cancelled-status
 Appearances are all excluded (cancelled is deliberately excluded here, unlike the
@@ -93,6 +96,17 @@ Picks track mapping, and — using the same seeded 5sos similar-artist set as
 run-scoped `similar_artists` query returns the same verified four-or-none result
 and correctly re-hides the set once a target artist is unpublished (see ADR-0007
 for why this became a batched query instead of a per-artist one).
+
+The same file also proves the schedule-agnostic sibling `read_festival_run_artists`
+(ADR-0016): an announced published artist with no appearances is returned, a scheduled
+run's whole announced, published artist set is returned regardless of appearances,
+draft artists and withdrawn entries are excluded, the artist projection and the seeded
+5sos four-or-none set map identically to the appearances feed, a missing billing tier
+raises the same consistency error, and an unknown edition/run slug returns nothing.
+Alongside it, `read_run_ids_with_public_schedule` (the query behind the derived per-run
+`schedule_state`) reports the seeded Lollapalooza run as scheduled and, once every
+appearance in that run is moved out of `scheduled` inside the rollback boundary,
+reports it as announced.
 
 `integration/test_artist_authoring.py` exercises the artist authoring service
 (`create_artist` / `delete_artist`, ADR-0011) against the seeded database. It proves a
@@ -165,7 +179,8 @@ The integration suite currently verifies:
 - published Artist query filtering, mapping, and consistency behavior;
 - verified four-or-none Similar Artist visibility and canonical target summaries;
 - the run-scoped appearances feed's publication/lineup/schedule filtering, ordering,
-  and field mapping; and
+  and field mapping, its schedule-agnostic `read_festival_run_artists` sibling, and the
+  derived per-run `schedule_state` query (ADR-0016); and
 - single-artist create and hard-delete through the authoring service, including
   verification-trigger ordering, partial (draft) creates, and Similar Artist
   target-deletion protection; and

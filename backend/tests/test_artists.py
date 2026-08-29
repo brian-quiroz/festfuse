@@ -20,6 +20,7 @@ from app.schemas.artist import (
     FestivalArtistRead,
     FestivalArtistRunRead,
     FestivalArtistStageRead,
+    FestivalRunArtistRead,
     FestivalSimilarArtistRead,
 )
 
@@ -297,3 +298,67 @@ def test_read_festival_artist_returns_404_outside_announced_run(
 
     assert response.status_code == 404
     assert response.json() == {"detail": "Festival artist not found"}
+
+
+def build_run_artist() -> FestivalRunArtistRead:
+    return FestivalRunArtistRead(
+        slug="test-artist",
+        name="Test Artist",
+        image=None,
+        location=ArtistLocationRead(
+            city="Austin",
+            state="Texas",
+            country="United States",
+        ),
+        genres=[
+            ArtistGenreRead(
+                slug="house",
+                name="House",
+                is_primary=True,
+                display_order=1,
+                family=ArtistGenreFamilyRead(slug="electronic", name="Electronic"),
+            )
+        ],
+        quick_picks_track=ArtistTrackRead(
+            spotify_track_id="spotify-track",
+            name="Test Track",
+        ),
+        similar_artists=[],
+    )
+
+
+def test_read_festival_run_artists_returns_announced_published_artists(
+    client: TestClient,
+    mock_session: Mock,
+    monkeypatch,
+) -> None:
+    read_query = Mock(return_value=[build_run_artist()])
+    monkeypatch.setattr(artist_queries, "read_festival_run_artists", read_query)
+
+    response = client.get("/api/v1/festivals/acl-2026/runs/weekend-1/artists")
+
+    assert response.status_code == 200
+    body = response.json()
+    assert [artist["slug"] for artist in body] == ["test-artist"]
+    assert body[0]["similar_artists"] == []
+    read_query.assert_called_once_with(
+        mock_session,
+        edition_slug="acl-2026",
+        run_slug="weekend-1",
+    )
+
+
+def test_read_festival_run_artists_returns_404_for_unknown_run(
+    client: TestClient,
+    monkeypatch,
+) -> None:
+    monkeypatch.setattr(
+        artist_queries,
+        "read_festival_run_artists",
+        Mock(return_value=None),
+    )
+
+    response = client.get("/api/v1/festivals/acl-2026/runs/not-a-run/artists")
+
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Festival run not found"}

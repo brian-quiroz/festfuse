@@ -142,17 +142,18 @@ step that builds it, not here.
 
 ## Current boundary
 
-Sections 2 and 3 have shipped: seeding is config-driven, ACL 2026's hierarchy (two
-runs, days, stages) is seeded on both databases, and `build_roster_payloads.py` can
-add an artist who already exists to another run through `add_existing_artist_to_run`.
-The backend hierarchy already supported the rest: the run-scoped read API
-(`/festivals/{edition}/runs/{run}/…`) resolves a run by edition-slug plus run-slug with
-no single-run assumption; `LineupEntry` and `SimilarArtistSet` are per-run; artist
-identity, genres, tracks, about, image, and videos are global and reusable across
-editions and runs. The remaining gaps: the bulk appearances feed cannot surface an
-announced entry with no scheduled appearance; and the entire frontend is wired to one
-hard-coded festival and run with no festival/run in any URL and picks keyed by artist
-slug alone.
+Sections 2, 3, and 4 have shipped: seeding is config-driven, ACL 2026's hierarchy (two
+runs, days, stages) is seeded on both databases, `build_roster_payloads.py` can add an
+artist who already exists to another run through `add_existing_artist_to_run`, and the
+bulk read path fully describes a run whose lineup is announced before its schedule
+exists (`GET /festivals/{edition}/runs/{run}/artists` plus a derived per-run
+`schedule_state` on the festival endpoint, ADR-0016). The backend hierarchy already
+supported the rest: the run-scoped read API (`/festivals/{edition}/runs/{run}/…`)
+resolves a run by edition-slug plus run-slug with no single-run assumption;
+`LineupEntry` and `SimilarArtistSet` are per-run; artist identity, genres, tracks,
+about, image, and videos are global and reusable across editions and runs. The
+remaining gap is the frontend: it is wired to one hard-coded festival and run with no
+festival/run in any URL and picks keyed by artist slug alone.
 
 ## Rollout sequence
 
@@ -245,25 +246,34 @@ here; that is section 10.
 
 ### 4. Serve an announced lineup that has no schedule yet
 
-**Status: not started.**
+**Status: completed.**
 
-- The per-artist endpoint already returns an announced entry with an empty appearance
-  list (tested). The bulk `read_festival_run_appearances` is an appearance-driven feed
-  — a zero-appearance announced artist never appears, so Explore / Quick Picks /
-  Festival Story cannot render the run. Extend it (or add a sibling query) to return
-  announced, published artists with no scheduled appearance.
-- Extend the run-appearances response shape to represent "announced, not yet
-  scheduled" per artist.
-- Expose per-run **schedule state** (scheduled once the run has at least one scheduled
-  `Appearance`) on the festival endpoint's run representation, so the frontend gates
-  Planner and the sidebar without inferring it from an empty feed.
-- Decide bulk cancelled-appearance handling (the bulk feed excludes cancelled
-  entirely today — see `docs/FUTURE_CONSIDERATIONS.md` "Artist Detail Schedule
-  States").
-- Coverage in `backend/tests/integration/test_run_appearances_query.py`.
+- `read_festival_run_artists` (`GET /festivals/{edition}/runs/{run}/artists`,
+  `list[FestivalRunArtistRead]`) is the schedule-agnostic sibling of the bulk
+  appearances feed: every announced, published artist in a run, keyed by `LineupEntry`,
+  reusing the appearances feed's artist projection, batched similar-artist query, and
+  billing-tier consistency check via the shared `_map_run_artist` / `_resolve_run`
+  helpers. `read_festival_run_appearances` is unchanged and still returns `[]` (not
+  404) for a scheduleless run.
+- `FestivalRunRead` on `GET /festivals/{slug}` gains a derived
+  `schedule_state: "announced" | "scheduled"` (`read_run_ids_with_public_schedule`),
+  never stored, `"scheduled"` once the run has a scheduled `Appearance` on an
+  announced, published lineup entry. The frontend gates Planner and the sidebar off
+  this rather than an empty feed.
+- A sibling endpoint rather than an extension of `/appearances`: emitting
+  appearance-less rows in that flat, one-row-per-Appearance feed would be a breaking
+  shape change and pull frontend store work into this PR. ADR-0016 records this, names
+  the `schedule_state` threshold's limitation (sound only while scheduling is a
+  whole-run batch), and reaffirms that the bulk feed keeps excluding cancelled
+  appearances (`docs/FUTURE_CONSIDERATIONS.md` "Artist Detail Schedule States").
+- Coverage in `backend/tests/integration/test_run_read_query.py` (the new query and
+  the schedule-state derivation, alongside the existing appearances-feed cases) and
+  isolated route tests in `backend/tests/test_artists.py` / `test_festivals.py`.
 
-**Checkpoint:** a run with an announced lineup and no schedule is fully described by
-the API, both bulk and per-artist.
+**Checkpoint reached:** a run with an announced lineup and no schedule is fully
+described by the API, both bulk (`/artists` alongside an empty `/appearances`) and
+per-artist, with `schedule_state == "announced"`. No ACL roster data is imported here;
+that is section 10.
 
 ### 5. `/festivals/{edition}/{run}` routing and data scoping
 
