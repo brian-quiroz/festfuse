@@ -234,6 +234,22 @@ touch a database it did not generate. A new environment's artist dataset comes f
 
 ---
 
+## Future Consideration: Standalone CLI for Adding One Existing Artist to a Run
+
+Multi-festival roadmap section 3 added `add_existing_artist_to_run` to the authoring
+service, but reached only through `build_roster_payloads.py`'s CSV fan-out. There is
+no thin single-artist CLI alongside `add_artist` / `edit_artist` / `delete_artist` for
+"put this one already-existing artist into this one run" without a roster file.
+
+**Not built now.** Section 10 imports the ACL roster per run through the bulk path, so
+nothing needs a single-artist command yet. **Revisit when:** a real one-off comes up
+(for example a late addition to an ACL weekend of an artist who already played the
+other weekend or Lollapalooza), at which point a `add_artist_to_run.py` wrapper over
+the existing service function is a small addition. ADR-0015 left this to the step that
+built section 3; the step deferred it here.
+
+---
+
 ## Future Consideration: Footer Links
 
 `app/components/Footer.tsx` currently renders two static text lines (attribution + disclaimer) with no links. About/Feedback/Privacy/data-attribution pages were considered as footer destinations, but explicitly deferred — none of those destinations exist yet, and building placeholder pages just to have somewhere for the footer to point would be scope creep ahead of the actual need.

@@ -214,7 +214,6 @@ def create_artist(session: Session, payload: ArtistAuthoringInput) -> Artist:
     now = datetime.now(UTC)
 
     run = _resolve_run(session, payload.edition, payload.run)
-    edition = run.festival_edition
 
     spotify_artist_id = parse_spotify_artist_id(artist_input.socials.spotify)
     _reject_taken_identity(
@@ -312,9 +311,7 @@ def create_artist(session: Session, payload: ArtistAuthoringInput) -> Artist:
             lineup_status="announced" if billing_tier else "draft",
             billing_tier=billing_tier,
         )
-        _attach_appearances(
-            session, lineup_entry, run, edition, artist_input.appearances
-        )
+        _attach_appearances(session, lineup_entry, artist_input.appearances)
         session.add(lineup_entry)
     session.flush()
 
@@ -338,15 +335,65 @@ def create_artist(session: Session, payload: ArtistAuthoringInput) -> Artist:
     return artist
 
 
+def add_existing_artist_to_run(
+    session: Session, payload: ArtistAuthoringInput
+) -> LineupEntry:
+    """Add an artist that already exists to another run's lineup: one new LineupEntry
+    plus its Appearances from the payload. The global Artist is looked up, never
+    modified; only lineup membership, appearances, and similar-artist sets are
+    per-run. Does not commit.
+
+    The existing-slug counterpart to ``create_artist``: use this when the slug is
+    already in FestFuse (for an artist shared between festivals or runs), and
+    ``create_artist`` when the slug is new.
+    """
+    run = _resolve_run(session, payload.edition, payload.run)
+    slug = payload.artist.slug
+
+    artist = session.scalar(select(Artist).where(Artist.slug == slug))
+    if artist is None:
+        raise ArtistAuthoringError(
+            f"artist {slug!r} does not exist; create it with create_artist first"
+        )
+
+    already_in_run = session.scalar(
+        select(LineupEntry.id).where(
+            LineupEntry.artist_id == artist.id,
+            LineupEntry.festival_run_id == run.id,
+        )
+    )
+    if already_in_run is not None:
+        raise ArtistAuthoringError(f"artist {slug!r} is already in run {run.slug!r}")
+
+    billing_tier = _resolve_billing_tier(payload)
+    with session.no_autoflush:
+        lineup_entry = LineupEntry(
+            festival_run=run,
+            artist=artist,
+            lineup_status="announced" if billing_tier else "draft",
+            billing_tier=billing_tier,
+        )
+        _attach_appearances(session, lineup_entry, payload.artist.appearances)
+        session.add(lineup_entry)
+    session.flush()
+    return lineup_entry
+
+
 def _attach_appearances(
     session: Session,
     lineup_entry: LineupEntry,
-    run: FestivalRun,
-    edition: FestivalEdition,
     appearances: list[AppearanceInput],
 ) -> None:
+    """Attach each Appearance to the entry's own run and edition. Resolving the run
+    and edition from the lineup entry (rather than trusting caller-supplied values)
+    is what keeps an appearance's festival_day inside the entry's run and its stage
+    inside that run's edition: the cross-row rule in artist-data-model.md,
+    "Appearances and stages"."""
     if not appearances:
         return
+
+    run = lineup_entry.festival_run
+    edition = run.festival_edition
 
     stage_names = {appearance.stage for appearance in appearances}
     stages = {

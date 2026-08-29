@@ -104,7 +104,12 @@ is re-stamped after the `AFTER INSERT` entry trigger has fired; a partial create
 (name/slug only) landing as a draft with a draft lineup entry and a readiness report
 listing the gaps; the announced-without-schedule case using wrapper-level billing; and
 clear refusals for a duplicate slug, a taken Spotify identity, an unknown
-genre/similar-target/stage. For delete it proves owned rows are removed while shared
+genre/similar-target/stage. For `add_existing_artist_to_run` it proves a seeded
+Lollapalooza artist gains a second `LineupEntry` (ACL weekend 1) against the same
+global `Artist` row with its own scheduled appearance, and refusals for an unknown
+slug, a duplicate run membership, and an appearance whose day falls outside the target
+run (the cross-row rule now anchored to the lineup entry in `_attach_appearances`).
+For delete it proves owned rows are removed while shared
 `Track` rows are kept, and that deleting a Similar Artist _target_ is refused unless
 forced, in which case the incoming references are cleared and the referencing set loses
 its verification. For `edit_artist` (ADR-0012) it proves the write-then-restamp
@@ -122,10 +127,12 @@ The same file also covers the editorial pipeline tooling (roadmap 4b): a roster
 skeleton built by `parse_roster` and `create_from_payloads` persists as a `draft` with
 its announced lineup entry and schedule and readiness gaps for the research pass; a
 batch isolates a failed row (unknown stage) in its own savepoint without blocking the
-good rows and skips a slug that already exists; `--apply` commits each artist and a
-rerun of the same roster reports every artist as skipped; and `show_artist.py`'s detail
-and roster renderers run against a seeded artist without error, showing readiness and
-the inbound similar-artist reference count.
+good rows and skips a slug already in the target run; `--apply` commits each artist and
+a rerun of the same roster reports every artist as skipped; a roster imported against a
+different run adds an already-existing artist to that run (`would add to run` /
+`added to run`, then `skipped` on a rerun); and `show_artist.py`'s detail and roster
+renderers run against a seeded artist without error, showing readiness and the inbound
+similar-artist reference count.
 
 `integration/test_clean_bootstrap.py` is the exception to the rollback-contained
 pattern: it proves the from-empty half of "rebuild the database from PostgreSQL alone"
@@ -162,6 +169,10 @@ The integration suite currently verifies:
 - single-artist create and hard-delete through the authoring service, including
   verification-trigger ordering, partial (draft) creates, and Similar Artist
   target-deletion protection; and
+- adding an artist who already exists to another run through
+  `add_existing_artist_to_run` (a second `LineupEntry` on the same global `Artist`,
+  its own appearances, refusal of an unknown slug / duplicate membership / an
+  appearance outside the target run); and
 - single-artist field-level edits through the authoring service (ADR-0012):
   verification re-stamping after a triggered content change, wholesale collection
   replacement with idempotent re-apply, image/video set-and-clear, identity
@@ -169,8 +180,9 @@ The integration suite currently verifies:
   published-stays-publishable guard; and
 - the editorial pipeline tooling (roadmap 4b): roster-skeleton creation through
   `parse_roster` / `create_from_payloads` (draft lineup and schedule, per-savepoint
-  isolation of a failed row, skip-if-exists, rerun safety) and the `show_artist.py`
-  detail and roster renderers; and
+  isolation of a failed row, skip-if-already-in-run, rerun safety, and adding an
+  existing artist to a different run) and the `show_artist.py` detail and roster
+  renderers; and
 - the clean-bootstrap path (roadmap section 5): every migration applying to a
   brand-new database, `alembic check` finding no schema drift afterward, and the
   config-driven festival seed producing every configured edition's hierarchy
@@ -241,6 +253,13 @@ file (see `app/schemas/artist_authoring.py`), creates one complete or partial ar
 a `draft` for an existing run, and prints its publication readiness. It refuses a slug,
 mbid, or Spotify identity already in use, and an unknown genre / similar-artist target
 / stage. Publication stays a separate `publish_artists` step.
+
+Adding an artist who _already exists_ to another run's lineup (a festival shared
+between editions or an ACL second weekend) is the `add_existing_artist_to_run` service
+function, reached through `build_roster_payloads` rather than its own CLI: a new slug
+runs `create_artist`, an existing slug gains that run's `LineupEntry` and appearances
+against the one global `Artist`. A standalone single-artist CLI is deferred until a
+one-off need appears.
 
 `edit_artist` reads a strict `{ schemaVersion, edition, run, slug, artist }` patch
 (`ArtistEditFields`): every key present in `artist` is a change, an absent key is left

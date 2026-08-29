@@ -88,7 +88,10 @@ python -m scripts.show_artist --roster --sort similar-count   # slug|schedule al
 ```
 
 **`build_roster_payloads`** fans a hand-authored roster CSV into draft `add_artist`
-payloads and runs `create_artist`. Columns (header row):
+payloads. A new slug runs `create_artist`; a slug that already exists is added to the
+target run with `add_existing_artist_to_run` (its `LineupEntry` and appearances
+against the one global artist record), or skipped when it is already in that run.
+Columns (header row):
 
 ```
 slug, name, spotify_url, youtube_url, tiktok_url, mbid,
@@ -101,9 +104,10 @@ Sub-headliner / Undercard; `date` is `Jul 30`; times are `8:30 PM`. The weekday 
 derived from the date and the edition year, and `socialsVerified` is set because the
 editor checked the links building the roster. Genres, location, about, tracks, and
 similar artists are left empty for the research pass — every artist is created `draft`.
-`--preview` validates every row against the database and rolls back. `--apply` creates
-each artist in its own transaction, skips a slug that already exists (a partial run
-repeats safely), and reports a row that still fails without blocking the rest.
+`--preview` validates every row against the database and rolls back. `--apply` applies
+each row in its own transaction, skips a slug already in the target run (a partial run
+repeats safely), and reports a row that still fails without blocking the rest. A bad
+`--run` for the edition is rejected before any row is processed.
 
 **`check_artist_links`** resolves every external identifier on an artist (Spotify
 artist/track ids, YouTube video id, YouTube/TikTok/image-source/image-license URLs) via
