@@ -230,7 +230,7 @@ gates section 6.
 - Test coverage: `test_import_artists.py` and `test_artist_api_parity.py` are removed
   (the read cutover they guarded is long done; trigger / query / endpoint behaviour is
   covered by `test_artist_schema.py`, `test_artist_read_query.py`, and
-  `test_run_appearances_query.py`). `test_artist_schema.py` loses its three
+  `test_run_read_query.py`). `test_artist_schema.py` loses its three
   snapshot-import tests and keeps the trigger / constraint / deletion coverage.
 - The `resolveCanonicalAppearanceId` simplification
   (`app/store/runAppearancesStore.ts`) folds in now that every caller passes a real

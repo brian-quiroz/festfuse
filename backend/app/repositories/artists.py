@@ -388,14 +388,11 @@ def _read_run_similar_artists(
     return similar_artists_by_source_id
 
 
-def read_festival_run_appearances(
-    session: Session,
-    *,
-    edition_slug: str,
-    run_slug: str,
-) -> list[FestivalRunAppearanceRead] | None:
-    """Every published, announced Artist's scheduled Appearances for one run."""
-    festival_run = session.scalar(
+def _resolve_run(
+    session: Session, edition_slug: str, run_slug: str
+) -> FestivalRun | None:
+    """Resolve one run by edition-slug plus run-slug, with its edition eager-loaded."""
+    return session.scalar(
         select(FestivalRun)
         .join(FestivalRun.festival_edition)
         .options(raiseload("*"), joinedload(FestivalRun.festival_edition))
@@ -404,6 +401,38 @@ def read_festival_run_appearances(
             FestivalEdition.slug == edition_slug,
         )
     )
+
+
+def _map_run_artist(
+    artist: Artist,
+    similar_artists_by_source_id: dict[int, list[FestivalSimilarArtistRead]],
+) -> FestivalRunArtistRead:
+    """The artist projection shared by the run-appearances and run-artists feeds."""
+    return FestivalRunArtistRead(
+        slug=artist.slug,
+        name=artist.name,
+        image=_map_artist_image(artist),
+        location=_map_location(artist),
+        genres=[
+            _map_genre(assignment)
+            for assignment in sorted(
+                artist.genre_assignments,
+                key=lambda assignment: assignment.display_order,
+            )
+        ],
+        quick_picks_track=_map_quick_picks_track(artist),
+        similar_artists=similar_artists_by_source_id.get(artist.id, []),
+    )
+
+
+def read_festival_run_appearances(
+    session: Session,
+    *,
+    edition_slug: str,
+    run_slug: str,
+) -> list[FestivalRunAppearanceRead] | None:
+    """Every published, announced Artist's scheduled Appearances for one run."""
+    festival_run = _resolve_run(session, edition_slug, run_slug)
     if festival_run is None:
         return None
 
@@ -460,25 +489,88 @@ def read_festival_run_appearances(
                 name=appearance.stage.name,
             ),
             billing_tier=appearance.lineup_entry.billing_tier,
-            artist=FestivalRunArtistRead(
-                slug=appearance.lineup_entry.artist.slug,
-                name=appearance.lineup_entry.artist.name,
-                image=_map_artist_image(appearance.lineup_entry.artist),
-                location=_map_location(appearance.lineup_entry.artist),
-                genres=[
-                    _map_genre(assignment)
-                    for assignment in sorted(
-                        appearance.lineup_entry.artist.genre_assignments,
-                        key=lambda assignment: assignment.display_order,
-                    )
-                ],
-                quick_picks_track=_map_quick_picks_track(
-                    appearance.lineup_entry.artist
-                ),
-                similar_artists=similar_artists_by_source_id.get(
-                    appearance.lineup_entry.artist_id, []
-                ),
+            artist=_map_run_artist(
+                appearance.lineup_entry.artist, similar_artists_by_source_id
             ),
         )
         for appearance in appearances
     ]
+
+
+def read_festival_run_artists(
+    session: Session,
+    *,
+    edition_slug: str,
+    run_slug: str,
+) -> list[FestivalRunArtistRead] | None:
+    """Every published, announced Artist in one run, whether or not they are scheduled.
+
+    The schedule-agnostic sibling of read_festival_run_appearances: the same artist
+    projection, keyed by LineupEntry instead of Appearance, so a run whose lineup is
+    announced before its schedule exists is still fully described by the bulk API.
+    See ADR-0016.
+    """
+    festival_run = _resolve_run(session, edition_slug, run_slug)
+    if festival_run is None:
+        return None
+
+    lineup_entries = session.scalars(
+        select(LineupEntry)
+        .join(LineupEntry.artist)
+        .options(
+            raiseload("*"),
+            joinedload(LineupEntry.artist)
+            .selectinload(Artist.genre_assignments)
+            .selectinload(ArtistGenre.genre)
+            .selectinload(Genre.family),
+            joinedload(LineupEntry.artist)
+            .selectinload(Artist.track_selections)
+            .selectinload(ArtistTrackSelection.track),
+        )
+        .where(
+            LineupEntry.festival_run_id == festival_run.id,
+            LineupEntry.lineup_status == "announced",
+            Artist.publication_status == "published",
+        )
+        # No set times to order by; billing tier (headliner < sub_headliner <
+        # undercard, alphabetically) then name is a stable order. Consumers regroup.
+        .order_by(LineupEntry.billing_tier, Artist.name)
+    ).all()
+
+    for lineup_entry in lineup_entries:
+        if lineup_entry.billing_tier is None:
+            raise PublishedArtistConsistencyError(
+                f"Announced festival artist {lineup_entry.artist.slug!r} "
+                "has no billing tier"
+            )
+
+    similar_artists_by_source_id = _read_run_similar_artists(session, festival_run.id)
+
+    return [
+        _map_run_artist(lineup_entry.artist, similar_artists_by_source_id)
+        for lineup_entry in lineup_entries
+    ]
+
+
+def read_run_ids_with_public_schedule(session: Session, run_ids: list[int]) -> set[int]:
+    """The subset of `run_ids` that have at least one scheduled Appearance on an
+    announced, published lineup entry: the same gate read_festival_run_appearances
+    applies. This is the run's derived `schedule_state == "scheduled"`; the state is
+    never stored. See ADR-0016.
+    """
+    if not run_ids:
+        return set()
+    return set(
+        session.scalars(
+            select(LineupEntry.festival_run_id)
+            .join(Appearance, Appearance.lineup_entry_id == LineupEntry.id)
+            .join(Artist, Artist.id == LineupEntry.artist_id)
+            .where(
+                LineupEntry.festival_run_id.in_(run_ids),
+                LineupEntry.lineup_status == "announced",
+                Artist.publication_status == "published",
+                Appearance.appearance_status == "scheduled",
+            )
+            .distinct()
+        )
+    )

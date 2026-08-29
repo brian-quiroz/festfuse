@@ -61,6 +61,8 @@ def test_read_festival_returns_nested_festival(
     mock_session: Mock,
 ) -> None:
     mock_session.scalar.return_value = build_festival()
+    # No run id comes back as having a scheduled Appearance.
+    mock_session.scalars.return_value = []
 
     response = client.get("/api/v1/festivals/lollapalooza-2026")
 
@@ -77,11 +79,26 @@ def test_read_festival_returns_nested_festival(
         "name": "Lollapalooza Chicago",
     }
     assert body["runs"][0]["name"] == "Main Run"
+    assert body["runs"][0]["schedule_state"] == "announced"
     assert [day["date"] for day in body["runs"][0]["days"]] == [
         "2026-07-30",
         "2026-07-31",
     ]
     mock_session.scalar.assert_called_once()
+
+
+def test_read_festival_marks_run_scheduled_when_it_has_a_scheduled_appearance(
+    client: TestClient,
+    mock_session: Mock,
+) -> None:
+    mock_session.scalar.return_value = build_festival()
+    # The `main` run (id 1) has at least one scheduled Appearance.
+    mock_session.scalars.return_value = [1]
+
+    response = client.get("/api/v1/festivals/lollapalooza-2026")
+
+    assert response.status_code == 200
+    assert response.json()["runs"][0]["schedule_state"] == "scheduled"
 
 
 def test_read_festival_returns_404_when_missing(

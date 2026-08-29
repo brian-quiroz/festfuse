@@ -196,3 +196,5 @@ here.
   the editorial process this roadmap runs a baseline import ahead of
 - [Artist and festival data-model design](../design/artist-data-model.md)
 - `ARCHITECTURE.md` — "Festival Configuration", "Interest State → Festival Scoping"
+- [ADR-0016](0016-describe-a-run-without-a-public-schedule.md): the concrete
+  announced-lineup-without-schedule API contract whose form this ADR left open

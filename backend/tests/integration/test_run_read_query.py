@@ -1,3 +1,12 @@
+"""Rollback-contained coverage for the run-scoped read queries in
+`app/repositories/artists.py`: the bulk appearances feed
+(`read_festival_run_appearances`), its schedule-agnostic sibling
+(`read_festival_run_artists`), and the derived per-run `schedule_state`
+(`read_run_ids_with_public_schedule`). The `connection` boundary and `create_*`
+builders are duplicated from `test_artist_read_query.py`; unifying them is deferred
+(`docs/FUTURE_CONSIDERATIONS.md`, "Shared Integration-Test Fixtures").
+"""
+
 import os
 from collections.abc import Iterator
 from datetime import date, datetime, timezone
@@ -8,7 +17,12 @@ from sqlalchemy import Connection, text
 from sqlalchemy.orm import Session
 
 from app.database import engine
-from app.repositories import PublishedArtistConsistencyError, read_festival_run_appearances
+from app.repositories import (
+    PublishedArtistConsistencyError,
+    read_festival_run_appearances,
+    read_festival_run_artists,
+    read_run_ids_with_public_schedule,
+)
 
 pytestmark = [
     pytest.mark.postgres,
@@ -398,3 +412,154 @@ def test_read_festival_run_appearances_rejects_missing_billing_tier(
             read_festival_run_appearances(
                 session, edition_slug="lollapalooza-2026", run_slug="main"
             )
+
+
+def test_read_festival_run_artists_returns_none_for_unknown_run(
+    connection: Connection,
+) -> None:
+    with Session(bind=connection) as session:
+        assert (
+            read_festival_run_artists(
+                session, edition_slug="lollapalooza-2026", run_slug="not-a-real-run"
+            )
+            is None
+        )
+
+
+def test_read_festival_run_artists_includes_announced_artists_without_a_schedule(
+    connection: Connection,
+) -> None:
+    unscheduled_artist = create_artist(connection)
+    create_lineup_entry(connection, unscheduled_artist)
+
+    scheduled_artist = create_artist(connection)
+    scheduled_lineup_entry = create_lineup_entry(connection, scheduled_artist)
+    create_appearance(
+        connection,
+        scheduled_lineup_entry,
+        starts_at="2026-07-30 20:00:00+00",
+        ends_at="2026-07-30 21:00:00+00",
+    )
+
+    with Session(bind=connection) as session:
+        run_artists = read_festival_run_artists(
+            session, edition_slug="lollapalooza-2026", run_slug="main"
+        )
+
+    assert run_artists is not None
+    returned_slugs = {artist.slug for artist in run_artists}
+    assert unscheduled_artist in returned_slugs
+    assert scheduled_artist in returned_slugs
+
+
+def test_read_festival_run_artists_excludes_draft_and_withdrawn(
+    connection: Connection,
+) -> None:
+    draft_artist = create_artist(connection, publication_status="draft")
+    create_lineup_entry(connection, draft_artist)
+
+    withdrawn_artist = create_artist(connection)
+    create_lineup_entry(connection, withdrawn_artist, lineup_status="withdrawn")
+
+    with Session(bind=connection) as session:
+        run_artists = read_festival_run_artists(
+            session, edition_slug="lollapalooza-2026", run_slug="main"
+        )
+
+    assert run_artists is not None
+    returned_slugs = {artist.slug for artist in run_artists}
+    assert draft_artist not in returned_slugs
+    assert withdrawn_artist not in returned_slugs
+
+
+def test_read_festival_run_artists_maps_the_same_fields_as_the_appearances_feed(
+    connection: Connection,
+) -> None:
+    artist_slug = create_artist(connection, with_genres=True)
+    create_lineup_entry(connection, artist_slug, billing_tier="sub_headliner")
+
+    with Session(bind=connection) as session:
+        run_artists = read_festival_run_artists(
+            session, edition_slug="lollapalooza-2026", run_slug="main"
+        )
+
+    assert run_artists is not None
+    by_slug = {artist.slug: artist for artist in run_artists}
+
+    mapped = by_slug[artist_slug]
+    assert [genre.display_order for genre in mapped.genres] == [1, 2]
+    assert [genre.is_primary for genre in mapped.genres] == [True, False]
+    assert mapped.location.city == "Chicago"
+    assert mapped.location.state is None
+    assert mapped.location.country == "United States"
+    assert mapped.quick_picks_track.spotify_track_id == f"{artist_slug}-track"
+    assert mapped.quick_picks_track.name == "Run Appearances Test Track"
+    assert mapped.similar_artists == []
+
+    # The seeded 5sos set resolves to the same verified four-or-none result the
+    # appearances feed returns, since both read it through _read_run_similar_artists.
+    assert "5sos" in by_slug
+    assert [artist.display_order for artist in by_slug["5sos"].similar_artists] == [
+        1,
+        2,
+        3,
+        4,
+    ]
+
+
+def test_read_festival_run_artists_rejects_missing_billing_tier(
+    connection: Connection,
+) -> None:
+    artist_slug = create_artist(connection)
+    create_lineup_entry(connection, artist_slug, billing_tier=None)
+
+    with Session(bind=connection) as session:
+        with pytest.raises(
+            PublishedArtistConsistencyError, match="has no billing tier"
+        ):
+            read_festival_run_artists(
+                session, edition_slug="lollapalooza-2026", run_slug="main"
+            )
+
+
+def test_read_run_ids_with_public_schedule_is_empty_for_no_runs(
+    connection: Connection,
+) -> None:
+    with Session(bind=connection) as session:
+        assert read_run_ids_with_public_schedule(session, []) == set()
+
+
+def test_read_run_ids_with_public_schedule_reflects_whether_a_run_has_scheduled_sets(
+    connection: Connection,
+) -> None:
+    main_run_id = connection.execute(
+        text(
+            """
+            SELECT festival_runs.id
+            FROM festival_runs
+            JOIN festival_editions
+                ON festival_editions.id = festival_runs.festival_edition_id
+            WHERE festival_editions.slug = 'lollapalooza-2026'
+              AND festival_runs.slug = 'main'
+            """
+        )
+    ).scalar_one()
+
+    with Session(bind=connection) as session:
+        assert main_run_id in read_run_ids_with_public_schedule(session, [main_run_id])
+
+    # Move the whole run out of "scheduled" inside the rollback boundary.
+    connection.execute(
+        text(
+            """
+            UPDATE appearances SET appearance_status = 'draft'
+            WHERE lineup_entry_id IN (
+                SELECT id FROM lineup_entries WHERE festival_run_id = :run_id
+            )
+            """
+        ),
+        {"run_id": main_run_id},
+    )
+
+    with Session(bind=connection) as session:
+        assert read_run_ids_with_public_schedule(session, [main_run_id]) == set()

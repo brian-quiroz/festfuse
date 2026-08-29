@@ -117,10 +117,11 @@ above applies here — keep it plain and out of the way of the rest of the app.
 Shipped: MVP 1.0 (Artist Page, Explore, Quick Picks, Festival Story, Planner) and the
 backend data cutover (PostgreSQL is the sole artist data source, read and write).
 
-In progress (MVP 2.0): multi-festival and multi-run support — Austin City Limits 2026
+In progress (MVP 2.0): multi-festival and multi-run support (Austin City Limits 2026
 as a second live festival with two weekend runs, plus presenting an announced lineup
-before its schedule exists (`docs/roadmap/multi-festival.md`, ADR-0015) — and broader
-automated test coverage. Roadmaps in `docs/roadmap/`.
+before its schedule exists; `docs/roadmap/multi-festival.md`, ADR-0015, with the
+announced-lineup API contract in ADR-0016), and broader automated test coverage.
+Roadmaps in `docs/roadmap/`.
 
 Not in scope now: accessibility/performance work; accounts; Compare.
 

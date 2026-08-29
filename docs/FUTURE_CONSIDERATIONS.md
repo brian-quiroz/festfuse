@@ -503,6 +503,29 @@ cancellation UI design exists for these bulk-consuming surfaces too.
 
 ---
 
+## Future Consideration: Run Schedule-State Threshold
+
+`FestivalRunRead.schedule_state` ([ADR-0016](decisions/0016-describe-a-run-without-a-public-schedule.md))
+is derived: a run is `"scheduled"` once it has one scheduled `Appearance` on an
+announced, published lineup entry, otherwise `"announced"`. That threshold is sound
+while a run's schedule is published as a whole-run batch. Today it always is:
+`build_roster_payloads.py` writes a run's lineup entries and their appearances together
+from one CSV, and no tool schedules a single already-booked artist.
+
+If an incremental per-artist scheduling workflow is ever added, the threshold flips a
+run to `"scheduled"` as soon as the first set time exists, so Planner and the
+day-based surfaces would open against a near-empty grid. Tightening it to "every
+announced entry is scheduled" is worse: one perpetually-TBA artist would hold a
+mostly-published run in `"announced"` indefinitely.
+
+The fix at that point is an explicit signal that a run's schedule is public: a boolean
+or timestamp on `FestivalRun`, set deliberately and decoupled from Appearance counts.
+Do not build it before the workflow that needs it exists. Distinct from "Artist Detail
+Schedule States" above, which concerns the per-artist no-schedule and cancelled-state
+UI.
+
+---
+
 ## Future Consideration: Wider Consumption of the Run-Appearances Store
 
 **Resolved.** `runAppearancesStore` (fed by `GET .../appearances`) was built to fix
@@ -682,3 +705,22 @@ versus what moves.
 
 **Not scheduled.** Do it opportunistically when touching a section for another reason,
 or as a dedicated pass once the boundary rule is settled.
+
+---
+
+## Future Consideration: Shared Integration-Test Fixtures
+
+`integration/test_artist_read_query.py` and `integration/test_run_read_query.py` each
+carry their own copy of the `connection` rollback fixture, `unique_slug`, and the
+`create_artist` / `create_lineup_entry` / `create_appearance` builders. The two copies
+have drifted in signature (`create_artist_core_fixture`,
+`create_announced_lineup_entry(with_appearances=...)` on the artist side), so a new
+run-scoped read query added coverage to `test_run_read_query.py` rather than a third
+copy.
+
+**The intent:** move the shared boundary and builders into
+`tests/integration/conftest.py` (or a `_factories.py`) both files import from,
+reconciling the drifted signatures carefully so no existing assertion changes meaning.
+
+**Not scheduled.** Belongs with the broader backend-test-coverage roadmap item
+(`docs/roadmap/multi-festival.md`, "Next"), not a feature PR.
