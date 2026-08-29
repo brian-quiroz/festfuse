@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { ArrowUpRight, Star, Heart } from "lucide-react";
 import type { Stage } from "@/app/data/categories";
+import { artistHref } from "@/app/data/festivals";
+import { useRunContext } from "@/app/components/RunContextProvider";
 
 interface PlannerArtistBlockProps {
   artistSlug: string;
@@ -35,6 +37,7 @@ export default function PlannerArtistBlock({
   verdict,
   onToggleScheduled,
 }: PlannerArtistBlockProps) {
+  const { editionSlug, runSlug } = useRunContext();
   // Fill, border, and pick icon are independent channels — a block can be scheduled,
   // conflicting, and a pick all at once with nothing silently hidden, instead of one
   // property winning a priority contest over a single shared color. Conflicts only ever
@@ -121,7 +124,7 @@ export default function PlannerArtistBlock({
             <span className="line-clamp-2">{artistName}</span>
           </p>
           <Link
-            href={`/artist/${artistSlug}`}
+            href={artistHref({ editionSlug, runSlug }, artistSlug)}
             onClick={(e) => e.stopPropagation()}
             onKeyDown={(e) => e.stopPropagation()}
             className="flex-shrink-0 text-white/40 hover:text-white transition-colors p-1 -m-1"

@@ -4,8 +4,8 @@ import { Calendar, Star, Heart } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
-import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
-import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { useRunAppearances } from "@/app/store/runAppearancesStore";
+import { useRunContext } from "@/app/components/RunContextProvider";
 import { getAppearancesForFestival } from "@/app/lib/appearances";
 import { getArtistScheduleState } from "@/app/lib/schedule";
 
@@ -14,9 +14,10 @@ interface ArtistActionsProps {
 }
 
 export default function ArtistActions({ artist }: ArtistActionsProps) {
+  const { editionSlug, runSlug } = useRunContext();
   const { decisionsByArtist, setDecision } = useDecisionStore();
   const { scheduledAppearanceKeys, toggleAllAppearances } = useScheduleStore();
-  const runAppearancesBySlug = useRunAppearancesStore((state) => state.appearancesBySlug);
+  const { appearancesBySlug: runAppearancesBySlug } = useRunAppearances(editionSlug, runSlug);
 
   const decision = decisionsByArtist[artist.slug];
   const verdict = decision?.verdict ?? null;
@@ -27,13 +28,13 @@ export default function ArtistActions({ artist }: ArtistActionsProps) {
   // for multi-appearance artists without exposing individual appearance times.
   const scheduleState = getArtistScheduleState(
     artist,
-    ACTIVE_FESTIVAL_ID,
+    editionSlug,
     scheduledAppearanceKeys,
     runAppearancesBySlug
   );
   const isScheduled = scheduleState === "full";
   const isPartiallyScheduled = scheduleState === "partial";
-  const appearanceCount = getAppearancesForFestival(artist, ACTIVE_FESTIVAL_ID).length;
+  const appearanceCount = getAppearancesForFestival(artist, editionSlug).length;
   const isMultiAppearance = appearanceCount > 1;
 
   // Single verdict field, mutually exclusive. Each button sets its own value directly (or clears if already set).
@@ -49,7 +50,7 @@ export default function ArtistActions({ artist }: ArtistActionsProps) {
   };
 
   const handleScheduleToggle = () => {
-    toggleAllAppearances(artist, ACTIVE_FESTIVAL_ID);
+    toggleAllAppearances(artist, editionSlug);
   };
 
   const scheduleLabel = isMultiAppearance

@@ -2,19 +2,29 @@ import Link from "next/link";
 import { MapPin, Users } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
 import { COLORS } from "@/app/data/colors";
-import { festivals, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { artistHref, festivals } from "@/app/data/festivals";
 import { getAppearancesForFestival, getPrimaryAppearance } from "@/app/lib/appearances";
 import ArtistAvatar from "@/app/components/ui/ArtistAvatar";
 
-export default function FloatingCards({ artist }: { artist: Artist }) {
+export default function FloatingCards({
+  artist,
+  editionSlug,
+  runSlug,
+  dayOrder,
+}: {
+  artist: Artist;
+  editionSlug: string;
+  runSlug: string;
+  dayOrder: readonly string[];
+}) {
   // Displays the artist's primary appearance — see app/lib/appearances.ts. This card
   // only ever renders one appearance's actual day/time/stage, never both. No surface
   // on Artist Detail shows a second appearance's real date/time/stage — ArtistActions'
   // own "N sets" button text discloses only the count, by design (see its comment).
   // This card just adds a lightweight count next to the heading so a multi-appearance
   // artist doesn't look single-appearance by omission.
-  const appearance = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID);
-  const appearanceCount = getAppearancesForFestival(artist, ACTIVE_FESTIVAL_ID).length;
+  const appearance = getPrimaryAppearance(artist, editionSlug, dayOrder);
+  const appearanceCount = getAppearancesForFestival(artist, editionSlug).length;
 
   return (
     <div className="space-y-4">
@@ -87,7 +97,7 @@ export default function FloatingCards({ artist }: { artist: Artist }) {
               return (
                 <Link
                   key={a.name}
-                  href={a.slug ? `/artist/${a.slug}` : "#"}
+                  href={a.slug ? artistHref({ editionSlug, runSlug }, a.slug) : "#"}
                   className="flex flex-col items-center gap-1.5 py-3 rounded-xl hover:bg-white/4 hover:-translate-y-0.5 transition-[background-color,transform] duration-200 ease-out group w-full"
                 >
                   <ArtistAvatar name={a.name} imageUrl={imageUrl} genres={genres} size={56} />

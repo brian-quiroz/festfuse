@@ -18,17 +18,20 @@ import {
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore, NAV_PRESETS } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
+import { useActiveContextStore } from "@/app/store/activeContextStore";
+import { contextHref } from "@/app/data/festivals";
 import { useHelpStore } from "@/app/store/helpStore";
 import { useChromeStore } from "@/app/store/chromeStore";
 import { useDialogA11y } from "@/app/hooks/useDialogA11y";
 import HowItWorksModal from "@/app/components/home/HowItWorksModal";
 import type { ActiveNavItem } from "@/app/types/navigation";
 
-const navItems = [
-  { label: "Home", href: "/", Icon: Home },
-  { label: "Explore", href: "/explore", Icon: Search },
-  { label: "Quick Picks", href: "/quick-picks", Icon: Zap },
-  { label: "Planner", href: "/planner", Icon: CalendarDays },
+type NavPage = "explore" | "quick-picks" | "planner";
+const navItems: Array<{ label: string; page: NavPage | null; Icon: typeof Home }> = [
+  { label: "Home", page: null, Icon: Home },
+  { label: "Explore", page: "explore", Icon: Search },
+  { label: "Quick Picks", page: "quick-picks", Icon: Zap },
+  { label: "Planner", page: "planner", Icon: CalendarDays },
 ];
 
 // Maps each My Festival label to its ActiveNavItem key — single source of truth used
@@ -44,6 +47,12 @@ const NAV_ITEM_BY_LABEL: Record<string, Exclude<ActiveNavItem, "explore">> = {
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  // Sidebar lives in the root layout, outside the [edition]/[run] segment, so it has no
+  // route params — it reads the active context from the store instead, and its nav
+  // links follow whatever scoped route is active.
+  const editionSlug = useActiveContextStore((s) => s.editionSlug);
+  const runSlug = useActiveContextStore((s) => s.runSlug);
+  const exploreHref = contextHref({ editionSlug, runSlug }, "explore");
   const { decisionsByArtist } = useDecisionStore();
   // Artist-slug-keyed, precomputed in scheduleStore.ts — see ARCHITECTURE.md §
   // Multi-Appearance Support ("Sidebar counts: artist counts, not appearance counts").
@@ -157,7 +166,7 @@ export default function Sidebar() {
     // Scheduled checkbox itself is unmarked). No fallback if invalid — just don't
     // highlight anything.
     const active =
-      isActive("/explore") &&
+      isActive(exploreHref) &&
       activeNavItem === navKey &&
       preset.values.some((v) => liveValues.includes(v));
 
@@ -196,10 +205,10 @@ export default function Sidebar() {
     // fires — a freshly-mounted ExploreContent reads an already-correct store on its very
     // first render, so there's nothing stale to reconcile after the fact.
     clearFilters();
-    // Skip navigation if already on /explore — avoids an unnecessary server refetch
+    // Skip navigation if already on Explore — avoids an unnecessary server refetch
     // (new seed, new RSC payload) racing behind the store-driven local state fix
-    if (pathname !== "/explore") {
-      router.push("/explore");
+    if (pathname !== exploreHref) {
+      router.push(exploreHref);
     }
     setMobileDrawerOpen(false);
   };
@@ -208,10 +217,10 @@ export default function Sidebar() {
     // applyPreset() resets genres/day/stages and sets pickStatus/scheduleStatus per
     // NAV_PRESETS in one synchronous call, same reasoning as handleExploreClick above.
     applyPreset(NAV_ITEM_BY_LABEL[label]);
-    // Skip navigation if already on /explore — avoids an unnecessary server refetch
+    // Skip navigation if already on Explore — avoids an unnecessary server refetch
     // (new seed, new RSC payload) racing behind the store-driven local state fix
-    if (pathname !== "/explore") {
-      router.push("/explore");
+    if (pathname !== exploreHref) {
+      router.push(exploreHref);
     }
     setMobileDrawerOpen(false);
   };
@@ -246,9 +255,10 @@ export default function Sidebar() {
         <div className="flex-1 overflow-y-auto">
           {/* Main nav */}
           <nav className="px-3 pb-2 space-y-0.5">
-            {navItems.map(({ label, href, Icon }) => {
+            {navItems.map(({ label, page, Icon }) => {
+              const href = page === null ? "/" : contextHref({ editionSlug, runSlug }, page);
               const isExplore = label === "Explore";
-              // Explore and My Festival links share the same /explore pathname, so pathname
+              // Explore and My Festival links share the same Explore pathname, so pathname
               // alone can't tell them apart — activeNavItem tracks which was actually clicked.
               const active = isExplore
                 ? isActive(href) && activeNavItem === "explore"

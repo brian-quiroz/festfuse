@@ -339,22 +339,30 @@ The `whatToExpect` field describes what the audience will experience at a perfor
 
 ## Festival Configuration
 
-The current frontend still reads festival-specific configuration from
-`app/data/festivals.ts` while the database-backed system is introduced
-incrementally:
+The frontend mirrors the festival hierarchy in `app/data/festivals.ts`: a
+hand-maintained `FESTIVAL_REGISTRY` of editions -> runs -> days plus edition-owned
+`FESTIVAL_STAGES`. Same rationale as the genre allowlist ("Genre/Stage: Database
+Source of Truth vs. Frontend Allowlist"): the type checker and module-eval code need
+this before any API call, so it can't come from a runtime response. PostgreSQL stays
+the source of truth for the data; serving the registry from the festival endpoint is a
+later consolidation (ADR-0015, ADR-0016).
 
-```typescript
-export const ACTIVE_FESTIVAL_ID = "lollapalooza-2026";
-
-export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
-  "lollapalooza-2026": ["Airbnb", "Allianz", "BMI", "Bud Light", "Perry's", "T-Mobile", "Tito's"],
-};
-```
+Festival + run identity lives in the URL, not a constant. Scoped workflow pages sit
+under `app/festivals/[edition]/[run]/…`; a server segment layout resolves the run from
+the route params, fetches that run's appearances, and provides `{ editionSlug, runSlug }`
+to client components through `RunContextProvider` (`useRunContext` / `useRunDays` /
+`useRunStages`). `runAppearancesStore` keys each run's feed by `edition::run`.
+`activeContextStore` (non-persisted this milestone) mirrors the active context for the
+few non-hook readers — `scheduleStore`'s derive step, and `Sidebar`, which renders in
+the root layout outside the segment. The root layout keeps a `DEFAULT_CONTEXT`
+appearances fetch so `Sidebar`'s counts and `/` stay populated before a scoped route
+mounts.
 
 Artist Detail reads exclusively from the run-scoped FastAPI response for every slug
 (see ADR-0010). A mapper preserves the existing frontend `Artist` contract. API 404s
 retain the published-only boundary via `notFound()`; an operational fetch failure is
-logged, alerted (ADR-0009), and re-thrown to `app/artist/[slug]/error.tsx`, a Next.js
+logged, alerted (ADR-0009), and re-thrown to
+`app/festivals/[edition]/[run]/artist/[slug]/error.tsx`, a Next.js
 error boundary — see ADR-0010 for the full failure-mode design, which also covers the
 shared `AppearancesUnavailable` component every `hasLoaded`-gated consumer
 renders when the appearances fetch itself never loads.

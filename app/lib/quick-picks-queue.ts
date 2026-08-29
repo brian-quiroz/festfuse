@@ -25,12 +25,13 @@ export function getEligibleEntries(
   quickPicksArtists: QuickPicksRunArtist[],
   festivalId: string,
   days: readonly string[],
-  decisionsByArtist: Record<string, ArtistDecision>
+  decisionsByArtist: Record<string, ArtistDecision>,
+  dayOrder: readonly string[]
 ): QueueEntry[] {
   const eligible: QueueEntry[] = [];
   for (const artist of quickPicksArtists) {
     if (decisionsByArtist[artist.slug]) continue; // exclude any prior verdict, any source
-    const appearance = getSelectedDayAppearance(artist, festivalId, days);
+    const appearance = getSelectedDayAppearance(artist, festivalId, days, dayOrder);
     if (!appearance) continue; // no appearance on any of the given days
     eligible.push({ artist, appearance });
   }

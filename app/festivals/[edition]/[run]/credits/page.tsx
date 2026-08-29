@@ -2,9 +2,9 @@
 
 import Footer from "@/app/components/Footer";
 import AppearancesUnavailable from "@/app/components/AppearancesUnavailable";
-import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
-import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
+import { useRunAppearances } from "@/app/store/runAppearancesStore";
 import { getRunArtistsFromApi } from "@/app/lib/api/mapRunAppearance";
+import { useRunContext } from "@/app/components/RunContextProvider";
 
 // imageCredit.sourceUrl points at whichever platform the photo actually came from
 // (Wikimedia Commons, Flickr, ...) — derive the display name from the host rather
@@ -21,8 +21,9 @@ function getSourceName(url: string): string {
 }
 
 export default function CreditsPage() {
-  const runAppearancesBySlug = useRunAppearancesStore((s) => s.appearancesBySlug);
-  const hasLoadedRunAppearances = useRunAppearancesStore((s) => s.hasLoaded);
+  const { editionSlug, runSlug } = useRunContext();
+  const { appearancesBySlug: runAppearancesBySlug, hasLoaded: hasLoadedRunAppearances } =
+    useRunAppearances(editionSlug, runSlug);
 
   if (!hasLoadedRunAppearances) {
     return (
@@ -32,7 +33,7 @@ export default function CreditsPage() {
     );
   }
 
-  const runArtists = getRunArtistsFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID);
+  const runArtists = getRunArtistsFromApi(runAppearancesBySlug, editionSlug);
   const creditedArtists = runArtists
     .filter((artist) => artist.imageCredit)
     .sort((a, b) => a.name.localeCompare(b.name));

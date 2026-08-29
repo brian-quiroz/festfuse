@@ -5,15 +5,16 @@ import Switch from "@/app/components/Switch";
 import PlannerGrid from "@/app/components/planner/PlannerGrid";
 import PlannerMobileFilters from "@/app/components/planner/PlannerMobileFilters";
 import AppearancesUnavailable from "@/app/components/AppearancesUnavailable";
-import { getDaysForActiveFestival, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { usePlannerViewStore } from "@/app/store/plannerViewStore";
-import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
+import { useRunAppearances } from "@/app/store/runAppearancesStore";
 import { getAppearanceEntriesFromApi, getAppearanceKey } from "@/app/lib/schedule";
+import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
 
 export default function PlannerPage() {
-  const days = getDaysForActiveFestival();
+  const { editionSlug, runSlug } = useRunContext();
+  const days = useRunDays();
   const [activeDay, setActiveDay] = useState<string>(days[0]);
   const { showMyPicks, showScheduled, setShowMyPicks, setShowScheduled } = usePlannerViewStore();
 
@@ -22,12 +23,12 @@ export default function PlannerPage() {
   // itself (see scheduleStore.ts) — read directly rather than recomputed here.
   const { scheduledAppearanceKeys, conflictingAppearanceKeys, toggleScheduled } =
     useScheduleStore();
-  const runAppearancesBySlug = useRunAppearancesStore((state) => state.appearancesBySlug);
-  const hasLoadedRunAppearances = useRunAppearancesStore((state) => state.hasLoaded);
+  const { appearancesBySlug: runAppearancesBySlug, hasLoaded: hasLoadedRunAppearances } =
+    useRunAppearances(editionSlug, runSlug);
 
   const allAppearanceEntries = useMemo(
-    () => getAppearanceEntriesFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID),
-    [runAppearancesBySlug]
+    () => getAppearanceEntriesFromApi(runAppearancesBySlug, editionSlug),
+    [runAppearancesBySlug, editionSlug]
   );
 
   const myPickSlugs = useMemo(() => {

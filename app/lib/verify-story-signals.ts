@@ -16,17 +16,47 @@
  */
 import type { Artist } from "@/app/types/artist";
 import provenanceSnapshot from "@/provenance/artists-lollapalooza-2026.json";
-import { ACTIVE_FESTIVAL_ID, getDaysForActiveFestival } from "@/app/data/festivals";
-import { getSelectedDayAppearance } from "@/app/lib/appearances";
+import { getDaysForFestival } from "@/app/data/festivals";
+import { getSelectedDayAppearance as getSelectedDayAppearanceBase } from "@/app/lib/appearances";
 import { GENRE_TO_FAMILY } from "@/app/data/categories";
 import { buildStorySeed, drawSamples } from "@/app/lib/story-sampling";
 import {
-  computeStorySignals,
-  getValidPositivePicks,
-  getEligibleArtists,
+  computeStorySignals as computeStorySignalsBase,
+  getValidPositivePicks as getValidPositivePicksBase,
+  getEligibleArtists as getEligibleArtistsBase,
   MIN_POSITIVE_PICKS_FOR_STORY,
 } from "@/app/hooks/useStorySignals";
 import type { ArtistDecision } from "@/app/store/decisionStore";
+
+// This harness only ever exercises Lollapalooza 2026's single run against the frozen
+// provenance snapshot, so the day order is fixed. These local wrappers pin it into the
+// `dayOrder` parameter the story functions take, keeping the many call sites below
+// unchanged.
+const ACTIVE_FESTIVAL_ID = "lollapalooza-2026";
+const ACTIVE_FESTIVAL_RUN_SLUG = "main";
+
+function getSelectedDayAppearance(
+  artist: Parameters<typeof getSelectedDayAppearanceBase>[0],
+  festivalId: string,
+  selectedDays: readonly string[]
+) {
+  return getSelectedDayAppearanceBase(artist, festivalId, selectedDays, ALL_DAYS);
+}
+function getEligibleArtists(
+  festivalId: string,
+  attendanceDays: string[],
+  artists: Parameters<typeof getEligibleArtistsBase>[2]
+) {
+  return getEligibleArtistsBase(festivalId, attendanceDays, artists, ALL_DAYS);
+}
+function getValidPositivePicks(
+  festivalId: string,
+  attendanceDays: string[],
+  artists: Parameters<typeof getValidPositivePicksBase>[2],
+  decisionsByArtist: Parameters<typeof getValidPositivePicksBase>[3]
+) {
+  return getValidPositivePicksBase(festivalId, attendanceDays, artists, decisionsByArtist, ALL_DAYS);
+}
 
 // The snapshot's `artists` is a plain-JSON array of the full Artist shape; the cast
 // restores the domain unions the JSON import widens to string.
@@ -45,7 +75,7 @@ function check(label: string, pass: boolean, detail?: string) {
   if (!pass) failures++;
 }
 
-const ALL_DAYS = [...getDaysForActiveFestival()];
+const ALL_DAYS = [...getDaysForFestival(ACTIVE_FESTIVAL_ID, ACTIVE_FESTIVAL_RUN_SLUG)];
 
 function decision(
   verdict: "mustSee" | "interested" | "passed",
@@ -82,8 +112,9 @@ function run(
   decisionsByArtist: Record<string, ArtistDecision>,
   artists: Artist[] = allArtists
 ) {
-  return computeStorySignals({
+  return computeStorySignalsBase({
     festivalId: ACTIVE_FESTIVAL_ID,
+    dayOrder: ALL_DAYS,
     attendanceDays,
     allArtists: artists,
     decisionsByArtist,

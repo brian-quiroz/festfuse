@@ -6,8 +6,9 @@ import { AnimatePresence } from "framer-motion";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useAttendanceDays } from "@/app/store/attendanceStore";
-import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
-import { ACTIVE_FESTIVAL_ID, festivals } from "@/app/data/festivals";
+import { useRunAppearances } from "@/app/store/runAppearancesStore";
+import { contextHref, festivals } from "@/app/data/festivals";
+import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
 import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
 import { getRunArtistsFromApi } from "@/app/lib/api/mapRunAppearance";
 import { useStorySignals, type StorySignal } from "@/app/hooks/useStorySignals";
@@ -31,24 +32,27 @@ export function FestivalStorySequence({
   attendanceDays,
 }: FestivalStorySequenceProps) {
   const router = useRouter();
+  const { editionSlug, runSlug } = useRunContext();
+  const dayOrder = useRunDays();
   const decisionsByArtist = useDecisionStore((state) => state.decisionsByArtist);
   const { applyPreset } = useExploreFilterStore();
-  const persistedAttendanceDays = useAttendanceDays(ACTIVE_FESTIVAL_ID);
+  const persistedAttendanceDays = useAttendanceDays(editionSlug, dayOrder);
   const scopedAttendanceDays = attendanceDays ?? persistedAttendanceDays;
 
   // Structurally unreachable while runAppearancesStore hasn't loaded — this component
   // only mounts once quick-picks/page.tsx's storyUnlocked gate passes, which requires
   // a non-empty quickPicksArtists list sourced from this same store.
-  const runAppearancesBySlug = useRunAppearancesStore((s) => s.appearancesBySlug);
+  const { appearancesBySlug: runAppearancesBySlug } = useRunAppearances(editionSlug, runSlug);
   const runArtists = useMemo(
-    () => getRunArtistsFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID),
-    [runAppearancesBySlug]
+    () => getRunArtistsFromApi(runAppearancesBySlug, editionSlug),
+    [runAppearancesBySlug, editionSlug]
   );
 
   // Compute story signals — pure function call, explicit inputs only. See
   // ARCHITECTURE.md § Festival Story.
   const signals = useStorySignals({
-    festivalId: ACTIVE_FESTIVAL_ID,
+    festivalId: editionSlug,
+    dayOrder,
     attendanceDays: scopedAttendanceDays,
     allArtists: runArtists,
     decisionsByArtist,
@@ -59,7 +63,7 @@ export function FestivalStorySequence({
   // conditional mount), which is too late for a "preload before open" hint to help.
   // See page.tsx for the effect that fires while the completion screen is visible.
 
-  const activeFestival = festivals[ACTIVE_FESTIVAL_ID];
+  const activeFestival = festivals[editionSlug];
   const festivalName = activeFestival?.name || "Festival";
 
   // Add intro card (hero photo + title sequence headline, no stats). Attendance-
@@ -113,7 +117,7 @@ export function FestivalStorySequence({
     } else {
       // Last card clicked → view picks filtered by mustSee and interested
       applyPreset("myPicks");
-      router.push("/explore");
+      router.push(contextHref({ editionSlug, runSlug }, "explore"));
     }
   };
 

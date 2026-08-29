@@ -8,7 +8,6 @@ import {
   SCHEDULE_STATUS_LABELS,
   groupGenresByFamily,
 } from "@/app/data/categories";
-import { getDaysForActiveFestival, getStagesForActiveFestival } from "@/app/data/festivals";
 import type { PickStatusFilterValue } from "@/app/types/decision";
 import type { ScheduleStatusValue } from "@/app/types/schedule";
 import MultiSelectDropdown from "@/app/components/explore/MultiSelectDropdown";
@@ -17,6 +16,9 @@ import SingleSelectDropdown from "@/app/components/explore/SingleSelectDropdown"
 
 interface ExploreFiltersProps {
   availableGenres: Genre[];
+  // The active run's day and stage options, resolved from route context by the parent.
+  days: string[];
+  availableStages: Stage[];
   searchQuery?: string;
   selectedGenres?: Genre[];
   selectedDay?: string;
@@ -36,6 +38,8 @@ interface ExploreFiltersProps {
 // values, so there's no sync effect needed and nothing that can go stale for a frame.
 export default function ExploreFilters({
   availableGenres,
+  days,
+  availableStages,
   searchQuery: externalSearchQuery = "",
   selectedGenres: externalGenres = [],
   selectedDay: externalDay = "",
@@ -88,10 +92,6 @@ export default function ExploreFilters({
       requestAnimationFrame(() => window.scrollTo(0, 0));
     });
   };
-
-  // Festival days and stages (sourced from festival configuration)
-  const days = getDaysForActiveFestival() as string[];
-  const availableStages = getStagesForActiveFestival() as Stage[];
 
   const handleSearchChange = (value: string) => {
     onSearchChange?.(value);

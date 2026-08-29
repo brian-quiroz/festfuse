@@ -1,20 +1,24 @@
 import { notFound } from "next/navigation";
-import { ACTIVE_FESTIVAL_ID, ACTIVE_FESTIVAL_RUN_SLUG } from "@/app/data/festivals";
 import ArtistHero from "@/app/components/artist/ArtistHero";
 import ArtistContent from "@/app/components/artist/ArtistContent";
 import Footer from "@/app/components/Footer";
 import { fetchFestivalArtist } from "@/app/lib/api/festivalArtist";
 import { mapFestivalArtistResponse } from "@/app/lib/api/mapFestivalArtist";
 import { sendFailureAlert } from "@/app/lib/alerts/sendFailureAlert";
+import { getDaysForFestival } from "@/app/data/festivals";
 
-export default async function ArtistPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default async function ArtistPage({
+  params,
+}: {
+  params: Promise<{ edition: string; run: string; slug: string }>;
+}) {
+  const { edition, run, slug } = await params;
 
   let apiResponse: Awaited<ReturnType<typeof fetchFestivalArtist>>;
   try {
     apiResponse = await fetchFestivalArtist({
-      editionSlug: ACTIVE_FESTIVAL_ID,
-      runSlug: ACTIVE_FESTIVAL_RUN_SLUG,
+      editionSlug: edition,
+      runSlug: run,
       artistSlug: slug,
     });
   } catch (error) {
@@ -31,12 +35,13 @@ export default async function ArtistPage({ params }: { params: Promise<{ slug: s
 
   if (apiResponse === null) notFound();
   const artist = mapFestivalArtistResponse(apiResponse);
+  const dayOrder = getDaysForFestival(edition, run);
 
   return (
     <main className="flex-1 min-w-0 overflow-y-auto flex flex-col">
       <div className="flex-1">
-        <ArtistHero artist={artist} />
-        <ArtistContent artist={artist} />
+        <ArtistHero artist={artist} editionSlug={edition} dayOrder={dayOrder} />
+        <ArtistContent artist={artist} editionSlug={edition} runSlug={run} dayOrder={dayOrder} />
       </div>
       <Footer />
     </main>

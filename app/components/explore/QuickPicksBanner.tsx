@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Zap, ArrowRight } from "lucide-react";
 import { COLORS } from "@/app/data/colors";
 
-export default function QuickPicksBanner() {
+export default function QuickPicksBanner({ href }: { href: string }) {
   return (
     <div className="px-4 sm:px-8">
       <div className="border-t border-b border-white/16 py-8 md:py-11 flex flex-col md:flex-row md:items-center justify-between gap-5 md:gap-0 md:pr-8">
@@ -23,7 +23,7 @@ export default function QuickPicksBanner() {
         </div>
 
         <Link
-          href="/quick-picks"
+          href={href}
           className="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-lg text-white text-sm font-bold transition-all hover:opacity-90 flex-shrink-0 self-start md:self-auto"
           style={{
             backgroundColor: COLORS.celebration,

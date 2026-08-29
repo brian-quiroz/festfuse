@@ -1,9 +1,10 @@
 import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
 import { sortByDay, sortByBillingTier } from "./sort";
-import { getDaysForActiveFestival, ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance } from "@/app/lib/appearances";
 
-const DAY_ORDER = getDaysForActiveFestival();
+// `festivalId` (edition slug) and `dayOrder` (the run's weekday order) are passed in by
+// the caller so these grouping helpers stay pure — no dependency on a hard-coded active
+// festival.
 
 // After Dark carousel threshold — 8:00 PM. Chosen from the actual lineup distribution:
 // 19 artists qualify at this threshold, spread 4-5 per day across all four festival
@@ -54,16 +55,21 @@ function shuffleArray<T>(arr: T[], random?: () => number): T[] {
  * @param artists - Artists to process
  * @param random - Optional seeded RNG. If provided, shuffle is deterministic and identical on server/client.
  */
-export function shuffleDayBlocks(artists: RunArtist[], random?: () => number): RunArtist[] {
+export function shuffleDayBlocks(
+  artists: RunArtist[],
+  festivalId: string,
+  dayOrder: readonly string[],
+  random?: () => number
+): RunArtist[] {
   if (artists.length === 0) return [];
 
   // Sort by day first (defensive)
-  const sorted = sortByDay(artists);
+  const sorted = sortByDay(artists, festivalId, dayOrder);
 
   // Group by day (using each artist's primary appearance — see app/lib/appearances.ts)
   const byDay = new Map<string, RunArtist[]>();
   sorted.forEach((artist) => {
-    const day = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).day;
+    const day = getPrimaryAppearance(artist, festivalId, dayOrder).day;
     if (!byDay.has(day)) {
       byDay.set(day, []);
     }
@@ -73,11 +79,11 @@ export function shuffleDayBlocks(artists: RunArtist[], random?: () => number): R
   // Sort within each day by billing tier (explicit enforcement)
   const sortedByDay = new Map<string, RunArtist[]>();
   byDay.forEach((dayArtists, day) => {
-    sortedByDay.set(day, sortByBillingTier(dayArtists));
+    sortedByDay.set(day, sortByBillingTier(dayArtists, festivalId, dayOrder));
   });
 
   // Get day blocks in festival order (with billing tier sorting applied)
-  const dayBlocks = DAY_ORDER.filter((day) => sortedByDay.has(day)).map((day) =>
+  const dayBlocks = dayOrder.filter((day) => sortedByDay.has(day)).map((day) =>
     sortedByDay.get(day)!
   );
 
@@ -115,16 +121,21 @@ export function shuffleDayBlocks(artists: RunArtist[], random?: () => number): R
  * @param artists - Artists to process
  * @param random - Optional seeded RNG. If provided, shuffle is deterministic and identical on server/client.
  */
-export function interleaveByDayShuffled(artists: RunArtist[], random?: () => number): RunArtist[] {
+export function interleaveByDayShuffled(
+  artists: RunArtist[],
+  festivalId: string,
+  dayOrder: readonly string[],
+  random?: () => number
+): RunArtist[] {
   if (artists.length === 0) return [];
 
   // Sort by day first (defensive, don't rely on input order)
-  const sorted = sortByDay(artists);
+  const sorted = sortByDay(artists, festivalId, dayOrder);
 
   // Group artists by day (using each artist's primary appearance — see app/lib/appearances.ts)
   const byDay = new Map<string, RunArtist[]>();
   sorted.forEach((artist) => {
-    const day = getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID).day;
+    const day = getPrimaryAppearance(artist, festivalId, dayOrder).day;
     if (!byDay.has(day)) {
       byDay.set(day, []);
     }
@@ -139,7 +150,7 @@ export function interleaveByDayShuffled(artists: RunArtist[], random?: () => num
 
   // Round-robin interleave across shuffled groups
   const result: RunArtist[] = [];
-  const days = DAY_ORDER.filter((day) => shuffledByDay.has(day));
+  const days = dayOrder.filter((day) => shuffledByDay.has(day));
   const iterators = new Map(days.map((day) => [day, 0]));
 
   let hasMore = true;

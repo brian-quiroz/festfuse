@@ -23,8 +23,9 @@ import { sortChronologically, sortFestivalFavoritesForFullView } from "@/app/lib
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
-import { useRunAppearancesStore } from "@/app/store/runAppearancesStore";
-import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
+import { useRunAppearances } from "@/app/store/runAppearancesStore";
+import { artistHref, contextHref } from "@/app/data/festivals";
+import { useRunContext, useRunDays, useRunStages } from "@/app/components/RunContextProvider";
 import { getPrimaryAppearance, getPrimaryBillingTier } from "@/app/lib/appearances";
 import { timeStringToMinutes } from "@/app/lib/time";
 import { isChicago } from "@/app/lib/location";
@@ -64,11 +65,14 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   // RunAppearancesHydrator seeds the store synchronously before this component's own
   // first render in the normal case; hasLoadedRunAppearances staying false past that
   // point is an operational failure, handled by the early return below.
-  const runAppearancesBySlug = useRunAppearancesStore((s) => s.appearancesBySlug);
-  const hasLoadedRunAppearances = useRunAppearancesStore((s) => s.hasLoaded);
+  const { editionSlug, runSlug } = useRunContext();
+  const dayOrder = useRunDays();
+  const availableStages = useRunStages();
+  const { appearancesBySlug: runAppearancesBySlug, hasLoaded: hasLoadedRunAppearances } =
+    useRunAppearances(editionSlug, runSlug);
   const runArtists = useMemo(
-    () => getRunArtistsFromApi(runAppearancesBySlug, ACTIVE_FESTIVAL_ID),
-    [runAppearancesBySlug]
+    () => getRunArtistsFromApi(runAppearancesBySlug, editionSlug),
+    [runAppearancesBySlug, editionSlug]
   );
 
   // Genres actually present in the current roster, so the Genre filter dropdown never
@@ -89,7 +93,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     if (eligibleArtists.length === 0) return;
     const randomIndex = Math.floor(Math.random() * eligibleArtists.length);
     const selectedArtist = eligibleArtists[randomIndex];
-    router.push(`/artist/${selectedArtist.slug}`);
+    router.push(artistHref({ editionSlug, runSlug }, selectedArtist.slug));
   };
 
   // genres/day/stages/pickStatus/scheduleStatus/searchQuery/viewingCarousel all live
@@ -133,30 +137,36 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     () =>
       shuffleDayBlocks(
         runArtists.filter((a) => {
-          const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
+          const tier = getPrimaryBillingTier(a, editionSlug, dayOrder);
           return tier === "Headliner" || tier === "Sub-headliner";
         }),
+        editionSlug,
+        dayOrder,
         festivalFavoritesRandom
       ),
-    [runArtists, festivalFavoritesRandom]
+    [runArtists, editionSlug, dayOrder, festivalFavoritesRandom]
   );
 
   const internationalPicks = useMemo(
     () =>
       interleaveByDayShuffled(
         runArtists.filter((a) => a.location.country !== "United States"),
+        editionSlug,
+        dayOrder,
         internationalPicksRandom
       ),
-    [runArtists, internationalPicksRandom]
+    [runArtists, editionSlug, dayOrder, internationalPicksRandom]
   );
 
   const chicagosOwn = useMemo(
     () =>
       interleaveByDayShuffled(
         runArtists.filter((a) => isChicago(a.location.city)),
+        editionSlug,
+        dayOrder,
         chicagosOwnRandom
       ),
-    [runArtists, chicagosOwnRandom]
+    [runArtists, editionSlug, dayOrder, chicagosOwnRandom]
   );
 
   const afterDark = useMemo(
@@ -164,12 +174,14 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
       interleaveByDayShuffled(
         runArtists.filter(
           (a) =>
-            timeStringToMinutes(getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).startTime) >=
+            timeStringToMinutes(getPrimaryAppearance(a, editionSlug, dayOrder).startTime) >=
             AFTER_DARK_THRESHOLD_MINUTES
         ),
+        editionSlug,
+        dayOrder,
         afterDarkRandom
       ),
-    [runArtists, afterDarkRandom]
+    [runArtists, editionSlug, dayOrder, afterDarkRandom]
   );
 
   // Carousel data map — computed after all carousels are ready, for use in both header and view
@@ -258,6 +270,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
         <div className="px-4 sm:px-8 pt-6 pb-0">
           <ExploreFilters
             availableGenres={availableGenres}
+            days={[...dayOrder]}
+            availableStages={[...availableStages]}
             searchQuery={searchQuery}
             selectedGenres={activeGenres}
             selectedDay={activeDay}
@@ -289,6 +303,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
             const filtered = filterArtists(
               runArtists,
               {
+                festivalId: editionSlug,
+                dayOrder,
                 genres: activeGenres.length > 0 ? activeGenres : undefined,
                 day: activeDay || undefined,
                 stages: activeStages.length > 0 ? activeStages : undefined,
@@ -300,7 +316,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
               decisionsByArtist
             );
 
-            const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
+            const results = hasSearch ? searchArtists(searchQuery, filtered, editionSlug, dayOrder) : filtered;
 
             let summaryText = "";
             if (hasSearch && hasFilters) {
@@ -327,8 +343,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
             // all other carousels use day → time → name
             const sortedArtists =
               viewingCarousel === "festival-favorites"
-                ? sortFestivalFavoritesForFullView(currentCarousel.artists)
-                : sortChronologically(currentCarousel.artists);
+                ? sortFestivalFavoritesForFullView(currentCarousel.artists, editionSlug, dayOrder)
+                : sortChronologically(currentCarousel.artists, editionSlug, dayOrder);
 
             // Apply additional filters and search if any
             const hasFilters =
@@ -342,6 +358,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
             const filtered = filterArtists(
               sortedArtists,
               {
+                festivalId: editionSlug,
+                dayOrder,
                 genres: activeGenres.length > 0 ? activeGenres : undefined,
                 day: activeDay || undefined,
                 stages: activeStages.length > 0 ? activeStages : undefined,
@@ -353,7 +371,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
               decisionsByArtist
             );
 
-            const results = hasSearch ? searchArtists(searchQuery, filtered) : filtered;
+            const results = hasSearch ? searchArtists(searchQuery, filtered, editionSlug, dayOrder) : filtered;
 
             return (
               <>
@@ -422,6 +440,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
             const filtered = filterArtists(
               runArtists,
               {
+                festivalId: editionSlug,
+                dayOrder,
                 genres: activeGenres.length > 0 ? activeGenres : undefined,
                 day: activeDay || undefined,
                 stages: activeStages.length > 0 ? activeStages : undefined,
@@ -438,8 +458,8 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
             // its carousel-specific name; the day → tier → time → name logic isn't actually
             // Festival-Favorites-specific.
             const results = hasSearch
-              ? searchArtists(searchQuery, filtered)
-              : sortFestivalFavoritesForFullView(filtered);
+              ? searchArtists(searchQuery, filtered, editionSlug, dayOrder)
+              : sortFestivalFavoritesForFullView(filtered, editionSlug, dayOrder);
 
             // State 1: No search, no filters → curated carousels
             if (!hasFilters && !hasSearch && !viewingCarousel) {
@@ -453,7 +473,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                     onSeeAll={() => handleSeeAll("festival-favorites")}
                   />
 
-                  <QuickPicksBanner />
+                  <QuickPicksBanner href={contextHref({ editionSlug, runSlug }, "quick-picks")} />
 
                   <ArtistCarousel
                     title="International Picks"

@@ -29,6 +29,9 @@ export interface StorySignal {
 
 export interface ComputeStorySignalsParams {
   festivalId: string;
+  // The run's weekday order, for resolving each artist's selected-day appearance —
+  // passed in by the caller rather than read from a constant.
+  dayOrder: readonly string[];
   // The attendance days that scope this Story — must be the launching Quick Picks
   // session's captured snapshot, not necessarily whatever is currently persisted in
   // attendanceStore (see ARCHITECTURE.md § Quick Picks Attendance and § Festival
@@ -105,10 +108,11 @@ const DIMENSION_DISPLAY_PRIORITY = [
 export function getEligibleArtists(
   festivalId: string,
   attendanceDays: string[],
-  allArtists: RunArtist[]
+  allArtists: RunArtist[],
+  dayOrder: readonly string[]
 ): RunArtist[] {
   return allArtists.filter(
-    (a) => getSelectedDayAppearance(a, festivalId, attendanceDays) !== undefined
+    (a) => getSelectedDayAppearance(a, festivalId, attendanceDays, dayOrder) !== undefined
   );
 }
 
@@ -121,9 +125,10 @@ export function getValidPositivePicks(
   festivalId: string,
   attendanceDays: string[],
   allArtists: RunArtist[],
-  decisionsByArtist: Record<string, ArtistDecision>
+  decisionsByArtist: Record<string, ArtistDecision>,
+  dayOrder: readonly string[]
 ): RunArtist[] {
-  const eligibleArtists = getEligibleArtists(festivalId, attendanceDays, allArtists);
+  const eligibleArtists = getEligibleArtists(festivalId, attendanceDays, allArtists, dayOrder);
   return eligibleArtists.filter((a) => {
     const decision = decisionsByArtist[a.slug];
     return !!decision && (decision.verdict === "mustSee" || decision.verdict === "interested");
@@ -302,14 +307,15 @@ function computeAggregateMetrics(
 // ============================================================================
 
 export function computeStorySignals(params: ComputeStorySignalsParams): StorySignal[] {
-  const { festivalId, attendanceDays, allArtists, decisionsByArtist } = params;
+  const { festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist } = params;
 
-  const eligibleArtists = getEligibleArtists(festivalId, attendanceDays, allArtists);
+  const eligibleArtists = getEligibleArtists(festivalId, attendanceDays, allArtists, dayOrder);
   const pickedArtists = getValidPositivePicks(
     festivalId,
     attendanceDays,
     allArtists,
-    decisionsByArtist
+    decisionsByArtist,
+    dayOrder
   );
 
   // Product floor — below this, Festival Story does not run at all. Callers (Quick
@@ -321,7 +327,7 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
 
   const appearanceByArtist = new Map<string, FestivalAppearance>();
   for (const artist of eligibleArtists) {
-    const appearance = getSelectedDayAppearance(artist, festivalId, attendanceDays);
+    const appearance = getSelectedDayAppearance(artist, festivalId, attendanceDays, dayOrder);
     if (appearance) appearanceByArtist.set(artist.slug, appearance);
   }
   const appearanceOf = (artist: RunArtist): FestivalAppearance =>
@@ -859,9 +865,10 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
 }
 
 export function useStorySignals(params: ComputeStorySignalsParams): StorySignal[] {
-  const { festivalId, attendanceDays, allArtists, decisionsByArtist } = params;
+  const { festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist } = params;
   return useMemo(
-    () => computeStorySignals({ festivalId, attendanceDays, allArtists, decisionsByArtist }),
-    [festivalId, attendanceDays, allArtists, decisionsByArtist]
+    () =>
+      computeStorySignals({ festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist }),
+    [festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist]
   );
 }

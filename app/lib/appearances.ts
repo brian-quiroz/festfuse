@@ -1,5 +1,4 @@
 import type { Artist, FestivalAppearance } from "@/app/types/artist";
-import { getDaysForFestival } from "@/app/data/festivals";
 import { timeStringToMinutes } from "@/app/lib/time";
 
 // Pick<Artist, "slug" | "appearances"> rather than the full Artist — every function
@@ -36,17 +35,16 @@ function pickPrimaryFromCandidates(
 }
 
 // The single source of truth for "which appearance represents this artist" outside
-// the Planner (display, sort, carousel/queue grouping, filters, search).
+// the Planner (display, sort, carousel/queue grouping, filters, search). `dayOrder` is
+// the run's weekday order, passed in by the caller (which knows the active
+// edition/run) rather than looked up here, so this stays a pure function.
 export function getPrimaryAppearance(
   artist: Pick<Artist, "slug" | "appearances">,
-  festivalId: string
+  festivalId: string,
+  dayOrder: readonly string[]
 ): FestivalAppearance {
   const atFestival = getAppearancesForFestival(artist, festivalId);
-  // Uses the requested festivalId's own configured day order, not the active
-  // festival's — this function is called with an explicit festivalId precisely so it
-  // stays correct if a caller ever passes a non-active festival (future multi-festival
-  // support), so it must not silently fall back to ACTIVE_FESTIVAL_ID here.
-  const primary = pickPrimaryFromCandidates(atFestival, getDaysForFestival(festivalId));
+  const primary = pickPrimaryFromCandidates(atFestival, dayOrder);
   if (!primary) {
     // Invariant violation under the current lineup-only model — every artist in
     // allArtists is expected to have at least one appearance at the active festival.
@@ -59,9 +57,10 @@ export function getPrimaryAppearance(
 
 export function getPrimaryBillingTier(
   artist: Pick<Artist, "slug" | "appearances">,
-  festivalId: string
+  festivalId: string,
+  dayOrder: readonly string[]
 ) {
-  return getPrimaryAppearance(artist, festivalId).billingTier;
+  return getPrimaryAppearance(artist, festivalId, dayOrder).billingTier;
 }
 
 // Same rule as getPrimaryAppearance, applied only to appearances that fall on one of
@@ -74,20 +73,22 @@ export function getPrimaryBillingTier(
 export function getSelectedDayAppearance(
   artist: Pick<Artist, "slug" | "appearances">,
   festivalId: string,
-  selectedDays: readonly string[]
+  selectedDays: readonly string[],
+  dayOrder: readonly string[]
 ): FestivalAppearance | undefined {
   const eligible = getAppearancesForFestival(artist, festivalId).filter((a) =>
     selectedDays.includes(a.day)
   );
-  return pickPrimaryFromCandidates(eligible, getDaysForFestival(festivalId));
+  return pickPrimaryFromCandidates(eligible, dayOrder);
 }
 
 export function getSelectedDayBillingTier(
   artist: Pick<Artist, "slug" | "appearances">,
   festivalId: string,
-  selectedDays: readonly string[]
+  selectedDays: readonly string[],
+  dayOrder: readonly string[]
 ) {
-  return getSelectedDayAppearance(artist, festivalId, selectedDays)?.billingTier;
+  return getSelectedDayAppearance(artist, festivalId, selectedDays, dayOrder)?.billingTier;
 }
 
 export function getAppearanceById(

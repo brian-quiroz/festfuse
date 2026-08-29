@@ -1,5 +1,4 @@
 import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
-import { ACTIVE_FESTIVAL_ID } from "@/app/data/festivals";
 import { getPrimaryAppearance } from "@/app/lib/appearances";
 import { isUKConstituentCountry } from "@/app/lib/location";
 
@@ -25,9 +24,16 @@ import { isUKConstituentCountry } from "@/app/lib/location";
  *
  * @param query - Search query string
  * @param artists - Array of artists to search
+ * @param festivalId - Active edition slug, for resolving each artist's primary appearance
+ * @param dayOrder - The run's weekday order, for the same
  * @returns Ranked array of matching artists (best matches first)
  */
-export function searchArtists(query: string, artists: RunArtist[]): RunArtist[] {
+export function searchArtists(
+  query: string,
+  artists: RunArtist[],
+  festivalId: string,
+  dayOrder: readonly string[]
+): RunArtist[] {
   const normalizedQuery = query.toLowerCase().trim();
 
   // Early exit: empty query
@@ -100,7 +106,7 @@ export function searchArtists(query: string, artists: RunArtist[]): RunArtist[] 
       // Priority 6: Stage — considers only the artist's primary appearance, per
       // app/lib/appearances.ts; a secondary appearance's stage never produces a match.
       if (
-        getPrimaryAppearance(artist, ACTIVE_FESTIVAL_ID)
+        getPrimaryAppearance(artist, festivalId, dayOrder)
           .stage.toLowerCase()
           .includes(normalizedQuery)
       ) {

@@ -9,6 +9,7 @@ export type QuickPicksVerdict = Verdict;
 
 export interface QuickPicksSessionConfig {
   festivalId: string;
+  runSlug: string;
   groupByDay: boolean;
   // Captured snapshot of the attendance days selected at Start time, in configured
   // festival order. Stable for the lifetime of the session — see ARCHITECTURE.md §

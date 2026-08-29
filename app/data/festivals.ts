@@ -1,27 +1,66 @@
+// Frontend-owned mirror of the festival hierarchy: editions -> runs -> days, plus
+// edition-owned stages. Same rationale as the genre allowlist (ARCHITECTURE.md,
+// "Genre/Stage: Database Source of Truth vs. Frontend Allowlist"): the frontend needs
+// this at module-evaluation / compile time, before any API call happens. PostgreSQL
+// stays the runtime source of truth for the data itself; serving this registry from
+// GET /api/v1/festivals/{slug} is a later consolidation (ADR-0015).
+//
+// Keep slugs, names, day order, and stage order in step with
+// backend/scripts/festival_configs/. Day order and stage order are display order and
+// are not arbitrary — day order drives sorting and the Explore carousels; stage order
+// matches each festival's official left-to-right stage layout (Planner grid columns).
+
 export type Festival = {
   name: string;
 };
 
-export const ACTIVE_FESTIVAL_ID = "lollapalooza-2026";
-export const ACTIVE_FESTIVAL_RUN_SLUG = "main";
-
-export const festivals: Record<string, Festival> = {
-  "lollapalooza-2026": { name: "Lollapalooza 2026" },
+export type RunConfig = {
+  slug: string;
+  name: string;
+  // Weekday names in festival order (derived from the run's calendar dates in the
+  // backend config). The appearances API returns each set's date; the frontend derives
+  // the weekday string from it, so this list only needs the names in order.
+  days: readonly string[];
 };
 
-/**
- * Festival-specific day schedules.
- * Add new festivals here only when artist data is actually added for that festival.
- */
-export const FESTIVAL_DAYS: Record<string, readonly string[]> = {
-  "lollapalooza-2026": ["Thursday", "Friday", "Saturday", "Sunday"] as const,
+export type EditionConfig = {
+  slug: string;
+  name: string;
+  city: string;
+  runs: readonly RunConfig[];
 };
 
+export const FESTIVAL_REGISTRY: readonly EditionConfig[] = [
+  {
+    slug: "lollapalooza-2026",
+    name: "Lollapalooza 2026",
+    city: "Chicago",
+    runs: [
+      {
+        slug: "main",
+        name: "Main Run",
+        days: ["Thursday", "Friday", "Saturday", "Sunday"],
+      },
+    ],
+  },
+  {
+    slug: "acl-2026",
+    name: "Austin City Limits 2026",
+    city: "Austin",
+    runs: [
+      { slug: "weekend-1", name: "Weekend 1", days: ["Friday", "Saturday", "Sunday"] },
+      { slug: "weekend-2", name: "Weekend 2", days: ["Friday", "Saturday", "Sunday"] },
+    ],
+  },
+];
+
 /**
- * Festival-specific stage mappings.
- * Add new festivals here only when artist data is actually added for that festival.
- * Array order is the display order (e.g. Planner grid columns) and matches the
- * festival's official schedule's left-to-right stage order — not arbitrary, don't reorder casually.
+ * Festival stages, keyed by edition slug. Stages belong to the edition (shared across
+ * its runs — see ADR-0002). Hand-written as a literal, not derived, because
+ * app/data/categories.ts derives the `Stage` type from it and
+ * app/lib/api/mapFestivalArtist.ts derives `KNOWN_STAGES` from it.
+ * Array order is display order (Planner grid columns) and matches each festival's
+ * official schedule left-to-right — not arbitrary, don't reorder casually.
  */
 export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
   "lollapalooza-2026": [
@@ -33,24 +72,61 @@ export const FESTIVAL_STAGES: Record<string, readonly string[]> = {
     "Tito's",
     "Bud Light",
   ] as const,
+  "acl-2026": [
+    "T-Mobile",
+    "Miller Lite",
+    "BMI",
+    "Beatbox",
+    "Tito's",
+    "Snapchat",
+    "American Express",
+  ] as const,
 };
 
-/**
- * Get the day schedule for the currently active festival.
- * Insulates callers from how active festival is resolved.
- */
-export function getDaysForActiveFestival(): readonly string[] {
-  return FESTIVAL_DAYS[ACTIVE_FESTIVAL_ID];
-}
-
-export function getDaysForFestival(festivalId: string): readonly string[] {
-  return FESTIVAL_DAYS[festivalId] ?? [];
-}
+export const festivals: Record<string, Festival> = Object.fromEntries(
+  FESTIVAL_REGISTRY.map((edition) => [edition.slug, { name: edition.name }])
+);
 
 /**
- * Get the stages for the currently active festival.
- * Insulates callers from how active festival is resolved.
+ * The context used wherever a scoped festival/run is needed without one in the URL:
+ * the initial `activeContextStore` value, homepage deep links, sidebar nav, and the
+ * root-layout appearances fetch that keeps Sidebar counts populated on `/`.
  */
-export function getStagesForActiveFestival(): readonly string[] {
-  return FESTIVAL_STAGES[ACTIVE_FESTIVAL_ID];
+export const DEFAULT_CONTEXT = { editionSlug: "lollapalooza-2026", runSlug: "main" } as const;
+
+function findRun(editionSlug: string, runSlug: string): RunConfig | undefined {
+  return FESTIVAL_REGISTRY.find((edition) => edition.slug === editionSlug)?.runs.find(
+    (run) => run.slug === runSlug
+  );
+}
+
+/** Weekday names in festival order for a specific run. Empty for an unknown context. */
+export function getDaysForFestival(editionSlug: string, runSlug: string): readonly string[] {
+  return findRun(editionSlug, runSlug)?.days ?? [];
+}
+
+/** Stages in display order for an edition. Empty for an unknown edition. */
+export function getStagesForFestival(editionSlug: string): readonly string[] {
+  return FESTIVAL_STAGES[editionSlug] ?? [];
+}
+
+/** True when both the edition and the run exist in the registry. */
+export function isKnownContext(editionSlug: string, runSlug: string): boolean {
+  return findRun(editionSlug, runSlug) !== undefined;
+}
+
+/** The canonical scoped path for a workflow page. */
+export function contextHref(
+  context: { editionSlug: string; runSlug: string },
+  page: "explore" | "quick-picks" | "planner" | "credits"
+): string {
+  return `/festivals/${context.editionSlug}/${context.runSlug}/${page}`;
+}
+
+/** The canonical scoped path for an artist detail page. */
+export function artistHref(
+  context: { editionSlug: string; runSlug: string },
+  artistSlug: string
+): string {
+  return `/festivals/${context.editionSlug}/${context.runSlug}/artist/${artistSlug}`;
 }
