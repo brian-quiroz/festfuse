@@ -45,6 +45,36 @@ If/when this is built, it needs its own distinct visual treatment — not anothe
 
 **Do not implement this now.** This section exists so the option is preserved and clearly scoped for future consideration, not lost or forgotten.
 
+**Update (multi-festival roadmap, ADR-0015):** multi-festival support is now being
+built, and it keeps this entry's core recommendation — Must See / Interested / Pass
+stay scoped to the festival edition, never repurposed. A global Save/Favorite scoped
+to the canonical artist remains a separate, deferred concept: lasting affinity, not a
+festival decision. One nuance the roadmap surfaced: past-edition picks could eventually
+inform discovery (e.g. highlighting an artist a user marked Must See at a previous
+festival) without ever silently becoming a verdict for a new edition. Still not built.
+
+---
+
+## Future Consideration: Unscoped Convenience Routes and Last-Active-Context Redirect
+
+The multi-festival roadmap (ADR-0015) makes scoped workflow pages fully explicit:
+`/festivals/{edition}/{run}/explore`, `/festivals/{edition}/{run}/quick-picks`, and so
+on. It deliberately does **not** add unscoped shortcuts — `/explore`, `/quick-picks`,
+`/planner` — that resolve against the persisted active context, nor any redirect from
+a bare path to the last-used festival/run.
+
+The reasoning for leaving them out: they are a convenience layer, not core
+functionality, and they add ambiguity (a shared `/explore` link means different things
+to different people, and to the same person at different times) on top of routing that
+is already new. The homepage `/` already uses the persisted context as the entry
+point, which covers the common "just take me back in" case.
+
+**If revisited:** the cleanest version is unscoped paths that server-redirect to the
+canonical `/festivals/{edition}/{run}/…` URL for the viewer's active context (so the
+address bar always ends up explicit and shareable), with a fallback to the
+festival-selection prompt when no context exists. Not built now; revisit if link
+ergonomics turn out to matter in practice.
+
 ---
 
 ## Future Consideration: Visible "Passed" Indicator

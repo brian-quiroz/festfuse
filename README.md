@@ -211,9 +211,11 @@ PostgreSQL integration tests are documented in the
 ## Current Scope and Roadmap
 
 FestFuse covers the Lollapalooza 2026 lineup and reads all artist data from its
-FastAPI/PostgreSQL backend. The next iteration focuses on:
+FastAPI/PostgreSQL backend. The next iteration
+([`docs/roadmap/multi-festival.md`](docs/roadmap/multi-festival.md)) focuses on:
 
 - Multiple festivals, including editions that run more than one weekend
+  (Austin City Limits 2026 is the target)
 - Supporting an announced lineup before its schedule is published
 - Expanding frontend and backend automated test coverage
 

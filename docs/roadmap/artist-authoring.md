@@ -258,10 +258,14 @@ frontend reads it through the API; artist facts are written to it directly throu
   (`alembic upgrade head` runs pre-deploy), data and artist writes via the encrypted
   Railway tunnel. A change applied only locally is not done.
 
-## Next: multi-festival and multi-appearance support
+## Next: multi-festival and multi-run support
 
-The roadmap after this one adds support for festivals beyond Lollapalooza and for
-editions that run more than one weekend. It builds directly on this work: adding a
-festival, then a run, then that run's artists is the same festival → run → genre → artist
-hierarchy (ADR-0011), generalized past the single hard-coded `lollapalooza-2026`.
-`add-artist` taking a run by slug is the first step toward it.
+[`multi-festival.md`](./multi-festival.md) is the roadmap after this one. It adds
+support for festivals beyond Lollapalooza and for editions that run more than one
+weekend (Austin City Limits 2026 is the target), plus presenting a festival whose
+lineup is announced before its schedule exists. It builds directly on this work:
+adding a festival, then a run, then that run's artists is the same
+festival → run → genre → artist hierarchy (ADR-0011), generalized past the single
+hard-coded `lollapalooza-2026`. `add_artist` taking a run by slug, and
+`build_roster_payloads.py` fanning a roster CSV into a run, are the first steps toward
+it. Rationale in [ADR-0015](../decisions/0015-multi-festival-and-multi-run-support.md).
