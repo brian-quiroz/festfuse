@@ -41,9 +41,12 @@ even though Coachella itself is not imported in this roadmap.
   migration re-scopes existing picks, schedules, and attendance-day selections.
 - ACL 2026 is seeded (edition, both weekend runs, days, and stages) on the local and
   hosted database.
-- The full ACL 2026 roster is imported and published to a **baseline** — three genres
+- The full ACL 2026 roster is imported and published to a **baseline**: three genres
   and one Quick Picks track per artist, image optional. Shared Lollapalooza/ACL
   artists reuse their existing global `Artist` record and gain an ACL `LineupEntry`.
+- Artists with no Spotify presence (no artist profile, no findable tracks) can be
+  published and shown coherently, so the roster above can publish in full rather than
+  stranding those acts as drafts (section 10).
 - The announced-lineup-without-schedule capability is built and verified end to end.
 
 **Not required here:**
@@ -142,7 +145,7 @@ step that builds it, not here.
 
 ## Current boundary
 
-Sections 2 through 6 have shipped. The backend (2, 3, 4): seeding is config-driven, ACL
+Sections 2 through 7 have shipped. The backend (2, 3, 4): seeding is config-driven, ACL
 2026's hierarchy (two runs, days, stages) is seeded on both databases,
 `build_roster_payloads.py` can add an artist who already exists to another run through
 `add_existing_artist_to_run`, and the bulk read path fully describes a run whose lineup
@@ -157,18 +160,32 @@ edition/run selector; the homepage shows a festival picker until a context exist
 then the scoped workflow cards; `GET /festivals/{slug}`'s `schedule_state` is fetched
 for every edition in the root layout into `runScheduleStateStore`, and the homepage
 Planner card and the sidebar Planner nav item drop out for a run with no public
-schedule.
+schedule. Persisted user state (7): picks are keyed by `{edition}:{slug}` and read
+through `useEditionDecisions`; schedules and attendance-day selections are keyed by
+`{edition}:{run}`, so each weekend of a multi-run edition is independent; the three
+scoped stores are at `persist` `version: 1` with a static, idempotent `migrate` that
+re-scopes a returning Lollapalooza user's existing data.
 
-The remaining frontend gaps are the later sections: the persisted-state re-keying and
-localStorage migration (7) — picks are still keyed by artist slug alone and schedules by
-edition, so a multi-run edition's weekends would share a schedule until 7 lands — the
+The remaining frontend gaps are the later sections: the
 announced-lineup-without-schedule UI including the Planner-route unavailable state (8),
-and festival/city-generic copy (9). The ACL roster is not imported (10).
+and festival/city-generic copy (9). Support for artists with no Spotify presence is not
+built (10) and the ACL roster is not imported (11).
 
 ## Rollout sequence
 
 One branch and PR per section, matching how `artist-authoring.md`'s sections shipped.
 Each section's checkpoint is its merge gate.
+
+The production **frontend deploy is batched**: sections 6 onward merge to `main`
+individually but production is not rebuilt until the section 11 roster import lands, so
+everything from 6 goes live in one deploy. Two checks belong to that deploy rather than
+to the section that built them:
+
+- Section 7's localStorage migration is verified against a real pre-existing
+  `localStorage` export from the current production build, confirming a returning
+  Lollapalooza user keeps every pick, scheduled set, and attendance-day selection.
+- Section 8's announced-lineup screens are walked once against the imported ACL data,
+  which is announced-without-schedule at import time.
 
 ### 1. Roadmap and ADR
 
@@ -208,7 +225,7 @@ recorded before any code.
   `America/Chicago`), runs `weekend-1` (Oct 2–4 2026) / `weekend-2` (Oct 9–11 2026),
   and the seven-stage set (T-Mobile, Miller Lite, BMI, Beatbox, Tito's, Snapchat,
   American Express), identical across both weekends.
-- Genre-vocabulary additions are deferred to section 10: which genres ACL needs is
+- Genre-vocabulary additions are deferred to section 11: which genres ACL needs is
   known only once the roster CSV exists. The two-file mechanism (`genres` row plus
   `app/data/categories.ts`) is the existing "Genre Vocabulary Lives in Two Places"
   future consideration.
@@ -233,7 +250,7 @@ untouched.
   skipped so a partial import repeats safely. The script resolves the `--run` before
   the fan-out.
 - No standalone single-artist CLI. The roster fan-out is the only consumer this
-  milestone needs (section 10 imports per run). A thin hand-operated CLI is deferred
+  milestone needs (section 11 imports per run). A thin hand-operated CLI is deferred
   in `docs/FUTURE_CONSIDERATIONS.md` until a real late-addition need appears.
 - The cross-row rule (an `Appearance`'s `festival_day` belongs to its lineup entry's
   run, its `stage` to that run's edition) is anchored in `_attach_appearances`, which
@@ -252,7 +269,7 @@ untouched.
 another run's lineup: a second `LineupEntry` against the same global `Artist`, carrying
 its own appearances. An appearance whose day or stage falls outside that run is
 rejected. Proven end to end in the backend test suite. No ACL roster data is imported
-here; that is section 10.
+here; that is section 11.
 
 ### 4. Serve an announced lineup that has no schedule yet
 
@@ -283,7 +300,7 @@ here; that is section 10.
 **Checkpoint reached:** a run with an announced lineup and no schedule is fully
 described by the API, both bulk (`/artists` alongside an empty `/appearances`) and
 per-artist, with `schedule_state == "announced"`. No ACL roster data is imported here;
-that is section 10.
+that is section 11.
 
 ### 5. `/festivals/{edition}/{run}` routing and data scoping
 
@@ -313,13 +330,13 @@ that is section 10.
   routes 404 (no redirect — deferred, ADR-0015).
 - `verify-story-signals.ts` stays pinned to Lollapalooza via local same-name wrappers
   that inject its fixed day order. `ARCHITECTURE.md`'s "Festival Configuration" section
-  rewritten; the full ARCHITECTURE pass is section 11.
+  rewritten; the full ARCHITECTURE pass is section 12.
 
 **Checkpoint reached:** `/festivals/lollapalooza-2026/main/*` renders identically to the
 old routes (verified: carousels, filters, day tabs, stage columns, artist pages, picks
 + schedule persistence across reload and on `/`); `acl-2026/weekend-1` and
 `/weekend-2` render with ACL's own days and stages, empty but not broken (roster is
-section 10). `next build` and `tsc` pass; `npm run verify:story` is unchanged at 86/87
+section 11). `next build` and `tsc` pass; `npm run verify:story` is unchanged at 86/87
 (the one failure is the pre-existing stale Chicago-baseline fixture, `docs/FUTURE_CONSIDERATIONS.md`).
 
 ### 6. Active-context store, homepage, and sidebar selector
@@ -354,28 +371,35 @@ URLs; with none, entry is gated behind selection. `next build`, `tsc`, and lint 
 
 ### 7. Persisted-state scoping and the localStorage migration
 
-**Status: not started.**
+**Status: completed.**
 
 First use of zustand `persist` `version` + `migrate` in this repo — this section
 establishes the pattern. Closest existing precedents: `scheduleStore`'s custom
 `storage` object and `sanitizeAttendanceDays`'s read-time repair.
 
-- `decisionStore`: rekey `decisionsByArtist` to `{editionSlug}:{slug}`; `version: 1`
-  `migrate` maps every legacy bare-slug key to `lollapalooza-2026:{slug}`. Readers
-  that iterate the whole map filter to the active edition.
-- `scheduleStore`: keys become run-scoped (`{edition}:{run}::{slug}::{appearanceId}`);
+- `decisionStore`: `decisionsByArtist` is keyed `{editionSlug}:{slug}`; `version: 1`
+  `migrate` maps every legacy bare-slug key to `lollapalooza-2026:{slug}`. Readers go
+  through `useEditionDecisions(editionSlug)`, a bare-slug-keyed view of one edition, so
+  the composite key never leaves the store.
+- `scheduleStore`: keys are run-scoped (`{edition}:{run}::{slug}::{appearanceId}`);
   `migrate` rewrites legacy `lollapalooza-2026::…` to `lollapalooza-2026:main::…`.
-  `deriveScheduleState` is de-hardcoded to the active run.
-- `attendanceStore`: rekey from `{editionId}` to `{editionSlug}:{runSlug}`; `migrate`
-  maps `lollapalooza-2026` to `lollapalooza-2026:main`.
+  `deriveScheduleState` and the `app/lib/schedule.ts` key helpers take the active
+  run, via a `runScopeId(editionSlug, runSlug)` prefix.
+- `attendanceStore`: keyed `{editionSlug}:{runSlug}`; `migrate` maps `lollapalooza-2026`
+  to `lollapalooza-2026:main`. `useAttendanceDays` / `setAttendanceDays` take the run.
 - `plannerViewStore` (the fourth persisted store) is intentionally left unscoped: it
   holds two view-preference booleans, not festival-scoped user data, so there is
   nothing to rekey and no migration.
-- Verify each migration against a real pre-existing localStorage blob from the current
-  production build.
+- Each `migrate` is a static rewrite to the Lollapalooza / run `main` default (never
+  reads `activeContextStore`, whose hydration order is not guaranteed) and idempotent
+  (a key already carrying its scope passes through).
+- The migration verification against a real production `localStorage` export runs with
+  the batched deploy, not at merge (see "Rollout sequence").
 
-**Checkpoint:** a returning Lollapalooza user keeps every pick, scheduled set, and
-attendance-day selection; cross-festival contamination is structurally impossible.
+**Checkpoint reached:** a returning Lollapalooza user keeps every pick, scheduled set,
+and attendance-day selection through the migration; cross-festival contamination is
+structurally impossible because the scope is part of the key. `tsc`, `next build`, and
+lint pass; `npm run verify:story` unchanged at 86/87.
 
 ### 8. Announced-lineup-without-schedule behavior (frontend)
 
@@ -415,7 +439,36 @@ rendered; Planner is cleanly unavailable.
 **Checkpoint:** no hardcoded "Chicago" or "Lollapalooza" reaches the UI; ACL renders
 its own city and name.
 
-### 10. Import the ACL 2026 roster
+### 10. Support artists with little or no Spotify presence
+
+**Status: not started.**
+
+Surfaced while preparing the ACL roster: some acts have no Spotify artist profile and
+no findable Spotify tracks at all, and at least one has no YouTube or TikTok either.
+One is a jazz collective, but not one that decomposes into individually-streamable
+members the way the existing `listenFirst` override assumes (that override still needs
+curated tracks that each carry a real Spotify track ID).
+
+Today this blocks publication outright. Readiness (`artist-data-model.md`) hard-requires
+one playable Quick Picks flagship track, where "playable" means a validated Spotify
+**track** ID, plus either a Spotify artist ID or a complete Listen First override. An
+act with zero Spotify presence can satisfy none of these, and Quick Picks / Artist
+Detail have no affordance for an artist with no audio preview.
+
+- Decide what "support" means: the flagship track becomes optional with graceful
+  handling in the Quick Picks decision card and Artist Detail; or a non-Spotify preview
+  source is allowed (YouTube, Bandcamp, Apple Music); or an explicit no-preview artist
+  state is introduced. This is a data-model plus product decision and earns its own ADR.
+- The affected ACL artists are named in the roster prep; the import (section 11) waits
+  on this so the full roster can publish rather than importing everyone else and
+  stranding these as permanent drafts.
+- Only the mechanism is in scope here, not editorial polish.
+
+**Checkpoint:** an artist with no Spotify presence can be authored, published, and shown
+across Quick Picks and Artist Detail with a coherent experience, not a broken or empty
+one.
+
+### 11. Import the ACL 2026 roster
 
 **Status: not started.**
 
@@ -425,6 +478,8 @@ its own city and name.
   Lollapalooza artists gain an ACL `LineupEntry` (section 3).
 - Curate three genres, a primary, and one Quick Picks track for each genuinely new
   artist, then run the guarded `publish_artists.py` — never a manual status flip.
+  Artists with no Spotify presence follow whatever section 10 established for the
+  flagship-track and preview requirements.
 - Apply to both the local and the hosted Railway database.
 - Editorial review (per-run similar-artist sets, ACL-specific `about`) is deferred to
   the parallel editorial track. Note the growing per-run re-curation cost in
@@ -433,7 +488,7 @@ its own city and name.
 **Checkpoint:** ACL 2026 is fully imported and published to the baseline, both
 weekends, on the local and hosted database.
 
-### 11. Documentation closeout
+### 12. Documentation closeout
 
 **Status: not started.**
 
@@ -444,6 +499,10 @@ weekends, on the local and hosted database.
   credits,artist}/...` file paths that are now under `app/festivals/[edition]/[run]/`,
   bare `/explore` and `/planner` URLs in navigation prose that now resolve through
   `contextHref`, and lingering `ACTIVE_FESTIVAL_ID` mentions in code snippets.
+  Capture why `DEFAULT_CONTEXT` still exists once selection gates workflow entry: it
+  is the value SSR and the first client paint reference before the browser reports the
+  persisted context, and the root layout's fetch plus `scheduleStore`'s derive step
+  need a concrete `{edition, run}` there. A real `activeContextStore` value always wins.
 - `docs/design/artist-data-model.md`: only if the schema actually changed.
 - `README.md` "Current Scope and Roadmap", AGENTS.md "Current Milestone" and Stack.
 - `docs/FUTURE_CONSIDERATIONS.md`: top-navigation and context-selector migration;
@@ -478,4 +537,4 @@ own roadmap.
 Not scheduled here: Coachella 2027 as a third edition, using this roadmap's seed
 config, roster fan-out, and announced-lineup path unchanged — gated on Coachella's
 lineup announcement, so it can't be sequenced. The ACL 2026 editorial pass continues
-on the parallel track in section 10.
+on the parallel track in section 11.

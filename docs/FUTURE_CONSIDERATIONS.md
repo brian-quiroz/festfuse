@@ -80,6 +80,56 @@ to matter in practice.
 
 ---
 
+## Future Consideration: Attendance-Day Selection Lives Only in Quick Picks Setup
+
+"Which days I'm attending" is set only on the Quick Picks Start Screen
+(`StartScreen.tsx` writes it via `setAttendanceDays`). That selection is a run-level
+fact about the user: it also scopes Festival Story, and a Planner or Explore view could
+reasonably use it too. Reaching it requires entering the Quick Picks flow, and a user
+who starts in Explore or Planner has no way to set or change it.
+
+A more global home would fit the fact better: near the festival/run context selector,
+on the homepage alongside the workflow cards, or as a small persistent control on
+Planner. The store itself is already run-scoped and read through
+`useAttendanceDays(editionSlug, runSlug, validDays)`, so the data layer does not need
+to change, only where the control is surfaced.
+
+**Not built now.** The current placement works for the intended path (pick days, then
+review them in Quick Picks), and moving the control is a UX decision that touches the
+shared app shell. Revisit if users who skip Quick Picks turn out to want day scoping in
+the other workflows, or alongside the planned top-navigation and context-selector
+redesign.
+
+---
+
+## Future Consideration: Retiring the One-Time localStorage Scoping Migration
+
+`decisionStore`, `scheduleStore`, and `attendanceStore` each carry a `persist`
+`version: 1` `migrate` that re-scopes a returning user's pre-multi-festival data to
+`lollapalooza-2026` / run `main` (multi-festival roadmap section 7). It runs once per
+browser: after it runs, that browser's blob is stamped `"version":1` and the function
+never fires again for that person.
+
+The migrations are removable once the multi-festival build has been deployed long enough
+that every still-active user has loaded it at least once. Deleting the three `migrate`
+functions (and leaving `version: 1` in place) is the cleanup. Anyone who still had a
+`version: 0` blob at that point is someone who had not opened the site since before the
+deploy; they would lose local picks/schedule/attendance, nothing server-side.
+
+They are also safe to leave indefinitely. After the first run each `migrate` is a
+no-op, a few lines. There is no urgency.
+
+One sharp edge if revisited: zustand only invokes `migrate` when the stored blob has a
+numeric `version` field. Real zustand-written blobs always do (it defaults to `0`), but
+a blob that lost its `version` (hand-edited, or a botched localStorage export/import)
+would be read as-is with no migration, and its unscoped keys would then resolve to
+nothing in the scoped readers. If that turns out to happen in practice, the fix is a
+read-time fallback in `scopeDecisionsToEdition` (and the schedule/attendance
+equivalents) that treats an unscoped key as belonging to the legacy edition, matching
+the `sanitizeAttendanceDays` read-time-repair precedent.
+
+---
+
 ## Future Consideration: Visible "Passed" Indicator
 
 Currently, "Passed" has no visual representation anywhere in the UI outside the Status filter — cards don't show any distinction between an artist that's been passed on versus one that's fully undecided. This is a deliberate asymmetry, not an oversight: Must See and Interested get persistent icons because they represent a positive, actively-curated list the user wants reinforced everywhere they browse. Passed was never designed to carry that same visual weight — it's a lower-salience state, consistent with the decision not to give it a dedicated sidebar entry.
@@ -244,7 +294,7 @@ service, but reached only through `build_roster_payloads.py`'s CSV fan-out. Ther
 no thin single-artist CLI alongside `add_artist` / `edit_artist` / `delete_artist` for
 "put this one already-existing artist into this one run" without a roster file.
 
-**Not built now.** Section 10 imports the ACL roster per run through the bulk path, so
+**Not built now.** Section 11 imports the ACL roster per run through the bulk path, so
 nothing needs a single-artist command yet. **Revisit when:** a real one-off comes up
 (for example a late addition to an ACL weekend of an artist who already played the
 other weekend or Lollapalooza), at which point a `add_artist_to_run.py` wrapper over

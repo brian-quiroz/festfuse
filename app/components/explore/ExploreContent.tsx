@@ -20,7 +20,7 @@ import ActiveFilters from "@/app/components/explore/ActiveFilters";
 import { Shuffle, ChevronLeft } from "lucide-react";
 import { createSeededRandom } from "@/app/lib/random";
 import { sortChronologically, sortFestivalFavoritesForFullView } from "@/app/lib/sort";
-import { useDecisionStore } from "@/app/store/decisionStore";
+import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
@@ -37,7 +37,6 @@ interface ExploreContentProps {
 
 export default function ExploreContent({ seed }: ExploreContentProps) {
   const router = useRouter();
-  const { decisionsByArtist } = useDecisionStore();
   // Artist-slug-keyed, precomputed in scheduleStore.ts — see ARCHITECTURE.md §
   // Multi-Appearance Support.
   const { scheduledArtistSlugs, conflictingArtistSlugs } = useScheduleStore();
@@ -66,6 +65,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   // first render in the normal case; hasLoadedRunAppearances staying false past that
   // point is an operational failure, handled by the early return below.
   const { editionSlug, runSlug } = useRunContext();
+  const decisionsByArtist = useEditionDecisions(editionSlug);
   const dayOrder = useRunDays();
   const availableStages = useRunStages();
   const { appearancesBySlug: runAppearancesBySlug, hasLoaded: hasLoadedRunAppearances } =

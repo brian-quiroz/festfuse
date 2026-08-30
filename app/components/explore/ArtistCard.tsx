@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Heart, Star, Calendar, AlertTriangle } from "lucide-react";
 import { COLORS } from "@/app/data/colors";
 import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
-import { useDecisionStore } from "@/app/store/decisionStore";
+import { useDecisionStore, useEditionDecisions } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
 import { artistHref } from "@/app/data/festivals";
@@ -32,7 +32,8 @@ export default function ArtistCard({
 }: ArtistCardProps) {
   const { editionSlug, runSlug } = useRunContext();
   const dayOrder = useRunDays();
-  const { decisionsByArtist, setDecision } = useDecisionStore();
+  const decisionsByArtist = useEditionDecisions(editionSlug);
+  const setDecision = useDecisionStore((s) => s.setDecision);
   const { scheduledAppearanceKeys, conflictingArtistSlugs, toggleAllAppearances } =
     useScheduleStore();
   const { appearancesBySlug: runAppearancesBySlug } = useRunAppearances(editionSlug, runSlug);
@@ -57,6 +58,7 @@ export default function ArtistCard({
   const scheduleState = getArtistScheduleState(
     artist,
     editionSlug,
+    runSlug,
     scheduledAppearanceKeys,
     runAppearancesBySlug
   );
@@ -68,12 +70,17 @@ export default function ArtistCard({
 
   const handleMustSee = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setDecision(artist.slug, verdict === "mustSee" ? null : "mustSee", "explore");
+    setDecision(editionSlug, artist.slug, verdict === "mustSee" ? null : "mustSee", "explore");
   };
 
   const handleInterested = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setDecision(artist.slug, verdict === "interested" ? null : "interested", "explore");
+    setDecision(
+      editionSlug,
+      artist.slug,
+      verdict === "interested" ? null : "interested",
+      "explore"
+    );
   };
 
   const handleScheduleToggle = (e: React.MouseEvent) => {

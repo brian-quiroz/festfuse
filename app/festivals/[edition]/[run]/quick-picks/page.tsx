@@ -11,7 +11,11 @@ import { FestivalStorySequence } from "@/app/components/festival-story/FestivalS
 import AppearancesUnavailable from "@/app/components/AppearancesUnavailable";
 import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
 import { COLORS } from "@/app/data/colors";
-import { useDecisionStore, type ArtistDecision } from "@/app/store/decisionStore";
+import {
+  useDecisionStore,
+  useEditionDecisions,
+  type ArtistDecision,
+} from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
 import {
@@ -88,7 +92,7 @@ export function createSession(
 
 export default function QuickPicksPage() {
   const router = useRouter();
-  const { decisionsByArtist, setDecision } = useDecisionStore();
+  const setDecision = useDecisionStore((s) => s.setDecision);
   const showPassedArtists = useExploreFilterStore((state) => state.showPassedArtists);
   const setSidebarVisible = useChromeStore((state) => state.setSidebarVisible);
   const [step, setStep] = useState<QuickPicksStep>("start");
@@ -103,6 +107,7 @@ export default function QuickPicksPage() {
   const [showFestivalStory, setShowFestivalStory] = useState(false);
 
   const { editionSlug, runSlug } = useRunContext();
+  const decisionsByArtist = useEditionDecisions(editionSlug);
   const dayOrder = useRunDays();
   const { appearancesBySlug: runAppearancesBySlug, hasLoaded: hasLoadedRunAppearances } =
     useRunAppearances(editionSlug, runSlug);
@@ -144,7 +149,7 @@ export default function QuickPicksPage() {
     const newDecisions = { ...session.decisions, [currentItem.artistId]: verdict };
 
     // Write decision to the shared store immediately so it's visible on other pages
-    setDecision(currentItem.artistId, verdict, "quickPicks");
+    setDecision(editionSlug, currentItem.artistId, verdict, "quickPicks");
 
     const newIndex = session.currentIndex + 1;
 
@@ -191,11 +196,11 @@ export default function QuickPicksPage() {
     // Restore the artist's previous persisted verdict from the store
     const priorState = initialDecisions[prevItem.artistId];
     if (priorState === "passed") {
-      setDecision(prevItem.artistId, null, "quickPicks");
+      setDecision(editionSlug, prevItem.artistId, null, "quickPicks");
     } else if (priorState === null) {
-      setDecision(prevItem.artistId, null, "quickPicks");
+      setDecision(editionSlug, prevItem.artistId, null, "quickPicks");
     } else {
-      setDecision(prevItem.artistId, priorState, "quickPicks");
+      setDecision(editionSlug, prevItem.artistId, priorState, "quickPicks");
     }
 
     setHasUndone(true);
