@@ -72,8 +72,11 @@ point, which covers the common "just take me back in" case.
 **If revisited:** the cleanest version is unscoped paths that server-redirect to the
 canonical `/festivals/{edition}/{run}/…` URL for the viewer's active context (so the
 address bar always ends up explicit and shareable), with a fallback to the
-festival-selection prompt when no context exists. Not built now; revisit if link
-ergonomics turn out to matter in practice.
+festival-selection prompt when no context exists. That no-context fallback is the one
+new case this would introduce: today every workflow route is fully scoped, so a direct
+visit always sets and persists a context (`RunContextProvider`), and the persisted
+context can only be `null` on `/`. Not built now; revisit if link ergonomics turn out
+to matter in practice.
 
 ---
 

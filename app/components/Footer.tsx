@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useActiveContextStore } from "@/app/store/activeContextStore";
-import { contextHref } from "@/app/data/festivals";
+import { contextHref, DEFAULT_CONTEXT } from "@/app/data/festivals";
 
 export default function Footer() {
-  const editionSlug = useActiveContextStore((s) => s.editionSlug);
-  const runSlug = useActiveContextStore((s) => s.runSlug);
+  // Credits is festival-agnostic utility content, so the default context is a fine
+  // target while no festival is selected yet.
+  const context = useActiveContextStore((s) => s.context) ?? DEFAULT_CONTEXT;
 
   return (
     <footer className="px-8 py-4 text-center">
@@ -17,7 +18,7 @@ export default function Footer() {
       </p>
       <p className="text-xs text-white/[0.32]">
         <Link
-          href={contextHref({ editionSlug, runSlug }, "credits")}
+          href={contextHref(context, "credits")}
           className="underline hover:text-white/[0.48]"
         >
           Photo credits

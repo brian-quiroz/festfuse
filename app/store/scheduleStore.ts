@@ -14,6 +14,7 @@ import {
   getRunAppearancesSlice,
 } from "@/app/store/runAppearancesStore";
 import { useActiveContextStore } from "@/app/store/activeContextStore";
+import { DEFAULT_CONTEXT } from "@/app/data/festivals";
 import type { Artist } from "@/app/types/artist";
 
 interface ScheduleState {
@@ -79,7 +80,11 @@ const scheduleStorage = {
 // these helpers take, and the appearances come from that context's slice of
 // runAppearancesStore.
 function deriveScheduleState(scheduledAppearanceKeys: Set<string>) {
-  const { editionSlug, runSlug } = useActiveContextStore.getState();
+  // Falls back to the default context while none is selected. Schedule keys are still
+  // edition-keyed, not run-keyed — the run-scoped rekey and localStorage migration is
+  // its own follow-up (docs/roadmap/multi-festival.md), and revisits this fallback.
+  const { editionSlug, runSlug } =
+    useActiveContextStore.getState().context ?? DEFAULT_CONTEXT;
   const runAppearancesBySlug = getRunAppearancesSlice(editionSlug, runSlug).appearancesBySlug;
   const conflictingAppearanceKeys = getConflictingArtists(
     scheduledAppearanceKeys,
@@ -139,7 +144,8 @@ export const useScheduleStore = create<ScheduleState>()(
           festivalId: string
         ) => {
           set((state) => {
-            const { editionSlug, runSlug } = useActiveContextStore.getState();
+            const { editionSlug, runSlug } =
+              useActiveContextStore.getState().context ?? DEFAULT_CONTEXT;
             const runAppearancesBySlug = getRunAppearancesSlice(
               editionSlug,
               runSlug

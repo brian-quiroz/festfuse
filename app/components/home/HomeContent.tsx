@@ -1,49 +1,25 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { Search, Zap, CalendarDays, HelpCircle } from "lucide-react";
 import Footer from "@/app/components/Footer";
 import { useDecisionStore } from "@/app/store/decisionStore";
 import { useHelpStore } from "@/app/store/helpStore";
 import { useActiveContextStore } from "@/app/store/activeContextStore";
+import { useRunScheduleState } from "@/app/store/runScheduleStateStore";
 import { contextHref } from "@/app/data/festivals";
-
-// Extremely restrained cursor-tracked tilt (max ~2deg) for the three entry cards —
-// a hover signal separate from the lift/shadow, kept as a hook so each card gets its
-// own independent tilt state without duplicating the pointer math three times.
-function useCardTilt(maxDeg = 2) {
-  const [transform, setTransform] = useState(
-    "translateY(0) perspective(800px) rotateX(0deg) rotateY(0deg)"
-  );
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const px = (e.clientX - rect.left) / rect.width - 0.5;
-    const py = (e.clientY - rect.top) / rect.height - 0.5;
-    setTransform(
-      `translateY(-4px) perspective(800px) rotateX(${(-py * maxDeg).toFixed(2)}deg) rotateY(${(px * maxDeg).toFixed(2)}deg)`
-    );
-  };
-
-  const handleMouseLeave = () => {
-    setTransform("translateY(0) perspective(800px) rotateX(0deg) rotateY(0deg)");
-  };
-
-  return {
-    style: { transform, transition: "transform 150ms ease-out" },
-    handleMouseMove,
-    handleMouseLeave,
-  };
-}
+import FestivalPicker from "@/app/components/home/FestivalPicker";
+import { useCardTilt } from "@/app/components/home/useCardTilt";
 
 export default function HomeContent() {
   const { decisionsByArtist } = useDecisionStore();
   const openHelp = useHelpStore((state) => state.openHelp);
-  // Homepage has no route params — its cards deep-link into the active context.
-  const editionSlug = useActiveContextStore((s) => s.editionSlug);
-  const runSlug = useActiveContextStore((s) => s.runSlug);
-  const ctx = { editionSlug, runSlug };
+  // Homepage has no route params — its cards deep-link into the active context. When
+  // none is chosen yet, the picker takes over (rendered below).
+  const context = useActiveContextStore((s) => s.context);
+  const ctx = context ?? { editionSlug: "", runSlug: "" };
+  const runScheduleState = useRunScheduleState(ctx.editionSlug, ctx.runSlug);
+  const plannerDisabled = runScheduleState === "announced";
   const quickPicksTilt = useCardTilt();
   const exploreTilt = useCardTilt();
   const plannerTilt = useCardTilt();
@@ -55,6 +31,29 @@ export default function HomeContent() {
     (decision) => decision.source === "quickPicks"
   );
   const quickPicksLabel = hasQuickPicksActivity ? "Continue Quick Picks" : "Start Quick Picks";
+
+  // No festival chosen yet — the picker is the whole entry experience. Sidebar and
+  // MobileTopBar hide themselves while `context` is null (see Sidebar.tsx), so this
+  // renders full-width and centered. No Footer here — its Lollapalooza/C3 disclaimer
+  // is wrong before a festival is chosen, and there are no photos to credit yet.
+  // Gated on whether a context exists, not on detecting a first visit (ADR-0015).
+  if (context === null) {
+    return (
+      <main className="flex-1 min-w-0 overflow-y-auto flex flex-col">
+        {/* Modest wordmark (sidebar scale, not the Home hero) framing the centered
+            picker and establishing product identity before any chrome exists. */}
+        <div className="flex-shrink-0 px-6 sm:px-8 pt-6">
+          <span className="text-xl font-extrabold tracking-tight">
+            <span className="text-[#00E5FF]">Fest</span>
+            <span className="text-white">Fuse</span>
+          </span>
+        </div>
+        <div className="flex-1 w-full max-w-4xl mx-auto px-6 sm:px-8 pb-10 flex flex-col justify-center">
+          <FestivalPicker />
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="flex-1 min-w-0 overflow-y-auto flex flex-col">
@@ -148,30 +147,55 @@ export default function HomeContent() {
               </div>
             </Link>
 
-            <Link
-              href={contextHref(ctx, "planner")}
-              onMouseMove={plannerTilt.handleMouseMove}
-              onMouseLeave={plannerTilt.handleMouseLeave}
-              style={plannerTilt.style}
-              className="relative overflow-hidden w-64 min-h-[340px] flex flex-col rounded-2xl border border-[#2D2556] bg-gradient-to-br from-[#2563EB] to-[#0B1E3D] transition-shadow duration-300 hover:shadow-[0_20px_60px_-15px_rgba(96,165,250,0.4)] p-8"
-            >
+            {plannerDisabled ? (
+              // Deliberate exception to the "hide, don't disable" rule: the card stays
+              // visible so the user learns Planner is an established workflow waiting on
+              // schedule data — not broken, not unfinished. Layers are styled
+              // independently (no whole-component opacity) and every interactive cue is
+              // removed.
               <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -top-10 -left-10 w-64 h-64 rounded-full bg-[#60A5FA]/55 blur-3xl"
-              />
-              <CalendarDays
-                size={140}
-                strokeWidth={1.5}
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-6 -bottom-6 text-[#60A5FA]/14"
-              />
-              <div className="relative z-10 mt-auto">
-                <p className="text-lg font-bold text-white mb-1">Planner</p>
-                <p className="text-sm text-white/70">
-                  Already have some picks? Turn them into a schedule.
-                </p>
+                aria-disabled="true"
+                className="relative overflow-hidden w-64 min-h-[340px] flex flex-col rounded-2xl border border-white/10 bg-gradient-to-br from-[#3A4574] to-[#151A30] p-8 cursor-default"
+              >
+                <CalendarDays
+                  size={140}
+                  strokeWidth={1.5}
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -right-6 -bottom-6 text-white/[0.06]"
+                />
+                <div className="relative z-10 mt-auto">
+                  <p className="text-lg font-bold text-white/90 mb-1">Planner</p>
+                  <p className="text-sm text-white/55">
+                    Available when the festival schedule is announced.
+                  </p>
+                </div>
               </div>
-            </Link>
+            ) : (
+              <Link
+                href={contextHref(ctx, "planner")}
+                onMouseMove={plannerTilt.handleMouseMove}
+                onMouseLeave={plannerTilt.handleMouseLeave}
+                style={plannerTilt.style}
+                className="relative overflow-hidden w-64 min-h-[340px] flex flex-col rounded-2xl border border-[#2D2556] bg-gradient-to-br from-[#2563EB] to-[#0B1E3D] transition-shadow duration-300 hover:shadow-[0_20px_60px_-15px_rgba(96,165,250,0.4)] p-8"
+              >
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -top-10 -left-10 w-64 h-64 rounded-full bg-[#60A5FA]/55 blur-3xl"
+                />
+                <CalendarDays
+                  size={140}
+                  strokeWidth={1.5}
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -right-6 -bottom-6 text-[#60A5FA]/14"
+                />
+                <div className="relative z-10 mt-auto">
+                  <p className="text-lg font-bold text-white mb-1">Planner</p>
+                  <p className="text-sm text-white/70">
+                    Already have some picks? Turn them into a schedule.
+                  </p>
+                </div>
+              </Link>
+            )}
           </div>
 
           <button

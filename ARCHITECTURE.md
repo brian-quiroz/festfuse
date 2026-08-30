@@ -352,11 +352,48 @@ under `app/festivals/[edition]/[run]/…`; a server segment layout resolves the 
 the route params, fetches that run's appearances, and provides `{ editionSlug, runSlug }`
 to client components through `RunContextProvider` (`useRunContext` / `useRunDays` /
 `useRunStages`). `runAppearancesStore` keys each run's feed by `edition::run`.
-`activeContextStore` (non-persisted this milestone) mirrors the active context for the
-few non-hook readers — `scheduleStore`'s derive step, and `Sidebar`, which renders in
-the root layout outside the segment. The root layout keeps a `DEFAULT_CONTEXT`
-appearances fetch so `Sidebar`'s counts and `/` stay populated before a scoped route
-mounts.
+
+`activeContextStore` is the persisted active context: `{ editionSlug, runSlug } | null`,
+`HydrationGate`-gated, written by `RunContextProvider` on every scoped-route mount, by
+the sidebar `FestivalContextSelector`, and by the homepage `FestivalPicker`. `null`
+means no festival chosen yet: the homepage renders `FestivalPicker` as a full-width
+entry experience and `Sidebar` / `MobileTopBar` hide themselves entirely (the same
+no-chrome treatment Quick Picks decisioning uses). This is deliberate: the picker is a
+focused first step, not a page with navigation. Non-hook readers (`scheduleStore`'s
+derive step, `Footer`) fall back to `DEFAULT_CONTEXT` while it is null. The root layout
+keeps a `DEFAULT_CONTEXT` appearances fetch so `Sidebar`'s counts and `/` stay populated
+before a scoped route mounts.
+
+`FestivalPicker` is the no-context entry screen: a `Choose your festival` heading over
+one large card per edition, built from the same primitives as the Home workflow cards
+(`useCardTilt`, the corner glow blob, a coloured hover shadow, a rest-state dim that
+lifts on hover) so the two screens read as one family. Each card carries a per-festival
+identity gradient and a cropped `shortName` watermark. That colour is expressive
+identity, not the semantic system (`.claude/rules/design-principles.md`, "Exception:
+festival identity color"); cyan (the selection ring, and the weekend buttons' hover
+state) is the only selection or navigation signal on the screen. Selecting a single-run
+edition sets the context immediately. A multi-run edition instead gets the cyan ring
+and reveals a `Choose your weekend` section below the cards, one button per run, and
+scrolls that section into view when it lands below the fold (as it can on a phone).
+Selecting a run sets the context.
+
+Once a context exists, the sidebar `FestivalContextSelector` switches it. The trigger is
+a fixed-height two line control (festival name over run and dates), so its height, and
+the nav beneath it, never shifts between a single-run and a multi-run festival. It opens
+a grouped popover with one directly-selectable row per edition/run destination: an
+edition header plus a row per run for multi-run editions, a single collapsed row for
+single-run editions. Selecting a row resolves the destination (the same workflow page in
+the new context; the target's Explore from an artist page, since that slug may not exist
+there; `/` when switching onto Planner for a run with no schedule), then navigates and
+closes the popover. The selector lives inside the sidebar `<aside>`, so it is absent
+from the immersive flows where the whole sidebar is hidden.
+
+Planner is gated on whether a run has a public schedule. The root layout fetches
+`GET /api/v1/festivals/{slug}`'s derived `schedule_state` (ADR-0016) for every registry
+edition into the non-persisted `runScheduleStateStore` (`getRunScheduleState`, fail-open
+to `"scheduled"`). For an `"announced"` run the homepage Planner card renders disabled
+and Planner drops from the sidebar nav; the Planner route's own unavailable state is
+still pending.
 
 Artist Detail reads exclusively from the run-scoped FastAPI response for every slug
 (see ADR-0010). A mapper preserves the existing frontend `Artist` contract. API 404s

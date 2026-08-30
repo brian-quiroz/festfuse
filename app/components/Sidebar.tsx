@@ -19,10 +19,12 @@ import { useDecisionStore } from "@/app/store/decisionStore";
 import { useExploreFilterStore, NAV_PRESETS } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { useActiveContextStore } from "@/app/store/activeContextStore";
+import { useRunScheduleState } from "@/app/store/runScheduleStateStore";
 import { contextHref } from "@/app/data/festivals";
 import { useHelpStore } from "@/app/store/helpStore";
 import { useChromeStore } from "@/app/store/chromeStore";
 import { useDialogA11y } from "@/app/hooks/useDialogA11y";
+import FestivalContextSelector from "@/app/components/FestivalContextSelector";
 import HowItWorksModal from "@/app/components/home/HowItWorksModal";
 import type { ActiveNavItem } from "@/app/types/navigation";
 
@@ -49,10 +51,14 @@ export default function Sidebar() {
   const router = useRouter();
   // Sidebar lives in the root layout, outside the [edition]/[run] segment, so it has no
   // route params — it reads the active context from the store instead, and its nav
-  // links follow whatever scoped route is active.
-  const editionSlug = useActiveContextStore((s) => s.editionSlug);
-  const runSlug = useActiveContextStore((s) => s.runSlug);
-  const exploreHref = contextHref({ editionSlug, runSlug }, "explore");
+  // links follow whatever scoped route is active. `context` is null until the user has
+  // picked a festival; the whole sidebar is hidden until then (the homepage picker is
+  // the entry experience), so past the guard below `context` is always set.
+  const context = useActiveContextStore((s) => s.context);
+  const runScheduleState = useRunScheduleState(
+    context?.editionSlug ?? "",
+    context?.runSlug ?? ""
+  );
   const { decisionsByArtist } = useDecisionStore();
   // Artist-slug-keyed, precomputed in scheduleStore.ts — see ARCHITECTURE.md §
   // Multi-Appearance Support ("Sidebar counts: artist counts, not appearance counts").
@@ -75,9 +81,13 @@ export default function Sidebar() {
     containerRef: asideRef,
   });
 
-  // Hidden during Quick Picks decisioning/completion (chromeStore), consistent with that
-  // flow's no-chrome design. Comes after all hooks above so hook order stays stable.
-  if (!isSidebarVisible) return null;
+  // Hidden during Quick Picks decisioning/completion (chromeStore), consistent with
+  // that flow's no-chrome design, and while no festival is chosen — the homepage
+  // festival picker is a full-width entry experience with no chrome (MobileTopBar
+  // mirrors this). Comes after all hooks above so hook order stays stable.
+  if (!isSidebarVisible || context === null) return null;
+
+  const exploreHref = contextHref(context, "explore");
 
   // Derive counts from store
   const mustSeeCount = Object.values(decisionsByArtist).filter(
@@ -91,6 +101,12 @@ export default function Sidebar() {
   const myPicksCount = mustSeeCount + interestedCount;
   const scheduledCount = scheduledArtistSlugs.size;
   const conflictCount = conflictingArtistSlugs.size;
+
+  // Planner drops out of the nav while the active run has no public schedule. Reaching
+  // the Planner route directly is handled by that route, not here.
+  const visibleNavItems = navItems.filter(
+    ({ page }) => !(page === "planner" && runScheduleState === "announced")
+  );
 
   // Two flat, labeled groups rather than one list or a parent/child indent tree —
   // Conflicts isn't a true subset of Scheduled the way Must See/Interested are subsets
@@ -244,19 +260,25 @@ export default function Sidebar() {
         }`}
       >
         {/* Logo */}
-        <div className="px-6 py-6 flex-shrink-0">
+        <div className="px-6 pt-6 pb-3 flex-shrink-0">
           <Link href="/" className="text-xl font-extrabold tracking-tight">
             <span className="text-[#00E5FF]">Fest</span>
             <span className="text-white">Fuse</span>
           </Link>
         </div>
 
+        {/* Active festival + run. A later top-navigation design is a separate question
+            (ADR-0015). */}
+        <div className="flex-shrink-0">
+          <FestivalContextSelector />
+        </div>
+
         {/* Scrollable middle */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto pt-2">
           {/* Main nav */}
           <nav className="px-3 pb-2 space-y-0.5">
-            {navItems.map(({ label, page, Icon }) => {
-              const href = page === null ? "/" : contextHref({ editionSlug, runSlug }, page);
+            {visibleNavItems.map(({ label, page, Icon }) => {
+              const href = page === null ? "/" : contextHref(context, page);
               const isExplore = label === "Explore";
               // Explore and My Festival links share the same Explore pathname, so pathname
               // alone can't tell them apart — activeNavItem tracks which was actually clicked.

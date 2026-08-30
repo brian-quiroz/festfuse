@@ -142,7 +142,7 @@ step that builds it, not here.
 
 ## Current boundary
 
-Sections 2 through 5 have shipped. The backend (2, 3, 4): seeding is config-driven, ACL
+Sections 2 through 6 have shipped. The backend (2, 3, 4): seeding is config-driven, ACL
 2026's hierarchy (two runs, days, stages) is seeded on both databases,
 `build_roster_payloads.py` can add an artist who already exists to another run through
 `add_existing_artist_to_run`, and the bulk read path fully describes a run whose lineup
@@ -151,15 +151,19 @@ plus a derived per-run `schedule_state` on the festival endpoint, ADR-0016). The
 frontend routing cutover (5): every workflow page lives under
 `app/festivals/[edition]/[run]/…`, festival/run identity comes from the route (not a
 constant), `app/data/festivals.ts` is a registry of both editions, `runAppearancesStore`
-is keyed by `edition::run`, and a non-persisted `activeContextStore` carries the active
-context to the few non-hook readers.
+is keyed by `edition::run`. The active-context surfaces (6): `activeContextStore` is
+persisted and nullable, `HydrationGate`-gated; the sidebar has a grouped
+edition/run selector; the homepage shows a festival picker until a context exists and
+then the scoped workflow cards; `GET /festivals/{slug}`'s `schedule_state` is fetched
+for every edition in the root layout into `runScheduleStateStore`, and the homepage
+Planner card and the sidebar Planner nav item drop out for a run with no public
+schedule.
 
-The remaining frontend gaps are the later sections: the sidebar edition/run selector and
-homepage no-context gate (6), the persisted-state re-keying and localStorage migration
-(7) — picks are still keyed by artist slug alone and schedules by edition, so a
-multi-run edition's weekends would share a schedule until 7 lands — the
-announced-lineup-without-schedule UI (8), and festival/city-generic copy (9). The ACL
-roster is not imported (10).
+The remaining frontend gaps are the later sections: the persisted-state re-keying and
+localStorage migration (7) — picks are still keyed by artist slug alone and schedules by
+edition, so a multi-run edition's weekends would share a schedule until 7 lands — the
+announced-lineup-without-schedule UI including the Planner-route unavailable state (8),
+and festival/city-generic copy (9). The ACL roster is not imported (10).
 
 ## Rollout sequence
 
@@ -320,20 +324,33 @@ section 10). `next build` and `tsc` pass; `npm run verify:story` is unchanged at
 
 ### 6. Active-context store, homepage, and sidebar selector
 
-**Status: not started.**
+**Status: completed.**
 
-- New persisted `app/store/activeContextStore.ts` holding `{ editionSlug, runSlug } |
-null`, using the same hydration pattern as the other persisted stores and added to
-  `HydrationGate`. Visiting a scoped URL also updates it.
-- Sidebar: the edition + run selector; auto-select the sole run for a single-run
-  edition.
-- Homepage: the context-exists / no-context gating logic above. When the active run
-  has no schedule (section 4's flag), the Planner card renders disabled, and Planner
-  is dropped from the sidebar nav.
-- The selector stays out of Quick Picks decisioning and Festival Story.
+- `app/store/activeContextStore.ts` is persisted and holds `{ editionSlug, runSlug } |
+  null`, using the same `persist` + `onRehydrateStorage` pattern as the other persisted
+  stores and added to `HydrationGate`. `RunContextProvider` still writes it on every
+  scoped-route mount, so visiting a scoped URL sets and persists the context.
+- Sidebar: `FestivalContextSelector` — a fixed-height trigger opening a grouped popover
+  where every edition/run pair is one directly selectable destination row (single-run
+  editions collapse to one row, no run choice shown). Switching navigates to the same
+  workflow page in the new context; a switch onto Planner for a run with no schedule
+  lands on `/` instead. With no context the sidebar and mobile top bar are hidden
+  entirely and the homepage picker is the full-width entry experience.
+- Schedule state: `GET /api/v1/festivals/{slug}`'s derived `schedule_state` is fetched
+  for every registry edition in the root layout (`app/lib/api/festival.ts`) into the
+  non-persisted `runScheduleStateStore` (fail-open to `"scheduled"`).
+- Homepage: `FestivalPicker` (per-festival identity cards — expressive colour, not
+  semantic; cyan ring for selection — then a weekend choice for multi-run editions)
+  until a context exists, then the scoped workflow cards. The Planner card renders
+  disabled ("Available when the festival schedule is announced") and Planner drops from
+  the sidebar nav for an `announced` run. The Planner *route* unavailable state is
+  section 8.
+- The selector rides inside the sidebar `<aside>`, so it is absent from Quick Picks
+  decisioning and Festival Story (where the whole sidebar is hidden).
 
-**Checkpoint:** with a persisted context the homepage deep-links into scoped URLs;
-with none, entry is gated behind selection.
+**Checkpoint reached:** with a persisted context the homepage deep-links into scoped
+URLs; with none, entry is gated behind selection. `next build`, `tsc`, and lint pass;
+`npm run verify:story` unchanged at 86/87.
 
 ### 7. Persisted-state scoping and the localStorage migration
 
@@ -370,6 +387,10 @@ The contract is the "Announced lineup, no schedule yet" spec above.
   appearance; it represents a no-schedule / cancelled state instead.
 - Explore, Quick Picks, Artist Detail, and Festival Story adapt per the spec (hide,
   don't disable in place).
+- Quick Picks day-completion copy ("Friday is fully reviewed and won't appear in this
+  session") must not fire for a run with no schedule — an empty day there means "no
+  artists", not "all reviewed". This falls out of running Quick Picks in full-lineup
+  mode with all day-specific copy hidden, but verify it explicitly.
 - Planner renders an unavailable route state; its card and sidebar gating are in
   section 6.
 - Only the visual styling of each adapted screen and the exact copy are step

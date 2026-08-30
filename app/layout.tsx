@@ -5,9 +5,12 @@ import HydrationGate from "@/app/components/HydrationGate";
 import Sidebar from "@/app/components/Sidebar";
 import MobileTopBar from "@/app/components/MobileTopBar";
 import RunAppearancesHydrator from "@/app/components/RunAppearancesHydrator";
+import RunScheduleStateHydrator from "@/app/components/RunScheduleStateHydrator";
 import { fetchFestivalRunAppearances } from "@/app/lib/api/appearances";
-import { DEFAULT_CONTEXT } from "@/app/data/festivals";
+import { fetchFestivalEdition } from "@/app/lib/api/festival";
+import { DEFAULT_CONTEXT, FESTIVAL_REGISTRY } from "@/app/data/festivals";
 import { sendFailureAlert } from "@/app/lib/alerts/sendFailureAlert";
+import type { ApiFestivalRunScheduleState } from "@/app/types/festivalApi";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -41,6 +44,31 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     );
   }
 
+  // Every edition's per-run schedule state (ADR-0016), keyed `${edition}::${run}`, so
+  // Sidebar and HomeContent (root layout, no route params) can gate Planner off a run
+  // that has no public schedule. Fetched per edition and merged; a failed edition is
+  // left out and getRunScheduleState fails open ("scheduled").
+  const runScheduleStateEntries = await Promise.all(
+    FESTIVAL_REGISTRY.map(async (edition) => {
+      try {
+        const festival = await fetchFestivalEdition(edition.slug);
+        return (festival?.runs ?? []).map(
+          (run) =>
+            [`${edition.slug}::${run.slug}`, run.schedule_state] as const
+        );
+      } catch (error) {
+        console.error("Failed to fetch festival edition", edition.slug, error);
+        sendFailureAlert(
+          "FestFuse: Festival edition API fallback triggered",
+          `Failed to fetch festival edition ${edition.slug}: ${error}`
+        );
+        return [];
+      }
+    })
+  );
+  const runScheduleStateMap: Record<string, ApiFestivalRunScheduleState> =
+    Object.fromEntries(runScheduleStateEntries.flat());
+
   return (
     <html lang="en" className={jakarta.variable}>
       <body className="min-h-screen overflow-hidden bg-[#110D24] text-white antialiased">
@@ -50,6 +78,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           runSlug={DEFAULT_CONTEXT.runSlug}
           appearances={appearances}
         />
+        <RunScheduleStateHydrator map={runScheduleStateMap} />
         <HydrationGate>
           <div className="flex flex-col md:flex-row h-dvh overflow-hidden bg-[#110D24]">
             <MobileTopBar />

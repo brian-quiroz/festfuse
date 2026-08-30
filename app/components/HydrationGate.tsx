@@ -4,6 +4,7 @@ import { useDecisionStore } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { usePlannerViewStore } from "@/app/store/plannerViewStore";
 import { useAttendanceStore } from "@/app/store/attendanceStore";
+import { useActiveContextStore } from "@/app/store/activeContextStore";
 
 // Holds the first render until every persisted (localStorage-backed) store has actually
 // read its saved values. Without this, each store briefly renders with its hardcoded
@@ -19,8 +20,15 @@ export default function HydrationGate({ children }: { children: React.ReactNode 
   const scheduleHydrated = useScheduleStore((state) => state.hasHydrated);
   const plannerViewHydrated = usePlannerViewStore((state) => state.hasHydrated);
   const attendanceHydrated = useAttendanceStore((state) => state.hasHydrated);
+  const activeContextHydrated = useActiveContextStore((state) => state.hasHydrated);
 
-  if (!decisionHydrated || !scheduleHydrated || !plannerViewHydrated || !attendanceHydrated) {
+  if (
+    !decisionHydrated ||
+    !scheduleHydrated ||
+    !plannerViewHydrated ||
+    !attendanceHydrated ||
+    !activeContextHydrated
+  ) {
     return null;
   }
 
