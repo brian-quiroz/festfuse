@@ -10,6 +10,7 @@ import {
 } from "@/app/lib/planner";
 import {
   getAppearanceKey,
+  runScopeId,
   sortAppearancesChronologically,
   type AppearanceEntry,
 } from "@/app/lib/schedule";
@@ -40,6 +41,7 @@ export default function PlannerGrid({
   const dayOrder = useRunDays();
   const stages = useRunStages();
   const { appearancesBySlug: runAppearancesBySlug } = useRunAppearances(editionSlug, runSlug);
+  const scopeId = runScopeId(editionSlug, runSlug);
   // Range is always derived from the full day's lineup, never the filtered set — otherwise
   // toggling a filter would rescale the whole timeline and every remaining block would jump.
   const range = getPlannerHourRange(allDayEntries);
@@ -159,7 +161,7 @@ export default function PlannerGrid({
                   const key = getAppearanceKey(
                     entry.artistSlug,
                     entry.appearanceId,
-                    entry.festivalId,
+                    scopeId,
                     runAppearancesBySlug
                   );
                   const verdict = decisionsByArtist[entry.artistSlug]?.verdict ?? null;

@@ -93,13 +93,14 @@ copy of the artist they reference, for display — these do not update automatic
 and must be corrected by hand alongside the primary record.
 
 **A slug change also orphans browser-persisted user state.** `decisionsByArtist`
-(Quick Picks decisions) and `scheduledAppearanceKeys` (Planner selections) key their
-entries by artist slug inside each returning user's local storage, with no
-server-side awareness of a rename. A decision or schedule entry recorded under the
-old slug keeps counting toward aggregate totals (e.g. the sidebar's My Picks count)
+(Quick Picks decisions) and `scheduledAppearanceKeys` (Planner selections) carry the
+artist slug inside each entry's composite key in each returning user's local storage,
+with no server-side awareness of a rename. A decision or schedule entry recorded under
+the old slug keeps counting toward aggregate totals (e.g. the sidebar's My Picks count)
 but silently stops resolving to a real artist anywhere in the UI — the count goes up
-while the corresponding artist disappears from every list. There is currently no
-migration path that remaps a renamed slug inside already-persisted local data.
+while the corresponding artist disappears from every list. The stores' `persist`
+`migrate` step re-scopes legacy keys to a festival/run but does not remap a renamed
+slug inside already-persisted local data.
 
 ### Editorial content: curation standard, not a runtime computation
 
@@ -1346,17 +1347,17 @@ Planner/Explore attendance behavior; the AI-prose data-policy (`tagline`/`whySee
 interface ScheduleState {
   scheduledAppearanceKeys: Set<string>; // composite appearance keys — see Multi-Appearance Support
   toggleScheduled: (key: string) => void; // per-appearance; used only by the Planner
-  toggleAllAppearances: (artist: Artist, festivalId: string) => void; // aggregate control
+  toggleAllAppearances: (artist: Artist, editionSlug: string) => void; // aggregate control
 }
 ```
 
 **Location:** `app/store/scheduleStore.ts`
 
-- `scheduledAppearanceKeys`: Set of appearance keys (`` `${festivalId}::${slug}::${appearanceId}` ``, see "Multi-Appearance Support" below) that the user has scheduled — named for what it actually stores, not artist slugs
-- `toggleScheduled(key)`: Add/remove a single appearance key — the Planner's per-block action
-- `toggleAllAppearances(artist, festivalId)`: Schedule every appearance the artist has at that festival if not all are already scheduled; unschedule all of them if they are — the aggregate action used everywhere outside the Planner
+- `scheduledAppearanceKeys`: Set of appearance keys (`` `${editionSlug}:${runSlug}::${slug}::${appearanceId}` ``, see "Multi-Appearance Support" below) that the user has scheduled; named for what it actually stores, not artist slugs
+- `toggleScheduled(key)`: Add/remove a single appearance key. The Planner's per-block action
+- `toggleAllAppearances(artist, editionSlug)`: Schedule every appearance the artist has at that edition in the active run if not all are already scheduled; unschedule all of them if they are. The aggregate action used everywhere outside the Planner
 
-Persisted to localStorage under key `schedule-store` (unchanged) via Zustand's `persist` middleware — see "Multi-Appearance Support → Persistence" for why no version/migrate step was added despite the internal state shape changing.
+Persisted to localStorage under key `schedule-store` via Zustand's `persist` middleware. See "Multi-Appearance Support / Persistence" for the run-scoped key format and the `version`/`migrate` step.
 
 #### Pure Function: `getConflictingArtists()`
 
@@ -1897,14 +1898,29 @@ scheduledAppearanceKeys)` returns `"none" | "partial" | "full"`, shared by
 
 ### Persistence
 
-**Confirmed** — The localStorage key stays exactly `"schedule-store"`; only the
-values inside the stored Set changed format (artist slug → appearance key), and the
-`scheduledArtists` state field was renamed `scheduledAppearanceKeys` to match what it
-actually stores. No version bump, no migrate step — this app has never been deployed,
-and an old bare-slug-keyed local schedule silently failing to match the new format
-(appearing empty) is acceptable, disposable dev-time behavior, not something to design
-around. Every lookup is forward-constructed (real appearance → key → `Set.has()`),
-so a stale or unrecognized key is simply never matched — inert, not an error.
+**Confirmed.** `scheduledAppearanceKeys` holds appearance keys, not artist slugs, and
+is named for what it stores. Every lookup is forward-constructed (real appearance to key
+to `Set.has()`), so a stale or unrecognized key is simply never matched. It is inert,
+not an error.
+
+The persisted user-state stores carry a composite scope in their keys so a switch of
+festival or weekend can never surface another context's state (ADR-0015):
+
+| Store             | localStorage key      | Keyed by                                            | Scope    |
+| ----------------- | --------------------- | -------------------------------------------------- | -------- |
+| `decisionStore`   | `decision-store`      | `${editionSlug}:${slug}`                            | edition  |
+| `scheduleStore`   | `schedule-store`      | `${editionSlug}:${runSlug}::${slug}::${appearanceId}` | run    |
+| `attendanceStore` | `attendance-store`    | `${editionSlug}:${runSlug}`                         | run      |
+| `plannerViewStore`| `planner-view-store`  | not keyed (two view booleans)                       | none     |
+
+Each scoped store is at `persist` `version: 1` with a `migrate` that rewrites a
+pre-scope key to the Lollapalooza 2026 / run `main` default. The migrations are static
+(they never read `activeContextStore`, whose hydration order is not guaranteed) and
+idempotent (a key that already carries its scope passes through). `decisionStore`
+exposes `useEditionDecisions(editionSlug)`, a bare-slug-keyed view of one edition, so
+downstream consumers never touch the composite key. `deriveScheduleState` builds every
+derived Set by forward-constructing keys from the active run's feed, so keys belonging
+to other runs in the union stay inert.
 
 ### Sidebar Counts
 

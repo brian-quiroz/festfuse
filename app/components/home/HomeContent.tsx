@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Search, Zap, CalendarDays, HelpCircle } from "lucide-react";
 import Footer from "@/app/components/Footer";
-import { useDecisionStore } from "@/app/store/decisionStore";
+import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useHelpStore } from "@/app/store/helpStore";
 import { useActiveContextStore } from "@/app/store/activeContextStore";
 import { useRunScheduleState } from "@/app/store/runScheduleStateStore";
@@ -12,12 +12,12 @@ import FestivalPicker from "@/app/components/home/FestivalPicker";
 import { useCardTilt } from "@/app/components/home/useCardTilt";
 
 export default function HomeContent() {
-  const { decisionsByArtist } = useDecisionStore();
   const openHelp = useHelpStore((state) => state.openHelp);
   // Homepage has no route params — its cards deep-link into the active context. When
   // none is chosen yet, the picker takes over (rendered below).
   const context = useActiveContextStore((s) => s.context);
   const ctx = context ?? { editionSlug: "", runSlug: "" };
+  const decisionsByArtist = useEditionDecisions(ctx.editionSlug);
   const runScheduleState = useRunScheduleState(ctx.editionSlug, ctx.runSlug);
   const plannerDisabled = runScheduleState === "announced";
   const quickPicksTilt = useCardTilt();

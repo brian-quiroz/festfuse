@@ -13,33 +13,43 @@ import {
 
 export type RunAppearancesBySlug = Map<string, ApiRunAppearance[]>;
 
-// Festival-scoped, ID-based — not derived from day/time, so correcting an appearance's
-// schedule details later never invalidates a persisted key. `appearanceId` is a real
-// database `Appearance.id`; `runAppearancesBySlug`, when passed, canonicalizes it
-// through `resolveCanonicalAppearanceId`. Takes primitives, not full
-// Artist/FestivalAppearance objects, so every caller shares one function.
+// The prefix every persisted schedule key carries. Schedules are run-scoped (ADR-0015):
+// each weekend of a multi-run edition keeps an independent schedule, so the key names
+// both the edition and the run.
+export function runScopeId(editionSlug: string, runSlug: string): string {
+  return `${editionSlug}:${runSlug}`;
+}
+
+// Run-scoped and ID-based, not derived from day/time, so correcting an appearance's
+// schedule details later never invalidates a persisted key. `scopeId` is
+// `runScopeId(editionSlug, runSlug)`. `appearanceId` is a real database `Appearance.id`;
+// `runAppearancesBySlug`, when passed, canonicalizes it through
+// `resolveCanonicalAppearanceId`. Takes primitives, not full Artist/FestivalAppearance
+// objects, so every caller shares one function.
 export function getAppearanceKey(
   artistSlug: string,
   appearanceId: string,
-  festivalId: string,
+  scopeId: string,
   runAppearancesBySlug?: RunAppearancesBySlug
 ): string {
   const canonicalId = runAppearancesBySlug
     ? resolveCanonicalAppearanceId(artistSlug, appearanceId, runAppearancesBySlug)
     : appearanceId;
-  return `${festivalId}::${artistSlug}::${canonicalId}`;
+  return `${scopeId}::${artistSlug}::${canonicalId}`;
 }
 
 // Shared by ArtistCard, ArtistActions, and filters.ts's scheduleStatus facet so they
 // can never disagree about an artist's aggregate schedule state.
 export function getArtistScheduleState(
   artist: Pick<Artist, "slug" | "appearances">,
-  festivalId: string,
+  editionSlug: string,
+  runSlug: string,
   scheduledAppearanceKeys: Set<string>,
   runAppearancesBySlug?: RunAppearancesBySlug
 ): "none" | "partial" | "full" {
-  const keys = getAppearancesForFestival(artist, festivalId).map((a) =>
-    getAppearanceKey(artist.slug, a.id, a.festivalId, runAppearancesBySlug)
+  const scopeId = runScopeId(editionSlug, runSlug);
+  const keys = getAppearancesForFestival(artist, editionSlug).map((a) =>
+    getAppearanceKey(artist.slug, a.id, scopeId, runAppearancesBySlug)
   );
   const scheduledCount = keys.filter((k) => scheduledAppearanceKeys.has(k)).length;
   if (scheduledCount === 0) return "none";
@@ -47,32 +57,37 @@ export function getArtistScheduleState(
   return "partial";
 }
 
-// Artist-level views of the two appearance-keyed sets — precomputed once here, in the
+// Artist-level views of the two appearance-keyed sets, precomputed once here, in the
 // same place scheduleStore.ts already computes the appearance-keyed sets themselves,
 // so ArtistCard/filters.ts/Sidebar go back to a single `.has(artist.slug)`/`.size`
-// read with no aggregation logic of their own. This matches how the store worked
-// before multi-appearance support, when it held one artist-slug-keyed Set directly.
+// read with no aggregation logic of their own.
 
 export function getScheduledArtistSlugs(
   scheduledAppearanceKeys: Set<string>,
   appearancesBySlug: RunAppearancesBySlug,
-  festivalId: string
+  editionSlug: string,
+  runSlug: string
 ): Set<string> {
   const slugs = new Set<string>();
   for (const [slug, apiAppearances] of appearancesBySlug) {
     // Every key present in appearancesBySlug has at least one appearance by
-    // construction (it was only added because one existed) — same non-empty
+    // construction (it was only added because one existed): the same non-empty
     // invariant RunArtist.appearances relies on in mapRunAppearance.ts.
     const artist = {
       slug,
-      appearances: apiAppearances.map((a) => mapFestivalAppearance(a, festivalId)) as [
+      appearances: apiAppearances.map((a) => mapFestivalAppearance(a, editionSlug)) as [
         FestivalAppearance,
         ...FestivalAppearance[],
       ],
     };
     if (
-      getArtistScheduleState(artist, festivalId, scheduledAppearanceKeys, appearancesBySlug) !==
-      "none"
+      getArtistScheduleState(
+        artist,
+        editionSlug,
+        runSlug,
+        scheduledAppearanceKeys,
+        appearancesBySlug
+      ) !== "none"
     ) {
       slugs.add(slug);
     }
@@ -83,17 +98,19 @@ export function getScheduledArtistSlugs(
 export function getConflictingArtistSlugs(
   conflictingAppearanceKeys: Set<string>,
   appearancesBySlug: RunAppearancesBySlug,
-  festivalId: string
+  editionSlug: string,
+  runSlug: string
 ): Set<string> {
   const slugs = new Set<string>();
-  // Every appearance in appearancesBySlug already belongs to this one run/festival —
-  // no separate cross-festival scoping needed, unlike the old Artist[]-based version.
+  const scopeId = runScopeId(editionSlug, runSlug);
+  // Every appearance in appearancesBySlug already belongs to this one run, so no
+  // separate cross-festival scoping is needed here.
   for (const [slug, apiAppearances] of appearancesBySlug) {
     for (const apiAppearance of apiAppearances) {
-      const appearance = mapFestivalAppearance(apiAppearance, festivalId);
+      const appearance = mapFestivalAppearance(apiAppearance, editionSlug);
       if (
         conflictingAppearanceKeys.has(
-          getAppearanceKey(slug, appearance.id, appearance.festivalId, appearancesBySlug)
+          getAppearanceKey(slug, appearance.id, scopeId, appearancesBySlug)
         )
       ) {
         slugs.add(slug);
@@ -171,27 +188,29 @@ export function sortAppearancesChronologically(
   });
 }
 
-// Conflicting scheduled appearances (not artists) — grouped by festival + calendar
+// Conflicting scheduled appearances (not artists), grouped by run scope plus calendar
 // date, not the `day` weekday label alone, so appearances that merely share a `day`
-// string but belong to different festivals (or, in a future multi-weekend scenario,
-// different actual calendar dates) are never compared for overlap. Returns conflicting
+// string but belong to a different run or a different actual calendar date are never
+// compared for overlap. Returns conflicting
 // appearance keys. Every lookup here is forward-constructed (real appearance -> key ->
-// Set.has()) — nothing iterates scheduledAppearanceKeys and tries to parse an entry, so
+// Set.has()); nothing iterates scheduledAppearanceKeys and tries to parse an entry, so
 // a stale or unrecognized key is simply never matched, never an error.
 export function getConflictingArtists(
   scheduledAppearanceKeys: Set<string>,
   appearancesBySlug: RunAppearancesBySlug,
-  festivalId: string
+  editionSlug: string,
+  runSlug: string
 ): Set<string> {
   const conflicting = new Set<string>();
+  const scopeId = runScopeId(editionSlug, runSlug);
   const scheduledByDate = new Map<string, Array<{ appearance: FestivalAppearance; key: string }>>();
 
   for (const [slug, apiAppearances] of appearancesBySlug) {
     for (const apiAppearance of apiAppearances) {
-      const appearance = mapFestivalAppearance(apiAppearance, festivalId);
-      const key = getAppearanceKey(slug, appearance.id, appearance.festivalId, appearancesBySlug);
+      const appearance = mapFestivalAppearance(apiAppearance, editionSlug);
+      const key = getAppearanceKey(slug, appearance.id, scopeId, appearancesBySlug);
       if (!scheduledAppearanceKeys.has(key)) continue;
-      const groupKey = `${appearance.festivalId}::${appearance.date}`;
+      const groupKey = `${scopeId}::${appearance.date}`;
       if (!scheduledByDate.has(groupKey)) scheduledByDate.set(groupKey, []);
       scheduledByDate.get(groupKey)!.push({ appearance, key });
     }
@@ -205,7 +224,7 @@ export function getConflictingArtists(
         const b = entries[j];
 
         // Time overlap check: A.start < B.end && B.start < A.end. Same artist's two
-        // scheduled appearances overlapping each other is correctly caught here too —
+        // scheduled appearances overlapping each other is correctly caught here too,
         // not special-cased away, since it's still "can't be two places at once."
         if (
           timeStringToMinutes(a.appearance.startTime) < timeStringToMinutes(b.appearance.endTime) &&

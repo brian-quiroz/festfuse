@@ -5,11 +5,11 @@ import Switch from "@/app/components/Switch";
 import PlannerGrid from "@/app/components/planner/PlannerGrid";
 import PlannerMobileFilters from "@/app/components/planner/PlannerMobileFilters";
 import AppearancesUnavailable from "@/app/components/AppearancesUnavailable";
-import { useDecisionStore } from "@/app/store/decisionStore";
+import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { usePlannerViewStore } from "@/app/store/plannerViewStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
-import { getAppearanceEntriesFromApi, getAppearanceKey } from "@/app/lib/schedule";
+import { getAppearanceEntriesFromApi, getAppearanceKey, runScopeId } from "@/app/lib/schedule";
 import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
 
 export default function PlannerPage() {
@@ -18,7 +18,7 @@ export default function PlannerPage() {
   const [activeDay, setActiveDay] = useState<string>(days[0]);
   const { showMyPicks, showScheduled, setShowMyPicks, setShowScheduled } = usePlannerViewStore();
 
-  const { decisionsByArtist } = useDecisionStore();
+  const decisionsByArtist = useEditionDecisions(editionSlug);
   // scheduledAppearanceKeys/conflictingAppearanceKeys are computed once in the store
   // itself (see scheduleStore.ts) — read directly rather than recomputed here.
   const { scheduledAppearanceKeys, conflictingAppearanceKeys, toggleScheduled } =
@@ -64,11 +64,12 @@ export default function PlannerPage() {
   const visibleEntries = useMemo(() => {
     const myPicksActive = showMyPicks && !myPicksDisabled;
     if (!myPicksActive && !showScheduled) return dayEntries;
+    const scopeId = runScopeId(editionSlug, runSlug);
     return dayEntries.filter((entry) => {
       const key = getAppearanceKey(
         entry.artistSlug,
         entry.appearanceId,
-        entry.festivalId,
+        scopeId,
         runAppearancesBySlug
       );
       if (conflictingAppearanceKeys.has(key)) return true;
@@ -78,6 +79,9 @@ export default function PlannerPage() {
     });
   }, [
     dayEntries,
+    editionSlug,
+    runSlug,
+    runAppearancesBySlug,
     showMyPicks,
     myPicksDisabled,
     showScheduled,

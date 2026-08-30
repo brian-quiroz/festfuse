@@ -3,7 +3,7 @@
 import { useState, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
-import { useDecisionStore } from "@/app/store/decisionStore";
+import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useAttendanceDays } from "@/app/store/attendanceStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
@@ -34,9 +34,9 @@ export function FestivalStorySequence({
   const router = useRouter();
   const { editionSlug, runSlug } = useRunContext();
   const dayOrder = useRunDays();
-  const decisionsByArtist = useDecisionStore((state) => state.decisionsByArtist);
+  const decisionsByArtist = useEditionDecisions(editionSlug);
   const { applyPreset } = useExploreFilterStore();
-  const persistedAttendanceDays = useAttendanceDays(editionSlug, dayOrder);
+  const persistedAttendanceDays = useAttendanceDays(editionSlug, runSlug, dayOrder);
   const scopedAttendanceDays = attendanceDays ?? persistedAttendanceDays;
 
   // Structurally unreachable while runAppearancesStore hasn't loaded — this component

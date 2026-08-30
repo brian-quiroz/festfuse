@@ -15,7 +15,7 @@ import {
   AlertCircle,
   HelpCircle,
 } from "lucide-react";
-import { useDecisionStore } from "@/app/store/decisionStore";
+import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useExploreFilterStore, NAV_PRESETS } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { useActiveContextStore } from "@/app/store/activeContextStore";
@@ -59,7 +59,7 @@ export default function Sidebar() {
     context?.editionSlug ?? "",
     context?.runSlug ?? ""
   );
-  const { decisionsByArtist } = useDecisionStore();
+  const decisionsByArtist = useEditionDecisions(context?.editionSlug ?? "");
   // Artist-slug-keyed, precomputed in scheduleStore.ts — see ARCHITECTURE.md §
   // Multi-Appearance Support ("Sidebar counts: artist counts, not appearance counts").
   const { scheduledArtistSlugs, conflictingArtistSlugs } = useScheduleStore();

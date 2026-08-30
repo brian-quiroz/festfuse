@@ -8,7 +8,7 @@ import { getDatesByDay } from "@/app/lib/appearances";
 import { getEligibleEntries } from "@/app/lib/quick-picks-queue";
 import type { QuickPicksRunArtist } from "@/app/lib/api/mapRunAppearance";
 import { useAttendanceDays, useAttendanceStore } from "@/app/store/attendanceStore";
-import { useDecisionStore } from "@/app/store/decisionStore";
+import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
 import type { QuickPicksSessionConfig } from "@/app/types/quick-picks";
 
@@ -32,13 +32,13 @@ export default function StartScreen({ onStart, quickPicksArtists }: Props) {
 
   const { editionSlug, runSlug } = useRunContext();
   const festivalDays = useRunDays();
-  const attendanceDays = useAttendanceDays(editionSlug, festivalDays);
+  const attendanceDays = useAttendanceDays(editionSlug, runSlug, festivalDays);
   const setAttendanceDays = useAttendanceStore((state) => state.setAttendanceDays);
   const datesByDay = useMemo(
     () => getDatesByDay(quickPicksArtists, editionSlug),
     [quickPicksArtists, editionSlug]
   );
-  const decisionsByArtist = useDecisionStore((state) => state.decisionsByArtist);
+  const decisionsByArtist = useEditionDecisions(editionSlug);
 
   const noDaysSelected = attendanceDays.length === 0;
   const isGroupingLocked = attendanceDays.length <= 1;
@@ -75,7 +75,7 @@ export default function StartScreen({ onStart, quickPicksArtists }: Props) {
     const next = attendanceDays.includes(day)
       ? attendanceDays.filter((d) => d !== day)
       : [...attendanceDays, day];
-    setAttendanceDays(editionSlug, next, festivalDays);
+    setAttendanceDays(editionSlug, runSlug, next, festivalDays);
   }
 
   function handleStart() {

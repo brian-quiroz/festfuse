@@ -2,7 +2,7 @@
 
 import { Calendar, Star, Heart } from "lucide-react";
 import type { Artist } from "@/app/types/artist";
-import { useDecisionStore } from "@/app/store/decisionStore";
+import { useDecisionStore, useEditionDecisions } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
 import { useRunContext } from "@/app/components/RunContextProvider";
@@ -15,7 +15,8 @@ interface ArtistActionsProps {
 
 export default function ArtistActions({ artist }: ArtistActionsProps) {
   const { editionSlug, runSlug } = useRunContext();
-  const { decisionsByArtist, setDecision } = useDecisionStore();
+  const decisionsByArtist = useEditionDecisions(editionSlug);
+  const setDecision = useDecisionStore((s) => s.setDecision);
   const { scheduledAppearanceKeys, toggleAllAppearances } = useScheduleStore();
   const { appearancesBySlug: runAppearancesBySlug } = useRunAppearances(editionSlug, runSlug);
 
@@ -29,6 +30,7 @@ export default function ArtistActions({ artist }: ArtistActionsProps) {
   const scheduleState = getArtistScheduleState(
     artist,
     editionSlug,
+    runSlug,
     scheduledAppearanceKeys,
     runAppearancesBySlug
   );
@@ -42,11 +44,16 @@ export default function ArtistActions({ artist }: ArtistActionsProps) {
   const interested = verdict === "interested";
 
   const handleMustSee = () => {
-    setDecision(artist.slug, verdict === "mustSee" ? null : "mustSee", "artist");
+    setDecision(editionSlug, artist.slug, verdict === "mustSee" ? null : "mustSee", "artist");
   };
 
   const handleInterested = () => {
-    setDecision(artist.slug, verdict === "interested" ? null : "interested", "artist");
+    setDecision(
+      editionSlug,
+      artist.slug,
+      verdict === "interested" ? null : "interested",
+      "artist"
+    );
   };
 
   const handleScheduleToggle = () => {
