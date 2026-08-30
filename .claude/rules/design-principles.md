@@ -103,6 +103,17 @@ Pass gray should communicate:
 
 ---
 
+#### Exception: festival identity color
+
+The homepage festival picker (`FestivalPicker`) is the one place color is *expressive
+identity*, not semantics. Each festival card's gradient is chosen loosely from that
+festival's own branding, atmosphere, or location, and any hue family is allowed —
+including ones reserved elsewhere — because here color differentiates festival
+experiences rather than communicating app state. Selection state on those cards is
+still carried by the semantic cyan (a cyan ring), never by the identity color. This
+carve-out is scoped to festival-identity surfaces; everywhere else the semantics above
+hold.
+
 #### Foundation
 
 Deep violet (#110D24) and surrounding dark neutrals form the visual foundation of FestFuse.

@@ -62,8 +62,11 @@ export default function HowItWorksModal({ isOpen, onClose }: HowItWorksModalProp
         <h2 id="how-it-works-title" className="text-xl font-bold text-white mb-2">
           How FestFuse works
         </h2>
-        <p className="text-sm text-white/60 mb-6">
+        <p className="text-sm text-white/60 mb-2">
           FestFuse helps you decide who to see before the festival begins.
+        </p>
+        <p className="text-sm text-white/60 mb-6">
+          Pick a festival to start, and switch to another anytime from the sidebar.
         </p>
 
         <div className="space-y-6">

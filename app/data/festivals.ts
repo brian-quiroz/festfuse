@@ -5,10 +5,14 @@
 // stays the runtime source of truth for the data itself; serving this registry from
 // GET /api/v1/festivals/{slug} is a later consolidation (ADR-0015).
 //
-// Keep slugs, names, day order, and stage order in step with
-// backend/scripts/festival_configs/. Day order and stage order are display order and
-// are not arbitrary — day order drives sorting and the Explore carousels; stage order
-// matches each festival's official left-to-right stage layout (Planner grid columns).
+// Fields here are one of two kinds, and the distinction matters:
+//   Structural — slug, run structure, day order, stage order. These mirror
+//     backend/scripts/festival_configs/ and drive logic: routing, run resolution,
+//     sorting, the Explore carousels, the Planner grid columns. Keep them in step with
+//     the backend; order is not arbitrary.
+//   Presentational — `dateLabel`, `shortName` (and the card gradients, which live in
+//     FestivalPicker.tsx). Frontend-only, never synced to the backend, and never
+//     parsed, compared, or branched on — they are rendered as text and nothing else.
 
 export type Festival = {
   name: string;
@@ -21,12 +25,21 @@ export type RunConfig = {
   // backend config). The appearances API returns each set's date; the frontend derives
   // the weekday string from it, so this list only needs the names in order.
   days: readonly string[];
+  // PRESENTATIONAL. A pre-formatted date range for display, e.g. "Oct 2–4", shown in
+  // the sidebar selector rows and the homepage picker. A lossy rendering of the backend
+  // config's day_dates — do not parse it back into dates. The en dash is a deliberate
+  // exception to the no-dashes copy rule: a numeric range, not prose punctuation.
+  dateLabel: string;
 };
 
 export type EditionConfig = {
   slug: string;
   name: string;
+  // PRESENTATIONAL. The festival's casual abbreviation, e.g. "ACL" / "Lolla", used only
+  // as the picker card watermark. Not an identifier — that is `slug`.
+  shortName: string;
   city: string;
+  year: number;
   runs: readonly RunConfig[];
 };
 
@@ -34,22 +47,37 @@ export const FESTIVAL_REGISTRY: readonly EditionConfig[] = [
   {
     slug: "lollapalooza-2026",
     name: "Lollapalooza 2026",
+    shortName: "Lolla",
     city: "Chicago",
+    year: 2026,
     runs: [
       {
         slug: "main",
         name: "Main Run",
         days: ["Thursday", "Friday", "Saturday", "Sunday"],
+        dateLabel: "Jul 30–Aug 2",
       },
     ],
   },
   {
     slug: "acl-2026",
     name: "Austin City Limits 2026",
+    shortName: "ACL",
     city: "Austin",
+    year: 2026,
     runs: [
-      { slug: "weekend-1", name: "Weekend 1", days: ["Friday", "Saturday", "Sunday"] },
-      { slug: "weekend-2", name: "Weekend 2", days: ["Friday", "Saturday", "Sunday"] },
+      {
+        slug: "weekend-1",
+        name: "Weekend 1",
+        days: ["Friday", "Saturday", "Sunday"],
+        dateLabel: "Oct 2–4",
+      },
+      {
+        slug: "weekend-2",
+        name: "Weekend 2",
+        days: ["Friday", "Saturday", "Sunday"],
+        dateLabel: "Oct 9–11",
+      },
     ],
   },
 ];
@@ -88,16 +116,18 @@ export const festivals: Record<string, Festival> = Object.fromEntries(
 );
 
 /**
- * The context used wherever a scoped festival/run is needed without one in the URL:
- * the initial `activeContextStore` value, homepage deep links, sidebar nav, and the
- * root-layout appearances fetch that keeps Sidebar counts populated on `/`.
+ * The fallback context for the few places that need a scoped festival/run before the
+ * user has chosen one: the root-layout appearances fetch that keeps Sidebar counts
+ * populated on `/`, and scheduleStore's derive step while `activeContextStore` is null.
  */
 export const DEFAULT_CONTEXT = { editionSlug: "lollapalooza-2026", runSlug: "main" } as const;
 
+export function findEdition(editionSlug: string): EditionConfig | undefined {
+  return FESTIVAL_REGISTRY.find((edition) => edition.slug === editionSlug);
+}
+
 function findRun(editionSlug: string, runSlug: string): RunConfig | undefined {
-  return FESTIVAL_REGISTRY.find((edition) => edition.slug === editionSlug)?.runs.find(
-    (run) => run.slug === runSlug
-  );
+  return findEdition(editionSlug)?.runs.find((run) => run.slug === runSlug);
 }
 
 /** Weekday names in festival order for a specific run. Empty for an unknown context. */
