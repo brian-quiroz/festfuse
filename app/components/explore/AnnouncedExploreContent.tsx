@@ -6,7 +6,6 @@ import { Shuffle, ChevronLeft } from "lucide-react";
 import { GENRES } from "@/app/data/categories";
 import Footer from "@/app/components/Footer";
 import AppearancesUnavailable from "@/app/components/AppearancesUnavailable";
-import AnnouncedLineupPending from "@/app/components/AnnouncedLineupPending";
 import ArtistCarousel from "@/app/components/explore/ArtistCarousel";
 import AnnouncedArtistCard from "@/app/components/explore/AnnouncedArtistCard";
 import ArtistResultsGrid from "@/app/components/explore/ArtistResultsGrid";
@@ -19,7 +18,7 @@ import { interleaveByTierShuffled, shuffleArray } from "@/app/lib/carousel";
 import { sortAnnouncedByTier } from "@/app/lib/sort";
 import { createSeededRandom } from "@/app/lib/random";
 import { isEditionCity } from "@/app/lib/location";
-import { artistHref, contextHref, festivalLabel, findEdition } from "@/app/data/festivals";
+import { artistHref, contextHref, findEdition } from "@/app/data/festivals";
 import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useAnnouncedRunArtists } from "@/app/store/announcedRunArtistsStore";
@@ -150,12 +149,6 @@ export default function AnnouncedExploreContent({ seed }: { seed: number }) {
         <AppearancesUnavailable />
       </main>
     );
-  }
-
-  // Announced run, roster not imported yet (ADR-0016) — nothing to explore. Gated on
-  // "loaded" so a rare pre-seed "loading" frame doesn't flash this.
-  if (loadState === "loaded" && runArtists.length === 0) {
-    return <AnnouncedLineupPending festivalLabel={festivalLabel(editionSlug, runSlug)} />;
   }
 
   const clearAllFacets = () => {

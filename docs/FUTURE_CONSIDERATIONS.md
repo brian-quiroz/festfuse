@@ -438,8 +438,32 @@ The type unification (commit `d27a5e1`+) removed that: both feeds now produce `R
 **Not now:** it is a real restructure of a 560-line file on the live scheduled path,
 and Quick Picks / Festival Story (roadmap sections for commits 7-8) hit the same
 fork/merge question. Do it as one focused consolidation pass after those land.
-`AnnouncedArtistCard` stays a separate component — it is a genuinely different card
-(no schedule line, schedule toggle, or conflict badge), not "a card with a prop".
+
+`AnnouncedArtistCard` folds into the same pass. It is ~65% identical to `ArtistCard`
+(wrapper, full-bleed `Link`, both photo/gradient branches, Headliner badge, the two
+verdict buttons, sizing, the name/genre info block); the differences are all
+schedule-derived (day/time/stage line, the schedule toggle, the conflict badge, "N
+sets"). Merging means the lazy `getPrimaryAppearance` guard already used in
+`filters.ts` / `search.ts` (it throws on empty appearances) plus gating the
+schedule JSX on `artist.appearances.length > 0`. The other Quick Picks sub-screens
+(`StartScreen`, `DecisionScreen`, `QuickPicksCompleteScreen`) already took an
+`announced` prop rather than forking; the card is the last outlier.
+
+---
+
+## Future Consideration: Pre-flag Empty Runs in the Festival Picker
+
+An announced run with no published artists yet (ADR-0016) is blocked at the
+`[edition]/[run]` layout — any URL under it shows `AnnouncedLineupPending` — and a
+follow-up strips the sidebar nav + home cards for the *active* such run. What is still
+missing: the festival picker (`FestivalPicker` on Home, `FestivalContextSelector` in
+the sidebar) shows every run as selectable, so a user can pick one and land straight on
+"lineup not available yet". Graying it out in the dropdown needs an artist count (or a
+has-any-artists boolean) for *every* run, not just the active one — the picker today
+only fetches `schedule_state` per registry entry. That is a new backend field on the
+festival/edition response or an extra call. Low priority: the transient window (a run
+seeded shortly before its roster import) is short, and every path already lands
+somewhere truthful.
 
 ---
 

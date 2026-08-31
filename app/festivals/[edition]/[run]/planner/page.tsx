@@ -28,10 +28,7 @@ export default function PlannerPage() {
     useScheduleStore();
   const { appearancesBySlug: runAppearancesBySlug, loadState: runAppearancesLoadState } =
     useRunAppearances(editionSlug, runSlug);
-  const { artists: announcedArtists, loadState: announcedLoadState } = useAnnouncedRunArtists(
-    editionSlug,
-    runSlug
-  );
+  const { loadState: announcedLoadState } = useAnnouncedRunArtists(editionSlug, runSlug);
 
   const allAppearanceEntries = useMemo(
     () => getAppearanceEntriesFromApi(runAppearancesBySlug, editionSlug),
@@ -98,9 +95,10 @@ export default function PlannerPage() {
   ]);
 
   // An announced run has a lineup but no schedule to plan against (ADR-0016). The route
-  // stays live rather than redirecting — see PlannerUnavailable. Reads the announced
-  // feed (not runAppearances, which stays empty for an announced run) to tell "lineup
-  // not announced yet" from "announced, no schedule".
+  // stays live rather than redirecting — see PlannerUnavailable. A run with *no*
+  // published artists never reaches here — the run layout blocks it upstream — so this
+  // is always "announced, some artists, no schedule". The announced feed's load state
+  // still gates AppearancesUnavailable on a fetch failure.
   if (scheduleMode === "announced") {
     if (announcedLoadState === "error") {
       return (
@@ -109,12 +107,7 @@ export default function PlannerPage() {
         </main>
       );
     }
-    return (
-      <PlannerUnavailable
-        context={{ editionSlug, runSlug }}
-        hasAnnouncedArtists={announcedArtists.length > 0}
-      />
-    );
+    return <PlannerUnavailable context={{ editionSlug, runSlug }} />;
   }
 
   if (runAppearancesLoadState === "error") {

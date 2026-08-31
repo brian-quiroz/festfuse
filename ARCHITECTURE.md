@@ -818,14 +818,25 @@ holds the schedule-agnostic `/artists` feed. Both stores carry a tri-state `load
 the other is seeded per run, never both. `AnnouncedRunArtistsHydrator` copies
 `RunAppearancesHydrator`'s two-timing seed.
 
+**Empty announced run.** A run that is `schedule_state: "announced"` with **no
+published artists yet** (seeded before its roster import) has no usable surface. The
+`[edition]/[run]` layout catches this once — an announced feed that resolved to `[]` —
+and renders `AnnouncedLineupPending` in place of the page, so every route beneath
+(Explore, Planner, Quick Picks, Artist Detail, Credits, Festival Story) shows the one
+"lineup not available yet" screen without each page checking. `null` (fetch failure) is
+not `[]`: it flows to the hydrator and the pages' `AppearancesUnavailable`, as on the
+scheduled path. The sidebar still lists the run-scoped nav for such a run — stripping
+it to Home + the picker is a follow-up.
+
 **Per-surface adaptation:**
 
 | Surface | Announced behavior |
 | --- | --- |
-| **Explore** | `AnnouncedExploreContent` (separate component). No Day / Stage / Schedule-Status facets; the search placeholder drops "or stages". Carousels: Festival Favorites (`interleaveByTierShuffled` — tier round-robin, the day-less analog of `shuffleDayBlocks`), International and `{City}'s Own` (plain seeded `shuffleArray`); no After Dark (set-time only). `AnnouncedArtistCard` (rendered through `ArtistCarousel` / `ArtistResultsGrid`'s `CardComponent` prop) drops the schedule line, schedule toggle, conflict badge, and "N sets". `filterArtists` / `searchArtists` shared as-is. With zero published artists (`loadState === "loaded" && runArtists.length === 0`) it renders `AnnouncedLineupPending` instead. |
+| **Explore** | `AnnouncedExploreContent` (separate component). No Day / Stage / Schedule-Status facets; the search placeholder drops "or stages". Carousels: Festival Favorites (`interleaveByTierShuffled` — tier round-robin, the day-less analog of `shuffleDayBlocks`), International and `{City}'s Own` (plain seeded `shuffleArray`); no After Dark (set-time only). `AnnouncedArtistCard` (rendered through `ArtistCarousel` / `ArtistResultsGrid`'s `CardComponent` prop) drops the schedule line, schedule toggle, conflict badge, and "N sets". `filterArtists` / `searchArtists` shared as-is. |
 | **Artist Detail** | `FloatingCards` shows a membership line ("Playing At — {festival} — Set times not yet announced") instead of the Date/Time/Stage card; `ArtistActions` hides "Add to Schedule"; the Headliner badge stays (from `billingTier`). The page throws only when a *scheduled* run has an artist with no appearances. |
-| **Planner** | `planner/page.tsx` renders `PlannerUnavailable` (informational, cyan) — the route stays live and linkable, no redirect (context-switching onto it from another run also lands here, not Home). It reads the announced feed to pick the shape: **artists but no schedule** → "Schedule not available yet" + Explore/Quick Picks cards; **zero artists** → `AnnouncedLineupPending` ("Lineup not available yet", no cards), shared with announced Explore. The Planner nav item and the sidebar's whole "Schedule" group are hidden for an announced run. |
-| **Quick Picks / Festival Story** | Adapted in their own sections below. |
+| **Planner** | `planner/page.tsx` renders `PlannerUnavailable` (informational, cyan, "Schedule not available yet" + Explore/Quick Picks cards) — the route stays live and linkable, no redirect (context-switching onto it from another run also lands here, not Home). Only ever the "artists, no schedule" shape; a zero-artist run is caught by the layout. The Planner nav item and the sidebar's whole "Schedule" group are hidden for an announced run. |
+| **Quick Picks** | `quick-picks/page.tsx` branches on `useRunScheduleMode()` (state machine unchanged, only the data source and three sub-screens differ). Each sub-screen takes an `announced` prop rather than being forked: `StartScreen` drops the "Days Attending" step, the "Group by Festival Day" toggle, and the per-day "fully reviewed" note; `DecisionScreen` takes a nullable `appearance` and drops the day/time/stage/"N sets" metadata row (Headliner badge reads `artist.billingTier`); `QuickPicksCompleteScreen` uses lineup-wide scope copy and hides the destination cards until the Festival Story announced path lands. `createAnnouncedSession` builds the queue from every undecided artist, ordered by `interleaveArtistsByTier` (the shared tier interleave keyed on `artist.billingTier` instead of an appearance's); queue items carry null day/appearance fields. |
+| **Festival Story** | Adapted in its own section below. |
 
 **`{City}'s Own`.** The carousel filter uses `isEditionCity(artistCity, editionCity)`
 with the edition's city from `FESTIVAL_REGISTRY`, so it is correct for any festival.
@@ -2251,6 +2262,18 @@ helper (`mergeUndercardAndRecognizable`) so the two strategies can't drift apart
 single selected day degenerates safely (both streams collapse to one bucket,
 producing the same pacing as the grouped strategy for that day). No Day Complete
 screens; progress uses the full queue.
+
+### Announced queue
+
+For an announced run (ADR-0016) there is no schedule, so `createAnnouncedSession`
+(`quick-picks/page.tsx`) skips days, attendance, and selected-day appearance
+resolution entirely: eligible = every artist with no verdict from any source, ordered
+by `interleaveArtistsByTier` — the same recognizable/undercard merge as the grouped and
+ungrouped strategies (`mergeUndercardAndRecognizable`, now generic), keyed on each
+artist's run-level `billingTier` rather than an appearance's. Queue items carry
+`appearanceId`/`day`/`dayPosition`/`dayTotal` as null; progress uses the full queue. No
+Day Complete screens. The mode is snapshotted on `QuickPicksSessionConfig` at Start,
+like `attendanceDays`.
 
 ### Multi-appearance disclosure, attendance-scoped
 

@@ -24,9 +24,14 @@ function formatDayList(days: string[]): string {
 interface Props {
   onStart: (config: QuickPicksSessionConfig) => void;
   quickPicksArtists: QuickPicksRunArtist[];
+  // Announced run (ADR-0016): no schedule, so the "Days Attending" step, the "Group by
+  // Festival Day" toggle, and the per-day "fully reviewed" note all drop out — what is
+  // left is the hero and the CTA. Kept as a prop rather than a sibling component so the
+  // hero copy, the CTA, and the "saved on this device" note stay one source.
+  announced?: boolean;
 }
 
-export default function StartScreen({ onStart, quickPicksArtists }: Props) {
+export default function StartScreen({ onStart, quickPicksArtists, announced = false }: Props) {
   const [groupByDay, setGroupByDay] = useState(true);
   const [pressing, setPressing] = useState(false);
 
@@ -57,18 +62,20 @@ export default function StartScreen({ onStart, quickPicksArtists }: Props) {
   // clicked/toggled.
   const fullyReviewedDays = useMemo(
     () =>
-      festivalDays.filter(
-        (day) =>
-          attendanceDays.includes(day) &&
-          getEligibleEntries(
-            quickPicksArtists,
-            editionSlug,
-            [day],
-            decisionsByArtist,
-            festivalDays
-          ).length === 0
-      ),
-    [festivalDays, attendanceDays, decisionsByArtist, quickPicksArtists, editionSlug]
+      announced
+        ? []
+        : festivalDays.filter(
+            (day) =>
+              attendanceDays.includes(day) &&
+              getEligibleEntries(
+                quickPicksArtists,
+                editionSlug,
+                [day],
+                decisionsByArtist,
+                festivalDays
+              ).length === 0
+          ),
+    [announced, festivalDays, attendanceDays, decisionsByArtist, quickPicksArtists, editionSlug]
   );
 
   function handleToggleDay(day: string) {
@@ -79,7 +86,7 @@ export default function StartScreen({ onStart, quickPicksArtists }: Props) {
   }
 
   function handleStart() {
-    if (pressing || noDaysSelected) return;
+    if (pressing || (!announced && noDaysSelected)) return;
     // Snapshot synchronously, at click time — not inside the setTimeout below, whose
     // only job is the button-press animation delay. `disabled={pressing}` on the day
     // cards and grouping toggle (passed to StartOptions) is what actually prevents the
@@ -87,12 +94,20 @@ export default function StartScreen({ onStart, quickPicksArtists }: Props) {
     // snapshot alone wouldn't stop the setup screen from drifting out of sync with the
     // session that's about to start.
     const orderedAttendanceDays = festivalDays.filter((day) => attendanceDays.includes(day));
-    const config: QuickPicksSessionConfig = {
-      festivalId: editionSlug,
-      runSlug,
-      groupByDay,
-      attendanceDays: orderedAttendanceDays,
-    };
+    const config: QuickPicksSessionConfig = announced
+      ? {
+          festivalId: editionSlug,
+          runSlug,
+          groupByDay: false,
+          attendanceDays: [],
+          mode: "announced",
+        }
+      : {
+          festivalId: editionSlug,
+          runSlug,
+          groupByDay,
+          attendanceDays: orderedAttendanceDays,
+        };
     setPressing(true);
     setTimeout(() => {
       setPressing(false);
@@ -138,16 +153,18 @@ export default function StartScreen({ onStart, quickPicksArtists }: Props) {
           className="w-full max-w-[544px] flex flex-col items-center gap-3 sm:gap-4"
           aria-busy={pressing}
         >
-          <StartOptions
-            festivalDays={festivalDays}
-            datesByDay={datesByDay}
-            selectedDays={attendanceDays}
-            onToggleDay={handleToggleDay}
-            groupByDay={groupByDay}
-            onGroupByDayChange={setGroupByDay}
-            isGroupingLocked={isGroupingLocked}
-            disabled={pressing}
-          />
+          {!announced && (
+            <StartOptions
+              festivalDays={festivalDays}
+              datesByDay={datesByDay}
+              selectedDays={attendanceDays}
+              onToggleDay={handleToggleDay}
+              groupByDay={groupByDay}
+              onGroupByDayChange={setGroupByDay}
+              isGroupingLocked={isGroupingLocked}
+              disabled={pressing}
+            />
+          )}
 
           {/* mt-3 on top of the parent's gap-4 gives the CTA extra separation from
               Grouping, so it reads as the start of the experience rather than a
@@ -156,15 +173,15 @@ export default function StartScreen({ onStart, quickPicksArtists }: Props) {
           <div className="w-full flex flex-col items-center gap-2 sm:gap-3 mt-2.5 sm:mt-[15px]">
             <button
               onClick={handleStart}
-              disabled={noDaysSelected || pressing}
+              disabled={(!announced && noDaysSelected) || pressing}
               className={`flex w-full items-center justify-center gap-2 px-4 py-3.5 sm:py-4 rounded-lg bg-[#00E5FF] text-[#110D24] text-base font-bold hover:bg-[#00E5FF]/90 transition duration-100 ${
-                noDaysSelected ? "opacity-40 cursor-not-allowed hover:bg-[#00E5FF]" : ""
+                !announced && noDaysSelected ? "opacity-40 cursor-not-allowed hover:bg-[#00E5FF]" : ""
               } ${pressing ? "scale-[0.97]" : ""}`}
             >
               {hasQuickPicksActivity ? "Continue Quick Picks" : "Start Quick Picks"}
               <ArrowRight size={15} strokeWidth={2.5} />
             </button>
-            {noDaysSelected ? (
+            {!announced && noDaysSelected ? (
               <p className="text-xs" style={{ color: COLORS.conflict }}>
                 Select at least one day to start Quick Picks.
               </p>

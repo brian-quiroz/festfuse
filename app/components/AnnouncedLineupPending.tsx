@@ -1,9 +1,10 @@
 import { CalendarClock } from "lucide-react";
 
 // Shown when a run's schedule_state is "announced" but no artists have been published
-// yet (ADR-0016) — a run seeded before its roster import. Rendered by both
-// PlannerUnavailable and AnnouncedExploreContent (identical content in each). There is
-// nothing to explore or plan, so no call to action beyond the sidebar nav.
+// yet (ADR-0016) — a run seeded before its roster import. The [edition]/[run] layout
+// renders this in place of the page for every route under such a run (see
+// ARCHITECTURE.md § Announced-Lineup Mode). There is nothing to explore or plan, so no
+// call to action beyond the sidebar nav.
 export default function AnnouncedLineupPending({ festivalLabel }: { festivalLabel: string }) {
   return (
     <main className="flex-1 flex flex-col overflow-hidden">

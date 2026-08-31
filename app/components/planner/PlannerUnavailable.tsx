@@ -1,18 +1,15 @@
 import Link from "next/link";
 import { ArrowRight, CalendarDays } from "lucide-react";
 import { contextHref, festivalLabel } from "@/app/data/festivals";
-import AnnouncedLineupPending from "@/app/components/AnnouncedLineupPending";
 
 // The Planner route's state for a run whose lineup is announced but has no schedule
 // yet (ADR-0016). Informational, not an error — cyan, not red (design-principles.md).
 // The route stays live and linkable rather than redirecting: Coachella 2027's
 // announced window is months long, and a silent bounce to Home is disorienting.
 // Reached only from planner/page.tsx's mode branch; Planner is already gone from the
-// sidebar nav for this run (multi-festival section 6).
-//
-// Two shapes, by whether the run has any published artists:
-//  - none yet  -> AnnouncedLineupPending ("Lineup not available yet")
-//  - some, no schedule -> "Schedule not available yet" + Explore / Quick Picks cards
+// sidebar nav for this run (multi-festival section 6). A run with no published artists
+// never gets here — the run layout renders AnnouncedLineupPending instead — so this is
+// always "announced, some artists, no schedule".
 
 const DESTINATIONS = [
   { page: "explore", label: "Explore", copy: "Browse the announced lineup" },
@@ -21,16 +18,10 @@ const DESTINATIONS = [
 
 export default function PlannerUnavailable({
   context,
-  hasAnnouncedArtists,
 }: {
   context: { editionSlug: string; runSlug: string };
-  hasAnnouncedArtists: boolean;
 }) {
   const label = festivalLabel(context.editionSlug, context.runSlug);
-
-  if (!hasAnnouncedArtists) {
-    return <AnnouncedLineupPending festivalLabel={label} />;
-  }
 
   return (
     <main className="flex-1 flex flex-col overflow-hidden">

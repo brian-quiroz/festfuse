@@ -18,12 +18,15 @@ import {
 } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
+import { useAnnouncedRunArtists } from "@/app/store/announcedRunArtistsStore";
 import {
   getQuickPicksRunArtistsFromApi,
   type QuickPicksRunArtist,
 } from "@/app/lib/api/mapRunAppearance";
+import { getAnnouncedQuickPicksArtistsFromApi } from "@/app/lib/api/mapRunArtist";
 import {
   interleaveByTierWithinDay,
+  interleaveArtistsByTier,
   buildUngroupedQueue,
   getEligibleEntries,
   type QueueEntry,
@@ -31,7 +34,7 @@ import {
 import { contextHref, getDaysForFestival } from "@/app/data/festivals";
 import { getAppearanceById, getAppearancesForFestival } from "@/app/lib/appearances";
 import { getValidPositivePicks, MIN_POSITIVE_PICKS_FOR_STORY } from "@/app/hooks/useStorySignals";
-import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
+import { useRunContext, useRunDays, useRunScheduleMode } from "@/app/components/RunContextProvider";
 import type {
   QuickPicksStep,
   QuickPicksSession,
@@ -90,6 +93,31 @@ export function createSession(
   return { config, queue, currentIndex: 0, decisions: {} };
 }
 
+// Announced-run session builder (ADR-0016). No schedule, so no day buckets, no
+// attendance filter, no selected-day appearance: eligible = every artist with no
+// verdict yet (any source), ordered by the shared tier interleave on each artist's
+// run-level billingTier. Queue items carry null day/appearance fields — DecisionScreen
+// and progress fall back to whole-queue counting. Exported alongside createSession for
+// symmetry and testability.
+export function createAnnouncedSession(
+  config: QuickPicksSessionConfig,
+  decisionsByArtist: Record<string, ArtistDecision>,
+  quickPicksArtists: QuickPicksRunArtist[]
+): QuickPicksSession {
+  const eligible = quickPicksArtists.filter((artist) => !decisionsByArtist[artist.slug]);
+  const ordered = interleaveArtistsByTier(eligible);
+
+  const queue: QuickPicksQueueItem[] = ordered.map((artist) => ({
+    artistId: artist.slug,
+    appearanceId: null,
+    day: null,
+    dayPosition: null,
+    dayTotal: null,
+  }));
+
+  return { config, queue, currentIndex: 0, decisions: {} };
+}
+
 export default function QuickPicksPage() {
   const router = useRouter();
   const setDecision = useDecisionStore((s) => s.setDecision);
@@ -107,13 +135,24 @@ export default function QuickPicksPage() {
   const [showFestivalStory, setShowFestivalStory] = useState(false);
 
   const { editionSlug, runSlug } = useRunContext();
+  const scheduleMode = useRunScheduleMode();
+  const isAnnouncedMode = scheduleMode === "announced";
   const decisionsByArtist = useEditionDecisions(editionSlug);
   const dayOrder = useRunDays();
+  // Only one feed is hydrated per run (ADR-0016); the unused hook returns its stable
+  // empty slice.
   const { appearancesBySlug: runAppearancesBySlug, loadState: runAppearancesLoadState } =
     useRunAppearances(editionSlug, runSlug);
+  const { artists: announcedApiArtists, loadState: announcedLoadState } = useAnnouncedRunArtists(
+    editionSlug,
+    runSlug
+  );
   const quickPicksArtists = useMemo(
-    () => getQuickPicksRunArtistsFromApi(runAppearancesBySlug, editionSlug),
-    [runAppearancesBySlug, editionSlug]
+    () =>
+      isAnnouncedMode
+        ? getAnnouncedQuickPicksArtistsFromApi(announcedApiArtists)
+        : getQuickPicksRunArtistsFromApi(runAppearancesBySlug, editionSlug),
+    [isAnnouncedMode, announcedApiArtists, runAppearancesBySlug, editionSlug]
   );
 
   function handleStart(config: QuickPicksSessionConfig) {
@@ -121,7 +160,10 @@ export default function QuickPicksPage() {
     setUndoneVerdict(null);
     setUndoToast(null);
     setIsScreenExiting(false);
-    const newSession = createSession(config, decisionsByArtist, quickPicksArtists);
+    const newSession =
+      config.mode === "announced"
+        ? createAnnouncedSession(config, decisionsByArtist, quickPicksArtists)
+        : createSession(config, decisionsByArtist, quickPicksArtists);
 
     // If no undecided artists, show "all reviewed" screen instead of blank page
     if (newSession.queue.length === 0) {
@@ -230,8 +272,9 @@ export default function QuickPicksPage() {
     : null;
   // Resolve the session's chosen appearance from the queue item's appearanceId —
   // DecisionScreen displays this rather than independently recomputing a primary.
+  // Null in announced mode: the queue item has no appearanceId (no schedule).
   const currentAppearance =
-    currentArtist && currentQueueItem && session
+    currentArtist && currentQueueItem?.appearanceId && session
       ? (getAppearanceById(
           currentArtist,
           session.config.festivalId,
@@ -250,7 +293,10 @@ export default function QuickPicksPage() {
   const progress =
     session && currentQueueItem
       ? session.config.groupByDay
-        ? { current: currentQueueItem.dayPosition, total: currentQueueItem.dayTotal }
+        ? {
+            current: currentQueueItem.dayPosition ?? 0,
+            total: currentQueueItem.dayTotal ?? 0,
+          }
         : { current: session.currentIndex + 1, total: session.queue.length }
       : null;
 
@@ -333,8 +379,11 @@ export default function QuickPicksPage() {
 
   // The failure screen is a generic system message, not Quick Picks content — it
   // should look identical to Explore/Planner/Credits' plain-background version
-  // rather than carrying this screen's decorative energy.
-  const showAppearancesUnavailable = step === "start" && runAppearancesLoadState === "error";
+  // rather than carrying this screen's decorative energy. Gated on the mode's own
+  // feed load state (ADR-0016): only one store is hydrated per run. A zero-artist
+  // announced run never reaches here — the run layout blocks it upstream.
+  const feedLoadState = isAnnouncedMode ? announcedLoadState : runAppearancesLoadState;
+  const showAppearancesUnavailable = step === "start" && feedLoadState === "error";
 
   return (
     <main className="relative flex-1 min-w-0 min-h-0 overflow-y-auto overflow-x-hidden flex flex-col">
@@ -374,10 +423,16 @@ export default function QuickPicksPage() {
         (showAppearancesUnavailable ? (
           <AppearancesUnavailable />
         ) : (
-          <StartScreen onStart={handleStart} quickPicksArtists={quickPicksArtists} />
+          <StartScreen
+            onStart={handleStart}
+            quickPicksArtists={quickPicksArtists}
+            announced={isAnnouncedMode}
+          />
         ))}
 
-      {step === "decisioning" && session && currentArtist && currentAppearance && progress && (
+      {/* currentAppearance is legitimately null in announced mode — it is no longer
+          part of the render gate; DecisionScreen handles a null appearance. */}
+      {step === "decisioning" && session && currentArtist && progress && (
         <DecisionScreen
           artist={currentArtist}
           appearance={currentAppearance}
@@ -410,6 +465,7 @@ export default function QuickPicksPage() {
           <QuickPicksCompleteScreen
             context={step === "festivalComplete" ? "sessionComplete" : "nothingToReview"}
             attendanceDays={session?.config.attendanceDays ?? []}
+            announced={session?.config.mode === "announced"}
             storyUnlocked={storyUnlocked}
             onGoToFestivalStory={() => setShowFestivalStory(true)}
             onGoToSchedule={() => router.push(contextHref({ editionSlug, runSlug }, "planner"))}

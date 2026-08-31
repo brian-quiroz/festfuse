@@ -12,6 +12,10 @@ interface Props {
   // refers to a single named day or "your selected days." Never claims the user
   // explored the entire festival lineup unless every configured day was selected.
   attendanceDays: string[];
+  // Announced run (ADR-0016): no schedule, so the scope copy is lineup-wide and the
+  // destination cards are dropped for now. The Festival Story card returns in the
+  // Festival Story announced-mode commit; nothing else on this screen changes.
+  announced?: boolean;
   // Whether the attendance-scoped valid positive pick count clears Festival Story's
   // product floor (see MIN_POSITIVE_PICKS_FOR_STORY in useStorySignals.ts). The card
   // stays visible either way — it just does something different when locked (see
@@ -30,6 +34,7 @@ interface Props {
 export default function QuickPicksCompleteScreen({
   context,
   attendanceDays,
+  announced = false,
   storyUnlocked,
   onGoToFestivalStory,
   onGoToSchedule,
@@ -48,7 +53,13 @@ export default function QuickPicksCompleteScreen({
   // to a real element at a time, matching whichever branch renders.
   const festivalStoryButtonRef = useRef<HTMLButtonElement>(null);
   const exploreArtistsButtonRef = useRef<HTMLButtonElement>(null);
-  const initialFocusRef = storyUnlocked ? festivalStoryButtonRef : exploreArtistsButtonRef;
+  // Announced mode renders no destination cards yet, so neither button exists —
+  // fall through to the hook's default (first focusable = the Exit control).
+  const initialFocusRef = announced
+    ? undefined
+    : storyUnlocked
+      ? festivalStoryButtonRef
+      : exploreArtistsButtonRef;
 
   // This screen replaces the Quick Picks <main> content rather than floating over it,
   // but still gets dialog semantics: from an assistive-tech perspective it's the same
@@ -56,9 +67,11 @@ export default function QuickPicksCompleteScreen({
   useDialogA11y({ isOpen: true, onClose: onExit, containerRef, initialFocusRef });
 
   const isSingleDay = attendanceDays.length === 1;
-  const scope = isSingleDay
-    ? `every artist playing ${attendanceDays[0]}`
-    : "every artist playing on your selected days";
+  const scope = announced
+    ? "every artist on the announced lineup"
+    : isSingleDay
+      ? `every artist playing ${attendanceDays[0]}`
+      : "every artist playing on your selected days";
   const dayScopeText = isSingleDay ? `on ${attendanceDays[0]}` : "on your selected days";
   const eyebrow = context === "sessionComplete" ? "Quick Picks Complete" : "All Caught Up";
   const headline = context === "sessionComplete" ? "All done!" : "All caught up!";
@@ -138,7 +151,10 @@ export default function QuickPicksCompleteScreen({
           <p className="text-white/50 text-base">{supportingCopy}</p>
         </div>
 
-        {/* Transition flows into destination cards — grouped to signal connection */}
+        {/* Transition flows into destination cards — grouped to signal connection.
+            Hidden in announced mode: the Festival Story card returns wired to an
+            announced-aware Story in a later commit, and there is no schedule to plan. */}
+        {!announced && (
         <div className="flex flex-col items-center gap-5 w-full mt-2 sm:mt-4">
           <p className="text-white/70 text-base">Your festival is starting to take shape.</p>
 
@@ -221,6 +237,7 @@ export default function QuickPicksCompleteScreen({
             </button>
           </div>
         </div>
+        )}
       </div>
     </motion.div>
   );

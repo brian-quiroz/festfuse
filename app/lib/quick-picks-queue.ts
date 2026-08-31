@@ -1,5 +1,6 @@
+import type { BillingTier } from "@/app/data/categories";
 import type { FestivalAppearance } from "@/app/types/artist";
-import type { QuickPicksRunArtist } from "@/app/lib/api/mapRunAppearance";
+import type { QuickPicksRunArtist, RunArtist } from "@/app/lib/api/mapRunAppearance";
 import type { ArtistDecision } from "@/app/store/decisionStore";
 import { getSelectedDayAppearance } from "@/app/lib/appearances";
 
@@ -52,22 +53,22 @@ function shuffleArray<T>(arr: T[]): T[] {
   return result;
 }
 
-function isRecognizable(entry: QueueEntry): boolean {
-  const tier = entry.appearance.billingTier;
+// Recognizable = a name a browsing festivalgoer is likely to know on sight. Keyed on a
+// billing tier value rather than a QueueEntry so both the scheduled (per-appearance
+// tier) and announced (run-level artist.billingTier) queue builders classify the same
+// way. Sub-headliners count: the poster's second tier still carries recognition.
+function isRecognizableTier(tier: BillingTier | undefined): boolean {
   return tier === "Headliner" || tier === "Sub-headliner";
 }
 
 /**
- * Merge a stream of undercard entries with a stream of recognizable entries at
- * roughly 2 undercard : 1 recognizable, falling back to whichever stream still has
- * entries once the other is exhausted. Shared by the within-day and cross-day
- * interleaving strategies below so the "momentum" pacing can't drift between them.
+ * Merge a stream of undercard items with a stream of recognizable items at roughly
+ * 2 undercard : 1 recognizable, falling back to whichever stream still has entries
+ * once the other is exhausted. Generic over the item type so the within-day,
+ * cross-day, and announced interleaving strategies below all share one pacing rule.
  */
-function mergeUndercardAndRecognizable(
-  undercard: QueueEntry[],
-  recognizable: QueueEntry[]
-): QueueEntry[] {
-  const result: QueueEntry[] = [];
+function mergeUndercardAndRecognizable<T>(undercard: T[], recognizable: T[]): T[] {
+  const result: T[] = [];
   let undIdx = 0;
   let recIdx = 0;
   let undercardStreak = 0;
@@ -100,8 +101,27 @@ function mergeUndercardAndRecognizable(
 export function interleaveByTierWithinDay(entries: QueueEntry[]): QueueEntry[] {
   if (entries.length === 0) return [];
 
-  const recognizable = shuffleArray(entries.filter(isRecognizable));
-  const undercard = shuffleArray(entries.filter((e) => !isRecognizable(e)));
+  const recognizable = shuffleArray(
+    entries.filter((e) => isRecognizableTier(e.appearance.billingTier))
+  );
+  const undercard = shuffleArray(
+    entries.filter((e) => !isRecognizableTier(e.appearance.billingTier))
+  );
+
+  return mergeUndercardAndRecognizable(undercard, recognizable);
+}
+
+/**
+ * Announced-mode queue ordering (ADR-0016). Same tier interleave as
+ * interleaveByTierWithinDay — recognizable artists sprinkled through an
+ * undercard-dominated stream — but keyed on each artist's run-level billingTier, since
+ * an announced run has no sets and therefore no day to group within.
+ */
+export function interleaveArtistsByTier(artists: RunArtist[]): RunArtist[] {
+  if (artists.length === 0) return [];
+
+  const recognizable = shuffleArray(artists.filter((a) => isRecognizableTier(a.billingTier)));
+  const undercard = shuffleArray(artists.filter((a) => !isRecognizableTier(a.billingTier)));
 
   return mergeUndercardAndRecognizable(undercard, recognizable);
 }
@@ -162,8 +182,14 @@ export function buildUngroupedQueue(entries: QueueEntry[], orderedDays: string[]
 
   for (const day of orderedDays) {
     const dayEntries = entries.filter((e) => e.appearance.day === day);
-    recognizableByDay.set(day, shuffleArray(dayEntries.filter(isRecognizable)));
-    undercardByDay.set(day, shuffleArray(dayEntries.filter((e) => !isRecognizable(e))));
+    recognizableByDay.set(
+      day,
+      shuffleArray(dayEntries.filter((e) => isRecognizableTier(e.appearance.billingTier)))
+    );
+    undercardByDay.set(
+      day,
+      shuffleArray(dayEntries.filter((e) => !isRecognizableTier(e.appearance.billingTier)))
+    );
   }
 
   const undercardStream = roundRobinAcrossDays(undercardByDay, orderedDays);
