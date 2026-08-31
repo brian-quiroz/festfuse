@@ -44,6 +44,15 @@ with no billing tier are each reported; a schedule row may omit `billing_tier`
 (inherited on the attach); and a file mixing announced and scheduled slugs is refused
 whole.
 
+`test_artist_publication.py` (fast, no database) covers `evaluate_artist_publication`,
+the pure readiness policy: an ordinary artist and a complete curated Listen First
+override are both ready, an incomplete record reports every relevant issue in order, and
+a partial Listen First set is rejected. It also covers the video tier (ADR-0017): a
+featured live-performance video makes an artist with no Spotify presence and no Quick
+Picks track ready, an unavailable featured video does not, an artist with no preview of
+any kind stays blocked, and `qualifies_by_video_only` is true only for the
+video-and-no-audio case.
+
 `test_festival_configs.py` (fast, no database) guards the hand-authored seed configs in
 `scripts/festival_configs/` and the pure `build_edition()` config-to-ORM mapping in
 `seed_festivals.py`: edition slugs are unique across the registry, each edition's runs
@@ -78,10 +87,10 @@ mapping layer always applies an explicit `sorted(..., key=...)` instead.
 
 `integration/test_artist_read_query.py` uses that same rollback-contained boundary
 to prove the public Artist query's publication predicate, relationship eager loading,
-Quick Picks role selection, deterministic genre and Listen First ordering, and clear
-failure for an inconsistent published record. It also proves that About and supported
-social links obey their verification gates and that only an available featured video
-is exposed. Festival-context cases prove published/announced filtering, required
+Quick Picks role selection, deterministic genre and Listen First ordering, and a null
+`quick_picks_track` for a video-only published artist (ADR-0017). It also proves that
+About and supported social links obey their verification gates and that only an
+available featured video is exposed. Festival-context cases prove published/announced filtering, required
 billing, timezone conversion, scheduled/cancelled visibility, draft omission, and the
 valid announced-without-schedule state. Similar Artist cases prove verified
 four-or-none exposure, deterministic order, canonical target summaries, complete-set
@@ -106,9 +115,11 @@ for why this became a batched query instead of a per-artist one).
 The same file also proves the schedule-agnostic sibling `read_festival_run_artists`
 (ADR-0016): an announced published artist with no appearances is returned, a scheduled
 run's whole announced, published artist set is returned regardless of appearances,
-draft artists and withdrawn entries are excluded, the artist projection and the seeded
-5sos four-or-none set map identically to the appearances feed, a missing billing tier
-raises the same consistency error, and an unknown edition/run slug returns nothing.
+draft artists and withdrawn entries are excluded, the artist projection (including the
+poster-derived `billing_tier`) and the seeded 5sos four-or-none set map identically to
+the appearances feed, a missing billing tier raises the same consistency error, and an
+unknown edition/run slug returns nothing. Both feeds map a null `quick_picks_track` for
+a video-only artist (ADR-0017).
 Alongside it, `read_run_ids_with_public_schedule` (the query behind the derived per-run
 `schedule_state`) reports the seeded Lollapalooza run as scheduled and, once every
 appearance in that run is moved out of `scheduled` inside the rollback boundary,
@@ -192,7 +203,8 @@ The integration suite currently verifies:
 - that the seeded roster (currently 171 Artists) is entirely publication-ready under
   the application-owned policy, and that `publish_ready_artists` publishes all of them
   and leaves no drafts;
-- published Artist query filtering, mapping, and consistency behavior;
+- published Artist query filtering, mapping, and consistency behavior, including a null
+  `quick_picks_track` for a video-only artist (ADR-0017);
 - verified four-or-none Similar Artist visibility and canonical target summaries;
 - the run-scoped appearances feed's publication/lineup/schedule filtering, ordering,
   and field mapping, its schedule-agnostic `read_festival_run_artists` sibling, and the

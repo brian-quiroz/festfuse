@@ -65,7 +65,7 @@ class ArtistCoreRead(BaseModel):
     image: ArtistImageRead | None
     location: ArtistLocationRead
     genres: list[ArtistGenreRead]
-    quick_picks_track: ArtistTrackRead
+    quick_picks_track: ArtistTrackRead | None
     listen_first: ArtistListenFirstRead
     about: str | None
     socials: ArtistSocialsRead
@@ -125,7 +125,8 @@ class FestivalRunArtistRead(BaseModel):
     image: ArtistImageRead | None
     location: ArtistLocationRead
     genres: list[ArtistGenreRead]
-    quick_picks_track: ArtistTrackRead
+    billing_tier: Literal["headliner", "sub_headliner", "undercard"]
+    quick_picks_track: ArtistTrackRead | None
     similar_artists: list[FestivalSimilarArtistRead]
 
 

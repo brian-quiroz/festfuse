@@ -169,10 +169,12 @@ export function getQuickPicksRunArtistsFromApi(
       appearances: appearances.map((appearance) =>
         mapFestivalAppearance(appearance, festivalId)
       ) as [FestivalAppearance, ...FestivalAppearance[]],
-      quickPicksTrack: {
-        spotifyId: first.artist.quick_picks_track.spotify_track_id,
-        name: first.artist.quick_picks_track.name,
-      },
+      quickPicksTrack: first.artist.quick_picks_track
+        ? {
+            spotifyId: first.artist.quick_picks_track.spotify_track_id,
+            name: first.artist.quick_picks_track.name,
+          }
+        : null,
       similarArtists: mapSimilarArtists(first.artist.similar_artists),
     });
   }

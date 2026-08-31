@@ -52,6 +52,8 @@ def create_artist(
     *,
     publication_status: str = "published",
     with_genres: bool = False,
+    with_quick_picks_track: bool = True,
+    with_featured_video: bool = False,
 ) -> str:
     artist_slug = unique_slug("run-appearances-artist")
     artist_id = connection.execute(
@@ -65,28 +67,41 @@ def create_artist(
         {"slug": artist_slug, "status": publication_status},
     ).scalar_one()
 
-    track_id = connection.execute(
-        text(
-            """
-            INSERT INTO tracks (spotify_track_id, name)
-            VALUES (:spotify_track_id, :name)
-            RETURNING id
-            """
-        ),
-        {
-            "spotify_track_id": f"{artist_slug}-track",
-            "name": "Run Appearances Test Track",
-        },
-    ).scalar_one()
-    connection.execute(
-        text(
-            """
-            INSERT INTO artist_track_selections (artist_id, track_id, is_quick_picks)
-            VALUES (:artist_id, :track_id, true)
-            """
-        ),
-        {"artist_id": artist_id, "track_id": track_id},
-    )
+    if with_quick_picks_track:
+        track_id = connection.execute(
+            text(
+                """
+                INSERT INTO tracks (spotify_track_id, name)
+                VALUES (:spotify_track_id, :name)
+                RETURNING id
+                """
+            ),
+            {
+                "spotify_track_id": f"{artist_slug}-track",
+                "name": "Run Appearances Test Track",
+            },
+        ).scalar_one()
+        connection.execute(
+            text(
+                """
+                INSERT INTO artist_track_selections (artist_id, track_id, is_quick_picks)
+                VALUES (:artist_id, :track_id, true)
+                """
+            ),
+            {"artist_id": artist_id, "track_id": track_id},
+        )
+
+    if with_featured_video:
+        connection.execute(
+            text(
+                """
+                INSERT INTO artist_videos
+                    (artist_id, youtube_video_id, label, is_featured, is_available, display_order)
+                VALUES (:artist_id, :video_id, 'Live set', true, true, 1)
+                """
+            ),
+            {"artist_id": artist_id, "video_id": f"{artist_slug}-video"},
+        )
 
     if with_genres:
         family_id = connection.execute(
@@ -492,6 +507,8 @@ def test_read_festival_run_artists_maps_the_same_fields_as_the_appearances_feed(
     assert mapped.location.city == "Chicago"
     assert mapped.location.state is None
     assert mapped.location.country == "United States"
+    assert mapped.billing_tier == "sub_headliner"
+    assert mapped.quick_picks_track is not None
     assert mapped.quick_picks_track.spotify_track_id == f"{artist_slug}-track"
     assert mapped.quick_picks_track.name == "Run Appearances Test Track"
     assert mapped.similar_artists == []
@@ -505,6 +522,48 @@ def test_read_festival_run_artists_maps_the_same_fields_as_the_appearances_feed(
         3,
         4,
     ]
+
+
+def test_read_festival_run_artists_maps_a_null_quick_picks_track_for_a_video_only_artist(
+    connection: Connection,
+) -> None:
+    video_only = create_artist(
+        connection, with_quick_picks_track=False, with_featured_video=True
+    )
+    create_lineup_entry(connection, video_only)
+
+    with Session(bind=connection) as session:
+        run_artists = read_festival_run_artists(
+            session, edition_slug="lollapalooza-2026", run_slug="main"
+        )
+
+    assert run_artists is not None
+    mapped = {artist.slug: artist for artist in run_artists}[video_only]
+    assert mapped.quick_picks_track is None
+
+
+def test_read_festival_run_appearances_maps_a_null_quick_picks_track_for_a_video_only_artist(
+    connection: Connection,
+) -> None:
+    video_only = create_artist(
+        connection, with_quick_picks_track=False, with_featured_video=True
+    )
+    lineup_entry_id = create_lineup_entry(connection, video_only)
+    create_appearance(
+        connection,
+        lineup_entry_id,
+        starts_at="2026-07-30 20:00:00+00",
+        ends_at="2026-07-30 21:00:00+00",
+    )
+
+    with Session(bind=connection) as session:
+        appearances = read_festival_run_appearances(
+            session, edition_slug="lollapalooza-2026", run_slug="main"
+        )
+
+    assert appearances is not None
+    mapped = {a.artist.slug: a for a in appearances}[video_only]
+    assert mapped.artist.quick_picks_track is None
 
 
 def test_read_festival_run_artists_rejects_missing_billing_tier(

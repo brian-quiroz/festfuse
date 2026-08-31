@@ -20,11 +20,30 @@ loaded by any skill.
 | **Roster**         | Transcribe the official schedule into `roster.csv` — stylized name, slug, the Spotify **artist** URL you verified, YouTube/TikTok, billing tier, day/stage/time (or none, for an announced-only roster; see below). Resolve identity on Spotify yourself: a name can point at several acts, and a wrong id is silent corruption. |
 | **Skeletons**      | Run `build_roster_payloads.py --preview`, read the report, fix any flagged rows, then `--apply`.                                                                                                                                                                              |
 | **Research pass**  | Read the AI's per-artist report. Approve per field or per artist. Where it surfaced two or three options, pick one. Nothing is written until you say so.                                                                                                                      |
-| **Flagship track** | Pick it in Spotify — you can see play counts, song age, and the "Popular" order. This is a judgment call (a defining track vs. a current-moment one). The AI gives you nothing here; use `show_artist --slug` for the rest of the record as context.                          |
-| **Publish**        | `check_artist_links` passes, then `publish_artists`. Needs identity + 3 genres + location + flagship. Not `about`, not similar artists.                                                                                                                                       |
+| **Flagship track** | Pick it in Spotify — you can see play counts, song age, and the "Popular" order. This is a judgment call (a defining track vs. a current-moment one). The AI gives you nothing here; use `show_artist --slug` for the rest of the record as context. Skip it for an artist with no Spotify presence that publishes on a featured live-performance video (see below). |
+| **Publish**        | `check_artist_links` passes, then `publish_artists`. Needs identity + 3 genres + location + one preview (a Spotify artist ID, a full Listen First set, or a featured video) + a flagship track unless the preview is a video alone. Not `about`, not similar artists.            |
 | **Sign-off**       | You set every `*Verified` flag, always, after reading the evidence. The AI never does.                                                                                                                                                                                        |
 
 Similar-artist sets come later, after enough of the roster is published to draw from.
+
+---
+
+## Publishing an artist with no Spotify presence
+
+A few acts (a local collective, an international DJ) have no Spotify artist page and no
+catalog to build a Listen First set from, but do have live footage on YouTube. A
+**featured live-performance video** is a third way to clear the preview requirement
+(ADR-0017): add the video with `edit_artist`, mark it featured, and the artist
+publishes with no flagship track and no audio preview anywhere.
+
+- On Artist Detail the video carries the page; the Listen First block is absent.
+- In Quick Picks the card is photo, genres, name, and the three decision buttons, no
+  audio slot.
+- `publish_artists` lists these under "video only, no audio preview" so you can see
+  which artists shipped this way.
+
+Use it only when there is genuinely no Spotify presence. An artist that has a Spotify
+page still gets the ordinary flagship + Listen First treatment.
 
 ---
 

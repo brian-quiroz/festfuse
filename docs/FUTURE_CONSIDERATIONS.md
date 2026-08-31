@@ -616,6 +616,25 @@ there is one list; until then, "add a genre" is a two-file change.
 
 ---
 
+## Future Consideration: Non-Spotify Preview Sourcing Beyond a Featured Video
+
+[ADR-0017](decisions/0017-video-only-publication-readiness-tier.md) makes a featured
+live-performance video a third way to clear the publication preview requirement, for
+acts with no Spotify presence. That covers every act on the prepared ACL roster.
+
+Two gaps are deliberately left open:
+
+- **Other preview sources.** SoundCloud, Bandcamp, and Facebook video are all plausible
+  preview embeds for an act with neither Spotify nor usable YouTube footage. None is
+  added now because no real artist needs one; add a tier (schema field, resolver check,
+  frontend embed) when one does.
+- **An act with no preview of any kind.** An artist with no Spotify ID, no Listen First
+  set, and no usable featured video stays blocked. If a late lineup addition is ever in
+  that position, decide then whether it publishes with a photo-and-genres-only card or
+  waits for a preview — not by pre-softening the gate now.
+
+---
+
 ## Future Consideration: Staged / Reviewed Artist Edits
 
 `edit_artist` (ADR-0012) applies a patch straight to the record in one transaction.

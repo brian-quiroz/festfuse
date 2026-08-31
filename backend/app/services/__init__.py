@@ -16,7 +16,9 @@ from app.services.artist_publication import (
     ArtistPublicationReadiness,
     assess_artist_publications,
     evaluate_artist_publication,
+    has_featured_video,
     publish_ready_artists,
+    qualifies_by_video_only,
 )
 
 __all__ = [
@@ -35,5 +37,7 @@ __all__ = [
     "ArtistPublicationReadiness",
     "assess_artist_publications",
     "evaluate_artist_publication",
+    "has_featured_video",
     "publish_ready_artists",
+    "qualifies_by_video_only",
 ]

@@ -189,9 +189,12 @@ are:
 - a name and stable slug;
 - exactly three genre assignments with exactly one primary, plus the required
   current-location classification;
-- exactly one playable Quick Picks track selection;
-- either a Spotify artist identity or a complete curated Listen First override with
-  exactly three ordered selections;
+- at least one preview: a Spotify artist identity, a complete curated Listen First
+  override with exactly three ordered selections, or a featured live-performance
+  video (ADR-0017);
+- a playable Quick Picks track selection, unless the artist qualifies for
+  publication on its featured video alone (ADR-0017), in which case Quick Picks and
+  Artist Detail carry the artist on the video and photo without an audio preview;
 - no Festival relationship; lineup announcement and schedule publication are
   separate lifecycles.
 
@@ -440,10 +443,12 @@ selected is restricted so curation cannot silently disappear.
 
 ### Quick Picks
 
-Every published artist must have exactly one explicitly selected playable Quick
-Picks track. At this stage, playable means a curated Track with a validated Spotify
-track identity; it does not imply a live external availability check. The current
-`tracks[0]` convention must not survive as the only signal.
+A published artist has at most one explicitly selected playable Quick Picks track,
+and exactly one unless it publishes on a featured live-performance video alone
+(ADR-0017), where it has none and the decision surfaces skip the audio slot.
+Playable means a curated Track with a validated Spotify track identity; it does not
+imply a live external availability check. The `tracks[0]` convention must not
+survive as the only signal.
 
 ### Listen First
 
@@ -466,7 +471,10 @@ Published listening configurations are:
   Listen First selections; or
 - curated override: exactly one Quick Picks selection and exactly three Listen First
   selections with positions 1, 2, and 3. A Spotify artist ID is optional in this
-  configuration.
+  configuration; or
+- video only: a featured live-performance video, no Quick Picks selection, no Listen
+  First selections, and no Spotify artist ID (ADR-0017). Listen First resolves to
+  nothing; Artist Detail leans on the video, and Quick Picks shows no audio slot.
 
 Draft artists may temporarily have an incomplete curated set. Published APIs should
 never silently take the first three rows; publication guarantees the complete set.

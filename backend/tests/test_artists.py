@@ -319,6 +319,7 @@ def build_run_artist() -> FestivalRunArtistRead:
                 family=ArtistGenreFamilyRead(slug="electronic", name="Electronic"),
             )
         ],
+        billing_tier="headliner",
         quick_picks_track=ArtistTrackRead(
             spotify_track_id="spotify-track",
             name="Test Track",

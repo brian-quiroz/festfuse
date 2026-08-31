@@ -6,7 +6,11 @@ import argparse
 from collections import Counter
 
 from app.database import SessionLocal
-from app.services import assess_artist_publications, publish_ready_artists
+from app.services import (
+    assess_artist_publications,
+    publish_ready_artists,
+    qualifies_by_video_only,
+)
 
 
 def print_report(*, apply: bool) -> None:
@@ -30,6 +34,17 @@ def print_report(*, apply: bool) -> None:
         print(f"blocked            {batch.blocked_count}")
         for issue, count in sorted(issue_counts.items()):
             print(f"{issue:<18} {count}")
+
+        video_only = sorted(
+            candidate.artist.slug
+            for candidate in batch.candidates
+            if candidate.readiness.is_ready
+            and qualifies_by_video_only(candidate.artist)
+        )
+        if video_only:
+            print("\nvideo only, no audio preview (ADR-0017)")
+            for slug in video_only:
+                print(f"  {slug}")
 
         if apply:
             session.commit()
