@@ -107,7 +107,11 @@ export interface RunArtist {
   objectPosition?: string;
   genres: Genre[];
   location: Location;
-  appearances: [FestivalAppearance, ...FestivalAppearance[]];
+  // Non-empty in practice — a RunArtist is only ever built from the scheduled
+  // appearances feed, where every grouped slug has at least one row. Typed as a plain
+  // array to match Artist["appearances"] (structural subtype); the non-emptiness is a
+  // runtime fact, not a type guarantee. getPrimaryAppearance throws if it is ever empty.
+  appearances: FestivalAppearance[];
 }
 
 // Groups each artist slug's
@@ -130,7 +134,7 @@ export function getRunArtistsFromApi(
       location: mapArtistLocation(first.artist.location),
       appearances: appearances.map((appearance) =>
         mapFestivalAppearance(appearance, festivalId)
-      ) as [FestivalAppearance, ...FestivalAppearance[]],
+      ),
     });
   }
   return runArtists;
@@ -168,7 +172,7 @@ export function getQuickPicksRunArtistsFromApi(
       location: mapArtistLocation(first.artist.location),
       appearances: appearances.map((appearance) =>
         mapFestivalAppearance(appearance, festivalId)
-      ) as [FestivalAppearance, ...FestivalAppearance[]],
+      ),
       quickPicksTrack: first.artist.quick_picks_track
         ? {
             spotifyId: first.artist.quick_picks_track.spotify_track_id,

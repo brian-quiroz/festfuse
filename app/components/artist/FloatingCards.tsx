@@ -23,7 +23,13 @@ export default function FloatingCards({
   // own "N sets" button text discloses only the count, by design (see its comment).
   // This card just adds a lightweight count next to the heading so a multi-appearance
   // artist doesn't look single-appearance by omission.
-  const appearance = getPrimaryAppearance(artist, editionSlug, dayOrder);
+  //
+  // On an announced run (ADR-0016) there is no appearance: the card shows a plain
+  // membership line — festival name, "Set times not yet announced" — and no
+  // Date/Time/Stage rows (no empty placeholders).
+  const appearance = artist.appearances.length
+    ? getPrimaryAppearance(artist, editionSlug, dayOrder)
+    : null;
   const appearanceCount = getAppearancesForFestival(artist, editionSlug).length;
 
   return (
@@ -47,27 +53,34 @@ export default function FloatingCards({
             </span>
           )}
         </h3>
-        <div className="space-y-2.5">
-          <div className="text-sm font-semibold text-white">
-            {festivals[appearance.festivalId]?.name}
+        {appearance ? (
+          <div className="space-y-2.5">
+            <div className="text-sm font-semibold text-white">
+              {festivals[appearance.festivalId]?.name}
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-white/35">Date</span>
+              <span className="text-xs text-white/75">
+                {appearance.day}, {appearance.date}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-white/35">Time</span>
+              <span className="text-xs font-semibold text-white/75">
+                {appearance.startTime} – {appearance.endTime}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-white/35">Stage</span>
+              <span className="text-xs text-white/75">{appearance.stage}</span>
+            </div>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-white/35">Date</span>
-            <span className="text-xs text-white/75">
-              {appearance.day}, {appearance.date}
-            </span>
+        ) : (
+          <div className="space-y-1">
+            <div className="text-sm font-semibold text-white">{festivals[editionSlug]?.name}</div>
+            <div className="text-xs text-white/45">Set times not yet announced</div>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-white/35">Time</span>
-            <span className="text-xs font-semibold text-white/75">
-              {appearance.startTime} – {appearance.endTime}
-            </span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-white/35">Stage</span>
-            <span className="text-xs text-white/75">{appearance.stage}</span>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Similar Artists — hidden entirely until similarArtistsVerified, not just when

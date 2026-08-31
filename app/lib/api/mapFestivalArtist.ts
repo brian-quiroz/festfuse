@@ -126,11 +126,11 @@ function mapAppearance(
 
 export function mapFestivalArtistResponse(response: FestivalArtistApiResponse): Artist {
   const { artist, festival_context: context } = response;
-  // The current UI only supports published schedules. See the deferred Artist Detail
-  // schedule cases in docs/FUTURE_CONSIDERATIONS.md before relaxing this boundary.
-  if (context.appearances.length === 0) {
-    throw new Error(`API artist ${JSON.stringify(artist.slug)} has no published appearances`);
-  }
+  // An empty appearances list is valid for an announced run with no schedule yet
+  // (ADR-0016); the artist page rejects it for a *scheduled* run before rendering.
+  // A cancelled appearance is still unhandled — fail loud rather than render a
+  // half-formed page (cancellation UI is deferred, see docs/FUTURE_CONSIDERATIONS.md
+  // "Artist Detail Schedule States").
   if (context.appearances.some((appearance) => appearance.status === "cancelled")) {
     throw new Error(`API artist ${JSON.stringify(artist.slug)} has a cancelled appearance`);
   }
@@ -181,9 +181,7 @@ export function mapFestivalArtistResponse(response: FestivalArtistApiResponse): 
           },
     about: artist.about ?? "",
     aboutVerified: artist.about !== null,
-    appearances: context.appearances.map((appearance) => mapAppearance(appearance, context)) as [
-      FestivalAppearance,
-      ...FestivalAppearance[],
-    ],
+    billingTier: BILLING_TIERS[context.billing_tier],
+    appearances: context.appearances.map((appearance) => mapAppearance(appearance, context)),
   };
 }

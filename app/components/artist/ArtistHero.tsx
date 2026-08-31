@@ -3,21 +3,12 @@ import { MapPin } from "lucide-react";
 import { FaSpotify, FaYoutube, FaTiktok } from "react-icons/fa6";
 import { COLORS } from "@/app/data/colors";
 import type { Artist } from "@/app/types/artist";
-import { getPrimaryBillingTier } from "@/app/lib/appearances";
 import { getVerifiedImageUrl } from "@/app/lib/artistImage";
 import { displayCountry } from "@/app/lib/location";
 import ArtistActions from "./ArtistActions";
 import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
-export default function ArtistHero({
-  artist,
-  editionSlug,
-  dayOrder,
-}: {
-  artist: Artist;
-  editionSlug: string;
-  dayOrder: readonly string[];
-}) {
+export default function ArtistHero({ artist }: { artist: Artist }) {
   const verifiedImageUrl = getVerifiedImageUrl(artist);
   const hasSocials = Boolean(
     artist.socials.spotify ||
@@ -50,7 +41,7 @@ export default function ArtistHero({
           from the actual last word instead of hugging it. */}
       <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-none">
         {artist.name}
-        {getPrimaryBillingTier(artist, editionSlug, dayOrder) === "Headliner" && (
+        {artist.billingTier === "Headliner" && (
           <span
             className="ml-3 inline-block align-middle px-2.5 py-0.5 rounded-md text-[9px] font-semibold tracking-widest uppercase border"
             style={{

@@ -71,14 +71,10 @@ export function getScheduledArtistSlugs(
   const slugs = new Set<string>();
   for (const [slug, apiAppearances] of appearancesBySlug) {
     // Every key present in appearancesBySlug has at least one appearance by
-    // construction (it was only added because one existed): the same non-empty
-    // invariant RunArtist.appearances relies on in mapRunAppearance.ts.
+    // construction (it was only added because one existed).
     const artist = {
       slug,
-      appearances: apiAppearances.map((a) => mapFestivalAppearance(a, editionSlug)) as [
-        FestivalAppearance,
-        ...FestivalAppearance[],
-      ],
+      appearances: apiAppearances.map((a) => mapFestivalAppearance(a, editionSlug)),
     };
     if (
       getArtistScheduleState(

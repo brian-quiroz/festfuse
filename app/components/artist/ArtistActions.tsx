@@ -98,19 +98,23 @@ export default function ArtistActions({ artist }: ArtistActionsProps) {
         </button>
       </div>
 
-      <button
-        onClick={handleScheduleToggle}
-        className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 border ${
-          isScheduled
-            ? "bg-[#00E5FF] border-[#00E5FF] text-[#110D24]"
-            : isPartiallyScheduled
-              ? "bg-[#00E5FF]/20 border-[#00E5FF]/55 text-[#00E5FF]"
-              : "bg-black/20 border-[#00E5FF]/30 text-[#00E5FF]/70 hover:border-[#00E5FF]/55 hover:text-[#00E5FF] hover:bg-[#00E5FF]/10"
-        }`}
-      >
-        <Calendar size={14} strokeWidth={2.5} />
-        {scheduleLabel}
-      </button>
+      {/* No schedule to add to on an announced run (ADR-0016) — the button is hidden,
+          not disabled. Must See / Interested stay: they're edition-scoped. */}
+      {appearanceCount > 0 && (
+        <button
+          onClick={handleScheduleToggle}
+          className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 border ${
+            isScheduled
+              ? "bg-[#00E5FF] border-[#00E5FF] text-[#110D24]"
+              : isPartiallyScheduled
+                ? "bg-[#00E5FF]/20 border-[#00E5FF]/55 text-[#00E5FF]"
+                : "bg-black/20 border-[#00E5FF]/30 text-[#00E5FF]/70 hover:border-[#00E5FF]/55 hover:text-[#00E5FF] hover:bg-[#00E5FF]/10"
+          }`}
+        >
+          <Calendar size={14} strokeWidth={2.5} />
+          {scheduleLabel}
+        </button>
+      )}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import ArtistContent from "@/app/components/artist/ArtistContent";
 import Footer from "@/app/components/Footer";
 import { fetchFestivalArtist } from "@/app/lib/api/festivalArtist";
 import { mapFestivalArtistResponse } from "@/app/lib/api/mapFestivalArtist";
+import { resolveScheduleState } from "@/app/lib/api/scheduleState";
 import { sendFailureAlert } from "@/app/lib/alerts/sendFailureAlert";
 import { getDaysForFestival } from "@/app/data/festivals";
 
@@ -35,12 +36,21 @@ export default async function ArtistPage({
 
   if (apiResponse === null) notFound();
   const artist = mapFestivalArtistResponse(apiResponse);
+
+  // An empty appearances list is expected for an announced run (ADR-0016) and renders
+  // the no-schedule view; on a scheduled run it is data corruption — surface it the
+  // same way the mapper used to (lands in error.tsx).
+  const scheduleMode = await resolveScheduleState(edition, run);
+  if (scheduleMode === "scheduled" && artist.appearances.length === 0) {
+    throw new Error(`Artist ${JSON.stringify(slug)} has no appearances on a scheduled run`);
+  }
+
   const dayOrder = getDaysForFestival(edition, run);
 
   return (
     <main className="flex-1 min-w-0 overflow-y-auto flex flex-col">
       <div className="flex-1">
-        <ArtistHero artist={artist} editionSlug={edition} dayOrder={dayOrder} />
+        <ArtistHero artist={artist} />
         <ArtistContent artist={artist} editionSlug={edition} runSlug={run} dayOrder={dayOrder} />
       </div>
       <Footer />
