@@ -819,14 +819,31 @@ the other is seeded per run, never both. `AnnouncedRunArtistsHydrator` copies
 `RunAppearancesHydrator`'s two-timing seed.
 
 **Empty announced run.** A run that is `schedule_state: "announced"` with **no
-published artists yet** (seeded before its roster import) has no usable surface. The
-`[edition]/[run]` layout catches this once — an announced feed that resolved to `[]` —
-and renders `AnnouncedLineupPending` in place of the page, so every route beneath
-(Explore, Planner, Quick Picks, Artist Detail, Credits, Festival Story) shows the one
-"lineup not available yet" screen without each page checking. `null` (fetch failure) is
-not `[]`: it flows to the hydrator and the pages' `AppearancesUnavailable`, as on the
-scheduled path. The sidebar still lists the run-scoped nav for such a run — stripping
-it to Home + the picker is a follow-up.
+published artists yet** (seeded before its roster import) has no usable surface.
+
+- *Routes:* the `[edition]/[run]` layout catches this once — an announced feed that
+  resolved to `[]` — and renders `AnnouncedLineupPending` ("Lineup not available yet")
+  in place of the page, so every route beneath (Explore, Planner, Quick Picks, Artist
+  Detail, Credits, Festival Story) shows the one screen without each page checking.
+  `null` (fetch failure) is not `[]`: it flows to the hydrator and the pages'
+  `AppearancesUnavailable`, as on the scheduled path.
+- *Chrome:* `GET /festivals/{slug}` returns `has_published_artists` per run (derived
+  like `schedule_state`, ADR-0016 — true whenever the `/artists` feed is non-empty,
+  always true for a scheduled run). The root layout seeds it into
+  `runScheduleStateStore` alongside `schedule_state`, so `Sidebar` and `HomeContent`
+  (both outside the run segment) can react. On a route *under* an empty announced run
+  the sidebar shows only Home + How it works + the festival selector. On Home,
+  `HomeContent` falls back to its no-context festival-picker view verbatim rather than
+  dead workflow cards, and — the picker being the whole experience there — drives
+  `chromeStore` to hide the sidebar entirely, the way Quick Picks does. The unavailable
+  run is named on `AnnouncedLineupPending` (rendered by the run's own routes), not on
+  Home. Both store reads fail open (nav shown, has-artists true) when the run isn't in
+  the store.
+- *Picker:* greying an empty run out of `FestivalPicker` / `FestivalContextSelector`
+  so it can't be selected in the first place is the next step (the same
+  `has_published_artists` flag). `AnnouncedLineupPending` and the `HomeContent`
+  fallback stay regardless — they cover the paths that bypass the picker (a bookmarked
+  or shared run URL).
 
 **Per-surface adaptation:**
 

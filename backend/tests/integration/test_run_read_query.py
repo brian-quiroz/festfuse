@@ -1,10 +1,12 @@
 """Rollback-contained coverage for the run-scoped read queries in
 `app/repositories/artists.py`: the bulk appearances feed
 (`read_festival_run_appearances`), its schedule-agnostic sibling
-(`read_festival_run_artists`), and the derived per-run `schedule_state`
-(`read_run_ids_with_public_schedule`). The `connection` boundary and `create_*`
-builders are duplicated from `test_artist_read_query.py`; unifying them is deferred
-(`docs/FUTURE_CONSIDERATIONS.md`, "Shared Integration-Test Fixtures").
+(`read_festival_run_artists`), and the two derived per-run flags
+(`read_run_ids_with_public_schedule` for `schedule_state`,
+`read_run_ids_with_published_artists` for `has_published_artists`). The `connection`
+boundary and `create_*` builders are duplicated from `test_artist_read_query.py`;
+unifying them is deferred (`docs/FUTURE_CONSIDERATIONS.md`, "Shared Integration-Test
+Fixtures").
 """
 
 import os
@@ -22,6 +24,7 @@ from app.repositories import (
     read_festival_run_appearances,
     read_festival_run_artists,
     read_run_ids_with_public_schedule,
+    read_run_ids_with_published_artists,
 )
 
 pytestmark = [
@@ -622,3 +625,40 @@ def test_read_run_ids_with_public_schedule_reflects_whether_a_run_has_scheduled_
 
     with Session(bind=connection) as session:
         assert read_run_ids_with_public_schedule(session, [main_run_id]) == set()
+
+
+def test_read_run_ids_with_published_artists_is_empty_for_no_runs(
+    connection: Connection,
+) -> None:
+    with Session(bind=connection) as session:
+        assert read_run_ids_with_published_artists(session, []) == set()
+
+
+def test_read_run_ids_with_published_artists_reflects_whether_a_run_has_a_lineup(
+    connection: Connection,
+) -> None:
+    main_run_id = connection.execute(
+        text(
+            """
+            SELECT festival_runs.id
+            FROM festival_runs
+            JOIN festival_editions
+                ON festival_editions.id = festival_runs.festival_edition_id
+            WHERE festival_editions.slug = 'lollapalooza-2026'
+              AND festival_runs.slug = 'main'
+            """
+        )
+    ).scalar_one()
+
+    with Session(bind=connection) as session:
+        assert main_run_id in read_run_ids_with_published_artists(session, [main_run_id])
+
+    # Withdraw every lineup entry inside the rollback boundary — the run keeps its
+    # scheduled Appearance rows but no longer has a published, announced lineup.
+    connection.execute(
+        text("UPDATE lineup_entries SET lineup_status = 'withdrawn' WHERE festival_run_id = :run_id"),
+        {"run_id": main_run_id},
+    )
+
+    with Session(bind=connection) as session:
+        assert read_run_ids_with_published_artists(session, [main_run_id]) == set()

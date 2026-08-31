@@ -4,7 +4,10 @@ from sqlalchemy.orm import selectinload
 
 from app.dependencies import SessionDep
 from app.models import FestivalEdition, FestivalRun
-from app.repositories import read_run_ids_with_public_schedule
+from app.repositories import (
+    read_run_ids_with_public_schedule,
+    read_run_ids_with_published_artists,
+)
 from app.schemas import FestivalEditionRead
 
 router = APIRouter(
@@ -32,11 +35,13 @@ def read_festival(slug: str, session: SessionDep) -> FestivalEdition:
             detail="Festival not found",
         )
 
-    # `schedule_state` is derived per request, never stored (ADR-0016).
-    scheduled_run_ids = read_run_ids_with_public_schedule(
-        session, [run.id for run in festival.runs]
-    )
+    # `schedule_state` and `has_published_artists` are both derived per request, never
+    # stored (ADR-0016).
+    run_ids = [run.id for run in festival.runs]
+    scheduled_run_ids = read_run_ids_with_public_schedule(session, run_ids)
+    run_ids_with_artists = read_run_ids_with_published_artists(session, run_ids)
     for run in festival.runs:
         run.schedule_state = "scheduled" if run.id in scheduled_run_ids else "announced"
+        run.has_published_artists = run.id in run_ids_with_artists
 
     return festival

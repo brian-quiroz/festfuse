@@ -585,3 +585,25 @@ def read_run_ids_with_public_schedule(session: Session, run_ids: list[int]) -> s
             .distinct()
         )
     )
+
+
+def read_run_ids_with_published_artists(session: Session, run_ids: list[int]) -> set[int]:
+    """The subset of `run_ids` with at least one published, announced lineup entry:
+    the same gate read_festival_run_artists applies, so a run outside this set has an
+    empty /artists feed. Derived per request, never stored. The frontend uses it to
+    avoid routing a user into a run that has no content yet. See ADR-0016.
+    """
+    if not run_ids:
+        return set()
+    return set(
+        session.scalars(
+            select(LineupEntry.festival_run_id)
+            .join(Artist, Artist.id == LineupEntry.artist_id)
+            .where(
+                LineupEntry.festival_run_id.in_(run_ids),
+                LineupEntry.lineup_status == "announced",
+                Artist.publication_status == "published",
+            )
+            .distinct()
+        )
+    )

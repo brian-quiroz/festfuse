@@ -2,17 +2,14 @@ import Link from "next/link";
 import { ArrowRight, CalendarDays } from "lucide-react";
 import { contextHref, festivalLabel } from "@/app/data/festivals";
 
-// The Planner route's state for a run whose lineup is announced but has no schedule
-// yet (ADR-0016). Informational, not an error — cyan, not red (design-principles.md).
-// The route stays live and linkable rather than redirecting: Coachella 2027's
-// announced window is months long, and a silent bounce to Home is disorienting.
-// Reached only from planner/page.tsx's mode branch; Planner is already gone from the
-// sidebar nav for this run (multi-festival section 6). A run with no published artists
-// never gets here — the run layout renders AnnouncedLineupPending instead — so this is
-// always "announced, some artists, no schedule".
+// The Planner route's state for a run whose lineup is published but has no schedule
+// yet (ADR-0016). Informational, not an error (cyan, per design-principles.md); the
+// route stays live rather than redirecting. A run with no published artists never
+// reaches here — the run layout shows AnnouncedLineupPending — so this is always
+// "some artists, no schedule". See ARCHITECTURE.md § Announced-Lineup Mode.
 
 const DESTINATIONS = [
-  { page: "explore", label: "Explore", copy: "Browse the announced lineup" },
+  { page: "explore", label: "Explore", copy: "Browse the lineup" },
   { page: "quick-picks", label: "Quick Picks", copy: "Decide fast, one artist at a time" },
 ] as const;
 
@@ -36,7 +33,7 @@ export default function PlannerUnavailable({
           Schedule not available yet
         </h1>
         <p className="text-sm text-white/50 mb-8 max-w-sm">
-          {`The schedule for ${label} hasn't been announced. Explore the artists announced so far and make your picks in the meantime.`}
+          {`${label}'s schedule isn't available in FestFuse yet. Explore the lineup and make your picks in the meantime.`}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg">

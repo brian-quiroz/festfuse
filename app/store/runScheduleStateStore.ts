@@ -3,10 +3,15 @@
 import { create } from "zustand";
 import type { ApiFestivalRunScheduleState } from "@/app/types/festivalApi";
 
-// Whether each festival run has a public set-time schedule yet: "announced" while only
-// its lineup exists, "scheduled" once the schedule is published (backend-derived,
-// ADR-0016). Read by the homepage Planner card and the sidebar nav to hide Planner for
-// a run with no schedule.
+// Per-run state the chrome (Sidebar, HomeContent) needs but can't get from route
+// params, since it renders in the root layout outside the [edition]/[run] segment:
+//  - schedule state: "announced" while only the lineup exists, "scheduled" once a
+//    public set-time schedule is published (backend-derived, ADR-0016).
+//  - hasPublishedArtists: false only for an announced run whose lineup isn't imported
+//    yet — its /artists feed is empty, so it has no usable surface.
+//
+// Both gate run-scoped nav in Sidebar / HomeContent — see ARCHITECTURE.md §
+// Announced-Lineup Mode.
 //
 // Not to be confused with:
 //  - scheduleStore — the user's *personal* schedule (sets they plan to attend).
@@ -20,9 +25,14 @@ function contextKey(editionSlug: string, runSlug: string): string {
   return `${editionSlug}::${runSlug}`;
 }
 
+export interface RunStateEntry {
+  scheduleState: ApiFestivalRunScheduleState;
+  hasPublishedArtists: boolean;
+}
+
 interface RunScheduleStateStore {
-  byContext: Map<string, ApiFestivalRunScheduleState>;
-  hydrate: (map: Record<string, ApiFestivalRunScheduleState>) => void;
+  byContext: Map<string, RunStateEntry>;
+  hydrate: (map: Record<string, RunStateEntry>) => void;
 }
 
 export const useRunScheduleStateStore = create<RunScheduleStateStore>()((set) => ({
@@ -47,8 +57,8 @@ export function getRunScheduleState(
   runSlug: string
 ): ApiFestivalRunScheduleState {
   return (
-    useRunScheduleStateStore.getState().byContext.get(contextKey(editionSlug, runSlug)) ??
-    "scheduled"
+    useRunScheduleStateStore.getState().byContext.get(contextKey(editionSlug, runSlug))
+      ?.scheduleState ?? "scheduled"
   );
 }
 
@@ -58,6 +68,18 @@ export function useRunScheduleState(
   runSlug: string
 ): ApiFestivalRunScheduleState {
   return useRunScheduleStateStore(
-    (state) => state.byContext.get(contextKey(editionSlug, runSlug)) ?? "scheduled"
+    (state) =>
+      state.byContext.get(contextKey(editionSlug, runSlug))?.scheduleState ?? "scheduled"
+  );
+}
+
+/**
+ * Whether the run has any published artists. Defaults to `true` when the run is not in
+ * the map — fail open, so a transient fetch error never wrongly strips the nav.
+ */
+export function useRunHasPublishedArtists(editionSlug: string, runSlug: string): boolean {
+  return useRunScheduleStateStore(
+    (state) =>
+      state.byContext.get(contextKey(editionSlug, runSlug))?.hasPublishedArtists ?? true
   );
 }

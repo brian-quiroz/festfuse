@@ -10,7 +10,7 @@ import { fetchFestivalRunAppearances } from "@/app/lib/api/appearances";
 import { fetchFestivalEdition } from "@/app/lib/api/festival";
 import { DEFAULT_CONTEXT, FESTIVAL_REGISTRY } from "@/app/data/festivals";
 import { sendFailureAlert } from "@/app/lib/alerts/sendFailureAlert";
-import type { ApiFestivalRunScheduleState } from "@/app/types/festivalApi";
+import type { RunStateEntry } from "@/app/store/runScheduleStateStore";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -44,17 +44,23 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     );
   }
 
-  // Every edition's per-run schedule state (ADR-0016), keyed `${edition}::${run}`, so
-  // Sidebar and HomeContent (root layout, no route params) can gate Planner off a run
-  // that has no public schedule. Fetched per edition and merged; a failed edition is
-  // left out and getRunScheduleState fails open ("scheduled").
-  const runScheduleStateEntries = await Promise.all(
+  // Every edition's per-run state (ADR-0016), keyed `${edition}::${run}`, so Sidebar
+  // and HomeContent can gate run-scoped nav from the root layout (no route params).
+  // A failed edition is left out; the store's reads fail open. See ARCHITECTURE.md §
+  // Announced-Lineup Mode.
+  const runStateEntries = await Promise.all(
     FESTIVAL_REGISTRY.map(async (edition) => {
       try {
         const festival = await fetchFestivalEdition(edition.slug);
         return (festival?.runs ?? []).map(
           (run) =>
-            [`${edition.slug}::${run.slug}`, run.schedule_state] as const
+            [
+              `${edition.slug}::${run.slug}`,
+              {
+                scheduleState: run.schedule_state,
+                hasPublishedArtists: run.has_published_artists,
+              },
+            ] as const
         );
       } catch (error) {
         console.error("Failed to fetch festival edition", edition.slug, error);
@@ -66,8 +72,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       }
     })
   );
-  const runScheduleStateMap: Record<string, ApiFestivalRunScheduleState> =
-    Object.fromEntries(runScheduleStateEntries.flat());
+  const runStateMap: Record<string, RunStateEntry> = Object.fromEntries(
+    runStateEntries.flat()
+  );
 
   return (
     <html lang="en" className={jakarta.variable}>
@@ -78,7 +85,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           runSlug={DEFAULT_CONTEXT.runSlug}
           appearances={appearances}
         />
-        <RunScheduleStateHydrator map={runScheduleStateMap} />
+        <RunScheduleStateHydrator map={runStateMap} />
         <HydrationGate>
           <div className="flex flex-col md:flex-row h-dvh overflow-hidden bg-[#110D24]">
             <MobileTopBar />

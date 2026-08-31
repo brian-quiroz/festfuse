@@ -451,22 +451,6 @@ schedule JSX on `artist.appearances.length > 0`. The other Quick Picks sub-scree
 
 ---
 
-## Future Consideration: Pre-flag Empty Runs in the Festival Picker
-
-An announced run with no published artists yet (ADR-0016) is blocked at the
-`[edition]/[run]` layout — any URL under it shows `AnnouncedLineupPending` — and a
-follow-up strips the sidebar nav + home cards for the *active* such run. What is still
-missing: the festival picker (`FestivalPicker` on Home, `FestivalContextSelector` in
-the sidebar) shows every run as selectable, so a user can pick one and land straight on
-"lineup not available yet". Graying it out in the dropdown needs an artist count (or a
-has-any-artists boolean) for *every* run, not just the active one — the picker today
-only fetches `schedule_state` per registry entry. That is a new backend field on the
-festival/edition response or an extra call. Low priority: the transient window (a run
-seeded shortly before its roster import) is short, and every path already lands
-somewhere truthful.
-
----
-
 ## Future Consideration: "Clear all" in the Active Filters Bar Leaves the Search
 
 Explore has three "clear" affordances with different scope. The **"All" pill**
@@ -907,3 +891,41 @@ reconciling the drifted signatures carefully so no existing assertion changes me
 
 **Not scheduled.** Belongs with the broader backend-test-coverage roadmap item
 (`docs/roadmap/multi-festival.md`, "Next"), not a feature PR.
+
+---
+
+## Future Consideration: Page-Level Transition Between Sidebar and Sidebar-Free Layouts
+
+An empty announced run makes Home drop its chrome and show the festival picker:
+`HomeContent` drives `chromeStore` to hide the sidebar (see
+[ARCHITECTURE.md](../ARCHITECTURE.md) § Announced-Lineup Mode). The switch is instant —
+the sidebar disappears and the centered content jumps to its wider layout in one frame.
+In normal use that may read as abrupt.
+
+**If it does:** prefer a brief page-level fade over animating the sidebar's width.
+Animating the width forces the centered content to reflow visibly for the whole
+transition, which draws more attention to the shift than a short opacity crossfade on
+the page would.
+
+**Not built now** — the switch only happens on an edge state (an empty announced run),
+and whether it actually feels jarring in practice is unverified.
+
+---
+
+## Future Consideration: Permanently Reachable Full Festival Browser
+
+The card-based festival picker (`FestivalPicker`) is only reachable from Home when no
+context is set (or, transiently, an empty announced run). Once a context exists the only
+switcher is the compact sidebar popover (`FestivalContextSelector`).
+
+A permanently reachable full browser — potentially at `/festivals` — would give the
+larger, more editorial picker a stable home. The sidebar popover stays the fast context
+switcher and could gain a "Browse all festivals" link down to that page. This grows
+more valuable as FestFuse carries more active and upcoming festivals than fit
+comfortably in a popover.
+
+Distinct from "Unscoped Convenience Routes and Last-Active-Context Redirect" above: that
+is about `/explore` and friends resolving against the persisted context; this is a
+dedicated discovery surface with its own URL.
+
+**Not built now** — two festivals fit the current surfaces fine.

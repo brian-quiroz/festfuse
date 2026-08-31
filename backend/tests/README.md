@@ -10,10 +10,12 @@ purposes and intentionally have different database boundaries.
 mock. Artist router tests additionally mock the dedicated query boundary. These
 tests exercise routing, endpoint behavior, status codes, nested response
 serialization, not-found handling, and explicit inconsistent-data handling without
-requiring PostgreSQL. This includes the derived per-run `schedule_state` on the
-festival endpoint (ADR-0016) passing through for both the announced and scheduled
-cases, and the run-scoped `GET /festivals/{edition}/runs/{run}/artists` collection
-route returning its announced artists and a 404 for an unknown run.
+requiring PostgreSQL. This includes the two derived per-run fields on the festival
+endpoint (ADR-0016) passing through: `schedule_state` for the announced and scheduled
+cases, and `has_published_artists` across all three states an announced run can be in
+(no schedule and no lineup, no schedule but a lineup, and scheduled). It also covers
+the run-scoped `GET /festivals/{edition}/runs/{run}/artists` collection route
+returning its announced artists and a 404 for an unknown run.
 
 They are fast and run by default, but they do not prove that generated SQL, foreign
 keys, migrations, or PostgreSQL behavior works.
@@ -208,7 +210,8 @@ The integration suite currently verifies:
 - verified four-or-none Similar Artist visibility and canonical target summaries;
 - the run-scoped appearances feed's publication/lineup/schedule filtering, ordering,
   and field mapping, its schedule-agnostic `read_festival_run_artists` sibling, and the
-  derived per-run `schedule_state` query (ADR-0016); and
+  two derived per-run queries behind `schedule_state` and `has_published_artists`
+  (ADR-0016); and
 - single-artist create and hard-delete through the authoring service, including
   verification-trigger ordering, partial (draft) creates, and Similar Artist
   target-deletion protection; and
