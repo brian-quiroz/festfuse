@@ -23,7 +23,7 @@ export default function PlannerPage() {
   // itself (see scheduleStore.ts) — read directly rather than recomputed here.
   const { scheduledAppearanceKeys, conflictingAppearanceKeys, toggleScheduled } =
     useScheduleStore();
-  const { appearancesBySlug: runAppearancesBySlug, hasLoaded: hasLoadedRunAppearances } =
+  const { appearancesBySlug: runAppearancesBySlug, loadState: runAppearancesLoadState } =
     useRunAppearances(editionSlug, runSlug);
 
   const allAppearanceEntries = useMemo(
@@ -90,7 +90,7 @@ export default function PlannerPage() {
     conflictingAppearanceKeys,
   ]);
 
-  if (!hasLoadedRunAppearances) {
+  if (runAppearancesLoadState === "error") {
     return (
       <main className="flex-1 flex flex-col overflow-hidden">
         <AppearancesUnavailable />

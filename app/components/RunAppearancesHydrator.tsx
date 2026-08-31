@@ -32,14 +32,22 @@ export default function RunAppearancesHydrator({
   useState(() => {
     // Synchronous seed only on the very first hydration (root layout, pre-gate) —
     // once any context is loaded, a subscriber may have rendered this pass.
-    if (appearances && useRunAppearancesStore.getState().byContext.size === 0) {
+    if (useRunAppearancesStore.getState().byContext.size !== 0) return;
+    if (appearances) {
       useRunAppearancesStore.getState().setAppearances(editionSlug, runSlug, appearances);
+    } else {
+      useRunAppearancesStore.getState().setLoadFailed(editionSlug, runSlug);
     }
   });
 
   useEffect(() => {
-    if (appearances && !getRunAppearancesSlice(editionSlug, runSlug).hasLoaded) {
+    // Retry until this context has real data — a nav away and back re-fetches, so a
+    // context that failed once can still recover with a later render's props.
+    if (getRunAppearancesSlice(editionSlug, runSlug).loadState === "loaded") return;
+    if (appearances) {
       useRunAppearancesStore.getState().setAppearances(editionSlug, runSlug, appearances);
+    } else {
+      useRunAppearancesStore.getState().setLoadFailed(editionSlug, runSlug);
     }
   }, [editionSlug, runSlug, appearances]);
 

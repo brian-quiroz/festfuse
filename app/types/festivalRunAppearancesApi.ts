@@ -31,3 +31,7 @@ export type ApiRunAppearance = {
 };
 
 export type FestivalRunAppearancesApiResponse = ApiRunAppearance[];
+
+// The schedule-agnostic run-artists feed (ADR-0016) returns bare ApiRunArtist rows —
+// the same nested artist projection, without the appearance wrapper.
+export type FestivalRunArtistsApiResponse = ApiRunArtist[];

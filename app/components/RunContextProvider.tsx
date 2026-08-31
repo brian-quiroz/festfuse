@@ -3,6 +3,8 @@
 import { createContext, useContext, useEffect } from "react";
 import { getDaysForFestival, getStagesForFestival } from "@/app/data/festivals";
 import { useActiveContextStore } from "@/app/store/activeContextStore";
+import { useRunScheduleState } from "@/app/store/runScheduleStateStore";
+import type { ApiFestivalRunScheduleState } from "@/app/types/festivalApi";
 
 type RunContextValue = { editionSlug: string; runSlug: string };
 
@@ -56,4 +58,16 @@ export function useRunDays(): readonly string[] {
 export function useRunStages(): readonly string[] {
   const { editionSlug } = useRunContext();
   return getStagesForFestival(editionSlug);
+}
+
+/**
+ * The active run's schedule mode (ADR-0016): `"announced"` while only its lineup
+ * exists, `"scheduled"` once set times are published. Each announced-capable screen
+ * branches on this once at the top. Backed by runScheduleStateStore, seeded
+ * synchronously in the root layout before HydrationGate, so it is correct on the first
+ * client render with no flash. Fails open to `"scheduled"` for an unknown run.
+ */
+export function useRunScheduleMode(): ApiFestivalRunScheduleState {
+  const { editionSlug, runSlug } = useRunContext();
+  return useRunScheduleState(editionSlug, runSlug);
 }

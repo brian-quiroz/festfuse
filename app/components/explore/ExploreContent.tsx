@@ -62,13 +62,14 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const mainRef = useRef<HTMLElement>(null);
 
   // RunAppearancesHydrator seeds the store synchronously before this component's own
-  // first render in the normal case; hasLoadedRunAppearances staying false past that
-  // point is an operational failure, handled by the early return below.
+  // first render in the normal case; a `loadState` of "error" past that point is an
+  // operational failure, handled by the early return below. A legitimately empty feed
+  // renders the normal (empty) UI.
   const { editionSlug, runSlug } = useRunContext();
   const decisionsByArtist = useEditionDecisions(editionSlug);
   const dayOrder = useRunDays();
   const availableStages = useRunStages();
-  const { appearancesBySlug: runAppearancesBySlug, hasLoaded: hasLoadedRunAppearances } =
+  const { appearancesBySlug: runAppearancesBySlug, loadState: runAppearancesLoadState } =
     useRunAppearances(editionSlug, runSlug);
   const runArtists = useMemo(
     () => getRunArtistsFromApi(runAppearancesBySlug, editionSlug),
@@ -195,7 +196,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   // Get current carousel data if viewing a carousel
   const currentCarousel = viewingCarousel ? carouselMap[viewingCarousel] : null;
 
-  if (!hasLoadedRunAppearances) {
+  if (runAppearancesLoadState === "error") {
     return (
       <main className="flex-1 min-w-0 overflow-y-auto themed-scrollbar flex flex-col">
         <AppearancesUnavailable />

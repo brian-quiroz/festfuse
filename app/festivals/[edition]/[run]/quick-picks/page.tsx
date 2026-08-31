@@ -109,7 +109,7 @@ export default function QuickPicksPage() {
   const { editionSlug, runSlug } = useRunContext();
   const decisionsByArtist = useEditionDecisions(editionSlug);
   const dayOrder = useRunDays();
-  const { appearancesBySlug: runAppearancesBySlug, hasLoaded: hasLoadedRunAppearances } =
+  const { appearancesBySlug: runAppearancesBySlug, loadState: runAppearancesLoadState } =
     useRunAppearances(editionSlug, runSlug);
   const quickPicksArtists = useMemo(
     () => getQuickPicksRunArtistsFromApi(runAppearancesBySlug, editionSlug),
@@ -334,7 +334,7 @@ export default function QuickPicksPage() {
   // The failure screen is a generic system message, not Quick Picks content — it
   // should look identical to Explore/Planner/Credits' plain-background version
   // rather than carrying this screen's decorative energy.
-  const showAppearancesUnavailable = step === "start" && !hasLoadedRunAppearances;
+  const showAppearancesUnavailable = step === "start" && runAppearancesLoadState === "error";
 
   return (
     <main className="relative flex-1 min-w-0 min-h-0 overflow-y-auto overflow-x-hidden flex flex-col">
