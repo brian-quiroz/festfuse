@@ -4,16 +4,18 @@ import { useMemo, useState } from "react";
 import Switch from "@/app/components/Switch";
 import PlannerGrid from "@/app/components/planner/PlannerGrid";
 import PlannerMobileFilters from "@/app/components/planner/PlannerMobileFilters";
+import PlannerUnavailable from "@/app/components/planner/PlannerUnavailable";
 import AppearancesUnavailable from "@/app/components/AppearancesUnavailable";
 import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { usePlannerViewStore } from "@/app/store/plannerViewStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
 import { getAppearanceEntriesFromApi, getAppearanceKey, runScopeId } from "@/app/lib/schedule";
-import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
+import { useRunContext, useRunDays, useRunScheduleMode } from "@/app/components/RunContextProvider";
 
 export default function PlannerPage() {
   const { editionSlug, runSlug } = useRunContext();
+  const scheduleMode = useRunScheduleMode();
   const days = useRunDays();
   const [activeDay, setActiveDay] = useState<string>(days[0]);
   const { showMyPicks, showScheduled, setShowMyPicks, setShowScheduled } = usePlannerViewStore();
@@ -89,6 +91,12 @@ export default function PlannerPage() {
     scheduledAppearanceKeys,
     conflictingAppearanceKeys,
   ]);
+
+  // An announced run has a lineup but no schedule to plan against (ADR-0016). The route
+  // stays live rather than redirecting — see PlannerUnavailable.
+  if (scheduleMode === "announced") {
+    return <PlannerUnavailable context={{ editionSlug, runSlug }} />;
+  }
 
   if (runAppearancesLoadState === "error") {
     return (
