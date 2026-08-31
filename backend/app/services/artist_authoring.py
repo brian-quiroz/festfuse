@@ -379,6 +379,69 @@ def add_existing_artist_to_run(
     return lineup_entry
 
 
+def attach_run_schedule(session: Session, payload: ArtistAuthoringInput) -> LineupEntry:
+    """Attach a schedule to an artist already announced in a run without one: the
+    payload's Appearances go onto the existing, appearance-less LineupEntry. The global
+    Artist and the entry's ``lineup_status`` ("announced") are untouched; the run's
+    derived ``schedule_state`` flips to "scheduled" only because scheduled Appearance
+    rows now exist (ADR-0016). Does not commit.
+
+    The second stage of a two-step import: ``build_roster_payloads.py`` imports the
+    roster first (roster-only CSV, announced entries), then re-runs with the full
+    schedule CSV, which routes each already-announced slug here. It is not an import
+    path: a slug with no announced entry in the run is an error.
+    """
+    if not payload.artist.appearances:
+        raise ArtistAuthoringError(
+            "attach_run_schedule needs appearances; use create_artist or "
+            "add_existing_artist_to_run for a roster-only entry"
+        )
+
+    run = _resolve_run(session, payload.edition, payload.run)
+    slug = payload.artist.slug
+
+    artist = session.scalar(select(Artist).where(Artist.slug == slug))
+    if artist is None:
+        raise ArtistAuthoringError(
+            f"artist {slug!r} does not exist; import the roster first"
+        )
+
+    lineup_entry = session.scalar(
+        select(LineupEntry)
+        .where(
+            LineupEntry.artist_id == artist.id,
+            LineupEntry.festival_run_id == run.id,
+        )
+        .options(selectinload(LineupEntry.appearances))
+    )
+    if lineup_entry is None:
+        raise ArtistAuthoringError(
+            f"artist {slug!r} is not in run {run.slug!r}; import the roster first"
+        )
+    if lineup_entry.appearances:
+        raise ArtistAuthoringError(
+            f"artist {slug!r} already has a schedule in run {run.slug!r}"
+        )
+
+    # Billing is already set on the announced entry, so the schedule payload need not
+    # repeat it. When it does, it must agree (a re-tiered act between the announcement
+    # and the schedule drop is a real error, not a silent overwrite).
+    if payload.billing_tier or any(
+        appearance.billing_tier for appearance in payload.artist.appearances
+    ):
+        resolved_tier = _resolve_billing_tier(payload)
+        if resolved_tier != lineup_entry.billing_tier:
+            raise ArtistAuthoringError(
+                f"billing tier mismatch for {slug!r}: the announced entry has "
+                f"{lineup_entry.billing_tier!r}, the schedule gives {resolved_tier!r}"
+            )
+
+    with session.no_autoflush:
+        _attach_appearances(session, lineup_entry, payload.artist.appearances)
+    session.flush()
+    return lineup_entry
+
+
 def _attach_appearances(
     session: Session,
     lineup_entry: LineupEntry,

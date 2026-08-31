@@ -36,7 +36,13 @@ the date and the edition year, `socialsVerified` is always `true` (even with no 
 links), `mbid` is included only when present, multiple rows sharing a slug collapse into
 one multi-appearance payload, and every unparseable case is reported without dropping
 the rest of the file — a missing required cell, an unknown billing tier, rows for one
-slug that disagree on a shared field, and two artists sharing a Spotify URL.
+slug that disagree on a shared field, and two artists sharing a Spotify URL. It also
+covers the roster-only path (multi-festival roadmap): a row with the four schedule
+columns absent builds an announced payload (wrapper `billingTier`, no appearances);
+a partial schedule row, a repeated announced row for one slug, and an announced row
+with no billing tier are each reported; a schedule row may omit `billing_tier`
+(inherited on the attach); and a file mixing announced and scheduled slugs is refused
+whole.
 
 `test_festival_configs.py` (fast, no database) guards the hand-authored seed configs in
 `scripts/festival_configs/` and the pure `build_edition()` config-to-ORM mapping in
@@ -148,6 +154,16 @@ different run adds an already-existing artist to that run (`would add to run` /
 renderers run against a seeded artist without error, showing readiness and the inbound
 similar-artist reference count.
 
+The staged import (multi-festival roadmap) is covered in the same file: a roster-only
+row persists as an announced entry with no appearances; re-running with the full
+schedule CSV routes each already-announced slug through `attach_run_schedule`
+(`would schedule` / `scheduled`, then `skipped` on a third pass), leaving
+`lineup_status` as `announced` while the appearances now exist; a schedule CSV with no
+`billing_tier` column still attaches, inheriting the announced entry's tier; and
+`attach_run_schedule` itself refuses a payload with no appearances, a slug with no
+entry in the run, a run that already has a schedule, and a billing tier that is
+supplied and disagrees with the announced entry.
+
 `integration/test_clean_bootstrap.py` is the exception to the rollback-contained
 pattern: it proves the from-empty half of "rebuild the database from PostgreSQL alone"
 (roadmap section 5, ADR-0014). It creates a disposable `festfuse_cleanboot_*` database,
@@ -198,6 +214,10 @@ The integration suite currently verifies:
   isolation of a failed row, skip-if-already-in-run, rerun safety, and adding an
   existing artist to a different run) and the `show_artist.py` detail and roster
   renderers; and
+- the staged import (multi-festival roadmap): a roster-only row creating an announced
+  entry, a second pass with the full schedule CSV attaching it through
+  `attach_run_schedule`, and that function's refusals (no appearances, no entry in the
+  run, a run already scheduled, a billing mismatch); and
 - the clean-bootstrap path (roadmap section 5): every migration applying to a
   brand-new database, `alembic check` finding no schema drift afterward, and the
   config-driven festival seed producing every configured edition's hierarchy
