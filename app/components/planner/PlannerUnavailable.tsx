@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, CalendarDays } from "lucide-react";
-import { contextHref, findEdition } from "@/app/data/festivals";
+import { contextHref, festivalLabel } from "@/app/data/festivals";
+import AnnouncedLineupPending from "@/app/components/AnnouncedLineupPending";
 
 // The Planner route's state for a run whose lineup is announced but has no schedule
 // yet (ADR-0016). Informational, not an error — cyan, not red (design-principles.md).
@@ -8,26 +9,28 @@ import { contextHref, findEdition } from "@/app/data/festivals";
 // announced window is months long, and a silent bounce to Home is disorienting.
 // Reached only from planner/page.tsx's mode branch; Planner is already gone from the
 // sidebar nav for this run (multi-festival section 6).
+//
+// Two shapes, by whether the run has any published artists:
+//  - none yet  -> AnnouncedLineupPending ("Lineup not available yet")
+//  - some, no schedule -> "Schedule not available yet" + Explore / Quick Picks cards
 
 const DESTINATIONS = [
-  { page: "explore", label: "Explore", copy: "Browse the full announced lineup" },
+  { page: "explore", label: "Explore", copy: "Browse the announced lineup" },
   { page: "quick-picks", label: "Quick Picks", copy: "Decide fast, one artist at a time" },
 ] as const;
 
 export default function PlannerUnavailable({
   context,
+  hasAnnouncedArtists,
 }: {
   context: { editionSlug: string; runSlug: string };
+  hasAnnouncedArtists: boolean;
 }) {
-  const edition = findEdition(context.editionSlug);
-  const editionName = edition?.name ?? "This festival";
-  // Name the run only when the edition has more than one — "Weekend 2" is meaningful,
-  // a lone "Main Run" is just noise.
-  const runName =
-    edition && edition.runs.length > 1
-      ? edition.runs.find((run) => run.slug === context.runSlug)?.name
-      : undefined;
-  const festivalLabel = runName ? `${editionName} ${runName}` : editionName;
+  const label = festivalLabel(context.editionSlug, context.runSlug);
+
+  if (!hasAnnouncedArtists) {
+    return <AnnouncedLineupPending festivalLabel={label} />;
+  }
 
   return (
     <main className="flex-1 flex flex-col overflow-hidden">
@@ -39,15 +42,14 @@ export default function PlannerUnavailable({
           className="text-[#00E5FF]/70 mb-5"
         />
         <h1 className="text-3xl font-extrabold text-white tracking-tight mb-2">
-          Planner isn&apos;t available yet
+          Schedule not available yet
         </h1>
         <p className="text-sm text-white/50 mb-8 max-w-sm">
-          {festivalLabel} has a full lineup, but no schedule yet. Browse the lineup and
-          make your picks in the meantime.
+          {`The schedule for ${label} hasn't been announced. Explore the artists announced so far and make your picks in the meantime.`}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg">
-          {DESTINATIONS.map(({ page, label, copy }) => (
+          {DESTINATIONS.map(({ page, label: cardLabel, copy }) => (
             <Link
               key={page}
               href={contextHref(context, page)}
@@ -55,7 +57,7 @@ export default function PlannerUnavailable({
             >
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-[#00E5FF]">
-                  {label}
+                  {cardLabel}
                 </span>
                 <ArrowRight size={15} strokeWidth={2.5} className="text-[#00E5FF]/70" />
               </div>

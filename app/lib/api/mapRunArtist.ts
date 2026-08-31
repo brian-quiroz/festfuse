@@ -1,34 +1,20 @@
-import type { BillingTier, Genre, Location } from "@/app/data/categories";
 import { mapGenres, mapImage, mapSimilarArtists } from "@/app/lib/api/mapFestivalArtist";
-import { mapArtistLocation, mapBillingTier } from "@/app/lib/api/mapRunAppearance";
-import type { Artist } from "@/app/types/artist";
+import {
+  mapArtistLocation,
+  mapBillingTier,
+  type QuickPicksRunArtist,
+  type RunArtist,
+} from "@/app/lib/api/mapRunAppearance";
 import type { ApiRunArtist } from "@/app/types/festivalRunAppearancesApi";
 
-// The announced-run counterpart of RunArtist (mapRunAppearance.ts). Same real-data
-// fields, minus `appearances` — an announced run has no set times, so there is nothing
-// to map. `billingTier` comes from the run's LineupEntry (FestivalRunArtistRead
-// .billing_tier), poster-derived and schedule-independent, so Headliner badges and the
-// Festival Story billing signal survive without a schedule.
-export interface AnnouncedRunArtist {
-  slug: string;
-  name: string;
-  imageUrl?: string;
-  imageVerified?: boolean;
-  imageCredit?: Artist["imageCredit"];
-  objectPosition?: string;
-  genres: Genre[];
-  location: Location;
-  billingTier: BillingTier;
-}
-
-// Quick Picks' announced sibling — everything AnnouncedRunArtist has, plus the two
-// editorial fields no other announced consumer reads. Mirrors QuickPicksRunArtist's
-// relationship to RunArtist (ADR-0007). `quickPicksTrack` is null for a video-only
-// artist that publishes with no audio preview (ADR-0017).
-export interface AnnouncedQuickPicksArtist extends AnnouncedRunArtist {
-  quickPicksTrack: { spotifyId: string; name: string } | null;
-  similarArtists: Artist["similarArtists"];
-}
+// The announced-run feed (ADR-0016) produces the same RunArtist / QuickPicksRunArtist
+// shape as the scheduled feed, just with `appearances: []` — an announced run has a
+// lineup but no set times. The aliases name the intent at call sites; there is no
+// separate type. `billingTier` is the run-level LineupEntry tier (poster-derived), so
+// Headliner badges and the Festival Story billing signal survive without a schedule.
+// See ARCHITECTURE.md § Run Artist Shape.
+export type AnnouncedRunArtist = RunArtist;
+export type AnnouncedQuickPicksArtist = QuickPicksRunArtist;
 
 export function getAnnouncedRunArtistsFromApi(artists: ApiRunArtist[]): AnnouncedRunArtist[] {
   return artists.map((artist) => ({
@@ -38,6 +24,7 @@ export function getAnnouncedRunArtistsFromApi(artists: ApiRunArtist[]): Announce
     genres: mapGenres(artist.genres),
     location: mapArtistLocation(artist.location),
     billingTier: mapBillingTier(artist.billing_tier),
+    appearances: [],
   }));
 }
 
@@ -51,6 +38,7 @@ export function getAnnouncedQuickPicksArtistsFromApi(
     genres: mapGenres(artist.genres),
     location: mapArtistLocation(artist.location),
     billingTier: mapBillingTier(artist.billing_tier),
+    appearances: [],
     quickPicksTrack: artist.quick_picks_track
       ? {
           spotifyId: artist.quick_picks_track.spotify_track_id,

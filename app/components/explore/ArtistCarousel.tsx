@@ -14,6 +14,11 @@ interface ArtistCarouselProps {
   cardSize?: "default" | "large";
   carouselType?: "festival-favorites" | "international-picks" | "chicagos-own" | "after-dark";
   onSeeAll?: () => void;
+  // The card to render per artist. Defaults to the scheduled ArtistCard; announced
+  // Explore (ADR-0016) passes AnnouncedArtistCard, which drops the schedule line and
+  // schedule toggle. Both take `{ artist, size }` — an announced artist is a RunArtist
+  // with `appearances: []` (see mapRunArtist.ts).
+  CardComponent?: React.ComponentType<{ artist: RunArtist; size?: "default" | "large" }>;
 }
 
 export default function ArtistCarousel({
@@ -21,6 +26,7 @@ export default function ArtistCarousel({
   artists,
   cardSize = "default",
   onSeeAll,
+  CardComponent = ArtistCard,
 }: ArtistCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [hoverEdge, setHoverEdge] = useState<"left" | "right" | null>(null);
@@ -90,7 +96,7 @@ export default function ArtistCarousel({
           className="flex gap-4 overflow-x-auto pl-4 sm:pl-8 pr-4 sm:pr-8 pb-2 no-scrollbar"
         >
           {artists.map((artist, i) => (
-            <ArtistCard key={`${artist.slug}-${i}`} artist={artist} size={cardSize} />
+            <CardComponent key={`${artist.slug}-${i}`} artist={artist} size={cardSize} />
           ))}
         </div>
       </div>

@@ -10,7 +10,6 @@ import {
   type EditionConfig,
 } from "@/app/data/festivals";
 import { useActiveContextStore } from "@/app/store/activeContextStore";
-import { getRunScheduleState } from "@/app/store/runScheduleStateStore";
 import { useChromeStore } from "@/app/store/chromeStore";
 import { useDialogA11y } from "@/app/hooks/useDialogA11y";
 
@@ -24,15 +23,16 @@ function resolveTarget(pathname: string, next: Context): string | null {
 
   const segment = pathname.split("/").filter(Boolean)[3];
 
-  if (segment === "explore" || segment === "quick-picks" || segment === "credits") {
+  if (
+    segment === "explore" ||
+    segment === "quick-picks" ||
+    segment === "credits" ||
+    // Planner stays on the Planner route even when the target run has no public
+    // schedule — that route renders PlannerUnavailable (ADR-0016), which explains why
+    // and offers Explore / Quick Picks. Consistent with navigating there directly.
+    segment === "planner"
+  ) {
     return contextHref(next, segment);
-  }
-  if (segment === "planner") {
-    // Planner is unavailable for a run with no public schedule — send the user home,
-    // where the disabled Planner card explains why.
-    return getRunScheduleState(next.editionSlug, next.runSlug) === "announced"
-      ? "/"
-      : contextHref(next, "planner");
   }
   // Artist detail (the slug may not exist in the target run) and any other scoped
   // route fall back to the target's Explore.

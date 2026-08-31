@@ -51,19 +51,19 @@ export function filterArtists(
 
     // Day/Stage filters consider only the artist's primary appearance — see
     // app/lib/appearances.ts. A secondary appearance never causes an artist to match
-    // a filter the rest of the UI isn't otherwise showing.
-    const primaryAppearance = getPrimaryAppearance(artist, festivalId, dayOrder);
+    // a filter the rest of the UI isn't otherwise showing. Resolved lazily: an
+    // announced run (ADR-0016) has no appearances and never passes these two facets
+    // (they are hidden in announced Explore), so getPrimaryAppearance is never called.
+    if (day || (stages && stages.length > 0)) {
+      const primaryAppearance = getPrimaryAppearance(artist, festivalId, dayOrder);
 
-    // Day filter: artist must perform on the selected day
-    if (day) {
-      if (primaryAppearance.day !== day) {
+      // Day filter: artist must perform on the selected day
+      if (day && primaryAppearance.day !== day) {
         return false;
       }
-    }
 
-    // Stage filter: artist must perform on one of the selected stages
-    if (stages && stages.length > 0) {
-      if (!stages.includes(primaryAppearance.stage)) {
+      // Stage filter: artist must perform on one of the selected stages
+      if (stages && stages.length > 0 && !stages.includes(primaryAppearance.stage)) {
         return false;
       }
     }

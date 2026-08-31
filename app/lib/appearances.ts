@@ -55,14 +55,6 @@ export function getPrimaryAppearance(
   return primary;
 }
 
-export function getPrimaryBillingTier(
-  artist: Pick<Artist, "slug" | "appearances">,
-  festivalId: string,
-  dayOrder: readonly string[]
-) {
-  return getPrimaryAppearance(artist, festivalId, dayOrder).billingTier;
-}
-
 // Same rule as getPrimaryAppearance, applied only to appearances that fall on one of
 // the caller's selected (attendance) days. Used by Quick Picks so an artist's queue
 // day, day grouping, day progress, displayed date/time/stage, and billing-tier

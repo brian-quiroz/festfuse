@@ -195,7 +195,9 @@ improvising.
   directly, and re-check Stack for matching stale status language — this file's
   claims can drift out of sync with themselves, not just with the code.
 
-**Comments.** Default to short code comments. When a decision clears the ADR bar above, put its
-justification there instead of the comment; otherwise keep the reasoning in the comment itself, briefly.
+**Comments.** Short code comments carrying the local "why". Rationale past a sentence or two — shape,
+trade-offs, a reusable pattern — is the signal to move it into `ARCHITECTURE.md` (or an ADR if it
+clears that bar), same commit, leaving a one-line pointer comment. Don't let a comment block become a
+decision's only record. Not retroactive.
 
 **Commits.** Never run `git commit` or `git push` directly — hand over the message text and let the developer run it.

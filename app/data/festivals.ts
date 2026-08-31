@@ -130,6 +130,20 @@ function findRun(editionSlug: string, runSlug: string): RunConfig | undefined {
   return findEdition(editionSlug)?.runs.find((run) => run.slug === runSlug);
 }
 
+/**
+ * Human label for a run: the edition name, plus the run name only when the edition has
+ * more than one run ("Weekend 2" is meaningful; a lone "Main Run" is noise). E.g.
+ * "Austin City Limits 2026 Weekend 1" or "Coachella 2027". Falls back to a generic
+ * string for an unknown edition.
+ */
+export function festivalLabel(editionSlug: string, runSlug: string): string {
+  const edition = findEdition(editionSlug);
+  if (!edition) return "This festival";
+  if (edition.runs.length <= 1) return edition.name;
+  const runName = edition.runs.find((run) => run.slug === runSlug)?.name;
+  return runName ? `${edition.name} ${runName}` : edition.name;
+}
+
 /** Weekday names in festival order for a specific run. Empty for an unknown context. */
 export function getDaysForFestival(editionSlug: string, runSlug: string): readonly string[] {
   return findRun(editionSlug, runSlug)?.days ?? [];

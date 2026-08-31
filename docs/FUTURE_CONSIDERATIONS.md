@@ -130,6 +130,23 @@ the `sanitizeAttendanceDays` read-time-repair precedent.
 
 ---
 
+## Future Consideration: Pick Counts Not Scoped to a Run's Own Roster
+
+`decisionStore` keys are `{edition}:{slug}` — **edition-scoped, not run-scoped**. This
+is deliberate: a Must See / Interested follows the artist at the festival, so an act
+that plays both ACL weekends is decided once, not re-picked per weekend. But a
+multi-run festival's weekend lineups overlap without being identical. An artist marked
+Must See while viewing weekend 1, who does not play weekend 2, still counts toward
+weekend 2's Sidebar "My Picks" / "Must See" / "Interested" totals and reads as a
+"decided" artist in weekend 2's Pick Status filter — even though no card for them
+appears in weekend 2's Explore. The number is off, not the data.
+
+The clean fix keeps decisions edition-scoped but intersects the **counts and the Pick
+Status facet** with the run's actual roster (the sidebar and Explore already hold that
+list). Not built now: no real multi-run roster exists yet (section 11), and the
+discrepancy is cosmetic. Revisit once both ACL weekends have real rosters, before
+launch if the mismatch is visibly confusing.
+
 ## Future Consideration: Visible "Passed" Indicator
 
 Currently, "Passed" has no visual representation anywhere in the UI outside the Status filter — cards don't show any distinction between an artist that's been passed on versus one that's fully undecided. This is a deliberate asymmetry, not an oversight: Must See and Interested get persistent icons because they represent a positive, actively-curated list the user wants reinforced everywhere they browse. Passed was never designed to carry that same visual weight — it's a lower-salience state, consistent with the decision not to give it a dedicated sidebar entry.
@@ -384,6 +401,66 @@ Next.js's LCP heuristic flags Explore's "Festival Favorites" carousel first card
 
 ---
 
+## Future Consideration: "All Artists" Browse View on Explore
+
+Explore's curated carousels (Festival Favorites, International, `{City}'s Own`, After
+Dark) do not cover the whole roster — an undercard, domestic, non-local act appears in
+no row. In scheduled Explore, "browse everyone" is done by picking a **Day** (which
+switches from carousels to a full grid); announced Explore has no Day facet, so the
+only path is selecting all four Pick Status values, which is clunky (though no worse
+than the scheduled Day trick).
+
+A dedicated "All Artists" view — most naturally a carousel with a "See all" grid,
+consistent with the other rows, for **both** modes — would make this direct. Not built
+now: it needs a decision on how it relates to the curated rows (does it suppress
+against them? sit above or below?), and the Pick-Status-all escape hatch works in the
+meantime. Revisit if the browse-everyone path proves painful in real use.
+
+---
+
+## Future Consideration: Merge AnnouncedExploreContent into a mode-aware ExploreContent
+
+`AnnouncedExploreContent` is a separate component from `ExploreContent` (ADR-0016). The
+fork was the right call while the announced surfaces were being built incrementally,
+but ~60% of it — the `<main>` shell, page header, Surprise Me block, the four-state
+render (carousels / filtered grid / search / "See all"), the `navigationRevision`
+scroll reset — is structurally identical to `ExploreContent`. Every future Explore
+change now has to be made twice or risks drift.
+
+The obstacle to a single component was that announced artists weren't `RunArtist`-shaped.
+The type unification (commit `d27a5e1`+) removed that: both feeds now produce `RunArtist[]`,
+`ExploreFilters` takes `showDay`/`showStage`/`showScheduleStatus`, and both
+`ArtistCarousel` and `ArtistResultsGrid` take a `CardComponent`. A `mode` branch inside
+`ExploreContent` is now ~30 lines of ternaries (data hook, carousel algorithm —
+`interleaveByTierShuffled` vs `shuffleDayBlocks`, no After Dark) plus the
+`AnnouncedLineupPending` empty state.
+
+**Not now:** it is a real restructure of a 560-line file on the live scheduled path,
+and Quick Picks / Festival Story (roadmap sections for commits 7-8) hit the same
+fork/merge question. Do it as one focused consolidation pass after those land.
+`AnnouncedArtistCard` stays a separate component — it is a genuinely different card
+(no schedule line, schedule toggle, or conflict badge), not "a card with a prop".
+
+---
+
+## Future Consideration: "Clear all" in the Active Filters Bar Leaves the Search
+
+Explore has three "clear" affordances with different scope. The **"All" pill**
+(`ExploreFilters` `handleClearAll`) and the carousel-view **"Back to Explore"**
+(`clearFilters()`) both reset the search query along with every filter. The **"Clear
+all" button inside the "Active filters:" bar** (an inline closure in `ExploreContent`,
+mirrored in `AnnouncedExploreContent`) clears the five filter facets but **not**
+`searchQuery`.
+
+The bar renders on `hasFilters`, not `hasSearch`, so a user with an active search plus
+one filter sees a "Clear all" that leaves the search behind — arguably surprising given
+the label, and it makes two near-identically-named controls behave differently.
+Defensible as-is (the bar is scoped to filter chips; search has its own X), but if
+changed, the fix is to add `setSearchQuery("")` to both closures so all three
+affordances agree. Pre-existing, not from the announced-lineup work.
+
+---
+
 ## Future Consideration: Duplicated Filter/Search Computation in ExploreContent
 
 `ExploreContent.tsx` computes `filterArtists(...)` and the `hasSearch ? searchArtists(...) : ...` fallback three separate times, in three independent inline closures, rather than once and shared:
@@ -440,6 +517,16 @@ Some icon-only buttons in dense rows (e.g. filter chip rows, carousel controls) 
 ## Future Consideration: Focus-Visible Ring Consistency
 
 Whether every interactive control — especially icon-only buttons without a text label — shows a strong, consistent visible focus ring hasn't been audited app-wide. Unverified either way. Revisit as a dedicated keyboard-navigation sweep.
+
+Related, observed on mobile: opening the hamburger drawer paints a focus outline
+around the "FestFuse" logo link and it lingers until the user taps elsewhere.
+`useDialogA11y` moves focus into the drawer on open by focusing the first focusable
+element in DOM order, which is the logo `<Link href="/">` in `Sidebar`. On touch that
+programmatic `.focus()` shows a ring where a mouse/touch user expects none. The clean
+fix belongs in the keyboard-navigation sweep: give the drawer an explicit
+`initialFocusRef` (its close affordance, or a `tabIndex={-1}` container that draws no
+ring) instead of defaulting to the logo, and confirm the app's focus styling is
+`:focus-visible`-scoped. Not a regression from the multi-festival work.
 
 ---
 

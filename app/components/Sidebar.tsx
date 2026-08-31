@@ -136,26 +136,33 @@ export default function Sidebar() {
     },
   ];
 
-  const scheduleItems = [
-    {
-      label: "Scheduled",
-      count: scheduledCount,
-      Icon: Calendar,
-      color: "#00E5FF",
-      bg: "rgba(0,229,255,0.10)",
-    },
-    ...(conflictCount > 0
-      ? [
+  // The whole Schedule group drops out for an announced run (ADR-0016) — there is no
+  // schedule to have items scheduled against, and "Scheduled" links to an Explore
+  // filter preset that is a hidden facet in announced Explore. Mirrors the Planner
+  // nav item's own gating above.
+  const scheduleItems =
+    runScheduleState === "announced"
+      ? []
+      : [
           {
-            label: "Conflicts",
-            count: conflictCount,
-            Icon: AlertCircle,
-            color: "#FF0000",
-            bg: "rgba(255,0,0,0.10)",
+            label: "Scheduled",
+            count: scheduledCount,
+            Icon: Calendar,
+            color: "#00E5FF",
+            bg: "rgba(0,229,255,0.10)",
           },
-        ]
-      : []),
-  ];
+          ...(conflictCount > 0
+            ? [
+                {
+                  label: "Conflicts",
+                  count: conflictCount,
+                  Icon: AlertCircle,
+                  color: "#FF0000",
+                  bg: "rgba(255,0,0,0.10)",
+                },
+              ]
+            : []),
+        ];
 
   // Shared by both My Festival groups (Picks, Schedule) so the highlight/count markup
   // can't drift apart between them.
@@ -333,12 +340,14 @@ export default function Sidebar() {
             <div className="space-y-0.5">{picksItems.map(renderFestivalItem)}</div>
           </div>
 
-          <div className="px-3 mt-3">
-            <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
-              Schedule
-            </p>
-            <div className="space-y-0.5">{scheduleItems.map(renderFestivalItem)}</div>
-          </div>
+          {scheduleItems.length > 0 && (
+            <div className="px-3 mt-3">
+              <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
+                Schedule
+              </p>
+              <div className="space-y-0.5">{scheduleItems.map(renderFestivalItem)}</div>
+            </div>
+          )}
 
           {/* Utilities — visually separate from primary nav and My Festival so "How it
             works" never reads as a fifth core mode, just a low-emphasis aside. */}

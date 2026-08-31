@@ -10,6 +10,7 @@ import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { usePlannerViewStore } from "@/app/store/plannerViewStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
+import { useAnnouncedRunArtists } from "@/app/store/announcedRunArtistsStore";
 import { getAppearanceEntriesFromApi, getAppearanceKey, runScopeId } from "@/app/lib/schedule";
 import { useRunContext, useRunDays, useRunScheduleMode } from "@/app/components/RunContextProvider";
 
@@ -27,6 +28,10 @@ export default function PlannerPage() {
     useScheduleStore();
   const { appearancesBySlug: runAppearancesBySlug, loadState: runAppearancesLoadState } =
     useRunAppearances(editionSlug, runSlug);
+  const { artists: announcedArtists, loadState: announcedLoadState } = useAnnouncedRunArtists(
+    editionSlug,
+    runSlug
+  );
 
   const allAppearanceEntries = useMemo(
     () => getAppearanceEntriesFromApi(runAppearancesBySlug, editionSlug),
@@ -93,9 +98,23 @@ export default function PlannerPage() {
   ]);
 
   // An announced run has a lineup but no schedule to plan against (ADR-0016). The route
-  // stays live rather than redirecting — see PlannerUnavailable.
+  // stays live rather than redirecting — see PlannerUnavailable. Reads the announced
+  // feed (not runAppearances, which stays empty for an announced run) to tell "lineup
+  // not announced yet" from "announced, no schedule".
   if (scheduleMode === "announced") {
-    return <PlannerUnavailable context={{ editionSlug, runSlug }} />;
+    if (announcedLoadState === "error") {
+      return (
+        <main className="flex-1 flex flex-col overflow-hidden">
+          <AppearancesUnavailable />
+        </main>
+      );
+    }
+    return (
+      <PlannerUnavailable
+        context={{ editionSlug, runSlug }}
+        hasAnnouncedArtists={announcedArtists.length > 0}
+      />
+    );
   }
 
   if (runAppearancesLoadState === "error") {

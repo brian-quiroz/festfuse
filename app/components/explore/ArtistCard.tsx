@@ -10,11 +10,7 @@ import { useScheduleStore } from "@/app/store/scheduleStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
 import { artistHref } from "@/app/data/festivals";
 import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
-import {
-  getPrimaryAppearance,
-  getPrimaryBillingTier,
-  getAppearancesForFestival,
-} from "@/app/lib/appearances";
+import { getPrimaryAppearance, getAppearancesForFestival } from "@/app/lib/appearances";
 import { getArtistScheduleState } from "@/app/lib/schedule";
 import { getVerifiedImageUrl } from "@/app/lib/artistImage";
 import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
@@ -49,7 +45,7 @@ export default function ArtistCard({
 
   // Displays the artist's primary appearance — see app/lib/appearances.ts.
   const primaryAppearance = getPrimaryAppearance(artist, editionSlug, dayOrder);
-  const billingTier = getPrimaryBillingTier(artist, editionSlug, dayOrder);
+  const billingTier = artist.billingTier;
 
   // Aggregate schedule state across all of this artist's appearances at the active
   // festival — "full" means every appearance is scheduled, "partial" means some were
