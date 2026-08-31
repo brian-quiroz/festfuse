@@ -839,11 +839,18 @@ published artists yet** (seeded before its roster import) has no usable surface.
   run is named on `AnnouncedLineupPending` (rendered by the run's own routes), not on
   Home. Both store reads fail open (nav shown, has-artists true) when the run isn't in
   the store.
-- *Picker:* greying an empty run out of `FestivalPicker` / `FestivalContextSelector`
-  so it can't be selected in the first place is the next step (the same
-  `has_published_artists` flag). `AnnouncedLineupPending` and the `HomeContent`
-  fallback stay regardless — they cover the paths that bypass the picker (a bookmarked
-  or shared run URL).
+- *Picker:* `FestivalPicker` and `FestivalContextSelector` read the same
+  `has_published_artists` flag (through `useIsRunUnavailable`, one call per component,
+  returning a predicate the run loops query, so hook order stays fixed) and render an
+  empty announced run as a disabled "Not available yet" option: a disabled weekend
+  button or dropdown row, or a disabled edition card when *every* run is empty. Native
+  `disabled` on the buttons blocks click and keyboard both. A disabled edition card
+  drops the festival's identity gradient for one shared neutral charcoal (a dim of the
+  identity color would mean a different "disabled" color per festival); identity stays
+  in the name, city, dates, and watermark. `AnnouncedLineupPending` and the `HomeContent`
+  fallback stay regardless; they cover the paths that bypass the picker (a bookmarked or
+  shared run URL, including one that is the active context, whose dropdown row still
+  shows checked-but-disabled).
 
 **Per-surface adaptation:**
 

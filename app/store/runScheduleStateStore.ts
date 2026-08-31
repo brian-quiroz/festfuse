@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { create } from "zustand";
 import type { ApiFestivalRunScheduleState } from "@/app/types/festivalApi";
 
@@ -81,5 +82,22 @@ export function useRunHasPublishedArtists(editionSlug: string, runSlug: string):
   return useRunScheduleStateStore(
     (state) =>
       state.byContext.get(contextKey(editionSlug, runSlug))?.hasPublishedArtists ?? true
+  );
+}
+
+/**
+ * Returns a predicate for "this run is an empty announced run" (announced, no published
+ * artists, nothing to enter). The pickers call this once and then query the returned
+ * function inside their run loops, so hook order stays fixed regardless of how many
+ * festivals or runs render. Fails open (unknown run treated as available).
+ */
+export function useIsRunUnavailable(): (editionSlug: string, runSlug: string) => boolean {
+  const byContext = useRunScheduleStateStore((state) => state.byContext);
+  return useMemo(
+    () => (editionSlug: string, runSlug: string) => {
+      const entry = byContext.get(contextKey(editionSlug, runSlug));
+      return entry?.scheduleState === "announced" && !entry.hasPublishedArtists;
+    },
+    [byContext]
   );
 }

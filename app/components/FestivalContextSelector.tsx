@@ -11,6 +11,7 @@ import {
 } from "@/app/data/festivals";
 import { useActiveContextStore } from "@/app/store/activeContextStore";
 import { useChromeStore } from "@/app/store/chromeStore";
+import { useIsRunUnavailable } from "@/app/store/runScheduleStateStore";
 import { useDialogA11y } from "@/app/hooks/useDialogA11y";
 
 type Context = { editionSlug: string; runSlug: string };
@@ -45,6 +46,7 @@ export default function FestivalContextSelector() {
   const context = useActiveContextStore((s) => s.context);
   const setContext = useActiveContextStore((s) => s.setContext);
   const setMobileDrawerOpen = useChromeStore((s) => s.setMobileDrawerOpen);
+  const isRunUnavailable = useIsRunUnavailable();
 
   const [isOpen, setIsOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -136,6 +138,7 @@ export default function FestivalContextSelector() {
               key={edition.slug}
               edition={edition}
               activeContext={context}
+              isRunUnavailable={isRunUnavailable}
               onSelect={handleSelect}
             />
           ))}
@@ -148,10 +151,12 @@ export default function FestivalContextSelector() {
 function EditionGroup({
   edition,
   activeContext,
+  isRunUnavailable,
   onSelect,
 }: {
   edition: EditionConfig;
   activeContext: Context | null;
+  isRunUnavailable: (editionSlug: string, runSlug: string) => boolean;
   onSelect: (editionSlug: string, runSlug: string) => void;
 }) {
   const isMultiRun = edition.runs.length > 1;
@@ -167,6 +172,7 @@ function EditionGroup({
           activeContext?.editionSlug === edition.slug &&
           activeContext?.runSlug === run.slug
         }
+        unavailable={isRunUnavailable(edition.slug, run.slug)}
         onClick={() => onSelect(edition.slug, run.slug)}
       />
     );
@@ -187,6 +193,7 @@ function EditionGroup({
             activeContext?.editionSlug === edition.slug &&
             activeContext?.runSlug === run.slug
           }
+          unavailable={isRunUnavailable(edition.slug, run.slug)}
           onClick={() => onSelect(edition.slug, run.slug)}
         />
       ))}
@@ -198,11 +205,13 @@ function Row({
   label,
   sublabel,
   active,
+  unavailable,
   onClick,
 }: {
   label: string;
   sublabel: string;
   active: boolean;
+  unavailable: boolean;
   onClick: () => void;
 }) {
   return (
@@ -210,17 +219,28 @@ function Row({
       type="button"
       role="menuitemradio"
       aria-checked={active}
+      disabled={unavailable}
       onClick={onClick}
       className={`w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left transition-colors ${
-        active ? "bg-[#00E5FF]/12 text-[#00E5FF]" : "text-white/80 hover:bg-white/5"
+        unavailable
+          ? "text-white/35 cursor-default"
+          : active
+            ? "bg-[#00E5FF]/12 text-[#00E5FF]"
+            : "text-white/80 hover:bg-white/5"
       }`}
     >
       <span className="min-w-0">
         <span className="block text-sm font-medium truncate">{label}</span>
         <span
-          className={`mt-1 block text-[11px] ${active ? "text-[#00E5FF]/70" : "text-white/40"}`}
+          className={`mt-1 block text-[11px] ${
+            unavailable
+              ? "text-white/30"
+              : active
+                ? "text-[#00E5FF]/70"
+                : "text-white/40"
+          }`}
         >
-          {sublabel}
+          {unavailable ? "Not available yet" : sublabel}
         </span>
       </span>
       {active && <Check size={14} strokeWidth={2.5} className="flex-shrink-0" />}
