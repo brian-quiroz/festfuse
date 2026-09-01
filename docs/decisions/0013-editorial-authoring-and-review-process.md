@@ -225,6 +225,8 @@ The out-of-repo `~/.claude/skills/artist-review/` copy is deleted.
 - [Artist authoring roadmap](../roadmap/artist-authoring.md), section 4
 - [ADR-0011: Direct-to-PostgreSQL artist authoring workflow](0011-direct-to-postgresql-artist-authoring.md)
 - [ADR-0012: Field-level artist edit workflow](0012-field-level-artist-edits.md)
+- [ADR-0018: Capture about-copy leads during deferred-`about` research passes](0018-about-copy-leads-during-deferred-about-passes.md),
+  a later refinement of the deferred-`about` path
 - [Artist editorial process](../process/artist-editorial-process.md) — the in-repo
   substance this ADR points to
 - [Artist data model](../design/artist-data-model.md), "Editorial verification and

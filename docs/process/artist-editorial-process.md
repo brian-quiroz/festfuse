@@ -127,7 +127,8 @@ Per artist, the AI:
 3. **Location** — see [Location](#location) below.
 4. **`about`** — drafts it per [About copy](#about-copy), _or_ the editor supplies a
    skeleton and the AI only verifies and tightens it (Tier 2 instead of Tier 3), _or_
-   it is skipped for this artist and left for a later pass (it does not gate publishing).
+   it is deferred to a later pass (it does not gate publishing) via the
+   [deferred-`about` variant](#deferred-about-variant) below.
 
 The AI presents a **per-artist report**, walking the fields in a fixed order:
 
@@ -144,6 +145,32 @@ The editor approves per field or per artist, then the flow in
 [Review and approval mechanics](#review-and-approval-mechanics) applies. Stage 3 and
 stage 4 (the flagship track) can land in one `edit_artist` patch once the editor has
 approved both.
+
+#### Deferred-`about` variant
+
+For a roster launch the usual choice is to defer `about` for everyone but the
+headliners: get genres and location done for the whole roster, publish, then write
+`about` as a standing backlog (see the handbook's pacing notes). When a round runs this
+way, genres, location, the identity cross-check, and the fixed-order report are all
+exactly as above, with two differences:
+
+- The report's `about` line reads "deferred" rather than carrying a draft or a skeleton
+  verification.
+- The research already done for genres and location is not thrown away. Any fact that
+  would plausibly belong in an eventual `about` (a formation year, a notable release, a
+  hometown detail, a collaboration, a chart or award fact) that appeared on a source
+  **already opened** to settle genres or location is appended to
+  [`artist-about-leads.md`](artist-about-leads.md) under that artist's slug, with the
+  source URL it came from. No extra web request is made for this: a page not worth
+  opening for genres or location is not opened for leads either.
+
+The leads are unverified pointers, not content. Writing the `about` later is still a
+full `about` effort with same-day re-verification of every fact (a Non-negotiable); the
+leads act as the skeleton, so it runs at Tier 2 rather than Tier 3. An artist's section
+is removed from `artist-about-leads.md` once `aboutVerified` is set for it.
+
+The default path (a drafted or skeleton-verified `about` in the same round) is
+unchanged. This variant is the editor's explicit choice for a batch, not a new default.
 
 ### 4. Flagship track (editor)
 
@@ -239,7 +266,10 @@ cannot.
 - **Location** — Tier 1; a bounded Tier 2 only when sources conflict, then stop and
   surface the conflict rather than spiral.
 - **`about`, AI-written** — Tier 3. An editor skeleton drops it to Tier 2; this is the
-  biggest single lever on per-artist cost.
+  biggest single lever on per-artist cost. The
+  [deferred-`about` variant](#deferred-about-variant) of stage 3 captures leads at no
+  extra tool cost during the genres and location research, and those leads fill the
+  skeleton role later.
 - **Similar artists** — Tier 0 membership plus a bounded Tier 1 on the chosen set.
   Never Tier 2: if four good picks are not there, flag it, do not research toward a
   weak fourth.

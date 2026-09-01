@@ -30,6 +30,10 @@ Essentials:
   (field-level), `check_artist_links.py` (pre-publish gate).
 - For Tier 2 / Tier 3 `about` research use a scoped sub-task on the specific claims,
   never open-ended inline research.
+- Deferring `about` for a batch (a roster launch)? Run the deferred-`about` variant:
+  genres and location as normal, the `about` line marked "deferred", and plausible
+  `about` facts from sources already open for genres or location appended to
+  `docs/process/artist-about-leads.md` with their URLs. No extra research for the leads.
 - Present a per-artist report and wait for explicit approval before building a payload.
   Sources for every factual field. Never sound certain when the research is thin —
   surface the options instead.
