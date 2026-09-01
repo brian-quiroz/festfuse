@@ -4,8 +4,17 @@ The batch-apply behaviour (per-artist transactions, skip-if-exists, partial fail
 is covered against real PostgreSQL in integration/test_artist_authoring.py.
 """
 
+from pathlib import Path
+
+import pytest
+
 from app.schemas.artist_authoring import ArtistAuthoringInput
-from scripts.build_roster_payloads import parse_roster, weekday_label
+from scripts.build_roster_payloads import (
+    RosterCsvError,
+    parse_roster,
+    read_roster_csv,
+    weekday_label,
+)
 
 EDITION = "lollapalooza-2026"
 RUN = "main"
@@ -37,6 +46,21 @@ def _parse(rows: list[dict[str, str]]):
 def test_weekday_label_uses_the_edition_year() -> None:
     assert weekday_label("Jul 30", 2026) == "Thursday"
     assert weekday_label("Aug 2", 2026) == "Sunday"
+
+
+def test_read_roster_csv_tolerates_a_utf8_bom(tmp_path: Path) -> None:
+    csv_path = tmp_path / "roster.csv"
+    csv_path.write_bytes(b"\xef\xbb\xbfslug,name\ncharli-xcx,Charli XCX\n")
+
+    assert read_roster_csv(csv_path) == [{"slug": "charli-xcx", "name": "Charli XCX"}]
+
+
+def test_read_roster_csv_reports_a_missing_required_column(tmp_path: Path) -> None:
+    csv_path = tmp_path / "roster.csv"
+    csv_path.write_text("name,billing_tier\nCharli XCX,Headliner\n")
+
+    with pytest.raises(RosterCsvError, match="missing required column\\(s\\): slug"):
+        read_roster_csv(csv_path)
 
 
 def test_single_row_builds_a_valid_skeleton_payload() -> None:

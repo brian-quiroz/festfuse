@@ -406,6 +406,30 @@ def _render_report(
         print("Preview only; nothing was written.")
 
 
+class RosterCsvError(Exception):
+    """The CSV file itself is unusable: unreadable, or missing a required column."""
+
+
+def read_roster_csv(path: Path) -> list[dict[str, str]]:
+    """Read a roster CSV into row dicts.
+
+    Decoded as utf-8-sig so a byte-order mark from a spreadsheet export is stripped
+    rather than landing in the first header name (which then fails the
+    required-column check, since ``"slug"`` no longer matches). Raises
+    ``RosterCsvError`` if the file cannot be read or is missing ``slug`` / ``name``.
+    """
+    try:
+        text = path.read_text(encoding="utf-8-sig")
+    except OSError as error:
+        raise RosterCsvError(f"Could not read {path}: {error}") from error
+    reader = csv.DictReader(text.splitlines())
+    fieldnames = set(reader.fieldnames or ())
+    if not set(_REQUIRED_COLUMNS) <= fieldnames:
+        missing = sorted(set(_REQUIRED_COLUMNS) - fieldnames)
+        raise RosterCsvError(f"CSV is missing required column(s): {', '.join(missing)}")
+    return list(reader)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", required=True, type=Path, help="roster CSV file")
@@ -423,18 +447,10 @@ def main() -> int:
     args = parser.parse_args()
 
     try:
-        text = args.input.read_text()
-    except OSError as error:
-        print(f"Could not read {args.input}: {error}")
+        rows = read_roster_csv(args.input)
+    except RosterCsvError as error:
+        print(error)
         return 1
-    reader = csv.DictReader(text.splitlines())
-    if reader.fieldnames is None or not set(_REQUIRED_COLUMNS) <= set(
-        reader.fieldnames
-    ):
-        missing = sorted(set(_REQUIRED_COLUMNS) - set(reader.fieldnames or []))
-        print(f"CSV is missing required column(s): {', '.join(missing)}")
-        return 1
-    rows = list(reader)
 
     with SessionLocal() as session:
         edition = session.scalar(

@@ -44,7 +44,9 @@ columns absent builds an announced payload (wrapper `billingTier`, no appearance
 a partial schedule row, a repeated announced row for one slug, and an announced row
 with no billing tier are each reported; a schedule row may omit `billing_tier`
 (inherited on the attach); and a file mixing announced and scheduled slugs is refused
-whole.
+whole. `read_roster_csv` decodes with `utf-8-sig` so a spreadsheet-export byte-order
+mark is stripped rather than glued to the first column name, and a file missing a
+required column raises `RosterCsvError`.
 
 `test_artist_publication.py` (fast, no database) covers `evaluate_artist_publication`,
 the pure readiness policy: an ordinary artist and a complete curated Listen First
