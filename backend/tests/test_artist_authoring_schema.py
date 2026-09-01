@@ -1,11 +1,13 @@
 """Fast tests: authoring input schema and the pure source parsers. No database."""
 
+import unicodedata
 from datetime import UTC, datetime
 
 import pytest
 from pydantic import ValidationError
 
 from app.lib.artist_source import (
+    normalize_name,
     parse_appearance_time,
     parse_focal_y,
     parse_spotify_artist_id,
@@ -56,6 +58,23 @@ def test_parse_spotify_artist_id() -> None:
     assert parse_spotify_artist_id(None) is None
     with pytest.raises(ValueError):
         parse_spotify_artist_id("https://open.spotify.com/track/abc123")
+
+
+def test_normalize_name_composes_decomposed_text() -> None:
+    decomposed = unicodedata.normalize("NFD", "RÜFÜS DU SOL")
+    assert decomposed != "RÜFÜS DU SOL"  # sanity: the input really is NFD
+    assert normalize_name(decomposed) == "RÜFÜS DU SOL"
+    assert len(normalize_name(decomposed)) == len("RÜFÜS DU SOL")
+
+
+def test_authoring_and_edit_name_is_nfc_normalized() -> None:
+    decomposed = unicodedata.normalize("NFD", "RÜFÜS DU SOL")
+
+    created = ArtistAuthoringInput.model_validate(_artist(name=decomposed))
+    assert created.artist.name == "RÜFÜS DU SOL"
+
+    edited = ArtistEditInput.model_validate(_edit(name=decomposed))
+    assert edited.artist.name == "RÜFÜS DU SOL"
 
 
 def test_parse_appearance_time_is_festival_local() -> None:

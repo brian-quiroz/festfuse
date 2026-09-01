@@ -23,7 +23,9 @@ keys, migrations, or PostgreSQL behavior works.
 `test_artist_authoring_schema.py` is fast and needs no database either: it exercises
 the strict `ArtistAuthoringInput` Pydantic schema (rejection of legacy TypeScript-only
 fields, required-field enforcement, slug/mbid/track-id/date/time shape checks,
-four-or-none and self-reference rules) and the pure parsers in `app/lib/artist_source.py`.
+four-or-none and self-reference rules, and NFC normalization of `name` on both the
+create and edit schemas) and the pure parsers in `app/lib/artist_source.py`
+(including `normalize_name`).
 It also covers the `ArtistEditInput` patch schema (ADR-0012): the empty patch, the
 absent-vs-`null` distinction via `model_fields_set`, that `name`/`slug` cannot be
 cleared, that clearing About forbids `aboutVerified`, that `listenFirst` needs `tracks`

@@ -7,6 +7,7 @@ database. ``app.lib`` is for pure, dependency-free helpers, mirroring the fronte
 """
 
 import re
+import unicodedata
 from datetime import datetime
 from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
@@ -29,6 +30,17 @@ BILLING_TIERS = {
 def valid_url(value: str) -> bool:
     parsed = urlparse(value)
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
+def normalize_name(value: str) -> str:
+    """NFC-normalize a display name.
+
+    macOS clipboards and some spreadsheet exports hand back decomposed (NFD) text: a
+    base letter followed by a separate combining accent, rather than the single
+    precomposed character. The two render identically but only NFC compares, indexes,
+    and round-trips predictably, so names are canonicalized at the authoring boundary.
+    """
+    return unicodedata.normalize("NFC", value)
 
 
 def parse_focal_y(value: str | None) -> int | None:

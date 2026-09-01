@@ -25,6 +25,7 @@ from app.lib.artist_source import (
     BILLING_TIERS,
     MBID_PATTERN,
     SLUG_PATTERN,
+    normalize_name,
     parse_focal_y,
     parse_spotify_artist_id,
     valid_url,
@@ -192,6 +193,11 @@ class ArtistAuthoringArtist(_AuthoringModel):
     similar_artists_verified: bool | None = None
     appearances: list[AppearanceInput] = []
 
+    @field_validator("name")
+    @classmethod
+    def _normalize_name(cls, value: str) -> str:
+        return normalize_name(value)
+
     @field_validator("slug")
     @classmethod
     def _slug_shape(cls, value: str) -> str:
@@ -319,6 +325,11 @@ class ArtistEditFields(_AuthoringModel):
     listen_first: ListenFirstInput | None = None
     similar_artists: list[SimilarArtistInput] | None = None
     similar_artists_verified: bool | None = None
+
+    @field_validator("name")
+    @classmethod
+    def _normalize_name(cls, value: str | None) -> str | None:
+        return normalize_name(value) if value is not None else None
 
     @field_validator("slug")
     @classmethod
