@@ -30,6 +30,7 @@ from app.schemas.artist_authoring import ArtistAuthoringInput, ArtistEditInput
 from app.services import (
     ArtistAuthoringError,
     add_existing_artist_to_run,
+    attach_run_schedule,
     create_artist,
     delete_artist,
     edit_artist,
@@ -811,6 +812,188 @@ def test_roster_adds_an_existing_artist_to_a_different_run(session: Session) -> 
     )
     rerun = create_from_payloads(session, payloads_again, weekend_1, apply=True)
     assert rerun[0].status == "skipped"
+
+
+# --- staged import: roster-only rows and attach-schedule -------------
+
+
+def _announced_row(**overrides: str) -> dict[str, str]:
+    """A roster CSV row with no schedule columns -> an announced entry."""
+    row = {
+        "slug": f"test-{uuid4().hex[:12]}",
+        "name": "Announced Skeleton",
+        "spotify_url": f"https://open.spotify.com/artist/{_spotify_id()}",
+        "youtube_url": "",
+        "tiktok_url": "",
+        "mbid": "",
+        "billing_tier": "Sub-headliner",
+    }
+    row.update(overrides)
+    return row
+
+
+def test_roster_only_row_creates_an_announced_entry(session: Session) -> None:
+    row = _announced_row()
+    payloads, errors = parse_roster(
+        [row], edition="acl-2026", run="weekend-1", year=2026
+    )
+    assert errors == []
+    assert payloads[row["slug"]]["billingTier"] == "Sub-headliner"
+    assert payloads[row["slug"]]["artist"]["appearances"] == []
+
+    weekend_1 = _run(session, "acl-2026", "weekend-1")
+    outcomes = create_from_payloads(session, payloads, weekend_1, apply=True)
+    assert (outcomes[0].status, outcomes[0].detail) == ("created", "announced entry")
+
+    lineup = session.scalar(
+        select(LineupEntry).join(Artist).where(Artist.slug == row["slug"])
+    )
+    assert lineup.lineup_status == "announced"
+    assert lineup.billing_tier == "sub_headliner"
+    assert lineup.appearances == []
+
+
+def test_two_stage_import_attaches_a_schedule_to_an_announced_entry(
+    session: Session,
+) -> None:
+    slug = f"test-{uuid4().hex[:12]}"
+    spotify = f"https://open.spotify.com/artist/{_spotify_id()}"
+    weekend_1 = _run(session, "acl-2026", "weekend-1")
+
+    # Stage 1: roster only.
+    roster_payloads, _ = parse_roster(
+        [_announced_row(slug=slug, billing_tier="Headliner", spotify_url=spotify)],
+        edition="acl-2026",
+        run="weekend-1",
+        year=2026,
+    )
+    assert (
+        create_from_payloads(session, roster_payloads, weekend_1, apply=True)[0].status
+        == "created"
+    )
+
+    # Stage 2: the full schedule CSV.
+    schedule_row = _roster_row(
+        slug=slug,
+        name="Announced Skeleton",
+        spotify_url=spotify,
+        billing_tier="Headliner",
+        stage="T-Mobile",
+        date="Oct 2",
+        start_time="8:30 PM",
+        end_time="10:00 PM",
+    )
+    schedule_payloads, errors = parse_roster(
+        [schedule_row], edition="acl-2026", run="weekend-1", year=2026
+    )
+    assert errors == []
+
+    preview = create_from_payloads(session, schedule_payloads, weekend_1, apply=False)
+    assert preview[0].status == "would schedule"
+
+    schedule_payloads, _ = parse_roster(
+        [schedule_row], edition="acl-2026", run="weekend-1", year=2026
+    )
+    applied = create_from_payloads(session, schedule_payloads, weekend_1, apply=True)
+    assert applied[0].status == "scheduled"
+
+    lineup = session.scalar(select(LineupEntry).join(Artist).where(Artist.slug == slug))
+    assert lineup.lineup_status == "announced"  # unchanged
+    assert len(lineup.appearances) == 1
+    assert lineup.appearances[0].appearance_status == "scheduled"
+
+    # A third pass is a no-op.
+    schedule_payloads, _ = parse_roster(
+        [schedule_row], edition="acl-2026", run="weekend-1", year=2026
+    )
+    rerun = create_from_payloads(session, schedule_payloads, weekend_1, apply=True)
+    assert rerun[0].status == "skipped"
+
+
+def test_attach_run_schedule_rejects_a_billing_mismatch(session: Session) -> None:
+    slug = f"test-{uuid4().hex[:12]}"
+    data = _full_payload(slug=slug, appearances=[])
+    data["billingTier"] = "Headliner"
+    data["edition"], data["run"] = "acl-2026", "weekend-1"
+    create_artist(session, _payload(data))
+    session.flush()
+
+    schedule = _acl_payload(
+        slug,
+        appearances=[
+            {
+                "billingTier": "Undercard",
+                "stage": "T-Mobile",
+                "day": "Friday",
+                "date": "Oct 2",
+                "startTime": "8:30 PM",
+                "endTime": "10:00 PM",
+            }
+        ],
+    )
+    with pytest.raises(ArtistAuthoringError, match="billing tier mismatch"):
+        attach_run_schedule(session, schedule)
+
+
+def test_two_stage_import_inherits_billing_when_the_schedule_csv_omits_it(
+    session: Session,
+) -> None:
+    slug = f"test-{uuid4().hex[:12]}"
+    spotify = f"https://open.spotify.com/artist/{_spotify_id()}"
+    weekend_1 = _run(session, "acl-2026", "weekend-1")
+
+    roster_payloads, _ = parse_roster(
+        [_announced_row(slug=slug, billing_tier="Headliner", spotify_url=spotify)],
+        edition="acl-2026",
+        run="weekend-1",
+        year=2026,
+    )
+    create_from_payloads(session, roster_payloads, weekend_1, apply=True)
+
+    # The schedule CSV carries no billing_tier column at all.
+    schedule_row = {
+        "slug": slug,
+        "name": "Announced Skeleton",
+        "spotify_url": spotify,
+        "stage": "T-Mobile",
+        "date": "Oct 2",
+        "start_time": "8:30 PM",
+        "end_time": "10:00 PM",
+    }
+    schedule_payloads, errors = parse_roster(
+        [schedule_row], edition="acl-2026", run="weekend-1", year=2026
+    )
+    assert errors == []
+    applied = create_from_payloads(session, schedule_payloads, weekend_1, apply=True)
+    assert applied[0].status == "scheduled"
+
+    lineup = session.scalar(select(LineupEntry).join(Artist).where(Artist.slug == slug))
+    assert lineup.billing_tier == "headliner"  # inherited from the announced entry
+    assert len(lineup.appearances) == 1
+
+
+def test_attach_run_schedule_refuses_an_artist_not_in_the_run(session: Session) -> None:
+    artist = _seed_artist(session)  # lollapalooza-2026 / main only
+    with pytest.raises(ArtistAuthoringError, match="is not in run 'weekend-1'"):
+        attach_run_schedule(session, _acl_payload(artist.slug))
+
+
+def test_attach_run_schedule_refuses_a_run_that_already_has_a_schedule(
+    session: Session,
+) -> None:
+    artist = _seed_artist(session)
+    add_existing_artist_to_run(session, _acl_payload(artist.slug))
+    session.flush()
+    with pytest.raises(ArtistAuthoringError, match="already has a schedule"):
+        attach_run_schedule(session, _acl_payload(artist.slug))
+
+
+def test_attach_run_schedule_needs_appearances(session: Session) -> None:
+    data = _full_payload(appearances=[])
+    data["billingTier"] = "Headliner"
+    data["edition"], data["run"] = "acl-2026", "weekend-1"
+    with pytest.raises(ArtistAuthoringError, match="needs appearances"):
+        attach_run_schedule(session, _payload(data))
 
 
 def test_show_artist_detail_and_roster_render(

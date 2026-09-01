@@ -4,16 +4,19 @@ import { useMemo, useState } from "react";
 import Switch from "@/app/components/Switch";
 import PlannerGrid from "@/app/components/planner/PlannerGrid";
 import PlannerMobileFilters from "@/app/components/planner/PlannerMobileFilters";
+import PlannerUnavailable from "@/app/components/planner/PlannerUnavailable";
 import AppearancesUnavailable from "@/app/components/AppearancesUnavailable";
 import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { usePlannerViewStore } from "@/app/store/plannerViewStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
+import { useAnnouncedRunArtists } from "@/app/store/announcedRunArtistsStore";
 import { getAppearanceEntriesFromApi, getAppearanceKey, runScopeId } from "@/app/lib/schedule";
-import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
+import { useRunContext, useRunDays, useRunScheduleMode } from "@/app/components/RunContextProvider";
 
 export default function PlannerPage() {
   const { editionSlug, runSlug } = useRunContext();
+  const scheduleMode = useRunScheduleMode();
   const days = useRunDays();
   const [activeDay, setActiveDay] = useState<string>(days[0]);
   const { showMyPicks, showScheduled, setShowMyPicks, setShowScheduled } = usePlannerViewStore();
@@ -23,8 +26,9 @@ export default function PlannerPage() {
   // itself (see scheduleStore.ts) — read directly rather than recomputed here.
   const { scheduledAppearanceKeys, conflictingAppearanceKeys, toggleScheduled } =
     useScheduleStore();
-  const { appearancesBySlug: runAppearancesBySlug, hasLoaded: hasLoadedRunAppearances } =
+  const { appearancesBySlug: runAppearancesBySlug, loadState: runAppearancesLoadState } =
     useRunAppearances(editionSlug, runSlug);
+  const { loadState: announcedLoadState } = useAnnouncedRunArtists(editionSlug, runSlug);
 
   const allAppearanceEntries = useMemo(
     () => getAppearanceEntriesFromApi(runAppearancesBySlug, editionSlug),
@@ -90,7 +94,23 @@ export default function PlannerPage() {
     conflictingAppearanceKeys,
   ]);
 
-  if (!hasLoadedRunAppearances) {
+  // An announced run has a lineup but no schedule to plan against (ADR-0016). The route
+  // stays live rather than redirecting — see PlannerUnavailable. A run with *no*
+  // published artists never reaches here — the run layout blocks it upstream — so this
+  // is always "announced, some artists, no schedule". The announced feed's load state
+  // still gates AppearancesUnavailable on a fetch failure.
+  if (scheduleMode === "announced") {
+    if (announcedLoadState === "error") {
+      return (
+        <main className="flex-1 flex flex-col overflow-hidden">
+          <AppearancesUnavailable />
+        </main>
+      );
+    }
+    return <PlannerUnavailable context={{ editionSlug, runSlug }} />;
+  }
+
+  if (runAppearancesLoadState === "error") {
     return (
       <main className="flex-1 flex flex-col overflow-hidden">
         <AppearancesUnavailable />

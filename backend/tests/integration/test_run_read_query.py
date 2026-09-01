@@ -1,10 +1,12 @@
 """Rollback-contained coverage for the run-scoped read queries in
 `app/repositories/artists.py`: the bulk appearances feed
 (`read_festival_run_appearances`), its schedule-agnostic sibling
-(`read_festival_run_artists`), and the derived per-run `schedule_state`
-(`read_run_ids_with_public_schedule`). The `connection` boundary and `create_*`
-builders are duplicated from `test_artist_read_query.py`; unifying them is deferred
-(`docs/FUTURE_CONSIDERATIONS.md`, "Shared Integration-Test Fixtures").
+(`read_festival_run_artists`), and the two derived per-run flags
+(`read_run_ids_with_public_schedule` for `schedule_state`,
+`read_run_ids_with_published_artists` for `has_published_artists`). The `connection`
+boundary and `create_*` builders are duplicated from `test_artist_read_query.py`;
+unifying them is deferred (`docs/FUTURE_CONSIDERATIONS.md`, "Shared Integration-Test
+Fixtures").
 """
 
 import os
@@ -22,6 +24,7 @@ from app.repositories import (
     read_festival_run_appearances,
     read_festival_run_artists,
     read_run_ids_with_public_schedule,
+    read_run_ids_with_published_artists,
 )
 
 pytestmark = [
@@ -52,6 +55,8 @@ def create_artist(
     *,
     publication_status: str = "published",
     with_genres: bool = False,
+    with_quick_picks_track: bool = True,
+    with_featured_video: bool = False,
 ) -> str:
     artist_slug = unique_slug("run-appearances-artist")
     artist_id = connection.execute(
@@ -65,28 +70,41 @@ def create_artist(
         {"slug": artist_slug, "status": publication_status},
     ).scalar_one()
 
-    track_id = connection.execute(
-        text(
-            """
-            INSERT INTO tracks (spotify_track_id, name)
-            VALUES (:spotify_track_id, :name)
-            RETURNING id
-            """
-        ),
-        {
-            "spotify_track_id": f"{artist_slug}-track",
-            "name": "Run Appearances Test Track",
-        },
-    ).scalar_one()
-    connection.execute(
-        text(
-            """
-            INSERT INTO artist_track_selections (artist_id, track_id, is_quick_picks)
-            VALUES (:artist_id, :track_id, true)
-            """
-        ),
-        {"artist_id": artist_id, "track_id": track_id},
-    )
+    if with_quick_picks_track:
+        track_id = connection.execute(
+            text(
+                """
+                INSERT INTO tracks (spotify_track_id, name)
+                VALUES (:spotify_track_id, :name)
+                RETURNING id
+                """
+            ),
+            {
+                "spotify_track_id": f"{artist_slug}-track",
+                "name": "Run Appearances Test Track",
+            },
+        ).scalar_one()
+        connection.execute(
+            text(
+                """
+                INSERT INTO artist_track_selections (artist_id, track_id, is_quick_picks)
+                VALUES (:artist_id, :track_id, true)
+                """
+            ),
+            {"artist_id": artist_id, "track_id": track_id},
+        )
+
+    if with_featured_video:
+        connection.execute(
+            text(
+                """
+                INSERT INTO artist_videos
+                    (artist_id, youtube_video_id, label, is_featured, is_available, display_order)
+                VALUES (:artist_id, :video_id, 'Live set', true, true, 1)
+                """
+            ),
+            {"artist_id": artist_id, "video_id": f"{artist_slug}-video"},
+        )
 
     if with_genres:
         family_id = connection.execute(
@@ -492,6 +510,8 @@ def test_read_festival_run_artists_maps_the_same_fields_as_the_appearances_feed(
     assert mapped.location.city == "Chicago"
     assert mapped.location.state is None
     assert mapped.location.country == "United States"
+    assert mapped.billing_tier == "sub_headliner"
+    assert mapped.quick_picks_track is not None
     assert mapped.quick_picks_track.spotify_track_id == f"{artist_slug}-track"
     assert mapped.quick_picks_track.name == "Run Appearances Test Track"
     assert mapped.similar_artists == []
@@ -505,6 +525,48 @@ def test_read_festival_run_artists_maps_the_same_fields_as_the_appearances_feed(
         3,
         4,
     ]
+
+
+def test_read_festival_run_artists_maps_a_null_quick_picks_track_for_a_video_only_artist(
+    connection: Connection,
+) -> None:
+    video_only = create_artist(
+        connection, with_quick_picks_track=False, with_featured_video=True
+    )
+    create_lineup_entry(connection, video_only)
+
+    with Session(bind=connection) as session:
+        run_artists = read_festival_run_artists(
+            session, edition_slug="lollapalooza-2026", run_slug="main"
+        )
+
+    assert run_artists is not None
+    mapped = {artist.slug: artist for artist in run_artists}[video_only]
+    assert mapped.quick_picks_track is None
+
+
+def test_read_festival_run_appearances_maps_a_null_quick_picks_track_for_a_video_only_artist(
+    connection: Connection,
+) -> None:
+    video_only = create_artist(
+        connection, with_quick_picks_track=False, with_featured_video=True
+    )
+    lineup_entry_id = create_lineup_entry(connection, video_only)
+    create_appearance(
+        connection,
+        lineup_entry_id,
+        starts_at="2026-07-30 20:00:00+00",
+        ends_at="2026-07-30 21:00:00+00",
+    )
+
+    with Session(bind=connection) as session:
+        appearances = read_festival_run_appearances(
+            session, edition_slug="lollapalooza-2026", run_slug="main"
+        )
+
+    assert appearances is not None
+    mapped = {a.artist.slug: a for a in appearances}[video_only]
+    assert mapped.artist.quick_picks_track is None
 
 
 def test_read_festival_run_artists_rejects_missing_billing_tier(
@@ -563,3 +625,40 @@ def test_read_run_ids_with_public_schedule_reflects_whether_a_run_has_scheduled_
 
     with Session(bind=connection) as session:
         assert read_run_ids_with_public_schedule(session, [main_run_id]) == set()
+
+
+def test_read_run_ids_with_published_artists_is_empty_for_no_runs(
+    connection: Connection,
+) -> None:
+    with Session(bind=connection) as session:
+        assert read_run_ids_with_published_artists(session, []) == set()
+
+
+def test_read_run_ids_with_published_artists_reflects_whether_a_run_has_a_lineup(
+    connection: Connection,
+) -> None:
+    main_run_id = connection.execute(
+        text(
+            """
+            SELECT festival_runs.id
+            FROM festival_runs
+            JOIN festival_editions
+                ON festival_editions.id = festival_runs.festival_edition_id
+            WHERE festival_editions.slug = 'lollapalooza-2026'
+              AND festival_runs.slug = 'main'
+            """
+        )
+    ).scalar_one()
+
+    with Session(bind=connection) as session:
+        assert main_run_id in read_run_ids_with_published_artists(session, [main_run_id])
+
+    # Withdraw every lineup entry inside the rollback boundary — the run keeps its
+    # scheduled Appearance rows but no longer has a published, announced lineup.
+    connection.execute(
+        text("UPDATE lineup_entries SET lineup_status = 'withdrawn' WHERE festival_run_id = :run_id"),
+        {"run_id": main_run_id},
+    )
+
+    with Session(bind=connection) as session:
+        assert read_run_ids_with_published_artists(session, [main_run_id]) == set()

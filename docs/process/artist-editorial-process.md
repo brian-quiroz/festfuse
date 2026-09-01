@@ -56,8 +56,10 @@ If you read nothing else:
 | 6   | Similar artists        | AI proposes, editor approves | verified similar-artist sets       |
 
 Publishing (stage 5) requires only identity, three genres with one primary, location,
-one flagship track, and either a Spotify artist ID or a complete Listen First override
-(`evaluate_artist_publication`). It does **not** require `about` or similar artists —
+and one preview: a Spotify artist ID, a complete Listen First override, or a featured
+live-performance video (ADR-0017). The flagship track is required too, except for an
+artist publishing on its video alone, which has none (`evaluate_artist_publication`).
+It does **not** require `about` or similar artists —
 those are additive layers filled in over time. An artist page omits the About section
 and the "Sounds like" section until each is verified. The goal is an `about` for every
 artist, but because it does not gate publishing, a roster under time pressure can ship
@@ -148,7 +150,8 @@ approved both.
 The editor picks the flagship (Quick Picks) track entirely in Spotify — Spotify shows
 play counts, song age, and its own "Popular" ordering; the choice is a representation
 judgment (a defining track versus a current-moment one). The AI contributes nothing
-here.
+here. An artist with no Spotify presence that publishes on a featured
+live-performance video (ADR-0017) has no flagship track; skip this stage for it.
 
 `show_artist.py --slug <slug>` prints the artist's full current draft (genres, location,
 `about`, readiness) as context while picking.

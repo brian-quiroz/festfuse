@@ -526,24 +526,35 @@ def test_festival_artist_query_returns_all_four_or_none_without_unverifying(
     assert verified_at == similarity["verified_at"]
 
 
-def test_artist_read_query_rejects_corrupt_published_quick_picks(
+def test_artist_read_query_maps_a_null_quick_picks_track_for_a_video_only_artist(
     connection: Connection,
 ) -> None:
-    artist_slug = unique_slug("corrupt-published")
-    connection.execute(
+    artist_slug = unique_slug("video-only-published")
+    artist_id = connection.execute(
         text(
             """
             INSERT INTO artists
                 (slug, name, location_city, location_country, publication_status)
-            VALUES (:slug, 'Corrupt Artist', 'Chicago', 'United States', 'published')
+            VALUES (:slug, 'Video Only Artist', 'Austin', 'United States', 'published')
+            RETURNING id
             """
         ),
         {"slug": artist_slug},
+    ).scalar_one()
+    connection.execute(
+        text(
+            """
+            INSERT INTO artist_videos
+                (artist_id, youtube_video_id, label, is_featured, is_available, display_order)
+            VALUES (:artist_id, 'live-set', 'Live set', true, true, 1)
+            """
+        ),
+        {"artist_id": artist_id},
     )
 
     with Session(bind=connection) as session:
-        with pytest.raises(
-            PublishedArtistConsistencyError,
-            match="expected exactly one",
-        ):
-            read_published_artist_by_slug(session, artist_slug)
+        artist = read_published_artist_by_slug(session, artist_slug)
+
+    assert artist is not None
+    assert artist.quick_picks_track is None
+    assert artist.featured_video is not None

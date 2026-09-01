@@ -135,3 +135,85 @@ def test_two_artists_sharing_a_spotify_url_are_reported() -> None:
     assert "artist-one" in payloads
     assert "artist-two" not in payloads
     assert len(errors) == 1 and "artist-one" in errors[0].message
+
+
+def _announced_row(**overrides: str) -> dict[str, str]:
+    """A row with the four schedule columns dropped -> a roster-only (announced) row."""
+    row = {
+        key: value
+        for key, value in _row().items()
+        if key not in {"stage", "date", "start_time", "end_time"}
+    }
+    row.update(overrides)
+    return row
+
+
+def test_roster_only_row_builds_an_announced_payload() -> None:
+    payloads, errors = _parse([_announced_row(billing_tier="Sub-headliner")])
+
+    assert errors == []
+    payload_dict = payloads["test-artist"]
+    assert payload_dict["billingTier"] == "Sub-headliner"
+    assert payload_dict["artist"]["appearances"] == []
+    # a wrapper billingTier with no appearances is a valid authoring payload
+    ArtistAuthoringInput.model_validate(payload_dict)
+
+
+def test_a_slug_mixing_announced_and_scheduled_rows_is_reported() -> None:
+    payloads, errors = _parse([_announced_row(), _row()])
+
+    assert "test-artist" not in payloads
+    assert len(errors) == 1
+    assert "mix announced and scheduled" in errors[0].message
+
+
+def test_a_partial_schedule_row_is_reported() -> None:
+    payloads, errors = _parse([_announced_row(stage="T-Mobile")])
+
+    assert "test-artist" not in payloads
+    assert len(errors) == 1
+    assert errors[0].message.startswith("partial schedule")
+
+
+def test_a_repeated_announced_row_for_one_slug_is_reported() -> None:
+    payloads, errors = _parse([_announced_row(), _announced_row()])
+
+    assert "test-artist" not in payloads
+    assert len(errors) == 1
+    assert "repeat an announced entry" in errors[0].message
+
+
+def test_an_announced_row_without_a_billing_tier_is_reported() -> None:
+    payloads, errors = _parse([_announced_row(billing_tier="")])
+
+    assert "test-artist" not in payloads
+    assert len(errors) == 1
+    assert "needs billing_tier" in errors[0].message
+
+
+def test_a_schedule_row_may_omit_the_billing_tier() -> None:
+    payloads, errors = _parse([_row(billing_tier="")])
+
+    assert errors == []
+    appearances = payloads["test-artist"]["artist"]["appearances"]
+    assert "billingTier" not in appearances[0]
+    # still a valid authoring payload; billing is resolved / inherited downstream
+    ArtistAuthoringInput.model_validate(payloads["test-artist"])
+
+
+def test_a_file_mixing_announced_and_scheduled_slugs_is_refused_whole() -> None:
+    payloads, errors = _parse(
+        [
+            _announced_row(
+                slug="announced-act",
+                spotify_url="https://open.spotify.com/artist/1announcedannouncedann",
+            ),
+            _row(
+                slug="scheduled-act",
+                spotify_url="https://open.spotify.com/artist/2scheduledscheduledsch",
+            ),
+        ]
+    )
+
+    assert payloads == {}
+    assert any("mixes announced and scheduled" in e.message for e in errors)

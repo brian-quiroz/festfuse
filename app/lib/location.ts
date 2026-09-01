@@ -1,13 +1,18 @@
 import type { Country } from "@/app/data/categories";
 
-const CHICAGO_CITY = "Chicago";
-
 function normalizeCity(city: string): string {
   return city.trim().toLowerCase();
 }
 
-export function isChicago(city: string): boolean {
-  return normalizeCity(city) === normalizeCity(CHICAGO_CITY);
+/**
+ * Whether an artist's city is the festival edition's own city — the "{City}'s Own"
+ * carousel test and the Festival Story hometown signal. The edition city is passed in
+ * (resolved from FESTIVAL_REGISTRY by the caller) rather than hard-coded, so both are
+ * correct for any festival. Exact city match only, deliberately not the whole
+ * surrounding state (see ARCHITECTURE.md § Explore → Row Classification).
+ */
+export function isEditionCity(artistCity: string, editionCity: string): boolean {
+  return editionCity.length > 0 && normalizeCity(artistCity) === normalizeCity(editionCity);
 }
 
 const UK_CONSTITUENT_COUNTRIES: ReadonlySet<Country> = new Set([

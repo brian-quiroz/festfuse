@@ -98,11 +98,13 @@ interface Props {
   artist: QuickPicksRunArtist;
   // The session's chosen representative appearance for this artist (see
   // getSelectedDayAppearance in app/lib/appearances.ts) — resolved by the parent from
-  // the queue item's appearanceId, never independently recomputed here.
-  appearance: FestivalAppearance;
+  // the queue item's appearanceId, never independently recomputed here. Null in
+  // announced mode: no schedule, so no set to show — the day/time/stage metadata row
+  // is dropped rather than left blank.
+  appearance: FestivalAppearance | null;
   // Count of this artist's appearances that fall on the session's selected attendance
   // days — not their total appearance count. See ARCHITECTURE.md § Quick Picks
-  // Attendance.
+  // Attendance. Always 0 in announced mode.
   selectedDaySetCount: number;
   dayLabel: string | null;
   progress: { current: number; total: number };
@@ -388,7 +390,7 @@ export default function DecisionScreen({
                     </span>
                   </div>
 
-                  {primaryAppearance.billingTier === "Headliner" && (
+                  {artist.billingTier === "Headliner" && (
                     <div className="absolute top-4 left-4">
                       <span
                         className="px-2.5 py-0.5 rounded-md text-[9px] font-bold tracking-widest uppercase border"
@@ -475,7 +477,9 @@ export default function DecisionScreen({
                 Desktop keeps four separate chips (unchanged). Mobile consolidates to two
                 pills below — day/time+sets, and stage — since four independent chips can
                 wrap to a second line on small phones. Duration drops from the mobile view
-                entirely as the least decision-relevant of the four facts. */}
+                entirely as the least decision-relevant of the four facts. The whole row
+                is dropped in announced mode — no appearance, nothing to show. */}
+            {primaryAppearance && (
             <div className="hidden md:flex items-center gap-2 flex-wrap">
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
                 <Calendar size={11} strokeWidth={2} className="flex-shrink-0" />
@@ -529,6 +533,8 @@ export default function DecisionScreen({
                 </motion.span>
               </span>
             </div>
+            )}
+            {primaryAppearance && (
             <div className="flex md:hidden items-center gap-2">
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/12 text-white/60 text-xs">
                 <Calendar size={11} strokeWidth={2} className="flex-shrink-0" />
@@ -554,6 +560,7 @@ export default function DecisionScreen({
                 </motion.span>
               </span>
             </div>
+            )}
 
             {/* Decision buttons — anchored */}
             <div className="grid grid-cols-3 gap-3">

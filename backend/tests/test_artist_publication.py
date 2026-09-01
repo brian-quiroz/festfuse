@@ -1,5 +1,9 @@
-from app.models import Artist, ArtistGenre, ArtistTrackSelection
-from app.services import ArtistPublicationIssue, evaluate_artist_publication
+from app.models import Artist, ArtistGenre, ArtistTrackSelection, ArtistVideo
+from app.services import (
+    ArtistPublicationIssue,
+    evaluate_artist_publication,
+    qualifies_by_video_only,
+)
 
 
 def build_artist(*, spotify_artist_id: str | None = "spotify-artist") -> Artist:
@@ -66,3 +70,74 @@ def test_partial_curated_override_is_not_ready() -> None:
     readiness = evaluate_artist_publication(artist)
 
     assert readiness.issues == (ArtistPublicationIssue.INCOMPLETE_LISTEN_FIRST,)
+
+
+def test_featured_video_is_a_third_readiness_tier() -> None:
+    artist = build_artist(spotify_artist_id=None)
+    artist.track_selections = []
+    artist.videos = [
+        ArtistVideo(
+            youtube_video_id="live-set",
+            label="Live at the park",
+            is_featured=True,
+            is_available=True,
+            display_order=1,
+        )
+    ]
+
+    readiness = evaluate_artist_publication(artist)
+
+    assert readiness.is_ready
+    assert qualifies_by_video_only(artist)
+
+
+def test_unavailable_featured_video_does_not_qualify() -> None:
+    artist = build_artist(spotify_artist_id=None)
+    artist.track_selections = []
+    artist.videos = [
+        ArtistVideo(
+            youtube_video_id="dead-link",
+            label="Live at the park",
+            is_featured=True,
+            is_available=False,
+            display_order=1,
+        )
+    ]
+
+    readiness = evaluate_artist_publication(artist)
+
+    assert not readiness.is_ready
+    assert readiness.issues == (
+        ArtistPublicationIssue.MISSING_QUICK_PICKS,
+        ArtistPublicationIssue.MISSING_LISTEN_FIRST,
+    )
+    assert not qualifies_by_video_only(artist)
+
+
+def test_artist_with_no_preview_of_any_kind_is_blocked() -> None:
+    artist = build_artist(spotify_artist_id=None)
+    artist.track_selections = []
+
+    readiness = evaluate_artist_publication(artist)
+
+    assert readiness.issues == (
+        ArtistPublicationIssue.MISSING_QUICK_PICKS,
+        ArtistPublicationIssue.MISSING_LISTEN_FIRST,
+    )
+    assert not qualifies_by_video_only(artist)
+
+
+def test_video_only_check_is_false_when_a_quick_picks_track_exists() -> None:
+    artist = build_artist()
+    artist.videos = [
+        ArtistVideo(
+            youtube_video_id="live-set",
+            label="Live at the park",
+            is_featured=True,
+            is_available=True,
+            display_order=1,
+        )
+    ]
+
+    assert evaluate_artist_publication(artist).is_ready
+    assert not qualifies_by_video_only(artist)

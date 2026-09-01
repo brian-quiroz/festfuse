@@ -26,29 +26,23 @@ export function sortByDay(
 
 /**
  * Sort artists by billing tier in prominence order (Headliner → Sub-headliner → Undercard).
- * Artists without a billing tier are sorted to the end.
- * Ensures billing order is explicitly enforced rather than assumed from file position.
- * Uses each artist's primary appearance — see app/lib/appearances.ts.
+ * Artists without a billing tier are sorted to the end. Reads the run-level
+ * `billingTier` directly (see ARCHITECTURE.md § Billing Tier), so it works with or
+ * without a schedule.
  */
-export function sortByBillingTier(
-  artists: RunArtist[],
-  festivalId: string,
-  dayOrder: readonly string[]
-): RunArtist[] {
-  return [...artists].sort((a, b) => {
-    const tierA = getPrimaryAppearance(a, festivalId, dayOrder).billingTier;
-    const tierB = getPrimaryAppearance(b, festivalId, dayOrder).billingTier;
+export function sortByBillingTier(artists: RunArtist[]): RunArtist[] {
+  return [...artists].sort((a, b) => compareBillingTier(a.billingTier, b.billingTier));
+}
 
-    // Handle missing billing tiers: undefined sorts after all explicit tiers
-    if (tierA === undefined && tierB === undefined) return 0;
-    if (tierA === undefined) return 1;
-    if (tierB === undefined) return -1;
-
-    // Compare by explicit tier order
-    const tierOrderA = BILLING_TIERS.indexOf(tierA);
-    const tierOrderB = BILLING_TIERS.indexOf(tierB);
-    return tierOrderA - tierOrderB;
-  });
+/** Headliner → Sub-headliner → Undercard; undefined last. */
+export function compareBillingTier(
+  a: RunArtist["billingTier"],
+  b: RunArtist["billingTier"]
+): number {
+  if (a === undefined && b === undefined) return 0;
+  if (a === undefined) return 1;
+  if (b === undefined) return -1;
+  return BILLING_TIERS.indexOf(a) - BILLING_TIERS.indexOf(b);
 }
 
 /**
@@ -84,6 +78,18 @@ export function sortChronologically(
 }
 
 /**
+ * Announced-run "See all" order (ADR-0016): billing tier → artist name. No day/time
+ * dimension. Deterministic, so the full grid stays a predictable scan (only the
+ * carousel row rotates per visit — see interleaveByTierShuffled in carousel.ts).
+ */
+export function sortAnnouncedByTier(artists: RunArtist[]): RunArtist[] {
+  return [...artists].sort((a, b) => {
+    const tierCmp = compareBillingTier(a.billingTier, b.billingTier);
+    return tierCmp !== 0 ? tierCmp : a.name.localeCompare(b.name);
+  });
+}
+
+/**
  * Sort Festival Favorites for "See all" grid view: day → billing tier → appearance time → artist name.
  * Billing tier order (Headliner → Sub-headliner → Undercard) is preserved within each day.
  * Uses each artist's primary appearance — see app/lib/appearances.ts.
@@ -103,20 +109,8 @@ export function sortFestivalFavoritesForFullView(
     if (dayA !== dayB) return dayA - dayB;
 
     // Second: sort by billing tier (Headliner → Sub-headliner → Undercard)
-    const tierA = appearanceA.billingTier;
-    const tierB = appearanceB.billingTier;
-
-    if (tierA === undefined && tierB === undefined) {
-      // Both undefined: continue to time
-    } else if (tierA === undefined) {
-      return 1; // undefined tiers sort to the end
-    } else if (tierB === undefined) {
-      return -1;
-    } else {
-      const tierOrderA = BILLING_TIERS.indexOf(tierA);
-      const tierOrderB = BILLING_TIERS.indexOf(tierB);
-      if (tierOrderA !== tierOrderB) return tierOrderA - tierOrderB;
-    }
+    const tierCmp = compareBillingTier(a.billingTier, b.billingTier);
+    if (tierCmp !== 0) return tierCmp;
 
     // Third: sort by appearance time
     const timeA = timeStringToMinutes(appearanceA.startTime);

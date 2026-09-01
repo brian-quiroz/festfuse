@@ -7,11 +7,13 @@ import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useAttendanceDays } from "@/app/store/attendanceStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
-import { contextHref, festivals } from "@/app/data/festivals";
+import { useAnnouncedRunArtists } from "@/app/store/announcedRunArtistsStore";
+import { contextHref, festivals, findEdition } from "@/app/data/festivals";
 import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
 import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
 import { getRunArtistsFromApi } from "@/app/lib/api/mapRunAppearance";
-import { useStorySignals, type StorySignal } from "@/app/hooks/useStorySignals";
+import { getAnnouncedRunArtistsFromApi } from "@/app/lib/api/mapRunArtist";
+import { useStorySignals, type StoryMode, type StorySignal } from "@/app/hooks/useStorySignals";
 import { useDialogA11y } from "@/app/hooks/useDialogA11y";
 import { FestivalStoryCard } from "./FestivalStoryCard";
 
@@ -24,12 +26,16 @@ interface FestivalStorySequenceProps {
   // selection. Omit only for a future standalone Story entry point not launched from
   // a specific session, which falls back to the persisted selection.
   attendanceDays?: string[];
+  // "announced" for a run with a lineup but no schedule (ADR-0016): artists come from
+  // the /artists feed and the signal engine skips the schedule-derived dimensions.
+  mode?: StoryMode;
 }
 
 export function FestivalStorySequence({
   isOpen,
   onClose,
   attendanceDays,
+  mode = "scheduled",
 }: FestivalStorySequenceProps) {
   const router = useRouter();
   const { editionSlug, runSlug } = useRunContext();
@@ -39,13 +45,17 @@ export function FestivalStorySequence({
   const persistedAttendanceDays = useAttendanceDays(editionSlug, runSlug, dayOrder);
   const scopedAttendanceDays = attendanceDays ?? persistedAttendanceDays;
 
-  // Structurally unreachable while runAppearancesStore hasn't loaded — this component
-  // only mounts once quick-picks/page.tsx's storyUnlocked gate passes, which requires
-  // a non-empty quickPicksArtists list sourced from this same store.
+  // Both feed hooks run unconditionally (hook rules); `mode` picks the source. Only
+  // mounts once quick-picks/page.tsx's storyUnlocked gate has a non-empty list from the
+  // matching store, so neither is read mid-load.
   const { appearancesBySlug: runAppearancesBySlug } = useRunAppearances(editionSlug, runSlug);
+  const { artists: announcedApiArtists } = useAnnouncedRunArtists(editionSlug, runSlug);
   const runArtists = useMemo(
-    () => getRunArtistsFromApi(runAppearancesBySlug, editionSlug),
-    [runAppearancesBySlug, editionSlug]
+    () =>
+      mode === "announced"
+        ? getAnnouncedRunArtistsFromApi(announcedApiArtists)
+        : getRunArtistsFromApi(runAppearancesBySlug, editionSlug),
+    [mode, announcedApiArtists, runAppearancesBySlug, editionSlug]
   );
 
   // Compute story signals — pure function call, explicit inputs only. See
@@ -56,6 +66,8 @@ export function FestivalStorySequence({
     attendanceDays: scopedAttendanceDays,
     allArtists: runArtists,
     decisionsByArtist,
+    editionCity: findEdition(editionSlug)?.city ?? "",
+    mode,
   });
 
   // Intro image preload lives in the parent (app/quick-picks/page.tsx), not here —
@@ -88,7 +100,7 @@ export function FestivalStorySequence({
       userValue: 100,
       lineupValue: 100,
       deviation: 0,
-      headlineTemplate: "Your festival is taking shape",
+      headlineTemplate: "Your festival, in focus",
       supportingText: "See the picks that brought your Festival Story to life.",
     }),
     []

@@ -10,10 +10,12 @@ purposes and intentionally have different database boundaries.
 mock. Artist router tests additionally mock the dedicated query boundary. These
 tests exercise routing, endpoint behavior, status codes, nested response
 serialization, not-found handling, and explicit inconsistent-data handling without
-requiring PostgreSQL. This includes the derived per-run `schedule_state` on the
-festival endpoint (ADR-0016) passing through for both the announced and scheduled
-cases, and the run-scoped `GET /festivals/{edition}/runs/{run}/artists` collection
-route returning its announced artists and a 404 for an unknown run.
+requiring PostgreSQL. This includes the two derived per-run fields on the festival
+endpoint (ADR-0016) passing through: `schedule_state` for the announced and scheduled
+cases, and `has_published_artists` across all three states an announced run can be in
+(no schedule and no lineup, no schedule but a lineup, and scheduled). It also covers
+the run-scoped `GET /festivals/{edition}/runs/{run}/artists` collection route
+returning its announced artists and a 404 for an unknown run.
 
 They are fast and run by default, but they do not prove that generated SQL, foreign
 keys, migrations, or PostgreSQL behavior works.
@@ -36,7 +38,22 @@ the date and the edition year, `socialsVerified` is always `true` (even with no 
 links), `mbid` is included only when present, multiple rows sharing a slug collapse into
 one multi-appearance payload, and every unparseable case is reported without dropping
 the rest of the file — a missing required cell, an unknown billing tier, rows for one
-slug that disagree on a shared field, and two artists sharing a Spotify URL.
+slug that disagree on a shared field, and two artists sharing a Spotify URL. It also
+covers the roster-only path (multi-festival roadmap): a row with the four schedule
+columns absent builds an announced payload (wrapper `billingTier`, no appearances);
+a partial schedule row, a repeated announced row for one slug, and an announced row
+with no billing tier are each reported; a schedule row may omit `billing_tier`
+(inherited on the attach); and a file mixing announced and scheduled slugs is refused
+whole.
+
+`test_artist_publication.py` (fast, no database) covers `evaluate_artist_publication`,
+the pure readiness policy: an ordinary artist and a complete curated Listen First
+override are both ready, an incomplete record reports every relevant issue in order, and
+a partial Listen First set is rejected. It also covers the video tier (ADR-0017): a
+featured live-performance video makes an artist with no Spotify presence and no Quick
+Picks track ready, an unavailable featured video does not, an artist with no preview of
+any kind stays blocked, and `qualifies_by_video_only` is true only for the
+video-and-no-audio case.
 
 `test_festival_configs.py` (fast, no database) guards the hand-authored seed configs in
 `scripts/festival_configs/` and the pure `build_edition()` config-to-ORM mapping in
@@ -72,10 +89,10 @@ mapping layer always applies an explicit `sorted(..., key=...)` instead.
 
 `integration/test_artist_read_query.py` uses that same rollback-contained boundary
 to prove the public Artist query's publication predicate, relationship eager loading,
-Quick Picks role selection, deterministic genre and Listen First ordering, and clear
-failure for an inconsistent published record. It also proves that About and supported
-social links obey their verification gates and that only an available featured video
-is exposed. Festival-context cases prove published/announced filtering, required
+Quick Picks role selection, deterministic genre and Listen First ordering, and a null
+`quick_picks_track` for a video-only published artist (ADR-0017). It also proves that
+About and supported social links obey their verification gates and that only an
+available featured video is exposed. Festival-context cases prove published/announced filtering, required
 billing, timezone conversion, scheduled/cancelled visibility, draft omission, and the
 valid announced-without-schedule state. Similar Artist cases prove verified
 four-or-none exposure, deterministic order, canonical target summaries, complete-set
@@ -100,9 +117,11 @@ for why this became a batched query instead of a per-artist one).
 The same file also proves the schedule-agnostic sibling `read_festival_run_artists`
 (ADR-0016): an announced published artist with no appearances is returned, a scheduled
 run's whole announced, published artist set is returned regardless of appearances,
-draft artists and withdrawn entries are excluded, the artist projection and the seeded
-5sos four-or-none set map identically to the appearances feed, a missing billing tier
-raises the same consistency error, and an unknown edition/run slug returns nothing.
+draft artists and withdrawn entries are excluded, the artist projection (including the
+poster-derived `billing_tier`) and the seeded 5sos four-or-none set map identically to
+the appearances feed, a missing billing tier raises the same consistency error, and an
+unknown edition/run slug returns nothing. Both feeds map a null `quick_picks_track` for
+a video-only artist (ADR-0017).
 Alongside it, `read_run_ids_with_public_schedule` (the query behind the derived per-run
 `schedule_state`) reports the seeded Lollapalooza run as scheduled and, once every
 appearance in that run is moved out of `scheduled` inside the rollback boundary,
@@ -148,6 +167,16 @@ different run adds an already-existing artist to that run (`would add to run` /
 renderers run against a seeded artist without error, showing readiness and the inbound
 similar-artist reference count.
 
+The staged import (multi-festival roadmap) is covered in the same file: a roster-only
+row persists as an announced entry with no appearances; re-running with the full
+schedule CSV routes each already-announced slug through `attach_run_schedule`
+(`would schedule` / `scheduled`, then `skipped` on a third pass), leaving
+`lineup_status` as `announced` while the appearances now exist; a schedule CSV with no
+`billing_tier` column still attaches, inheriting the announced entry's tier; and
+`attach_run_schedule` itself refuses a payload with no appearances, a slug with no
+entry in the run, a run that already has a schedule, and a billing tier that is
+supplied and disagrees with the announced entry.
+
 `integration/test_clean_bootstrap.py` is the exception to the rollback-contained
 pattern: it proves the from-empty half of "rebuild the database from PostgreSQL alone"
 (roadmap section 5, ADR-0014). It creates a disposable `festfuse_cleanboot_*` database,
@@ -176,11 +205,13 @@ The integration suite currently verifies:
 - that the seeded roster (currently 171 Artists) is entirely publication-ready under
   the application-owned policy, and that `publish_ready_artists` publishes all of them
   and leaves no drafts;
-- published Artist query filtering, mapping, and consistency behavior;
+- published Artist query filtering, mapping, and consistency behavior, including a null
+  `quick_picks_track` for a video-only artist (ADR-0017);
 - verified four-or-none Similar Artist visibility and canonical target summaries;
 - the run-scoped appearances feed's publication/lineup/schedule filtering, ordering,
   and field mapping, its schedule-agnostic `read_festival_run_artists` sibling, and the
-  derived per-run `schedule_state` query (ADR-0016); and
+  two derived per-run queries behind `schedule_state` and `has_published_artists`
+  (ADR-0016); and
 - single-artist create and hard-delete through the authoring service, including
   verification-trigger ordering, partial (draft) creates, and Similar Artist
   target-deletion protection; and
@@ -198,6 +229,10 @@ The integration suite currently verifies:
   isolation of a failed row, skip-if-already-in-run, rerun safety, and adding an
   existing artist to a different run) and the `show_artist.py` detail and roster
   renderers; and
+- the staged import (multi-festival roadmap): a roster-only row creating an announced
+  entry, a second pass with the full schedule CSV attaching it through
+  `attach_run_schedule`, and that function's refusals (no appearances, no entry in the
+  run, a run already scheduled, a billing mismatch); and
 - the clean-bootstrap path (roadmap section 5): every migration applying to a
   brand-new database, `alembic check` finding no schema drift afterward, and the
   config-driven festival seed producing every configured edition's hierarchy

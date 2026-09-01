@@ -47,17 +47,41 @@ class ArtistPublicationBatch:
         return len(self.candidates) - self.ready_count
 
 
+def has_featured_video(artist: Artist) -> bool:
+    """Whether the artist has a usable featured live-performance video (ADR-0017)."""
+    return any(video.is_featured and video.is_available for video in artist.videos)
+
+
+def qualifies_by_video_only(artist: Artist) -> bool:
+    """A ready artist carrying its preview solely on a featured video, no audio.
+
+    True when the featured video is the reason MISSING_QUICK_PICKS did not fire: no
+    Quick Picks track selection, but a usable featured video. Used by the publish
+    report to surface these artists (they publish without an audio preview anywhere).
+    """
+    has_quick_picks = any(
+        selection.is_quick_picks for selection in artist.track_selections
+    )
+    return not has_quick_picks and has_featured_video(artist)
+
+
 def evaluate_artist_publication(artist: Artist) -> ArtistPublicationReadiness:
     """Evaluate the current cross-row policy for publishing one Artist.
 
-    Callers must load ``genre_assignments`` and ``track_selections`` before passing a
-    detached Artist. This function is pure: it reports policy and never changes state.
+    Callers must load ``genre_assignments``, ``track_selections``, and ``videos``
+    before passing a detached Artist. This function is pure: it reports policy and
+    never changes state.
+
+    A publishable artist needs identity, location, a valid genre set, and at least one
+    preview: a Spotify artist id, a complete Listen First set, or a featured
+    live-performance video (ADR-0017).
 
     ``about`` and the run-scoped similar-artist set are deliberately *not* readiness
     gates: they are additive editorial layers (ADR-0013) that an artist publishes
     without, and the frontend simply omits the section until each is verified.
     """
     issues: list[ArtistPublicationIssue] = []
+    featured_video = has_featured_video(artist)
 
     if not artist.name.strip() or not artist.slug.strip():
         issues.append(ArtistPublicationIssue.MISSING_IDENTITY)
@@ -74,7 +98,8 @@ def evaluate_artist_publication(artist: Artist) -> ArtistPublicationReadiness:
         selection for selection in artist.track_selections if selection.is_quick_picks
     ]
     if not quick_picks:
-        issues.append(ArtistPublicationIssue.MISSING_QUICK_PICKS)
+        if not featured_video:
+            issues.append(ArtistPublicationIssue.MISSING_QUICK_PICKS)
     elif len(quick_picks) != 1:
         issues.append(ArtistPublicationIssue.INVALID_QUICK_PICKS)
 
@@ -90,7 +115,7 @@ def evaluate_artist_publication(artist: Artist) -> ArtistPublicationReadiness:
         if len(listen_first) != 3 or listen_first_orders != [1, 2, 3]:
             issues.append(ArtistPublicationIssue.INCOMPLETE_LISTEN_FIRST)
     else:
-        if not artist.spotify_artist_id:
+        if not artist.spotify_artist_id and not featured_video:
             issues.append(ArtistPublicationIssue.MISSING_LISTEN_FIRST)
         if artist.listen_first_note:
             issues.append(ArtistPublicationIssue.ORPHANED_LISTEN_FIRST_NOTE)
@@ -105,6 +130,7 @@ def assess_artist_publications(session: Session) -> ArtistPublicationBatch:
         .options(
             selectinload(Artist.genre_assignments),
             selectinload(Artist.track_selections),
+            selectinload(Artist.videos),
         )
         .order_by(Artist.slug)
     ).all()

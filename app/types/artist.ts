@@ -79,6 +79,13 @@ export type Artist = {
   // Undefined/false hides the About section even when about is populated —
   // many entries are AI-drafted and not yet fact-checked.
   aboutVerified?: boolean;
-  // Non-empty — every Artist currently consumed by the frontend has a schedule.
-  appearances: [FestivalAppearance, ...FestivalAppearance[]];
+  // The run-level billing tier, from the LineupEntry (poster-derived, schedule-
+  // independent). Populated for API-sourced entries; drives the Headliner badge whether
+  // or not a schedule exists. Equals the primary appearance's billingTier when there is
+  // one.
+  billingTier?: BillingTier;
+  // Empty only on an announced run with no schedule yet (ADR-0016). On a scheduled run
+  // this is non-empty — the artist page throws before rendering if it isn't. TypeScript
+  // can't express "non-empty only when scheduled", so the invariant lives at runtime.
+  appearances: FestivalAppearance[];
 };

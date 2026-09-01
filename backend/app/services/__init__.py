@@ -4,6 +4,7 @@ from app.services.artist_authoring import (
     EditSummary,
     FieldChange,
     add_existing_artist_to_run,
+    attach_run_schedule,
     create_artist,
     delete_artist,
     edit_artist,
@@ -15,7 +16,9 @@ from app.services.artist_publication import (
     ArtistPublicationReadiness,
     assess_artist_publications,
     evaluate_artist_publication,
+    has_featured_video,
     publish_ready_artists,
+    qualifies_by_video_only,
 )
 
 __all__ = [
@@ -24,6 +27,7 @@ __all__ = [
     "EditSummary",
     "FieldChange",
     "add_existing_artist_to_run",
+    "attach_run_schedule",
     "create_artist",
     "delete_artist",
     "edit_artist",
@@ -33,5 +37,7 @@ __all__ = [
     "ArtistPublicationReadiness",
     "assess_artist_publications",
     "evaluate_artist_publication",
+    "has_featured_video",
     "publish_ready_artists",
+    "qualifies_by_video_only",
 ]

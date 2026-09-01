@@ -7,6 +7,15 @@ location, about, tracks, and similar artists are left for the research pass. The
 columns and the `--preview` / `--apply` flags are documented in
 `docs/operations/backend-deployment.md` ("Editorial pipeline scripts").
 
+The schedule columns (stage, date, start_time, end_time) are optional and travel
+together. A file with none of them is a roster-only import: each row creates an
+*announced* lineup entry with no schedule (the run's derived schedule_state stays
+"announced", ADR-0016) and needs `billing_tier`. A file with them is a scheduled
+import; re-running it later against a run whose roster was already imported attaches
+the schedule to each announced entry via `attach_run_schedule`, and `billing_tier` may
+be omitted there (it is inherited). One file is all announced or all scheduled, never
+a mix.
+
   python -m scripts.build_roster_payloads --input roster.csv \
       --edition lollapalooza-2026 --run main --preview
 """
@@ -21,6 +30,7 @@ from pathlib import Path
 
 from pydantic import ValidationError
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 
 from app.database import SessionLocal
 from app.lib.artist_source import BILLING_TIERS
@@ -29,13 +39,17 @@ from app.schemas.artist_authoring import ArtistAuthoringInput
 from app.services import (
     ArtistAuthoringError,
     add_existing_artist_to_run,
+    attach_run_schedule,
     create_artist,
     evaluate_artist_publication,
 )
 
 _SHARED_COLUMNS = ("name", "spotify_url", "youtube_url", "tiktok_url", "mbid")
-_APPEARANCE_COLUMNS = ("billing_tier", "stage", "date", "start_time", "end_time")
-_REQUIRED_COLUMNS = ("slug", "name", *_APPEARANCE_COLUMNS)
+# Present together or not at all. Absent -> a roster-only (announced) file.
+_SCHEDULE_COLUMNS = ("stage", "date", "start_time", "end_time")
+# billing_tier is required for an announced entry and inherited on a schedule attach,
+# so it is enforced per row-group, not as a header.
+_REQUIRED_COLUMNS = ("slug", "name")
 
 
 @dataclass
@@ -48,7 +62,8 @@ class RosterError:
 class ArtistOutcome:
     slug: str
     name: str
-    # would create | created | would add to run | added to run | skipped | failed
+    # would create | created | would add to run | added to run | would schedule |
+    # scheduled | skipped | failed
     status: str
     detail: str = ""
     readiness_issues: list[str] = field(default_factory=list)
@@ -72,8 +87,12 @@ def parse_roster(
     """Group rows by slug and build one authoring payload dict per artist.
 
     Returns ``{slug: payload_dict}`` for the rows that parsed and a list of errors for
-    the rows that did not (a missing required cell, an inconsistent shared field, a
-    duplicated identity across artists).
+    the rows that did not (a missing required cell, a partial schedule, an inconsistent
+    shared field, a duplicated identity, an announced entry with no billing tier, a
+    slug with more than one announced row). A payload with an empty ``appearances``
+    list and a wrapper ``billingTier`` is a roster-only (announced) artist. If the file
+    mixes announced and scheduled slugs it is refused whole (an empty payload map plus
+    one error): one file is all announced or all scheduled.
     """
     errors: list[RosterError] = []
     grouped: dict[str, list[tuple[int, dict[str, str | None]]]] = {}
@@ -91,12 +110,22 @@ def parse_roster(
                 RosterError(f"row {row_num}", f"missing {', '.join(missing)}")
             )
             continue
-        if row["billing_tier"] not in BILLING_TIERS:
+        billing = row.get("billing_tier")
+        if billing is not None and billing not in BILLING_TIERS:
             errors.append(
                 RosterError(
                     f"row {row_num}",
-                    f"billing_tier {row['billing_tier']!r} is not one of "
-                    f"{', '.join(BILLING_TIERS)}",
+                    f"billing_tier {billing!r} is not one of {', '.join(BILLING_TIERS)}",
+                )
+            )
+            continue
+        schedule_cells = [column for column in _SCHEDULE_COLUMNS if row.get(column)]
+        if schedule_cells and len(schedule_cells) != len(_SCHEDULE_COLUMNS):
+            missing_schedule = [c for c in _SCHEDULE_COLUMNS if not row.get(c)]
+            errors.append(
+                RosterError(
+                    f"row {row_num}",
+                    f"partial schedule: missing {', '.join(missing_schedule)}",
                 )
             )
             continue
@@ -104,12 +133,13 @@ def parse_roster(
 
     payloads: dict[str, dict] = {}
     seen_identity: dict[tuple[str, str], str] = {}
+    slug_modes: dict[str, bool] = {}  # slug -> is_scheduled, for the one-mode check
     for slug, slug_rows in grouped.items():
         first = slug_rows[0][1]
         inconsistent = [
             column
             for column in _SHARED_COLUMNS
-            if any(other[column] != first[column] for _, other in slug_rows[1:])
+            if any(other.get(column) != first.get(column) for _, other in slug_rows[1:])
         ]
         if inconsistent:
             rows_at = ", ".join(str(row_num) for row_num, _ in slug_rows)
@@ -122,8 +152,8 @@ def parse_roster(
 
         clash = False
         for kind, value in (
-            ("mbid", first["mbid"]),
-            ("spotify_url", first["spotify_url"]),
+            ("mbid", first.get("mbid")),
+            ("spotify_url", first.get("spotify_url")),
         ):
             if value is None:
                 continue
@@ -137,36 +167,97 @@ def parse_roster(
         if clash:
             continue
 
-        socials = {
-            key: first[f"{key}_url"]
-            for key in ("spotify", "youtube", "tiktok")
-            if first[f"{key}_url"]
-        }
-        appearances = [
-            {
-                "billingTier": row["billing_tier"],
-                "stage": row["stage"],
-                "day": weekday_label(row["date"], year),
-                "date": row["date"],
-                "startTime": row["start_time"],
-                "endTime": row["end_time"],
-            }
-            for _, row in slug_rows
+        rows_at = ", ".join(str(row_num) for row_num, _ in slug_rows)
+        row_scheduled = [
+            all(other.get(column) for column in _SCHEDULE_COLUMNS)
+            for _, other in slug_rows
         ]
-        payloads[slug] = {
-            "schemaVersion": 1,
-            "edition": edition,
-            "run": run,
-            "artist": {
-                "name": first["name"],
-                "slug": slug,
-                **({"mbid": first["mbid"]} if first["mbid"] else {}),
-                "socials": socials,
-                "socialsVerified": True,
-                "appearances": appearances,
-            },
+        if any(row_scheduled) and not all(row_scheduled):
+            errors.append(
+                RosterError(slug, f"rows {rows_at} mix announced and scheduled entries")
+            )
+            continue
+        is_scheduled = row_scheduled[0]
+        if not is_scheduled and len(slug_rows) > 1:
+            errors.append(
+                RosterError(
+                    slug,
+                    f"rows {rows_at} repeat an announced entry "
+                    "(one row per artist, no schedule)",
+                )
+            )
+            continue
+        if not is_scheduled and not first.get("billing_tier"):
+            errors.append(RosterError(slug, "an announced entry needs billing_tier"))
+            continue
+
+        socials = {
+            key: first.get(f"{key}_url")
+            for key in ("spotify", "youtube", "tiktok")
+            if first.get(f"{key}_url")
         }
+        artist_fields: dict = {
+            "name": first["name"],
+            "slug": slug,
+            **({"mbid": first["mbid"]} if first.get("mbid") else {}),
+            "socials": socials,
+            "socialsVerified": True,
+        }
+        payload: dict = {"schemaVersion": 1, "edition": edition, "run": run}
+        if is_scheduled:
+            # billing_tier is optional on a schedule row: attaching to an existing
+            # announced entry inherits it. A brand-new slug still needs it, and
+            # _resolve_billing_tier raises a clear error in that case.
+            artist_fields["appearances"] = [
+                {
+                    **(
+                        {"billingTier": row["billing_tier"]}
+                        if row.get("billing_tier")
+                        else {}
+                    ),
+                    "stage": row["stage"],
+                    "day": weekday_label(row["date"], year),
+                    "date": row["date"],
+                    "startTime": row["start_time"],
+                    "endTime": row["end_time"],
+                }
+                for _, row in slug_rows
+            ]
+        else:
+            payload["billingTier"] = first["billing_tier"]
+            artist_fields["appearances"] = []
+        payload["artist"] = artist_fields
+        payloads[slug] = payload
+        slug_modes[slug] = is_scheduled
+
+    if len(set(slug_modes.values())) > 1:
+        return {}, [
+            *errors,
+            RosterError(
+                "file", "mixes announced and scheduled slugs; split into two files"
+            ),
+        ]
     return payloads, errors
+
+
+def _apply_one(
+    session, slug: str, name: str, apply: bool, fn, payload, *, done: str, preview: str
+) -> ArtistOutcome:
+    """Run one authoring service call in its own savepoint: commit on ``--apply``,
+    roll back on ``--preview``, and turn an ``ArtistAuthoringError`` into a failed
+    outcome instead of aborting the batch."""
+    savepoint = session.begin_nested()
+    try:
+        fn(session, payload)
+    except ArtistAuthoringError as error:
+        savepoint.rollback()
+        return ArtistOutcome(slug, name, "failed", str(error))
+    if apply:
+        savepoint.commit()
+        session.commit()
+        return ArtistOutcome(slug, name, done)
+    savepoint.rollback()
+    return ArtistOutcome(slug, name, preview)
 
 
 def create_from_payloads(
@@ -174,12 +265,14 @@ def create_from_payloads(
 ) -> list[ArtistOutcome]:
     """Validate and apply each payload against `run`. A new slug is created with
     `create_artist`; a slug that already exists is added to `run` with
-    `add_existing_artist_to_run`, or reported skipped when it is already in that run.
-    `--apply` commits each artist in its own transaction; `--preview` rolls every
-    change back after checking it against the real database."""
+    `add_existing_artist_to_run`. A schedule row for a slug already announced in `run`
+    without one attaches the schedule (`attach_run_schedule`); any other already-in-run
+    slug is reported skipped. `--apply` commits each artist in its own transaction;
+    `--preview` rolls every change back after checking it against the real database."""
     outcomes: list[ArtistOutcome] = []
     for slug, payload_dict in payloads.items():
         name = payload_dict["artist"]["name"]
+        has_schedule = bool(payload_dict["artist"]["appearances"])
         try:
             payload = ArtistAuthoringInput.model_validate(payload_dict)
         except ValidationError as error:
@@ -192,33 +285,46 @@ def create_from_payloads(
 
         artist_id = session.scalar(select(Artist.id).where(Artist.slug == slug))
         if artist_id is not None:
-            already_in_run = session.scalar(
-                select(LineupEntry.id).where(
+            entry = session.scalar(
+                select(LineupEntry)
+                .where(
                     LineupEntry.artist_id == artist_id,
                     LineupEntry.festival_run_id == run.id,
                 )
+                .options(selectinload(LineupEntry.appearances))
             )
-            if already_in_run is not None:
-                outcomes.append(
-                    ArtistOutcome(slug, name, "skipped", "already in this run")
+            if entry is not None:
+                if has_schedule and not entry.appearances:
+                    outcomes.append(
+                        _apply_one(
+                            session,
+                            slug,
+                            name,
+                            apply,
+                            attach_run_schedule,
+                            payload,
+                            done="scheduled",
+                            preview="would schedule",
+                        )
+                    )
+                else:
+                    outcomes.append(
+                        ArtistOutcome(slug, name, "skipped", "already in this run")
+                    )
+                continue
+
+            outcomes.append(
+                _apply_one(
+                    session,
+                    slug,
+                    name,
+                    apply,
+                    add_existing_artist_to_run,
+                    payload,
+                    done="added to run",
+                    preview="would add to run",
                 )
-                continue
-
-            savepoint = session.begin_nested()
-            try:
-                add_existing_artist_to_run(session, payload)
-            except ArtistAuthoringError as error:
-                savepoint.rollback()
-                outcomes.append(ArtistOutcome(slug, name, "failed", str(error)))
-                continue
-
-            if apply:
-                savepoint.commit()
-                session.commit()
-                outcomes.append(ArtistOutcome(slug, name, "added to run"))
-            else:
-                savepoint.rollback()
-                outcomes.append(ArtistOutcome(slug, name, "would add to run"))
+            )
             continue
 
         savepoint = session.begin_nested()
@@ -232,13 +338,14 @@ def create_from_payloads(
             outcomes.append(ArtistOutcome(slug, name, "failed", str(error)))
             continue
 
+        detail = "" if has_schedule else "announced entry"
         if apply:
             savepoint.commit()
             session.commit()
-            outcomes.append(ArtistOutcome(slug, name, "created", "", issues))
+            outcomes.append(ArtistOutcome(slug, name, "created", detail, issues))
         else:
             savepoint.rollback()
-            outcomes.append(ArtistOutcome(slug, name, "would create", "", issues))
+            outcomes.append(ArtistOutcome(slug, name, "would create", detail, issues))
 
     if not apply:
         session.rollback()
@@ -254,8 +361,9 @@ def _render_report(
             print(f"  {error.where}: {error.message}")
         print()
 
-    print("Every artist is created draft; readiness gaps are expected until the")
-    print("research pass fills genres, location, and the Quick Picks track.\n")
+    print("New artists are created draft (an announced entry when the schedule row is")
+    print("absent); readiness gaps are expected until the research pass fills genres,")
+    print("location, and the Quick Picks track.\n")
 
     for outcome in outcomes:
         gaps = (
@@ -273,6 +381,8 @@ def _render_report(
             "created",
             "would add to run",
             "added to run",
+            "would schedule",
+            "scheduled",
             "skipped",
             "failed",
         )
@@ -282,9 +392,11 @@ def _render_report(
     parsed = len(outcomes)
     made = tally["created"] if apply else tally["would create"]
     added = tally["added to run"] if apply else tally["would add to run"]
+    scheduled = tally["scheduled"] if apply else tally["would schedule"]
     print(
         f"\n{parsed} parsed · {made} {'created' if apply else 'would create'} · "
         f"{added} {'added to run' if apply else 'would add to run'} · "
+        f"{scheduled} {'scheduled' if apply else 'would schedule'} · "
         f"{tally['skipped']} skipped · {tally['failed']} failed · "
         f"{len(errors)} unparsed row group(s)"
     )

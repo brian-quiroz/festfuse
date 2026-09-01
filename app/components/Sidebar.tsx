@@ -19,7 +19,10 @@ import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useExploreFilterStore, NAV_PRESETS } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { useActiveContextStore } from "@/app/store/activeContextStore";
-import { useRunScheduleState } from "@/app/store/runScheduleStateStore";
+import {
+  useRunScheduleState,
+  useRunHasPublishedArtists,
+} from "@/app/store/runScheduleStateStore";
 import { contextHref } from "@/app/data/festivals";
 import { useHelpStore } from "@/app/store/helpStore";
 import { useChromeStore } from "@/app/store/chromeStore";
@@ -56,6 +59,10 @@ export default function Sidebar() {
   // the entry experience), so past the guard below `context` is always set.
   const context = useActiveContextStore((s) => s.context);
   const runScheduleState = useRunScheduleState(
+    context?.editionSlug ?? "",
+    context?.runSlug ?? ""
+  );
+  const runHasPublishedArtists = useRunHasPublishedArtists(
     context?.editionSlug ?? "",
     context?.runSlug ?? ""
   );
@@ -102,11 +109,18 @@ export default function Sidebar() {
   const scheduledCount = scheduledArtistSlugs.size;
   const conflictCount = conflictingArtistSlugs.size;
 
+  // An empty announced run (ADR-0016) has no usable surface, so nothing run-scoped
+  // belongs in the nav — only Home, and My Festival is hidden below. Fails open when
+  // the run isn't in the store. See ARCHITECTURE.md § Announced-Lineup Mode.
+  const isEmptyAnnouncedRun = runScheduleState === "announced" && !runHasPublishedArtists;
+
   // Planner drops out of the nav while the active run has no public schedule. Reaching
   // the Planner route directly is handled by that route, not here.
-  const visibleNavItems = navItems.filter(
-    ({ page }) => !(page === "planner" && runScheduleState === "announced")
-  );
+  const visibleNavItems = navItems.filter(({ page }) => {
+    if (page === null) return true;
+    if (isEmptyAnnouncedRun) return false;
+    return !(page === "planner" && runScheduleState === "announced");
+  });
 
   // Two flat, labeled groups rather than one list or a parent/child indent tree —
   // Conflicts isn't a true subset of Scheduled the way Must See/Interested are subsets
@@ -136,26 +150,33 @@ export default function Sidebar() {
     },
   ];
 
-  const scheduleItems = [
-    {
-      label: "Scheduled",
-      count: scheduledCount,
-      Icon: Calendar,
-      color: "#00E5FF",
-      bg: "rgba(0,229,255,0.10)",
-    },
-    ...(conflictCount > 0
-      ? [
+  // The whole Schedule group drops out for an announced run (ADR-0016) — there is no
+  // schedule to have items scheduled against, and "Scheduled" links to an Explore
+  // filter preset that is a hidden facet in announced Explore. Mirrors the Planner
+  // nav item's own gating above.
+  const scheduleItems =
+    runScheduleState === "announced"
+      ? []
+      : [
           {
-            label: "Conflicts",
-            count: conflictCount,
-            Icon: AlertCircle,
-            color: "#FF0000",
-            bg: "rgba(255,0,0,0.10)",
+            label: "Scheduled",
+            count: scheduledCount,
+            Icon: Calendar,
+            color: "#00E5FF",
+            bg: "rgba(0,229,255,0.10)",
           },
-        ]
-      : []),
-  ];
+          ...(conflictCount > 0
+            ? [
+                {
+                  label: "Conflicts",
+                  count: conflictCount,
+                  Icon: AlertCircle,
+                  color: "#FF0000",
+                  bg: "rgba(255,0,0,0.10)",
+                },
+              ]
+            : []),
+        ];
 
   // Shared by both My Festival groups (Picks, Schedule) so the highlight/count markup
   // can't drift apart between them.
@@ -317,28 +338,36 @@ export default function Sidebar() {
             })}
           </nav>
 
-          {/* MY FESTIVAL section */}
-          <div className="mx-3 mt-2 pt-4 border-t border-[#2D2556]">
-            <p className="text-[10px] font-semibold text-[#6B6893] uppercase tracking-widest px-3 mb-1.5">
-              My Festival
-            </p>
-          </div>
+          {/* MY FESTIVAL section — hidden entirely for an empty announced run: every
+            item links into Explore, which has nothing to show. */}
+          {!isEmptyAnnouncedRun && (
+            <>
+              <div className="mx-3 mt-2 pt-4 border-t border-[#2D2556]">
+                <p className="text-[10px] font-semibold text-[#6B6893] uppercase tracking-widest px-3 mb-1.5">
+                  My Festival
+                </p>
+              </div>
 
-          {/* Two labeled groups, not one flat list — reinforces that Picks and Schedule
-            are separate dimensions, the way the Planner's own toggles already do. */}
-          <div className="px-3">
-            <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
-              Picks
-            </p>
-            <div className="space-y-0.5">{picksItems.map(renderFestivalItem)}</div>
-          </div>
+              {/* Two labeled groups, not one flat list — reinforces that Picks and
+                Schedule are separate dimensions, the way the Planner's own toggles
+                already do. */}
+              <div className="px-3">
+                <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
+                  Picks
+                </p>
+                <div className="space-y-0.5">{picksItems.map(renderFestivalItem)}</div>
+              </div>
 
-          <div className="px-3 mt-3">
-            <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
-              Schedule
-            </p>
-            <div className="space-y-0.5">{scheduleItems.map(renderFestivalItem)}</div>
-          </div>
+              {scheduleItems.length > 0 && (
+                <div className="px-3 mt-3">
+                  <p className="text-[9px] font-semibold text-[#6B6893]/70 uppercase tracking-widest px-3 mb-1">
+                    Schedule
+                  </p>
+                  <div className="space-y-0.5">{scheduleItems.map(renderFestivalItem)}</div>
+                </div>
+              )}
+            </>
+          )}
 
           {/* Utilities — visually separate from primary nav and My Festival so "How it
             works" never reads as a fifth core mode, just a low-emphasis aside. */}

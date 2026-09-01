@@ -1,4 +1,5 @@
 import type { RunArtist } from "@/app/lib/api/mapRunAppearance";
+import type { BillingTier } from "@/app/data/categories";
 import { sortByDay, sortByBillingTier } from "./sort";
 import { getPrimaryAppearance } from "@/app/lib/appearances";
 
@@ -18,7 +19,7 @@ export const AFTER_DARK_THRESHOLD_MINUTES = 20 * 60;
  * @param random - Optional seeded RNG function. If provided, uses it for deterministic shuffles.
  *                 If omitted, uses Math.random() for client-side randomness.
  */
-function shuffleArray<T>(arr: T[], random?: () => number): T[] {
+export function shuffleArray<T>(arr: T[], random?: () => number): T[] {
   const result = [...arr];
   const rng = random || Math.random;
   for (let i = result.length - 1; i > 0; i--) {
@@ -79,7 +80,7 @@ export function shuffleDayBlocks(
   // Sort within each day by billing tier (explicit enforcement)
   const sortedByDay = new Map<string, RunArtist[]>();
   byDay.forEach((dayArtists, day) => {
-    sortedByDay.set(day, sortByBillingTier(dayArtists, festivalId, dayOrder));
+    sortedByDay.set(day, sortByBillingTier(dayArtists));
   });
 
   // Get day blocks in festival order (with billing tier sorting applied)
@@ -167,5 +168,54 @@ export function interleaveByDayShuffled(
     }
   }
 
+  return result;
+}
+
+// ANNOUNCED-RUN CAROUSEL ORDERING (ADR-0016) — no schedule, so no day dimension.
+//
+// The scheduled rows above vary the sequence by shuffling day-blocks / day-groups.
+// Without days, the axis of variety is the billing tier (Festival Favorites) or just
+// the whole row (International / {City}'s Own). Both stay deterministic per page load
+// via the passed seeded RNG, exactly like the scheduled versions.
+
+const TIER_ORDER: readonly BillingTier[] = ["Headliner", "Sub-headliner", "Undercard"];
+
+/**
+ * Announced Festival Favorites. Shuffle within each billing tier, then round-robin
+ * interleave the tiers in prominence order. Headliners lead each pass and are spread
+ * evenly through the row rather than front-loaded — the day-less analog of
+ * shuffleDayBlocks' anti-clumping (see ARCHITECTURE.md § Carousel Presentation
+ * Strategies). Artists with no tier sort last.
+ */
+export function interleaveByTierShuffled(
+  artists: RunArtist[],
+  random?: () => number
+): RunArtist[] {
+  if (artists.length === 0) return [];
+
+  const byTier = new Map<BillingTier | "none", RunArtist[]>();
+  for (const artist of artists) {
+    const key = artist.billingTier ?? "none";
+    if (!byTier.has(key)) byTier.set(key, []);
+    byTier.get(key)!.push(artist);
+  }
+
+  const groups = [...TIER_ORDER, "none" as const]
+    .filter((tier) => byTier.has(tier))
+    .map((tier) => shuffleArray(byTier.get(tier)!, random));
+
+  const result: RunArtist[] = [];
+  const iterators = groups.map(() => 0);
+  let hasMore = true;
+  while (hasMore) {
+    hasMore = false;
+    groups.forEach((group, i) => {
+      if (iterators[i] < group.length) {
+        result.push(group[iterators[i]]);
+        iterators[i] += 1;
+        hasMore = true;
+      }
+    });
+  }
   return result;
 }

@@ -19,6 +19,11 @@ interface ExploreFiltersProps {
   // The active run's day and stage options, resolved from route context by the parent.
   days: string[];
   availableStages: Stage[];
+  // Schedule-derived facets, hidden for an announced run with no schedule (ADR-0016).
+  showDay?: boolean;
+  showStage?: boolean;
+  showScheduleStatus?: boolean;
+  searchPlaceholder?: string;
   searchQuery?: string;
   selectedGenres?: Genre[];
   selectedDay?: string;
@@ -40,6 +45,10 @@ export default function ExploreFilters({
   availableGenres,
   days,
   availableStages,
+  showDay = true,
+  showStage = true,
+  showScheduleStatus = true,
+  searchPlaceholder = "Search artists, genres, locations, or stages...",
   searchQuery: externalSearchQuery = "",
   selectedGenres: externalGenres = [],
   selectedDay: externalDay = "",
@@ -173,7 +182,7 @@ export default function ExploreFilters({
         />
         <input
           type="text"
-          placeholder="Search artists, genres, locations, or stages..."
+          placeholder={searchPlaceholder}
           value={externalSearchQuery}
           onChange={(e) => handleSearchChange(e.target.value)}
           onBlur={handleSearchBlur}
@@ -218,28 +227,32 @@ export default function ExploreFilters({
         />
 
         {/* Day Dropdown (Single-select) */}
-        <SingleSelectDropdown
-          title="Day"
-          options={days}
-          selected={externalDay}
-          onSelect={handleDaySelect}
-          isOpen={openDropdown === "Day"}
-          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Day" : null)}
-        />
+        {showDay && (
+          <SingleSelectDropdown
+            title="Day"
+            options={days}
+            selected={externalDay}
+            onSelect={handleDaySelect}
+            isOpen={openDropdown === "Day"}
+            onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Day" : null)}
+          />
+        )}
 
         {/* Stage Dropdown (Multi-select, count mode — matches Genre's trigger. Unlike Pick
             Status/Schedule Status, its ActiveFilters representation stays one chip per
             selected stage rather than one summary pill, since users remove specific stages
             individually more often than they clear the whole facet at once) */}
-        <MultiSelectDropdown
-          title="Stage"
-          options={availableStages}
-          selected={externalStages}
-          onToggle={handleStageToggle}
-          isOpen={openDropdown === "Stage"}
-          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Stage" : null)}
-          displayMode="count"
-        />
+        {showStage && (
+          <MultiSelectDropdown
+            title="Stage"
+            options={availableStages}
+            selected={externalStages}
+            onToggle={handleStageToggle}
+            isOpen={openDropdown === "Stage"}
+            onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Stage" : null)}
+            displayMode="count"
+          />
+        )}
 
         {/* Pick Status Dropdown (Multi-select, count mode — the active-filter summary bar
             below shows the actual selected labels, so the trigger itself just shows a count
@@ -262,20 +275,22 @@ export default function ExploreFilters({
 
         {/* Schedule Status Dropdown (Multi-select, count mode — same reasoning as Pick
             Status above) */}
-        <MultiSelectDropdown
-          title="Schedule Status"
-          options={[
-            "scheduled" as ScheduleStatusValue,
-            "unscheduled" as ScheduleStatusValue,
-            "conflicting" as ScheduleStatusValue,
-          ]}
-          selected={externalScheduleStatus}
-          onToggle={handleScheduleStatusToggle}
-          isOpen={openDropdown === "Schedule Status"}
-          onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Schedule Status" : null)}
-          displayMode="count"
-          displayLabels={SCHEDULE_STATUS_LABELS}
-        />
+        {showScheduleStatus && (
+          <MultiSelectDropdown
+            title="Schedule Status"
+            options={[
+              "scheduled" as ScheduleStatusValue,
+              "unscheduled" as ScheduleStatusValue,
+              "conflicting" as ScheduleStatusValue,
+            ]}
+            selected={externalScheduleStatus}
+            onToggle={handleScheduleStatusToggle}
+            isOpen={openDropdown === "Schedule Status"}
+            onOpenChange={(isOpen) => setOpenDropdown(isOpen ? "Schedule Status" : null)}
+            displayMode="count"
+            displayLabels={SCHEDULE_STATUS_LABELS}
+          />
+        )}
       </div>
     </div>
   );

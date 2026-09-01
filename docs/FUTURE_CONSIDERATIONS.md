@@ -130,6 +130,23 @@ the `sanitizeAttendanceDays` read-time-repair precedent.
 
 ---
 
+## Future Consideration: Pick Counts Not Scoped to a Run's Own Roster
+
+`decisionStore` keys are `{edition}:{slug}` — **edition-scoped, not run-scoped**. This
+is deliberate: a Must See / Interested follows the artist at the festival, so an act
+that plays both ACL weekends is decided once, not re-picked per weekend. But a
+multi-run festival's weekend lineups overlap without being identical. An artist marked
+Must See while viewing weekend 1, who does not play weekend 2, still counts toward
+weekend 2's Sidebar "My Picks" / "Must See" / "Interested" totals and reads as a
+"decided" artist in weekend 2's Pick Status filter — even though no card for them
+appears in weekend 2's Explore. The number is off, not the data.
+
+The clean fix keeps decisions edition-scoped but intersects the **counts and the Pick
+Status facet** with the run's actual roster (the sidebar and Explore already hold that
+list). Not built now: no real multi-run roster exists yet (section 11), and the
+discrepancy is cosmetic. Revisit once both ACL weekends have real rosters, before
+launch if the mismatch is visibly confusing.
+
 ## Future Consideration: Visible "Passed" Indicator
 
 Currently, "Passed" has no visual representation anywhere in the UI outside the Status filter — cards don't show any distinction between an artist that's been passed on versus one that's fully undecided. This is a deliberate asymmetry, not an oversight: Must See and Interested get persistent icons because they represent a positive, actively-curated list the user wants reinforced everywhere they browse. Passed was never designed to carry that same visual weight — it's a lower-salience state, consistent with the decision not to give it a dedicated sidebar entry.
@@ -384,6 +401,91 @@ Next.js's LCP heuristic flags Explore's "Festival Favorites" carousel first card
 
 ---
 
+## Future Consideration: "All Artists" Browse View on Explore
+
+Explore's curated carousels (Festival Favorites, International, `{City}'s Own`, After
+Dark) do not cover the whole roster — an undercard, domestic, non-local act appears in
+no row. In scheduled Explore, "browse everyone" is done by picking a **Day** (which
+switches from carousels to a full grid); announced Explore has no Day facet, so the
+only path is selecting all four Pick Status values, which is clunky (though no worse
+than the scheduled Day trick).
+
+A dedicated "All Artists" view — most naturally a carousel with a "See all" grid,
+consistent with the other rows, for **both** modes — would make this direct. Not built
+now: it needs a decision on how it relates to the curated rows (does it suppress
+against them? sit above or below?), and the Pick-Status-all escape hatch works in the
+meantime. Revisit if the browse-everyone path proves painful in real use.
+
+---
+
+## Future Consideration: Empty Curated Carousels Render a Bare Header
+
+`ArtistCarousel` always renders its title + "See all" even when its `artists` array is
+empty, leaving a titled row with an empty scroll strip. It never surfaced while
+Lollapalooza was the only festival (Chicago always has local acts, the lineup always
+has international and after-8pm sets). Generalizing `{City}'s Own` to any edition city
+(multi-festival section 9) makes it reachable in principle: a festival with no acts
+from its own city, or an all-domestic lineup for International Picks.
+
+Not built now: every festival FestFuse is likely to add has home-city acts (the home
+city is usually where the *most* local acts are), so the realistic exposure is thin.
+The fix is a guard in the carousel-list render (or `ArtistCarousel` itself) that omits
+a row with zero artists. Revisit when onboarding a festival whose city or lineup makes
+one of these rows genuinely empty.
+
+---
+
+## Future Consideration: Merge AnnouncedExploreContent into a mode-aware ExploreContent
+
+`AnnouncedExploreContent` is a separate component from `ExploreContent` (ADR-0016). The
+fork was the right call while the announced surfaces were being built incrementally,
+but ~60% of it — the `<main>` shell, page header, Surprise Me block, the four-state
+render (carousels / filtered grid / search / "See all"), the `navigationRevision`
+scroll reset — is structurally identical to `ExploreContent`. Every future Explore
+change now has to be made twice or risks drift.
+
+The obstacle to a single component was that announced artists weren't `RunArtist`-shaped.
+The type unification (commit `d27a5e1`+) removed that: both feeds now produce `RunArtist[]`,
+`ExploreFilters` takes `showDay`/`showStage`/`showScheduleStatus`, and both
+`ArtistCarousel` and `ArtistResultsGrid` take a `CardComponent`. A `mode` branch inside
+`ExploreContent` is now ~30 lines of ternaries (data hook, carousel algorithm —
+`interleaveByTierShuffled` vs `shuffleDayBlocks`, no After Dark) plus the
+`AnnouncedLineupPending` empty state.
+
+**Not now:** it is a real restructure of a 560-line file on the live scheduled path,
+and Quick Picks / Festival Story (roadmap sections for commits 7-8) hit the same
+fork/merge question. Do it as one focused consolidation pass after those land.
+
+`AnnouncedArtistCard` folds into the same pass. It is ~65% identical to `ArtistCard`
+(wrapper, full-bleed `Link`, both photo/gradient branches, Headliner badge, the two
+verdict buttons, sizing, the name/genre info block); the differences are all
+schedule-derived (day/time/stage line, the schedule toggle, the conflict badge, "N
+sets"). Merging means the lazy `getPrimaryAppearance` guard already used in
+`filters.ts` / `search.ts` (it throws on empty appearances) plus gating the
+schedule JSX on `artist.appearances.length > 0`. The other Quick Picks sub-screens
+(`StartScreen`, `DecisionScreen`, `QuickPicksCompleteScreen`) already took an
+`announced` prop rather than forking; the card is the last outlier.
+
+---
+
+## Future Consideration: "Clear all" in the Active Filters Bar Leaves the Search
+
+Explore has three "clear" affordances with different scope. The **"All" pill**
+(`ExploreFilters` `handleClearAll`) and the carousel-view **"Back to Explore"**
+(`clearFilters()`) both reset the search query along with every filter. The **"Clear
+all" button inside the "Active filters:" bar** (an inline closure in `ExploreContent`,
+mirrored in `AnnouncedExploreContent`) clears the five filter facets but **not**
+`searchQuery`.
+
+The bar renders on `hasFilters`, not `hasSearch`, so a user with an active search plus
+one filter sees a "Clear all" that leaves the search behind — arguably surprising given
+the label, and it makes two near-identically-named controls behave differently.
+Defensible as-is (the bar is scoped to filter chips; search has its own X), but if
+changed, the fix is to add `setSearchQuery("")` to both closures so all three
+affordances agree. Pre-existing, not from the announced-lineup work.
+
+---
+
 ## Future Consideration: Duplicated Filter/Search Computation in ExploreContent
 
 `ExploreContent.tsx` computes `filterArtists(...)` and the `hasSearch ? searchArtists(...) : ...` fallback three separate times, in three independent inline closures, rather than once and shared:
@@ -440,6 +542,16 @@ Some icon-only buttons in dense rows (e.g. filter chip rows, carousel controls) 
 ## Future Consideration: Focus-Visible Ring Consistency
 
 Whether every interactive control — especially icon-only buttons without a text label — shows a strong, consistent visible focus ring hasn't been audited app-wide. Unverified either way. Revisit as a dedicated keyboard-navigation sweep.
+
+Related, observed on mobile: opening the hamburger drawer paints a focus outline
+around the "FestFuse" logo link and it lingers until the user taps elsewhere.
+`useDialogA11y` moves focus into the drawer on open by focusing the first focusable
+element in DOM order, which is the logo `<Link href="/">` in `Sidebar`. On touch that
+programmatic `.focus()` shows a ring where a mouse/touch user expects none. The clean
+fix belongs in the keyboard-navigation sweep: give the drawer an explicit
+`initialFocusRef` (its close affordance, or a `tabIndex={-1}` container that draws no
+ring) instead of defaulting to the logo, and confirm the app's focus styling is
+`:focus-visible`-scoped. Not a regression from the multi-festival work.
 
 ---
 
@@ -516,6 +628,12 @@ snapshot's Saturday Chicago rate is the same 11.6%) and is left in place on purp
 the fixture would need re-calibrating for any new lineup regardless. **Revisit when:**
 reworking `verify-story-signals.ts` for a genuinely different festival lineup.
 
+**Update (multi-festival section 9):** the hometown signal is now generalized
+(`isEditionCity` against the edition's `FESTIVAL_REGISTRY` city), but the harness still
+passes `editionCity: "Chicago"` and exercises only the Lollapalooza snapshot. A
+parallel ACL fixture set is the "genuinely different festival lineup" this entry
+already defers.
+
 ---
 
 ## Future Consideration: Quick Picks Bypasses Similar-Artist Verification Gate
@@ -535,17 +653,16 @@ FestivalRun-scoped Similar Artist set, making the frontend contract harder to by
 
 ## Future Consideration: Artist Detail Schedule States
 
-The run-scoped API can represent an announced lineup entry before its schedule exists,
-but the current Artist Detail UI assumes every displayed Artist has at least one
-scheduled Appearance. Before consuming an Artist with no Appearances, decide and test
-the intended user experience, including whether to show a "schedule coming soon"
-message and what happens to schedule actions and the Playing At card.
+**No-schedule case: resolved** (multi-festival section 8). Artist Detail renders a
+schedule-less announced entry with a membership line instead of the Playing At card and
+no "Add to Schedule"; the zero-appearance throw fires only for a *scheduled* run. The
+cancelled-appearance case below remains.
 
-The API can also return cancelled Appearances, while the current TypeScript-backed UI
-has no cancellation state. Decide how cancellations, optional reasons, and schedule
-store behavior should appear before mapping them into the legacy frontend `Artist`
-shape. Until both designs are approved, the API adapter rejects these states so the
-temporary TypeScript fallback preserves existing behavior.
+The API can return cancelled Appearances, while the current TypeScript-backed UI has no
+cancellation state. Decide how cancellations, optional reasons, and schedule store
+behavior should appear before mapping them into the frontend `Artist` shape. Until that
+design exists, the per-artist API adapter still rejects a cancelled appearance so the
+fallback preserves existing behavior.
 
 The bulk `read_festival_run_appearances` query (behind `runAppearancesStore`, shared
 by Explore/Planner/Quick Picks/Festival Story) takes the simpler route of excluding
@@ -574,10 +691,29 @@ mostly-published run in `"announced"` indefinitely.
 The fix at that point is an explicit signal that a run's schedule is public: a boolean
 or timestamp on `FestivalRun`, set deliberately and decoupled from Appearance counts.
 Do not build it before the workflow that needs it exists. Distinct from "Artist Detail
-Schedule States" above, which concerns the per-artist no-schedule and cancelled-state
-UI.
+Schedule States" above (the per-artist UI) and from "Announced Lineup With Day But No
+Set Time" below (a third schedule state).
 
 ---
+
+## Future Consideration: Announced Lineup With Day But No Set Time
+
+`schedule_state` is binary: a run is `"announced"` (no schedule at all) or `"scheduled"`
+(day, time, and stage for every set). Festival posters, though, publish each act's
+**day** weeks before set times exist (ACL and Coachella both do this), so a "day known,
+time unknown" import is technically possible and would restore By-Day Quick Picks, the
+Explore day filter, and day-grouped carousels during the announced window.
+
+Not built. It is a genuine third schedule state, not a tweak: nullable `Appearance`
+start/end times plus a migration on both databases, an amended ADR-0016 contract (its
+own ADR), three-way mode branching on every screen that currently branches two ways,
+and a two-step `attach_run_schedule` (attach days, then attach times). That is a lot of
+surface for a transient window. The binary kept the announced-lineup work a shippable
+unit.
+
+**Revisit if** announced windows prove long and genuinely painful without day
+information (Coachella 2027 is the likely test, its lineup dropping months before set
+times).
 
 ## Future Consideration: Wider Consumption of the Run-Appearances Store
 
@@ -613,6 +749,25 @@ operation writes a `genres` row, and `categories.ts` has to be updated by hand i
 same change, or the drift is real (an artist tagged with a genre the filter UI does not
 know about). The clean resolution is to serve the filter vocabulary from the API so
 there is one list; until then, "add a genre" is a two-file change.
+
+---
+
+## Future Consideration: Non-Spotify Preview Sourcing Beyond a Featured Video
+
+[ADR-0017](decisions/0017-video-only-publication-readiness-tier.md) makes a featured
+live-performance video a third way to clear the publication preview requirement, for
+acts with no Spotify presence. That covers every act on the prepared ACL roster.
+
+Two gaps are deliberately left open:
+
+- **Other preview sources.** SoundCloud, Bandcamp, and Facebook video are all plausible
+  preview embeds for an act with neither Spotify nor usable YouTube footage. None is
+  added now because no real artist needs one; add a tier (schema field, resolver check,
+  frontend embed) when one does.
+- **An act with no preview of any kind.** An artist with no Spotify ID, no Listen First
+  set, and no usable featured video stays blocked. If a late lineup addition is ever in
+  that position, decide then whether it publishes with a photo-and-genres-only card or
+  waits for a preview — not by pre-softening the gate now.
 
 ---
 
@@ -777,3 +932,41 @@ reconciling the drifted signatures carefully so no existing assertion changes me
 
 **Not scheduled.** Belongs with the broader backend-test-coverage roadmap item
 (`docs/roadmap/multi-festival.md`, "Next"), not a feature PR.
+
+---
+
+## Future Consideration: Page-Level Transition Between Sidebar and Sidebar-Free Layouts
+
+An empty announced run makes Home drop its chrome and show the festival picker:
+`HomeContent` drives `chromeStore` to hide the sidebar (see
+[ARCHITECTURE.md](../ARCHITECTURE.md) § Announced-Lineup Mode). The switch is instant —
+the sidebar disappears and the centered content jumps to its wider layout in one frame.
+In normal use that may read as abrupt.
+
+**If it does:** prefer a brief page-level fade over animating the sidebar's width.
+Animating the width forces the centered content to reflow visibly for the whole
+transition, which draws more attention to the shift than a short opacity crossfade on
+the page would.
+
+**Not built now** — the switch only happens on an edge state (an empty announced run),
+and whether it actually feels jarring in practice is unverified.
+
+---
+
+## Future Consideration: Permanently Reachable Full Festival Browser
+
+The card-based festival picker (`FestivalPicker`) is only reachable from Home when no
+context is set (or, transiently, an empty announced run). Once a context exists the only
+switcher is the compact sidebar popover (`FestivalContextSelector`).
+
+A permanently reachable full browser — potentially at `/festivals` — would give the
+larger, more editorial picker a stable home. The sidebar popover stays the fast context
+switcher and could gain a "Browse all festivals" link down to that page. This grows
+more valuable as FestFuse carries more active and upcoming festivals than fit
+comfortably in a popover.
+
+Distinct from "Unscoped Convenience Routes and Last-Active-Context Redirect" above: that
+is about `/explore` and friends resolving against the persisted context; this is a
+dedicated discovery surface with its own URL.
+
+**Not built now** — two festivals fit the current surfaces fine.

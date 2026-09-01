@@ -2,9 +2,10 @@
 
 import { CircleAlert } from "lucide-react";
 
-// Shown by any hasLoaded-gated consumer when runAppearancesStore fails to load —
-// see ADR-0010. flex-1 centers this within its flex-column parent, mirroring
-// StartScreen (which this replaces on Quick Picks).
+// Shown by a run-feed consumer when its store's loadState is "error" (the fetch
+// failed or 404'd) — see ADR-0010. A legitimately empty feed renders the normal empty
+// UI instead. flex-1 centers this within its flex-column parent, mirroring StartScreen
+// (which this replaces on Quick Picks).
 export default function AppearancesUnavailable() {
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center px-8">

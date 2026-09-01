@@ -42,15 +42,14 @@ class PublishedArtistConsistencyError(RuntimeError):
     """Raised when a published Artist violates the public read contract."""
 
 
-def _map_quick_picks_track(artist: Artist) -> ArtistTrackRead:
+def _map_quick_picks_track(artist: Artist) -> ArtistTrackRead | None:
     quick_picks = [
         selection for selection in artist.track_selections if selection.is_quick_picks
     ]
-    if len(quick_picks) != 1:
-        raise PublishedArtistConsistencyError(
-            f"Published artist {artist.slug!r} has {len(quick_picks)} Quick Picks "
-            "selections; expected exactly one"
-        )
+    # A video-only artist publishes with no Quick Picks track (ADR-0017). At most one
+    # is DB-guaranteed (partial unique index on is_quick_picks).
+    if not quick_picks:
+        return None
     selection = quick_picks[0]
     return ArtistTrackRead(
         spotify_track_id=selection.track.spotify_track_id,
@@ -405,9 +404,14 @@ def _resolve_run(
 
 def _map_run_artist(
     artist: Artist,
+    billing_tier: str,
     similar_artists_by_source_id: dict[int, list[FestivalSimilarArtistRead]],
 ) -> FestivalRunArtistRead:
-    """The artist projection shared by the run-appearances and run-artists feeds."""
+    """The artist projection shared by the run-appearances and run-artists feeds.
+
+    ``billing_tier`` comes from the run-level LineupEntry (poster-derived, independent
+    of any schedule), so both feeds carry it whether or not set times exist.
+    """
     return FestivalRunArtistRead(
         slug=artist.slug,
         name=artist.name,
@@ -420,6 +424,7 @@ def _map_run_artist(
                 key=lambda assignment: assignment.display_order,
             )
         ],
+        billing_tier=billing_tier,
         quick_picks_track=_map_quick_picks_track(artist),
         similar_artists=similar_artists_by_source_id.get(artist.id, []),
     )
@@ -490,7 +495,9 @@ def read_festival_run_appearances(
             ),
             billing_tier=appearance.lineup_entry.billing_tier,
             artist=_map_run_artist(
-                appearance.lineup_entry.artist, similar_artists_by_source_id
+                appearance.lineup_entry.artist,
+                appearance.lineup_entry.billing_tier,
+                similar_artists_by_source_id,
             ),
         )
         for appearance in appearances
@@ -547,7 +554,11 @@ def read_festival_run_artists(
     similar_artists_by_source_id = _read_run_similar_artists(session, festival_run.id)
 
     return [
-        _map_run_artist(lineup_entry.artist, similar_artists_by_source_id)
+        _map_run_artist(
+            lineup_entry.artist,
+            lineup_entry.billing_tier,
+            similar_artists_by_source_id,
+        )
         for lineup_entry in lineup_entries
     ]
 
@@ -570,6 +581,28 @@ def read_run_ids_with_public_schedule(session: Session, run_ids: list[int]) -> s
                 LineupEntry.lineup_status == "announced",
                 Artist.publication_status == "published",
                 Appearance.appearance_status == "scheduled",
+            )
+            .distinct()
+        )
+    )
+
+
+def read_run_ids_with_published_artists(session: Session, run_ids: list[int]) -> set[int]:
+    """The subset of `run_ids` with at least one published, announced lineup entry:
+    the same gate read_festival_run_artists applies, so a run outside this set has an
+    empty /artists feed. Derived per request, never stored. The frontend uses it to
+    avoid routing a user into a run that has no content yet. See ADR-0016.
+    """
+    if not run_ids:
+        return set()
+    return set(
+        session.scalars(
+            select(LineupEntry.festival_run_id)
+            .join(Artist, Artist.id == LineupEntry.artist_id)
+            .where(
+                LineupEntry.festival_run_id.in_(run_ids),
+                LineupEntry.lineup_status == "announced",
+                Artist.publication_status == "published",
             )
             .distinct()
         )

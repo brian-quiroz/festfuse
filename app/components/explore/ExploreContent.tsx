@@ -24,11 +24,11 @@ import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
-import { artistHref, contextHref } from "@/app/data/festivals";
+import { artistHref, contextHref, findEdition } from "@/app/data/festivals";
 import { useRunContext, useRunDays, useRunStages } from "@/app/components/RunContextProvider";
-import { getPrimaryAppearance, getPrimaryBillingTier } from "@/app/lib/appearances";
+import { getPrimaryAppearance } from "@/app/lib/appearances";
 import { timeStringToMinutes } from "@/app/lib/time";
-import { isChicago } from "@/app/lib/location";
+import { isEditionCity } from "@/app/lib/location";
 import { getRunArtistsFromApi, type RunArtist } from "@/app/lib/api/mapRunAppearance";
 
 interface ExploreContentProps {
@@ -62,13 +62,15 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const mainRef = useRef<HTMLElement>(null);
 
   // RunAppearancesHydrator seeds the store synchronously before this component's own
-  // first render in the normal case; hasLoadedRunAppearances staying false past that
-  // point is an operational failure, handled by the early return below.
+  // first render in the normal case; a `loadState` of "error" past that point is an
+  // operational failure, handled by the early return below. A legitimately empty feed
+  // renders the normal (empty) UI.
   const { editionSlug, runSlug } = useRunContext();
+  const editionCity = findEdition(editionSlug)?.city ?? "";
   const decisionsByArtist = useEditionDecisions(editionSlug);
   const dayOrder = useRunDays();
   const availableStages = useRunStages();
-  const { appearancesBySlug: runAppearancesBySlug, hasLoaded: hasLoadedRunAppearances } =
+  const { appearancesBySlug: runAppearancesBySlug, loadState: runAppearancesLoadState } =
     useRunAppearances(editionSlug, runSlug);
   const runArtists = useMemo(
     () => getRunArtistsFromApi(runAppearancesBySlug, editionSlug),
@@ -127,7 +129,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   // while staying deterministic per page load (server/client produce identical results).
   const festivalFavoritesRandom = useMemo(() => createSeededRandom(seed), [seed]);
   const internationalPicksRandom = useMemo(() => createSeededRandom(seed + 1), [seed]);
-  const chicagosOwnRandom = useMemo(() => createSeededRandom(seed + 2), [seed]);
+  const cityOwnRandom = useMemo(() => createSeededRandom(seed + 2), [seed]);
   const afterDarkRandom = useMemo(() => createSeededRandom(seed + 3), [seed]);
 
   // Carousel rows computed with seeded RNG for deterministic, identical server/client rendering
@@ -136,10 +138,9 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   const festivalFavorites = useMemo(
     () =>
       shuffleDayBlocks(
-        runArtists.filter((a) => {
-          const tier = getPrimaryBillingTier(a, editionSlug, dayOrder);
-          return tier === "Headliner" || tier === "Sub-headliner";
-        }),
+        runArtists.filter(
+          (a) => a.billingTier === "Headliner" || a.billingTier === "Sub-headliner"
+        ),
         editionSlug,
         dayOrder,
         festivalFavoritesRandom
@@ -158,15 +159,15 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     [runArtists, editionSlug, dayOrder, internationalPicksRandom]
   );
 
-  const chicagosOwn = useMemo(
+  const cityOwn = useMemo(
     () =>
       interleaveByDayShuffled(
-        runArtists.filter((a) => isChicago(a.location.city)),
+        runArtists.filter((a) => isEditionCity(a.location.city, editionCity)),
         editionSlug,
         dayOrder,
-        chicagosOwnRandom
+        cityOwnRandom
       ),
-    [runArtists, editionSlug, dayOrder, chicagosOwnRandom]
+    [runArtists, editionSlug, editionCity, dayOrder, cityOwnRandom]
   );
 
   const afterDark = useMemo(
@@ -185,17 +186,18 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   );
 
   // Carousel data map — computed after all carousels are ready, for use in both header and view
+  const cityTitle = `${editionCity || "Local"}'s Own`;
   const carouselMap: Record<string, { title: string; artists: RunArtist[] }> = {
     "festival-favorites": { title: "Festival Favorites", artists: festivalFavorites },
     "international-picks": { title: "International Picks", artists: internationalPicks },
-    "chicagos-own": { title: "Chicago's Own", artists: chicagosOwn },
+    hometown: { title: cityTitle, artists: cityOwn },
     "after-dark": { title: "After Dark", artists: afterDark },
   };
 
   // Get current carousel data if viewing a carousel
   const currentCarousel = viewingCarousel ? carouselMap[viewingCarousel] : null;
 
-  if (!hasLoadedRunAppearances) {
+  if (runAppearancesLoadState === "error") {
     return (
       <main className="flex-1 min-w-0 overflow-y-auto themed-scrollbar flex flex-col">
         <AppearancesUnavailable />
@@ -216,33 +218,37 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                 </h1>
                 <p className="text-sm text-white/45 mt-1.5">No pressure. Just explore.</p>
               </div>
-              <div
-                className="relative"
-                onMouseEnter={() => eligibleArtists.length === 0 && setShowSurpriseTooltip(true)}
-                onMouseLeave={() => setShowSurpriseTooltip(false)}
-              >
-                <button
-                  onClick={handleSurpriseMe}
-                  disabled={eligibleArtists.length === 0}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold flex-shrink-0 whitespace-nowrap border transition-all duration-200 ${
-                    eligibleArtists.length === 0
-                      ? "border-white/10 text-white/25 cursor-not-allowed"
-                      : "border-[#00E5FF]/25 text-white/60 hover:border-[#00E5FF]/60 hover:text-[#00E5FF] hover:bg-[#00E5FF]/10 hover:shadow-[0_0_14px_rgba(0,229,255,0.25)]"
-                  }`}
+              {/* Hidden entirely when the roster is empty — a disabled button reading
+                  "All artists reviewed" would be wrong when there is nothing to review. */}
+              {runArtists.length > 0 && (
+                <div
+                  className="relative"
+                  onMouseEnter={() => eligibleArtists.length === 0 && setShowSurpriseTooltip(true)}
+                  onMouseLeave={() => setShowSurpriseTooltip(false)}
                 >
-                  <Shuffle
-                    size={12}
-                    strokeWidth={2}
-                    className={eligibleArtists.length === 0 ? undefined : "text-[#00E5FF]/80"}
-                  />
-                  Surprise Me
-                </button>
-                {showSurpriseTooltip && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 text-xs text-white/60 whitespace-nowrap pointer-events-none">
-                    All artists reviewed
-                  </div>
-                )}
-              </div>
+                  <button
+                    onClick={handleSurpriseMe}
+                    disabled={eligibleArtists.length === 0}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold flex-shrink-0 whitespace-nowrap border transition-all duration-200 ${
+                      eligibleArtists.length === 0
+                        ? "border-white/10 text-white/25 cursor-not-allowed"
+                        : "border-[#00E5FF]/25 text-white/60 hover:border-[#00E5FF]/60 hover:text-[#00E5FF] hover:bg-[#00E5FF]/10 hover:shadow-[0_0_14px_rgba(0,229,255,0.25)]"
+                    }`}
+                  >
+                    <Shuffle
+                      size={12}
+                      strokeWidth={2}
+                      className={eligibleArtists.length === 0 ? undefined : "text-[#00E5FF]/80"}
+                    />
+                    Surprise Me
+                  </button>
+                  {showSurpriseTooltip && (
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 text-xs text-white/60 whitespace-nowrap pointer-events-none">
+                      All artists reviewed
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -483,10 +489,10 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                   />
 
                   <ArtistCarousel
-                    title="Chicago's Own"
-                    artists={chicagosOwn}
-                    carouselType="chicagos-own"
-                    onSeeAll={() => handleSeeAll("chicagos-own")}
+                    title={cityTitle}
+                    artists={cityOwn}
+                    carouselType="hometown"
+                    onSeeAll={() => handleSeeAll("hometown")}
                   />
 
                   <ArtistCarousel

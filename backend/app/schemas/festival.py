@@ -32,6 +32,10 @@ class FestivalRunRead(BaseModel):
     # published lineup entry (the same gate the /appearances feed applies); "announced"
     # while only the lineup exists. Derived at read time, never stored. See ADR-0016.
     schedule_state: Literal["announced", "scheduled"]
+    # True when the run has at least one published, announced lineup entry — i.e. the
+    # /artists feed is non-empty. Always true for a "scheduled" run. Derived at read
+    # time. Lets the app keep a run with no content out of the way. See ADR-0016.
+    has_published_artists: bool
     days: list[FestivalDayRead]
 
 

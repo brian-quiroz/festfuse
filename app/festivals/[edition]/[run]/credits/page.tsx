@@ -3,8 +3,10 @@
 import Footer from "@/app/components/Footer";
 import AppearancesUnavailable from "@/app/components/AppearancesUnavailable";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
+import { useAnnouncedRunArtists } from "@/app/store/announcedRunArtistsStore";
 import { getRunArtistsFromApi } from "@/app/lib/api/mapRunAppearance";
-import { useRunContext } from "@/app/components/RunContextProvider";
+import { getAnnouncedRunArtistsFromApi } from "@/app/lib/api/mapRunArtist";
+import { useRunContext, useRunScheduleMode } from "@/app/components/RunContextProvider";
 
 // imageCredit.sourceUrl points at whichever platform the photo actually came from
 // (Wikimedia Commons, Flickr, ...) — derive the display name from the host rather
@@ -22,10 +24,18 @@ function getSourceName(url: string): string {
 
 export default function CreditsPage() {
   const { editionSlug, runSlug } = useRunContext();
-  const { appearancesBySlug: runAppearancesBySlug, hasLoaded: hasLoadedRunAppearances } =
+  const mode = useRunScheduleMode();
+  // The credits list is schedule-independent — it just needs every artist's photo
+  // attribution — so it reads whichever feed the run has (ADR-0016).
+  const { appearancesBySlug: runAppearancesBySlug, loadState: appearancesLoadState } =
     useRunAppearances(editionSlug, runSlug);
+  const { artists: announcedArtists, loadState: announcedLoadState } = useAnnouncedRunArtists(
+    editionSlug,
+    runSlug
+  );
 
-  if (!hasLoadedRunAppearances) {
+  const loadState = mode === "announced" ? announcedLoadState : appearancesLoadState;
+  if (loadState === "error") {
     return (
       <main className="flex-1 min-w-0 overflow-y-auto flex flex-col">
         <AppearancesUnavailable />
@@ -33,7 +43,10 @@ export default function CreditsPage() {
     );
   }
 
-  const runArtists = getRunArtistsFromApi(runAppearancesBySlug, editionSlug);
+  const runArtists =
+    mode === "announced"
+      ? getAnnouncedRunArtistsFromApi(announcedArtists)
+      : getRunArtistsFromApi(runAppearancesBySlug, editionSlug);
   const creditedArtists = runArtists
     .filter((artist) => artist.imageCredit)
     .sort((a, b) => a.name.localeCompare(b.name));

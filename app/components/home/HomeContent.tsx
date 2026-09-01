@@ -1,25 +1,36 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { Search, Zap, CalendarDays, HelpCircle } from "lucide-react";
 import Footer from "@/app/components/Footer";
 import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useHelpStore } from "@/app/store/helpStore";
+import { useChromeStore } from "@/app/store/chromeStore";
 import { useActiveContextStore } from "@/app/store/activeContextStore";
-import { useRunScheduleState } from "@/app/store/runScheduleStateStore";
+import {
+  useRunScheduleState,
+  useRunHasPublishedArtists,
+} from "@/app/store/runScheduleStateStore";
 import { contextHref } from "@/app/data/festivals";
 import FestivalPicker from "@/app/components/home/FestivalPicker";
 import { useCardTilt } from "@/app/components/home/useCardTilt";
 
 export default function HomeContent() {
   const openHelp = useHelpStore((state) => state.openHelp);
+  const setSidebarVisible = useChromeStore((state) => state.setSidebarVisible);
   // Homepage has no route params — its cards deep-link into the active context. When
   // none is chosen yet, the picker takes over (rendered below).
   const context = useActiveContextStore((s) => s.context);
   const ctx = context ?? { editionSlug: "", runSlug: "" };
   const decisionsByArtist = useEditionDecisions(ctx.editionSlug);
   const runScheduleState = useRunScheduleState(ctx.editionSlug, ctx.runSlug);
+  const runHasPublishedArtists = useRunHasPublishedArtists(ctx.editionSlug, ctx.runSlug);
   const plannerDisabled = runScheduleState === "announced";
+  // Selected run is announced with no lineup in FestFuse yet (ADR-0016): Home falls
+  // back to its no-context picker view instead of dead workflow cards. See
+  // ARCHITECTURE.md § Announced-Lineup Mode.
+  const lineupPending = runScheduleState === "announced" && !runHasPublishedArtists;
   const quickPicksTilt = useCardTilt();
   const exploreTilt = useCardTilt();
   const plannerTilt = useCardTilt();
@@ -32,14 +43,30 @@ export default function HomeContent() {
   );
   const quickPicksLabel = hasQuickPicksActivity ? "Continue Quick Picks" : "Start Quick Picks";
 
-  // No festival chosen yet — the picker is the whole entry experience. Sidebar and
-  // MobileTopBar hide themselves while `context` is null (see Sidebar.tsx), so this
-  // renders full-width and centered. No Footer here — its Lollapalooza/C3 disclaimer
-  // is wrong before a festival is chosen, and there are no photos to credit yet.
-  // Gated on whether a context exists, not on detecting a first visit (ADR-0015).
-  if (context === null) {
+  // Sidebar / MobileTopBar hide for `context === null` on their own but not for
+  // `lineupPending`, so drive the picker view's no-chrome through chromeStore (as
+  // Quick Picks does). Restored on unmount so the sidebar can't get stuck hidden.
+  useEffect(() => {
+    setSidebarVisible(!lineupPending);
+  }, [lineupPending, setSidebarVisible]);
+  useEffect(() => {
+    return () => setSidebarVisible(true);
+  }, [setSidebarVisible]);
+
+  // No festival chosen yet — the picker is the whole entry experience. It renders
+  // full-width and centered. No Footer here: its disclaimer names a specific festival,
+  // which there isn't one of yet, and there are no photos to credit. Gated on whether a
+  // context exists, not on detecting a first visit (ADR-0015).
+  //
+  // `lineupPending` reuses this view verbatim: the selected run has nothing to show, so
+  // Home is back to "pick a festival". The unavailable run is named on the screen the
+  // run's own routes render (AnnouncedLineupPending), not here.
+  if (context === null || lineupPending) {
     return (
-      <main className="flex-1 min-w-0 overflow-y-auto flex flex-col">
+      // Distinct key from the workflow view below so picking a festival remounts <main>
+      // rather than reusing it; otherwise the picker's auto-scroll-to-weekend (mobile)
+      // carries its scroll position into the workflow cards.
+      <main key="picker" className="flex-1 min-w-0 overflow-y-auto flex flex-col">
         {/* Modest wordmark (sidebar scale, not the Home hero) framing the centered
             picker and establishing product identity before any chrome exists. */}
         <div className="flex-shrink-0 px-6 sm:px-8 pt-6">
@@ -56,7 +83,7 @@ export default function HomeContent() {
   }
 
   return (
-    <main className="flex-1 min-w-0 overflow-y-auto flex flex-col">
+    <main key="workflows" className="flex-1 min-w-0 overflow-y-auto flex flex-col">
       {/* xl:justify-center vertically centers content on wide/tall viewports where it would
           otherwise sit pinned near the top with dead space below. Safe because this div stays
           flex-1 with no min-h-0/overflow-hidden of its own: if content is ever taller than the

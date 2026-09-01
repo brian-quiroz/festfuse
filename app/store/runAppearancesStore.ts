@@ -3,15 +3,20 @@
 import { create } from "zustand";
 import type { ApiRunAppearance } from "@/app/types/festivalRunAppearancesApi";
 
+// "loading" is also the not-seeded-yet state (EMPTY_SLICE); "error" means the fetch
+// failed or 404'd; "loaded" covers a real feed, including a legitimately empty one.
+// Shared with announcedRunArtistsStore.
+export type RunFeedLoadState = "loading" | "loaded" | "error";
+
 export interface RunAppearancesSlice {
-  hasLoaded: boolean;
+  loadState: RunFeedLoadState;
   appearancesBySlug: Map<string, ApiRunAppearance[]>;
 }
 
 // Stable reference for any context that has not loaded yet, so a consumer whose
 // context isn't in `byContext` reads the same object every render (no render thrash).
 const EMPTY_SLICE: RunAppearancesSlice = {
-  hasLoaded: false,
+  loadState: "loading",
   appearancesBySlug: new Map(),
 };
 
@@ -28,6 +33,7 @@ interface RunAppearancesState {
     runSlug: string,
     appearances: ApiRunAppearance[]
   ) => void;
+  setLoadFailed: (editionSlug: string, runSlug: string) => void;
 }
 
 // The canonical run-appearances catalog: API-backed data per festival run, shared by
@@ -44,7 +50,20 @@ export const useRunAppearancesStore = create<RunAppearancesState>()((set) => ({
     }
     set((state) => {
       const byContext = new Map(state.byContext);
-      byContext.set(contextKey(editionSlug, runSlug), { appearancesBySlug, hasLoaded: true });
+      byContext.set(contextKey(editionSlug, runSlug), {
+        appearancesBySlug,
+        loadState: "loaded",
+      });
+      return { byContext };
+    });
+  },
+  setLoadFailed: (editionSlug, runSlug) => {
+    set((state) => {
+      const byContext = new Map(state.byContext);
+      byContext.set(contextKey(editionSlug, runSlug), {
+        appearancesBySlug: new Map(),
+        loadState: "error",
+      });
       return { byContext };
     });
   },

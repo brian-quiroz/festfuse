@@ -114,14 +114,16 @@ above applies here — keep it plain and out of the way of the rest of the app.
 
 ## Current Milestone
 
-Shipped: MVP 1.0 (Artist Page, Explore, Quick Picks, Festival Story, Planner) and the
-backend data cutover (PostgreSQL is the sole artist data source, read and write).
+Shipped: MVP 1.0 (Artist Page, Explore, Quick Picks, Festival Story, Planner), the
+backend data cutover (PostgreSQL is the sole artist data source, read and write), and
+most of MVP 2.0's multi-festival and multi-run support (`docs/roadmap/multi-festival.md`,
+ADR-0015): Austin City Limits 2026 as a second edition with two weekend runs, the
+full frontend experience for an announced lineup with no schedule yet (ADR-0016),
+festival- and city-generic content, and video-only publication readiness (ADR-0017).
 
-In progress (MVP 2.0): multi-festival and multi-run support (Austin City Limits 2026
-as a second live festival with two weekend runs, plus presenting an announced lineup
-before its schedule exists; `docs/roadmap/multi-festival.md`, ADR-0015, with the
-announced-lineup API contract in ADR-0016), and broader automated test coverage.
-Roadmaps in `docs/roadmap/`.
+Remaining (MVP 2.0): importing the real ACL roster (`multi-festival.md` section 11, a
+separate data/ops PR), a full `ARCHITECTURE.md` pass for the routing model
+(section 12), and broader automated test coverage.
 
 Not in scope now: accessibility/performance work; accounts; Compare.
 
@@ -195,7 +197,9 @@ improvising.
   directly, and re-check Stack for matching stale status language — this file's
   claims can drift out of sync with themselves, not just with the code.
 
-**Comments.** Default to short code comments. When a decision clears the ADR bar above, put its
-justification there instead of the comment; otherwise keep the reasoning in the comment itself, briefly.
+**Comments.** Short code comments carrying the local "why". Rationale past a sentence or two — shape,
+trade-offs, a reusable pattern — is the signal to move it into `ARCHITECTURE.md` (or an ADR if it
+clears that bar), same commit, leaving a one-line pointer comment. Don't let a comment block become a
+decision's only record. Not retroactive.
 
 **Commits.** Never run `git commit` or `git push` directly — hand over the message text and let the developer run it.

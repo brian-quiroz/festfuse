@@ -385,16 +385,19 @@ a grouped popover with one directly-selectable row per edition/run destination: 
 edition header plus a row per run for multi-run editions, a single collapsed row for
 single-run editions. Selecting a row resolves the destination (the same workflow page in
 the new context; the target's Explore from an artist page, since that slug may not exist
-there; `/` when switching onto Planner for a run with no schedule), then navigates and
-closes the popover. The selector lives inside the sidebar `<aside>`, so it is absent
-from the immersive flows where the whole sidebar is hidden.
+there), then navigates and closes the popover. The Planner route resolves to the target's
+Planner path like any other workflow page — for an announced run that lands on
+`PlannerUnavailable` (see § Announced-Lineup Mode), consistent with navigating there
+directly. The selector lives inside the sidebar `<aside>`, so it is absent from the
+immersive flows where the whole sidebar is hidden.
 
 Planner is gated on whether a run has a public schedule. The root layout fetches
 `GET /api/v1/festivals/{slug}`'s derived `schedule_state` (ADR-0016) for every registry
 edition into the non-persisted `runScheduleStateStore` (`getRunScheduleState`, fail-open
-to `"scheduled"`). For an `"announced"` run the homepage Planner card renders disabled
-and Planner drops from the sidebar nav; the Planner route's own unavailable state is
-still pending.
+to `"scheduled"`). For an `"announced"` run the homepage Planner card renders disabled,
+Planner drops from the sidebar nav, the sidebar's whole "Schedule" group
+(`scheduleItems`) is hidden, and the Planner route renders `PlannerUnavailable` — see
+§ Announced-Lineup Mode.
 
 Artist Detail reads exclusively from the run-scoped FastAPI response for every slug
 (see ADR-0010). A mapper preserves the existing frontend `Artist` contract. API 404s
@@ -580,7 +583,7 @@ app-wide.
 
 The Explore page manages four distinct states:
 
-1. **No filters + no search** → Show curated carousels (Festival Favorites, International Picks, Chicago's Own, After Dark)
+1. **No filters + no search** → Show curated carousels: Festival Favorites, International Picks, `{City}'s Own`, plus After Dark on a scheduled run only (it is set-time based, so an announced run drops it; see § Announced-Lineup Mode).
 2. **Filters only** → Show ActiveFilters bar + ArtistResultsGrid
 3. **Search only** → Show search heading + ArtistResultsGrid
 4. **Search + filters** → Show ActiveFilters bar + ArtistResultsGrid
@@ -615,8 +618,10 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 
 - Festival Favorites — "Is this artist a headliner/sub-headliner?" (objective fact)
 - International Picks — "Is this artist from outside the US?" (objective fact)
-- Chicago's Own — "Is this artist from Chicago?" (objective fact; `location.city ===
-"Chicago"` exactly, not the whole state of Illinois)
+- `{City}'s Own`: "Is this artist from the edition's own city?" (objective fact;
+  `isEditionCity` matches `location.city` to the `FESTIVAL_REGISTRY` city exactly, e.g.
+  "Chicago" for Lollapalooza or "Austin" for ACL, deliberately not the whole
+  surrounding state)
 - After Dark — "Does this artist's primary appearance start at 8:00 PM or later?"
   (objective fact, via the shared `timeStringToMinutes` parser — see "Carousel
   Presentation Strategies" below)
@@ -635,7 +640,7 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 An artist can legitimately be:
 
 - A headliner _and_ international _and_ playing After Dark simultaneously
-- From Chicago _and_ a sub-headliner _and_ have great lyrics
+- From the edition's own city _and_ a sub-headliner _and_ have great lyrics
 
 All three facts are simultaneously true. Hiding an artist from one row because they appear in another would make each row factually incomplete or misleading.
 
@@ -707,6 +712,15 @@ comparing time strings lexicographically.
 **Data Consistency Note:**
 Both functions call `sortByDay()` defensively at the start. This prevents silent bugs if artist data ever gets shuffled or if upstream filters reorder artists unexpectedly. The sort is cheap and provides defensive consistency.
 
+### interleaveByTierShuffled (announced Festival Favorites)
+
+An announced run (ADR-0016) has no days, so `shuffleDayBlocks` does not apply. The
+announced analog groups by **billing tier** instead: seeded-shuffle within each tier,
+then round-robin interleave the tiers in prominence order (Headliner, Sub-headliner,
+…). Headliners lead each pass and are spread through the row rather than front-loaded —
+the same anti-clumping intent as day-blocks, with the tier as the axis of variety.
+International / `{City}'s Own` announced rows use a plain seeded `shuffleArray`.
+
 ---
 
 ## Carousel "See All" Full View
@@ -718,8 +732,8 @@ Clicking "See all" on any carousel row enters a full-page grid view of that row'
 1. **Full grid view, not modal** — "See all" navigates to a full page view, not an overlay. The carousel row's artists display in a standard ArtistResultsGrid.
 
 2. **Stable sort order** — Display order is deterministic and differs from the carousel's shuffled presentation:
-   - **Festival Favorites:** day → billing tier → appearance time → artist name
-   - **All other rows:** day → appearance time → artist name
+   - **Festival Favorites:** day → billing tier → appearance time → artist name (announced: billing tier → name, `sortAnnouncedByTier`)
+   - **All other rows:** day → appearance time → artist name (announced: name A–Z)
 
    This provides consistent reference ordering for browsing, distinct from the carousel's curatorial shuffle.
 
@@ -749,10 +763,7 @@ The following is a **simplified illustration** of how each carousel is computed 
 // → shuffle day-block order → concatenate (see shuffleDayBlocks in app/lib/carousel.ts)
 // Result: each day's billing tier order is explicit & consistent, but day sequence varies per load
 const festivalFavorites = shuffleDayBlocks(
-  allArtists.filter((a) => {
-    const tier = getPrimaryBillingTier(a, ACTIVE_FESTIVAL_ID);
-    return tier === "Headliner" || tier === "Sub-headliner";
-  })
+  allArtists.filter((a) => a.billingTier === "Headliner" || a.billingTier === "Sub-headliner")
 );
 
 // A future curatorial row (see Rule B above) would filter by editorial criteria,
@@ -768,11 +779,11 @@ const internationalPicks = interleaveByDayShuffled(
   allArtists.filter((a) => a.location.country !== "United States")
 );
 
-// Chicago's Own: factual, no suppression (Rule A)
-// Pipeline: filter to Chicago (city only) → sort by day → shuffle within days → interleave
+// {City}'s Own: factual, no suppression (Rule A)
+// Pipeline: filter to the edition's own city → sort by day → shuffle within days → interleave
 // Result: represents all qualifying artists, shuffled presentation breaks file-order bias
-const chicagosOwn = interleaveByDayShuffled(
-  allArtists.filter((a) => a.location.city === "Chicago")
+const cityOwn = interleaveByDayShuffled(
+  allArtists.filter((a) => isEditionCity(a.location.city, editionCity))
 );
 
 // After Dark: factual, no suppression (Rule A)
@@ -784,6 +795,83 @@ const afterDark = interleaveByDayShuffled(
   )
 );
 ```
+
+---
+
+## Announced-Lineup Mode
+
+A festival run can be **announced** (lineup public, no set times) or **scheduled**
+(ADR-0016). The frontend picks one path per run; the two are separate render surfaces,
+not conditionals inside the scheduled components.
+
+**Selecting the mode.** `resolveScheduleState(edition, run)` (`app/lib/api/scheduleState.ts`,
+server-only) reads the run's `schedule_state` from `fetchFestivalEdition` (cached, so
+it is nearly free on a second call in the same request). It fails open to
+`"scheduled"`. Callers: the `[edition]/[run]` segment layout (which feed to fetch and
+which hydrator to render), `explore/page.tsx` and `artist/[slug]/page.tsx` (which
+surface to render), and `planner/page.tsx` via the client hook `useRunScheduleMode()`
+(`RunContextProvider`), which reads the same value out of `runScheduleStateStore`
+(seeded synchronously in the root layout, so it is correct on first client render).
+
+**The feed and store.** `announcedRunArtistsStore` mirrors `runAppearancesStore` but
+holds the schedule-agnostic `/artists` feed. Both stores carry a tri-state `loadState`
+(`"loading" | "loaded" | "error"`); consumers gate `AppearancesUnavailable` on
+`=== "error"`, so a legitimately empty feed renders the normal empty UI. One store or
+the other is seeded per run, never both. `AnnouncedRunArtistsHydrator` copies
+`RunAppearancesHydrator`'s two-timing seed.
+
+**Empty announced run.** A run that is `schedule_state: "announced"` with **no
+published artists yet** (seeded before its roster import) has no usable surface.
+
+- *Routes:* the `[edition]/[run]` layout catches this once — an announced feed that
+  resolved to `[]` — and renders `AnnouncedLineupPending` ("Lineup not available yet")
+  in place of the page, so every route beneath (Explore, Planner, Quick Picks, Artist
+  Detail, Credits, Festival Story) shows the one screen without each page checking.
+  `null` (fetch failure) is not `[]`: it flows to the hydrator and the pages'
+  `AppearancesUnavailable`, as on the scheduled path.
+- *Chrome:* `GET /festivals/{slug}` returns `has_published_artists` per run (derived
+  like `schedule_state`, ADR-0016 — true whenever the `/artists` feed is non-empty,
+  always true for a scheduled run). The root layout seeds it into
+  `runScheduleStateStore` alongside `schedule_state`, so `Sidebar` and `HomeContent`
+  (both outside the run segment) can react. On a route *under* an empty announced run
+  the sidebar shows only Home + How it works + the festival selector. On Home,
+  `HomeContent` falls back to its no-context festival-picker view verbatim rather than
+  dead workflow cards, and — the picker being the whole experience there — drives
+  `chromeStore` to hide the sidebar entirely, the way Quick Picks does. The unavailable
+  run is named on `AnnouncedLineupPending` (rendered by the run's own routes), not on
+  Home. Both store reads fail open (nav shown, has-artists true) when the run isn't in
+  the store.
+- *Picker:* `FestivalPicker` and `FestivalContextSelector` read the same
+  `has_published_artists` flag (through `useIsRunUnavailable`, one call per component,
+  returning a predicate the run loops query, so hook order stays fixed) and render an
+  empty announced run as a disabled "Not available yet" option: a disabled weekend
+  button or dropdown row, or a disabled edition card when *every* run is empty. Native
+  `disabled` on the buttons blocks click and keyboard both. A disabled edition card
+  drops the festival's identity gradient for one shared neutral charcoal (a dim of the
+  identity color would mean a different "disabled" color per festival); identity stays
+  in the name, city, dates, and watermark. `AnnouncedLineupPending` and the `HomeContent`
+  fallback stay regardless; they cover the paths that bypass the picker (a bookmarked or
+  shared run URL, including one that is the active context, whose dropdown row still
+  shows checked-but-disabled).
+
+**Per-surface adaptation:**
+
+| Surface | Announced behavior |
+| --- | --- |
+| **Explore** | `AnnouncedExploreContent` (separate component). No Day / Stage / Schedule-Status facets; the search placeholder drops "or stages". Carousels: Festival Favorites (`interleaveByTierShuffled` — tier round-robin, the day-less analog of `shuffleDayBlocks`), International and `{City}'s Own` (plain seeded `shuffleArray`); no After Dark (set-time only). `AnnouncedArtistCard` (rendered through `ArtistCarousel` / `ArtistResultsGrid`'s `CardComponent` prop) drops the schedule line, schedule toggle, conflict badge, and "N sets". `filterArtists` / `searchArtists` shared as-is. |
+| **Artist Detail** | `FloatingCards` shows a membership line ("Playing At — {festival} — Set times not yet announced") instead of the Date/Time/Stage card; `ArtistActions` hides "Add to Schedule"; the Headliner badge stays (from `billingTier`). The page throws only when a *scheduled* run has an artist with no appearances. |
+| **Planner** | `planner/page.tsx` renders `PlannerUnavailable` (informational, cyan, "Schedule not available yet" + Explore/Quick Picks cards) — the route stays live and linkable, no redirect (context-switching onto it from another run also lands here, not Home). Only ever the "artists, no schedule" shape; a zero-artist run is caught by the layout. The Planner nav item and the sidebar's whole "Schedule" group are hidden for an announced run. |
+| **Quick Picks** | `quick-picks/page.tsx` branches on `useRunScheduleMode()` (state machine unchanged, only the data source and three sub-screens differ). Each sub-screen takes an `announced` prop rather than being forked: `StartScreen` drops the "Days Attending" step, the "Group by Festival Day" toggle, and the per-day "fully reviewed" note; `DecisionScreen` takes a nullable `appearance` and drops the day/time/stage/"N sets" metadata row (Headliner badge reads `artist.billingTier`); `QuickPicksCompleteScreen` uses lineup-wide scope copy and shows the Festival Story card alone, centered, with no Schedule card (there is no schedule to plan). `createAnnouncedSession` builds the queue from every undecided artist, ordered by `interleaveArtistsByTier` (the shared tier interleave keyed on `artist.billingTier` instead of an appearance's); queue items carry null day/appearance fields. |
+| **Festival Story** | `computeStorySignals` takes a `mode`; announced skips the attendance-day scoping (every artist is eligible) and the two schedule-derived dimensions (`stage`, `day`). Billing reads the run-level `artist.billingTier`. See § Festival Story → Announced mode. |
+
+**`{City}'s Own`.** The carousel filter, its title (`` `${editionCity || "Local"}'s Own` ``),
+and the Festival Story hometown signal all key off `isEditionCity(artistCity, editionCity)`
+with the edition's city from `FESTIVAL_REGISTRY`, so all three are correct for any
+festival ("Chicago" for Lollapalooza, "Austin" for ACL). Nothing renders a hardcoded
+city.
+
+**Freshness.** Unchanged — `explore/page.tsx` still generates a fresh per-request seed;
+only the shuffle's grouping axis changes (billing tier / whole-row instead of day).
 
 ---
 
@@ -1205,7 +1293,7 @@ A candidate qualifies only when **all** of:
    same-size subsets did as well.
 3. **Practical effect ≥ 10 percentage points** (`PRACTICAL_EFFECT_MIN_PP`) — a
    statistically rare but trivial gap (e.g. 1pp) still can't headline.
-4. **Signal-specific observed-count floor** — Chicago requires ≥2 picks (≥4 for its
+4. **Signal-specific observed-count floor** — Hometown requires ≥2 picks (≥4 for its
    stronger copy tier), genre-family affinity requires ≥2 picks in the
    leading family, International requires ≥1, the Day signal's top day requires ≥2
    picks on it and ≥2 selected attendance days total.
@@ -1269,17 +1357,17 @@ weekday/weekend hardcoding — works for any combination (e.g. Thursday + Sunday
 
 ### Directional fixes
 
-- **Chicago**: requires `chicagoCount > 0` **and** user rate > the attendance-scoped
-  baseline **and** the standard extremeness/practical-effect gates **and** ≥2 picks
-  (≥4 for the strongest copy tier) — closes an accidental-protection gap where the
-  old fixed 12pp threshold happened to block zero-Chicago results only because
-  Chicago is ~10.5% of the _full_ lineup; attendance scoping breaks that accident
-  (Saturday's eligible lineup alone is ~14% Chicago). Zero/under-indexing never
-  produces a card of any kind. `isChicago` (`app/lib/location.ts`) normalizes
-  trim/case only, deliberately not state-suffix variants like "Chicago, IL" — that
-  shape violates the documented `Location` contract (`app/data/categories.ts`) and is
-  treated as bad data to fix at authoring time, not a formatting variant for
-  comparison logic to absorb.
+- **Hometown** (the edition's own city): requires `hometownCount > 0` **and** user rate
+  > the attendance-scoped baseline **and** the standard extremeness/practical-effect
+  gates **and** ≥2 picks (≥4 for the strongest copy tier). This closes an
+  accidental-protection gap where the old fixed 12pp threshold happened to block
+  zero-hometown results only because Chicago is ~10.5% of Lollapalooza's _full_ lineup;
+  attendance scoping breaks that accident (Saturday's eligible lineup alone is ~14%
+  Chicago). Zero/under-indexing never produces a card of any kind. `isEditionCity`
+  (`app/lib/location.ts`) normalizes trim/case only, matching `location.city` to the
+  `FESTIVAL_REGISTRY` city exactly: deliberately not state-suffix variants like
+  "Chicago, IL" (bad data to fix at authoring time, per the `Location` contract in
+  `app/data/categories.ts`) and not the whole surrounding state.
 - **International**: positive over-indexing only; zero or under-indexed picks omit
   the card rather than showing an inverse "American-heavy" card.
 - **Billing (Headliner/Undercard)**: both directions valid; fixed an unmatched
@@ -1294,6 +1382,39 @@ weekday/weekend hardcoding — works for any combination (e.g. Thursday + Sunday
   random sample, so affinity(strong) more often pairs with breadth(focused) than
   breadth(broad) in practice — a property of what the two metrics measure, not a bug.
 
+### Announced mode
+
+`computeStorySignals` (and `getEligibleArtists` / `getValidPositivePicks`) take a
+`mode: "announced" | "scheduled"` defaulting to `"scheduled"`, so every existing caller
+and `verify-story-signals.ts` are byte-for-byte unchanged (the guard is
+`npm run verify:story`). `FestivalStorySequence` passes `"announced"` for a run with a
+lineup but no schedule (ADR-0016), sourcing artists from the `/artists` feed.
+
+Announced differences, all inside the one function:
+
+- **Eligibility is not attendance-scoped**: every artist is eligible (an announced run
+  has no day axis, and the session carries `attendanceDays: []`). The 5-positive-pick
+  floor still applies, now lineup-wide.
+- **`stage` and `day` are skipped**: both are schedule-derived. `stage` was one of the
+  two safe forms that guarantee the competitive pool never drops below 2 entries.
+- **Billing reads `artist.billingTier`** (the run-level `LineupEntry` tier) instead of
+  the selected-day appearance's, so the Billing dimension keeps both its interpretive
+  and safe forms.
+- **The geographic dimension gains an announced-only safe form** (`countryDiversity`,
+  `extremeness: 1`, "Your picks on the map") that replaces `stage`'s role as the pool's
+  second guaranteed entry. It only emits when neither International nor Country Diversity
+  qualifies, and like every safe form it always loses to a real qualifying signal.
+  `genreBreadth` was deliberately not chosen for this: a `genreBreadth` safe form
+  sitting next to the `genreAffinity` anchor reads as two genre cards. Its supporting
+  line has three forms so no pick set reads awkwardly: a single shared home city is
+  named ("Your picks all come from {City}."), a single country drops the redundant
+  "across 1 country", and only a multi-country set shows both counts (`cityCount` is a
+  display-only metric, never sampled or compared).
+
+The exactly-4-cards guarantee holds: two fixed anchors (`genreAffinity`,
+`decisionProfile`) plus a pool whose floor is still 2 (Billing always + geographic
+always).
+
 ### Copy status
 
 The Festival Story headline/supporting-text matrix has been reviewed and approved by
@@ -1301,7 +1422,10 @@ the product owner. Copy changes should preserve the stable/interpretive strength
 each branch, the no-em-dash style rule, and the general limit of at most one numeric
 value per card (with the safe Billing breakdown as the deliberate exception).
 Validation covers copy-dependent branch boundaries and key dynamic formatting, but
-future wording changes still require product review.
+future wording changes still require product review. The announced-only geographic
+safe form ("Your picks on the map") follows the same rules; its multi-country form
+("...N cities across M countries.") is a second deliberate exception to the
+one-number-per-card limit, alongside the safe Billing breakdown.
 
 ### Known limitations
 
@@ -1514,7 +1638,8 @@ represents the actual relationship more accurately than nesting would.
    - Calls `applyPreset("interested")` then navigates to `/explore`
    - Shows count
 
-**Schedule group:**
+**Schedule group** (hidden entirely for an announced run — no schedule to have items
+against, and "Scheduled" links to a hidden Explore facet; see § Announced-Lineup Mode)**:**
 
 4. **Scheduled** — NEW
    - Calls `applyPreset("scheduled")`, then navigates to `/explore`
@@ -2044,6 +2169,33 @@ conflict/scheduled-state derivation (`app/lib/schedule.ts`'s `getConflictingArti
 etc.) iterates `appearancesBySlug` directly rather than constructing one of these
 projection types, since it doesn't need genre/image/location data.
 
+### Run Artist Shape: one type, two feeds
+
+`RunArtist` (and `QuickPicksRunArtist`) is the projection for **both** run feeds. The
+scheduled `/appearances` feed (`getRunArtistsFromApi`) fills `appearances`; the
+announced `/artists` feed (`getAnnouncedRunArtistsFromApi`, ADR-0016) leaves it `[]` —
+an announced run has a lineup but no set times. `AnnouncedRunArtist` /
+`AnnouncedQuickPicksArtist` (`app/lib/api/mapRunArtist.ts`) are type aliases that name
+the intent at call sites; there is no distinct shape. This is what lets the shared
+pure logic — `filterArtists`, `searchArtists` — run over either mode unchanged, with
+the appearance-dependent branches guarded (`getPrimaryAppearance` throws on `[]`, so
+it is only reached when a day/stage facet is active, which the announced surfaces
+never set).
+
+### Billing Tier
+
+Billing tier is a **run-level** fact — the `LineupEntry`'s, taken from the poster.
+PostgreSQL normalizes it there (ADR-0004); the API returns it on every artist
+projection (`FestivalRunArtistRead.billing_tier`, `FestivalArtistContextRead
+.billing_tier`), and the frontend reads it as `RunArtist.billingTier` /
+`Artist.billingTier`. Sorting (`sortByBillingTier`, `compareBillingTier`), the
+Explore Headliner badge (`ArtistCard`, `AnnouncedArtistCard`), and the Artist Detail
+badge all read that field, so they work with or without a schedule.
+`FestivalAppearance` also carries a per-appearance `billingTier` (the same run-level
+value, copied by `mapFestivalAppearance`); the Quick Picks queue and Festival Story
+still read it there and move to the run-level field alongside their announced-mode
+work (`docs/roadmap/multi-festival.md`).
+
 ---
 
 ## Quick Picks Attendance
@@ -2173,6 +2325,18 @@ helper (`mergeUndercardAndRecognizable`) so the two strategies can't drift apart
 single selected day degenerates safely (both streams collapse to one bucket,
 producing the same pacing as the grouped strategy for that day). No Day Complete
 screens; progress uses the full queue.
+
+### Announced queue
+
+For an announced run (ADR-0016) there is no schedule, so `createAnnouncedSession`
+(`quick-picks/page.tsx`) skips days, attendance, and selected-day appearance
+resolution entirely: eligible = every artist with no verdict from any source, ordered
+by `interleaveArtistsByTier` — the same recognizable/undercard merge as the grouped and
+ungrouped strategies (`mergeUndercardAndRecognizable`, now generic), keyed on each
+artist's run-level `billingTier` rather than an appearance's. Queue items carry
+`appearanceId`/`day`/`dayPosition`/`dayTotal` as null; progress uses the full queue. No
+Day Complete screens. The mode is snapshotted on `QuickPicksSessionConfig` at Start,
+like `attendanceDays`.
 
 ### Multi-appearance disclosure, attendance-scoped
 

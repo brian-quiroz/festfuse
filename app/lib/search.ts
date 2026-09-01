@@ -105,7 +105,9 @@ export function searchArtists(
 
       // Priority 6: Stage — considers only the artist's primary appearance, per
       // app/lib/appearances.ts; a secondary appearance's stage never produces a match.
+      // Skipped for an announced run (ADR-0016): no appearances, and no stage facet.
       if (
+        artist.appearances.length > 0 &&
         getPrimaryAppearance(artist, festivalId, dayOrder)
           .stage.toLowerCase()
           .includes(normalizedQuery)

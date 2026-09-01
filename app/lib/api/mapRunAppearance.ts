@@ -98,6 +98,10 @@ export function mapFestivalAppearance(
 // subtype), not a placeholder for the editorial-only fields (tagline, whySee, about,
 // etc.) the bulk /appearances endpoint deliberately doesn't return. Named to match
 // this endpoint's own vocabulary (FestivalRunArtistRead/ApiRunArtist), not a new term.
+//
+// One RunArtist shape covers both feeds: the scheduled `/appearances` feed fills
+// `appearances`, and the announced `/artists` feed (ADR-0016) leaves it `[]`. See
+// AnnouncedRunArtist in mapRunArtist.ts and ARCHITECTURE.md § Run Artist Shape.
 export interface RunArtist {
   slug: string;
   name: string;
@@ -107,7 +111,13 @@ export interface RunArtist {
   objectPosition?: string;
   genres: Genre[];
   location: Location;
-  appearances: [FestivalAppearance, ...FestivalAppearance[]];
+  // Run-level billing tier (the LineupEntry's, poster-derived — see ARCHITECTURE.md
+  // § Billing Tier). Always populated for real feed data; optional only so the
+  // frozen Artist-shaped provenance snapshot in verify-story-signals.ts still fits.
+  billingTier?: BillingTier;
+  // Empty on the announced feed (no schedule yet). Non-empty on the scheduled feed —
+  // getPrimaryAppearance throws if it is ever empty there.
+  appearances: FestivalAppearance[];
 }
 
 // Groups each artist slug's
@@ -128,9 +138,10 @@ export function getRunArtistsFromApi(
       ...mapImage(first.artist.image),
       genres: mapGenres(first.artist.genres),
       location: mapArtistLocation(first.artist.location),
+      billingTier: mapBillingTier(first.artist.billing_tier),
       appearances: appearances.map((appearance) =>
         mapFestivalAppearance(appearance, festivalId)
-      ) as [FestivalAppearance, ...FestivalAppearance[]],
+      ),
     });
   }
   return runArtists;
@@ -166,13 +177,16 @@ export function getQuickPicksRunArtistsFromApi(
       ...mapImage(first.artist.image),
       genres: mapGenres(first.artist.genres),
       location: mapArtistLocation(first.artist.location),
+      billingTier: mapBillingTier(first.artist.billing_tier),
       appearances: appearances.map((appearance) =>
         mapFestivalAppearance(appearance, festivalId)
-      ) as [FestivalAppearance, ...FestivalAppearance[]],
-      quickPicksTrack: {
-        spotifyId: first.artist.quick_picks_track.spotify_track_id,
-        name: first.artist.quick_picks_track.name,
-      },
+      ),
+      quickPicksTrack: first.artist.quick_picks_track
+        ? {
+            spotifyId: first.artist.quick_picks_track.spotify_track_id,
+            name: first.artist.quick_picks_track.name,
+          }
+        : null,
       similarArtists: mapSimilarArtists(first.artist.similar_artists),
     });
   }
