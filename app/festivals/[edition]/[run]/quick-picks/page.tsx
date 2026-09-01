@@ -343,7 +343,8 @@ export default function QuickPicksPage() {
         session.config.attendanceDays,
         quickPicksArtists,
         decisionsByArtist,
-        dayOrder
+        dayOrder,
+        session.config.mode
       ).length >= MIN_POSITIVE_PICKS_FOR_STORY
     : false;
 
@@ -490,6 +491,7 @@ export default function QuickPicksPage() {
               isOpen={showFestivalStory}
               onClose={() => setShowFestivalStory(false)}
               attendanceDays={session?.config.attendanceDays}
+              mode={session?.config.mode === "announced" ? "announced" : "scheduled"}
             />
           )}
         </>

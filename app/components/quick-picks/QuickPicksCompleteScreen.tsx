@@ -13,8 +13,8 @@ interface Props {
   // explored the entire festival lineup unless every configured day was selected.
   attendanceDays: string[];
   // Announced run (ADR-0016): no schedule, so the scope copy is lineup-wide and the
-  // destination cards are dropped for now. The Festival Story card returns in the
-  // Festival Story announced-mode commit; nothing else on this screen changes.
+  // Schedule destination card is dropped; the Festival Story card renders alone,
+  // centered. Festival Story itself is announced-aware (see FestivalStorySequence).
   announced?: boolean;
   // Whether the attendance-scoped valid positive pick count clears Festival Story's
   // product floor (see MIN_POSITIVE_PICKS_FOR_STORY in useStorySignals.ts). The card
@@ -50,16 +50,11 @@ export default function QuickPicksCompleteScreen({
   // isn't a button (see the storyUnlocked branch below), so focus falls to "Take a
   // Second Look" instead — still the Festival Story slot's own action, not a jump
   // across to the unrelated Schedule card. Only one of these two refs is ever attached
-  // to a real element at a time, matching whichever branch renders.
+  // to a real element at a time, matching whichever branch renders. The Festival Story
+  // card is present in both modes (announced just drops the Schedule card beside it).
   const festivalStoryButtonRef = useRef<HTMLButtonElement>(null);
   const exploreArtistsButtonRef = useRef<HTMLButtonElement>(null);
-  // Announced mode renders no destination cards yet, so neither button exists —
-  // fall through to the hook's default (first focusable = the Exit control).
-  const initialFocusRef = announced
-    ? undefined
-    : storyUnlocked
-      ? festivalStoryButtonRef
-      : exploreArtistsButtonRef;
+  const initialFocusRef = storyUnlocked ? festivalStoryButtonRef : exploreArtistsButtonRef;
 
   // This screen replaces the Quick Picks <main> content rather than floating over it,
   // but still gets dialog semantics: from an assistive-tech perspective it's the same
@@ -151,28 +146,31 @@ export default function QuickPicksCompleteScreen({
           <p className="text-white/50 text-base">{supportingCopy}</p>
         </div>
 
-        {/* Transition flows into destination cards — grouped to signal connection.
-            Hidden in announced mode: the Festival Story card returns wired to an
-            announced-aware Story in a later commit, and there is no schedule to plan. */}
-        {!announced && (
+        {/* Transition flows into the destination(s), grouped to signal connection.
+            Scheduled: Festival Story + Schedule in a two-up grid. Announced (ADR-0016,
+            no schedule): the Festival Story card alone, centered, nothing to plan. */}
         <div className="flex flex-col items-center gap-5 w-full mt-2 sm:mt-4">
           <p className="text-white/70 text-base">Your festival is starting to take shape.</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-            {/* Festival Story — yellow: user intent / personalization. Unlocked: the
+          <div
+            className={
+              announced ? "w-full max-w-xs" : "grid grid-cols-1 sm:grid-cols-2 gap-4 w-full"
+            }
+          >
+            {/* Festival Story, yellow: user intent / personalization. Unlocked: the
                 whole card is the action, as usual. Locked: the card itself goes
-                inert (title/copy only) — the only interactive element is the
+                inert (title/copy only) and the only interactive element is the
                 cyan "Take a Second Look" button below, since that's a navigation/
-                discovery action, not a Festival Story action. This exact
-                threshold copy is valid because the only expected user-facing
-                Story lock condition is fewer than 5 attendance-scoped positive
-                picks. If another eligibility condition is introduced, use
-                reason-specific locked copy. */}
+                discovery action, not a Festival Story action. The threshold copy is
+                valid because the only expected user-facing Story lock condition is
+                fewer than 5 positive picks (attendance-scoped when scheduled,
+                lineup-wide when announced). If another eligibility condition is
+                introduced, use reason-specific locked copy. */}
             {storyUnlocked ? (
               <button
                 ref={festivalStoryButtonRef}
                 onClick={handleFestivalStory}
-                className={`flex flex-col justify-between p-6 rounded-xl border text-left transition duration-150 border-[#E8FF47]/48 bg-[#E8FF47]/[0.09] hover:border-[#E8FF47]/65 hover:bg-[#E8FF47]/[0.13] ${pressingFestivalStory ? "scale-[0.97]" : ""}`}
+                className={`w-full flex flex-col justify-between p-6 rounded-xl border text-left transition duration-150 border-[#E8FF47]/48 bg-[#E8FF47]/[0.09] hover:border-[#E8FF47]/65 hover:bg-[#E8FF47]/[0.13] ${pressingFestivalStory ? "scale-[0.97]" : ""}`}
               >
                 <div className="flex flex-col gap-2">
                   <p className="text-xs uppercase tracking-widest font-bold text-[#E8FF47]">
@@ -187,7 +185,7 @@ export default function QuickPicksCompleteScreen({
                 </div>
               </button>
             ) : (
-              <div className="flex flex-col justify-between p-6 rounded-xl border border-[#E8FF47]/20 bg-[#E8FF47]/[0.04] text-left">
+              <div className="w-full flex flex-col justify-between p-6 rounded-xl border border-[#E8FF47]/20 bg-[#E8FF47]/[0.04] text-left">
                 <div className="flex flex-col gap-2">
                   <p className="text-xs uppercase tracking-widest font-bold text-[#E8FF47]/50">
                     Festival Story
@@ -196,7 +194,9 @@ export default function QuickPicksCompleteScreen({
                     id="festival-story-locked-explanation"
                     className="text-sm leading-relaxed text-white/45"
                   >
-                    Unlocks once 5 artists {dayScopeText} are marked Interested or Must See.
+                    {announced
+                      ? "Unlocks once 5 artists are marked Interested or Must See."
+                      : `Unlocks once 5 artists ${dayScopeText} are marked Interested or Must See.`}
                   </p>
                 </div>
                 {/* h-8 + items-center matches the bare-arrow rows in the other two cards
@@ -218,26 +218,27 @@ export default function QuickPicksCompleteScreen({
               </div>
             )}
 
-            {/* Schedule — cyan: workflow / navigation */}
-            <button
-              onClick={handleSchedule}
-              className={`flex flex-col justify-between p-6 rounded-xl border border-[#00E5FF]/48 bg-[#00E5FF]/[0.09] text-left hover:border-[#00E5FF]/65 hover:bg-[#00E5FF]/[0.13] transition duration-150 ${pressingSchedule ? "scale-[0.97]" : ""}`}
-            >
-              <div className="flex flex-col gap-2">
-                <p className="text-[#00E5FF] text-xs uppercase tracking-widest font-bold">
-                  Schedule
-                </p>
-                <p className="text-white/80 text-sm leading-relaxed">
-                  Build your weekend around your picks.
-                </p>
-              </div>
-              <div className="flex items-center justify-end h-8 mt-4">
-                <ArrowRight size={17} strokeWidth={2.5} className="text-[#00E5FF]/70" />
-              </div>
-            </button>
+            {/* Schedule card, cyan: workflow / navigation. Announced runs have no schedule. */}
+            {!announced && (
+              <button
+                onClick={handleSchedule}
+                className={`flex flex-col justify-between p-6 rounded-xl border border-[#00E5FF]/48 bg-[#00E5FF]/[0.09] text-left hover:border-[#00E5FF]/65 hover:bg-[#00E5FF]/[0.13] transition duration-150 ${pressingSchedule ? "scale-[0.97]" : ""}`}
+              >
+                <div className="flex flex-col gap-2">
+                  <p className="text-[#00E5FF] text-xs uppercase tracking-widest font-bold">
+                    Schedule
+                  </p>
+                  <p className="text-white/80 text-sm leading-relaxed">
+                    Build your weekend around your picks.
+                  </p>
+                </div>
+                <div className="flex items-center justify-end h-8 mt-4">
+                  <ArrowRight size={17} strokeWidth={2.5} className="text-[#00E5FF]/70" />
+                </div>
+              </button>
+            )}
           </div>
         </div>
-        )}
       </div>
     </motion.div>
   );

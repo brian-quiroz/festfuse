@@ -27,6 +27,8 @@ export interface StorySignal {
   deviation?: number;
 }
 
+export type StoryMode = "announced" | "scheduled";
+
 export interface ComputeStorySignalsParams {
   festivalId: string;
   // The run's weekday order, for resolving each artist's selected-day appearance —
@@ -39,6 +41,10 @@ export interface ComputeStorySignalsParams {
   attendanceDays: string[];
   allArtists: RunArtist[];
   decisionsByArtist: Record<string, ArtistDecision>;
+  // "announced" (ADR-0016) switches the whole function to the schedule-agnostic pool;
+  // defaults to "scheduled" so existing callers and verify-story-signals.ts are
+  // untouched. See ARCHITECTURE.md § Festival Story → Announced mode.
+  mode?: StoryMode;
 }
 
 // ============================================================================
@@ -109,8 +115,11 @@ export function getEligibleArtists(
   festivalId: string,
   attendanceDays: string[],
   allArtists: RunArtist[],
-  dayOrder: readonly string[]
+  dayOrder: readonly string[],
+  mode: StoryMode = "scheduled"
 ): RunArtist[] {
+  // Announced: no schedule, so no attendance-day scoping; every artist is eligible.
+  if (mode === "announced") return [...allArtists];
   return allArtists.filter(
     (a) => getSelectedDayAppearance(a, festivalId, attendanceDays, dayOrder) !== undefined
   );
@@ -126,9 +135,10 @@ export function getValidPositivePicks(
   attendanceDays: string[],
   allArtists: RunArtist[],
   decisionsByArtist: Record<string, ArtistDecision>,
-  dayOrder: readonly string[]
+  dayOrder: readonly string[],
+  mode: StoryMode = "scheduled"
 ): RunArtist[] {
-  const eligibleArtists = getEligibleArtists(festivalId, attendanceDays, allArtists, dayOrder);
+  const eligibleArtists = getEligibleArtists(festivalId, attendanceDays, allArtists, dayOrder, mode);
   return eligibleArtists.filter((a) => {
     const decision = decisionsByArtist[a.slug];
     return !!decision && (decision.verdict === "mustSee" || decision.verdict === "interested");
@@ -234,6 +244,7 @@ interface AggregateMetrics {
   genreRate: number; // % of the eligible lineup's distinct genres
   countryCount: number;
   countryRate: number; // % of the eligible lineup's distinct countries
+  cityCount: number; // distinct home cities; display only (announced safe form), never sampled
   dayRate: Record<string, number>; // % of this set on each attended day
 }
 
@@ -243,7 +254,8 @@ function computeAggregateMetrics(
   attendanceDays: string[],
   lineupStageCount: number,
   lineupGenreCount: number,
-  lineupCountryCount: number
+  lineupCountryCount: number,
+  mode: StoryMode = "scheduled"
 ): AggregateMetrics {
   const n = artists.length;
   let headliner = 0;
@@ -252,19 +264,23 @@ function computeAggregateMetrics(
   const stages = new Set<string>();
   const genres = new Set<string>();
   const countries = new Set<string>();
+  const cities = new Set<string>();
   const dayCounts: Record<string, number> = {};
   const familyPresence: Partial<Record<GenreFamily, number>> = {};
 
   for (const artist of artists) {
-    const appearance = appearanceOf(artist);
-    if (appearance.billingTier === "Headliner" || appearance.billingTier === "Sub-headliner")
-      headliner++;
+    // Announced runs have no appearance rows; the run-level LineupEntry tier
+    // (artist.billingTier) carries billing, and stage / day are simply absent.
+    const appearance = mode === "scheduled" ? appearanceOf(artist) : null;
+    const billingTier = appearance ? appearance.billingTier : artist.billingTier;
+    if (billingTier === "Headliner" || billingTier === "Sub-headliner") headliner++;
     if (isChicago(artist.location.city)) chicago++;
     if (artist.location.country !== "United States") international++;
-    stages.add(appearance.stage);
+    if (appearance) stages.add(appearance.stage);
     artist.genres.forEach((g) => genres.add(g));
     countries.add(artist.location.country);
-    dayCounts[appearance.day] = (dayCounts[appearance.day] ?? 0) + 1;
+    cities.add(artist.location.city);
+    if (appearance) dayCounts[appearance.day] = (dayCounts[appearance.day] ?? 0) + 1;
 
     // Each family this artist has at least one genre in counts once, regardless of
     // how many of the artist's genres belong to it.
@@ -294,6 +310,7 @@ function computeAggregateMetrics(
     genreRate: lineupGenreCount === 0 ? 0 : (genres.size / lineupGenreCount) * 100,
     countryCount: countries.size,
     countryRate: lineupCountryCount === 0 ? 0 : (countries.size / lineupCountryCount) * 100,
+    cityCount: cities.size,
     dayRate,
   };
 }
@@ -308,14 +325,22 @@ function computeAggregateMetrics(
 
 export function computeStorySignals(params: ComputeStorySignalsParams): StorySignal[] {
   const { festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist } = params;
+  const mode: StoryMode = params.mode ?? "scheduled";
 
-  const eligibleArtists = getEligibleArtists(festivalId, attendanceDays, allArtists, dayOrder);
+  const eligibleArtists = getEligibleArtists(
+    festivalId,
+    attendanceDays,
+    allArtists,
+    dayOrder,
+    mode
+  );
   const pickedArtists = getValidPositivePicks(
     festivalId,
     attendanceDays,
     allArtists,
     decisionsByArtist,
-    dayOrder
+    dayOrder,
+    mode
   );
 
   // Product floor — below this, Festival Story does not run at all. Callers (Quick
@@ -352,7 +377,10 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
   const topFamilyName: GenreFamily = leadingFamilies[0] ?? ("Unknown" as GenreFamily);
 
   // ===== Lineup-wide denominators (eligible pool only, not the full festival) =====
-  const lineupStageCount = new Set(eligibleArtists.map((a) => appearanceOf(a).stage)).size;
+  const lineupStageCount =
+    mode === "scheduled"
+      ? new Set(eligibleArtists.map((a) => appearanceOf(a).stage)).size
+      : 0;
   const lineupGenreSet = new Set<string>();
   eligibleArtists.forEach((a) => a.genres.forEach((g) => lineupGenreSet.add(g)));
   const lineupCountrySet = new Set(eligibleArtists.map((a) => a.location.country));
@@ -375,7 +403,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     attendanceDays,
     lineupStageCount,
     lineupGenreSet.size,
-    lineupCountrySet.size
+    lineupCountrySet.size,
+    mode
   );
   const sampleMetrics = samples.map((s) =>
     computeAggregateMetrics(
@@ -384,7 +413,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
       attendanceDays,
       lineupStageCount,
       lineupGenreSet.size,
-      lineupCountrySet.size
+      lineupCountrySet.size,
+      mode
     )
   );
 
@@ -565,15 +595,19 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
 
   // ----- Billing Profile / headliner-undercard mix -----
   {
+    // Scheduled: the selected-day appearance's tier. Announced: the run-level
+    // LineupEntry tier on the artist (there is no appearance).
+    const tierOf = (a: RunArtist) =>
+      mode === "scheduled" ? appearanceOf(a).billingTier : a.billingTier;
     const headlinerCount = pickedArtists.filter((a) => {
-      const tier = appearanceOf(a).billingTier;
+      const tier = tierOf(a);
       return tier === "Headliner" || tier === "Sub-headliner";
     }).length;
     const subHeadlinerCount = pickedArtists.filter(
-      (a) => appearanceOf(a).billingTier === "Sub-headliner"
+      (a) => tierOf(a) === "Sub-headliner"
     ).length;
     const headlinerOnlyCount = pickedArtists.filter(
-      (a) => appearanceOf(a).billingTier === "Headliner"
+      (a) => tierOf(a) === "Headliner"
     ).length;
     const undercardCount = totalPositive - headlinerCount;
 
@@ -615,8 +649,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     }
   }
 
-  // ----- Festival Footprint / Stage diversity -----
-  {
+  // ----- Festival Footprint / Stage diversity (scheduled only, schedule-derived) -----
+  if (mode === "scheduled") {
     const highEval = evaluateCandidate(observed.stageRate, values("stageRate"), "high");
     const lowEval = evaluateCandidate(observed.stageRate, values("stageRate"), "low");
 
@@ -770,6 +804,31 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
       geographicCandidate = countryCandidate;
     }
   }
+
+  // Announced's stand-in for Stage's safe form: a plain country-count candidate
+  // (extremeness 1), only when no real geographic signal qualified, so the pool stays
+  // at >= 2 and the Story still gets 4 cards. See ARCHITECTURE.md § Festival Story →
+  // Announced mode.
+  if (mode === "announced" && !geographicCandidate) {
+    const { cityCount, countryCount } = observed;
+    // Three forms so no count reads awkwardly (ARCHITECTURE.md § Festival Story →
+    // Announced mode). pickedArtists is non-empty past the 5-pick floor above.
+    const supportingText =
+      cityCount === 1
+        ? `Your picks all come from ${pickedArtists[0].location.city}.`
+        : countryCount === 1
+          ? `Your picks are based in ${cityCount} cities.`
+          : `Your picks are based in ${cityCount} cities across ${countryCount} countries.`;
+    geographicCandidate = {
+      type: "countryDiversity",
+      userValue: observed.countryRate,
+      headlineTemplate: "Your picks on the map",
+      supportingText,
+      extremeness: 1,
+      practicalEffectPP: 0,
+    };
+  }
+
   if (geographicCandidate) pool.push(geographicCandidate);
 
   // ----- Day concentration (bonus — positive concentration only, >=2 attended days) -----
@@ -782,7 +841,9 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
   // must run the identical "search all days for the best over-index" step, or the
   // comparison is biased toward finding the observed picks more unusual than they are.
   {
-    if (attendanceDays.length >= DAY_MIN_ATTENDANCE_DAYS) {
+    // Scheduled only: day concentration is schedule-derived, and announced sessions
+    // carry no attendance days regardless.
+    if (mode === "scheduled" && attendanceDays.length >= DAY_MIN_ATTENDANCE_DAYS) {
       // Exact (non-sampled) eligible-lineup day distribution — the fixed baseline
       // both the observed search and every sample's search are measured against.
       const eligibleDayRate: Record<string, number> = {};
@@ -865,10 +926,17 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
 }
 
 export function useStorySignals(params: ComputeStorySignalsParams): StorySignal[] {
-  const { festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist } = params;
+  const { festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist, mode } = params;
   return useMemo(
     () =>
-      computeStorySignals({ festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist }),
-    [festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist]
+      computeStorySignals({
+        festivalId,
+        dayOrder,
+        attendanceDays,
+        allArtists,
+        decisionsByArtist,
+        mode,
+      }),
+    [festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist, mode]
   );
 }

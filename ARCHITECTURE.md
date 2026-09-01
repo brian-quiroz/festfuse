@@ -859,8 +859,8 @@ published artists yet** (seeded before its roster import) has no usable surface.
 | **Explore** | `AnnouncedExploreContent` (separate component). No Day / Stage / Schedule-Status facets; the search placeholder drops "or stages". Carousels: Festival Favorites (`interleaveByTierShuffled` — tier round-robin, the day-less analog of `shuffleDayBlocks`), International and `{City}'s Own` (plain seeded `shuffleArray`); no After Dark (set-time only). `AnnouncedArtistCard` (rendered through `ArtistCarousel` / `ArtistResultsGrid`'s `CardComponent` prop) drops the schedule line, schedule toggle, conflict badge, and "N sets". `filterArtists` / `searchArtists` shared as-is. |
 | **Artist Detail** | `FloatingCards` shows a membership line ("Playing At — {festival} — Set times not yet announced") instead of the Date/Time/Stage card; `ArtistActions` hides "Add to Schedule"; the Headliner badge stays (from `billingTier`). The page throws only when a *scheduled* run has an artist with no appearances. |
 | **Planner** | `planner/page.tsx` renders `PlannerUnavailable` (informational, cyan, "Schedule not available yet" + Explore/Quick Picks cards) — the route stays live and linkable, no redirect (context-switching onto it from another run also lands here, not Home). Only ever the "artists, no schedule" shape; a zero-artist run is caught by the layout. The Planner nav item and the sidebar's whole "Schedule" group are hidden for an announced run. |
-| **Quick Picks** | `quick-picks/page.tsx` branches on `useRunScheduleMode()` (state machine unchanged, only the data source and three sub-screens differ). Each sub-screen takes an `announced` prop rather than being forked: `StartScreen` drops the "Days Attending" step, the "Group by Festival Day" toggle, and the per-day "fully reviewed" note; `DecisionScreen` takes a nullable `appearance` and drops the day/time/stage/"N sets" metadata row (Headliner badge reads `artist.billingTier`); `QuickPicksCompleteScreen` uses lineup-wide scope copy and hides the destination cards until the Festival Story announced path lands. `createAnnouncedSession` builds the queue from every undecided artist, ordered by `interleaveArtistsByTier` (the shared tier interleave keyed on `artist.billingTier` instead of an appearance's); queue items carry null day/appearance fields. |
-| **Festival Story** | Adapted in its own section below. |
+| **Quick Picks** | `quick-picks/page.tsx` branches on `useRunScheduleMode()` (state machine unchanged, only the data source and three sub-screens differ). Each sub-screen takes an `announced` prop rather than being forked: `StartScreen` drops the "Days Attending" step, the "Group by Festival Day" toggle, and the per-day "fully reviewed" note; `DecisionScreen` takes a nullable `appearance` and drops the day/time/stage/"N sets" metadata row (Headliner badge reads `artist.billingTier`); `QuickPicksCompleteScreen` uses lineup-wide scope copy and shows the Festival Story card alone, centered, with no Schedule card (there is no schedule to plan). `createAnnouncedSession` builds the queue from every undecided artist, ordered by `interleaveArtistsByTier` (the shared tier interleave keyed on `artist.billingTier` instead of an appearance's); queue items carry null day/appearance fields. |
+| **Festival Story** | `computeStorySignals` takes a `mode`; announced skips the attendance-day scoping (every artist is eligible) and the two schedule-derived dimensions (`stage`, `day`). Billing reads the run-level `artist.billingTier`. See § Festival Story → Announced mode. |
 
 **`{City}'s Own`.** The carousel filter uses `isEditionCity(artistCity, editionCity)`
 with the edition's city from `FESTIVAL_REGISTRY`, so it is correct for any festival.
@@ -1379,6 +1379,39 @@ weekday/weekend hardcoding — works for any combination (e.g. Thursday + Sunday
   random sample, so affinity(strong) more often pairs with breadth(focused) than
   breadth(broad) in practice — a property of what the two metrics measure, not a bug.
 
+### Announced mode
+
+`computeStorySignals` (and `getEligibleArtists` / `getValidPositivePicks`) take a
+`mode: "announced" | "scheduled"` defaulting to `"scheduled"`, so every existing caller
+and `verify-story-signals.ts` are byte-for-byte unchanged (the guard is
+`npm run verify:story`). `FestivalStorySequence` passes `"announced"` for a run with a
+lineup but no schedule (ADR-0016), sourcing artists from the `/artists` feed.
+
+Announced differences, all inside the one function:
+
+- **Eligibility is not attendance-scoped**: every artist is eligible (an announced run
+  has no day axis, and the session carries `attendanceDays: []`). The 5-positive-pick
+  floor still applies, now lineup-wide.
+- **`stage` and `day` are skipped**: both are schedule-derived. `stage` was one of the
+  two safe forms that guarantee the competitive pool never drops below 2 entries.
+- **Billing reads `artist.billingTier`** (the run-level `LineupEntry` tier) instead of
+  the selected-day appearance's, so the Billing dimension keeps both its interpretive
+  and safe forms.
+- **The geographic dimension gains an announced-only safe form** (`countryDiversity`,
+  `extremeness: 1`, "Your picks on the map") that replaces `stage`'s role as the pool's
+  second guaranteed entry. It only emits when neither International nor Country Diversity
+  qualifies, and like every safe form it always loses to a real qualifying signal.
+  `genreBreadth` was deliberately not chosen for this: a `genreBreadth` safe form
+  sitting next to the `genreAffinity` anchor reads as two genre cards. Its supporting
+  line has three forms so no pick set reads awkwardly: a single shared home city is
+  named ("Your picks all come from {City}."), a single country drops the redundant
+  "across 1 country", and only a multi-country set shows both counts (`cityCount` is a
+  display-only metric, never sampled or compared).
+
+The exactly-4-cards guarantee holds: two fixed anchors (`genreAffinity`,
+`decisionProfile`) plus a pool whose floor is still 2 (Billing always + geographic
+always).
+
 ### Copy status
 
 The Festival Story headline/supporting-text matrix has been reviewed and approved by
@@ -1386,7 +1419,10 @@ the product owner. Copy changes should preserve the stable/interpretive strength
 each branch, the no-em-dash style rule, and the general limit of at most one numeric
 value per card (with the safe Billing breakdown as the deliberate exception).
 Validation covers copy-dependent branch boundaries and key dynamic formatting, but
-future wording changes still require product review.
+future wording changes still require product review. The announced-only geographic
+safe form ("Your picks on the map") follows the same rules; its multi-country form
+("...N cities across M countries.") is a second deliberate exception to the
+one-number-per-card limit, alongside the safe Billing breakdown.
 
 ### Known limitations
 
