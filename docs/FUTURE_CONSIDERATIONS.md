@@ -418,6 +418,23 @@ meantime. Revisit if the browse-everyone path proves painful in real use.
 
 ---
 
+## Future Consideration: Empty Curated Carousels Render a Bare Header
+
+`ArtistCarousel` always renders its title + "See all" even when its `artists` array is
+empty, leaving a titled row with an empty scroll strip. It never surfaced while
+Lollapalooza was the only festival (Chicago always has local acts, the lineup always
+has international and after-8pm sets). Generalizing `{City}'s Own` to any edition city
+(multi-festival section 9) makes it reachable in principle: a festival with no acts
+from its own city, or an all-domestic lineup for International Picks.
+
+Not built now: every festival FestFuse is likely to add has home-city acts (the home
+city is usually where the *most* local acts are), so the realistic exposure is thin.
+The fix is a guard in the carousel-list render (or `ArtistCarousel` itself) that omits
+a row with zero artists. Revisit when onboarding a festival whose city or lineup makes
+one of these rows genuinely empty.
+
+---
+
 ## Future Consideration: Merge AnnouncedExploreContent into a mode-aware ExploreContent
 
 `AnnouncedExploreContent` is a separate component from `ExploreContent` (ADR-0016). The
@@ -610,6 +627,12 @@ fixed baseline rather than against a drifting roster. The failure persists (the
 snapshot's Saturday Chicago rate is the same 11.6%) and is left in place on purpose:
 the fixture would need re-calibrating for any new lineup regardless. **Revisit when:**
 reworking `verify-story-signals.ts` for a genuinely different festival lineup.
+
+**Update (multi-festival section 9):** the hometown signal is now generalized
+(`isEditionCity` against the edition's `FESTIVAL_REGISTRY` city), but the harness still
+passes `editionCity: "Chicago"` and exercises only the Lollapalooza snapshot. A
+parallel ACL fixture set is the "genuinely different festival lineup" this entry
+already defers.
 
 ---
 

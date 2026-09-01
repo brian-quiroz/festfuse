@@ -24,11 +24,11 @@ import { useEditionDecisions } from "@/app/store/decisionStore";
 import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useScheduleStore } from "@/app/store/scheduleStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
-import { artistHref, contextHref } from "@/app/data/festivals";
+import { artistHref, contextHref, findEdition } from "@/app/data/festivals";
 import { useRunContext, useRunDays, useRunStages } from "@/app/components/RunContextProvider";
 import { getPrimaryAppearance } from "@/app/lib/appearances";
 import { timeStringToMinutes } from "@/app/lib/time";
-import { isChicago } from "@/app/lib/location";
+import { isEditionCity } from "@/app/lib/location";
 import { getRunArtistsFromApi, type RunArtist } from "@/app/lib/api/mapRunAppearance";
 
 interface ExploreContentProps {
@@ -66,6 +66,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   // operational failure, handled by the early return below. A legitimately empty feed
   // renders the normal (empty) UI.
   const { editionSlug, runSlug } = useRunContext();
+  const editionCity = findEdition(editionSlug)?.city ?? "";
   const decisionsByArtist = useEditionDecisions(editionSlug);
   const dayOrder = useRunDays();
   const availableStages = useRunStages();
@@ -128,7 +129,7 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   // while staying deterministic per page load (server/client produce identical results).
   const festivalFavoritesRandom = useMemo(() => createSeededRandom(seed), [seed]);
   const internationalPicksRandom = useMemo(() => createSeededRandom(seed + 1), [seed]);
-  const chicagosOwnRandom = useMemo(() => createSeededRandom(seed + 2), [seed]);
+  const cityOwnRandom = useMemo(() => createSeededRandom(seed + 2), [seed]);
   const afterDarkRandom = useMemo(() => createSeededRandom(seed + 3), [seed]);
 
   // Carousel rows computed with seeded RNG for deterministic, identical server/client rendering
@@ -158,15 +159,15 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
     [runArtists, editionSlug, dayOrder, internationalPicksRandom]
   );
 
-  const chicagosOwn = useMemo(
+  const cityOwn = useMemo(
     () =>
       interleaveByDayShuffled(
-        runArtists.filter((a) => isChicago(a.location.city)),
+        runArtists.filter((a) => isEditionCity(a.location.city, editionCity)),
         editionSlug,
         dayOrder,
-        chicagosOwnRandom
+        cityOwnRandom
       ),
-    [runArtists, editionSlug, dayOrder, chicagosOwnRandom]
+    [runArtists, editionSlug, editionCity, dayOrder, cityOwnRandom]
   );
 
   const afterDark = useMemo(
@@ -185,10 +186,11 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
   );
 
   // Carousel data map — computed after all carousels are ready, for use in both header and view
+  const cityTitle = `${editionCity || "Local"}'s Own`;
   const carouselMap: Record<string, { title: string; artists: RunArtist[] }> = {
     "festival-favorites": { title: "Festival Favorites", artists: festivalFavorites },
     "international-picks": { title: "International Picks", artists: internationalPicks },
-    "chicagos-own": { title: "Chicago's Own", artists: chicagosOwn },
+    hometown: { title: cityTitle, artists: cityOwn },
     "after-dark": { title: "After Dark", artists: afterDark },
   };
 
@@ -487,10 +489,10 @@ export default function ExploreContent({ seed }: ExploreContentProps) {
                   />
 
                   <ArtistCarousel
-                    title="Chicago's Own"
-                    artists={chicagosOwn}
-                    carouselType="chicagos-own"
-                    onSeeAll={() => handleSeeAll("chicagos-own")}
+                    title={cityTitle}
+                    artists={cityOwn}
+                    carouselType="hometown"
+                    onSeeAll={() => handleSeeAll("hometown")}
                   />
 
                   <ArtistCarousel

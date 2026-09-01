@@ -4,10 +4,13 @@
 // genreDiversity -> genreBreadth, geographicDiversity -> countryDiversity,
 // decisionConfidence -> decisionProfile. journeySummary removed — the signal it
 // backed no longer exists.
+// Image provenance: docs/festival-story-image-sources.md (record every new one).
+// `hometown` and `intro` carry no festival branding: the hometown signal covers any
+// edition's city, so neither image can be edition-specific.
 export const FESTIVAL_STORY_IMAGES: Record<string, string> = {
-  intro: "/festivals/story/intro.jpg",
+  intro: "/festivals/story/first-screen.jpg",
   genreAffinity: "/festivals/story/genre-affinity.jpg",
-  hometown: "/festivals/story/hometown.jpg",
+  hometown: "/festivals/story/hometown-generic.jpg",
   billing: "/festivals/story/billing.jpg",
   international: "/festivals/story/international.jpg",
   stage: "/festivals/story/stage.jpg",

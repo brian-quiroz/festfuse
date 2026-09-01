@@ -8,7 +8,7 @@ import { useExploreFilterStore } from "@/app/store/exploreFilterStore";
 import { useAttendanceDays } from "@/app/store/attendanceStore";
 import { useRunAppearances } from "@/app/store/runAppearancesStore";
 import { useAnnouncedRunArtists } from "@/app/store/announcedRunArtistsStore";
-import { contextHref, festivals } from "@/app/data/festivals";
+import { contextHref, festivals, findEdition } from "@/app/data/festivals";
 import { useRunContext, useRunDays } from "@/app/components/RunContextProvider";
 import { FESTIVAL_STORY_IMAGES } from "@/app/data/festival-story";
 import { getRunArtistsFromApi } from "@/app/lib/api/mapRunAppearance";
@@ -66,6 +66,7 @@ export function FestivalStorySequence({
     attendanceDays: scopedAttendanceDays,
     allArtists: runArtists,
     decisionsByArtist,
+    editionCity: findEdition(editionSlug)?.city ?? "",
     mode,
   });
 

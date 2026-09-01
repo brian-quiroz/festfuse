@@ -12,7 +12,7 @@ interface ArtistCarouselProps {
   title: string;
   artists: RunArtist[];
   cardSize?: "default" | "large";
-  carouselType?: "festival-favorites" | "international-picks" | "chicagos-own" | "after-dark";
+  carouselType?: "festival-favorites" | "international-picks" | "hometown" | "after-dark";
   onSeeAll?: () => void;
   // The card to render per artist. Defaults to the scheduled ArtistCard; announced
   // Explore (ADR-0016) passes AnnouncedArtistCard, which drops the schedule line and

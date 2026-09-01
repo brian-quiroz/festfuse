@@ -118,7 +118,7 @@ export default function AnnouncedExploreContent({ seed }: { seed: number }) {
   const carouselMap: Record<string, { title: string; artists: RunArtist[] }> = {
     "festival-favorites": { title: "Festival Favorites", artists: festivalFavorites },
     "international-picks": { title: "International Picks", artists: international },
-    "chicagos-own": { title: cityTitle, artists: cityArtists },
+    hometown: { title: cityTitle, artists: cityArtists },
   };
   const currentCarousel = viewingCarousel ? carouselMap[viewingCarousel] : null;
 
@@ -312,8 +312,8 @@ export default function AnnouncedExploreContent({ seed }: { seed: number }) {
                 <ArtistCarousel
                   title={cityTitle}
                   artists={cityArtists}
-                  carouselType="chicagos-own"
-                  onSeeAll={() => showCarousel("chicagos-own")}
+                  carouselType="hometown"
+                  onSeeAll={() => showCarousel("hometown")}
                   CardComponent={AnnouncedArtistCard}
                 />
               </div>

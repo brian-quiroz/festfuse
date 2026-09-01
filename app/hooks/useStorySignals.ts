@@ -5,7 +5,7 @@ import type { ArtistDecision } from "@/app/store/decisionStore";
 import { GENRE_TO_FAMILY } from "@/app/data/categories";
 import type { GenreFamily } from "@/app/data/categories";
 import { getSelectedDayAppearance } from "@/app/lib/appearances";
-import { isChicago } from "@/app/lib/location";
+import { isEditionCity } from "@/app/lib/location";
 import {
   buildStorySeed,
   drawSamples,
@@ -41,6 +41,9 @@ export interface ComputeStorySignalsParams {
   attendanceDays: string[];
   allArtists: RunArtist[];
   decisionsByArtist: Record<string, ArtistDecision>;
+  // The edition's own city (FESTIVAL_REGISTRY), for the hometown signal. Passed in by
+  // the caller, like dayOrder, rather than resolved from a constant here.
+  editionCity: string;
   // "announced" (ADR-0016) switches the whole function to the schedule-agnostic pool;
   // defaults to "scheduled" so existing callers and verify-story-signals.ts are
   // untouched. See ARCHITECTURE.md § Festival Story → Announced mode.
@@ -69,7 +72,7 @@ const EXTREMENESS_THRESHOLD = 0.1; // no more than ~10% of random subsets did as
 const PRACTICAL_EFFECT_MIN_PP = 10;
 
 // Extra observed-count floors: statistical rarity alone is not enough for these — a
-// tiny raw count (e.g. one Chicago pick) shouldn't drive a "this defines you" claim
+// tiny raw count (e.g. one hometown pick) shouldn't drive a "this defines you" claim
 // even if it happens to be statistically unusual for the sample size.
 const GENRE_AFFINITY_MIN_PICKS = 2;
 const HOMETOWN_MIN_PICKS = 2;
@@ -233,8 +236,8 @@ function formatFamilyList(names: string[]): string {
 
 interface AggregateMetrics {
   headlinerRate: number; // % Headliner|Sub-headliner
-  chicagoCount: number;
-  chicagoRate: number;
+  hometownCount: number; // artists from the edition's own city
+  hometownRate: number;
   internationalCount: number;
   internationalRate: number;
   maxFamilyRate: number; // % in *this set's own* leading genre family
@@ -255,11 +258,12 @@ function computeAggregateMetrics(
   lineupStageCount: number,
   lineupGenreCount: number,
   lineupCountryCount: number,
+  editionCity: string,
   mode: StoryMode = "scheduled"
 ): AggregateMetrics {
   const n = artists.length;
   let headliner = 0;
-  let chicago = 0;
+  let hometown = 0;
   let international = 0;
   const stages = new Set<string>();
   const genres = new Set<string>();
@@ -274,7 +278,7 @@ function computeAggregateMetrics(
     const appearance = mode === "scheduled" ? appearanceOf(artist) : null;
     const billingTier = appearance ? appearance.billingTier : artist.billingTier;
     if (billingTier === "Headliner" || billingTier === "Sub-headliner") headliner++;
-    if (isChicago(artist.location.city)) chicago++;
+    if (isEditionCity(artist.location.city, editionCity)) hometown++;
     if (artist.location.country !== "United States") international++;
     if (appearance) stages.add(appearance.stage);
     artist.genres.forEach((g) => genres.add(g));
@@ -299,8 +303,8 @@ function computeAggregateMetrics(
 
   return {
     headlinerRate: n === 0 ? 0 : (headliner / n) * 100,
-    chicagoCount: chicago,
-    chicagoRate: n === 0 ? 0 : (chicago / n) * 100,
+    hometownCount: hometown,
+    hometownRate: n === 0 ? 0 : (hometown / n) * 100,
     internationalCount: international,
     internationalRate: n === 0 ? 0 : (international / n) * 100,
     maxFamilyRate: n === 0 ? 0 : (maxFamilyCount / n) * 100,
@@ -324,7 +328,8 @@ function computeAggregateMetrics(
 // ============================================================================
 
 export function computeStorySignals(params: ComputeStorySignalsParams): StorySignal[] {
-  const { festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist } = params;
+  const { festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist, editionCity } =
+    params;
   const mode: StoryMode = params.mode ?? "scheduled";
 
   const eligibleArtists = getEligibleArtists(
@@ -404,6 +409,7 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     lineupStageCount,
     lineupGenreSet.size,
     lineupCountrySet.size,
+    editionCity,
     mode
   );
   const sampleMetrics = samples.map((s) =>
@@ -414,6 +420,7 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
       lineupStageCount,
       lineupGenreSet.size,
       lineupCountrySet.size,
+      editionCity,
       mode
     )
   );
@@ -717,21 +724,21 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
     }
   }
 
-  // ----- Hometown / Chicago (bonus — positive concentration only) -----
+  // ----- Hometown (bonus, positive concentration only; the edition's own city) -----
   {
-    if (observed.chicagoCount >= HOMETOWN_MIN_PICKS) {
-      const highEval = evaluateCandidate(observed.chicagoRate, values("chicagoRate"), "high");
+    if (observed.hometownCount >= HOMETOWN_MIN_PICKS) {
+      const highEval = evaluateCandidate(observed.hometownRate, values("hometownRate"), "high");
       if (highEval.qualifies) {
-        const strong = observed.chicagoCount >= HOMETOWN_STRONG_MIN_PICKS;
+        const strong = observed.hometownCount >= HOMETOWN_STRONG_MIN_PICKS;
         pool.push({
           type: "hometown",
-          userValue: observed.chicagoRate,
+          userValue: observed.hometownRate,
           lineupValue: highEval.mean,
           deviation: highEval.practicalEffectPP,
-          headlineTemplate: strong ? "Rooted in Chicago" : "Chicago in the mix",
+          headlineTemplate: strong ? `Rooted in ${editionCity}` : `${editionCity} in the mix`,
           supportingText: strong
-            ? `Local Chicago talent makes up ${round(observed.chicagoRate)}% of your festival selections.`
-            : `${observed.chicagoCount} of your picks call Chicago home. Local artists earned a place in your lineup.`,
+            ? `Local ${editionCity} talent makes up ${round(observed.hometownRate)}% of your festival selections.`
+            : `${observed.hometownCount} of your picks call ${editionCity} home. Local artists earned a place in your lineup.`,
           extremeness: highEval.extremeness,
           practicalEffectPP: highEval.practicalEffectPP,
         });
@@ -926,7 +933,8 @@ export function computeStorySignals(params: ComputeStorySignalsParams): StorySig
 }
 
 export function useStorySignals(params: ComputeStorySignalsParams): StorySignal[] {
-  const { festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist, mode } = params;
+  const { festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist, editionCity, mode } =
+    params;
   return useMemo(
     () =>
       computeStorySignals({
@@ -935,8 +943,9 @@ export function useStorySignals(params: ComputeStorySignalsParams): StorySignal[
         attendanceDays,
         allArtists,
         decisionsByArtist,
+        editionCity,
         mode,
       }),
-    [festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist, mode]
+    [festivalId, dayOrder, attendanceDays, allArtists, decisionsByArtist, editionCity, mode]
   );
 }

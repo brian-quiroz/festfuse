@@ -583,7 +583,7 @@ app-wide.
 
 The Explore page manages four distinct states:
 
-1. **No filters + no search** → Show curated carousels (Festival Favorites, International Picks, Chicago's Own, After Dark)
+1. **No filters + no search** → Show curated carousels: Festival Favorites, International Picks, `{City}'s Own`, plus After Dark on a scheduled run only (it is set-time based, so an announced run drops it; see § Announced-Lineup Mode).
 2. **Filters only** → Show ActiveFilters bar + ArtistResultsGrid
 3. **Search only** → Show search heading + ArtistResultsGrid
 4. **Search + filters** → Show ActiveFilters bar + ArtistResultsGrid
@@ -618,8 +618,10 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 
 - Festival Favorites — "Is this artist a headliner/sub-headliner?" (objective fact)
 - International Picks — "Is this artist from outside the US?" (objective fact)
-- Chicago's Own — "Is this artist from Chicago?" (objective fact; `location.city ===
-"Chicago"` exactly, not the whole state of Illinois)
+- `{City}'s Own`: "Is this artist from the edition's own city?" (objective fact;
+  `isEditionCity` matches `location.city` to the `FESTIVAL_REGISTRY` city exactly, e.g.
+  "Chicago" for Lollapalooza or "Austin" for ACL, deliberately not the whole
+  surrounding state)
 - After Dark — "Does this artist's primary appearance start at 8:00 PM or later?"
   (objective fact, via the shared `timeStringToMinutes` parser — see "Carousel
   Presentation Strategies" below)
@@ -638,7 +640,7 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 An artist can legitimately be:
 
 - A headliner _and_ international _and_ playing After Dark simultaneously
-- From Chicago _and_ a sub-headliner _and_ have great lyrics
+- From the edition's own city _and_ a sub-headliner _and_ have great lyrics
 
 All three facts are simultaneously true. Hiding an artist from one row because they appear in another would make each row factually incomplete or misleading.
 
@@ -777,11 +779,11 @@ const internationalPicks = interleaveByDayShuffled(
   allArtists.filter((a) => a.location.country !== "United States")
 );
 
-// Chicago's Own: factual, no suppression (Rule A)
-// Pipeline: filter to Chicago (city only) → sort by day → shuffle within days → interleave
+// {City}'s Own: factual, no suppression (Rule A)
+// Pipeline: filter to the edition's own city → sort by day → shuffle within days → interleave
 // Result: represents all qualifying artists, shuffled presentation breaks file-order bias
-const chicagosOwn = interleaveByDayShuffled(
-  allArtists.filter((a) => a.location.city === "Chicago")
+const cityOwn = interleaveByDayShuffled(
+  allArtists.filter((a) => isEditionCity(a.location.city, editionCity))
 );
 
 // After Dark: factual, no suppression (Rule A)
@@ -862,10 +864,11 @@ published artists yet** (seeded before its roster import) has no usable surface.
 | **Quick Picks** | `quick-picks/page.tsx` branches on `useRunScheduleMode()` (state machine unchanged, only the data source and three sub-screens differ). Each sub-screen takes an `announced` prop rather than being forked: `StartScreen` drops the "Days Attending" step, the "Group by Festival Day" toggle, and the per-day "fully reviewed" note; `DecisionScreen` takes a nullable `appearance` and drops the day/time/stage/"N sets" metadata row (Headliner badge reads `artist.billingTier`); `QuickPicksCompleteScreen` uses lineup-wide scope copy and shows the Festival Story card alone, centered, with no Schedule card (there is no schedule to plan). `createAnnouncedSession` builds the queue from every undecided artist, ordered by `interleaveArtistsByTier` (the shared tier interleave keyed on `artist.billingTier` instead of an appearance's); queue items carry null day/appearance fields. |
 | **Festival Story** | `computeStorySignals` takes a `mode`; announced skips the attendance-day scoping (every artist is eligible) and the two schedule-derived dimensions (`stage`, `day`). Billing reads the run-level `artist.billingTier`. See § Festival Story → Announced mode. |
 
-**`{City}'s Own`.** The carousel filter uses `isEditionCity(artistCity, editionCity)`
-with the edition's city from `FESTIVAL_REGISTRY`, so it is correct for any festival.
-The carousel *title* and the Festival Story hometown signal are generalized off
-"Chicago" separately (multi-festival roadmap section 9).
+**`{City}'s Own`.** The carousel filter, its title (`` `${editionCity || "Local"}'s Own` ``),
+and the Festival Story hometown signal all key off `isEditionCity(artistCity, editionCity)`
+with the edition's city from `FESTIVAL_REGISTRY`, so all three are correct for any
+festival ("Chicago" for Lollapalooza, "Austin" for ACL). Nothing renders a hardcoded
+city.
 
 **Freshness.** Unchanged — `explore/page.tsx` still generates a fresh per-request seed;
 only the shuffle's grouping axis changes (billing tier / whole-row instead of day).
@@ -1290,7 +1293,7 @@ A candidate qualifies only when **all** of:
    same-size subsets did as well.
 3. **Practical effect ≥ 10 percentage points** (`PRACTICAL_EFFECT_MIN_PP`) — a
    statistically rare but trivial gap (e.g. 1pp) still can't headline.
-4. **Signal-specific observed-count floor** — Chicago requires ≥2 picks (≥4 for its
+4. **Signal-specific observed-count floor** — Hometown requires ≥2 picks (≥4 for its
    stronger copy tier), genre-family affinity requires ≥2 picks in the
    leading family, International requires ≥1, the Day signal's top day requires ≥2
    picks on it and ≥2 selected attendance days total.
@@ -1354,17 +1357,17 @@ weekday/weekend hardcoding — works for any combination (e.g. Thursday + Sunday
 
 ### Directional fixes
 
-- **Chicago**: requires `chicagoCount > 0` **and** user rate > the attendance-scoped
-  baseline **and** the standard extremeness/practical-effect gates **and** ≥2 picks
-  (≥4 for the strongest copy tier) — closes an accidental-protection gap where the
-  old fixed 12pp threshold happened to block zero-Chicago results only because
-  Chicago is ~10.5% of the _full_ lineup; attendance scoping breaks that accident
-  (Saturday's eligible lineup alone is ~14% Chicago). Zero/under-indexing never
-  produces a card of any kind. `isChicago` (`app/lib/location.ts`) normalizes
-  trim/case only, deliberately not state-suffix variants like "Chicago, IL" — that
-  shape violates the documented `Location` contract (`app/data/categories.ts`) and is
-  treated as bad data to fix at authoring time, not a formatting variant for
-  comparison logic to absorb.
+- **Hometown** (the edition's own city): requires `hometownCount > 0` **and** user rate
+  > the attendance-scoped baseline **and** the standard extremeness/practical-effect
+  gates **and** ≥2 picks (≥4 for the strongest copy tier). This closes an
+  accidental-protection gap where the old fixed 12pp threshold happened to block
+  zero-hometown results only because Chicago is ~10.5% of Lollapalooza's _full_ lineup;
+  attendance scoping breaks that accident (Saturday's eligible lineup alone is ~14%
+  Chicago). Zero/under-indexing never produces a card of any kind. `isEditionCity`
+  (`app/lib/location.ts`) normalizes trim/case only, matching `location.city` to the
+  `FESTIVAL_REGISTRY` city exactly: deliberately not state-suffix variants like
+  "Chicago, IL" (bad data to fix at authoring time, per the `Location` contract in
+  `app/data/categories.ts`) and not the whole surrounding state.
 - **International**: positive over-indexing only; zero or under-indexed picks omit
   the card rather than showing an inverse "American-heavy" card.
 - **Billing (Headliner/Undercard)**: both directions valid; fixed an unmatched

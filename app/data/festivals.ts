@@ -39,6 +39,10 @@ export type EditionConfig = {
   // as the picker card watermark. Not an identifier — that is `slug`.
   shortName: string;
   city: string;
+  // The producing company, for the Footer's non-affiliation disclaimer. Per-edition,
+  // not hard-coded: Lollapalooza and ACL are both C3 Presents today, but a future
+  // festival (e.g. Coachella / Goldenvoice) would differ.
+  promoter: string;
   year: number;
   runs: readonly RunConfig[];
 };
@@ -49,6 +53,7 @@ export const FESTIVAL_REGISTRY: readonly EditionConfig[] = [
     name: "Lollapalooza 2026",
     shortName: "Lolla",
     city: "Chicago",
+    promoter: "C3 Presents",
     year: 2026,
     runs: [
       {
@@ -64,6 +69,7 @@ export const FESTIVAL_REGISTRY: readonly EditionConfig[] = [
     name: "Austin City Limits 2026",
     shortName: "ACL",
     city: "Austin",
+    promoter: "C3 Presents",
     year: 2026,
     runs: [
       {

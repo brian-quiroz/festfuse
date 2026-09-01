@@ -118,6 +118,7 @@ function run(
     attendanceDays,
     allArtists: artists,
     decisionsByArtist,
+    editionCity: "Chicago",
   });
 }
 function dims(signals: ReturnType<typeof run>): string[] {
