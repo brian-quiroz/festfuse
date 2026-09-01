@@ -145,7 +145,12 @@ step that builds it, not here.
 
 ## Current boundary
 
-Sections 2 through 7 have shipped. The backend (2, 3, 4): seeding is config-driven, ACL
+Sections 2 through 10 have shipped. Section 11 (import the ACL roster) is the only
+remaining piece, and stays a separate PR by design. Section 12 (the `ARCHITECTURE.md`
+rewrite) is a follow-up.
+
+Sections 2 through 7 shipped one branch per section. The backend (2, 3, 4): seeding is
+config-driven, ACL
 2026's hierarchy (two runs, days, stages) is seeded on both databases,
 `build_roster_payloads.py` can add an artist who already exists to another run through
 `add_existing_artist_to_run`, and the bulk read path fully describes a run whose lineup
@@ -166,15 +171,17 @@ through `useEditionDecisions`; schedules and attendance-day selections are keyed
 scoped stores are at `persist` `version: 1` with a static, idempotent `migrate` that
 re-scopes a returning Lollapalooza user's existing data.
 
-The remaining frontend gaps are the later sections: the
-announced-lineup-without-schedule UI including the Planner-route unavailable state (8),
-and festival/city-generic copy (9). Support for artists with no Spotify presence is not
-built (10) and the ACL roster is not imported (11).
+The announced-lineup-without-schedule UI (8), festival/city-generic content (9), and
+video-only publication readiness (10) shipped together on
+`feat/announced-lineup-experience`. The ACL roster is not yet imported (11).
 
 ## Rollout sequence
 
-One branch and PR per section, matching how `artist-authoring.md`'s sections shipped.
-Each section's checkpoint is its merge gate.
+One branch and PR per section, matching how `artist-authoring.md`'s sections shipped,
+with one exception: sections 8, 9, and 10 shipped as a single branch
+(`feat/announced-lineup-experience`) because they all reshape the same ACL surfaces and
+splitting them would have meant three rounds of the same regression pass. Each
+section's checkpoint is still its own merge gate.
 
 The production **frontend deploy is batched**: sections 6 onward merge to `main`
 individually but production is not rebuilt until the section 11 roster import lands, so
@@ -403,74 +410,102 @@ lint pass; `npm run verify:story` unchanged at 86/87.
 
 ### 8. Announced-lineup-without-schedule behavior (frontend)
 
-**Status: not started.**
+**Status: completed.** Shipped with sections 9 and 10 on one combined branch
+(`feat/announced-lineup-experience`), since all three converge on the same ACL surfaces.
 
-The contract is the "Announced lineup, no schedule yet" spec above.
+- The `[edition]/[run]` segment layout resolves `schedule_state` (`resolveScheduleState`,
+  server-only; `runScheduleStateStore` seeded synchronously in the root layout for the
+  client) and fetches one feed: `/appearances` + `RunAppearancesHydrator` for a
+  scheduled run, `/artists` + `AnnouncedRunArtistsHydrator` for an announced one, never
+  both (ADR-0016). `announcedRunArtistsStore` carries a tri-state `loadState`
+  (`"loading" | "loaded" | "error"`) so a legitimately empty feed is not read as a load
+  failure. `RunArtist` is one shape for both feeds; an announced artist has
+  `appearances: []` and a `billingTier` from the feed.
+- Per surface: Explore keeps the schedule-independent carousels (Festival Favorites,
+  International, `{City}'s Own`) and drops After Dark and day grouping; Artist Detail
+  shows a membership line instead of the Playing At card and hides "Add to Schedule"
+  (the zero-appearance throw moved from the mapper to the page and fires only for a
+  *scheduled* run); Quick Picks sub-screens take an `announced` prop (no Days / Grouping
+  steps, nullable appearance, lineup-wide completion copy, `createAnnouncedSession` +
+  `interleaveArtistsByTier`); Festival Story's `computeStorySignals` takes a `mode`
+  (announced skips attendance-day scoping, `stage`, and `day`; billing reads the
+  run-level tier; an announced-only geographic safe form keeps the four-card guarantee);
+  Planner renders `PlannerUnavailable` with no redirect.
+- An **empty announced run** (announced, zero published artists) has no dead ends: the
+  segment layout renders `AnnouncedLineupPending` for every route under it,
+  `GET /festivals/{slug}` gains a derived per-run `has_published_artists`, `Sidebar` and
+  `HomeContent` react outside the run segment, and `FestivalPicker` /
+  `FestivalContextSelector` grey the run out.
+- The Quick Picks "…is fully reviewed…" day-completion copy is confirmed absent in
+  announced mode.
+- `npm run verify:story` stays 86/87: the scheduled signal path is byte-identical
+  (`mode` defaults to `"scheduled"`).
+- No new ADR: ADR-0015 (hide, don't disable) and ADR-0016 (the API contract) cover it.
 
-- `mapFestivalArtistResponse` currently throws on zero appearances or any cancelled
-  appearance; it represents a no-schedule / cancelled state instead.
-- Explore, Quick Picks, Artist Detail, and Festival Story adapt per the spec (hide,
-  don't disable in place).
-- Quick Picks day-completion copy ("Friday is fully reviewed and won't appear in this
-  session") must not fire for a run with no schedule — an empty day there means "no
-  artists", not "all reviewed". This falls out of running Quick Picks in full-lineup
-  mode with all day-specific copy hidden, but verify it explicitly.
-- Planner renders an unavailable route state; its card and sidebar gating are in
-  section 6.
-- Only the visual styling of each adapted screen and the exact copy are step
-  decisions.
-
-**Checkpoint:** a run with an announced lineup and no schedule is navigable across
-Explore, Quick Picks, Artist Detail, and Festival Story with no schedule controls
-rendered; Planner is cleanly unavailable.
+**Checkpoint reached:** a run with an announced lineup and no schedule is navigable
+across Explore, Quick Picks, Artist Detail, and Festival Story with no schedule
+controls rendered; Planner is cleanly unavailable; an empty announced run bottoms out
+in one "not available yet" screen rather than broken pages.
 
 ### 9. Festival- and city-generic content
 
-**Status: not started.**
+**Status: completed** (same branch as section 8).
 
-- The Chicago-specific Explore carousel and the Festival Story hometown signal key off
-  the active edition's city, not a hardcoded "Chicago".
-- Festival name in copy (Story intro headline, Artist Detail "Playing At" title,
-  Footer disclaimer) comes from the registry, not literals.
-- `verify-story-signals.ts` stays calibrated to the frozen Lollapalooza provenance
-  snapshot; a separate ACL fixture pass is out of scope (note it in
-  `docs/FUTURE_CONSIDERATIONS.md`).
+- The Explore `{City}'s Own` carousel and the Festival Story hometown signal both key
+  off `isEditionCity(city, editionCity)` with the edition's `FESTIVAL_REGISTRY` city;
+  the carousel title is `` `${editionCity || "Local"}'s Own` ``. `isChicago` is deleted.
+  City-exact matching (not the whole surrounding state) is a documented deliberate
+  choice (ARCHITECTURE.md § Explore → Row Classification), so no "consider state" future
+  note was added.
+- Festival name in copy comes from the registry: the Story intro headline, the Artist
+  Detail "Playing At" title, and the Footer disclaimer. `EditionConfig` gains a
+  `promoter` field so "C3 Presents" is not hard-coded either.
+- The Festival Story `intro` and `hometown` card images are generic (no festival
+  branding), since the hometown card now stands for any edition's city; provenance is
+  in `docs/festival-story-image-sources.md`.
+- `verify-story-signals.ts` stays on the frozen Lollapalooza provenance snapshot
+  (passes `editionCity: "Chicago"`); an ACL fixture pass is deferred
+  (`docs/FUTURE_CONSIDERATIONS.md`).
 
-**Checkpoint:** no hardcoded "Chicago" or "Lollapalooza" reaches the UI; ACL renders
-its own city and name.
+**Checkpoint reached:** a grep of `app/` for "Chicago" / "Lollapalooza" finds only
+registry data, the localStorage-migration comments, and the band name "Chicago Made";
+ACL renders "Austin" and "Austin City Limits 2026" throughout.
 
 ### 10. Support artists with little or no Spotify presence
 
-**Status: not started.**
+**Status: completed** (same branch as section 8; **ADR-0017**).
 
 Surfaced while preparing the ACL roster: some acts have no Spotify artist profile and
 no findable Spotify tracks at all, and at least one has no YouTube or TikTok either.
-One is a jazz collective, but not one that decomposes into individually-streamable
-members the way the existing `listenFirst` override assumes (that override still needs
-curated tracks that each carry a real Spotify track ID).
 
-Today this blocks publication outright. Readiness (`artist-data-model.md`) hard-requires
-one playable Quick Picks flagship track, where "playable" means a validated Spotify
-**track** ID, plus either a Spotify artist ID or a complete Listen First override. An
-act with zero Spotify presence can satisfy none of these, and Quick Picks / Artist
-Detail have no affordance for an artist with no audio preview.
+- **A usable featured live-performance video is a third publication-readiness tier**,
+  alongside a Spotify artist ID and a complete Listen First set.
+  `evaluate_artist_publication` no longer fires `MISSING_LISTEN_FIRST` or
+  `MISSING_QUICK_PICKS` when the artist's featured `ArtistVideo` is present and
+  available. Identity, location, and the genre set stay required; an artist with none
+  of the three preview signals is still blocked.
+- A video-only artist publishes with **no Quick Picks track**:
+  `FestivalRunArtistRead.quick_picks_track` and `ArtistCoreRead.quick_picks_track`
+  become nullable, and the Quick Picks decision card / Artist Detail Listen First block
+  are already hidden when the data is absent (no placeholder).
+- `FestivalRunArtistRead` gains a poster-derived `billing_tier` so Headliner badges and
+  the Festival Story billing signal survive on a schedule-less run.
+- `publish_artists` names video-only artists under "video only, no audio preview".
+- Docs: ADR-0017, `artist-data-model.md` "Readiness", the editorial process/handbook,
+  and `docs/FUTURE_CONSIDERATIONS.md` (Facebook / SoundCloud / Bandcamp preview
+  sourcing deferred).
 
-- Decide what "support" means: the flagship track becomes optional with graceful
-  handling in the Quick Picks decision card and Artist Detail; or a non-Spotify preview
-  source is allowed (YouTube, Bandcamp, Apple Music); or an explicit no-preview artist
-  state is introduced. This is a data-model plus product decision and earns its own ADR.
-- The affected ACL artists are named in the roster prep; the import (section 11) waits
-  on this so the full roster can publish rather than importing everyone else and
-  stranding these as permanent drafts.
-- Only the mechanism is in scope here, not editorial polish.
-
-**Checkpoint:** an artist with no Spotify presence can be authored, published, and shown
-across Quick Picks and Artist Detail with a coherent experience, not a broken or empty
-one.
+**Checkpoint reached:** an artist with no Spotify presence publishes via the video tier
+and renders coherently across Quick Picks (no audio section, decision buttons intact)
+and Artist Detail (leans on the featured video); an artist with no preview of any kind
+stays a draft.
 
 ### 11. Import the ACL 2026 roster
 
-**Status: not started.**
+**Status: not started.** This is the one part of the plan that stays a separate PR:
+data plus an ops step, isolated so the write to the hosted Railway database gets its own
+review. All of the code it depends on (sections 8, 9, 10) has merged; the CSV import
+tooling was built alongside them.
 
 - Hand-author the ACL roster CSV(s), one per run, per
   [`../process/artist-editorial-process.md`](../process/artist-editorial-process.md).
@@ -478,19 +513,29 @@ one.
   Lollapalooza artists gain an ACL `LineupEntry` (section 3).
 - Curate three genres, a primary, and one Quick Picks track for each genuinely new
   artist, then run the guarded `publish_artists.py` — never a manual status flip.
-  Artists with no Spotify presence follow whatever section 10 established for the
-  flagship-track and preview requirements.
+  Artists with no Spotify presence use section 10's video tier.
 - Apply to both the local and the hosted Railway database.
 - Editorial review (per-run similar-artist sets, ACL-specific `about`) is deferred to
   the parallel editorial track. Note the growing per-run re-curation cost in
   `docs/FUTURE_CONSIDERATIONS.md` "Similar-Artist Relationship Graph".
+
+**New tooling available for this step** (built on the sections 8-10 branch): the
+roster-only CSV mode and `attach_run_schedule` let a run be imported as an announced
+lineup first and given its schedule later, one CSV per mode per file. This enables a
+**staged weekend-2 rollout**: import weekend-1 with its full schedule (scheduled) and
+weekend-2 roster-only (announced), deploy, walk the announced screens once against real
+production data, then attach weekend-2's schedule from its full CSV and confirm it
+renders as a normal scheduled run.
 
 **Checkpoint:** ACL 2026 is fully imported and published to the baseline, both
 weekends, on the local and hosted database.
 
 ### 12. Documentation closeout
 
-**Status: not started.**
+**Status: not started.** `AGENTS.md`'s Current Milestone and this roadmap's per-section
+status were updated when sections 8-10 merged; the `ARCHITECTURE.md` rewrite, the
+stale-reference sweep below, and the user-facing `README.md` (which waits on the ACL
+roster actually being live) remain.
 
 - `ARCHITECTURE.md`: rewrite "Festival Configuration" for the registry +
   active-context + routing model; document the no-schedule states; resolve the

@@ -653,17 +653,16 @@ FestivalRun-scoped Similar Artist set, making the frontend contract harder to by
 
 ## Future Consideration: Artist Detail Schedule States
 
-The run-scoped API can represent an announced lineup entry before its schedule exists,
-but the current Artist Detail UI assumes every displayed Artist has at least one
-scheduled Appearance. Before consuming an Artist with no Appearances, decide and test
-the intended user experience, including whether to show a "schedule coming soon"
-message and what happens to schedule actions and the Playing At card.
+**No-schedule case: resolved** (multi-festival section 8). Artist Detail renders a
+schedule-less announced entry with a membership line instead of the Playing At card and
+no "Add to Schedule"; the zero-appearance throw fires only for a *scheduled* run. The
+cancelled-appearance case below remains.
 
-The API can also return cancelled Appearances, while the current TypeScript-backed UI
-has no cancellation state. Decide how cancellations, optional reasons, and schedule
-store behavior should appear before mapping them into the legacy frontend `Artist`
-shape. Until both designs are approved, the API adapter rejects these states so the
-temporary TypeScript fallback preserves existing behavior.
+The API can return cancelled Appearances, while the current TypeScript-backed UI has no
+cancellation state. Decide how cancellations, optional reasons, and schedule store
+behavior should appear before mapping them into the frontend `Artist` shape. Until that
+design exists, the per-artist API adapter still rejects a cancelled appearance so the
+fallback preserves existing behavior.
 
 The bulk `read_festival_run_appearances` query (behind `runAppearancesStore`, shared
 by Explore/Planner/Quick Picks/Festival Story) takes the simpler route of excluding
@@ -692,10 +691,29 @@ mostly-published run in `"announced"` indefinitely.
 The fix at that point is an explicit signal that a run's schedule is public: a boolean
 or timestamp on `FestivalRun`, set deliberately and decoupled from Appearance counts.
 Do not build it before the workflow that needs it exists. Distinct from "Artist Detail
-Schedule States" above, which concerns the per-artist no-schedule and cancelled-state
-UI.
+Schedule States" above (the per-artist UI) and from "Announced Lineup With Day But No
+Set Time" below (a third schedule state).
 
 ---
+
+## Future Consideration: Announced Lineup With Day But No Set Time
+
+`schedule_state` is binary: a run is `"announced"` (no schedule at all) or `"scheduled"`
+(day, time, and stage for every set). Festival posters, though, publish each act's
+**day** weeks before set times exist (ACL and Coachella both do this), so a "day known,
+time unknown" import is technically possible and would restore By-Day Quick Picks, the
+Explore day filter, and day-grouped carousels during the announced window.
+
+Not built. It is a genuine third schedule state, not a tweak: nullable `Appearance`
+start/end times plus a migration on both databases, an amended ADR-0016 contract (its
+own ADR), three-way mode branching on every screen that currently branches two ways,
+and a two-step `attach_run_schedule` (attach days, then attach times). That is a lot of
+surface for a transient window. The binary kept the announced-lineup work a shippable
+unit.
+
+**Revisit if** announced windows prove long and genuinely painful without day
+information (Coachella 2027 is the likely test, its lineup dropping months before set
+times).
 
 ## Future Consideration: Wider Consumption of the Run-Appearances Store
 
