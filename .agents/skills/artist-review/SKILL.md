@@ -35,6 +35,11 @@ Essentials:
   genres and location as normal, the `about` line marked "deferred", and plausible
   `about` facts from sources already open for genres or location appended to
   `docs/process/artist-about-leads.md` with their URLs. No extra research for the leads.
+- Per artist: fetch the stored Spotify artist URL first — canonical name plus distinctive
+  facts (exact tracks, dates, collaborators) to identify every other source by. Cite only
+  pages you opened; a search-result summary is a pointer, not a source. Every genre a
+  source names is accounted for — used, mapped to a table entry with the mapping stated,
+  or flagged as a gap — never invented from adjacent ones.
 - Present a per-artist report and wait for explicit approval before building a payload.
   Sources for every factual field. Never sound certain when the research is thin —
   surface the options instead.

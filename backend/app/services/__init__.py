@@ -20,12 +20,26 @@ from app.services.artist_publication import (
     publish_ready_artists,
     qualifies_by_video_only,
 )
+from app.services.genre_authoring import (
+    GenreAuthoringError,
+    GenreCreation,
+    GenreDeletion,
+    create_genre,
+    delete_genre,
+    derive_genre_slug,
+)
 
 __all__ = [
     "ArtistAuthoringError",
     "DeletionSummary",
     "EditSummary",
     "FieldChange",
+    "GenreAuthoringError",
+    "GenreCreation",
+    "GenreDeletion",
+    "create_genre",
+    "delete_genre",
+    "derive_genre_slug",
     "add_existing_artist_to_run",
     "attach_run_schedule",
     "create_artist",

@@ -23,7 +23,7 @@ A few decisions below are worth reading first if you're skimming:
 
 - **[Multi-appearance modeling](#multi-appearance-support)** — repeat festival performances are modeled as separate appearance records tied back to one artist, not duplicated artist rows, so the same artist can play multiple sets without data drift between them.
 - **[Backend persistence foundation](#backend-persistence-foundation)** — a normalized PostgreSQL schema behind FastAPI is the sole artist data source, read and write, with Alembic-managed migrations and PostgreSQL integration tests over the read layer.
-- **[Category normalization at scale](#categories-design)** — 448 raw "what to expect" phrases collapsed to 36 canonical tags, 285 "best for" phrases to 15, and 123 genres grouped into 10 families, all typed from one source of truth.
+- **[Category normalization at scale](#categories-design)** — a large raw phrase corpus collapsed to a compact set of canonical tags for "what to expect" and "best for", and the genre list grouped into parent families, all typed from one source of truth.
 - **[Festival Story's insight engine](#festival-story)** — the personalized recap is computed from a user's actual attendance scope and picks each time, not a fixed or randomized script.
 - **[Schedule conflict detection](#schedule-feature-mvp)** — the Planner grid flags real time/stage overlaps across a user's scheduled picks, not just a static calendar view.
 - **[The interest-state model](#interest-state)** — Must See / Interested / Passed is a deliberately small, festival-scoped decision model, with a documented reason for _not_ generalizing it further (see [Future Considerations](docs/FUTURE_CONSIDERATIONS.md)).
@@ -121,9 +121,9 @@ clustering on the same few artists across the roster.
 
 Raw artist data contained overlapping, redundant, and inconsistent values:
 
-- **whatToExpect:** 448 unique raw phrases → 36 canonical
-- **bestFor:** 285 unique raw phrases → 15 canonical
-- **genres:** 123 distinct values, grouped into 10 parent categories for reference
+- **whatToExpect:** 448 unique raw phrases collapsed to a canonical set
+- **bestFor:** 285 unique raw phrases collapsed to a canonical set
+- **genres:** the distinct genre values, grouped into parent families for reference
 
 Normalization ensures:
 

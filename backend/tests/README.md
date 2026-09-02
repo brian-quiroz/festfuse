@@ -76,6 +76,14 @@ social and image-source URLs) and gives a local `public/` image path no check UR
 `_check_artist` maps a mixed set of mocked statuses, marking a local asset UNVERIFIABLE
 and an oEmbed 401 BROKEN.
 
+`test_genre_authoring_schema.py` (fast, no database) covers the pure parts of the genre
+CLIs (ADR-0011, `docs/roadmap/artist-authoring.md` section 7): `derive_genre_slug`
+kebab-cases a display name the way the seeded rows are slugged (`"R&B"` → `"r-b"`,
+`"Hip-Hop/Rap"` → `"hip-hop-rap"`, `"90s Alternative"` → `"90s-alternative"`, surrounding
+whitespace stripped), and `create_genre`'s pre-query guards reject a blank name before
+touching the database, an unknown family (listing the known ones), and a name that
+derives an invalid slug.
+
 ## PostgreSQL integration tests
 
 `integration/test_artist_schema.py` connects through the real SQLAlchemy engine to a
@@ -181,6 +189,15 @@ schedule CSV routes each already-announced slug through `attach_run_schedule`
 entry in the run, a run that already has a schedule, and a billing tier that is
 supplied and disagrees with the announced entry.
 
+`integration/test_genre_authoring.py` exercises the genre authoring service
+(`create_genre` / `delete_genre`, ADR-0011, `docs/roadmap/artist-authoring.md` section
+7) against the seeded database. It proves a create inserts one row into its family with
+the derived slug; that an identical re-add is an idempotent no-op returning
+`already_exists`; refusals for a name that clashes with a row in a different family, a
+slug already taken by another name, and an unknown family; that `delete_genre` removes
+an unassigned row but refuses one an artist is assigned; and a clear error for a missing
+slug.
+
 `integration/test_clean_bootstrap.py` is the exception to the rollback-contained
 pattern: it proves the from-empty half of "rebuild the database from PostgreSQL alone"
 (roadmap section 5, ADR-0014). It creates a disposable `festfuse_cleanboot_*` database,
@@ -240,7 +257,10 @@ The integration suite currently verifies:
 - the clean-bootstrap path (roadmap section 5): every migration applying to a
   brand-new database, `alembic check` finding no schema drift afterward, and the
   config-driven festival seed producing every configured edition's hierarchy
-  (series, runs, days, stages) idempotently.
+  (series, runs, days, stages) idempotently; and
+- genre authoring (roadmap section 7): `create_genre` inserting into its family with the
+  derived slug and refusing name/slug/family clashes, its idempotent re-add, and
+  `delete_genre` removing an unassigned genre while refusing an assigned one.
 
 ## Commands
 
@@ -283,7 +303,7 @@ The command leaves blocked Artists unchanged and reports their readiness issues.
 does not silently unpublish an existing Artist. The operation is safe to rerun;
 already-published passing Artists remain published.
 
-## Adding, editing, and removing an artist
+## Adding, editing, and removing artists and genres
 
 The direct-to-PostgreSQL authoring workflow (ADR-0011 and ADR-0012,
 `docs/roadmap/artist-authoring.md`). Each requires an explicit mode — a bare invocation
@@ -333,6 +353,21 @@ python -m scripts.delete_artist --slug <slug> [--force] --apply
 videos, its Similar Artist sets, lineup entries, appearances); shared `Track` rows are
 kept. It refuses an artist that another artist's Similar Artist set points at unless
 `--force` also clears those references.
+
+```bash
+python -m scripts.add_genre --name "New Wave" --family "Rock" --preview
+python -m scripts.add_genre --name "New Wave" --family "Rock" --apply
+python -m scripts.delete_genre --slug <slug> --preview
+python -m scripts.delete_genre --slug <slug> --apply
+```
+
+`add_genre` adds one row to the `genres` table (roadmap section 7). It resolves the
+family by name, derives the slug unless `--slug` overrides it, refuses a name or slug
+already taken by a different row, and is idempotent (an identical re-add is a no-op, so
+the same command replays against the hosted database). The matching
+`app/data/categories.ts` entry is a separate hand edit — `--preview` prints the lines to
+add. `delete_genre` removes one genre and refuses one any artist is assigned; it is a
+test and cleanup tool, mirroring `delete_artist`.
 
 The editorial-pipeline scripts (`build_roster_payloads`, `check_artist_links`,
 `show_artist`) are operator tooling, documented in

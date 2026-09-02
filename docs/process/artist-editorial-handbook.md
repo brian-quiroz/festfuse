@@ -194,5 +194,5 @@ record and runs in re-review mode — Tier 2, the current content as the baselin
 - A finding outside the current pass's scope: it goes in
   `docs/process/artist-flagged-issues.md`, not applied silently.
 - A genre the artist needs that is not in the table: the AI flags it with sources; you
-  add the row to the `genres` table and to `app/data/categories.ts` (there is no
-  `add-genre` command yet).
+  add it with `add_genre` (writes the `genres` row) and mirror the entry into
+  `app/data/categories.ts` by hand in the same change.

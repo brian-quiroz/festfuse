@@ -2,10 +2,10 @@
  * Normalized data categories for artists.
  *
  * These are single sources of truth for all categorical artist data:
- * - whatToExpect: What the audience will experience (36 canonical phrases)
- * - bestFor: Who should attend (15 canonical phrases)
- * - genres: Musical genre/style (expandable list, 123 current entries)
- * - countries: Artist origin country (32 entries, including constituent UK nations separately)
+ * - whatToExpect: What the audience will experience (expandable list)
+ * - bestFor: Who should attend (expandable list)
+ * - genres: Musical genre/style (expandable list)
+ * - countries: Artist origin country (expandable list; constituent UK nations counted separately)
  * - usStates: US state names (50 entries, typed reference for origin.state)
  *
  * Types are derived from these constants using `as const` so they stay perfectly in sync.
@@ -13,7 +13,7 @@
  */
 
 // ============================================================================
-// WHATTOEXPECT: What the audience will experience (36 canonical phrases)
+// WHATTOEXPECT: What the audience will experience (expandable)
 // ============================================================================
 
 export const WHAT_TO_EXPECT = [
@@ -73,7 +73,7 @@ export const WHAT_TO_EXPECT = [
 export type WhatToExpectTag = (typeof WHAT_TO_EXPECT)[number];
 
 // ============================================================================
-// BESTFOR: Who should attend (15 canonical phrases)
+// BESTFOR: Who should attend (expandable)
 // ============================================================================
 
 export const BEST_FOR = [
@@ -102,7 +102,7 @@ export const BEST_FOR = [
 export type BestForTag = (typeof BEST_FOR)[number];
 
 // ============================================================================
-// GENRES: Musical genres and styles (expandable, currently 123 entries)
+// GENRES: Musical genres and styles (expandable)
 // ============================================================================
 // Guidelines for adding new genres:
 // 1. Check this list first — if the genre exists under slightly different wording, use the existing entry
@@ -112,6 +112,7 @@ export type BestForTag = (typeof BEST_FOR)[number];
 
 export const GENRES = [
   "90s Alternative",
+  "Acoustic Rock",
   "Alt-Pop",
   "Alternative Folk",
   "Alternative Hip-Hop",
@@ -127,6 +128,8 @@ export const GENRES = [
   "Bassline",
   "Bedroom Pop",
   "Bluegrass",
+  "Blues",
+  "Blues Rock",
   "Boom Bap",
   "Brass Band",
   "Chamber Pop",
@@ -146,6 +149,7 @@ export const GENRES = [
   "Dark Folk",
   "Dark Pop",
   "Dark Techno",
+  "Deconstructed Club",
   "Deep House",
   "Digicore",
   "Digital Hardcore",
@@ -162,20 +166,26 @@ export const GENRES = [
   "Electronic Rock",
   "Electropop",
   "Emo",
+  "Emo Rap",
   "Eurodance",
   "Experimental Pop",
+  "Flamenco",
   "Folk Rock",
   "Folktronica",
   "Funk",
+  "Funk Rock",
   "Future Bass",
   "G-House",
   "Gangsta Rap",
   "Garage Rock",
+  "Gospel",
   "Gothic Folk",
   "Groove Pop",
   "Grunge",
   "Happy Hardcore",
   "Hardcore Punk",
+  "Heartland Rock",
+  "Heavy Metal",
   "High-Tech Minimal",
   "Hip-Hop",
   "Hip-Hop-Pop",
@@ -189,10 +199,13 @@ export const GENRES = [
   "Industrial Electronic",
   "Industrial Techno",
   "J-Pop",
+  "Jazz",
+  "Jerk Rap",
   "Juke",
   "K-Pop",
   "Korean Hip-Hop",
   "Latin Pop",
+  "Latin Trap",
   "Lo-Fi Indie",
   "Melodic Bass",
   "Melodic House",
@@ -200,6 +213,7 @@ export const GENRES = [
   "Minimal Tech",
   "Neo-Psychedelia",
   "Neo-Soul",
+  "New Wave",
   "Noise Rock",
   "P-Pop",
   "Plugg",
@@ -207,14 +221,18 @@ export const GENRES = [
   "Pop Rap",
   "Pop-Punk",
   "Pop-Rock",
+  "Post-Grunge",
   "Post-Hardcore",
   "Post-Punk",
   "Power Pop",
   "Progressive House",
   "Psychedelic Pop",
   "Punk Rock",
+  "Queercore",
   "R&B",
   "Rage Rap",
+  "Reggaeton",
+  "Regional Mexican",
   "Riot Grrrl",
   "Rock",
   "Shoegaze",
@@ -233,6 +251,7 @@ export const GENRES = [
   "UK Garage",
   "Underground Rap",
   "West Coast Rap",
+  "Western Swing",
   "Witch House",
 ] as const;
 
@@ -255,20 +274,26 @@ export const BILLING_TIERS = ["Headliner", "Sub-headliner", "Undercard"] as cons
 export type BillingTier = (typeof BILLING_TIERS)[number];
 
 // ============================================================================
-// GENRE_FAMILIES: Parent genre categories (10 total)
+// GENRE_FAMILIES: Parent genre categories (the taxonomy's top tier)
 // ============================================================================
 
 export const GENRE_FAMILIES = {
   Rock: [
     "90s Alternative",
+    "Acoustic Rock",
     "Alternative Rock",
     "Art Rock",
+    "Blues Rock",
     "Electronic Rock",
+    "Funk Rock",
     "Garage Rock",
     "Grunge",
+    "Heartland Rock",
     "Indie Rock",
     "Neo-Psychedelia",
+    "New Wave",
     "Pop-Rock",
+    "Post-Grunge",
     "Post-Punk",
     "Shoegaze",
     "Surf Rock",
@@ -294,6 +319,7 @@ export const GENRE_FAMILIES = {
     "P-Pop",
     "Power Pop",
     "Psychedelic Pop",
+    "Reggaeton",
     "Synth-Pop",
     "Pop",
     "House-Pop",
@@ -304,6 +330,7 @@ export const GENRE_FAMILIES = {
     "Americana",
     "Americana-Pop",
     "Bluegrass",
+    "Blues",
     "Brass Band",
     "Contemporary Folk",
     "Country",
@@ -315,6 +342,8 @@ export const GENRE_FAMILIES = {
     "Indie Folk",
     "Singer-Songwriter",
     "Irish Folk",
+    "Western Swing",
+    "Regional Mexican",
   ],
   "Hip-Hop/Rap": [
     "Alternative Hip-Hop",
@@ -322,9 +351,12 @@ export const GENRE_FAMILIES = {
     "Conscious Rap",
     "Drill",
     "East Coast Hip-Hop",
+    "Emo Rap",
     "Gangsta Rap",
     "Hip-Hop",
+    "Jerk Rap",
     "Korean Hip-Hop",
+    "Latin Trap",
     "Plugg",
     "Pop Rap",
     "Rage Rap",
@@ -333,7 +365,7 @@ export const GENRE_FAMILIES = {
     "Underground Rap",
     "West Coast Rap",
   ],
-  "R&B/Soul": ["Alternative R&B", "Chicano Soul", "Funk", "Neo-Soul", "R&B", "Soul"],
+  "R&B/Soul": ["Alternative R&B", "Chicano Soul", "Funk", "Gospel", "Neo-Soul", "R&B", "Soul"],
   Indie: ["Bedroom Pop", "Dream Pop", "Indie Electronica", "Indie Pop", "Lo-Fi Indie", "Slowcore"],
   "Dance/Electronic": [
     "Bass House",
@@ -341,6 +373,7 @@ export const GENRE_FAMILIES = {
     "Club",
     "Dance",
     "Dark Techno",
+    "Deconstructed Club",
     "Deep House",
     "Digital Hardcore",
     "Disco House",
@@ -375,14 +408,16 @@ export const GENRE_FAMILIES = {
     "Dance-Punk",
     "Emo",
     "Hardcore Punk",
+    "Heavy Metal",
     "Metalcore",
     "Noise Rock",
     "Pop-Punk",
     "Post-Hardcore",
     "Punk Rock",
+    "Queercore",
     "Riot Grrrl",
   ],
-  Classical: ["Classical", "Cinematic Orchestral"],
+  Classical: ["Classical", "Cinematic Orchestral", "Jazz", "Flamenco"],
 } as const;
 
 export type GenreFamily = keyof typeof GENRE_FAMILIES;
@@ -505,7 +540,7 @@ export const US_STATES = [
 export type USState = (typeof US_STATES)[number];
 
 // ============================================================================
-// COUNTRIES: Artist origin country (32 entries, UK constituent nations separate)
+// COUNTRIES: Artist origin country (expandable; UK constituent nations separate)
 // ============================================================================
 // Note: England, Scotland, Wales, Northern Ireland are listed separately, not collapsed into "UK".
 // Derive lookup tables (e.g., "Scotland" → "United Kingdom" for display rollup) in separate files as needed.
@@ -526,6 +561,7 @@ export const COUNTRIES = [
   "France",
   "Germany",
   "Ireland",
+  "Israel",
   "Japan",
   "Mexico",
   "Morocco",
@@ -533,6 +569,7 @@ export const COUNTRIES = [
   "New Zealand",
   "Northern Ireland",
   "Philippines",
+  "Puerto Rico",
   "Scotland",
   "Slovakia",
   "South Korea",

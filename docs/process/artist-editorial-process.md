@@ -235,6 +235,11 @@ Sources for every proposed fact go **in the report**, next to the claim they sup
 - Never fabricate a fact, URL, Spotify ID, or citation.
 - Say "not verified" rather than filling a gap with plausible prose.
 - A citation must support the specific claim attached to it.
+- Cite only a page you opened and read. A web-search result list — its snippets and the
+  summary it synthesizes — is a set of pointers, not a source; attaching one of its URLs
+  to a claim taken from that summary is a fabricated citation. Fetch the page and
+  confirm the claim is on it, or attribute it as "search results suggest" with no
+  specific link.
 
 ---
 
@@ -286,10 +291,15 @@ involvement is the cross-check in stage 3.
 
 Two failure modes worth knowing (see the incidents doc): search results for a name can
 pull in unrelated same-named acts; and a stored record can describe a fabricated persona
-while its Spotify ID points to a real, different act. When identity feels shaky, fetch
-the stored Spotify URL directly and read who it names. That confirms _an_ identity, not
-that the bio found for it is the right one — require multi-source convergence before
-asserting a correction.
+while its Spotify ID points to a real, different act.
+
+Start every artist by fetching the stored Spotify artist URL. It gives the canonical
+name and a set of distinctive facts — exact track titles, release dates, collaborators,
+label, scale. Those facts are how every page read next is identified: a bio, review, or
+Wikipedia entry is about this act only if its details line up with them. A name match
+alone is not enough. Fetching the Spotify URL confirms _an_ identity, not that a given
+bio is about the right act — require multi-source convergence on the distinctive facts
+before asserting anything, especially a correction.
 
 ### Genres
 
@@ -304,12 +314,16 @@ Tier 0 is _validation_: check the researched descriptors against the `genres` ta
 (exact spelling), and check how a comparable artist already in the roster is recorded
 (`show_artist.py --roster`, or `--slug` on a peer) for house style.
 
+Account for every genre term the sources actually use. Each one ends up in the three,
+mapped to a table entry with the mapping named (see "Disclose a substitution" below), or
+flagged as a gap — a recurring source descriptor simply absent from the report reads as
+an oversight, not a decision.
+
 If an existing genre genuinely communicates the sound, use it — do not add a
-near-duplicate. Adding a genre has a real cost: with `add-genre` deferred (ADR-0011) it
-is a manual two-file change (a `genres` row plus the matching `app/data/categories.ts`
-entry, which currently mirror each other by hand — see "Genre Vocabulary Lives in Two
-Places" in `FUTURE_CONSIDERATIONS.md`), and every added genre is one more thing to keep
-aligned.
+near-duplicate. Adding a genre has a real cost: `add_genre` writes the `genres` row, but
+the matching `app/data/categories.ts` entry is a hand edit in the same change (the two
+lists mirror each other by hand — see "Genre Vocabulary Lives in Two Places" in
+`FUTURE_CONSIDERATIONS.md`), and every added genre is one more thing to keep aligned.
 
 The reverse extreme is worse, though: never force an artist into a "close enough" genre
 that is not actually accurate just because it is already in the table. If the artist's
