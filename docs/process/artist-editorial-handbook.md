@@ -111,16 +111,22 @@ pass re-stamp it. Full flag and tunnel-command reference is in
    first (it shows the field-by-field plan and re-runs publication readiness), then
    `--apply`.
 
-**The `about` decision, per artist.** Two paths, your call by how well you already know
-the artist:
+**The `about` decision, per artist.** Three paths, your call by how well you already
+know the artist and whether this is a launch:
 
 - **Let the AI draft it.** Full research from scratch. Accurate, but it is the
   expensive path.
 - **Write a rough skeleton first** — two or three factual sentences — and the AI only
   verifies and tightens the voice. Roughly half the cost. Worth doing for artists you
   know.
+- **Defer it** (the deferred-`about` variant). The round does genres and location
+  normally and skips the `about`, but instead of discarding the research it drops
+  plausible `about` facts, with source URLs, into `docs/process/artist-about-leads.md`
+  from pages it already had open. The later `about` then runs at skeleton cost, not
+  from-scratch cost. The default for a roster launch: defer everyone but the headliners.
 
-Either way you read it against the cited sources before signing `aboutVerified`.
+For the first two you read the copy against the cited sources before signing
+`aboutVerified`; the third writes no copy yet.
 
 ---
 
@@ -135,6 +141,8 @@ link checks, `show_artist`, similar-artist membership — is cheap.
   built so you do not have to: `about` never blocks publishing. Get genres + location
   done for everyone, publish the roster, and then write abouts as a standing backlog —
   a handful per session, spread over weeks, headliners and high-traffic artists first.
+  Run the non-headliner rounds as the deferred-`about` variant so each backlogged
+  `about` starts from captured leads rather than nothing.
 - The genres + location pass for a full roster is cheap. That plus flagship (your work
   in Spotify) plus publish is most of the launch, at a fraction of the cost of the
   about backlog.
@@ -186,5 +194,5 @@ record and runs in re-review mode — Tier 2, the current content as the baselin
 - A finding outside the current pass's scope: it goes in
   `docs/process/artist-flagged-issues.md`, not applied silently.
 - A genre the artist needs that is not in the table: the AI flags it with sources; you
-  add the row to the `genres` table and to `app/data/categories.ts` (there is no
-  `add-genre` command yet).
+  add it with `add_genre` (writes the `genres` row) and mirror the entry into
+  `app/data/categories.ts` by hand in the same change.

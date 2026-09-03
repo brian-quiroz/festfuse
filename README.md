@@ -135,7 +135,7 @@ Built with the Next.js App Router, React, TypeScript, and Tailwind CSS, with a F
 
 A few more decisions worth knowing about:
 
-- Normalizes 123 genres into 10 parent categories, powering genre pills, Explore filtering, and the gradient-fallback theming used when an artist has no photo.
+- Normalizes 120+ genres into 10 parent categories, powering genre pills, Explore filtering, and the gradient-fallback theming used when an artist has no photo.
 - Detects real schedule conflicts across a user's scheduled picks, scoped by festival and calendar date.
 - Uses deterministic carousel sampling to keep server and client rendering consistent while preserving variety between visits.
 - Persists decisions and schedule state in the browser with Zustand.

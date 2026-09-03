@@ -304,6 +304,30 @@ touch a database it did not generate. A new environment's artist dataset comes f
 
 ---
 
+## Future Consideration: No Automated Production Database Backup
+
+ADR-0014 made a manual `pg_dump` through the Railway tunnel the canonical backup and
+explicitly left automation out of scope: "Backups must be taken deliberately and stored
+by the operator; there is no automated backup schedule." In practice that means no
+schedule, no retention policy, no off-machine copy, and Railway PITR disabled
+(`railway postgres pitr status`). The realistic recovery point is "the last time an
+operator ran pg_dump."
+
+Post-cutover (ADR-0011) the database is the sole source of truth: `app/data/artists/*.ts`
+is deleted, and `provenance/artists-lollapalooza-2026.json` is a frozen Lollapalooza-only
+snapshot with none of the multi-festival data or later authoring. A lost Railway volume
+or unnoticed data corruption loses everything back to the last manual dump.
+
+Options, cheapest first: enable Railway PITR (managed continuous backup, needs a bucket
+wired); a scheduled `pg_dump` to object storage via a CI cron; an automated restore
+check (`pg_restore` a recent dump into a throwaway database plus `alembic check`, which
+ADR-0014 also deferred). ADR-0014 anticipated this: "a future automated backup cron ...
+can be added later without revisiting this decision."
+
+**Do first:** enable Railway PITR, it is the least-effort real improvement.
+
+---
+
 ## Future Consideration: Standalone CLI for Adding One Existing Artist to a Run
 
 Multi-festival roadmap section 3 added `add_existing_artist_to_run` to the authoring
@@ -715,6 +739,21 @@ unit.
 information (Coachella 2027 is the likely test, its lineup dropping months before set
 times).
 
+## Future Consideration: After Dark Threshold Not Festival-Aware
+
+`AFTER_DARK_THRESHOLD_MINUTES` (`app/lib/carousel.ts`) is one global constant, 8:00 PM,
+tuned to Lollapalooza's set-time distribution (19 artists, 4-5 per day across four days;
+see ARCHITECTURE.md § Carousel Presentation Strategies). ACL runs three days per weekend
+and ends earlier: at 8:00 PM only 6 weekend-1 artists qualify (2 per day), below the
+"4-5 per day" bar the strategy sets for a discovery row. A 7:00 PM threshold gives ACL
+weekend-1 fifteen (5 per day), matching what 8:00 PM does for Lollapalooza.
+
+Not built. The grouping helpers already take `festivalId` and `dayOrder` as parameters,
+so the threshold could become a per-edition value on the `festivals.ts` config threaded
+through the same way. Calibrate against both ACL weekends once weekend-2 has a schedule.
+Low urgency: the announced-lineup experience drops After Dark entirely (it is set-time
+based), so only scheduled runs are affected.
+
 ## Future Consideration: Wider Consumption of the Run-Appearances Store
 
 **Resolved.** `runAppearancesStore` (fed by `GET .../appearances`) was built to fix
@@ -744,11 +783,11 @@ database supports. They were populated from the same list at import and currentl
 but nothing enforces that. This is intentional for now (ADR-0011) — the authoring
 workflow validates against the `genres` table, the frontend against the TS list.
 
-The cost surfaces when a genuinely new genre is needed: the eventual `add-genre`
-operation writes a `genres` row, and `categories.ts` has to be updated by hand in the
-same change, or the drift is real (an artist tagged with a genre the filter UI does not
-know about). The clean resolution is to serve the filter vocabulary from the API so
-there is one list; until then, "add a genre" is a two-file change.
+The cost surfaces when a genuinely new genre is needed: `add_genre` writes the `genres`
+row, and `categories.ts` has to be updated by hand in the same change, or the drift is
+real (an artist tagged with a genre the filter UI does not know about). The clean
+resolution is to serve the filter vocabulary from the API so there is one list; until
+then, "add a genre" is a two-place change.
 
 ---
 
@@ -970,3 +1009,35 @@ is about `/explore` and friends resolving against the persisted context; this is
 dedicated discovery surface with its own URL.
 
 **Not built now** — two festivals fit the current surfaces fine.
+
+---
+
+## Future Consideration: Genre Family Rename and a Scene Grouping Layer
+
+Two related genre-taxonomy ideas, surfaced while importing the ACL 2026 roster.
+
+**Rename two family labels that no longer describe their contents.** `Americana` is the
+vocabulary's folk-and-roots family, not a US-South-only bucket: it already holds every
+folk genre (Alternative / Contemporary / Indie / Dark / Gothic Folk, Folk Rock,
+Singer-Songwriter) plus Irish Folk, Brass Band, and now Regional Mexican. "Americana" is
+also both a genre and the family name, so the label is doing double duty; a neutral name
+(e.g. "Folk & Roots") would fit the membership and remove the collision. `Classical` has
+the same problem now that it holds Jazz alongside Classical and Cinematic Orchestral —
+it is really the composed / instrumental / non-popular-tradition family, and a name like
+"Jazz & Classical" or "Composed" would fit. Both renames touch `GENRE_FAMILIES` and its
+`genreGradients` key, the `verify:story` fixture's hardcoded family-name strings, the
+family name that appears in generated Festival Story copy, a one-row `genre_families`
+update on both databases (and wherever those rows are seeded), and the docs — small but
+cross-stack, so they want their own PR rather than riding a data import.
+
+**A scene grouping layer.** Some listeners browse by scene umbrella (K-Pop, Latin)
+rather than by musical family. Today "K-Pop" is modelled as a family, while Latin genres
+(Latin Pop, Reggaeton in Pop; Latin Trap in Hip-Hop/Rap) sit in their musical families
+with no way to group them. A separate scene tag layer that sits alongside the musical
+families — genres keep their musical-family home and additionally carry zero or more
+scene tags — would serve umbrella browsing without a disruptive re-parenting, and would
+let K-Pop stop being a pseudo-family.
+
+**Not built now** — the affected artists (damaris-bojor under `Regional Mexican`,
+huston-tillotson-jazz-collective under `Jazz`) are served adequately by the families as
+named.

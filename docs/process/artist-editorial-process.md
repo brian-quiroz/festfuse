@@ -127,7 +127,8 @@ Per artist, the AI:
 3. **Location** — see [Location](#location) below.
 4. **`about`** — drafts it per [About copy](#about-copy), _or_ the editor supplies a
    skeleton and the AI only verifies and tightens it (Tier 2 instead of Tier 3), _or_
-   it is skipped for this artist and left for a later pass (it does not gate publishing).
+   it is deferred to a later pass (it does not gate publishing) via the
+   [deferred-`about` variant](#deferred-about-variant) below.
 
 The AI presents a **per-artist report**, walking the fields in a fixed order:
 
@@ -144,6 +145,32 @@ The editor approves per field or per artist, then the flow in
 [Review and approval mechanics](#review-and-approval-mechanics) applies. Stage 3 and
 stage 4 (the flagship track) can land in one `edit_artist` patch once the editor has
 approved both.
+
+#### Deferred-`about` variant
+
+For a roster launch the usual choice is to defer `about` for everyone but the
+headliners: get genres and location done for the whole roster, publish, then write
+`about` as a standing backlog (see the handbook's pacing notes). When a round runs this
+way, genres, location, the identity cross-check, and the fixed-order report are all
+exactly as above, with two differences:
+
+- The report's `about` line reads "deferred" rather than carrying a draft or a skeleton
+  verification.
+- The research already done for genres and location is not thrown away. Any fact that
+  would plausibly belong in an eventual `about` (a formation year, a notable release, a
+  hometown detail, a collaboration, a chart or award fact) that appeared on a source
+  **already opened** to settle genres or location is appended to
+  [`artist-about-leads.md`](artist-about-leads.md) under that artist's slug, with the
+  source URL it came from. No extra web request is made for this: a page not worth
+  opening for genres or location is not opened for leads either.
+
+The leads are unverified pointers, not content. Writing the `about` later is still a
+full `about` effort with same-day re-verification of every fact (a Non-negotiable); the
+leads act as the skeleton, so it runs at Tier 2 rather than Tier 3. An artist's section
+is removed from `artist-about-leads.md` once `aboutVerified` is set for it.
+
+The default path (a drafted or skeleton-verified `about` in the same round) is
+unchanged. This variant is the editor's explicit choice for a batch, not a new default.
 
 ### 4. Flagship track (editor)
 
@@ -208,6 +235,11 @@ Sources for every proposed fact go **in the report**, next to the claim they sup
 - Never fabricate a fact, URL, Spotify ID, or citation.
 - Say "not verified" rather than filling a gap with plausible prose.
 - A citation must support the specific claim attached to it.
+- Cite only a page you opened and read. A web-search result list — its snippets and the
+  summary it synthesizes — is a set of pointers, not a source; attaching one of its URLs
+  to a claim taken from that summary is a fabricated citation. Fetch the page and
+  confirm the claim is on it, or attribute it as "search results suggest" with no
+  specific link.
 
 ---
 
@@ -239,7 +271,10 @@ cannot.
 - **Location** — Tier 1; a bounded Tier 2 only when sources conflict, then stop and
   surface the conflict rather than spiral.
 - **`about`, AI-written** — Tier 3. An editor skeleton drops it to Tier 2; this is the
-  biggest single lever on per-artist cost.
+  biggest single lever on per-artist cost. The
+  [deferred-`about` variant](#deferred-about-variant) of stage 3 captures leads at no
+  extra tool cost during the genres and location research, and those leads fill the
+  skeleton role later.
 - **Similar artists** — Tier 0 membership plus a bounded Tier 1 on the chosen set.
   Never Tier 2: if four good picks are not there, flag it, do not research toward a
   weak fourth.
@@ -256,10 +291,15 @@ involvement is the cross-check in stage 3.
 
 Two failure modes worth knowing (see the incidents doc): search results for a name can
 pull in unrelated same-named acts; and a stored record can describe a fabricated persona
-while its Spotify ID points to a real, different act. When identity feels shaky, fetch
-the stored Spotify URL directly and read who it names. That confirms _an_ identity, not
-that the bio found for it is the right one — require multi-source convergence before
-asserting a correction.
+while its Spotify ID points to a real, different act.
+
+Start every artist by fetching the stored Spotify artist URL. It gives the canonical
+name and a set of distinctive facts — exact track titles, release dates, collaborators,
+label, scale. Those facts are how every page read next is identified: a bio, review, or
+Wikipedia entry is about this act only if its details line up with them. A name match
+alone is not enough. Fetching the Spotify URL confirms _an_ identity, not that a given
+bio is about the right act — require multi-source convergence on the distinctive facts
+before asserting anything, especially a correction.
 
 ### Genres
 
@@ -274,12 +314,16 @@ Tier 0 is _validation_: check the researched descriptors against the `genres` ta
 (exact spelling), and check how a comparable artist already in the roster is recorded
 (`show_artist.py --roster`, or `--slug` on a peer) for house style.
 
+Account for every genre term the sources actually use. Each one ends up in the three,
+mapped to a table entry with the mapping named (see "Disclose a substitution" below), or
+flagged as a gap — a recurring source descriptor simply absent from the report reads as
+an oversight, not a decision.
+
 If an existing genre genuinely communicates the sound, use it — do not add a
-near-duplicate. Adding a genre has a real cost: with `add-genre` deferred (ADR-0011) it
-is a manual two-file change (a `genres` row plus the matching `app/data/categories.ts`
-entry, which currently mirror each other by hand — see "Genre Vocabulary Lives in Two
-Places" in `FUTURE_CONSIDERATIONS.md`), and every added genre is one more thing to keep
-aligned.
+near-duplicate. Adding a genre has a real cost: `add_genre` writes the `genres` row, but
+the matching `app/data/categories.ts` entry is a hand edit in the same change (the two
+lists mirror each other by hand — see "Genre Vocabulary Lives in Two Places" in
+`FUTURE_CONSIDERATIONS.md`), and every added genre is one more thing to keep aligned.
 
 The reverse extreme is worse, though: never force an artist into a "close enough" genre
 that is not actually accurate just because it is already in the table. If the artist's
