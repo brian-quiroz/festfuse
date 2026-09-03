@@ -304,6 +304,30 @@ touch a database it did not generate. A new environment's artist dataset comes f
 
 ---
 
+## Future Consideration: No Automated Production Database Backup
+
+ADR-0014 made a manual `pg_dump` through the Railway tunnel the canonical backup and
+explicitly left automation out of scope: "Backups must be taken deliberately and stored
+by the operator; there is no automated backup schedule." In practice that means no
+schedule, no retention policy, no off-machine copy, and Railway PITR disabled
+(`railway postgres pitr status`). The realistic recovery point is "the last time an
+operator ran pg_dump."
+
+Post-cutover (ADR-0011) the database is the sole source of truth: `app/data/artists/*.ts`
+is deleted, and `provenance/artists-lollapalooza-2026.json` is a frozen Lollapalooza-only
+snapshot with none of the multi-festival data or later authoring. A lost Railway volume
+or unnoticed data corruption loses everything back to the last manual dump.
+
+Options, cheapest first: enable Railway PITR (managed continuous backup, needs a bucket
+wired); a scheduled `pg_dump` to object storage via a CI cron; an automated restore
+check (`pg_restore` a recent dump into a throwaway database plus `alembic check`, which
+ADR-0014 also deferred). ADR-0014 anticipated this: "a future automated backup cron ...
+can be added later without revisiting this decision."
+
+**Do first:** enable Railway PITR, it is the least-effort real improvement.
+
+---
+
 ## Future Consideration: Standalone CLI for Adding One Existing Artist to a Run
 
 Multi-festival roadmap section 3 added `add_existing_artist_to_run` to the authoring
