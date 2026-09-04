@@ -172,8 +172,10 @@ def test_seeded_roster_publication_readiness_is_complete(
 
         readiness = [evaluate_artist_publication(artist) for artist in artists]
 
-    assert len(artists) == 171
-    assert sum(result.is_ready for result in readiness) == 171
+    # The seeded roster grows as festivals are imported, so the invariant is
+    # "every seeded artist is publication-ready", not a fixed count.
+    assert len(artists) > 0
+    assert sum(result.is_ready for result in readiness) > 0
     assert sum(not result.is_ready for result in readiness) == 0
 
 
@@ -194,9 +196,9 @@ def test_publish_ready_artists_updates_only_passing_records(
             .where(Artist.publication_status == "draft")
         )
 
-    assert batch.ready_count == 171
+    assert batch.ready_count > 0
     assert batch.blocked_count == 0
-    assert published_count == 171
+    assert published_count > 0
     assert draft_count == 0
 
 
