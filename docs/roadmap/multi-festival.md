@@ -293,8 +293,7 @@ here; that is section 11.
   appearances feed: every announced, published artist in a run, keyed by `LineupEntry`,
   reusing the appearances feed's artist projection, batched similar-artist query, and
   billing-tier consistency check via the shared `_map_run_artist` / `_resolve_run`
-  helpers. `read_festival_run_appearances` is unchanged and still returns `[]` (not
-  404) for a scheduleless run.
+  helpers. `read_festival_run_appearances` is unchanged and still returns `[]` (not 404) for a scheduleless run.
 - `FestivalRunRead` on `GET /festivals/{slug}` gains a derived
   `schedule_state: "announced" | "scheduled"` (`read_run_ids_with_public_schedule`),
   never stored, `"scheduled"` once the run has a scheduled `Appearance` on an
@@ -322,8 +321,8 @@ that is section 11.
 - `/explore`, `/quick-picks`, `/planner`, `/credits`, `/artist/[slug]` moved under
   `app/festivals/[edition]/[run]/…`. A server segment layout resolves the run from the
   route params, does the run-scoped appearances fetch, and renders `RunContextProvider`
-  + `RunAppearancesHydrator`. The root layout keeps a `DEFAULT_CONTEXT` fetch+hydrate so
-  `Sidebar`'s counts and `/` stay populated before a scoped route mounts.
+  - `RunAppearancesHydrator`. The root layout keeps a `DEFAULT_CONTEXT` fetch+hydrate so
+    `Sidebar`'s counts and `/` stay populated before a scoped route mounts.
 - `runAppearancesStore` keys each run's feed by `edition::run` (`byContext` map); a
   `useRunAppearances(edition, run)` hook and a `getRunAppearancesSlice` getter replace
   the two bare selectors.
@@ -347,17 +346,18 @@ that is section 11.
 
 **Checkpoint reached:** `/festivals/lollapalooza-2026/main/*` renders identically to the
 old routes (verified: carousels, filters, day tabs, stage columns, artist pages, picks
-+ schedule persistence across reload and on `/`); `acl-2026/weekend-1` and
-`/weekend-2` render with ACL's own days and stages, empty but not broken (roster is
-section 11). `next build` and `tsc` pass; `npm run verify:story` is unchanged at 86/87
-(the one failure is the pre-existing stale Chicago-baseline fixture, `docs/FUTURE_CONSIDERATIONS.md`).
+
+- schedule persistence across reload and on `/`); `acl-2026/weekend-1` and
+  `/weekend-2` render with ACL's own days and stages, empty but not broken (roster is
+  section 11). `next build` and `tsc` pass; `npm run verify:story` is unchanged at 86/87
+  (the one failure is the pre-existing stale Chicago-baseline fixture, `docs/FUTURE_CONSIDERATIONS.md`).
 
 ### 6. Active-context store, homepage, and sidebar selector
 
 **Status: completed.**
 
 - `app/store/activeContextStore.ts` is persisted and holds `{ editionSlug, runSlug } |
-  null`, using the same `persist` + `onRehydrateStorage` pattern as the other persisted
+null`, using the same `persist` + `onRehydrateStorage` pattern as the other persisted
   stores and added to `HydrationGate`. `RunContextProvider` still writes it on every
   scoped-route mount, so visiting a scoped URL sets and persists the context.
 - Sidebar: `FestivalContextSelector` — a fixed-height trigger opening a grouped popover
@@ -373,7 +373,7 @@ section 11). `next build` and `tsc` pass; `npm run verify:story` is unchanged at
   semantic; cyan ring for selection — then a weekend choice for multi-run editions)
   until a context exists, then the scoped workflow cards. The Planner card renders
   disabled ("Available when the festival schedule is announced") and Planner drops from
-  the sidebar nav for an `announced` run. The Planner *route* unavailable state is
+  the sidebar nav for an `announced` run. The Planner _route_ unavailable state is
   section 8.
 - The selector rides inside the sidebar `<aside>`, so it is absent from Quick Picks
   decisioning and Festival Story (where the whole sidebar is hidden).
@@ -431,7 +431,7 @@ lint pass; `npm run verify:story` unchanged at 86/87.
   International, `{City}'s Own`) and drops After Dark and day grouping; Artist Detail
   shows a membership line instead of the Playing At card and hides "Add to Schedule"
   (the zero-appearance throw moved from the mapper to the page and fires only for a
-  *scheduled* run); Quick Picks sub-screens take an `announced` prop (no Days / Grouping
+  _scheduled_ run); Quick Picks sub-screens take an `announced` prop (no Days / Grouping
   steps, nullable appearance, lineup-wide completion copy, `createAnnouncedSession` +
   `interleaveArtistsByTier`); Festival Story's `computeStorySignals` takes a `mode`
   (announced skips attendance-day scoping, `stage`, and `day`; billing reads the

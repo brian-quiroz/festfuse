@@ -333,8 +333,8 @@ can be added later without revisiting this decision."
 ## Future Consideration: Committed Provenance Record for the ACL 2026 Roster
 
 Lollapalooza's authored artist state is frozen in git at
-`provenance/artists-lollapalooza-2026.json` — but only because that data *once lived in
-the repo* (`app/data/artists/*.ts`) and the snapshot preserves what deletion removed
+`provenance/artists-lollapalooza-2026.json` — but only because that data _once lived in
+the repo_ (`app/data/artists/*.ts`) and the snapshot preserves what deletion removed
 (`provenance/README.md`). The ACL 2026 roster was authored the other way: hand-authored
 CSVs fanned straight into PostgreSQL via `build_roster_payloads.py` (ADR-0011), then
 edited in place. Under ADR-0011/0014 that is correct — the database is the source of
@@ -503,7 +503,7 @@ has international and after-8pm sets). Generalizing `{City}'s Own` to any editio
 from its own city, or an all-domestic lineup for International Picks.
 
 Not built now: every festival FestFuse is likely to add has home-city acts (the home
-city is usually where the *most* local acts are), so the realistic exposure is thin.
+city is usually where the _most_ local acts are), so the realistic exposure is thin.
 The fix is a guard in the carousel-list render (or `ArtistCarousel` itself) that omits
 a row with zero artists. Revisit when onboarding a festival whose city or lineup makes
 one of these rows genuinely empty.
@@ -731,7 +731,7 @@ FestivalRun-scoped Similar Artist set, making the frontend contract harder to by
 
 **No-schedule case: resolved** (multi-festival section 8). Artist Detail renders a
 schedule-less announced entry with a membership line instead of the Playing At card and
-no "Add to Schedule"; the zero-appearance throw fires only for a *scheduled* run. The
+no "Add to Schedule"; the zero-appearance throw fires only for a _scheduled_ run. The
 cancelled-appearance case below remains.
 
 The API can return cancelled Appearances, while the current TypeScript-backed UI has no
