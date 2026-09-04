@@ -223,8 +223,9 @@ The integration suite currently verifies:
 - restriction of referenced Similar Artist target deletion;
 - successful FestivalRun and FestivalEdition aggregate deletion;
 - protection against direct deletion of referenced FestivalDay and Stage rows;
-- that the seeded roster is entirely publication-ready under the application-owned
-  policy, and that `publish_ready_artists` publishes all of them and leaves no drafts;
+- that every Artist in the seeded database is publication-ready under the
+  application-owned policy, and that `publish_ready_artists` publishes all of them and
+  leaves no drafts;
 - published Artist query filtering, mapping, and consistency behavior, including a null
   `quick_picks_track` for a video-only artist (ADR-0017);
 - verified four-or-none Similar Artist visibility and canonical target summaries;
