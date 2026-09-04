@@ -26,10 +26,12 @@ two `FestivalRun`s of one edition — with Lollapalooza 2026 staying live alongs
 FestFuse becomes a multi-festival browser: the user picks an active festival edition +
 run, and every workflow is scoped to it.
 
-Coachella 2027 follows ACL on the same generalized machinery. Coachella's lineup
+Coachella 2027 follows ACL on the same generalized machinery — the seed config, the
+roster fan-out, and the announced-lineup path all unchanged. Coachella's lineup
 typically drops months before its set times, so it is the real first consumer of the
 announced-lineup-without-schedule path — that capability is built and verified here
-even though Coachella itself is not imported in this roadmap.
+even though Coachella itself is not imported in this roadmap. It cannot be sequenced
+into a roadmap anyway: its start gate is a lineup announcement no one controls.
 
 ## Completion bar
 
@@ -145,9 +147,9 @@ step that builds it, not here.
 
 ## Current boundary
 
-Sections 2 through 10 have shipped. Section 11 (import the ACL roster) is the only
-remaining piece, and stays a separate PR by design. Section 12 (the `ARCHITECTURE.md`
-rewrite) is a follow-up.
+Every section has shipped. Austin City Limits 2026 is live in production as a second
+edition with two scheduled weekend runs, alongside Lollapalooza 2026. What follows is
+the record of how it was built, section by section.
 
 Sections 2 through 7 shipped one branch per section. The backend (2, 3, 4): seeding is
 config-driven, ACL
@@ -173,7 +175,10 @@ re-scopes a returning Lollapalooza user's existing data.
 
 The announced-lineup-without-schedule UI (8), festival/city-generic content (9), and
 video-only publication readiness (10) shipped together on
-`feat/announced-lineup-experience`. The ACL roster is not yet imported (11).
+`feat/announced-lineup-experience`. The ACL roster import (11) was its own PR — data
+plus an ops step against the hosted database; weekend 2 was imported announced-first,
+walked in production, then given its schedule. The documentation closeout (12)
+followed on one branch.
 
 ## Rollout sequence
 
@@ -183,16 +188,17 @@ with one exception: sections 8, 9, and 10 shipped as a single branch
 splitting them would have meant three rounds of the same regression pass. Each
 section's checkpoint is still its own merge gate.
 
-The production **frontend deploy is batched**: sections 6 onward merge to `main`
-individually but production is not rebuilt until the section 11 roster import lands, so
-everything from 6 goes live in one deploy. Two checks belong to that deploy rather than
-to the section that built them:
+The production **frontend deploy was batched**: sections 6 onward merged to `main`
+individually, but Vercel production auto-deploy (normally on) was turned off until the
+section 11 roster import landed, so everything from 6 went live in one deploy and
+auto-deploy was re-enabled after. Two checks belonged to that deploy rather than to the
+section that built them:
 
-- Section 7's localStorage migration is verified against a real pre-existing
-  `localStorage` export from the current production build, confirming a returning
+- Section 7's localStorage migration was verified against a real pre-existing
+  `localStorage` export from the prior production build, confirming a returning
   Lollapalooza user keeps every pick, scheduled set, and attendance-day selection.
-- Section 8's announced-lineup screens are walked once against the imported ACL data,
-  which is announced-without-schedule at import time.
+- Section 8's announced-lineup screens were walked once against the imported ACL data,
+  which was announced-without-schedule at import time.
 
 ### 1. Roadmap and ADR
 
@@ -502,59 +508,62 @@ stays a draft.
 
 ### 11. Import the ACL 2026 roster
 
-**Status: not started.** This is the one part of the plan that stays a separate PR:
-data plus an ops step, isolated so the write to the hosted Railway database gets its own
-review. All of the code it depends on (sections 8, 9, 10) has merged; the CSV import
-tooling was built alongside them.
+**Status: completed.** Shipped as its own PR — data plus an ops step, isolated so the
+write to the hosted Railway database got focused review. All the code it depended on
+(sections 8, 9, 10) had merged; the CSV import tooling was built alongside them.
 
-- Hand-author the ACL roster CSV(s), one per run, per
-  [`../process/artist-editorial-process.md`](../process/artist-editorial-process.md).
-- Run `build_roster_payloads.py` for each run: new artists created draft; shared
-  Lollapalooza artists gain an ACL `LineupEntry` (section 3).
-- Curate three genres, a primary, and one Quick Picks track for each genuinely new
-  artist, then run the guarded `publish_artists.py` — never a manual status flip.
-  Artists with no Spotify presence use section 10's video tier.
-- Apply to both the local and the hosted Railway database.
-- Editorial review (per-run similar-artist sets, ACL-specific `about`) is deferred to
-  the parallel editorial track. Note the growing per-run re-curation cost in
+- The ACL roster was hand-authored as one CSV per run, per
+  [`../process/artist-editorial-process.md`](../process/artist-editorial-process.md),
+  and fanned into draft artists with `build_roster_payloads.py`: genuinely new artists
+  created `draft`, shared Lollapalooza artists given an ACL `LineupEntry` (section 3).
+- The research pass established each artist's location and three genres (one marked
+  primary), plus a Quick Picks track — or a featured live-performance video for the
+  three acts with no Spotify presence (section 10's video tier). `about` copy was
+  deferred for non-headliners through the deferred-`about` research branch (ADR-0018),
+  with sourced leads captured in
+  [`../process/artist-about-leads.md`](../process/artist-about-leads.md) for a later
+  Tier-2 pass.
+- `check_artist_links.py` then the guarded `publish_artists.py` published the full
+  roster — no manual status flips — on the local and the hosted Railway database.
+- Weekend 2 used the staged rollout: imported roster-only (announced) with the
+  roster-only CSV mode, deployed, walked once against real production data, then given
+  its schedule via `attach_run_schedule` from its full CSV and confirmed as a normal
+  scheduled run.
+- Per-run similar-artist sets and ACL-specific `about` copy remain on the parallel
+  editorial track; the per-run re-curation cost is recorded in
   `docs/FUTURE_CONSIDERATIONS.md` "Similar-Artist Relationship Graph".
 
-**New tooling available for this step** (built on the sections 8-10 branch): the
-roster-only CSV mode and `attach_run_schedule` let a run be imported as an announced
-lineup first and given its schedule later, one CSV per mode per file. This enables a
-**staged weekend-2 rollout**: import weekend-1 with its full schedule (scheduled) and
-weekend-2 roster-only (announced), deploy, walk the announced screens once against real
-production data, then attach weekend-2's schedule from its full CSV and confirm it
-renders as a normal scheduled run.
-
-**Checkpoint:** ACL 2026 is fully imported and published to the baseline, both
-weekends, on the local and hosted database.
+**Checkpoint reached:** ACL 2026 is fully imported and published, both weekends, on the
+local and hosted database, and live in production.
 
 ### 12. Documentation closeout
 
-**Status: not started.** `AGENTS.md`'s Current Milestone and this roadmap's per-section
-status were updated when sections 8-10 merged; the `ARCHITECTURE.md` rewrite, the
-stale-reference sweep below, and the user-facing `README.md` (which waits on the ACL
-roster actually being live) remain.
+**Status: completed.** Shipped together with the section 11 closeout on one branch,
+once the roster PR had merged and there was no longer a reason to keep them apart.
 
-- `ARCHITECTURE.md`: rewrite "Festival Configuration" for the registry +
-  active-context + routing model; document the no-schedule states; resolve the
-  "Festival Scoping" MUST-fix note. Also sweep the stale references the section 5
-  route move left scattered through other sections: `app/{explore,quick-picks,planner,
-  credits,artist}/...` file paths that are now under `app/festivals/[edition]/[run]/`,
-  bare `/explore` and `/planner` URLs in navigation prose that now resolve through
-  `contextHref`, and lingering `ACTIVE_FESTIVAL_ID` mentions in code snippets.
-  Capture why `DEFAULT_CONTEXT` still exists once selection gates workflow entry: it
-  is the value SSR and the first client paint reference before the browser reports the
-  persisted context, and the root layout's fetch plus `scheduleStore`'s derive step
-  need a concrete `{edition, run}` there. A real `activeContextStore` value always wins.
-- `docs/design/artist-data-model.md`: only if the schema actually changed.
-- `README.md` "Current Scope and Roadmap", AGENTS.md "Current Milestone" and Stack.
-- `docs/FUTURE_CONSIDERATIONS.md`: top-navigation and context-selector migration;
-  per-run similar-artist re-curation cost; ACL verify-story fixture. (Global favorites
-  and unscoped convenience routes were recorded up front, in section 1.)
+- `ARCHITECTURE.md`: the "Festival Configuration" section already described the
+  registry + active-context + `/festivals/[edition]/[run]` routing model and the
+  no-schedule states (updated as sections 5, 6, and 8 landed). This pass finished the
+  cleanup: the "Festival Scoping" MUST-fix note resolved to past tense, and the stale
+  references the section 5 route move left scattered elsewhere swept —
+  `app/{explore,quick-picks,planner,artist}/…` paths now under
+  `app/festivals/[edition]/[run]/`, bare `/explore` / `/planner` URLs in navigation
+  prose that resolve through `contextHref`, and lingering `ACTIVE_FESTIVAL_ID` mentions
+  in code snippets.
+- `docs/design/artist-data-model.md`: no schema change, so only a cleanup — the
+  completed-checkpoint checklist compressed to a prose pointer at the migration and the
+  roadmaps.
+- `README.md`, `AGENTS.md` Current Milestone and Stack: reframed for the multi-festival
+  lineup.
+- `docs/FUTURE_CONSIDERATIONS.md`: the per-run similar-artist re-curation cost, the ACL
+  verify-story fixture, the non-headliner `about` backlog, and whether ACL's authored
+  roster gets a committed provenance record. (Global favorites and unscoped convenience
+  routes were recorded up front, in section 1.)
+- The two prior roadmaps (`artist-authoring.md`, `backend-rollout.md`) had their
+  now-stale "Next" sections removed — the chain reads from each roadmap's intro — and
+  three ADRs gained forward-reference links.
 
-**Checkpoint:** the always-loaded docs describe multi-festival as built.
+**Checkpoint reached:** the always-loaded docs describe multi-festival as built.
 
 ## Guardrails
 
@@ -572,14 +581,3 @@ roster actually being live) remain.
 - Festival, run, day, and stage creation stay `seed_festivals.py`'s responsibility.
 - Do not treat the ACL editorial review as a blocker for this roadmap; it is a
   parallel track.
-
-## Next
-
-Broader automated test coverage — standing up a frontend test framework (none exists
-today) and expanding the backend suite — is the remaining MVP 2.0 item and gets its
-own roadmap.
-
-Not scheduled here: Coachella 2027 as a third edition, using this roadmap's seed
-config, roster fan-out, and announced-lineup path unchanged — gated on Coachella's
-lineup announcement, so it can't be sequenced. The ACL 2026 editorial pass continues
-on the parallel track in section 11.

@@ -1070,94 +1070,12 @@ FestivalDay/Stage protection while allowing those aggregate cascades. See the
 [backend testing guide](../../backend/tests/README.md) for test boundaries and
 commands.
 
-### Completed schema and import checkpoint
-
-The following records the completed implementation boundary:
-
-- [x] Perform a comprehensive model/design/DDL review across both the new artist
-      domain and the existing festival hierarchy.
-- [x] Add reverse-lookup indexes on `artist_genres.genre_id` and
-      `artist_track_selections.track_id`.
-- [x] Configure deterministic SQLAlchemy constraint/index naming compatible with
-      accurate names already present in PostgreSQL.
-- [x] Remove the redundant standalone `festival_runs.festival_edition_id` and
-      `festival_days.festival_run_id` indexes from the model metadata.
-- [x] Model positive, parent-scoped unique `display_order` constraints for
-      FestivalRun and FestivalDay.
-- [x] Replace stale model-level `Festival` wording with `FestivalEdition`, rename the
-      conceptual diagram's `Video` to `ArtistVideo`, and document Similar Artist deletion
-      behavior explicitly.
-- [x] Preserve `RESTRICT` for deleting an Artist referenced as a Similar Artist target;
-      do not silently shrink another Artist's curated set.
-- [x] Configure Ruff for Python formatting, import sorting, and linting, then format
-      and review the backend diff.
-- [x] Generate the artist-schema Alembic revision and manually review every table,
-      foreign key, composite primary key, constraint, index, default, and downgrade.
-- [x] Confirm the generated migration preserves the intended deterministic names,
-      drops both redundant festival indexes, and creates the new FestivalRun/FestivalDay
-      order constraints; then run `alembic check` after applying it.
-- [x] Add `updated_at` triggers to all 12 new timestamped tables using the existing
-      shared PostgreSQL trigger function.
-- [x] Add a migration-owned Artist trigger that clears `about_verified_at` when
-      `about` changes.
-- [x] Add a migration-owned Artist trigger that clears `socials_verified` when
-      `youtube_url` or `tiktok_url` changes; verified-empty socials remain valid until a
-      supported URL changes.
-- [x] Add a migration-owned SimilarArtist trigger that clears its parent
-      SimilarArtistSet's `verified_at` after entry insert, update, or delete.
-- [x] Add migration-owned LineupEntry invalidation so announced-membership changes
-      clear affected source and target SimilarArtistSet verification in the same run.
-- [x] Update `ARCHITECTURE.md` and superseded/current ADR references once the physical
-      migration is final.
-- [x] Add real PostgreSQL integration tests for constraints, all trigger behavior,
-      direct protected deletes, and the converging FestivalRun/FestivalEdition cascade
-      paths.
-- [x] Verify aggregate FestivalRun/FestivalEdition deletion with the original
-      Appearance-to-Day/Stage `RESTRICT` foreign keys; both valid aggregate paths were
-      blocked, so replace only those references with deferrable, initially deferred
-      `NO ACTION` while preserving ordinary Day/Stage deletion protection.
-- [x] Reapply the corrected migration and verify aggregate deletion succeeds while
-      direct deletion of a referenced FestivalDay or Stage still fails at commit.
-- [x] Add a versioned TypeScript JSON export boundary and runtime validation for all
-      controlled vocabularies, relationships, gates, curated identities, and timestamps.
-- [x] Add a guarded transactional importer, verify the complete snapshot against real
-      PostgreSQL with rollback, and import the snapshot into the persistent local database.
-- [x] Implement reusable Artist publication-readiness evaluation with isolated unit
-      tests and real PostgreSQL integration coverage.
-- [x] Add a dry-run-first transactional publication command, then publish the 126
-      passing Artists while preserving the remaining 45 as drafts with reported issues.
-- [x] Add the published-only artist-core read API with typed projections, deterministic
-      ordering, and real PostgreSQL query coverage.
-- [x] Verify semantic parity for every artist-core field and the exact 126-Artist
-      published set against the retained TypeScript source boundary.
-- [x] Expand the public Artist projection with verified About, independently derived
-      Spotify linking, verified YouTube/TikTok links, and the featured available video;
-      verify visibility gates and full-source parity.
-- [x] Add the explicit FestivalEdition/FestivalRun-scoped Artist read boundary with
-      announced billing, timezone-localized scheduled/cancelled Appearances, valid empty
-      schedules, and complete imported-source parity.
-- [x] Expose verified Similar Artist sets through that run-scoped boundary only when
-      all four canonical targets remain published and announced; return four or none,
-      preserve `verified_at` on unpublication, and verify all-source parity.
-- [x] Curate a Quick Picks track for the remaining 45 draft Artists and a Spotify
-      artist identity for Ric Wilson and Cruz Beckham & The Breakers, synchronize the
-      listening configuration into PostgreSQL with a dedicated idempotent backfill
-      script, then re-run the guarded publication workflow. Verify all 171 Artists are
-      published, all 170 verified Similar Artist sets are fully visible, and the full
-      backend test suite passes.
-- [x] Add a lightweight, run-scoped read boundary
-      (`read_festival_run_appearances`) returning every published, announced Artist's
-      scheduled Appearances in one flat, unpaginated list — the canonical source every
-      frontend scheduling-identity consumer resolves an Artist's real `Appearance.id`
-      against, alongside (not replacing) the heavier per-Artist detail boundary. Add
-      real PostgreSQL integration coverage for its filters, ordering, field mapping,
-      and billing-tier consistency check.
-- [x] Retire `app/data/artists` as a frontend runtime read boundary — every
-      consumer (Explore, Planner, Quick Picks, Festival Story, Artist Detail, Credits)
-      now reads exclusively from the API/PostgreSQL, with no TypeScript fallback on an
-      operational failure.
-- [x] Make PostgreSQL the sole artist data source for both read and write
-      (`artist-authoring.md` section 6): the TypeScript dataset and import tooling are
-      gone, the shared source parsers live in `backend/app/lib/artist_source.py`, the read
-      layer is `app/repositories/`, and `provenance/artists-lollapalooza-2026.json` is a
-      frozen archival snapshot.
+The schema itself — the DDL review, deterministic constraint and index naming, the
+ordering constraints, the trigger set, and the initial TypeScript import boundary — is
+what revision `7cee3ac4be86` and the sections above describe (see "Initial import
+boundary"), with the reasoning in ADRs 0002 through 0004 and 0011 through 0013. The
+frontend read cutover and then the authoring cutover that followed (publication-readiness
+evaluation, the guarded publish workflow, API parity, the run-scoped read boundaries,
+and retiring the TypeScript source) are tracked step by step in
+[`../roadmap/backend-rollout.md`](../roadmap/backend-rollout.md) and
+[`../roadmap/artist-authoring.md`](../roadmap/artist-authoring.md).

@@ -17,8 +17,15 @@ decisions belong in [`../decisions/`](../decisions/).
   on the hosted Railway database.
 - The production frontend depends on FastAPI and the hosted Railway PostgreSQL
   database for every artist-facing read, via the run-scoped appearances endpoint and
-  the global artist endpoint. The authoring cutover that followed is complete too (see
-  the "Next" section).
+  the global artist endpoint.
+
+This document is a historical record of the read-path rollout. The authoring cutover
+that followed (replacing `app/data/artists/*.ts` with a direct-to-PostgreSQL write
+workflow) is a distinct concern, tracked in
+[`artist-authoring.md`](./artist-authoring.md) with its rationale in
+[ADR-0011](../decisions/0011-direct-to-postgresql-artist-authoring.md) and
+[ADR-0013](../decisions/0013-editorial-authoring-and-review-process.md); that roadmap
+is complete, and PostgreSQL is now the sole artist data source for both read and write.
 
 ## Rollout sequence
 
@@ -165,7 +172,7 @@ under the documented readiness policy.
 
 ### 7. Expand and cut over deliberately
 
-**Status: in progress.**
+**Status: completed.**
 
 Consumers migrate one at a time, deepest-integrated first, deliberately keeping the
 Artist Detail allowlist narrow and reads uncached while the read paths themselves are
@@ -432,20 +439,6 @@ would make them harder to isolate, not easier.
    already-fixed multi-appearance conflict-detection behavior (see ADR-0006) and
    wasn't verifiable against a live backend in this pass; left as a deliberate,
    disclosed follow-up rather than an unverified simplification.
-
-## Next: replace the authoring source
-
-Step 7 finished the frontend _read_ path. Replacing `app/data/artists/*.ts` as the
-_authoring_ source (a direct-to-PostgreSQL write workflow, the editorial process
-decided in [ADR-0013](../decisions/0013-editorial-authoring-and-review-process.md), a
-database-level backup/restore path, and deleting the files) is a distinct concern,
-tracked in [`artist-authoring.md`](./artist-authoring.md) with its rationale in
-[ADR-0011](../decisions/0011-direct-to-postgresql-artist-authoring.md).
-
-That roadmap is now complete: `app/data/artists/*.ts` and the TypeScript import tooling
-are deleted, and PostgreSQL is the sole artist data source for both read and write.
-This document is a historical record of the read-path rollout; see `artist-authoring.md`
-for the current data-authoring boundary.
 
 ## Guardrails
 

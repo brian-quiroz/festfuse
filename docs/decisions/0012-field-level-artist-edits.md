@@ -170,5 +170,7 @@ payload)` with private per-group helpers stays testable without that cost.
 
 - [Artist authoring roadmap](../roadmap/artist-authoring.md), section 3
 - [ADR-0011: Direct-to-PostgreSQL artist authoring workflow](0011-direct-to-postgresql-artist-authoring.md)
+- [ADR-0013: Editorial authoring and review process](0013-editorial-authoring-and-review-process.md) —
+  the editorial process that runs on this field-level edit workflow
 - [Artist data model](../design/artist-data-model.md), "Editorial verification and freshness"
 - `backend/app/services/artist_authoring.py`, `backend/scripts/edit_artist.py`

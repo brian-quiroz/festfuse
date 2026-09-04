@@ -111,10 +111,12 @@ browser: after it runs, that browser's blob is stamped `"version":1` and the fun
 never fires again for that person.
 
 The migrations are removable once the multi-festival build has been deployed long enough
-that every still-active user has loaded it at least once. Deleting the three `migrate`
-functions (and leaving `version: 1` in place) is the cleanup. Anyone who still had a
-`version: 0` blob at that point is someone who had not opened the site since before the
-deploy; they would lose local picks/schedule/attendance, nothing server-side.
+that every still-active user has loaded it at least once. The batched multi-festival
+deploy shipped to production in September 2026, so that clock has started. Deleting the
+three `migrate` functions (and leaving `version: 1` in place) is the cleanup. Anyone who
+still had a `version: 0` blob at that point is someone who had not opened the site since
+before the deploy; they would lose local picks/schedule/attendance, nothing
+server-side.
 
 They are also safe to leave indefinitely. After the first run each `migrate` is a
 no-op, a few lines. There is no urgency.
@@ -143,9 +145,9 @@ appears in weekend 2's Explore. The number is off, not the data.
 
 The clean fix keeps decisions edition-scoped but intersects the **counts and the Pick
 Status facet** with the run's actual roster (the sidebar and Explore already hold that
-list). Not built now: no real multi-run roster exists yet (section 11), and the
-discrepancy is cosmetic. Revisit once both ACL weekends have real rosters, before
-launch if the mismatch is visibly confusing.
+list). Not built now: the discrepancy is cosmetic. Both ACL weekends now have full
+rosters that overlap without being identical, so the mismatch is live and observable —
+revisit before launch if it reads as confusing.
 
 ## Future Consideration: Visible "Passed" Indicator
 
@@ -325,6 +327,55 @@ ADR-0014 also deferred). ADR-0014 anticipated this: "a future automated backup c
 can be added later without revisiting this decision."
 
 **Do first:** enable Railway PITR, it is the least-effort real improvement.
+
+---
+
+## Future Consideration: Committed Provenance Record for the ACL 2026 Roster
+
+Lollapalooza's authored artist state is frozen in git at
+`provenance/artists-lollapalooza-2026.json` — but only because that data *once lived in
+the repo* (`app/data/artists/*.ts`) and the snapshot preserves what deletion removed
+(`provenance/README.md`). The ACL 2026 roster was authored the other way: hand-authored
+CSVs fanned straight into PostgreSQL via `build_roster_payloads.py` (ADR-0011), then
+edited in place. Under ADR-0011/0014 that is correct — the database is the source of
+truth, its backup is a `pg_dump`, and editorial data is not version-controlled. So
+there is nothing in git that records ACL's authored roster: no reviewable list of which
+acts play which weekend, what genres and locations were assigned, or the track/video
+choices. `artist-about-leads.md` (committed) references ~100 ACL artists with no
+committed roster to read alongside it.
+
+Whether that gap is worth closing, and how, is undecided:
+
+- The hand-authored roster CSVs, committed to a frozen `provenance/acl-2026/` with a
+  "not maintained, not a rebuild input" README — small, human-authored, closest analog
+  to what `app/data/artists/*.ts` was.
+- A consolidated `provenance/artists-acl-2026.json` snapshot matching the Lolla file —
+  cleaner, but needs a rebuilt export path (`scripts/export-artist-data.ts` was deleted
+  in the cutover).
+- Nothing — accept that post-cutover rosters live only in PostgreSQL plus operator
+  backups, and treat the Lolla provenance file as a one-time artifact of the migration,
+  not a pattern.
+
+The machine-generated `edit_artist` patch JSONs from the research pass are **not** a
+candidate — transient, derivable from the DB, and committing per-edit patches would
+contradict the source-of-truth model. Related: "No Automated Production Database
+Backup" above.
+
+---
+
+## Future Consideration: Non-Headliner About Copy Backlog
+
+The ACL 2026 roster published with `about` copy for headliners only. For every other
+ACL artist, the research pass captured sourced `about` leads — raw facts with their
+URLs — into `docs/process/artist-about-leads.md` instead of drafting prose, the
+deferred-`about` branch of the research process (ADR-0018). Writing each artist's
+`about` from its leads is a Tier-2 editorial job (the sourcing is done; it needs
+same-day re-verification and drafting), tracked per-slug in that file, on the parallel
+editorial track. It does not gate publication (ADR-0013) — ACL artist pages render
+fully without it.
+
+**Not scheduled here.** It is steady editorial work, not a development item. The leads
+file is the worklist; an entry is removed once that artist's `about` is verified.
 
 ---
 
@@ -656,7 +707,8 @@ reworking `verify-story-signals.ts` for a genuinely different festival lineup.
 (`isEditionCity` against the edition's `FESTIVAL_REGISTRY` city), but the harness still
 passes `editionCity: "Chicago"` and exercises only the Lollapalooza snapshot. A
 parallel ACL fixture set is the "genuinely different festival lineup" this entry
-already defers.
+already defers — and ACL 2026 is now a live second lineup (Austin, two weekends), so
+that fixture set is buildable whenever the check is reworked.
 
 ---
 
@@ -880,6 +932,12 @@ relationship metadata are deferred until a concrete graph feature requires them"
 **Revisit when:** there is a genuine second festival, the per-run re-curation cost
 becomes real, or the count-driven sweep visibly fails to keep the distribution sane.
 
+**Update (ACL 2026):** the second-festival trigger has arrived. ACL is live with two
+weekend runs, and each run needs its own curated similar-artist set on the parallel
+editorial track — the first place the per-run re-curation cost is paid for real. The
+greedy local approach is still what the editorial process uses; this entry stays open
+as the fuller answer.
+
 ---
 
 ## Future Consideration: Automated Freshness Re-Review Detection
@@ -950,6 +1008,11 @@ purely current-state and stay; some are mostly a decision record and could move 
 entirely; most are a mix and need a judgement call on what stays as a short summary
 versus what moves.
 
+Part of that pass: drop the `**Confirmed** — <design decision>` markers scattered
+through the file (~34 of them). They date from when `ARCHITECTURE.md` was a design doc
+being ratified item by item; every feature they mark has long since shipped, so the
+label carries no meaning now — the prose should just describe what the system does.
+
 **Not scheduled.** Do it opportunistically when touching a section for another reason,
 or as a dedicated pass once the boundary rule is settled.
 
@@ -969,8 +1032,8 @@ copy.
 `tests/integration/conftest.py` (or a `_factories.py`) both files import from,
 reconciling the drifted signatures carefully so no existing assertion changes meaning.
 
-**Not scheduled.** Belongs with the broader backend-test-coverage roadmap item
-(`docs/roadmap/multi-festival.md`, "Next"), not a feature PR.
+**Not scheduled.** Belongs with the broader backend-test-coverage effort (the remaining
+MVP 2.0 item per `AGENTS.md`'s Current Milestone), not a feature PR.
 
 ---
 
