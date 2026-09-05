@@ -361,6 +361,13 @@ candidate — transient, derivable from the DB, and committing per-edit patches 
 contradict the source-of-truth model. Related: "No Automated Production Database
 Backup" above.
 
+The same question covers **image-sourcing provenance**: per-batch research CSVs and the
+attribution records they carry (creator, license, source page) currently stay in a
+local output root outside the repo (ADR-0019). Published photo attribution already
+lives in PostgreSQL and renders on `/credits`, so a committed record would be a
+secondary archive, not the source of truth — the same tradeoff as the roster above.
+Decide both together in one ADR rather than piecemeal.
+
 ---
 
 ## Future Consideration: Non-Headliner About Copy Backlog
