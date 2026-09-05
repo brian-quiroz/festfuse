@@ -1111,3 +1111,22 @@ let K-Pop stop being a pseudo-family.
 **Not built now** — the affected artists (damaris-bojor under `Regional Mexican`,
 huston-tillotson-jazz-collective under `Jazz`) are served adequately by the families as
 named.
+
+---
+
+## Future Consideration: Orphaned Static-Asset Components After the Photo/Artwork Cutover
+
+The pre-migration cleanup removed the local `public/artists/heroes/`, `public/artists/avatars/`,
+`public/albums/`, and `public/festivals/logos/` assets, all unreferenced after the Postgres
+cutover moved artist photos to `public/artists/global/` and track artwork to Spotify.
+
+`app/components/ui/AlbumArtwork.tsx` is left behind as a fully orphaned component — zero
+callers anywhere, it only renders `/albums/*`-style `artworkUrl` values that no longer
+exist. The legacy `album` / `duration` / `artworkUrl` fields still typed on `Artist["tracks"]`
+(`app/types/artist.ts`) are the matching dead type surface; the authoring schema already
+rejects them (ADR-0011).
+
+**Not removed now** — deleting a component and trimming a shared type is a code change
+beyond the asset sweep. A small follow-up PR should delete `AlbumArtwork.tsx` and drop the
+three dead track fields once nothing in a copy-from-provenance authoring flow depends on
+the shape.
