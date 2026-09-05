@@ -15,14 +15,14 @@ loaded by any skill.
 
 ## What only you do
 
-| Stage              | Your job                                                                                                                                                                                                                                                                      |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Roster**         | Transcribe the official schedule into `roster.csv` — stylized name, slug, the Spotify **artist** URL you verified, YouTube/TikTok, billing tier, day/stage/time (or none, for an announced-only roster; see below). Resolve identity on Spotify yourself: a name can point at several acts, and a wrong id is silent corruption. |
-| **Skeletons**      | Run `build_roster_payloads.py --preview`, read the report, fix any flagged rows, then `--apply`.                                                                                                                                                                              |
-| **Research pass**  | Read the AI's per-artist report. Approve per field or per artist. Where it surfaced two or three options, pick one. Nothing is written until you say so.                                                                                                                      |
+| Stage              | Your job                                                                                                                                                                                                                                                                                                                                                             |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Roster**         | Transcribe the official schedule into `roster.csv` — stylized name, slug, the Spotify **artist** URL you verified, YouTube/TikTok, billing tier, day/stage/time (or none, for an announced-only roster; see below). Resolve identity on Spotify yourself: a name can point at several acts, and a wrong id is silent corruption.                                     |
+| **Skeletons**      | Run `build_roster_payloads.py --preview`, read the report, fix any flagged rows, then `--apply`.                                                                                                                                                                                                                                                                     |
+| **Research pass**  | Read the AI's per-artist report. Approve per field or per artist. Where it surfaced two or three options, pick one. Nothing is written until you say so.                                                                                                                                                                                                             |
 | **Flagship track** | Pick it in Spotify — you can see play counts, song age, and the "Popular" order. This is a judgment call (a defining track vs. a current-moment one). The AI gives you nothing here; use `show_artist --slug` for the rest of the record as context. Skip it for an artist with no Spotify presence that publishes on a featured live-performance video (see below). |
-| **Publish**        | `check_artist_links` passes, then `publish_artists`. Needs identity + 3 genres + location + one preview (a Spotify artist ID, a full Listen First set, or a featured video) + a flagship track unless the preview is a video alone. Not `about`, not similar artists.            |
-| **Sign-off**       | You set every `*Verified` flag, always, after reading the evidence. The AI never does.                                                                                                                                                                                        |
+| **Publish**        | `check_artist_links` passes, then `publish_artists`. Needs identity + 3 genres + location + one preview (a Spotify artist ID, a full Listen First set, or a featured video) + a flagship track unless the preview is a video alone. Not `about`, not similar artists.                                                                                                |
+| **Sign-off**       | You set every `*Verified` flag, always, after reading the evidence. The AI never does.                                                                                                                                                                                                                                                                               |
 
 Similar-artist sets come later, after enough of the roster is published to draw from.
 
@@ -54,11 +54,11 @@ against the same run: an **announced roster** first, then a **scheduled roster**
 times drop. If the schedule is already public when you build the roster, do a single
 scheduled pass instead.
 
-| Pass                                     | Rows          | Schedule columns | What `build_roster_payloads` does                                                              |
-| ---------------------------------------- | ------------- | ---------------- | --------------------------------------------------------------------------------------------- |
-| **Announced roster**                     | one per artist | omitted          | creates an *announced* entry with no appearances; the run stays "announced"                   |
-| **Scheduled roster** (re-run, same run)  | one per set    | filled           | attaches each artist's appearances to the existing announced entry; the run flips "scheduled" |
-| **One pass** (schedule already public)   | one per set    | filled           | creates the artist and its appearances together                                               |
+| Pass                                    | Rows           | Schedule columns | What `build_roster_payloads` does                                                             |
+| --------------------------------------- | -------------- | ---------------- | --------------------------------------------------------------------------------------------- |
+| **Announced roster**                    | one per artist | omitted          | creates an _announced_ entry with no appearances; the run stays "announced"                   |
+| **Scheduled roster** (re-run, same run) | one per set    | filled           | attaches each artist's appearances to the existing announced entry; the run flips "scheduled" |
+| **One pass** (schedule already public)  | one per set    | filled           | creates the artist and its appearances together                                               |
 
 A single file is entirely one shape; a file mixing announced and scheduled artists is
 rejected. Skeletons, research pass, flagship, and publish all run normally on an
@@ -71,19 +71,19 @@ re-run.
 `slug` and `name` are the only columns required in every file; drop any column a file
 does not use.
 
-| Column                   | Required                                          | Notes                                                                                                                                                    |
-| ------------------------ | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `slug`                   | always                                            | Lowercase, hyphen-separated. Spell out a leading number ("five-seconds-of-summer") unless the numeral is inseparable from the identity ("54-ultra").      |
-| `name`                   | always                                            | Stylized as the artist writes it in prose, not a logo treatment. On a schedule re-run it appears only in the report, never re-saved.                     |
-| `billing_tier`           | announced roster; a new artist's first appearance | `Headliner`, `Sub-headliner`, or `Undercard`, taken from the poster. Inherited (may be omitted) on a schedule re-run for an already-announced artist.     |
-| `stage`                  | scheduled roster                                  | Must match a seeded stage name for the edition.                                                                                                          |
-| `date`                   | scheduled roster                                  | `Jul 30` format; must match a seeded festival day.                                                                                                       |
-| `start_time`, `end_time` | scheduled roster                                  | `8:30 PM` format.                                                                                                                                        |
+| Column                   | Required                                          | Notes                                                                                                                                                       |
+| ------------------------ | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `slug`                   | always                                            | Lowercase, hyphen-separated. Spell out a leading number ("five-seconds-of-summer") unless the numeral is inseparable from the identity ("54-ultra").        |
+| `name`                   | always                                            | Stylized as the artist writes it in prose, not a logo treatment. On a schedule re-run it appears only in the report, never re-saved.                        |
+| `billing_tier`           | announced roster; a new artist's first appearance | `Headliner`, `Sub-headliner`, or `Undercard`, taken from the poster. Inherited (may be omitted) on a schedule re-run for an already-announced artist.       |
+| `stage`                  | scheduled roster                                  | Must match a seeded stage name for the edition.                                                                                                             |
+| `date`                   | scheduled roster                                  | `Jul 30` format; must match a seeded festival day.                                                                                                          |
+| `start_time`, `end_time` | scheduled roster                                  | `8:30 PM` format.                                                                                                                                           |
 | `spotify_url`            | optional                                          | Canonical `https://open.spotify.com/artist/{id}`. Resolve identity on Spotify first; a name can point at several acts. Fine to leave for the research pass. |
-| `youtube_url`            | optional                                          | Official/verified > artist-managed > label-supported. A `- Topic` auto-channel counts as absent.                                                          |
-| `tiktok_url`             | optional                                          | Canonical `@handle` profile URL.                                                                                                                         |
+| `youtube_url`            | optional                                          | Official/verified > artist-managed > label-supported. A `- Topic` auto-channel counts as absent.                                                            |
+| `tiktok_url`             | optional                                          | Canonical `@handle` profile URL.                                                                                                                            |
 
-Identity and socials are read only by the pass that *creates* the artist. A schedule
+Identity and socials are read only by the pass that _creates_ the artist. A schedule
 re-run looks each artist up by slug and touches only appearances, so identity/social
 columns on those rows are ignored; put that work in the announced pass or leave it for
 the research pass.

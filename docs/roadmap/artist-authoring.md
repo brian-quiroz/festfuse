@@ -247,10 +247,9 @@ frontend reads it through the API; artist facts are written to it directly throu
 
 - ADR-0011 anticipated "a dedicated operation adds a `genres` row to its family"; the
   authoring roadmap deferred it until a genuinely new genre was needed. Importing the
-  Austin City Limits 2026 roster (multi-festival roadmap) is that trigger — its research
-  pass adds roughly twenty genres, from broad umbrellas the vocabulary was missing
-  (Jazz, Blues, Gospel) to scene-specific names with a defining roster act (Jerk Rap,
-  Queercore, Deconstructed Club).
+  Austin City Limits 2026 roster (multi-festival roadmap) was that trigger — its
+  research pass added roughly twenty genres, from broad umbrellas the vocabulary was
+  missing to scene-specific names each with a defining roster act.
 - `app/services/genre_authoring.py` (`create_genre` / `delete_genre` / the pure
   `derive_genre_slug`) holds the logic; `scripts/add_genre.py` and
   `scripts/delete_genre.py` are thin CLIs with the same `--preview` / `--apply` modes
@@ -290,15 +289,3 @@ replayable command instead of a hand-written `INSERT`.
   the hosted Railway database: schema migrations via the deploy pipeline
   (`alembic upgrade head` runs pre-deploy), data and artist writes via the encrypted
   Railway tunnel. A change applied only locally is not done.
-
-## Next: multi-festival and multi-run support
-
-[`multi-festival.md`](./multi-festival.md) is the roadmap after this one. It adds
-support for festivals beyond Lollapalooza and for editions that run more than one
-weekend (Austin City Limits 2026 is the target), plus presenting a festival whose
-lineup is announced before its schedule exists. It builds directly on this work:
-adding a festival, then a run, then that run's artists is the same
-festival → run → genre → artist hierarchy (ADR-0011), generalized past the single
-hard-coded `lollapalooza-2026`. `add_artist` taking a run by slug, and
-`build_roster_payloads.py` fanning a roster CSV into a run, are the first steps toward
-it. Rationale in [ADR-0015](../decisions/0015-multi-festival-and-multi-run-support.md).

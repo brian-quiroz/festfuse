@@ -4,9 +4,9 @@
 
 [Live Demo](https://festfuse.com/) · [Architecture](ARCHITECTURE.md)
 
-> FestFuse currently features the Lollapalooza 2026 lineup. Support for additional festivals is planned.
+> FestFuse currently covers two live festival lineups: Lollapalooza 2026 in Chicago, and Austin City Limits 2026 in Austin across two independent weekends.
 
-Designed and built solo: product design, full-stack development, and artist data curation across 171 artists and 4 festival days.
+Designed and built solo: product design, full-stack development, and artist-data curation across two festival editions and three festival runs.
 
 <p align="center">
   <img src="docs/screenshots/home.jpg" width="49%" alt="FestFuse home screen with Quick Picks, Explore, and Planner entry points" />
@@ -19,7 +19,33 @@ Festival lineups can turn music discovery into homework. FestFuse offers a few f
 
 The goal is not to catalog everything about every artist. It is to help festivalgoers feel confident and excited about who they choose to see.
 
+## Architecture at a glance
+
+```mermaid
+flowchart LR
+    FE["Next.js / React<br/>(Vercel)"] -->|reads| API["FastAPI<br/>(Railway)"]
+    API -->|reads| DB[(PostgreSQL)]
+    CLI["Editorial CLI workflows<br/>add_artist / edit_artist / publish_artists"] -->|writes| DB
+```
+
+- **Series → edition → run → appearance** models festivals with more than one weekend and artists that play more than one set, without duplicating an artist record per appearance.
+- **PostgreSQL is the sole artist-data source.** The API is read-only; artist records are created and edited only through the CLI workflows below, so there's no write endpoint to expose or secure.
+- **Schema changes ship through committed Alembic migrations**; artist records are authored through transactional CLI workflows backed by a documented editorial research-and-review process, not hand-edited in the database.
+- A publication-readiness gate, requiring things like location, verified genres, and a listening or video preview, keeps incomplete artist records out of the public API.
+- Editorial extras like bio copy and similar-artist picks are verified independently and never block publication.
+
+For deeper context:
+
+- [`docs/design/artist-data-model.md`](docs/design/artist-data-model.md): the full schema.
+- [`docs/roadmap/`](docs/roadmap): specs written before implementation for the project's more recent milestones, including this multi-festival build.
+- [`docs/decisions/`](docs/decisions/README.md): architecture decision records.
+- [`docs/process/artist-editorial-process.md`](docs/process/artist-editorial-process.md): the editorial research-and-review workflow.
+
 ## Features
+
+- **Multiple festivals and runs**
+
+  Switch between festival editions and individual weekends while keeping discovery, picks, and planning scoped to the selected run. Festivals without a published schedule remain usable for discovery and Quick Picks.
 
 - **Explore**
 
@@ -51,6 +77,12 @@ The goal is not to catalog everything about every artist. It is to help festival
 
 ## Screens
 
+**Choosing a festival**
+
+The entry screen for a new session, before Explore, Quick Picks, or Planner come into view.
+
+![Festival picker](docs/screenshots/festival-picker.jpg)
+
 **Explore**
 
 The Festival Favorites carousel, with picks and a schedule conflict visible on the cards.
@@ -65,7 +97,7 @@ Artist page for The Smashing Pumpkins, with Must See and Scheduled both marked a
 
 **Planner**
 
-A snapshot of Friday's schedule, with several picks (some also scheduled) and a real schedule conflict.
+A snapshot of Saturday's schedule, with several picks (some also scheduled) and a real schedule conflict.
 
 ![Planner showing a real schedule conflict](docs/screenshots/planner.jpg)
 
@@ -128,9 +160,9 @@ The onboarding modal.
 
 Built with the Next.js App Router, React, TypeScript, and Tailwind CSS, with a FastAPI/PostgreSQL backend deployed on Railway.
 
-- **PostgreSQL-backed artist data**: every artist-facing screen reads from a deployed FastAPI/PostgreSQL backend with a normalized artist schema and PostgreSQL integration tests. Artist records are authored directly in the database through small transactional CLI workflows, backed by an editorial research-and-review process.
 - **Festival Story's insight engine** computes a personalized recap from the user's actual attendance scope and picks each time, instead of displaying a fixed or randomly generated script.
 - **Multi-appearance modeling** lets a repeat festival performance exist as its own scoped appearance record instead of duplicating the artist, so the same artist can play multiple sets without the two copies drifting out of sync.
+- **Derived schedule state**: whether a run reads as scheduled, announced-only (roster known, no schedule yet), or not yet live is computed from whether appearances and published artists actually exist, never a separate status flag that could drift out of sync with the data.
 - **Rehydration resilience**: fixed three separate causes of a blank-screen bug on page load, each traced back to how a returning user's saved picks were being restored from the browser, not patched over ([details](ARCHITECTURE.md#hydrationgate-resilience-to-rehydration-errors)).
 
 A few more decisions worth knowing about:
@@ -139,7 +171,7 @@ A few more decisions worth knowing about:
 - Detects real schedule conflicts across a user's scheduled picks, scoped by festival and calendar date.
 - Uses deterministic carousel sampling to keep server and client rendering consistent while preserving variety between visits.
 - Persists decisions and schedule state in the browser with Zustand.
-- Gates AI-drafted artist bios and similar-artist picks behind a verified flag, so unverified content never renders. All 171 artists' similar-artist picks are verified; bio verification is ongoing.
+- Gates AI-drafted artist bios and similar-artist picks behind an editor-verified flag, so unverified content simply doesn't render. The page still works, just without that section.
 
 For deeper implementation notes and design decisions, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -208,18 +240,11 @@ Backend test commands and the distinction between isolated API tests and real
 PostgreSQL integration tests are documented in the
 [backend testing guide](backend/tests/README.md).
 
-## Current Scope and Roadmap
+## Scope
 
-FestFuse covers the Lollapalooza 2026 lineup and reads all artist data from its
-FastAPI/PostgreSQL backend. The next iteration
-([`docs/roadmap/multi-festival.md`](docs/roadmap/multi-festival.md)) focuses on:
+FestFuse is intentionally focused on pre-festival discovery, individual artist decisions, and conflict-aware planning. Picks and schedules persist locally in the browser without requiring an account.
 
-- Multiple festivals, including editions that run more than one weekend
-  (Austin City Limits 2026 is the target)
-- Supporting an announced lineup before its schedule is published
-- Expanding frontend and backend automated test coverage
-
-User accounts and artist comparison are not planned for this iteration.
+Two festival editions are live today: Lollapalooza 2026, and Austin City Limits 2026 across two independent weekends. See [`docs/roadmap/multi-festival.md`](docs/roadmap/multi-festival.md) for how that was built.
 
 ## Project Structure
 
@@ -227,18 +252,20 @@ User accounts and artist comparison are not planned for this iteration.
 docs/                    # Decision records, roadmaps, design and process notes, screenshots
 backend/                 # FastAPI, SQLAlchemy models, Alembic migrations, and tests
 app/
-├── artist/[slug]/       # Artist detail routes
+├── festivals/[edition]/[run]/  # Workflow routes, scoped to a festival edition and run
+│   ├── artist/[slug]/          # Artist detail
+│   ├── explore/                # Lineup discovery
+│   ├── planner/                # Festival schedule builder
+│   ├── quick-picks/            # Guided artist decision flow
+│   └── credits/                # Photo/media attribution
 ├── components/          # Shared and feature-specific UI
 ├── data/                # Festival config, category vocabularies, and story data
-├── explore/             # Lineup discovery
-├── hooks/               # Shared React behavior and story signals
-├── lib/                 # Search, filtering, scheduling, and sampling logic
-├── planner/             # Festival schedule builder
-├── quick-picks/         # Guided artist decision flow
-├── store/               # Zustand client state
-└── types/               # Shared TypeScript models
+├── hooks/                # Shared React behavior and story signals
+├── lib/                  # Search, filtering, scheduling, and sampling logic
+├── store/                # Zustand client state
+└── types/                # Shared TypeScript models
 ```
 
 ## Data and Media Credits
 
-FestFuse is an independent portfolio project and is not affiliated with Lollapalooza, C3 Presents, Spotify, YouTube, or the artists represented. Artist imagery and embedded media remain the property of their respective owners. See the in-app Credits page for detailed attributions.
+FestFuse is an independent portfolio project and is not affiliated with Lollapalooza, Austin City Limits, C3 Presents, Spotify, YouTube, or the artists represented. Artist imagery and embedded media remain the property of their respective owners. See the in-app Credits page for detailed attributions.

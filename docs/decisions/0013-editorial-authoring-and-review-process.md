@@ -226,6 +226,8 @@ The out-of-repo `~/.claude/skills/artist-review/` copy is deleted.
   the `add-genre` / `delete-genre` CLIs deferred under "Deferred" above
 - [ADR-0011: Direct-to-PostgreSQL artist authoring workflow](0011-direct-to-postgresql-artist-authoring.md)
 - [ADR-0012: Field-level artist edit workflow](0012-field-level-artist-edits.md)
+- [ADR-0017: Video-only publication readiness tier](0017-video-only-publication-readiness-tier.md),
+  which extends this ADR's publication readiness gate
 - [ADR-0018: Capture about-copy leads during deferred-`about` research passes](0018-about-copy-leads-during-deferred-about-passes.md),
   a later refinement of the deferred-`about` path
 - [Artist editorial process](../process/artist-editorial-process.md) — the in-repo

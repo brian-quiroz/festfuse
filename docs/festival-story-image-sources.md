@@ -11,7 +11,7 @@ attribution required, no resale of the unaltered file, no implication of endorse
 Images added before this file existed are not individually recorded; record every
 new one here as it is added.
 
-| File | Card type | Photographer | Source |
-| --- | --- | --- | --- |
-| `first-screen.jpg` | `intro` | Jonathan Borba | https://www.pexels.com/photo/view-of-a-concert-with-fireworks-3563173/ |
-| `hometown-generic.jpg` | `hometown` | Essow K | https://www.pexels.com/photo/silhouette-of-city-skyline-near-the-sea-during-sunset-7224139/ |
+| File                   | Card type  | Photographer   | Source                                                                                      |
+| ---------------------- | ---------- | -------------- | ------------------------------------------------------------------------------------------- |
+| `first-screen.jpg`     | `intro`    | Jonathan Borba | https://www.pexels.com/photo/view-of-a-concert-with-fireworks-3563173/                      |
+| `hometown-generic.jpg` | `hometown` | Essow K        | https://www.pexels.com/photo/silhouette-of-city-skyline-near-the-sea-during-sunset-7224139/ |

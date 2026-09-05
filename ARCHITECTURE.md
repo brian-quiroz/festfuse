@@ -39,8 +39,8 @@ A few decisions below are worth reading first if you're skimming:
 Artist data lives in PostgreSQL and reaches the frontend only through the FastAPI
 backend, over two read paths: the run-scoped appearances feed (behind
 `runAppearancesStore`, shared by Explore, Planner, Quick Picks, Festival Story, and
-Credits) and the per-artist detail fetch (`/artist/[slug]`). See "Backend Persistence
-Foundation" below and `docs/roadmap/backend-rollout.md`.
+Credits) and the per-artist detail fetch (one artist by slug, run-scoped). See "Backend
+Persistence Foundation" below and `docs/roadmap/backend-rollout.md`.
 
 The frontend keeps the artist _type_ (`app/types/artist.ts`) plus the category
 vocabularies and festival config it depends on (`app/data/categories.ts`,
@@ -62,8 +62,9 @@ All categories are typed constants with `as const` for perfect type sync.
 
 ### Slug Naming Convention
 
-`slug` is the canonical, ASCII-safe identifier for an artist — used for routing
-(`/artist/[slug]`), `artistsBySlug` lookups, and (see "Search & Filter Pipeline") as
+`slug` is the canonical, ASCII-safe identifier for an artist — used for routing (the
+`[slug]` segment of the scoped artist detail route), `artistsBySlug` lookups, and (see
+"Search & Filter Pipeline") as
 an exact/partial match target in Explore search, specifically so non-ASCII display
 names stay findable via their plain-ASCII form.
 
@@ -791,7 +792,9 @@ const cityOwn = interleaveByDayShuffled(
 // Result: represents all qualifying artists, shuffled presentation breaks file-order bias
 const afterDark = interleaveByDayShuffled(
   allArtists.filter(
-    (a) => timeStringToMinutes(getPrimaryAppearance(a, ACTIVE_FESTIVAL_ID).startTime) >= 20 * 60
+    (a) =>
+      timeStringToMinutes(getPrimaryAppearance(a, editionSlug, dayOrder).startTime) >=
+      AFTER_DARK_THRESHOLD_MINUTES
   )
 );
 ```
@@ -823,17 +826,17 @@ the other is seeded per run, never both. `AnnouncedRunArtistsHydrator` copies
 **Empty announced run.** A run that is `schedule_state: "announced"` with **no
 published artists yet** (seeded before its roster import) has no usable surface.
 
-- *Routes:* the `[edition]/[run]` layout catches this once — an announced feed that
+- _Routes:_ the `[edition]/[run]` layout catches this once — an announced feed that
   resolved to `[]` — and renders `AnnouncedLineupPending` ("Lineup not available yet")
   in place of the page, so every route beneath (Explore, Planner, Quick Picks, Artist
   Detail, Credits, Festival Story) shows the one screen without each page checking.
   `null` (fetch failure) is not `[]`: it flows to the hydrator and the pages'
   `AppearancesUnavailable`, as on the scheduled path.
-- *Chrome:* `GET /festivals/{slug}` returns `has_published_artists` per run (derived
+- _Chrome:_ `GET /festivals/{slug}` returns `has_published_artists` per run (derived
   like `schedule_state`, ADR-0016 — true whenever the `/artists` feed is non-empty,
   always true for a scheduled run). The root layout seeds it into
   `runScheduleStateStore` alongside `schedule_state`, so `Sidebar` and `HomeContent`
-  (both outside the run segment) can react. On a route *under* an empty announced run
+  (both outside the run segment) can react. On a route _under_ an empty announced run
   the sidebar shows only Home + How it works + the festival selector. On Home,
   `HomeContent` falls back to its no-context festival-picker view verbatim rather than
   dead workflow cards, and — the picker being the whole experience there — drives
@@ -841,11 +844,11 @@ published artists yet** (seeded before its roster import) has no usable surface.
   run is named on `AnnouncedLineupPending` (rendered by the run's own routes), not on
   Home. Both store reads fail open (nav shown, has-artists true) when the run isn't in
   the store.
-- *Picker:* `FestivalPicker` and `FestivalContextSelector` read the same
+- _Picker:_ `FestivalPicker` and `FestivalContextSelector` read the same
   `has_published_artists` flag (through `useIsRunUnavailable`, one call per component,
   returning a predicate the run loops query, so hook order stays fixed) and render an
   empty announced run as a disabled "Not available yet" option: a disabled weekend
-  button or dropdown row, or a disabled edition card when *every* run is empty. Native
+  button or dropdown row, or a disabled edition card when _every_ run is empty. Native
   `disabled` on the buttons blocks click and keyboard both. A disabled edition card
   drops the festival's identity gradient for one shared neutral charcoal (a dim of the
   identity color would mean a different "disabled" color per festival); identity stays
@@ -856,13 +859,13 @@ published artists yet** (seeded before its roster import) has no usable surface.
 
 **Per-surface adaptation:**
 
-| Surface | Announced behavior |
-| --- | --- |
-| **Explore** | `AnnouncedExploreContent` (separate component). No Day / Stage / Schedule-Status facets; the search placeholder drops "or stages". Carousels: Festival Favorites (`interleaveByTierShuffled` — tier round-robin, the day-less analog of `shuffleDayBlocks`), International and `{City}'s Own` (plain seeded `shuffleArray`); no After Dark (set-time only). `AnnouncedArtistCard` (rendered through `ArtistCarousel` / `ArtistResultsGrid`'s `CardComponent` prop) drops the schedule line, schedule toggle, conflict badge, and "N sets". `filterArtists` / `searchArtists` shared as-is. |
-| **Artist Detail** | `FloatingCards` shows a membership line ("Playing At — {festival} — Set times not yet announced") instead of the Date/Time/Stage card; `ArtistActions` hides "Add to Schedule"; the Headliner badge stays (from `billingTier`). The page throws only when a *scheduled* run has an artist with no appearances. |
-| **Planner** | `planner/page.tsx` renders `PlannerUnavailable` (informational, cyan, "Schedule not available yet" + Explore/Quick Picks cards) — the route stays live and linkable, no redirect (context-switching onto it from another run also lands here, not Home). Only ever the "artists, no schedule" shape; a zero-artist run is caught by the layout. The Planner nav item and the sidebar's whole "Schedule" group are hidden for an announced run. |
-| **Quick Picks** | `quick-picks/page.tsx` branches on `useRunScheduleMode()` (state machine unchanged, only the data source and three sub-screens differ). Each sub-screen takes an `announced` prop rather than being forked: `StartScreen` drops the "Days Attending" step, the "Group by Festival Day" toggle, and the per-day "fully reviewed" note; `DecisionScreen` takes a nullable `appearance` and drops the day/time/stage/"N sets" metadata row (Headliner badge reads `artist.billingTier`); `QuickPicksCompleteScreen` uses lineup-wide scope copy and shows the Festival Story card alone, centered, with no Schedule card (there is no schedule to plan). `createAnnouncedSession` builds the queue from every undecided artist, ordered by `interleaveArtistsByTier` (the shared tier interleave keyed on `artist.billingTier` instead of an appearance's); queue items carry null day/appearance fields. |
-| **Festival Story** | `computeStorySignals` takes a `mode`; announced skips the attendance-day scoping (every artist is eligible) and the two schedule-derived dimensions (`stage`, `day`). Billing reads the run-level `artist.billingTier`. See § Festival Story → Announced mode. |
+| Surface            | Announced behavior                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Explore**        | `AnnouncedExploreContent` (separate component). No Day / Stage / Schedule-Status facets; the search placeholder drops "or stages". Carousels: Festival Favorites (`interleaveByTierShuffled` — tier round-robin, the day-less analog of `shuffleDayBlocks`), International and `{City}'s Own` (plain seeded `shuffleArray`); no After Dark (set-time only). `AnnouncedArtistCard` (rendered through `ArtistCarousel` / `ArtistResultsGrid`'s `CardComponent` prop) drops the schedule line, schedule toggle, conflict badge, and "N sets". `filterArtists` / `searchArtists` shared as-is.                                                                                                                                                                                                                                                                                                             |
+| **Artist Detail**  | `FloatingCards` shows a membership line ("Playing At — {festival} — Set times not yet announced") instead of the Date/Time/Stage card; `ArtistActions` hides "Add to Schedule"; the Headliner badge stays (from `billingTier`). The page throws only when a _scheduled_ run has an artist with no appearances.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Planner**        | `planner/page.tsx` renders `PlannerUnavailable` (informational, cyan, "Schedule not available yet" + Explore/Quick Picks cards) — the route stays live and linkable, no redirect (context-switching onto it from another run also lands here, not Home). Only ever the "artists, no schedule" shape; a zero-artist run is caught by the layout. The Planner nav item and the sidebar's whole "Schedule" group are hidden for an announced run.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Quick Picks**    | `quick-picks/page.tsx` branches on `useRunScheduleMode()` (state machine unchanged, only the data source and three sub-screens differ). Each sub-screen takes an `announced` prop rather than being forked: `StartScreen` drops the "Days Attending" step, the "Group by Festival Day" toggle, and the per-day "fully reviewed" note; `DecisionScreen` takes a nullable `appearance` and drops the day/time/stage/"N sets" metadata row (Headliner badge reads `artist.billingTier`); `QuickPicksCompleteScreen` uses lineup-wide scope copy and shows the Festival Story card alone, centered, with no Schedule card (there is no schedule to plan). `createAnnouncedSession` builds the queue from every undecided artist, ordered by `interleaveArtistsByTier` (the shared tier interleave keyed on `artist.billingTier` instead of an appearance's); queue items carry null day/appearance fields. |
+| **Festival Story** | `computeStorySignals` takes a `mode`; announced skips the attendance-day scoping (every artist is eligible) and the two schedule-derived dimensions (`stage`, `day`). Billing reads the run-level `artist.billingTier`. See § Festival Story → Announced mode.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 
 **`{City}'s Own`.** The carousel filter, its title (`` `${editionCity || "Local"}'s Own` ``),
 and the Festival Story hometown signal all key off `isEditionCity(artistCity, editionCity)`
@@ -941,18 +944,9 @@ Clearing a verdict (clicking an active button to deselect it) sets `verdict` bac
 
 ### Festival Scoping
 
-**Current limitation:** `decisionsByArtist` is keyed by artist ID (slug) alone, with no festival-level scoping. This is safe only because exactly one festival's data exists today (Lollapalooza 2026). Artist IDs themselves are not inherently festival-unique — the same artist can and will appear on multiple festivals' lineups.
+`decisionStore`'s `decisionsByArtist` map is keyed by `${editionSlug}:${artistSlug}` (`decisionKey`), read through `useEditionDecisions` / `scopeDecisionsToEdition` (ADR-0015). The scoping is load-bearing: artist slugs are not festival-unique — the same artist appears on multiple lineups — so an unscoped key would let a "Must See" for an artist at one festival read as intent to see them at another (a user who marks Taylor Swift Must See at Lollapalooza would silently be treated as intending to see her at Coachella). A returning pre-multi-festival user's unscoped keys are re-scoped to `lollapalooza-2026` by the one-time `persist` `migrate` (see "Persisted user state" in the multi-festival roadmap and § Festival Configuration).
 
-**Before adding multi-festival support, this MUST change.** Without festival scoping, a decision made for an artist at one festival would silently and incorrectly apply to every festival that artist appears on. For example: if a user marks "Taylor Swift" as "Must See" at Lollapalooza, the store would later incorrectly mark that user as intending to see Taylor Swift at Coachella, despite never having made that choice.
-
-**Migration path:** Either:
-
-1. **Compound key:** Rekey `decisionsByArtist` to use `{festivalId}:{artistSlug}` as the dictionary key.
-2. **Nested structure:** Restructure to `decisionsByFestival[festivalId][artistSlug]` for explicit per-festival scoping.
-
-**Do not add a second festival without addressing this first.** It will silently corrupt user decisions across festival contexts.
-
-**Attendance-day awareness is similarly narrow today.** `attendanceDaysByFestival` (see "Quick Picks Attendance" below) is already festival-scoped, but only two consumers read it: Quick Picks (`StartScreen`) and Festival Story (`FestivalStorySequence`). Explore, Home, Planner, and Artist Detail never read the user's selected attendance days — day-based filtering on those surfaces (e.g. Explore's day filter) uses each artist's own `appearance.day`, not the user's attendance selection. This is current state, not a defect; expanding attendance-day awareness app-wide is a separate, undecided product question from the festival-scoping fix above.
+**Attendance-day awareness is deliberately narrower.** `attendanceStore`'s `attendanceDaysByFestival` map is keyed by `${editionSlug}:${runSlug}` (`attendanceKey` — the map name predates run scoping), but only two consumers read it: Quick Picks (`StartScreen`) and Festival Story (`FestivalStorySequence`). Explore, Home, Planner, and Artist Detail never read the user's selected attendance days — day-based filtering on those surfaces (e.g. Explore's day filter) uses each artist's own `appearance.day`, not the user's attendance selection. This is current state, not a defect; expanding attendance-day awareness app-wide is a separate, undecided product question.
 
 One surface has since had its copy made day-aware without changing this underlying scope: `QuickPicksCompleteScreen.tsx`'s locked Festival Story explanation now names the specific attended day (or "your selected days" for multi-day sessions), sourced from the same `attendanceDays` prop the screen already used for other copy. This exists because `Sidebar.tsx`'s "My Picks" count sums every decision across the entire `decisionsByArtist` map with no day filtering, while the Story's unlock threshold is attendance-scoped — a user can see a much higher unscoped total in the Sidebar and be confused why the Story still reads as locked. The copy fix addresses that confusion in place; it does not change what counts toward the unlock threshold, and the Sidebar count itself remains unscoped, consistent with the app-wide state described above.
 
@@ -1051,8 +1045,9 @@ different page.
    - Zustand store holding all five filter facets directly — `genres`, `day`, `stages`,
      `pickStatus`, `scheduleStatus` — plus `searchQuery`, `viewingCarousel` (which carousel,
      if any, is showing its "See all" full view), and `activeNavItem` (which sidebar
-     destination is current, since Explore and all five My Festival links share the
-     `/explore` pathname). `searchQuery` and `viewingCarousel` live here rather than as
+     destination is current, since Explore and all five My Festival links resolve to the
+     one scoped Explore pathname, `/festivals/{edition}/{run}/explore`). `searchQuery`
+     and `viewingCarousel` live here rather than as
      local state in `ExploreContent` for the same reason the five facets do: Sidebar-driven
      navigation needs to be able to reset them as part of landing on a clean preset view,
      and only the store is reachable from both `Sidebar.tsx` and `ExploreContent.tsx`.
@@ -1089,8 +1084,10 @@ ScheduleStatusValue[]}` discriminated union, built with `satisfies` so a typo in
      carousel's full view instead of the unfiltered grid — used by a carousel's "See all."
 
 2. **Sidebar click handler** (`app/components/Sidebar.tsx`):
-   - Explore link: `clearFilters()`, then `router.push("/explore")` (skipped if already on
-     `/explore`).
+   - Explore link: `clearFilters()`, then `router.push(exploreHref)`, where
+     `exploreHref = contextHref(context, "explore")` (the scoped
+     `/festivals/{edition}/{run}/explore` route) — skipped if that is already the
+     pathname.
    - Each My Festival link: `applyPreset(NAV_ITEM_BY_LABEL[label])`, then the same
      navigate-if-needed check.
    - Both calls happen synchronously in the click handler, before `router.push` — this
@@ -1119,8 +1116,8 @@ ScheduleStatusValue[]}` discriminated union, built with `satisfies` so a typo in
      `react-hooks/set-state-in-effect` concern above.
 
 4. **Festival Story's "view your picks" exit** (`app/components/festival-story/FestivalStorySequence.tsx`):
-   - Calls `applyPreset("myPicks")` then `router.push("/explore")` — same mechanism as a
-     Sidebar My Festival click, just triggered from a different UI.
+   - Calls `applyPreset("myPicks")` then `router.push(contextHref(context, "explore"))` —
+     same mechanism as a Sidebar My Festival click, just triggered from a different UI.
 
 **Why this approach over alternatives:**
 
@@ -1173,7 +1170,7 @@ imports and calls the real function directly — no mirrored/reimplemented copy.
 with `npm run verify:story` (declares `tsx` as a devDependency — do not rely on `npx`
 downloading an undeclared package at validation time).
 
-`FestivalStorySequence` is only mounted by its parent (`app/quick-picks/page.tsx`)
+`FestivalStorySequence` is only mounted by its parent (`app/festivals/[edition]/[run]/quick-picks/page.tsx`)
 once the user actually opens Festival Story (`{showFestivalStory && <FestivalStorySequence ... />}`),
 not merely once Quick Picks completion is showing — mounting is what triggers
 `useStorySignals`' ~500-sample computation, so it must not run before the user asks
@@ -1187,8 +1184,8 @@ Scoped to the _launching_ Quick Picks session's captured `attendanceDays` snapsh
 passed explicitly via `FestivalStorySequence`'s `attendanceDays` prop — never re-read
 from the persisted `attendanceStore` for a session that already completed, so a
 changed persisted selection afterward can't silently rescope a finished session. The
-prop is optional and falls back to `useAttendanceDays(ACTIVE_FESTIVAL_ID)` only for a
-future standalone Story entry point not launched from a specific session.
+prop is optional and falls back to `useAttendanceDays(editionSlug, runSlug, validDays)`
+only for a future standalone Story entry point not launched from a specific session.
 
 `getEligibleArtists`/`getValidPositivePicks` (same file) are the shared eligibility
 resolution, used both by `computeStorySignals` and by Quick Picks completion's unlock
@@ -1359,15 +1356,15 @@ weekday/weekend hardcoding — works for any combination (e.g. Thursday + Sunday
 
 - **Hometown** (the edition's own city): requires `hometownCount > 0` **and** user rate
   > the attendance-scoped baseline **and** the standard extremeness/practical-effect
-  gates **and** ≥2 picks (≥4 for the strongest copy tier). This closes an
-  accidental-protection gap where the old fixed 12pp threshold happened to block
-  zero-hometown results only because Chicago is ~10.5% of Lollapalooza's _full_ lineup;
-  attendance scoping breaks that accident (Saturday's eligible lineup alone is ~14%
-  Chicago). Zero/under-indexing never produces a card of any kind. `isEditionCity`
-  (`app/lib/location.ts`) normalizes trim/case only, matching `location.city` to the
-  `FESTIVAL_REGISTRY` city exactly: deliberately not state-suffix variants like
-  "Chicago, IL" (bad data to fix at authoring time, per the `Location` contract in
-  `app/data/categories.ts`) and not the whole surrounding state.
+  > gates **and** ≥2 picks (≥4 for the strongest copy tier). This closes an
+  > accidental-protection gap where the old fixed 12pp threshold happened to block
+  > zero-hometown results only because Chicago is ~10.5% of Lollapalooza's _full_ lineup;
+  > attendance scoping breaks that accident (Saturday's eligible lineup alone is ~14%
+  > Chicago). Zero/under-indexing never produces a card of any kind. `isEditionCity`
+  > (`app/lib/location.ts`) normalizes trim/case only, matching `location.city` to the
+  > `FESTIVAL_REGISTRY` city exactly: deliberately not state-suffix variants like
+  > "Chicago, IL" (bad data to fix at authoring time, per the `Location` contract in
+  > `app/data/categories.ts`) and not the whole surrounding state.
 - **International**: positive over-indexing only; zero or under-indexed picks omit
   the card rather than showing an inverse "American-heavy" card.
 - **Billing (Headliner/Undercard)**: both directions valid; fixed an unmatched
@@ -1547,7 +1544,7 @@ function getConflictingArtists(
 
 ### Entry Points for Scheduling
 
-#### 1. Artist Detail Page (`/artist/[slug]`)
+#### 1. Artist Detail Page
 
 **Confirmed** — Wire existing "Schedule" button to `toggleAllAppearances(artist, festivalId)` — the aggregate control (see "Multi-Appearance Support" below).
 
@@ -1568,7 +1565,7 @@ function getConflictingArtists(
   Schedule · 2 sets" / "Scheduled · 2 sets" — never exposes individual appearance
   times, never a second control
 
-#### 2. Explore Page (`/explore`)
+#### 2. Explore Page
 
 **Confirmed** — Extend existing Must See / Interested action buttons with scheduling support.
 
@@ -1609,7 +1606,7 @@ function getConflictingArtists(
 2. Explore
 3. Quick Picks
 4. **Planner** — RENAMED from "Schedule"
-   - Links to `/planner` (the Planner grid view page)
+   - Links to the scoped Planner route (`contextHref(context, "planner")`)
    - No count shown
 
 **"My Festival" section (below main nav):**
@@ -1624,25 +1621,25 @@ represents the actual relationship more accurately than nesting would.
 **Picks group:**
 
 1. **My Picks** — NEW
-   - Calls `applyPreset("myPicks")`, then navigates to `/explore`
+   - Calls `applyPreset("myPicks")`, then navigates to Explore (`contextHref(context, "explore")`)
    - Shows count: "My Picks (X)" where X = count of Must See + count of Interested
    - Yellow color per `.claude/rules/design-principles.md` ("User Intent & Personalization") — matches Must See/
      Interested directly below it; was cyan originally, corrected after noticing it
      contradicted its own two constituent categories in the same list
 
 2. **Must See** — Existing link (no change)
-   - Calls `applyPreset("mustSee")` then navigates to `/explore`
+   - Calls `applyPreset("mustSee")` then navigates to Explore (`contextHref(context, "explore")`)
    - Shows count
 
 3. **Interested** — Existing link (no change)
-   - Calls `applyPreset("interested")` then navigates to `/explore`
+   - Calls `applyPreset("interested")` then navigates to Explore (`contextHref(context, "explore")`)
    - Shows count
 
 **Schedule group** (hidden entirely for an announced run — no schedule to have items
 against, and "Scheduled" links to a hidden Explore facet; see § Announced-Lineup Mode)**:**
 
 4. **Scheduled** — NEW
-   - Calls `applyPreset("scheduled")`, then navigates to `/explore`
+   - Calls `applyPreset("scheduled")`, then navigates to Explore (`contextHref(context, "explore")`)
    - Filters Explore to show all scheduled artists
    - Shows count: "Scheduled (X)" — X is an **artist count** (artists with
      `getArtistScheduleState(...) !== "none"`), not an appearance count, so it matches
@@ -1651,7 +1648,7 @@ against, and "Scheduled" links to a hidden Explore facet; see § Announced-Lineu
 
 5. **Conflicts** — NEW, conditionally rendered
    - Only shown if conflict count > 0
-   - Calls `applyPreset("conflicts")`, then navigates to `/explore`
+   - Calls `applyPreset("conflicts")`, then navigates to Explore (`contextHref(context, "explore")`)
    - Filters Explore to show ONLY conflicting artists (strict subset of scheduled)
    - Shows count: "Conflicts (X)" — X is likewise an **artist count** (artists with at
      least one conflicting appearance), same reasoning as "Scheduled" above
@@ -1664,7 +1661,7 @@ against, and "Scheduled" links to a hidden Explore facet; see § Announced-Lineu
   - `pickStatus`: Must See / Interested / Passed / Undecided — multi-select, no "All" value (deselecting everything shows the unfiltered list)
   - `scheduleStatus`: Scheduled / Unscheduled / Conflicting — multi-select, same pattern, no "All" value
 - The two facets combine with AND logic between them; within a single facet, multiple selected values combine with OR logic (e.g., My Picks = mustSee OR interested, both within the pickStatus facet)
-- Sidebar links call `applyPreset(...)` (or `clearFilters()` for the plain Explore link), which sets `pickStatus`/`scheduleStatus`/`genres`/`day`/`stages` synchronously, then navigate to `/explore`
+- Sidebar links call `applyPreset(...)` (or `clearFilters()` for the plain Explore link), which sets `pickStatus`/`scheduleStatus`/`genres`/`day`/`stages` synchronously, then navigate to Explore (`contextHref(context, "explore")`)
 - ExploreContent reads all five facets directly from `useExploreFilterStore()` — no local mirror, no mount effect to reconcile anything (see "Sidebar Filter Shortcuts" above for the full design and its manual test checklist)
 - Sidebar derives counts from `decisionStore`, `scheduleStore`, and conflict detection
 
@@ -1696,7 +1693,7 @@ against, and "Scheduled" links to a hidden Explore facet; see § Announced-Lineu
 
 **How Sidebar presets work** (see "Sidebar Filter Shortcuts" above for full design):
 
-1. Sidebar calls `applyPreset(...)` (or `clearFilters()`), which sets `pickStatus`/`scheduleStatus` (and resets `genres`/`day`/`stages`) directly in `exploreFilterStore`, then navigates to `/explore`
+1. Sidebar calls `applyPreset(...)` (or `clearFilters()`), which sets `pickStatus`/`scheduleStatus` (and resets `genres`/`day`/`stages`) directly in `exploreFilterStore`, then navigates to Explore (`contextHref(context, "explore")`)
 2. ExploreContent reads `pickStatus`/`scheduleStatus` straight from `useExploreFilterStore()` — no local state, no mount effect
 3. Filtering logic in `filterArtists()` applies both filters with AND logic
 
@@ -1710,11 +1707,11 @@ against, and "Scheduled" links to a hidden Explore facet; see § Announced-Lineu
 
 - No filter applied, display full lineup (existing behavior)
 
-### Schedule View (`/planner`)
+### Schedule View (Planner)
 
-**Confirmed** — New route and full-page component for day-by-day grid scheduling.
+A full-page component for day-by-day grid scheduling.
 
-**File:** `app/planner/page.tsx`
+**File:** `app/festivals/[edition]/[run]/planner/page.tsx`
 
 #### Layout & Presentation
 
@@ -1881,7 +1878,7 @@ These are separate, later features and should not influence the Schedule MVP des
 
 ### Planner "My Picks" filter: zero-positive-picks fallback
 
-**Confirmed** — `app/planner/page.tsx`'s `visibleEntries` filter treats "Show only: My
+**Confirmed** — `app/festivals/[edition]/[run]/planner/page.tsx`'s `visibleEntries` filter treats "Show only: My
 Picks" as a no-op when `myPickSlugs.size === 0`, showing the full day's lineup instead
 of an empty grid. `showMyPicks` defaults to `true` (`plannerViewStore.ts`), so without
 this, a brand-new user landing on Planner saw a fully-structured but completely empty
@@ -2031,12 +2028,12 @@ not an error.
 The persisted user-state stores carry a composite scope in their keys so a switch of
 festival or weekend can never surface another context's state (ADR-0015):
 
-| Store             | localStorage key      | Keyed by                                            | Scope    |
-| ----------------- | --------------------- | -------------------------------------------------- | -------- |
-| `decisionStore`   | `decision-store`      | `${editionSlug}:${slug}`                            | edition  |
-| `scheduleStore`   | `schedule-store`      | `${editionSlug}:${runSlug}::${slug}::${appearanceId}` | run    |
-| `attendanceStore` | `attendance-store`    | `${editionSlug}:${runSlug}`                         | run      |
-| `plannerViewStore`| `planner-view-store`  | not keyed (two view booleans)                       | none     |
+| Store              | localStorage key     | Keyed by                                              | Scope   |
+| ------------------ | -------------------- | ----------------------------------------------------- | ------- |
+| `decisionStore`    | `decision-store`     | `${editionSlug}:${slug}`                              | edition |
+| `scheduleStore`    | `schedule-store`     | `${editionSlug}:${runSlug}::${slug}::${appearanceId}` | run     |
+| `attendanceStore`  | `attendance-store`   | `${editionSlug}:${runSlug}`                           | run     |
+| `plannerViewStore` | `planner-view-store` | not keyed (two view booleans)                         | none    |
 
 Each scoped store is at `persist` `version: 1` with a `migrate` that rewrites a
 pre-scope key to the Lollapalooza 2026 / run `main` default. The migrations are static
@@ -2284,7 +2281,7 @@ genuinely cannot change for the duration of the press animation.
 
 `QuickPicksSessionConfig` now carries `attendanceDays: string[]`, captured once at
 Start in configured festival order (not the store's insertion order). `createSession`
-(`app/quick-picks/page.tsx`, exported specifically so verification scripts call the
+(`app/festivals/[edition]/[run]/quick-picks/page.tsx`, exported specifically so verification scripts call the
 real orchestration rather than a reimplemented copy) builds the queue once from that
 snapshot and derives day order via `getDaysForFestival(config.festivalId)` — scoped to
 the session's own festival, not assumed to be the active one, so a future
@@ -2355,8 +2352,8 @@ derives its eyebrow, headline, and supporting copy from `context`
 one selected day names it directly ("every artist playing Friday"); multiple days say
 "every artist playing on your selected days" — never a blanket "entire festival
 lineup" claim, since that would only be true if every configured day were selected.
-Its "Schedule" card now navigates to `/planner` (previously it silently returned to
-the Quick Picks setup screen, which wasn't actually the Schedule feature).
+Its "Schedule" card navigates to the scoped Planner route
+(`contextHref(context, "planner")`).
 
 ### Not touched in this iteration
 
@@ -2904,11 +2901,13 @@ Each consumer's initial-focus target is a deliberate choice, not the default:
 
 ### Footer
 
-`app/components/Footer.tsx` — two lines: "FestFuse · 2026" (identifies it as a footer,
-not stray text) and a disclaimer ("FestFuse is an unofficial fan project and is not
-affiliated with Lollapalooza or C3 Presents"), since the app uses real Lollapalooza 2026
-data (`ACTIVE_FESTIVAL_ID`). No links — Privacy/Terms/Contact pages don't exist yet, and
-a footer linking to nothing would be worse than no footer.
+`app/components/Footer.tsx` — "FestFuse · 2026" (identifies it as a footer, not stray
+text), a disclaimer ("FestFuse is an unofficial fan project and is not affiliated with
+{festival} or {promoter}"), and a "Photo credits" link to the active context's Credits
+page. The festival and promoter names come from the active context's edition
+(`activeContextStore`, with a generic fallback while none is selected), so the
+disclaimer names whichever festival the user is browsing rather than a hard-coded one.
+No other links — Privacy/Terms/Contact pages don't exist.
 
 **Placement:** Home, Explore, Artist Detail. **Not** Planner or Quick Picks. Quick
 Picks' exclusion is the momentum/no-chrome argument used throughout that flow. Planner's
@@ -2941,7 +2940,7 @@ exceeds the viewport, since flex items don't shrink below their own content size
 
 ## Responsive Layout — Quick Picks & Festival Story
 
-**Background containment on the Quick Picks page** (`app/quick-picks/page.tsx`): the decorative grain/gradient/blob layer is `fixed inset-0`, not `absolute inset-0` — it stays pinned to the viewport rather than scrolling with page content, matching the pattern `DecisionScreen.tsx`'s own radial glow already uses (`fixed inset-0`). The page's `<main>` also carries `min-h-0` alongside `flex-1 overflow-y-auto`, the standard fix for a flex item's `overflow-y-auto` being ignored in favor of the item simply growing past its allotted space (compare `planner/page.tsx`'s `min-h-0` for the same pattern). Both matter together: without `fixed`, the backdrop scrolls out of view and exposes the ancestor `bg-[#110D24]` flat color underneath once a screen's content exceeds one viewport height; without `min-h-0`, scrolling isn't reliably contained to `<main>` in the first place.
+**Background containment on the Quick Picks page** (`app/festivals/[edition]/[run]/quick-picks/page.tsx`): the decorative grain/gradient/blob layer is `fixed inset-0`, not `absolute inset-0` — it stays pinned to the viewport rather than scrolling with page content, matching the pattern `DecisionScreen.tsx`'s own radial glow already uses (`fixed inset-0`). The page's `<main>` also carries `min-h-0` alongside `flex-1 overflow-y-auto`, the standard fix for a flex item's `overflow-y-auto` being ignored in favor of the item simply growing past its allotted space (compare `planner/page.tsx`'s `min-h-0` for the same pattern). Both matter together: without `fixed`, the backdrop scrolls out of view and exposes the ancestor `bg-[#110D24]` flat color underneath once a screen's content exceeds one viewport height; without `min-h-0`, scrolling isn't reliably contained to `<main>` in the first place.
 
 **StartScreen has no "Festival" selection step.** Since MVP 1.0 was single-festival scoped (see `AGENTS.md`'s "Current Milestone" — multi-festival support is now an active MVP 2.0 goal, so this constraint is exactly what's being worked away from and may need revisiting once that ships), a prior "Step 1: Festival" card rendering festival branding had no `onClick` — it was inert, and visually indistinguishable in weight from the two real interactive steps beside it. It's now a plain text line ("Lollapalooza 2026 · dates · venue") under the subtitle in `StartScreen.tsx`, and the two remaining real steps (Days Attending, Grouping) are numbered Step 1/Step 2 in `StartOptions.tsx`.
 

@@ -116,14 +116,18 @@ above applies here — keep it plain and out of the way of the rest of the app.
 
 Shipped: MVP 1.0 (Artist Page, Explore, Quick Picks, Festival Story, Planner), the
 backend data cutover (PostgreSQL is the sole artist data source, read and write), and
-most of MVP 2.0's multi-festival and multi-run support (`docs/roadmap/multi-festival.md`,
-ADR-0015): Austin City Limits 2026 as a second edition with two weekend runs, the
-full frontend experience for an announced lineup with no schedule yet (ADR-0016),
-festival- and city-generic content, and video-only publication readiness (ADR-0017).
+MVP 2.0's multi-festival and multi-run support (`docs/roadmap/multi-festival.md`,
+ADR-0015): Austin City Limits 2026 is live in production as a second edition with two
+scheduled weekend runs alongside Lollapalooza 2026, reached through a
+`/festivals/{edition}/{run}` routing model and a persisted active-context selection;
+the full frontend experience for an announced lineup with no schedule yet (ADR-0016);
+festival- and city-generic content; and video-only publication readiness (ADR-0017).
+The ACL roster is imported and published on both databases; its editorial polish
+(per-run similar-artist sets, non-headliner `about` copy, photos) continues on the
+parallel track.
 
-Remaining (MVP 2.0): importing the real ACL roster (`multi-festival.md` section 11, a
-separate data/ops PR), a full `ARCHITECTURE.md` pass for the routing model
-(section 12), and broader automated test coverage.
+Remaining (MVP 2.0): broader automated test coverage — standing up a frontend test
+framework (none exists today) and expanding the backend suite — as its own effort.
 
 Not in scope now: accessibility/performance work; accounts; Compare.
 
