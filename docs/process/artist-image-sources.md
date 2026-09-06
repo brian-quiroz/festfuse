@@ -24,9 +24,11 @@ can collect metadata but must label visual selection as uninspected.
 - Prefer the official API over automated page scraping. `flickr.photos.search`
   requires an application API key even for public searches; user authentication is
   not required for public-only results. Never expose the key in output or logs.
-- The key lives in `backend/.env` as `FLICKR_API_KEY` (gitignored via `.env*`). Read
-  it from there at run time via a shell call; do not accept it pasted into chat and do
-  not echo it. Obtaining a key currently requires a Flickr Pro account.
+- The key lives in the repo-root `.env.local` as `FLICKR_API_KEY` (gitignored via
+  `.env*`). Not `backend/.env` — the backend's `Settings` forbids unknown env vars and
+  will not start with one present. Read it at run time via a shell call; do not accept
+  it pasted into chat and do not echo it. Obtaining a key currently requires a Flickr
+  Pro account.
 - If no key is available, use available public search/browser capabilities for a
   bounded search. Report access limits; do not repeatedly attempt blocked pages.
 - Search by artist and concert context, filter to suitable licenses, and use

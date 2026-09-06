@@ -37,7 +37,7 @@ Cursor) runs it the same way.
    footers or search results. Date taken is distinguished from upload date.
 
 3. **Sources.** Wikimedia Commons and Flickr, via their public APIs. Commons needs no
-   key. Flickr needs an application API key, kept in `backend/.env` as
+   key. Flickr needs an application API key, kept in the repo-root `.env.local` as
    `FLICKR_API_KEY`; without one, Flickr is a best-effort browser fallback.
 
 4. **The process is a versioned document with thin skill pointers**, matching ADR-0013.

@@ -9,7 +9,12 @@ import ArtistActions from "./ArtistActions";
 import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
 export default function ArtistHero({ artist }: { artist: Artist }) {
-  const verifiedImageUrl = getVerifiedImageUrl(artist);
+  // Local image-review harness: when NEXT_PUBLIC_ARTIST_IMAGE_TEST_DIR is set, the hero
+  // reads candidate files from public/<that dir>/<slug>.jpg instead of the DB image, so
+  // sourced photos can be checked in Artist Detail before they are published. Unset in
+  // production, where getVerifiedImageUrl is the real path. See artist-image-sourcing.md.
+  const testDir = process.env.NEXT_PUBLIC_ARTIST_IMAGE_TEST_DIR;
+  const verifiedImageUrl = testDir ? `/${testDir}/${artist.slug}.jpg` : getVerifiedImageUrl(artist);
   const hasSocials = Boolean(
     artist.socials.spotify ||
     (artist.socialsVerified && (artist.socials.youtube || artist.socials.tiktok))
