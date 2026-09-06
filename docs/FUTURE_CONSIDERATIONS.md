@@ -1130,3 +1130,32 @@ rejects them (ADR-0011).
 beyond the asset sweep. A small follow-up PR should delete `AlbumArtwork.tsx` and drop the
 three dead track fields once nothing in a copy-from-provenance authoring flow depends on
 the shape.
+
+## Curatorial Explore Rows and Their Feeder Mechanisms
+
+Explore's row model already splits rows into factual/criteria-based and
+curatorial/discovery tiers (ARCHITECTURE.md § Carousel Duplicate Suppression), and
+suppression Rules B and C are written for curatorial rows. The curatorial tier
+currently holds no rows. "Hidden Gems" was the one instance (undercard artists
+filtered by a hand-picked genre list, suppressed against Festival Favorites), removed
+in `56efde0` because keeping such a row meaningful needs an editorial process that
+does not exist.
+
+Three feeders are envisioned for curatorial rows, each blocked on missing
+infrastructure:
+
+- **Operator editorial picks.** Hand-curated membership with a real row name and a
+  review bar, the same standard as `about` / `similarArtists` (ADR-0013). Needs an
+  authoring and verification path for row definitions, not only for artist fields.
+- **Learned user signals.** Rows derived from aggregate decisions or browsing
+  behavior ("people who flagged X also flagged Y"). There is no backend analytics or
+  event store today (see "Usage Analytics").
+- **AI-suggested groupings.** Model-proposed themes surfaced only after human
+  verification, the same generate-then-verify gate as other AI-assisted content.
+
+Not built now: each feeder is its own effort, and the factual rows cover the
+discovery need for the current single-curator MVP. Revisit when there is a second
+curator, a real behavior store, or an editorial pipeline for row definitions.
+
+Related: "'All Artists' Browse View on Explore", "Empty Curated Carousels Render a
+Bare Header", ARCHITECTURE.md § Carousel Duplicate Suppression.

@@ -633,6 +633,8 @@ Carousel rows are classified by whether they answer objective (factual) or subje
 - None currently — all active rows are factual/criteria-based. A future row like "Hidden
   Gems" ("Is this artist overlooked/underrated?") is possible but requires ongoing
   editorial curation to keep accurate, so it's future work rather than a current row.
+  See `docs/FUTURE_CONSIDERATIONS.md` → "Curatorial Explore Rows and Their Feeder
+  Mechanisms".
 
 ### Suppression Rules
 
