@@ -76,25 +76,39 @@ or a guarantee that the photo will work. Do not mirror or generate missing backg
    conversation. Inspect a preview by downloading its thumbnail to a local file and
    viewing that.
 2. On Commons, lead with a quoted phrase search of the exact name in the file
-   namespace (`srsearch="Artist Name"`, `srnamespace=6`), and traverse
-   `Category:<Artist>` - it often holds per-show subcategories (e.g. "Kings of Leon -
-   Silverstone 2024") that are the best source of whole-band frames. Loose multi-word
-   queries ("artist band live concert") tend to return nothing. On Flickr, a plain
-   name search sorted by relevance works better than a narrow one; date-taken sort or
+   namespace (`srsearch="Artist Name"`, `srnamespace=6`). Loose multi-word queries
+   ("artist band live concert") tend to return nothing. On Flickr, a plain name search
+   sorted by relevance works better than a narrow one; date-taken sort or
    `min_taken_date` helps for recent work. Watch for two kinds of false positive:
    same-name objects (geese, bleachers, cannons) and **festival photo sets** - a
    `Boardmasters 2022 (143 of 246)` style file indexes under every artist who played
    that festival, so results can be a different act entirely. Verify the actual
    subject in the preview; never trust the filename or album title.
-3. Start with a recent window, roughly the past three years. Broaden the dates when
+3. Find the real Commons category, do not guess its name. `Category:<Artist>` alone
+   often does not exist or is not what a guess would produce. If the artist has a
+   Wikipedia article, take its lead/infobox image, open that file on Commons, and read
+   the categories listed at the bottom: they give the canonical artist category and
+   any per-show subcategories (e.g. "Kings of Leon - Silverstone 2024",
+   "Palace - WBW16"), which are the best source of whole-band and recent frames.
+   Traverse those actual categories rather than a constructed name.
+4. Do not rank or filter candidates by pixel dimensions alone. A smaller file whose
+   name carries a festival, tour, venue, "live", "concert" or year token, or one from
+   a photographer who shoots live music (their other uploads are gig photos), is
+   frequently the better lead and should be inspected ahead of a larger red-carpet,
+   promo, or portrait-session frame. Screen dates, sizes and licenses from structured
+   metadata, but let subject relevance, not size, decide what to preview first.
+5. Start with a recent window, roughly the past three years. Broaden the dates when
    the initial results are poor; this is a search tactic, not an eligibility rule.
-4. Inspect about three promising previews per artist first. If none works, try one
+6. Inspect about three promising previews per artist first. If none works, try one
    expanded search and up to three more previews. Stop earlier for a convincing pick.
    These are effort defaults; a specific promising lead can justify a small extension.
-5. Verify the selected file's source metadata: creator, source page, exact license,
+7. Verify the selected file's source metadata: creator, source page, exact license,
    original image URL, dimensions and photograph date. Distinguish date taken from
    upload date. Do not treat search snippets or a site's footer license as proof.
-6. Return the best reusable candidate actually found, even if visually weak. Explain
+   When the page's stated author and the file's embedded EXIF copyright name different
+   people, treat rights as unresolved and do not use the file unless the two are
+   confirmed to be the same person.
+8. Return the best reusable candidate actually found, even if visually weak. Explain
    the specific weakness and let the user decide. Say "best found in this search,"
    not "only photo available" or "best on the internet." In the chat handoff lead with
    the source page URL (the Flickr photo page or Commons file page) and the original
