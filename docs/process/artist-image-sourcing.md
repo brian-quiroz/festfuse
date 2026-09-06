@@ -180,7 +180,11 @@ Do not overwrite app assets or silently resize, recompress, crop or publish it.
 
 After the user approves selections, asset preparation is a separate authorized step.
 There is no build pipeline for this; do it explicitly and never test a raw multi-MB
-camera original in the app. Target: downscale so the long edge is ~3000px (leave a
+camera original in the app. If a candidate replaces a file that already exists at the
+same `public/` path, the Next dev image optimizer serves the stale bytes until `.next`
+is fully removed (stop the dev server, `rm -rf .next`, restart) - a browser refresh,
+incognito, or dev restart alone will not clear it. Prefer a new filename for a
+replacement to avoid this entirely. Target: downscale so the long edge is ~3000px (leave a
 smaller source alone), keep the aspect ratio, JPEG quality ~82-85 (expect roughly
 400-900 KB), strip camera EXIF. Never crop. `next/image` generates the responsive
 size ladder at request time, so a ~3000px stored asset serves smaller devices
