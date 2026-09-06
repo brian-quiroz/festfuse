@@ -218,17 +218,22 @@ smaller source alone), keep the aspect ratio, JPEG quality ~82-85 (expect roughl
 size ladder at request time, so a ~3000px stored asset serves smaller devices
 correctly at no extra cost. Keep the untouched original alongside the optimized file.
 
-**Review harness.** `ArtistHero` reads candidate files from `public/<dir>/<slug>.jpg`
-instead of the database image when `NEXT_PUBLIC_ARTIST_IMAGE_TEST_DIR` is set (no
-effect in production). Put the batch's optimized files in an untracked
-`public/artist-review-<something>/` and point the env var at it. Use a **fresh
-directory name each batch** so the dev image optimizer cannot serve a stale earlier
-file. The editor tunes Y% by hand-editing the `objectPosition` line in `ArtistHero`
+**Review harness.** When `NEXT_PUBLIC_ARTIST_IMAGE_TEST_DIR` is set, every artist
+photo resolves to `public/<that dir>/<slug>.jpg` instead of the database image, across
+the Artist Detail hero, Explore and Quick Picks cards, and the similar-artist row on
+Artist Detail (which fills with a rotating sample of the review directory so a
+candidate can be checked in the small circular crop). No effect in production. Put the
+batch's optimized files in an untracked `public/artist-review-<something>/` and point
+the env var at it. Use a **fresh directory name each batch** so the dev image
+optimizer cannot serve a stale earlier file. While the harness is set, an artist with
+no file in the directory renders a broken image rather than the genre-gradient
+fallback. The editor tunes Y% by hand-editing the `objectPosition` line in `ArtistHero`
 while looking at the page (0-100; the database rejects out-of-range values), records
 the final number per artist, and reverts the edit. Delete the review dir and unset
 the env var when done. Compare the optimized result visually, test Artist Detail
-first, then check Explore and Quick Picks. Propose an edited crop only when ordinary
-positioning is insufficient; retain license and modification notices.
+first, then check Explore, Quick Picks, and the similar-artist circle. Propose an
+edited crop only when ordinary positioning is insufficient; retain license and
+modification notices.
 
 End with the CSV location, selected artists, significant compromises, any inaccessible
 source, and whether originals were saved. Do not call proposed photos approved.

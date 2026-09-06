@@ -4,6 +4,7 @@ import type { Artist } from "@/app/types/artist";
 import { COLORS } from "@/app/data/colors";
 import { artistHref, festivals } from "@/app/data/festivals";
 import { getAppearancesForFestival, getPrimaryAppearance } from "@/app/lib/appearances";
+import { reviewHarnessSlugs } from "@/app/lib/reviewHarness";
 import ArtistAvatar from "@/app/components/ui/ArtistAvatar";
 
 export default function FloatingCards({
@@ -31,6 +32,29 @@ export default function FloatingCards({
     ? getPrimaryAppearance(artist, editionSlug, dayOrder)
     : null;
   const appearanceCount = getAppearancesForFestival(artist, editionSlug).length;
+
+  // Local image-review harness: with NEXT_PUBLIC_ARTIST_IMAGE_TEST_DIR set, fill the
+  // Similar Artists row with a rotating sample of the review directory so sourced
+  // photos can be checked in the circle crop even before any real similar set exists.
+  // See app/lib/reviewHarness.ts. Empty (and inert) in production.
+  const harnessDir = process.env.NEXT_PUBLIC_ARTIST_IMAGE_TEST_DIR;
+  const harnessSimilar = harnessDir
+    ? reviewHarnessSlugs(artist.slug).map((slug) => ({
+        name: slug
+          .split("-")
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+          .join(" "),
+        slug,
+        imageUrl: `/${harnessDir}/${slug}.jpg`,
+        genres: [],
+      }))
+    : [];
+  const similarEntries =
+    harnessSimilar.length > 0
+      ? harnessSimilar
+      : artist.similarArtistsVerified
+        ? artist.similarArtists
+        : [];
 
   return (
     <div className="space-y-4">
@@ -84,8 +108,9 @@ export default function FloatingCards({
       </div>
 
       {/* Similar Artists — hidden entirely until similarArtistsVerified, not just when
-          empty; most entries are AI-drafted and not yet fact-checked. */}
-      {artist.similarArtistsVerified && artist.similarArtists.length > 0 && (
+          empty; most entries are AI-drafted and not yet fact-checked. The image-review
+          harness (see similarEntries above) is the one other way this renders. */}
+      {similarEntries.length > 0 && (
         <div className="rounded-2xl border border-white/10 bg-[#1B1535] p-5">
           <h3 className="flex items-center gap-1.5 text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
             <Users
@@ -98,7 +123,7 @@ export default function FloatingCards({
             Similar Artists
           </h3>
           <div className="grid grid-cols-2 gap-2">
-            {artist.similarArtists.map((a) => {
+            {similarEntries.map((a) => {
               // Every similar-artist entry now always comes from mapFestivalArtistResponse
               // (see mapFestivalArtist.ts's mapSimilarArtists), which always embeds the
               // target's own current curated image/genres directly on the entry — no
