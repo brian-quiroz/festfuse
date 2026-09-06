@@ -75,9 +75,17 @@ or a guarantee that the photo will work. Do not mirror or generate missing backg
    against the APIs), not inline tool calls, so raw API responses never enter the
    conversation. Inspect a preview by downloading its thumbnail to a local file and
    viewing that.
-2. Make a focused Commons search and a focused Flickr search where access permits.
-   Search the exact artist plus performance context to avoid objects with the same
-   name (e.g. geese, bleachers, cannons). Follow useful concert albums or photographers.
+2. On Commons, lead with a quoted phrase search of the exact name in the file
+   namespace (`srsearch="Artist Name"`, `srnamespace=6`), and traverse
+   `Category:<Artist>` - it often holds per-show subcategories (e.g. "Kings of Leon -
+   Silverstone 2024") that are the best source of whole-band frames. Loose multi-word
+   queries ("artist band live concert") tend to return nothing. On Flickr, a plain
+   name search sorted by relevance works better than a narrow one; date-taken sort or
+   `min_taken_date` helps for recent work. Watch for two kinds of false positive:
+   same-name objects (geese, bleachers, cannons) and **festival photo sets** - a
+   `Boardmasters 2022 (143 of 246)` style file indexes under every artist who played
+   that festival, so results can be a different act entirely. Verify the actual
+   subject in the preview; never trust the filename or album title.
 3. Start with a recent window, roughly the past three years. Broaden the dates when
    the initial results are poor; this is a search tactic, not an eligibility rule.
 4. Inspect about three promising previews per artist first. If none works, try one
@@ -97,6 +105,12 @@ Keep one row for every requested artist. When no candidate with supported reuse
 permission was found, leave image fields blank and explain the source/access gap.
 Do not present unclear rights as cleared merely to fill a row. When visual inspection
 is unavailable, mark the candidate uninspected and avoid claims about its composition.
+
+When an artist has no well-framed reusable photo (e.g. a catalogue that is all a
+decade old, or only distant-stage shots), a strong atmospheric frame - a backlit
+silhouette, a mood shot where the face is not readable - can be the right pick over a
+literal but poorly composed one. Present it as a deliberate choice in `fit_notes`,
+noting the face is not visible, and let the editor decide.
 
 Reduce context use: retain raw API responses outside the conversation, expose only
 shortlisted fields, reuse metadata within the run, and avoid dumping galleries or
@@ -188,10 +202,19 @@ replacement to avoid this entirely. Target: downscale so the long edge is ~3000p
 smaller source alone), keep the aspect ratio, JPEG quality ~82-85 (expect roughly
 400-900 KB), strip camera EXIF. Never crop. `next/image` generates the responsive
 size ladder at request time, so a ~3000px stored asset serves smaller devices
-correctly at no extra cost. Keep the untouched original alongside the optimized file. Compare the
-optimized result visually, then test Artist Detail first, tune Y% there, and check
-Explore and Quick Picks. Propose an edited crop only when ordinary positioning is
-insufficient; retain license and modification notices.
+correctly at no extra cost. Keep the untouched original alongside the optimized file.
+
+**Review harness.** `ArtistHero` reads candidate files from `public/<dir>/<slug>.jpg`
+instead of the database image when `NEXT_PUBLIC_ARTIST_IMAGE_TEST_DIR` is set (no
+effect in production). Put the batch's optimized files in an untracked
+`public/artist-review-<something>/` and point the env var at it. Use a **fresh
+directory name each batch** so the dev image optimizer cannot serve a stale earlier
+file. The editor tunes Y% by hand-editing the `objectPosition` line in `ArtistHero`
+while looking at the page (0-100; the database rejects out-of-range values), records
+the final number per artist, and reverts the edit. Delete the review dir and unset
+the env var when done. Compare the optimized result visually, test Artist Detail
+first, then check Explore and Quick Picks. Propose an edited crop only when ordinary
+positioning is insufficient; retain license and modification notices.
 
 End with the CSV location, selected artists, significant compromises, any inaccessible
 source, and whether originals were saved. Do not call proposed photos approved.
