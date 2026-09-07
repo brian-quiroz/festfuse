@@ -141,6 +141,10 @@ know the artist and whether this is a launch:
 For the first two you read the copy against the cited sources before signing
 `aboutVerified`; the third writes no copy yet.
 
+Whichever path, the commit that sets `aboutVerified` also files the sources the copy
+rests on in `docs/process/artist-about-sources.md` (ADR-0020). For a deferred
+artist, its leads section moves there on verify instead of being deleted.
+
 ---
 
 ## Pacing and cost

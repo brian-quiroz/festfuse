@@ -166,8 +166,10 @@ exactly as above, with two differences:
 
 The leads are unverified pointers, not content. Writing the `about` later is still a
 full `about` effort with same-day re-verification of every fact (a Non-negotiable); the
-leads act as the skeleton, so it runs at Tier 2 rather than Tier 3. An artist's section
-is removed from `artist-about-leads.md` once `aboutVerified` is set for it.
+leads act as the skeleton, so it runs at Tier 2 rather than Tier 3. Once
+`aboutVerified` is set, the artist's leads section moves from `artist-about-leads.md`
+to [`artist-about-sources.md`](artist-about-sources.md), trimmed to the sources that
+survived into the copy ([ADR-0020](../decisions/0020-retain-about-copy-sources-after-verification.md)).
 
 The default path (a drafted or skeleton-verified `about` in the same round) is
 unchanged. This variant is the editor's explicit choice for a batch, not a new default.
@@ -414,6 +416,11 @@ Either way the editor signs `aboutVerified`. Editing `about` after verification 
 the flag (database trigger), so a re-verified edit must carry `aboutVerified: true` in
 the same patch.
 
+The commit that sets `aboutVerified` also records the sources the copy was built
+from in [`artist-about-sources.md`](artist-about-sources.md), so a later freshness
+re-review or a challenged fact can be traced without re-researching
+([ADR-0020](../decisions/0020-retain-about-copy-sources-after-verification.md)).
+
 ### Similar artists
 
 Exactly four, ordered, or a verified-empty set (the CYSO case) — never a forced or
@@ -534,8 +541,11 @@ environment (`backend/.env` / `POSTGRES_*`), exactly like the existing scripts.
 A verified `about` goes stale over a year; a similar-artist set can be invalidated by
 lineup changes. The editor invokes a **freshness re-review** for an artist: re-verify
 `about` and the similar set against current sources (Tier 2, existing content as
-baseline), then re-stamp. This is a manual mode, not automated — auto-detecting stale
-`verified_at` is a `FUTURE_CONSIDERATIONS.md` item.
+baseline), then re-stamp. The artist's
+[`artist-about-sources.md`](artist-about-sources.md) section is the record of what
+the copy was originally built from; re-check against it and update it in place with
+whatever the re-review changed. This is a manual mode, not automated. Auto-detecting
+stale `verified_at` is a `FUTURE_CONSIDERATIONS.md` item.
 
 **Applying the result.** Whatever the review found, it lands as one `edit_artist` patch:
 

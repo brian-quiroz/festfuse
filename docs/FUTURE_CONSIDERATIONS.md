@@ -382,7 +382,8 @@ editorial track. It does not gate publication (ADR-0013) — ACL artist pages re
 fully without it.
 
 **Not scheduled here.** It is steady editorial work, not a development item. The leads
-file is the worklist; an entry is removed once that artist's `about` is verified.
+file is the worklist; an entry moves to `docs/process/artist-about-sources.md` once
+that artist's `about` is verified (ADR-0020).
 
 ---
 

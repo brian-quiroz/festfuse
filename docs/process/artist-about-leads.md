@@ -14,9 +14,11 @@ These are leads, not content:
   lead were an editor-supplied skeleton.
 - No fact here was researched for its own sake: the rule is zero extra web requests
   beyond what genres and location needed.
-- Remove an artist's section once its `aboutVerified` is set. A slug with no section
-  either has a verified `about` already or has not been through a deferred-`about`
-  round yet.
+- When an artist's `about` is verified, move its section to
+  [`artist-about-sources.md`](artist-about-sources.md), trimmed to the sources
+  actually used ([ADR-0020](../decisions/0020-retain-about-copy-sources-after-verification.md)).
+  A slug with no section here either has a verified `about` already or has not been
+  through a deferred-`about` round yet.
 
 Format, one section per slug:
 

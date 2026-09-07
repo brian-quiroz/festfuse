@@ -89,5 +89,8 @@ a batch.
 - [`docs/process/artist-about-leads.md`](../process/artist-about-leads.md)
 - [`docs/process/artist-flagged-issues.md`](../process/artist-flagged-issues.md), the
   sibling research-byproduct file
+- [ADR-0020: Retain about-copy sources after verification](0020-retain-about-copy-sources-after-verification.md),
+  which revises point 4's leads-file lifecycle: on verify, a slug's leads section
+  moves to `artist-about-sources.md` rather than being deleted
 - [Artist editorial handbook](../process/artist-editorial-handbook.md), "Pacing and
   cost"
