@@ -361,6 +361,13 @@ candidate — transient, derivable from the DB, and committing per-edit patches 
 contradict the source-of-truth model. Related: "No Automated Production Database
 Backup" above.
 
+The same question covers **image-sourcing provenance**: per-batch research CSVs and the
+attribution records they carry (creator, license, source page) currently stay in a
+local output root outside the repo (ADR-0019). Published photo attribution already
+lives in PostgreSQL and renders on `/credits`, so a committed record would be a
+secondary archive, not the source of truth — the same tradeoff as the roster above.
+Decide both together in one ADR rather than piecemeal.
+
 ---
 
 ## Future Consideration: Non-Headliner About Copy Backlog
@@ -1104,3 +1111,51 @@ let K-Pop stop being a pseudo-family.
 **Not built now** — the affected artists (damaris-bojor under `Regional Mexican`,
 huston-tillotson-jazz-collective under `Jazz`) are served adequately by the families as
 named.
+
+---
+
+## Future Consideration: Orphaned Static-Asset Components After the Photo/Artwork Cutover
+
+The pre-migration cleanup removed the local `public/artists/heroes/`, `public/artists/avatars/`,
+`public/albums/`, and `public/festivals/logos/` assets, all unreferenced after the Postgres
+cutover moved artist photos to `public/artists/global/` and track artwork to Spotify.
+
+`app/components/ui/AlbumArtwork.tsx` is left behind as a fully orphaned component — zero
+callers anywhere, it only renders `/albums/*`-style `artworkUrl` values that no longer
+exist. The legacy `album` / `duration` / `artworkUrl` fields still typed on `Artist["tracks"]`
+(`app/types/artist.ts`) are the matching dead type surface; the authoring schema already
+rejects them (ADR-0011).
+
+**Not removed now** — deleting a component and trimming a shared type is a code change
+beyond the asset sweep. A small follow-up PR should delete `AlbumArtwork.tsx` and drop the
+three dead track fields once nothing in a copy-from-provenance authoring flow depends on
+the shape.
+
+## Curatorial Explore Rows and Their Feeder Mechanisms
+
+Explore's row model already splits rows into factual/criteria-based and
+curatorial/discovery tiers (ARCHITECTURE.md § Carousel Duplicate Suppression), and
+suppression Rules B and C are written for curatorial rows. The curatorial tier
+currently holds no rows. "Hidden Gems" was the one instance (undercard artists
+filtered by a hand-picked genre list, suppressed against Festival Favorites), removed
+in `56efde0` because keeping such a row meaningful needs an editorial process that
+does not exist.
+
+Three feeders are envisioned for curatorial rows, each blocked on missing
+infrastructure:
+
+- **Operator editorial picks.** Hand-curated membership with a real row name and a
+  review bar, the same standard as `about` / `similarArtists` (ADR-0013). Needs an
+  authoring and verification path for row definitions, not only for artist fields.
+- **Learned user signals.** Rows derived from aggregate decisions or browsing
+  behavior ("people who flagged X also flagged Y"). There is no backend analytics or
+  event store today (see "Usage Analytics").
+- **AI-suggested groupings.** Model-proposed themes surfaced only after human
+  verification, the same generate-then-verify gate as other AI-assisted content.
+
+Not built now: each feeder is its own effort, and the factual rows cover the
+discovery need for the current single-curator MVP. Revisit when there is a second
+curator, a real behavior store, or an editorial pipeline for row definitions.
+
+Related: "'All Artists' Browse View on Explore", "Empty Curated Carousels Render a
+Bare Header", ARCHITECTURE.md § Carousel Duplicate Suppression.

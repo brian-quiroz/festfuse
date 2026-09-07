@@ -26,6 +26,7 @@ preserve the context, alternatives, and tradeoffs behind that system.
 | [0016](0016-describe-a-run-without-a-public-schedule.md)                  | Describe a run without a public schedule in the API                                               | Accepted           |
 | [0017](0017-video-only-publication-readiness-tier.md)                     | A featured live-performance video is a third publication-readiness tier                           | Accepted           |
 | [0018](0018-about-copy-leads-during-deferred-about-passes.md)             | Capture about-copy leads during deferred-`about` research passes                                  | Accepted           |
+| [0019](0019-artist-photo-sourcing-and-reuse-license-policy.md)            | Artist photo sourcing and reuse-license policy                                                    | Accepted           |
 
 ## Lightweight convention
 

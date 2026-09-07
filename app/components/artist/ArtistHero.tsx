@@ -9,6 +9,8 @@ import ArtistActions from "./ArtistActions";
 import GenreGradientFallback from "@/app/components/ui/GenreGradientFallback";
 
 export default function ArtistHero({ artist }: { artist: Artist }) {
+  // getVerifiedImageUrl also carries the local image-review harness override
+  // (NEXT_PUBLIC_ARTIST_IMAGE_TEST_DIR) — see artist-image-sourcing.md.
   const verifiedImageUrl = getVerifiedImageUrl(artist);
   const hasSocials = Boolean(
     artist.socials.spotify ||

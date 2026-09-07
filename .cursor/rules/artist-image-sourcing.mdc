@@ -1,0 +1,15 @@
+---
+description: Find reusable Flickr or Wikimedia Commons artist photos for FestFuse and produce a batch CSV with attribution. Use for artist-photo sourcing, not editorial data review or image generation.
+alwaysApply: false
+---
+
+# FestFuse artist image sourcing
+
+Read and follow @docs/process/artist-image-sourcing.md.
+It defines selection priorities, bounded searches, attribution, batch CSVs, and staging.
+Source access and license guidance are linked from that document.
+
+- Work on the supplied artists or slugs, in batches of five by default.
+- Select one primary photo per artist and create a new CSV per batch; preserve existing files.
+- Download originals only when authorized. Sourcing does not authorize app or database changes.
+- Leave Y% blank until the image is tried in Artist Detail.

@@ -28,6 +28,19 @@ Similar-artist sets come later, after enough of the roster is published to draw 
 
 ---
 
+## Sourcing artist photos
+
+A photo is an additive layer, like `about` — it never gates publishing, and the page
+falls back to a genre gradient until `imageVerified` is set. Photo sourcing is its own
+tool-agnostic sub-process, run separately from the research pass:
+[`artist-image-sourcing.md`](artist-image-sourcing.md), with the reuse-license policy
+in [ADR-0019](../decisions/0019-artist-photo-sourcing-and-reuse-license-policy.md).
+The research handoff is a candidate per artist with verified attribution; you review it
+in Artist Detail, tune the focal point, then publish with `edit_artist` and set
+`imageVerified` yourself.
+
+---
+
 ## Publishing an artist with no Spotify presence
 
 A few acts (a local collective, an international DJ) have no Spotify artist page and no
