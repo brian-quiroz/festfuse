@@ -73,6 +73,14 @@ existing artist; the `--preview` plan shows each changed field and the recompute
 publication readiness. `delete_artist` needs `--force` to remove an artist that another
 artist's Similar Artist set points at. See `backend/tests/README.md` for exact scope.
 
+When an `edit_artist` patch sets an `image_url` served from the frontend's `public/`
+tree, deploy that file first: merge the branch so the frontend ships the asset, confirm
+it resolves in production, then run the hosted-database `--apply`. Applying the row
+while the file is still undeployed makes production request an image that 404s. After
+the hosted image writes, redeploy the frontend (an empty commit, or the host's redeploy
+control) so already-cached routes pick up the new data — Next serves stale route and
+fetch caches otherwise.
+
 ## Editorial pipeline scripts
 
 The CLIs the editorial process (`docs/process/artist-editorial-process.md`,

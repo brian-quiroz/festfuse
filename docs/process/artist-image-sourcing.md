@@ -169,16 +169,22 @@ Create a new CSV for each batch by default, named
 sequence number; never overwrite an existing batch. Keep earlier CSVs, including
 legacy proof-of-concept files, unchanged unless migration is explicitly requested.
 The output root is chosen per task, not stored as a fixed convention in this skill.
-Use this layout (create staging only when downloads are authorized):
+Use this layout. `staging/` is created only when downloads are authorized; `final/`,
+`focal-scratch-*.txt`, and `patches/` appear only once selections are approved and the
+editor moves into asset preparation and publication.
 
 ```text
 <output-root>/
   images/
-    artist-images-YYYY-MM-DD-NN.csv
-    staging/
-      YYYY-MM-DD-NN/
-        artist-slug.jpg
+    artist-images-YYYY-MM-DD-NN.csv     # research handoff, one row per artist
+    focal-scratch-YYYY-MM-DD-NN.txt     # editor's per-artist Y% values, filled during review
+    staging/YYYY-MM-DD-NN/<slug>.jpg    # source originals under review (keep rejects and alternates)
+    final/YYYY-MM-DD-NN/<slug>.jpg      # optimized keepers; the file copied to public/artists/global/
+  patches/img-<slug>.json               # one edit_artist patch per keeper (see the authoring workflow)
 ```
+
+Use one batch id (`YYYY-MM-DD-NN`) per batch across all of these; do not reuse a
+number for a second batch.
 
 Keep roster-wide coverage tallies outside this sourcing workflow. On request, report
 a fresh database snapshot in chat, counting distinct artists with and without stored
