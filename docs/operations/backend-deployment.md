@@ -75,7 +75,7 @@ artist's Similar Artist set points at. See `backend/tests/README.md` for exact s
 
 ## Editorial pipeline scripts
 
-The three CLIs the editorial process (`docs/process/artist-editorial-process.md`,
+The CLIs the editorial process (`docs/process/artist-editorial-process.md`,
 ADR-0013) runs directly. Read-mostly; run them through the same tunnel against the
 hosted database. From `backend/`:
 
@@ -132,6 +132,15 @@ similar-artist set, and how many other artists cite this one. `--roster` prints 
 per published artist (`slug, name, billing, day, refs, genres`) for the similar-artist
 membership check and the distribution balance sweep; `--sort` is `similar-count`
 (default, ascending), `slug`, or `schedule`.
+
+**`scripts.sourcing/`** holds the photo-sourcing wrappers used by
+[`../process/artist-image-sourcing.md`](../process/artist-image-sourcing.md)
+(policy: ADR-0019): `wikipedia.py` (article to infobox image to its Commons
+categories), `commons.py` and `flickr.py` (reuse-licensed searches, one digest line
+per candidate), `thumb.py` (preview download), `optimize.py` (EXIF-rotate, downscale,
+strip metadata, progressive JPEG). `flickr.py` needs `FLICKR_API_KEY` in the repo-root
+`.env.local`; `optimize.py` needs Pillow from `requirements-dev.txt`. They run offline
+against public APIs, not the database. See `backend/scripts/sourcing/README.md`.
 
 ## Verification
 

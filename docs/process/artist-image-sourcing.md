@@ -71,10 +71,11 @@ or a guarantee that the photo will work. Do not mirror or generate missing backg
 
 1. Read [source access and reuse](artist-image-sources.md) for source access and license rules. Use structured
    metadata to screen dates, sizes and licenses before loading many previews. Run the
-   Commons/Flickr queries and metadata screen from a scratchpad script (e.g. curl/jq
-   against the APIs), not inline tool calls, so raw API responses never enter the
-   conversation. Inspect a preview by downloading its thumbnail to a local file and
-   viewing that.
+   Commons/Flickr queries and metadata screen from a script, not inline tool calls, so
+   raw API responses never enter the conversation. The `backend/scripts/sourcing/`
+   wrappers (`wikipedia.py`, `commons.py`, `flickr.py`, `thumb.py`, `optimize.py`) do
+   this, printing one screened digest line per candidate; use them or an equivalent.
+   Inspect a preview by downloading its thumbnail to a local file and viewing that.
 2. On Commons, lead with a quoted phrase search of the exact name in the file
    namespace (`srsearch="Artist Name"`, `srnamespace=6`). Loose multi-word queries
    ("artist band live concert") tend to return nothing. On Flickr, a plain name search

@@ -25,6 +25,10 @@ This roadmap is complete. PostgreSQL is the sole artist data source.
   reconciled with `alembic upgrade head` and a clean `alembic check`.
 - `provenance/artists-lollapalooza-2026.json` is a frozen archival snapshot from before
   section 6; nothing reads it at runtime.
+- Sourcing reuse-licensed artist photos for `edit_artist` runs on the
+  `backend/scripts/sourcing/` wrappers, per
+  [`docs/process/artist-image-sourcing.md`](../process/artist-image-sourcing.md)
+  (policy: ADR-0019).
 
 ## Rollout sequence
 
