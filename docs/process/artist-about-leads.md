@@ -31,27 +31,6 @@ Format, one section per slug:
 
 <!-- Entries begin below. Keep them alphabetical by slug. -->
 
-## bo-staloch
-
-- Singer-songwriter, born and raised in Austin, Texas; now based in Nashville. Turned 20 in March 2025. Source: https://www.onestowatch.com/en/blog/bo-staloch-the-garden-interview
-- Debut EP 'The Garden' (2025, Capitol Records), a six-song set of "visceral alt-folk and Americana"; the EP was shaped by time spent in Minnesota. Source: https://www.onestowatch.com/en/blog/bo-staloch-the-garden-interview
-- Influences cited: Bon Iver, Gregory Alan Isakov, Kings of Leon. Debuted in 2023 with 'Springtime Red Tulips'. Source: https://www.thelunacollective.co/journal/qa-bo-staloch
-
-## bleachers
-
-- The band of Jack Antonoff, a major pop producer (Taylor Swift, Lana Del Rey, Lorde). Source: https://en.wikipedia.org/wiki/Bleachers_(band)
-- Formed 2013 in Bergenfield, New Jersey; Antonoff's "distinctly New Jersey" project. Source: https://datebook.sfchronicle.com/datebook-pick/jack-antonoff-diverges-from-sad-girl-pop-on-bleachers
-- Four albums: 'Strange Desire' (2014), 'Gone Now' (2017), 'Take the Sadness Out of Saturday Night' (2021), self-titled 'Bleachers' (2024, via Dirty Hit). Source: https://en.wikipedia.org/wiki/Bleachers_(band)
-- Signature sound pairs electric-guitar solos with '80s-style synthesizers; nostalgic, anthemic. Source: https://en.wikipedia.org/wiki/Bleachers_(album)
-
-## brandon-flowers
-
-- Frontman of The Killers, who formed in Las Vegas; Flowers is a Las Vegas institution. Source: https://lasvegassun.com/news/2026/jun/24/killers-frontman-brandon-flowers-announces-country/
-- Two earlier solo albums, 'Flamingo' (2010) and 'The Desired Effect' (2015), in a synth-pop / new wave / heartland-rock mode. Source: https://www.deseret.com/entertainment/2026/06/23/brandon-flowers-announces-new-solo-album-thrasher/
-- Third solo album 'Thrasher' (August 2026, Island Records) is a deliberate country-western turn, recorded in Nashville with David Rawlings and Charlie McCoy; lead single 'Plans' (June 2026). Source: https://www.deseret.com/entertainment/2026/06/23/brandon-flowers-announces-new-solo-album-thrasher/
-- Flowers has tied the country turn to a rural-Utah childhood and his father's Johnny Cash and Waylon Jennings records. Source: https://www.nme.com/news/music/brandon-flowers-interview-thrasher-childhood-the-killers-future-3963378
-- Has said "in 2027 you will get the best Killers record." Source: https://www.radiox.co.uk/artists/the-killers/brandon-flowers-next-killers-album-2027-after-two-solo-records/
-
 ## cannons
 
 - Los Angeles trio: Michelle Joy (vocals), Ryan Clapham (guitar), Paul Davis (drums/keys). Source: https://en.wikipedia.org/wiki/Cannons_(band)
@@ -96,26 +75,6 @@ Format, one section per slug:
 - Philadelphia rock band led by Adam Granduciel, active since 2005; "arena-ready heartland rock" with krautrock and ambient textures. Source: https://en.wikipedia.org/wiki/I_Don%27t_Live_Here_Anymore
 - Albums: 'Wagonwheel Blues' (2008), 'Slave Ambient' (2011), 'Lost in the Dream' (2014), 'A Deeper Understanding' (2017), 'I Don't Live Here Anymore' (2021, Atlantic). Source: https://music.apple.com/us/artist/the-war-on-drugs/282078681
 - 'A Deeper Understanding' won Best Rock Album at the 2018 Grammys; 'Harmonia's Dream' was nominated for Best Rock Song in 2023. Source: https://en.wikipedia.org/wiki/I_Don%27t_Live_Here_Anymore
-
-## brigitte-calls-me-baby
-
-- American band formed in Chicago in 2022; members Wes Leavins (lead vocals), Jack Fluegel (guitar), Devin Wessels (bass), Jeremy Benshish (drums). Source: https://en.wikipedia.org/wiki/Brigitte_Calls_Me_Baby
-- Genres listed as new wave, jangle pop and post-punk; NME likened them to "the Smiths and the Strokes," with "upbeat new wave-style synths, jangly post-punk guitar." Source: https://en.wikipedia.org/wiki/Brigitte_Calls_Me_Baby
-- Leavins' croon draws comparisons to Elvis Presley, Roy Orbison and Morrissey. Source: https://en.wikipedia.org/wiki/Brigitte_Calls_Me_Baby
-- Merges "the lavish romanticism of mid-century pop with the frenetic energy and spiky intensity of early-millennium indie-rock." Source: https://blockclubchicago.org/2023/08/24/chicagos-brigitte-calls-me-baby-finds-the-future-of-rock-in-its-past/
-
-## britton
-
-- Alt-pop singer, real name Ashlee Britton Robinson; from Toledo, Ohio, moved to Los Angeles about five years ago to focus on songwriting. Source: https://fault-magazine.com/2026/02/britton-embraces-the-beauty-of-emotional-collapse-in-loving-you-almost-killed-me/
-- Blends R&B and electronic influences into "emotionally vulnerable and sonically layered alt-pop"; more than 1.4 million TikTok followers. Source: https://fault-magazine.com/2026/02/britton-embraces-the-beauty-of-emotional-collapse-in-loving-you-almost-killed-me/
-- Debut album 'Loving You Almost Killed Me' (2026), ten tracks with "open pianos, acoustic guitars, and soaring high harmonies" building an almost gothic atmosphere. Source: https://www.rivalmagazinela.com/rival-online/the-quiet-intensity-of-brittons-loving-you-almost-killed-me
-
-## bunt
-
-- German DJ and producer, real name Levi Wijk (born 1996), from Stuttgart. Source: https://en.wikipedia.org/wiki/Bunt_(DJ)
-- Started as a duo with Nico Crispin, who left in May 2021. Source: https://en.wikipedia.org/wiki/Bunt_(DJ)
-- Signature "folk house": banjo, harmonica and acoustic textures over festival-ready house drops; Rolling Stone called it "the next generation of folk-house." Source: https://www.rollingstone.com/music/music-features/hear-the-next-generation-of-folk-house-with-bunts-new-mixtape-223909/
-- Track "Clouds" (January 2023) went viral and became a global streaming hit. Source: https://www.sonymusic.co.uk/artist/bunt/
 
 ## cassandra-coleman
 

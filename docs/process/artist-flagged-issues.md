@@ -147,3 +147,10 @@ Lollapalooza 2026 booking directly) is an Asbury Park, NJ alt-folk-rock/psych ba
 Mike Bernabei, Steven Filippone, Cam Seidel, Dan DiSantis, Kathryn McCarty — known for selling out
 The Stone Pony and playing Sea.Hear.Now. Genres and location were corrected; about/similarArtists/
 tracks need a full rewrite in a dedicated pass.
+
+## brigitte-calls-me-baby (genres)
+
+Stored genres are Post-Punk, New Wave, Chamber Pop. Sources consulted for the `about`
+(Wikipedia, NME) describe the band as post-punk, new wave, and jangle pop, and none support
+"chamber pop." Surfaced during the `about` write; genres were not in scope to change.
+Candidate swap: jangle pop.

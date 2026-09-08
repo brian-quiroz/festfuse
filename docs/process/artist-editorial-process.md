@@ -403,9 +403,14 @@ Voice rules:
 - **Nothing tied to one appearance.** No specific stage, date, "this weekend," or
   "hometown set." The record is reused across festivals and years. Biographical origin
   facts ("emerged from Chicago") are fine; tying that origin to "this show" is not.
-- **Live-performance details are fair game when documented** by multiple independent
-  sources as an established part of the act — not one reviewer's account of one show,
-  and never described as if the copy witnessed it.
+- **Factual backbone; no live-performance hunt.** Build the copy from verifiable
+  facts: formation, origin, discography, labels, collaborators, chart and award
+  results, documented tours. Do not research what an act's shows are "known for" as a
+  dedicated effort. It is subjective, dates quickly across an artist's eras, and is
+  slow to verify. Keep a live detail only when it is squarely factual and surfaced
+  during the main research (a named touring format, a fixed instrument in the band),
+  never a reviewer's impression of one show, and never phrased as if the copy was
+  there.
 
 Two paths, the editor's call per artist by how well they already know the artist:
 
