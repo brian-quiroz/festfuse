@@ -1,4 +1,4 @@
-// FestFuse color system — semantic tokens aligned with .claude/rules/design-principles.md
+// FestFuse color system — semantic tokens aligned with docs/design/design-principles.md
 
 export const COLORS = {
   // Information & Navigation

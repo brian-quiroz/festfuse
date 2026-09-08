@@ -65,7 +65,7 @@ Whenever proposing a new feature, ask first: does this help the user decide who 
 
 ## Screen Design Intent
 
-Each screen has a distinct purpose and tone — don't blur them together. Color and visual design rules live in `.claude/rules/design-principles.md`.
+Each screen has a distinct purpose and tone — don't blur them together. Color and visual design rules live in `docs/design/design-principles.md`.
 
 ### Home
 

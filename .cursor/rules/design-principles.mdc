@@ -1,0 +1,10 @@
+---
+description: FestFuse color semantics and visual design principles. Apply to all UI work (components, styles).
+globs: app/**/*.{tsx,css}
+alwaysApply: false
+---
+
+# Design principles
+
+FestFuse's color semantics and visual design principles are in
+@docs/design/design-principles.md. Read and follow it for any UI work.

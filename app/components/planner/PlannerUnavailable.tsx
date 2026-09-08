@@ -3,7 +3,7 @@ import { ArrowRight, CalendarDays } from "lucide-react";
 import { contextHref, festivalLabel } from "@/app/data/festivals";
 
 // The Planner route's state for a run whose lineup is published but has no schedule
-// yet (ADR-0016). Informational, not an error (cyan, per design-principles.md); the
+// yet (ADR-0016). Informational, not an error (cyan, per docs/design/design-principles.md); the
 // route stays live rather than redirecting. A run with no published artists never
 // reaches here — the run layout shows AnnouncedLineupPending — so this is always
 // "some artists, no schedule". See ARCHITECTURE.md § Announced-Lineup Mode.
