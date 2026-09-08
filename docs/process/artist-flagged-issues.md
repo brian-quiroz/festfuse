@@ -154,3 +154,11 @@ Stored genres are Post-Punk, New Wave, Chamber Pop. Sources consulted for the `a
 (Wikipedia, NME) describe the band as post-punk, new wave, and jangle pop, and none support
 "chamber pop." Surfaced during the `about` write; genres were not in scope to change.
 Candidate swap: jangle pop.
+
+## cassandra-coleman (location)
+
+Stored location is Nashville. Nashville Voyager describes her as "based in Columbia,
+Tennessee" and Apple Music lists Columbia, TN as her hometown; only a 2021 HollywoodLife
+piece said Nashville. Her interviews describe growing up in rural Tennessee "near the Blue
+Ridge Mountains" (East Tennessee), which is not Columbia (Middle Tennessee). Surfaced during
+the `about` write; location was not in scope to change. Candidate: Columbia, TN.

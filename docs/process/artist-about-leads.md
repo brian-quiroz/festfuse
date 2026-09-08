@@ -31,13 +31,6 @@ Format, one section per slug:
 
 <!-- Entries begin below. Keep them alphabetical by slug. -->
 
-## cannons
-
-- Los Angeles trio: Michelle Joy (vocals), Ryan Clapham (guitar), Paul Davis (drums/keys). Source: https://en.wikipedia.org/wiki/Cannons_(band)
-- Albums: 'Shadows' (2019), 'Fever Dream' (2022), 'Heartbeat Highway' (2023). Source: https://en.wikipedia.org/wiki/Cannons_(band)
-- "Loving You" was their third top-10 Alternative radio single; earlier "Nightlife" broke out via streaming. Source: https://www.abqjournal.com/lifestyle/commanding-transformation-cannons-michelle-joy-at-home-performing-on-stage-brings-heartbeat-highway-on-the-road/553234
-- Aesthetic described as nocturnal, Studio 54, "dreamy electro-pop, glittering disco and nocturnal alt-rock." Source: https://www.hollywoodbowl.com/musicdb/artists/10261/cannons
-
 ## labrinth
 
 - Born Timothy Lee McKenzie, London, 1989; discovered by Simon Cowell after production and remix work. Source: https://music.apple.com/us/artist/labrinth/205732582
@@ -75,38 +68,6 @@ Format, one section per slug:
 - Philadelphia rock band led by Adam Granduciel, active since 2005; "arena-ready heartland rock" with krautrock and ambient textures. Source: https://en.wikipedia.org/wiki/I_Don%27t_Live_Here_Anymore
 - Albums: 'Wagonwheel Blues' (2008), 'Slave Ambient' (2011), 'Lost in the Dream' (2014), 'A Deeper Understanding' (2017), 'I Don't Live Here Anymore' (2021, Atlantic). Source: https://music.apple.com/us/artist/the-war-on-drugs/282078681
 - 'A Deeper Understanding' won Best Rock Album at the 2018 Grammys; 'Harmonia's Dream' was nominated for Best Rock Song in 2023. Source: https://en.wikipedia.org/wiki/I_Don%27t_Live_Here_Anymore
-
-## cassandra-coleman
-
-- Indie/dream-pop singer from Columbia, Tennessee (Blue Ridge foothills); a Top 10 finalist on 'American Idol' season 19 (2021); now based in Nashville. Source: https://hollywoodlife.com/feature/who-is-cassandra-coleman-american-idol-4388066/
-- Debut EP 'Coming of Age' (2023) blends "synth-heavy 80s style, dream-pop whimsy, and folk roots." Source: https://www.melodicmag.com/news/cassandra-coleman-shares-her-coming-of-age-story-on-debut-single/
-- Title track "Coming of Age" was co-produced by Jack Antonoff with Bleachers as the backing band; released via Warner Records. Source: https://www.rollingstone.com/music/music-news/cassandra-coleman-jack-antonoff-coming-of-age-song-1235356790/
-- Compared to Florence Welch, Bon Iver and AURORA. Source: https://www.melodicmag.com/news/cassandra-coleman-shares-her-coming-of-age-story-on-debut-single/
-
-## charlotte-lawrence
-
-- Indie-pop singer-songwriter from Los Angeles; "catchy songs with a dark emotional edge," spanning pop, electropop and indie pop. Source: https://www.allmusic.com/artist/charlotte-lawrence-mn0001623143
-- Daughter of actress Christa Miller and 'Scrubs' creator Bill Lawrence. Source: https://en.wikipedia.org/wiki/Charlotte_Lawrence
-- "Joke's on You" appeared on the 'Birds of Prey' soundtrack (2020); debut album 'Somewhere' released 2024. Source: https://atwoodmagazine.com/somewhere-charlotte-lawrence-album-review/
-
-## chelsea-jordan
-
-- Soul and R&B-leaning pop singer-songwriter, Baltimore-born and Los Angeles-based; commercial debut in 2024. Source: https://hypebae.com/2026/2/chelsea-jordan-interview-singer-musician-ep-album-tour-release-date
-- Breakout single "Toronto" led to a deal with Arista Records. Source: https://www.onestowatch.com/en/blog/chelsea-jordan-is-just-like-you-q-a
-- "Halfwaythru" (2025) was the lead single from the 2026 EP 'Better Late Than Not at All'. Source: https://hypebae.com/2026/2/chelsea-jordan-interview-singer-musician-ep-album-tour-release-date
-
-## chloe-qisha
-
-- Alt-pop singer-songwriter, born in Malaysia (1998/99), moved to England at 16 for boarding school, now based in London. Source: https://en.wikipedia.org/wiki/Chloe_Qisha
-- Studied Psychology, then a Master's in Communication, before music; self-taught multi-instrumentalist. Source: https://en.wikipedia.org/wiki/Chloe_Qisha
-- Debut EP (2024) on VLF Records / Are You Serious? Records; breakout track "21st Century Cool Girl," described as "an ode to my teenage self." Source: https://www.yahoo.com/entertainment/articles/chloe-qisha-rising-pop-star-111926938.html
-- On the BBC Sound of 2026 shortlist; covered by Kelly Clarkson; first London headline show sold out in four minutes. Source: https://www.rollingstone.co.uk/music/chloe-qisha-future-of-music-cover-feature-48513/
-
-## coleman-jennings
-
-- Country songwriter; born in New York, raised in Connecticut until about age 7, then moved to Texas; Austin-based, an English major at UT Austin. Source: https://www.kut.org/texasstandard/2024-01-12/coleman-jennings-roaddogs-ut-austin-student-country-artist
-- Combines Western folk, honky tonk, outlaw country and Americana, with elements of old-time and bluegrass; cites Blaze Foley and Townes Van Zandt; fronts the band Coleman Jennings and the Roaddogs. Source: https://savingcountrymusic.com/album-review-coleman-jennings-lead-you-home/
-- Signed with Big Loud Texas and Mercury Records in September 2025. Source: https://musicrow.com/2025/09/coleman-jennings-inks-with-big-loud-texas-mercury-records/
 
 ## common-people
 
