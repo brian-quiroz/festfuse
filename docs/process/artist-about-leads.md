@@ -31,43 +31,6 @@ Format, one section per slug:
 
 <!-- Entries begin below. Keep them alphabetical by slug. -->
 
-## aaron-rowe
-
-- Irish singer-songwriter from Monkstown Farm, Dublin. Source: https://en.wikipedia.org/wiki/Aaron_Rowe_(singer)
-- Debut single 'Hey Ma' (23 May 2025, Columbia Records), dedicated to his mother; over 3.6 million streams. Source: https://en.wikipedia.org/wiki/Hey_Ma_(Aaron_Rowe_song)
-- Debut EP 'Exodus' (September 2025). Has toured arenas with Lewis Capaldi and toured with Ed Sheeran. Source: https://www.rollingstone.co.uk/music/aaron-rowe-play-next-interview-hey-ma-lewis-capaldi-ed-sheeran-51001/
-- Acoustic guitar and fiddle, but framed as personal narrative rather than trad folk. Source: https://www.clashmusic.com/news/aaron-rowes-hey-ma-is-a-stunning-introduction/
-
-## almost-heaven
-
-- Austin two-piece: Stefan Barraza (production) and Jaelyn Valero (co-writer, drums). Source: https://open.spotify.com/artist/25M75SztfGLmmWJK09R1dN
-- Sound self-described as "equal parts refreshing & nostalgic"; indie-electronic, post-punk, indie-dance. Source: https://open.spotify.com/artist/25M75SztfGLmmWJK09R1dN
-- Released an EP in January 2026; known for their live show. Source: https://open.spotify.com/artist/25M75SztfGLmmWJK09R1dN
-
-## amyl-and-the-sniffers
-
-- Australian pub-rock and punk band fronted by Amy Taylor; formed in Melbourne in 2016. Source: https://en.wikipedia.org/wiki/Cartoon_Darkness
-- Albums: 'Amyl and the Sniffers' (2019), 'Comfort to Me' (2021), 'Cartoon Darkness' (25 October 2024, Rough Trade), recorded with Nick Launay at Foo Fighters' 606 Studios. Source: https://roughtraderecords.com/wp/2024/08/21/amyl-and-the-sniffers-announce-new-album-cartoon-darkness/
-- 'Cartoon Darkness' was nominated for the 2024 Australian Music Prize and Australian Album of the Year at the J Awards; Amy Taylor frames it around climate, war, AI and online politics. Source: https://en.wikipedia.org/wiki/Cartoon_Darkness
-
-## annie-dirusso
-
-- Indie-rock artist, born in New York City, based in Nashville. Source: https://en.wikipedia.org/wiki/Annie_DiRusso
-- Debut album 'Super Pedestrian' (7 March 2025), produced by Caleb Wright (Hippo Campus, Samia); follows the EP 'God, I Hate This Place'. Source: https://www.rollingstone.com/music/music-features/annie-dirusso-super-pedestrian-album-interview-1235485837/
-- "Buzzing garage-rock guitars and high-energy performances with a pop-infused flair"; 32-date headline tour on release. Source: https://wnxp.org/annie-dirusso-bursts-through-the-boys-club-on-super-pedestrian/
-
-## arcy-drive
-
-- Long Island four-piece: Mateyunas, Brooke Tuozzo (drums), Austin Jones (guitar), Patrick Helrigel (bass); met at school in Northport, New York. Named after the street where they rehearsed. Source: https://www.rollingstone.com/music/music-features/arcy-drive-interview-stateside-festival-1235586754/
-- Self-labels "attic rock" and "shed rock"; "blends angsty emo with classic garage rock." DIY, toured in a converted school bus. Source: https://www.rollingstone.com/music/music-features/arcy-drive-interview-stateside-festival-1235586754/
-- Full-length debut 'The Pit' (18 April 2025), after a 2022 live album and a 2023 EP. Source: https://www.onestowatch.com/en/blog/arcy-drive-the-pit
-
-## asleep-at-the-wheel
-
-- Western swing band formed in 1970 in Paw Paw, West Virginia by Ray Benson (a Philadelphia native) with Lucky Oceans and Leroy Preston; relocated to Austin in 1974 and became the genre's torchbearers. Source: https://www.texasstandard.org/stories/asleep-at-the-wheel-celebrates-50-years-of-western-swing/
-- More than 25 albums and 9 Grammy Awards; long associated with the songbook of Bob Wills and His Texas Playboys. Source: https://www.texasstandard.org/stories/asleep-at-the-wheel-celebrates-50-years-of-western-swing/
-- Fiddle-and-steel ensemble sound; celebrated 50 years in 2020. Source: https://texashighways.com/culture/arts-entertainment/ray-benson-reflects-50-years-seminal-western-swing-band-asleep-at-the-wheel/
-
 ## bo-staloch
 
 - Singer-songwriter, born and raised in Austin, Texas; now based in Nashville. Turned 20 in March 2025. Source: https://www.onestowatch.com/en/blog/bo-staloch-the-garden-interview
