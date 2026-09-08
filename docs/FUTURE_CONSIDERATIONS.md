@@ -215,7 +215,7 @@ The locked Festival Story card's recovery path ("Take a Second Look") always rou
 
 ## Future Consideration: Light Mode
 
-`app/globals.css` sets `color-scheme: dark` on `:root` unconditionally, and the new `.themed-scrollbar` utility hardcodes white-based `rgba()` values for its thumb/track — both assume a permanently dark app. This is correct for the current dark-only design (`.claude/rules/design-principles.md`: "Deep violet (#110D24) and surrounding dark neutrals form the visual foundation"), but neither will automatically adapt if light mode is ever added.
+`app/globals.css` sets `color-scheme: dark` on `:root` unconditionally, and the new `.themed-scrollbar` utility hardcodes white-based `rgba()` values for its thumb/track — both assume a permanently dark app. This is correct for the current dark-only design (`docs/design/design-principles.md`: "Deep violet (#110D24) and surrounding dark neutrals form the visual foundation"), but neither will automatically adapt if light mode is ever added.
 
 **If light mode is built:** `color-scheme` needs to become conditional — driven by a theme class/attribute (e.g. `color-scheme: light` or `color-scheme: light dark` swapped based on the active theme) rather than a blanket root-level `dark`. `.themed-scrollbar`'s thumb/track colors would similarly need theme-aware values (e.g. dark-based `rgba()` values for a light theme, mirroring the current white-based ones) rather than a single hardcoded palette.
 

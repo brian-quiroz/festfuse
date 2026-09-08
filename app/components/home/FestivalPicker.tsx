@@ -12,7 +12,7 @@ import { useCardTilt } from "@/app/components/home/useCardTilt";
 // festival's own branding / atmosphere / location, and any hue family is fair game
 // here because the color differentiates festival experiences, it does not communicate
 // app state. Selection state is carried by the cyan ring, which is the semantic
-// "navigation / selection" signal. See .claude/rules/design-principles.md.
+// "navigation / selection" signal. See docs/design/design-principles.md.
 // Each theme mirrors the Home workflow cards exactly: a gradient body, a bright corner
 // glow blob (`glow`), a matching coloured hover shadow (`hoverShadow`), and a faint
 // watermark tint. Only the hue differs per festival — the interaction language is the

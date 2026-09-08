@@ -371,7 +371,7 @@ one large card per edition, built from the same primitives as the Home workflow 
 (`useCardTilt`, the corner glow blob, a coloured hover shadow, a rest-state dim that
 lifts on hover) so the two screens read as one family. Each card carries a per-festival
 identity gradient and a cropped `shortName` watermark. That colour is expressive
-identity, not the semantic system (`.claude/rules/design-principles.md`, "Exception:
+identity, not the semantic system (`docs/design/design-principles.md`, "Exception:
 festival identity color"); cyan (the selection ring, and the weekend buttons' hover
 state) is the only selection or navigation signal on the screen. Selecting a single-run
 edition sets the context immediately. A multi-run edition instead gets the cyan ring
@@ -1573,7 +1573,7 @@ function getConflictingArtists(
 
 **File:** `app/components/explore/ArtistCard.tsx`
 
-- **Schedule toggle icon** (calendar icon, cyan per `.claude/rules/design-principles.md` "Primary workflow actions")
+- **Schedule toggle icon** (calendar icon, cyan per `docs/design/design-principles.md` "Primary workflow actions")
   - Click calls `toggleAllAppearances(artist, festivalId)` — same aggregate action as
     Artist Detail, never per-appearance
   - Three visual states via `getArtistScheduleState()`: inactive (none), subtle
@@ -1594,7 +1594,7 @@ function getConflictingArtists(
 - **Conflict highlight** (red border/highlight only if conflicting)
   - Shown if any of the artist's appearance keys is in the conflict set returned by
     `getConflictingArtists()` — independent of the three schedule states above
-  - Uses red per `.claude/rules/design-principles.md` ("Schedule conflicts" → Red)
+  - Uses red per `docs/design/design-principles.md` ("Schedule conflicts" → Red)
   - Example: thin red border, or subtle background tint
   - Subtle styling — not aggressive, doesn't distract from the card itself
 
@@ -1625,7 +1625,7 @@ represents the actual relationship more accurately than nesting would.
 1. **My Picks** — NEW
    - Calls `applyPreset("myPicks")`, then navigates to Explore (`contextHref(context, "explore")`)
    - Shows count: "My Picks (X)" where X = count of Must See + count of Interested
-   - Yellow color per `.claude/rules/design-principles.md` ("User Intent & Personalization") — matches Must See/
+   - Yellow color per `docs/design/design-principles.md` ("User Intent & Personalization") — matches Must See/
      Interested directly below it; was cyan originally, corrected after noticing it
      contradicted its own two constituent categories in the same list
 
@@ -1646,7 +1646,7 @@ against, and "Scheduled" links to a hidden Explore facet; see § Announced-Lineu
    - Shows count: "Scheduled (X)" — X is an **artist count** (artists with
      `getArtistScheduleState(...) !== "none"`), not an appearance count, so it matches
      the number of cards Explore actually shows when this filter is applied
-   - Cyan color per `.claude/rules/design-principles.md` ("Primary workflow actions")
+   - Cyan color per `docs/design/design-principles.md` ("Primary workflow actions")
 
 5. **Conflicts** — NEW, conditionally rendered
    - Only shown if conflict count > 0
@@ -1654,7 +1654,7 @@ against, and "Scheduled" links to a hidden Explore facet; see § Announced-Lineu
    - Filters Explore to show ONLY conflicting artists (strict subset of scheduled)
    - Shows count: "Conflicts (X)" — X is likewise an **artist count** (artists with at
      least one conflicting appearance), same reasoning as "Scheduled" above
-   - Red color per `.claude/rules/design-principles.md` ("Schedule conflicts")
+   - Red color per `docs/design/design-principles.md` ("Schedule conflicts")
 
 **Technical implementation:**
 
@@ -1739,15 +1739,15 @@ A full-page component for day-by-day grid scheduling.
 - Artist name and start/end time displayed in each grid cell
 - No lazy-loading/code-splitting for MVP — just conditionally render the active day's content
 
-#### Visual Treatment (Per `.claude/rules/design-principles.md` Color Semantics)
+#### Visual Treatment (Per `docs/design/design-principles.md` Color Semantics)
 
 **Confirmed** — Fill, border, and pick icon are three independent channels, not a
 priority-ordered stack — a block can be scheduled, conflicting, and a pick all at once
 with nothing silently hidden:
 
 - **Fill** — driven only by scheduled state: cyan tint if scheduled, neutral otherwise. Always renders regardless of either toggle.
-- **Border** — driven only by conflict state: red per `.claude/rules/design-principles.md` ("Schedule conflicts") if conflicting, otherwise falls back to the scheduled/neutral border color.
-- **Icon** — a small static (non-interactive) glyph reflecting the artist's pick verdict, per `.claude/rules/design-principles.md` ("User Intent & Personalization"): a solid star for Must See, a flat muted-gold heart for Interested (an opaque color, not an alpha variant of Must See's, since translucent color blends inconsistently depending on what's underneath it), nothing if no verdict. Always renders regardless of either toggle — see Interactions below.
+- **Border** — driven only by conflict state: red per `docs/design/design-principles.md` ("Schedule conflicts") if conflicting, otherwise falls back to the scheduled/neutral border color.
+- **Icon** — a small static (non-interactive) glyph reflecting the artist's pick verdict, per `docs/design/design-principles.md` ("User Intent & Personalization"): a solid star for Must See, a flat muted-gold heart for Interested (an opaque color, not an alpha variant of Must See's, since translucent color blends inconsistently depending on what's underneath it), nothing if no verdict. Always renders regardless of either toggle — see Interactions below.
 
 #### Interactions
 
@@ -2255,7 +2255,7 @@ still uses `getPrimaryAppearance` unchanged.
 
 `StartScreen`/`StartOptions` present three vertically stacked steps — Festival, Days
 Attending, Grouping. Days Attending renders one selectable card per configured
-festival day (yellow when selected, per `.claude/rules/design-principles.md`'s user-intent color semantics;
+festival day (yellow when selected, per `docs/design/design-principles.md`'s user-intent color semantics;
 neutral otherwise; a checkmark badge so selection state doesn't depend on color
 alone), sourcing each day's short date from `getDatesByDay(allArtists, festivalId)`
 (`app/lib/appearances.ts`) rather than a duplicated day→date table. Deselecting every
@@ -2739,7 +2739,7 @@ this section is the actual record.
 
 Home = orientation ("where do I start"), the Help modal = explanation on demand (opened
 from Home or Sidebar), individual pages = contextual guidance (unchanged). Home does not
-try to explain the app itself — `.claude/rules/design-principles.md`'s "prefer progressive disclosure" principle
+try to explain the app itself — `docs/design/design-principles.md`'s "prefer progressive disclosure" principle
 means Home stays three entry cards plus a "How FestFuse works" link; the actual
 explaining happens in the modal.
 
@@ -2756,7 +2756,7 @@ end of the row.
 Each card sits at a different point along the same cool/cyan spectrum rather than one
 uniform teal for all three — electric cyan (Quick Picks), seafoam/turquoise (Explore),
 azure (Planner). Deliberately stays inside that spectrum and never reaches toward
-violet/magenta: `.claude/rules/design-principles.md` reserves celebration magenta for actual celebration moments
+violet/magenta: `docs/design/design-principles.md` reserves celebration magenta for actual celebration moments
 (Festival Story/Wrapped-style accents) used sparingly — diffusing it onto a homepage
 card, which every session touches, would erode the rarity that makes it read as special
 where it's actually used (Quick Picks' own screens already lean on `COLORS.celebration`
