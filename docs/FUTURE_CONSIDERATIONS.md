@@ -461,6 +461,18 @@ iOS Safari fails to properly clip descendant content to a rounded corner (`round
 
 ---
 
+## Artist Hero Layout Robustness
+
+`ArtistHero.tsx`'s desktop layout stacks several independently-variable pieces (genre pill count, artist name length, socials present or not, the multi-appearance schedule-label length) inside a fixed-height, `overflow-hidden` box with hardcoded gaps (`pt-14`, `mt-6`, `mt-12`) and a fixed name size. When the combined height exceeds the hero, `ArtistActions` is clipped at the bottom edge.
+
+**Patched, not solved:** a `longName` flag (`artist.name.length > 30`) steps the desktop name size down (`md:text-6xl` to `md:text-4xl lg:text-5xl`) so long names wrap to fewer lines. This clears the one current offender ("The Huston-Tillotson University Jazz Collective") and Chicago Youth Symphony Orchestra, but it is a threshold hack, not a layout that adapts to its content.
+
+A robust version would let the content drive the hero height, or distribute the vertical space with flex rather than fixed margins, or anchor the actions to the hero's bottom edge (`mt-auto`) so they are never clipped regardless of what is above them. Each of those visibly moves the name/genre/socials/button spacing that was heavily iterated on early, so it is not worth doing blind. Revisit once the frontend has Playwright with visual-regression snapshots (see "Frontend Automated Test Coverage"), which makes that kind of layout refactor safe to verify across every artist shape.
+
+Related: "Group-Photo Hero Framing" (the other content-variance weak spot in the same component).
+
+---
+
 ## Future Consideration: React Hook Lint Warnings (set-state-in-effect, exhaustive-deps)
 
 A pre-release `npm run lint` pass surfaced `react-hooks/set-state-in-effect` errors and `react-hooks/exhaustive-deps` warnings, from a stricter hook-lint rule that flags any synchronous `setState` call inside an effect body, even in early-return guard clauses:

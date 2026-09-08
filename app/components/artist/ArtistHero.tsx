@@ -17,6 +17,10 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
     (artist.socialsVerified && (artist.socials.youtube || artist.socials.tiktok))
   );
 
+  // Long names wrap to 3+ lines at full size, which on desktop pushes ArtistActions
+  // past the fixed-height hero's clipped bottom edge. Step the size down for those.
+  const longName = artist.name.length > 30;
+
   // Shared between the mobile (bottom-anchored) and desktop (left-column) content
   // blocks below — identical markup, only the surrounding wrapper's position/width/
   // padding differs per breakpoint, so the pills/heading/badge themselves aren't
@@ -41,7 +45,11 @@ export default function ArtistHero({ artist }: { artist: Artist }) {
           with the text itself — a flex-sibling badge stays pinned to the row's far
           edge once a long name (e.g. "The Smashing Pumpkins") wraps, ending up far
           from the actual last word instead of hugging it. */}
-      <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-none">
+      <h1
+        className={`text-3xl sm:text-4xl font-extrabold text-white tracking-tight ${
+          longName ? "md:text-4xl lg:text-5xl leading-tight" : "md:text-6xl leading-none"
+        }`}
+      >
         {artist.name}
         {artist.billingTier === "Headliner" && (
           <span
