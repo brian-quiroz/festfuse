@@ -478,3 +478,60 @@ The Huston-Tillotson University Jazz Collective is an all-student ensemble from 
 2. https://austinfreepress.org/high-note/
 3. https://htu.edu/huston-tillotson-university-jazz-orchestra-places-third-at-2026-national-collegiate-jazz-competition/
 4. https://kutx.org/words-on-music/black-history-month/from-austin-to-the-national-stage-huston-tillotson-jazz-orchestra-makes-its-mark/
+
+## its-murph
+
+it's murph is Garrett Murphy, a DJ and producer who grew up in the Nashville suburbs and got into dance music seeing Porter Robinson live.[\[1\]](https://music.apple.com/us/artist/its-murph/1650216419)[\[2\]](https://edmidentity.com/2024/07/06/its-murph-electric-forest-interview/) He studied the music industry at USC and played his first big set, the Do LaB stage at Coachella, in 2023, just before graduating.[\[2\]](https://edmidentity.com/2024/07/06/its-murph-electric-forest-interview/) His first single as it's murph, 'Food for the Soul', came out that year and turned into a small viral hit.[\[1\]](https://music.apple.com/us/artist/its-murph/1650216419)[\[3\]](https://relentlessbeats.com/2025/11/its-murph-taking-over-the-van-buren-for-his-through-my-system-tour) Apple Music describes the sound as the punch of EDM crossed with a breezy Balearic feel; he makes house, cites Porter Robinson, Fred again.. and Flume, and cut the dancefloor track 'Down Low' with Sorana.[\[1\]](https://music.apple.com/us/artist/its-murph/1650216419)[\[2\]](https://edmidentity.com/2024/07/06/its-murph-electric-forest-interview/) His debut album 'Weightless' arrived in 2025, he toured it as the 'Through My System' run, and he splits his time between Los Angeles and Nashville.[\[1\]](https://music.apple.com/us/artist/its-murph/1650216419)[\[2\]](https://edmidentity.com/2024/07/06/its-murph-electric-forest-interview/)[\[3\]](https://relentlessbeats.com/2025/11/its-murph-taking-over-the-van-buren-for-his-through-my-system-tour) He has played Electric Forest, Bonnaroo, Lightning in a Bottle and III Points.[\[1\]](https://music.apple.com/us/artist/its-murph/1650216419)[\[2\]](https://edmidentity.com/2024/07/06/its-murph-electric-forest-interview/)
+
+**Sources**
+
+1. https://music.apple.com/us/artist/its-murph/1650216419
+2. https://edmidentity.com/2024/07/06/its-murph-electric-forest-interview/
+3. https://relentlessbeats.com/2025/11/its-murph-taking-over-the-van-buren-for-his-through-my-system-tour
+
+## izzy-escobar
+
+Izzy Escobar is a Cuban-Italian singer-songwriter from Massachusetts, now based in New York, classically trained on violin and piano.[\[1\]](https://www.iheart.com/content/2026-07-14-who-is-izzy-escobar-watch-her-new-hate-to-be-the-one-video/)[\[2\]](https://justlistentothis.co.uk/news/izzy-escobar-releases-new-single-hate-to-be-the-one/) She built an audience posting spontaneous piano performances online, running up millions of views, and press has picked up on a voice that moves between quiet intimacy and anthemic power.[\[1\]](https://www.iheart.com/content/2026-07-14-who-is-izzy-escobar-watch-her-new-hate-to-be-the-one-video/)[\[2\]](https://justlistentothis.co.uk/news/izzy-escobar-releases-new-single-hate-to-be-the-one/) Her debut project, the acoustic EP 'Sunny in London', came out on Artist House and included the single 'Gangster's Wife'.[\[2\]](https://justlistentothis.co.uk/news/izzy-escobar-releases-new-single-hate-to-be-the-one/) In 2026 she released 'Hate to Be The One', a breakup song written for her by Diane Warren, which reached the Shazam top ten in the US and Canada and was used in HBO's 'Hacks'; her track 'Evergreen Avenue' appears on the soundtrack to 'The Devil Wears Prada 2', alongside Lady Gaga, Dua Lipa and Laufey.[\[1\]](https://www.iheart.com/content/2026-07-14-who-is-izzy-escobar-watch-her-new-hate-to-be-the-one-video/)[\[2\]](https://justlistentothis.co.uk/news/izzy-escobar-releases-new-single-hate-to-be-the-one/) Forbes, Billboard and the BBC have all covered her, with Forbes dubbing her 'your pop queen in 2026'.[\[1\]](https://www.iheart.com/content/2026-07-14-who-is-izzy-escobar-watch-her-new-hate-to-be-the-one-video/)
+
+**Sources**
+
+1. https://www.iheart.com/content/2026-07-14-who-is-izzy-escobar-watch-her-new-hate-to-be-the-one-video/
+2. https://justlistentothis.co.uk/news/izzy-escobar-releases-new-single-hate-to-be-the-one/
+
+## jess-williamson
+
+Jess Williamson was born in Lewisville, Texas and grew up in the Dallas area. She went to the University of Texas at Austin to study photojournalism and did not start writing songs or playing instruments until her senior year.[\[3\]](https://www.dallasobserver.com/music/dallas-native-jess-williamson-from-plains-comes-home-ahead-of-new-solo-release-16710745/) She put out 'Native State' (2014) and 'Heart Song' (2016) on her own Brutal Honest imprint, then signed to Mexican Summer for 'Cosmic Wink' (2018) and 'Sorceress' (2020).[\[1\]](https://en.wikipedia.org/wiki/Jess_Williamson) Her fifth album, 'Time Ain't Accidental' (2023), sets minimalist modern-country ballads against saxophone and loose beats; it drew universal acclaim and topped Stereogum's best country albums of the year.[\[2\]](https://en.wikipedia.org/wiki/Time_Ain%27t_Accidental)[\[3\]](https://www.dallasobserver.com/music/dallas-native-jess-williamson-from-plains-comes-home-ahead-of-new-solo-release-16710745/) In 2022 she formed the duo Plains with Katie Crutchfield of Waxahatchee and released 'I Walked with You a Ways'.[\[1\]](https://en.wikipedia.org/wiki/Jess_Williamson) Now based in Los Angeles, she has a sixth album, 'A Mile South of Heaven', due in October 2026.[\[1\]](https://en.wikipedia.org/wiki/Jess_Williamson)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Jess_Williamson
+2. https://en.wikipedia.org/wiki/Time_Ain%27t_Accidental
+3. https://www.dallasobserver.com/music/dallas-native-jess-williamson-from-plains-comes-home-ahead-of-new-solo-release-16710745/
+
+## jesse-welles
+
+Jesse Welles, born Jesse Wells in 1992 in Ozark, Arkansas, grew up on his mother's Crosby, Stills and Nash and Fleetwood Mac records and found Dylan and harder folk on his own.[\[1\]](https://en.wikipedia.org/wiki/Jesse_Welles)[\[2\]](https://www.cbsnews.com/news/jesse-welles-keeping-the-spirit-of-american-folk-music-alive/) He fronted rock bands through the 2010s, including Welles, whose 2018 album 'Red Trees and White Trashes' came out on 300 Entertainment with Dave Cobb producing.[\[1\]](https://en.wikipedia.org/wiki/Jesse_Welles) In 2024 he started filming short, plainspoken protest songs alone in the Arkansas hills, on healthcare, war and money, and they went viral.[\[1\]](https://en.wikipedia.org/wiki/Jesse_Welles)[\[2\]](https://www.cbsnews.com/news/jesse-welles-keeping-the-spirit-of-american-folk-music-alive/) His albums 'Middle' (2025) and the live-and-field-recording set 'Under the Powerlines' brought four nominations at the 2026 Grammys, across the folk, Americana and roots categories.[\[1\]](https://en.wikipedia.org/wiki/Jesse_Welles)[\[2\]](https://www.cbsnews.com/news/jesse-welles-keeping-the-spirit-of-american-folk-music-alive/) He has since performed with John Fogerty and recorded with Joan Baez, and released the album 'Masks Off' in 2026.[\[1\]](https://en.wikipedia.org/wiki/Jesse_Welles)[\[2\]](https://www.cbsnews.com/news/jesse-welles-keeping-the-spirit-of-american-folk-music-alive/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Jesse_Welles
+2. https://www.cbsnews.com/news/jesse-welles-keeping-the-spirit-of-american-folk-music-alive/
+
+## joe-jordan
+
+Joe Jordan is a singer-songwriter from Woonsocket, Rhode Island who spent years playing bars and honky-tonks around the Northeast before turning toward songwriting.[\[1\]](https://www.joejordanmusic.com/bio)[\[2\]](https://www.puretone.com/artists/joe-jordan) He co-wrote 'Front Seat' for Rayne Johnson, a piano ballad that reached number 34 on Billboard's Country Airplay chart in 2020 and has passed 100 million streams, and started releasing his own music in 2023.[\[2\]](https://www.puretone.com/artists/joe-jordan)[\[3\]](https://en.wikipedia.org/wiki/Rayne_Johnson) His indie folk-country songs, among them 'Spiraling Down' and 'Don't Tell Alley', have pushed his catalog past 150 million streams.[\[1\]](https://www.joejordanmusic.com/bio) He signed to Atlantic Records in 2024, left the following year, and partnered with the New York label Rix Records in 2026, working out of the Cincinnati company Mountain Road Records.[\[1\]](https://www.joejordanmusic.com/bio) His debut album 'The Heart Sessions', which he calls the most honest thing he has made, songs about love, heartbreak, addiction, faith and healing, is due in August 2026.[\[1\]](https://www.joejordanmusic.com/bio)
+
+**Sources**
+
+1. https://www.joejordanmusic.com/bio
+2. https://www.puretone.com/artists/joe-jordan
+3. https://en.wikipedia.org/wiki/Rayne_Johnson
+
+## joshua-jensen
+
+Joshua Jensen grew up in a large, musical Arizona family that used singing as a kind of prayer, with his grandfather's guitar at every gathering.[\[1\]](https://atwoodmagazine.com/jjhp-joshua-jensen-hoping-debut-single-interview-music-premiere/)[\[2\]](https://noisescapemagazine.com/news/interview-joshua-jensen) He moved to New York to study jazz at The New School, where he worked with the bassist Reggie Workman, and spent several years writing with other artists before starting his own project.[\[2\]](https://noisescapemagazine.com/news/interview-joshua-jensen) His playing runs from classical piano, which he trained in under Fei Xu, to jazz, gospel and old American folk, and he cites film composers like Aaron Copland and Max Richter alongside Joni Mitchell and Stevie Wonder.[\[1\]](https://atwoodmagazine.com/jjhp-joshua-jensen-hoping-debut-single-interview-music-premiere/)[\[2\]](https://noisescapemagazine.com/news/interview-joshua-jensen) Atwood Magazine premiered his debut single 'Hoping' in July 2026, calling it a slow-burning folk-rock prayer against despair; he recorded it with one guitar, two microphones and a field sample from back home, and shot the video in the Arizona mountains with his sisters.[\[1\]](https://atwoodmagazine.com/jjhp-joshua-jensen-hoping-debut-single-interview-music-premiere/)[\[2\]](https://noisescapemagazine.com/news/interview-joshua-jensen)
+
+**Sources**
+
+1. https://atwoodmagazine.com/jjhp-joshua-jensen-hoping-debut-single-interview-music-premiere/
+2. https://noisescapemagazine.com/news/interview-joshua-jensen

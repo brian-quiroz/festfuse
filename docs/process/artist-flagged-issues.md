@@ -202,3 +202,15 @@ Stored genres are Indie Rock, Garage Rock, Punk Rock. Sources consulted for the 
 (Big Hassle, Melt FM, Easy Eye Sound) describe punk, glam, classic rock and "alternative
 rock"; none use "garage rock." Surfaced during the `about` write. Candidate: revisit the
 third genre.
+
+## joshua-jensen (location, genres)
+
+Stored location is Seattle, Washington and stored genres are Indie Folk, Americana,
+Singer-Songwriter. Those describe a different musician also named Josh Jensen
+(joshuajensen.bandcamp.com: a Seattle "PNW Americana" artist on Washingtones Records,
+albums 'Unravel the Wire' and 'This Is Where We Landed'). The booked artist, confirmed by
+the stored Spotify id (2c2U7EyKWSTsi5FKsolROm) and the stored Quick Picks track 'Hoping',
+is an Arizona singer-songwriter, New York-based, who studied jazz at The New School;
+Atwood Magazine calls his music "folk-rock". The `about` copy describes the correct
+artist. Fix: location to Arizona (origin) or New York (base); revisit "Americana" in
+genres.
