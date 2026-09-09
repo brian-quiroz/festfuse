@@ -203,6 +203,14 @@ Stored genres are Indie Rock, Garage Rock, Punk Rock. Sources consulted for the 
 rock"; none use "garage rock." Surfaced during the `about` write. Candidate: revisit the
 third genre.
 
+## leon-knight (location)
+
+Stored location is Austin, Texas. No source consulted for the `about` (Ghost Cult,
+Litehouse, Newsweek, idobi) states where Leon Knight is from or based; the 'Yes I Do'
+session was cut at Def Jam's studio and his first headline show was at the Echo in Los
+Angeles. Nothing contradicts Austin, but nothing supports it. The `about` copy asserts
+no location. Confirm Austin or change it.
+
 ## joshua-jensen (location, genres)
 
 Stored location is Seattle, Washington and stored genres are Indie Folk, Americana,

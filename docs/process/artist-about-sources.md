@@ -535,3 +535,60 @@ Joshua Jensen grew up in a large, musical Arizona family that used singing as a 
 
 1. https://atwoodmagazine.com/jjhp-joshua-jensen-hoping-debut-single-interview-music-premiere/
 2. https://noisescapemagazine.com/news/interview-joshua-jensen
+
+## kevin-atwater
+
+Kevin Atwater is a singer-songwriter from Downers Grove, Illinois, now based in New York, who trained on classical piano and clarinet as a kid and taught himself guitar.[\[1\]](https://en.wikipedia.org/wiki/Kevin_Atwater_(singer))[\[2\]](https://outwritenewsmag.org/2022/10/queer-next-up-kevin-atwater/) He first built a following of about a million on TikTok making comedy videos and fan edits, then started posting music, and his 2022 single 'star tripping' went viral there.[\[1\]](https://en.wikipedia.org/wiki/Kevin_Atwater_(singer))[\[2\]](https://outwritenewsmag.org/2022/10/queer-next-up-kevin-atwater/) He calls what he does 'folk with a queer twist', writing openly about queer experience, and cites Sufjan Stevens, Phoebe Bridgers, Nick Drake, Joni Mitchell and Adrianne Lenker.[\[1\]](https://en.wikipedia.org/wiki/Kevin_Atwater_(singer))[\[2\]](https://outwritenewsmag.org/2022/10/queer-next-up-kevin-atwater/) The bedroom-recorded EP 'retriever' came out in early 2022, followed by the EP 'Downers Grove' in 2023, and his debut album 'Achilles' arrived in 2025 on Mutual Friends, which he backed with a month-long US headline tour plus Canada and UK dates; 'Blush Red' followed in 2026.[\[1\]](https://en.wikipedia.org/wiki/Kevin_Atwater_(singer))
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Kevin_Atwater_(singer)
+2. https://outwritenewsmag.org/2022/10/queer-next-up-kevin-atwater/
+
+## laszewo
+
+Łaszewo, styled with the Polish spelling but pronounced la-ZAY-woah, is an electronic trio from Santa Barbara, California: producers Matt Ehrlich and Justin De La Fuente with singer Keeva Bouley, who came together in 2018 after a chance meeting.[\[1\]](https://hq.rostr.cc/insider/news/%C5%82aszewo-sign-with-wme-payday-publishing-boom-records)[\[2\]](https://www.last.fm/music/%C5%81aszewo/+wiki) Their music blends EDM, indie and pop, energetic on the dancefloor and introspective off it.[\[1\]](https://hq.rostr.cc/insider/news/%C5%82aszewo-sign-with-wme-payday-publishing-boom-records) The debut single 'Up In Flames' ran up millions of streams, 'Til U Hate Me' went viral, and their first album 'In Color' arrived in 2024.[\[1\]](https://hq.rostr.cc/insider/news/%C5%82aszewo-sign-with-wme-payday-publishing-boom-records) Their remix of Lola Young's 'messy' has passed 60 million Spotify streams, they have teamed with DLG. on 'Roll With It' and YDG on 'hey lil mama', and they have played EDC Orlando and Splash House.[\[3\]](https://music.apple.com/us/album/roll-with-it-single/1777581100)[\[4\]](https://dancingastronaut.com/2025/10/ydg-and-laszewo-unite-on-new-collaboration-hey-lil-mama/) In 2025 they signed with WME, Boom.Records and Payday and announced a first European tour.[\[1\]](https://hq.rostr.cc/insider/news/%C5%82aszewo-sign-with-wme-payday-publishing-boom-records)[\[4\]](https://dancingastronaut.com/2025/10/ydg-and-laszewo-unite-on-new-collaboration-hey-lil-mama/)
+
+**Sources**
+
+1. https://hq.rostr.cc/insider/news/%C5%82aszewo-sign-with-wme-payday-publishing-boom-records
+2. https://www.last.fm/music/%C5%81aszewo/+wiki
+3. https://music.apple.com/us/album/roll-with-it-single/1777581100
+4. https://dancingastronaut.com/2025/10/ydg-and-laszewo-unite-on-new-collaboration-hey-lil-mama/
+
+## lauren-sanderson
+
+Lauren Sanderson was born in 1996 in Fort Wayne, Indiana and is based in Los Angeles.[\[1\]](https://en.wikipedia.org/wiki/Lauren_Sanderson)[\[2\]](https://shorefire.com/roster/lauren-sanderson/bio) She built a following first as a YouTube personality, and her career took off after a 2015 TEDx talk, 'For God's Sake, Just Love Them', about coming out to her parents.[\[1\]](https://en.wikipedia.org/wiki/Lauren_Sanderson)[\[2\]](https://shorefire.com/roster/lauren-sanderson/bio) She self-released the EPs 'Center of Expression' (2016) and 'Spaces' (2017), the latter reaching number one on the iTunes R&B chart, then signed to Epic Records for 'Dont Panic!' (2018) before going independent again.[\[1\]](https://en.wikipedia.org/wiki/Lauren_Sanderson) Her albums include 'Midwest Kids Can Make It Big' (2020), which Zane Lowe premiered on Apple Music, 'Death of a Fantasy' (2022) and 'Lauren' (2026), and her confessional music moves between alt-pop, hip-hop and R&B, with features from PnB Rock and G Flip.[\[1\]](https://en.wikipedia.org/wiki/Lauren_Sanderson)[\[2\]](https://shorefire.com/roster/lauren-sanderson/bio) She has passed 100 million streams and headlined tours across the US, UK and Europe.[\[2\]](https://shorefire.com/roster/lauren-sanderson/bio)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Lauren_Sanderson
+2. https://shorefire.com/roster/lauren-sanderson/bio
+
+## left-lucid
+
+Left Lucid is the alias of Lucas Ogden, an Austin DJ and producer who has played music since childhood but only started producing in his college dorm room, then went to Los Angeles to study at Icon Collective.[\[1\]](https://www.beatport.com/artist/left-lucid/1136053) He works in indie pop and electronic music, cites ODESZA and Flume, and says he aims for a recognizable sound that ties seemingly different tracks together.[\[1\]](https://www.beatport.com/artist/left-lucid/1136053)[\[2\]](https://www.viberate.com/artist/left-lucid/) His self-released catalog runs from 'Pieces', 'In Too Deep', 'Let Go' and 'Nintendo Dreams' (2022) through 'THINK!' (2023) to more recent singles like 'keeping u close', several of them made with his frequent collaborator Landon Ryle.[\[1\]](https://www.beatport.com/artist/left-lucid/1136053)[\[2\]](https://www.viberate.com/artist/left-lucid/)
+
+**Sources**
+
+1. https://www.beatport.com/artist/left-lucid/1136053
+2. https://www.viberate.com/artist/left-lucid/
+
+## leon-knight
+
+Leon Knight is a producer, songwriter and guitarist, a former visual-effects artist who learned to make records in his father's home studio in a soul-sampling, 'College Dropout'-era Kanye style.[\[1\]](https://ghostcultmag.com/leon-knight-shares-his-new-single-yes-i-do-ft-dewayne/)[\[3\]](https://www.newsweek.com/entertainment/leon-knights-unc-core-is-reviving-old-school-11156398) His own music turns that toward what he calls 'Unc Funk': vintage drum machines and synths under a classic rock-and-roll rhythm and loud guitar solos, with Prince, Rick James and the Gap Band on one side and Steve Vai and Van Halen on the other.[\[2\]](https://litehouse.media/2025/11/05/leon-knight-dewayne-unite-for-funk-anthem-yes-i-do/)[\[3\]](https://www.newsweek.com/entertainment/leon-knights-unc-core-is-reviving-old-school-11156398) His debut record 'Can It Please Be Tomorrow?' came out in 2023 with the singles 'Hard Pass' and 'Dirty Dancer'.[\[1\]](https://ghostcultmag.com/leon-knight-shares-his-new-single-yes-i-do-ft-dewayne/) In 2025 he released 'Yes I Do', a track that started as a one-hour studio jam with the rock artist DE'WAYNE, on Knightmare Records, with production help from Powers Pleasant.[\[2\]](https://litehouse.media/2025/11/05/leon-knight-dewayne-unite-for-funk-anthem-yes-i-do/)[\[3\]](https://www.newsweek.com/entertainment/leon-knights-unc-core-is-reviving-old-school-11156398) His first headline show was at the Echo in Los Angeles.[\[3\]](https://www.newsweek.com/entertainment/leon-knights-unc-core-is-reviving-old-school-11156398)
+
+**Sources**
+
+1. https://ghostcultmag.com/leon-knight-shares-his-new-single-yes-i-do-ft-dewayne/
+2. https://litehouse.media/2025/11/05/leon-knight-dewayne-unite-for-funk-anthem-yes-i-do/
+3. https://www.newsweek.com/entertainment/leon-knights-unc-core-is-reviving-old-school-11156398
+
+## live
+
+Live formed in York, Pennsylvania in 1984 around singer Ed Kowalczyk, guitarist Chad Taylor, bassist Patrick Dahlheimer and drummer Chad Gracey.[\[1\]](https://en.wikipedia.org/wiki/Live_(band)) Their second album, 'Throwing Copper' (1994), produced by Talking Heads' Jerry Harrison, reached number one on the Billboard 200, sold eight million copies in the US and carried 'Selling the Drama', 'I Alone' and 'Lightning Crashes', which spent ten weeks atop the Mainstream Rock chart.[\[1\]](https://en.wikipedia.org/wiki/Live_(band))[\[2\]](https://en.wikipedia.org/wiki/Throwing_Copper) The band played Woodstock '94, followed 'Throwing Copper' with the number-one debut 'Secret Samadhi' (1997), and has sold more than twenty million albums worldwide.[\[1\]](https://en.wikipedia.org/wiki/Live_(band))[\[2\]](https://en.wikipedia.org/wiki/Throwing_Copper) Kowalczyk left the band in 2009 and rejoined in 2016, and has fronted it since.[\[1\]](https://en.wikipedia.org/wiki/Live_(band))
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Live_(band)
+2. https://en.wikipedia.org/wiki/Throwing_Copper
