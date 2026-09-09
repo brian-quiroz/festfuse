@@ -162,3 +162,30 @@ Tennessee" and Apple Music lists Columbia, TN as her hometown; only a 2021 Holly
 piece said Nashville. Her interviews describe growing up in rural Tennessee "near the Blue
 Ridge Mountains" (East Tennessee), which is not Columbia (Middle Tennessee). Surfaced during
 the `about` write; location was not in scope to change. Candidate: Columbia, TN.
+
+## dexter-and-the-moonrocks (location)
+
+Stored location is Abilene, Texas. Wikipedia states verbatim "While various media sources
+have listed their hometown as being Abilene, they are from rural Throckmorton County,
+Texas" (~70 miles northeast); Songfacts concurs. The Abilene framing traces to a Texas
+Monthly headline. Surfaced during the `about` write. Candidate: Throckmorton, Texas.
+
+## cure-for-paranoia (genres)
+
+Stored genres are Alternative Hip-Hop, Neo-Soul, Funk. "Alternative hip-hop" is
+consistently supported; the neo-soul and funk tags trace to a Dallas Observer interview
+("trippy soul-infused hip-hop... rap, R&B, funk and jazz") that was not re-read this pass.
+Worth a check against a current source.
+
+## damaris-bojor (name, tracks)
+
+Stored name is "Damaris Bojor"; sources consistently render it "Dámaris Bójor" with
+accents. Stored Quick Picks track "Miro Al Cielo" is more correctly "Miro al Cielo"
+(lowercase "al"). Surfaced during the `about` write.
+
+## dj-cassandra (genres)
+
+Stored genres are Disco House, House, Funk. Her official bio describes a "signature
+multi-genre style" blending classical training with "modern electronic sounds" and does not
+name a house or disco subgenre. The disco-house tags are not contradicted but not
+confirmed. Worth a check.

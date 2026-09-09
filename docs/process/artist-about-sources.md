@@ -230,3 +230,62 @@ Coleman Jennings was born in New York, spent his early childhood in Connecticut,
 1. https://www.kut.org/texasstandard/2024-01-12/coleman-jennings-roaddogs-ut-austin-student-country-artist
 2. https://musicrow.com/2025/09/coleman-jennings-inks-with-big-loud-texas-mercury-records/
 3. https://savingcountrymusic.com/album-review-coleman-jennings-lead-you-home/
+
+## common-people
+
+Common People formed in Los Angeles in 2022,[\[3\]](https://eastof8th.com/2026/06/01/common-people-share-fuzzy-new-single-blue-eyes/) five USC students who first met through the Lambda Chi Alpha fraternity[\[2\]](https://dailytrojan.com/2026/02/27/common-people-are-anything-but-ordinary/) and built their own stages to play a campus scene otherwise given over to DJs.[\[1\]](https://www.onestowatch.com/en/blog/common-people-chat-games-ep-working-with-cage-the-elephants-brad-shulz-early-days-at-usc-and-more-q-a) Nicky Winegardner sings, with Asher Thomson and Sam Belzer on guitars, Konrad Ulich on bass and Cormac Cadden on drums.[\[3\]](https://eastof8th.com/2026/06/01/common-people-share-fuzzy-new-single-blue-eyes/) They began writing and recording in earnest in the summer of 2024, and their early demos reached Brad Shultz of Cage the Elephant,[\[2\]](https://dailytrojan.com/2026/02/27/common-people-are-anything-but-ordinary/)[\[3\]](https://eastof8th.com/2026/06/01/common-people-share-fuzzy-new-single-blue-eyes/) who signed them to his label Parallel Vision, in partnership with Big Loud Rock, and produced their music himself.[\[2\]](https://dailytrojan.com/2026/02/27/common-people-are-anything-but-ordinary/) The debut single 'Thank You' arrived in July 2025,[\[2\]](https://dailytrojan.com/2026/02/27/common-people-are-anything-but-ordinary/) followed by the EP 'Games' in April 2026[\[1\]](https://www.onestowatch.com/en/blog/common-people-chat-games-ep-working-with-cage-the-elephants-brad-shulz-early-days-at-usc-and-more-q-a) and the single 'Blue Eyes'.[\[3\]](https://eastof8th.com/2026/06/01/common-people-share-fuzzy-new-single-blue-eyes/) They have opened for Cage the Elephant and toured with Rainbow Kitten Surprise.[\[1\]](https://www.onestowatch.com/en/blog/common-people-chat-games-ep-working-with-cage-the-elephants-brad-shulz-early-days-at-usc-and-more-q-a)
+
+**Sources**
+
+1. https://www.onestowatch.com/en/blog/common-people-chat-games-ep-working-with-cage-the-elephants-brad-shulz-early-days-at-usc-and-more-q-a
+2. https://dailytrojan.com/2026/02/27/common-people-are-anything-but-ordinary/
+3. https://eastof8th.com/2026/06/01/common-people-share-fuzzy-new-single-blue-eyes/
+
+## cure-for-paranoia
+
+Cure for Paranoia is a Dallas hip-hop collective led by rapper Cameron McCloud, a preschool teacher[\[2\]](https://austin.culturemap.com/news/entertainment/tiny-desk-contest-cure-paranoia/) who started it about a decade ago after finding that making music with friends helped him more than the medication he was on.[\[3\]](https://www.jambase.com/article/cure-for-paranoia-tiny-desk-contest-2026-winners-video) He named the project on a road trip to Colorado, and it grew from solo work into a full band after he told its origin story to the biggest crowd he had played and the clip went viral.[\[1\]](https://www.thecurrent.org/feature/2026/06/29/interview-cure-for-paranoia-on-winning-the-tiny-desk-contest-and-keeping-eyes-on-dallas) Their alternative hip-hop runs on that live band: the audition that won NPR's 2026 Tiny Desk Contest gathered eleven musicians around a tiny desk set in front of Dallas's giant eyeball sculpture.[\[2\]](https://austin.culturemap.com/news/entertainment/tiny-desk-contest-cure-paranoia/) The winning song 'No Brainer' moves from wordplay about mental illness and identity into a criticism of racism in the United States,[\[2\]](https://austin.culturemap.com/news/entertainment/tiny-desk-contest-cure-paranoia/) and it took the contest on the group's third attempt, sending them out as headliners on NPR's Tiny Desk Contest On the Road tour.[\[3\]](https://www.jambase.com/article/cure-for-paranoia-tiny-desk-contest-2026-winners-video)
+
+**Sources**
+
+1. https://www.thecurrent.org/feature/2026/06/29/interview-cure-for-paranoia-on-winning-the-tiny-desk-contest-and-keeping-eyes-on-dallas
+2. https://austin.culturemap.com/news/entertainment/tiny-desk-contest-cure-paranoia/
+3. https://www.jambase.com/article/cure-for-paranoia-tiny-desk-contest-2026-winners-video
+
+## dallas-wax
+
+Dallas Wax is a New York five-piece[\[1\]](https://offtherecordpress.com/reviews/dallas-wax-is-taking-new-york-city-by-storm) that frontman Ryan Dallas Wax started with a batch of demos, pulling the band together for a first rehearsal in late 2023 after meeting bassist Alfonso Hernandez at NYU.[\[2\]](https://offtherecordpress.com/interviews/2024/3/27/dallas-wax-on-their-first-single-release-ahead-of-sold-out-show) They call the sound 'stepson rock', which Wax defines as the reverse of dad rock, and the band cites Led Zeppelin, Black Sabbath, Oasis and Steely Dan.[\[2\]](https://offtherecordpress.com/interviews/2024/3/27/dallas-wax-on-their-first-single-release-ahead-of-sold-out-show) The debut single 'Mud' arrived in February 2024,[\[2\]](https://offtherecordpress.com/interviews/2024/3/27/dallas-wax-on-their-first-single-release-ahead-of-sold-out-show) followed by the EP 'The Air We Breathe' and singles like 'Girl Like Me'.[\[3\]](https://clunkmag.com/dallas-wax-interview/) Hernandez has since been replaced on bass by Kutter Reddan, and the band has toured the US ahead of a debut album.[\[3\]](https://clunkmag.com/dallas-wax-interview/)
+
+**Sources**
+
+1. https://offtherecordpress.com/reviews/dallas-wax-is-taking-new-york-city-by-storm
+2. https://offtherecordpress.com/interviews/2024/3/27/dallas-wax-on-their-first-single-release-ahead-of-sold-out-show
+3. https://clunkmag.com/dallas-wax-interview/
+
+## damaris-bojor
+
+Damaris Bojor spent years as a visual artist, a painter and muralist, before turning to music in 2022.[\[2\]](https://latination.com/damaris-bojor/)[\[3\]](https://noro.mx/musica/damaris-bojor-album-folkpirana-sonora/) The Hermosillo, Sonora singer-songwriter coined the term 'Folkpirano' for what she makes: campirano, the regional string music of the sierras of Sonora and Sinaloa, crossed with American folk and country.[\[1\]](https://kxci.org/2026/02/kxci-baila-el-pueblo-artist-spotlight-damaris-bojor/) The arrangements stay spare, built on guitar, twelve-string, bass and the occasional harmonica and percussion.[\[1\]](https://kxci.org/2026/02/kxci-baila-el-pueblo-artist-spotlight-damaris-bojor/) Her debut album 'Folkpirana', produced by Ivan de la Rioja and Felipe Garcia at Onda Sonora, arrived in May 2025,[\[3\]](https://noro.mx/musica/damaris-bojor-album-folkpirana-sonora/) following the singles 'Nube de Paso' and 'Volar' with Juan Cirerol.[\[1\]](https://kxci.org/2026/02/kxci-baila-el-pueblo-artist-spotlight-damaris-bojor/) She made her United States debut at SXSW and has played the Festival Internacional Cervantino and the Festival Alfonso Ortiz Tirado.[\[3\]](https://noro.mx/musica/damaris-bojor-album-folkpirana-sonora/)
+
+**Sources**
+
+1. https://kxci.org/2026/02/kxci-baila-el-pueblo-artist-spotlight-damaris-bojor/
+2. https://latination.com/damaris-bojor/
+3. https://noro.mx/musica/damaris-bojor-album-folkpirana-sonora/
+
+## dexter-and-the-moonrocks
+
+Dexter and the Moonrocks formed in 2021 in rural Throckmorton County, Texas,[\[1\]](https://en.wikipedia.org/wiki/Dexter_and_the_Moonrocks)[\[3\]](https://www.songfacts.com/articles/3-fun-facts-about-breakout-alternative-rock-group-dexter-and-the-moonrocks/) around singer James Tuffs and his cousins Ryan and Ty Anderson, friends since eighth grade, with drummer Ryan Fox answering an online ad.[\[1\]](https://en.wikipedia.org/wiki/Dexter_and_the_Moonrocks)[\[3\]](https://www.songfacts.com/articles/3-fun-facts-about-breakout-alternative-rock-group-dexter-and-the-moonrocks/) They coined 'western space grunge' for the result: country lyricism set to a 1990s alternative and grunge guitar sound.[\[1\]](https://en.wikipedia.org/wiki/Dexter_and_the_Moonrocks)[\[2\]](https://www.melodicmag.com/features/on-your-radar-dexter-and-the-moonrocks/) They signed to Severance Records, a Big Loud Records offshoot on which they are the flagship act, and released the EPs 'Western Space Grunge' (2024), 'Happy to Be Here' (2025) and 'Donkey Flats' (2025).[\[1\]](https://en.wikipedia.org/wiki/Dexter_and_the_Moonrocks) 'Sad in Carolina' topped Billboard's Alternative Airplay chart, and the 2026 single 'Freakin' Out' became their first Hot 100 entry, peaking at number 33.[\[1\]](https://en.wikipedia.org/wiki/Dexter_and_the_Moonrocks) Their debut album 'Friends That I Don't Like' followed on October 2, 2026.[\[1\]](https://en.wikipedia.org/wiki/Dexter_and_the_Moonrocks)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Dexter_and_the_Moonrocks
+2. https://www.melodicmag.com/features/on-your-radar-dexter-and-the-moonrocks/
+3. https://www.songfacts.com/articles/3-fun-facts-about-breakout-alternative-rock-group-dexter-and-the-moonrocks/
+
+## dj-cassandra
+
+Cassandra Shankman, who performs as DJ Cassandra, was born in Texas and raised between Austin and London.[\[1\]](https://soundsbycassandra.com/) A classically and jazz-trained pianist with a composition and film studies degree from the University of Texas at Austin, she began DJing in 2016 and blends that training with electronic sound.[\[1\]](https://soundsbycassandra.com/) Her separate work as a composer and orchestrator has appeared in films and commercials for directors including Terrence Malick, and she also writes therapeutic music that helps patients with neurological conditions regain mobility through devices used in hospitals.[\[1\]](https://soundsbycassandra.com/) She held official artist slots for five sets across the 2024 and 2025 Austin City Limits Music Festival and has performed alongside or opened for Willie Nelson, Maren Morris and RUN DMC.[\[1\]](https://soundsbycassandra.com/) In 2025 she became the first woman named Best DJ at the Austin Music Awards in its 43 years,[\[1\]](https://soundsbycassandra.com/)[\[2\]](https://cbsaustin.com/features/we-are-austin/dj-cassandra-makes-history-as-first-woman-to-win-best-dj-at-austin-music-awards) and she co-founded Picardy, a web app for learning music theory.[\[1\]](https://soundsbycassandra.com/)[\[2\]](https://cbsaustin.com/features/we-are-austin/dj-cassandra-makes-history-as-first-woman-to-win-best-dj-at-austin-music-awards)
+
+**Sources**
+
+1. https://soundsbycassandra.com/
+2. https://cbsaustin.com/features/we-are-austin/dj-cassandra-makes-history-as-first-woman-to-win-best-dj-at-austin-music-awards
