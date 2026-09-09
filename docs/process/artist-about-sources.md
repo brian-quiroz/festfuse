@@ -416,3 +416,65 @@ Girlfriend is Kenya Edwards, an R&B singer-songwriter raised in Sardis, Mississi
 7. https://music.apple.com/us/album/honey-water/1858611265
 8. https://www.shatterthestandards.com/p/album-review-honey-water-by-girlfriend
 9. https://www.paramountpressexpress.com/bet/releases/?view=112552-bet-spotlights-rising-rb-voice-girlfriend-as-bet-amplified-artist-for-march-2026
+
+## grace-ives
+
+Grace Ives grew up in Gowanus, Brooklyn, the child of a cinematographer and a music-industry creative director, and started making tracks alone in her dorm room at SUNY Purchase after transferring from art school.[\[1\]](https://en.wikipedia.org/wiki/Grace_Ives) She built her early songs on a Roland MC-505, the drum machine M.I.A. came up on, and kept them short: after two minutes of hearing something, she has said, her neck starts to hurt.[\[1\]](https://en.wikipedia.org/wiki/Grace_Ives)[\[2\]](https://www.thefader.com/2019/07/11/grace-ives-gen-f-interview) The 2016 EP 'Really Hot' and the 2019 album '2nd', on the New York label Dots Per Inch, drew notice, and Stereogum named her one of its best new bands of 2019.[\[1\]](https://en.wikipedia.org/wiki/Grace_Ives)[\[2\]](https://www.thefader.com/2019/07/11/grace-ives-gen-f-interview) Her second album 'Janky Star' (2022) earned Pitchfork's Best New Music and a 'Lullaby' performance on Jimmy Kimmel Live!.[\[1\]](https://en.wikipedia.org/wiki/Grace_Ives) 'Girlfriend' followed in March 2026 on True Panther and Capitol, produced with Ariel Rechtshaid and John DeBold and again taking Best New Music.[\[3\]](https://en.wikipedia.org/wiki/Girlfriend_(Grace_Ives_album)) She has toured in support of Lykke Li.[\[1\]](https://en.wikipedia.org/wiki/Grace_Ives)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Grace_Ives
+2. https://www.thefader.com/2019/07/11/grace-ives-gen-f-interview
+3. https://en.wikipedia.org/wiki/Girlfriend_(Grace_Ives_album)
+
+## grocery-bag
+
+Grocery Bag is an Austin four-piece: Bella Martinez, Jimmy Mercado, Dillon Aitala and Logan Kerman, all multi-instrumentalists.[\[1\]](https://kcsufm.com/2025/05/austin-tx-band-grocery-bag-pens-nonsense-lyrics-and-were-peer-pressured-to-keep-their-last-minute-name/)[\[2\]](https://www.sonicguild.org/artist/grocery-bag) The band came together by accident when Martinez booked a show without a group and asked the other three to fill in, and the name came from a vintage sign in her father's garage that they got talked into keeping.[\[1\]](https://kcsufm.com/2025/05/austin-tx-band-grocery-bag-pens-nonsense-lyrics-and-were-peer-pressured-to-keep-their-last-minute-name/) They build songs around a guitar riff first and treat the words as almost beside the point, running classic garage rock through a modern psychedelic filter.[\[1\]](https://kcsufm.com/2025/05/austin-tx-band-grocery-bag-pens-nonsense-lyrics-and-were-peer-pressured-to-keep-their-last-minute-name/)[\[3\]](https://kutx.org/artist-of-the-month/grocery-bag/) Their self-released debut album 'Break You' arrived in November 2023.[\[4\]](https://grocerybag.bandcamp.com/album/break-you) Still unsigned, they have opened locally for Osees, Frankie and the Witch Fingers and Psychedelic Porn Crumpets, and have played Levitation.[\[2\]](https://www.sonicguild.org/artist/grocery-bag)[\[3\]](https://kutx.org/artist-of-the-month/grocery-bag/)
+
+**Sources**
+
+1. https://kcsufm.com/2025/05/austin-tx-band-grocery-bag-pens-nonsense-lyrics-and-were-peer-pressured-to-keep-their-last-minute-name/
+2. https://www.sonicguild.org/artist/grocery-bag
+3. https://kutx.org/artist-of-the-month/grocery-bag/
+4. https://grocerybag.bandcamp.com/album/break-you
+
+## happy-landing
+
+Happy Landing formed in Oxford, Mississippi in 2020, five friends who met at the University of Mississippi: Matty Hendley on lead vocals and guitar, Keegan Christensen on keys, Jacob Christensen on drums, Andrew Gardner on fiddle and Wilson Moyer on bass.[\[1\]](https://first-avenue.com/performer/happy-landing/)[\[2\]](https://oxfordeagle.com/2022/04/23/happy-landing-on-the-fast-track-and-taking-the-double-decker-stage/) Hendley started writing songs in earnest during a semester in New York interning at CBS, realized music had taken over, and came home to start a band.[\[3\]](https://thedmonline.com/inside-the-creation-of-local-band-happy-landing/) They call what they do 'skate folk', a mix of southern rock, punk and folk, and the tag is half a joke about how they dress.[\[1\]](https://first-avenue.com/performer/happy-landing/)[\[3\]](https://thedmonline.com/inside-the-creation-of-local-band-happy-landing/) The debut EP 'She's Got Brooklyn' came out in August 2020 with a backyard release party, a self-titled EP followed in 2022, and the debut album 'Golden' arrived in 2024, with a second album 'Big Sun' due in 2026.[\[1\]](https://first-avenue.com/performer/happy-landing/)[\[2\]](https://oxfordeagle.com/2022/04/23/happy-landing-on-the-fast-track-and-taking-the-double-decker-stage/)[\[3\]](https://thedmonline.com/inside-the-creation-of-local-band-happy-landing/) They have played Bonnaroo, Lollapalooza and Summerfest.[\[1\]](https://first-avenue.com/performer/happy-landing/)
+
+**Sources**
+
+1. https://first-avenue.com/performer/happy-landing/
+2. https://oxfordeagle.com/2022/04/23/happy-landing-on-the-fast-track-and-taking-the-double-decker-stage/
+3. https://thedmonline.com/inside-the-creation-of-local-band-happy-landing/
+
+## houndmouth
+
+Houndmouth formed in New Albany, Indiana, across the river from Louisville, in the summer of 2011.[\[1\]](https://en.wikipedia.org/wiki/Houndmouth) The original four-piece shared lead vocals; keyboardist and singer Katie Toupin left in 2016, and the band now runs as Matt Myers, Caleb Hickman and Zac Anderson.[\[1\]](https://en.wikipedia.org/wiki/Houndmouth)[\[2\]](https://jambands.com/news/2016/04/08/katie-toupin-leaves-houndmouth/) 'Sedona', from 2015's 'Little Neon Limelight' on Rough Trade, reached number one on the adult alternative chart and went platinum, and the band built its name on the Americana circuit with stops at ACL, Bonnaroo, Lollapalooza and Newport Folk.[\[1\]](https://en.wikipedia.org/wiki/Houndmouth)[\[3\]](https://www.vpm.org/listen/2024-11-09/matt-myers-houndmouth-band-interview/) After the major-label 'Golden Age' on Reprise in 2018, they recorded 'Good for You' (2021) back in the room where they had cut their first EP, calling it a return to roots;[\[3\]](https://www.vpm.org/listen/2024-11-09/matt-myers-houndmouth-band-interview/) 'Lordy' followed in 2026, both of those albums on Dualtone.[\[1\]](https://en.wikipedia.org/wiki/Houndmouth)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Houndmouth
+2. https://jambands.com/news/2016/04/08/katie-toupin-leaves-houndmouth/
+3. https://www.vpm.org/listen/2024-11-09/matt-myers-houndmouth-band-interview/
+
+## hunx-and-his-punx
+
+Hunx and His Punx is the band Seth Bogart, who performs as Hunx, started in the Bay Area around 2008 after leaving the electroclash group Gravy Train!!!!.[\[1\]](https://en.wikipedia.org/wiki/Hunx_and_His_Punx)[\[2\]](https://en.wikipedia.org/wiki/Seth_Bogart) The core trio is Bogart, Shannon Shaw of Shannon and the Clams, and drummer Erin Emslie, playing queer garage punk that owes as much to 1960s girl groups and bubblegum as to punk.[\[1\]](https://en.wikipedia.org/wiki/Hunx_and_His_Punx) 'Gay Singles' (2010) collected the early 7-inches, and 'Too Young to Be in Love' (2011) and 'Street Punk' (2013) came out on Hardly Art.[\[1\]](https://en.wikipedia.org/wiki/Hunx_and_His_Punx) Bogart spent the years after making visual art and ceramics, running the streetwear label Wacky Wacko, and releasing solo records including 'Hairdresser Blues'.[\[2\]](https://en.wikipedia.org/wiki/Seth_Bogart) The band reunited in 2019, toured with Bikini Kill and opened for the B-52s, and after delays from the pandemic and the 2025 Eaton Fire that took Bogart's home studio, released 'Walk Out on This World' on Get Better Records in August 2025, its first album in twelve years.[\[1\]](https://en.wikipedia.org/wiki/Hunx_and_His_Punx)[\[3\]](https://newnoisemagazine.com/hunx-and-his-punx-sign-to-get-better-records-and-announce-new-album/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Hunx_and_His_Punx
+2. https://en.wikipedia.org/wiki/Seth_Bogart
+3. https://newnoisemagazine.com/hunx-and-his-punx-sign-to-get-better-records-and-announce-new-album/
+
+## huston-tillotson-jazz-collective
+
+The Huston-Tillotson University Jazz Collective is an all-student ensemble from Huston-Tillotson University, founded in 1875 as Austin's first college and still the city's only HBCU.[\[1\]](https://www.austinchronicle.com/music/2022-10-14/acl-interview-on-the-shoulders-of-giants-the-huston-tillotson-university-jazz-collective-makes-acl-d/) The jazz program was rebuilt quickly: band director William Oliver arrived in 2021 to find a handful of students who wanted to play jazz, brought in Dr. Jeremy George as director of jazz studies in 2022, and that same year an ACL booker caught a couple of shows and put the group on the festival.[\[2\]](https://austinfreepress.org/high-note/) It has played ACL every year since, moving from a Friday opening slot to Sunday.[\[2\]](https://austinfreepress.org/high-note/)[\[4\]](https://kutx.org/words-on-music/black-history-month/from-austin-to-the-national-stage-huston-tillotson-jazz-orchestra-makes-its-mark/) The repertoire skips the standard conservatory canon for arrangements that run from Earth, Wind and Fire to current pop, and its alumni include Count Basie Orchestra singer Carmen Bradford and Ray Charles arranger James Polk.[\[1\]](https://www.austinchronicle.com/music/2022-10-14/acl-interview-on-the-shoulders-of-giants-the-huston-tillotson-university-jazz-collective-makes-acl-d/) Billed at competitions as the Huston-Tillotson Jazz Orchestra, the same students placed third at the National Collegiate Jazz Competition at Jazz at Lincoln Center in January 2026, behind Temple and Michigan State, as the smallest school and the only all-undergraduate group in the field.[\[3\]](https://htu.edu/huston-tillotson-university-jazz-orchestra-places-third-at-2026-national-collegiate-jazz-competition/)[\[4\]](https://kutx.org/words-on-music/black-history-month/from-austin-to-the-national-stage-huston-tillotson-jazz-orchestra-makes-its-mark/)
+
+**Sources**
+
+1. https://www.austinchronicle.com/music/2022-10-14/acl-interview-on-the-shoulders-of-giants-the-huston-tillotson-university-jazz-collective-makes-acl-d/
+2. https://austinfreepress.org/high-note/
+3. https://htu.edu/huston-tillotson-university-jazz-orchestra-places-third-at-2026-national-collegiate-jazz-competition/
+4. https://kutx.org/words-on-music/black-history-month/from-austin-to-the-national-stage-huston-tillotson-jazz-orchestra-makes-its-mark/
