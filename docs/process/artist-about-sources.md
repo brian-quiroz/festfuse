@@ -289,3 +289,63 @@ Cassandra Shankman, who performs as DJ Cassandra, was born in Texas and raised b
 
 1. https://soundsbycassandra.com/
 2. https://cbsaustin.com/features/we-are-austin/dj-cassandra-makes-history-as-first-woman-to-win-best-dj-at-austin-music-awards
+
+## don-west
+
+Don West was born and raised on Sydney's northern beaches, around Manly, where he still does most of his writing.[\[1\]](https://beat.com.au/meet-don-west-the-sydneys-new-coastal-soul-star-wracking-up-millions-of-monthly-listeners/) He opened for Lime Cordiale in 2019 before releasing anything of his own, then built an audience through triple j Unearthed.[\[3\]](<https://en.wikipedia.org/wiki/Don_West_(singer)>) His manager coined the tag 'coastal soul' for a sound that runs Marvin Gaye and Curtis Mayfield alongside contemporary revival acts like Jalen Ngonda and Thee Sacred Souls.[\[1\]](https://beat.com.au/meet-don-west-the-sydneys-new-coastal-soul-star-wracking-up-millions-of-monthly-listeners/)[\[2\]](https://beat.com.au/december-tour-sees-don-west-showcase-his-distinctive-soul-revival-sound/) A debut EP arrived in November 2024, followed by the album 'Give Me All Your Love' in November 2025, which reached number 25 on the ARIA Albums Chart.[\[3\]](<https://en.wikipedia.org/wiki/Don_West_(singer)>) He signed a deal with Kobalt Music in December 2025, has played SXSW Sydney and Byron Bay Bluesfest, and models for IMG.[\[3\]](<https://en.wikipedia.org/wiki/Don_West_(singer)>)
+
+**Sources**
+
+1. https://beat.com.au/meet-don-west-the-sydneys-new-coastal-soul-star-wracking-up-millions-of-monthly-listeners/
+2. https://beat.com.au/december-tour-sees-don-west-showcase-his-distinctive-soul-revival-sound/
+3. https://en.wikipedia.org/wiki/Don_West_(singer)
+
+## elijah-delgado
+
+Elijah Delgado is a native Austinite who was making up songs in his head at six for his mother to write down, and learned his first chords from his father.[\[1\]](https://www.kut.org/life-arts/2026-03-18/elijah-delgado-austin-tx-south-by-southwest-sxsw-2026-official-music-showcase) As a teenager he busked covers and originals on South Congress.[\[1\]](https://www.kut.org/life-arts/2026-03-18/elijah-delgado-austin-tx-south-by-southwest-sxsw-2026-official-music-showcase) He calls what he makes 'indie rock lullabies', a blend of indie rock, indie folk and pop, and his 2021 debut EP 'When I Was On Cloud 9' has passed 700,000 Spotify streams.[\[2\]](https://sonicguild.org/artist/elijah-delgado/) He has opened for Better Than Ezra, Bartees Strange and Zach Person, played Old Settler's Music Festival and Blues on the Green, and won Sonic Guild artist grants in 2024 and 2025.[\[2\]](https://sonicguild.org/artist/elijah-delgado/) After years of going to SXSW as a fan, he gave his first official showcase there in March 2026.[\[1\]](https://www.kut.org/life-arts/2026-03-18/elijah-delgado-austin-tx-south-by-southwest-sxsw-2026-official-music-showcase)
+
+**Sources**
+
+1. https://www.kut.org/life-arts/2026-03-18/elijah-delgado-austin-tx-south-by-southwest-sxsw-2026-official-music-showcase
+2. https://sonicguild.org/artist/elijah-delgado/
+
+## elle-coves
+
+Elle Coves was born in Freiburg, Germany to Spanish parents and raised near the Black Forest, then moved to Ireland at 13.[\[2\]](https://www.nme.com/features/music-interviews/elle-coves-new-single-interview-summer-radar-3467927) She counts Cork as home and finishes her songs in London studios.[\[3\]](https://www.hotpress.com/music/elle-coves-myself-and-lewis-capaldi-arm-wrestled-it-took-about-three-seconds-i-lost-23007315) She started writing at 14 after meeting Conor O'Donohoe of the band Wild Youth, who became her manager and told her to write a song a day.[\[2\]](https://www.nme.com/features/music-interviews/elle-coves-new-single-interview-summer-radar-3467927)[\[3\]](https://www.hotpress.com/music/elle-coves-myself-and-lewis-capaldi-arm-wrestled-it-took-about-three-seconds-i-lost-23007315) Her first single 'Before I Fall Apart' is still her most-streamed song, and 'Summer', released in July, spread across TikTok.[\[1\]](https://readdork.com/features/elle-coves-interview-mar24/)[\[2\]](https://www.nme.com/features/music-interviews/elle-coves-new-single-interview-summer-radar-3467927) She has opened for Lewis Capaldi, and her music moves between flirty synth-pop and acoustic ballads, drawing on Taylor Swift, Haim and Maggie Rogers.[\[2\]](https://www.nme.com/features/music-interviews/elle-coves-new-single-interview-summer-radar-3467927)[\[4\]](https://staccatofy.com/pop/elle-coves-no-good-at-hanging-up-review/) Her debut EP 'Selfishly' arrived in 2024, followed by 'No Good at Hanging Up' in 2025 on Outlier Recordings and Columbia Records.[\[4\]](https://staccatofy.com/pop/elle-coves-no-good-at-hanging-up-review/)[\[5\]](https://music.apple.com/us/artist/elle-coves/1687094318)
+
+**Sources**
+
+1. https://readdork.com/features/elle-coves-interview-mar24/
+2. https://www.nme.com/features/music-interviews/elle-coves-new-single-interview-summer-radar-3467927
+3. https://www.hotpress.com/music/elle-coves-myself-and-lewis-capaldi-arm-wrestled-it-took-about-three-seconds-i-lost-23007315
+4. https://staccatofy.com/pop/elle-coves-no-good-at-hanging-up-review/
+5. https://music.apple.com/us/artist/elle-coves/1687094318
+
+## emma-ogier
+
+Emma Ogier was born in Houston and is now based in Nashville.[\[1\]](https://breakingandentering.net/2026/06/01/emma-ogier-believing-new-single/) She found songwriting during the pandemic, turning teenage isolation into music that sits between alternative pop and Americana.[\[1\]](https://breakingandentering.net/2026/06/01/emma-ogier-believing-new-single/) Her singles 'Baby Don't Hurt Me' and 'Believing', the latter out in June 2026 on Lost Highway Records, were both produced by David Baron, who has also worked with The Lumineers and Jade Bird.[\[1\]](https://breakingandentering.net/2026/06/01/emma-ogier-believing-new-single/) With her longtime collaborator Eden Joel she released 'Rocksteady/HeavyMetal', which reframes a breakup as the start of a friendship.[\[2\]](https://www.thelineofbestfit.com/news/emma-ogier-and-eden-joel-collab-on-post-breakup-friendship-anthem-rocksteady-heavymetal) She has sung harmony with Bright Eyes on their 2005-albums anniversary shows, and she is at work on a debut album.[\[2\]](https://www.thelineofbestfit.com/news/emma-ogier-and-eden-joel-collab-on-post-breakup-friendship-anthem-rocksteady-heavymetal)
+
+**Sources**
+
+1. https://breakingandentering.net/2026/06/01/emma-ogier-believing-new-single/
+2. https://www.thelineofbestfit.com/news/emma-ogier-and-eden-joel-collab-on-post-breakup-friendship-anthem-rocksteady-heavymetal
+
+## ethan-regan
+
+Ethan Regan is a Charlotte, North Carolina singer-songwriter who plays the instruments and then produces, mixes and masters his own records.[\[1\]](https://first-avenue.com/performer/ethan-regan/)[\[2\]](https://theduckclub.com/artist/ethan-regan/) He does not work to a formula: a track might turn on a breezy chord progression or open up into a horn section or a wall of strings.[\[1\]](https://first-avenue.com/performer/ethan-regan/) His self-produced 2025 EP 'honey honey honey', six songs on Columbia Records, drew wider attention with 'get by' and 'spaceman'.[\[1\]](https://first-avenue.com/performer/ethan-regan/)[\[3\]](https://music.apple.com/us/album/honey-honey-honey-ep/1823072798) He has passed nearly 100 million streams, headlined his 'I Almost Graduated' Tour, and shared bills with Sam Barber, Rainbow Kitten Surprise, Chelsea Cutler and Jeremy Zucker.[\[1\]](https://first-avenue.com/performer/ethan-regan/) He is releasing a run of 2026 singles for Columbia ahead of a debut album, 'YOUNG REGAN'.[\[1\]](https://first-avenue.com/performer/ethan-regan/)
+
+**Sources**
+
+1. https://first-avenue.com/performer/ethan-regan/
+2. https://theduckclub.com/artist/ethan-regan/
+3. https://music.apple.com/us/album/honey-honey-honey-ep/1823072798
+
+## fai-laci
+
+Fai Laci grew out of Luke Faillaci's solo project: he recorded the 2022 EP 'Conversation' on his own in a college bedroom, then built a Boston five-piece in early 2024 with Michael Goldblatt, Zack Putnam, Cal Hamandi and Anthony Cervone.[\[1\]](https://www.bighassle.com/fai-laci) A second EP, 'Knock at My Door', followed in 2024, and the two EPs together passed 15 million streams.[\[1\]](https://www.bighassle.com/fai-laci) The band signed to Easy Eye Sound and recorded its debut album 'Elephant in the Room' in Nashville, with the label's founder, Dan Auerbach, producing.[\[1\]](https://www.bighassle.com/fai-laci)[\[3\]](https://easyeyesound.com/collections/fai-laci) Released in June 2026, its ten tracks pair the urgency of punk and the stomp of glam with classic-rock theatricality, moving between brazen rockers and bruised-heart ballads.[\[2\]](https://www.melt-fm.com/artist-profiles/fai-laci-interview)[\[3\]](https://easyeyesound.com/collections/fai-laci)
+
+**Sources**
+
+1. https://www.bighassle.com/fai-laci
+2. https://www.melt-fm.com/artist-profiles/fai-laci-interview
+3. https://easyeyesound.com/collections/fai-laci

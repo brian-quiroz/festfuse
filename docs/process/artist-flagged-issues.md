@@ -189,3 +189,16 @@ Stored genres are Disco House, House, Funk. Her official bio describes a "signat
 multi-genre style" blending classical training with "modern electronic sounds" and does not
 name a house or disco subgenre. The disco-house tags are not contradicted but not
 confirmed. Worth a check.
+
+## ethan-regan (location)
+
+Stored location is Raleigh, North Carolina. His own press bio (First Avenue, Duck Club)
+says "this Charlotte native." The Raleigh value traces to clture.org, which no longer
+loads. The `about` copy uses Charlotte. Candidate: Charlotte, North Carolina.
+
+## fai-laci (genres)
+
+Stored genres are Indie Rock, Garage Rock, Punk Rock. Sources consulted for the `about`
+(Big Hassle, Melt FM, Easy Eye Sound) describe punk, glam, classic rock and "alternative
+rock"; none use "garage rock." Surfaced during the `about` write. Candidate: revisit the
+third genre.
