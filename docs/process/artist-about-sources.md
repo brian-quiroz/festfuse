@@ -349,3 +349,70 @@ Fai Laci grew out of Luke Faillaci's solo project: he recorded the 2022 EP 'Conv
 1. https://www.bighassle.com/fai-laci
 2. https://www.melt-fm.com/artist-profiles/fai-laci-interview
 3. https://easyeyesound.com/collections/fai-laci
+
+## fakemink
+
+Fakemink is Vincenzo Bhatia, born in 2005 in Ilford, East London, and raised in Basildon, Essex, where he started building tracks on a pirated copy of FL Studio at nine and began rapping at fifteen.[\[1\]](https://en.wikipedia.org/wiki/Fakemink)[\[2\]](https://www.onestowatch.com/en/blog/meet-fakemink) He released the mixtape 'London's Saviour' in December 2023 under an earlier name, 9090gate, then broke through with 'Easter Pink' in January 2025, a track Pitchfork called 'bloghouse meets cloud rap' and The Guardian likened to 'euphoric flips of songs from the Skins soundtrack'.[\[1\]](https://en.wikipedia.org/wiki/Fakemink)[\[3\]](https://en.wikipedia.org/wiki/Easter_Pink) He puts records out on his own imprint, EtnaVeraVela, and press credits him alongside EsDeeKid and Jim Legxacy as a leading figure of the UK underground rap scene tagged 'UK Ug', though he says he is 'not a part of any genre, truly'.[\[2\]](https://www.onestowatch.com/en/blog/meet-fakemink)[\[4\]](https://www.dazeddigital.com/music/article/69279/1/uk-ug-gen-z-brits-reinvented-rap-2025-fakemink-esdeekid-jim-legxacy) The EP 'The Boy Who Cried Terrified' arrived on his 21st birthday in January 2026, with production from Burial among others, ahead of the album 'Terrified' in May 2026, which charted in Australia, Ireland and New Zealand.[\[1\]](https://en.wikipedia.org/wiki/Fakemink)[\[5\]](https://en.wikipedia.org/wiki/The_Boy_Who_Cried_Terrified) Drake brought him out at Wireless in July 2025, and he has since played Coachella and Rolling Loud.[\[1\]](https://en.wikipedia.org/wiki/Fakemink)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Fakemink
+2. https://www.onestowatch.com/en/blog/meet-fakemink
+3. https://en.wikipedia.org/wiki/Easter_Pink
+4. https://www.dazeddigital.com/music/article/69279/1/uk-ug-gen-z-brits-reinvented-rap-2025-fakemink-esdeekid-jim-legxacy
+5. https://en.wikipedia.org/wiki/The_Boy_Who_Cried_Terrified
+
+## fancy-hagood
+
+Fancy Hagood, born Jake Hagood in 1991 in Bentonville, Arkansas, first reached listeners without his name attached: the 2015 single 'Goodbye' was released as the anonymous project 'Who Is Fancy', and he revealed himself on 'The Tonight Show' that April after the song reached the Billboard Mainstream Top 40.[\[1\]](https://en.wikipedia.org/wiki/Fancy_Hagood) That run came with major-label backing from Scooter Braun, Scott Borchetta and Dr. Luke, and when it stalled he moved back to Nashville, took the name Fancy Hagood, and turned toward country.[\[1\]](https://en.wikipedia.org/wiki/Fancy_Hagood) His independent albums 'Southern Curiosity' (2021) and 'American Spirit' (2024) work through growing up queer in the South over what one writer called a blend of country and his pop training.[\[1\]](https://en.wikipedia.org/wiki/Fancy_Hagood)[\[2\]](https://rainbowrodeomag.com/fancy-hagood-american-spirit/) 'American Spirit', produced by Jarrad K, features Michelle Branch, Watkins Family Hour and a co-write with Sean McConnell.[\[3\]](https://americana-uk.com/fancy-hagood-american-spirit) He has opened for Meghan Trainor, Ariana Grande and Elle King, and has collaborated with Kacey Musgraves and Devon Gilfillian.[\[1\]](https://en.wikipedia.org/wiki/Fancy_Hagood)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Fancy_Hagood
+2. https://rainbowrodeomag.com/fancy-hagood-american-spirit/
+3. https://americana-uk.com/fancy-hagood-american-spirit
+
+## fcukers
+
+Fcukers are a New York trio: Shanny Wise, once the frontwoman of The Shacks, on vocals, Jackson Walker Lewis on bass and production after five years in Spud Cannon, and Ben Scharf on drums.[\[1\]](https://en.wikipedia.org/wiki/Fcukers)[\[2\]](https://www.nylon.com/entertainment/fcukers-band-new-york-city-music) They formed in late 2022 and played their first show at Baby's All Right in March 2023, rebuilding the sound of '90s dance acts like Deee-Lite and The Chemical Brothers as modern party music.[\[2\]](https://www.nylon.com/entertainment/fcukers-band-new-york-city-music) Early tracks caught Junior Sanchez, who remixed them for his Brobot label, and the band went on to remix the James Murphy single 'Los Angeles'.[\[2\]](https://www.nylon.com/entertainment/fcukers-band-new-york-city-music)[\[3\]](https://ninjatune.net/release/fcukers/baggyss) They signed to Ninja Tune's Technicolour imprint in 2024 and released the EP 'Baggy$$' that September, which won a 2025 Libera Award for Best Dance Record; its track 'Homie Don't Shake' samples Beck.[\[1\]](https://en.wikipedia.org/wiki/Fcukers)[\[3\]](https://ninjatune.net/release/fcukers/baggyss) The debut album 'Ö' followed in March 2026.[\[1\]](https://en.wikipedia.org/wiki/Fcukers) They have played Governors Ball, Bonnaroo and Primavera Sound and opened for Tame Impala.[\[1\]](https://en.wikipedia.org/wiki/Fcukers)[\[2\]](https://www.nylon.com/entertainment/fcukers-band-new-york-city-music)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Fcukers
+2. https://www.nylon.com/entertainment/fcukers-band-new-york-city-music
+3. https://ninjatune.net/release/fcukers/baggyss
+
+## fightmaster
+
+E.R. Fightmaster is a nonbinary actor and musician based in Los Angeles, best known on screen as Dr. Kai Bartley on 'Grey's Anatomy', the show's first nonbinary doctor, with earlier roles in 'Shrill' and 'Work in Progress' and the 2025 film 'Sorry, Baby'.[\[1\]](https://en.wikipedia.org/wiki/E._R._Fightmaster) They came up through Chicago's Second City and hold a degree in women's and gender studies from DePaul.[\[1\]](https://en.wikipedia.org/wiki/E._R._Fightmaster) The solo project FIGHTMASTER started in 2023, drawing on indie rock, folk and pop across the EPs 'Violence' (2023) and 'Bloodshed Baby' (2024).[\[1\]](https://en.wikipedia.org/wiki/E._R._Fightmaster)[\[2\]](https://fightmaster1.bandcamp.com/album/tolerance) The debut album 'Tolerance' arrived in June 2026, led by the single 'All Or Nothing'.[\[2\]](https://fightmaster1.bandcamp.com/album/tolerance) Fightmaster also records as half of the duo Twin and co-hosts the sports podcast 'Jockular', and on the road has opened for Orla Gartland and supported Lucy Dacus and Lord Huron.[\[1\]](https://en.wikipedia.org/wiki/E._R._Fightmaster)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/E._R._Fightmaster
+2. https://fightmaster1.bandcamp.com/album/tolerance
+
+## gabriel-jacoby
+
+Gabriel Jacoby was born in rural Anderson, South Carolina in 1998, the eldest of seven, and moved to Tampa, Florida at nine.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby)[\[3\]](https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277) He taught himself guitar, piano and production, and counts Prince, D'Angelo, Anderson .Paak and Maxwell among his influences.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby)[\[3\]](https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277) He signed to Pulse Records and relocated to Los Angeles in 2024, though he still identifies with Tampa and returns to Florida to write.[\[3\]](https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277) He started releasing music in 2022 and put out his debut EP 'gutta child' in November 2025, eight self-produced tracks he describes as fusing 'blues, funk, Florida krank, and R&B into a singular Southern identity', which NME summed up as 'Tampa krank, backwoods blues and head-nodding R&B'.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby)[\[2\]](https://thegarnettereport.com/art/music/gabriel-jacoby-releases-debut-ep-gutta-child/)[\[3\]](https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277) Its song 'bootleg' features the Tampa rapper Tom G.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby) Jacoby co-wrote Shaboozey's 'Chrome (Bonus)' in 2025, was named a Shazam Fast Forward artist, and toured North America as direct support for Khamari on the sold-out 'To Dry a Tear' run before headlining his own dates in early 2026.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby)[\[2\]](https://thegarnettereport.com/art/music/gabriel-jacoby-releases-debut-ep-gutta-child/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Gabriel_Jacoby
+2. https://thegarnettereport.com/art/music/gabriel-jacoby-releases-debut-ep-gutta-child/
+3. https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277
+
+## girlfriend
+
+Girlfriend is Kenya Edwards, an R&B singer-songwriter raised in Sardis, Mississippi, an hour south of Memphis, and now based in Los Angeles.[\[1\]](https://www.dredgezine.com/featuresarchive/artist-spotlight-girlfriend)[\[2\]](https://dailymemphian.com/subscriber/article/62164) She recorded her first song for a middle-school class project, and the reaction from classmates made her 'the girl who does music'.[\[3\]](https://www.billboard.com/music/rb-hip-hop/girlfriend-rb-artist-of-the-month-may-2026-1236256198/)[\[4\]](https://www.ladygunn.com/music/in-conversation-with-girlfriend-the-artist-who-turns-emotions-into-music/) She has a psychology degree from Rhodes College.[\[2\]](https://dailymemphian.com/subscriber/article/62164) Her sound reaches back to R&B from the late 2000s and early 2010s, an era she credits for taking production risks, and her touchstones run from Janet Jackson and Usher's 'Confessions' to Rihanna's 'Anti', Stephen Marley and Lil Wayne's wordplay.[\[3\]](https://www.billboard.com/music/rb-hip-hop/girlfriend-rb-artist-of-the-month-may-2026-1236256198/) She raps as much as she sings, and engineers, produces and plays on her own records.[\[3\]](https://www.billboard.com/music/rb-hip-hop/girlfriend-rb-artist-of-the-month-may-2026-1236256198/) Her collaborations include 'Bon Voyage' with Tierra Whack and the duet 'All U Need' with Jaymin.[\[3\]](https://www.billboard.com/music/rb-hip-hop/girlfriend-rb-artist-of-the-month-may-2026-1236256198/)[\[5\]](https://www.vipermag.com/2025/05/26/girlfriend-interview/) The EP 'It's Complicated' arrived in April 2025 on Encore Recordings, and her debut album 'Honey Water' followed in January 2026: ten tracks produced with Kenneth 'KP' Paige, Malik Ninety Five and Mike Baretz, which she has described as balancing Southern sweetness with knowing when enough is enough.[\[6\]](https://music.apple.com/us/album/its-complicated/1809467900)[\[7\]](https://music.apple.com/us/album/honey-water/1858611265)[\[8\]](https://www.shatterthestandards.com/p/album-review-honey-water-by-girlfriend)[\[3\]](https://www.billboard.com/music/rb-hip-hop/girlfriend-rb-artist-of-the-month-may-2026-1236256198/) She was BET's Amplified Artist for March 2026 and Billboard's Up-and-Coming R&B Artist of the Month that May, and has toured with Ella Mai.[\[9\]](https://www.paramountpressexpress.com/bet/releases/?view=112552-bet-spotlights-rising-rb-voice-girlfriend-as-bet-amplified-artist-for-march-2026)[\[3\]](https://www.billboard.com/music/rb-hip-hop/girlfriend-rb-artist-of-the-month-may-2026-1236256198/)
+
+**Sources**
+
+1. https://www.dredgezine.com/featuresarchive/artist-spotlight-girlfriend
+2. https://dailymemphian.com/subscriber/article/62164
+3. https://www.billboard.com/music/rb-hip-hop/girlfriend-rb-artist-of-the-month-may-2026-1236256198/
+4. https://www.ladygunn.com/music/in-conversation-with-girlfriend-the-artist-who-turns-emotions-into-music/
+5. https://www.vipermag.com/2025/05/26/girlfriend-interview/
+6. https://music.apple.com/us/album/its-complicated/1809467900
+7. https://music.apple.com/us/album/honey-water/1858611265
+8. https://www.shatterthestandards.com/p/album-review-honey-water-by-girlfriend
+9. https://www.paramountpressexpress.com/bet/releases/?view=112552-bet-spotlights-rising-rb-voice-girlfriend-as-bet-amplified-artist-for-march-2026
