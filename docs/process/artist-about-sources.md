@@ -774,3 +774,63 @@ Rubio is the solo project of the Chilean songwriter and producer Francisca Strau
 1. https://famacollective.com/artists/rubio
 2. https://www.cnnchile.com/cultura/rubio-francisca-straube-entrevista-lollapalooza-musica-chile_20250929/
 3. https://www.kexp.org/read/2023/7/18/el-sonido-live-get-to-know-rubio-in-three-albums/
+
+## ryan-beatty
+
+Ryan Beatty grew up in Clovis, California and is based in Los Angeles.[\[1\]](https://en.wikipedia.org/wiki/Ryan_Beatty) He started on YouTube in 2011 as a teenage pop singer, then stepped back and returned in an alt-R&B mode with the self-released 'Boy in Jeans' (2018) and 'Dreaming of David' (2020) on Benny Blanco's Mad Love label.[\[1\]](https://en.wikipedia.org/wiki/Ryan_Beatty) Around then he sang on Brockhampton's 'Saturation' records and Tyler, the Creator's 'Igor', and worked with Kevin Abstract.[\[1\]](https://en.wikipedia.org/wiki/Ryan_Beatty) 'Calico' (2023), co-produced with Ethan Gruska and released on Elektra, was a quiet folk record, its lead single 'Ribbons' featuring Justin Vernon of Bon Iver.[\[1\]](https://en.wikipedia.org/wiki/Ryan_Beatty)[\[2\]](<https://en.wikipedia.org/wiki/Calico_(album)>) In 2024 he co-wrote four songs on Beyoncé's 'Cowboy Carter', which won the Grammy for Album of the Year.[\[1\]](https://en.wikipedia.org/wiki/Ryan_Beatty) His fourth album 'Sweet Fortune' (2026), with Clairo contributing production and vocals, followed the single 'Secret Language'.[\[1\]](https://en.wikipedia.org/wiki/Ryan_Beatty)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Ryan_Beatty
+2. https://en.wikipedia.org/wiki/Calico_(album)
+
+## saint-motel
+
+Saint Motel is a Los Angeles band that formed in 2007: A.J. Jackson on vocals, guitar and piano, Aaron Sharp on lead guitar, Dak Lerdamornpong on bass and Greg Erwin on drums.[\[1\]](https://en.wikipedia.org/wiki/Saint_Motel)[\[3\]](https://www.songfacts.com/blog/interviews/a-j-jackson-of-saint-motel) Jackson and Sharp met studying film at Chapman University, and cinema has run through the band's work ever since.[\[3\]](https://www.songfacts.com/blog/interviews/a-j-jackson-of-saint-motel) Their indie pop is built on horn and brass grooves and tongue-in-cheek lyrics;[\[3\]](https://www.songfacts.com/blog/interviews/a-j-jackson-of-saint-motel) 'My Type' (2014) was a slow-building hit that reached the Top 30 across Europe and went platinum in Italy, and 'saintmotelevision' (2016) shipped with a virtual-reality version of every track, a first for a band.[\[1\]](https://en.wikipedia.org/wiki/Saint_Motel) They played Coachella in 2015.[\[1\]](https://en.wikipedia.org/wiki/Saint_Motel) Jackson has since pulled the group toward orchestral pop with real strings, and the twin 2025 albums 'Saint Motel & the Symphony in the Sky' and 'Afterglow', both about impermanence and the Japanese idea of 'mono no aware', rework and extend that catalog.[\[2\]](https://www.studioone.org/news/2025-10-10/saint-motel-and-cinematic-orchestral-pop-art-that-celebrates-the-beauty-of-the-impermanence-of-existence)[\[3\]](https://www.songfacts.com/blog/interviews/a-j-jackson-of-saint-motel)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Saint_Motel
+2. https://www.studioone.org/news/2025-10-10/saint-motel-and-cinematic-orchestral-pop-art-that-celebrates-the-beauty-of-the-impermanence-of-existence
+3. https://www.songfacts.com/blog/interviews/a-j-jackson-of-saint-motel
+
+## sasha-keable
+
+Sasha Keable is a British-Colombian singer from Eltham, south London, who grew up on her father's printed-out guitar tabs and her Colombian family's cumbia and went to the BRIT School alongside King Krule.[\[2\]](https://www.dazeddigital.com/music/article/67006/1/sasha-keable-beyonce-act-right-single-studio-meltdown-festival)[\[3\]](https://crackmagazine.net/article/profiles/sasha-keable-cover-story-interview/) Signed to Polydor at seventeen, she broke through co-writing and singing on Disclosure's 'Voices' in 2013 and released the EPs 'Black Book' (2013) and 'Lemongrass and Limeleaves' (2014), but felt boxed in: 'what they really wanted me to do was pop'.[\[1\]](https://en.wikipedia.org/wiki/Sasha_Keable)[\[3\]](https://crackmagazine.net/article/profiles/sasha-keable-cover-story-interview/) She left the label, spent years away, and came back independent, releasing further EPs including 'Man' (2019), 'Intermission' (2021), which carried 'Killing Me' with Jorja Smith, and 'Act Right'.[\[1\]](https://en.wikipedia.org/wiki/Sasha_Keable)[\[3\]](https://crackmagazine.net/article/profiles/sasha-keable-cover-story-interview/) Her 2024 single 'Hold Up' was a TikTok hit, and Beyoncé named her one of the best artists she heard that year.[\[2\]](https://www.dazeddigital.com/music/article/67006/1/sasha-keable-beyonce-act-right-single-studio-meltdown-festival)[\[3\]](https://crackmagazine.net/article/profiles/sasha-keable-cover-story-interview/) She played an NPR Tiny Desk in 2025 and was nominated for the BBC Sound of 2026.[\[1\]](https://en.wikipedia.org/wiki/Sasha_Keable) Her R&B carries gospel, soul and drum and bass, over influences like Donny Hathaway and Lauryn Hill.[\[1\]](https://en.wikipedia.org/wiki/Sasha_Keable)[\[3\]](https://crackmagazine.net/article/profiles/sasha-keable-cover-story-interview/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Sasha_Keable
+2. https://www.dazeddigital.com/music/article/67006/1/sasha-keable-beyonce-act-right-single-studio-meltdown-festival
+3. https://crackmagazine.net/article/profiles/sasha-keable-cover-story-interview/
+
+## sg-goodman
+
+S.G. Goodman is a songwriter from Hickman, in the rural far west of Kentucky, the daughter of a farmer, raised Southern Baptist and singing first in church.[\[1\]](<https://en.wikipedia.org/wiki/S.G._Goodman>)[\[2\]](https://atwoodmagazine.com/pbts-sg-goodman-planting-by-the-signs-album-interview-music-feature/) She studied philosophy at Murray State and still lives in Murray.[\[1\]](<https://en.wikipedia.org/wiki/S.G._Goodman>) Her solo debut 'Old Time Feeling' (2020) was co-produced by Jim James of My Morning Jacket, and 'Teeth Marks' followed on Verve Forecast in 2022.[\[1\]](<https://en.wikipedia.org/wiki/S.G._Goodman>)[\[2\]](https://atwoodmagazine.com/pbts-sg-goodman-planting-by-the-signs-album-interview-music-feature/) For 'Planting by the Signs' (2025) she reunited with her longtime collaborator Matthew Rowan and built the record around the old Appalachian practice of timing farm work and daily life to the moon.[\[2\]](https://atwoodmagazine.com/pbts-sg-goodman-planting-by-the-signs-album-interview-music-feature/) Her Americana runs through folk, country and indie rock, and being a queer artist from rural Kentucky shapes the writing.[\[1\]](<https://en.wikipedia.org/wiki/S.G._Goodman>)[\[2\]](https://atwoodmagazine.com/pbts-sg-goodman-planting-by-the-signs-album-interview-music-feature/) The Americana Music Association named her Emerging Artist of the Year in 2023, she has toured with My Morning Jacket and Jason Isbell, and Tyler Childers covered her song 'Space and Time'.[\[1\]](<https://en.wikipedia.org/wiki/S.G._Goodman>)[\[2\]](https://atwoodmagazine.com/pbts-sg-goodman-planting-by-the-signs-album-interview-music-feature/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/S.G._Goodman
+2. https://atwoodmagazine.com/pbts-sg-goodman-planting-by-the-signs-album-interview-music-feature/
+
+## solomon-hicks
+
+Solomon Hicks, who also performs as King Solomon Hicks, was born in Harlem in 1995 and started guitar at six with his mother as his first teacher.[\[1\]](https://en.wikipedia.org/wiki/Solomon_Hicks) At thirteen he was playing lead in the Cotton Club's seventeen-piece band, and he trained at the Harlem School of the Arts and the Harbor Conservatory in jazz, classical and Afro-Cuban music.[\[1\]](https://en.wikipedia.org/wiki/Solomon_Hicks) His electric blues pulls in jazz, gospel, soul and funk.[\[1\]](https://en.wikipedia.org/wiki/Solomon_Hicks)[\[2\]](https://www.americanbluesscene.com/2020/03/king-solomon-hicks-debuts-with-harlem/) The debut album 'Harlem' (2020), on Provogue, won the 2021 Blues Music Award for best emerging artist, and he has shared stages with Bruce Springsteen, B.B. King and Beth Hart.[\[1\]](https://en.wikipedia.org/wiki/Solomon_Hicks)[\[2\]](https://www.americanbluesscene.com/2020/03/king-solomon-hicks-debuts-with-harlem/) His second album 'How Did I Ever Get This Blue?' is billed as a sequel to 'Harlem'. It came out in January 2026 on Mascot, produced by Kirk Yano in Austin, with guests including the drummer Chris Layton, the turntablist DJ Logic and the slide guitarist Joanna Connor.[\[3\]](https://bluesrockreview.com/2026/01/solomon-hicks-how-did-i-ever-get-this-blue-review.html)[\[4\]](https://www.mascotlabelgroup.com/blogs/news/new-album-from-solomon-hicks)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Solomon_Hicks
+2. https://www.americanbluesscene.com/2020/03/king-solomon-hicks-debuts-with-harlem/
+3. https://bluesrockreview.com/2026/01/solomon-hicks-how-did-i-ever-get-this-blue-review.html
+4. https://www.mascotlabelgroup.com/blogs/news/new-album-from-solomon-hicks
+
+## solya
+
+Solya, born Solya Ava Lowe in 2006, grew up mostly in Abilene, in West Texas, and plays piano, guitar and synth.[\[1\]](https://en.wikipedia.org/wiki/Solya) She started putting out music in 2023, and her single 'Tear Me Apart' spread slowly online over about a year.[\[1\]](https://en.wikipedia.org/wiki/Solya)[\[2\]](https://floodmagazine.com/218790/solya-queen-of-texas-breaking/) She comes out of the Abilene scene Texas Monthly has called the new y'allternative sound,[\[3\]](https://buddymagazine.com/solya-embraces-her-west-texas-roots-both-the-beauty-and-backlash-on-queen-of-texas-debut-lp-tour/) and critics have likened her to a goth Lana Del Rey with a bit of country twang, over warm Americana, dreamy indie rock and retro pop harmonies,[\[4\]](https://www.kpbs.org/events/2026/09/16/solya-soma) with Cocteau Twins and Patsy Cline among her touchstones.[\[1\]](https://en.wikipedia.org/wiki/Solya) She signed to the independent label Version III in 2024, after the EPs 'Fever Dream' (2023) and the bedroom-recorded 'Jewel Box' (2024).[\[1\]](https://en.wikipedia.org/wiki/Solya)[\[3\]](https://buddymagazine.com/solya-embraces-her-west-texas-roots-both-the-beauty-and-backlash-on-queen-of-texas-debut-lp-tour/) Her debut album 'Queen of Texas' came out in March 2026, recorded to tape in Lockhart, Texas by Danny Reisch, a producer known for Khruangbin and Local Natives, with Jason Chronis of Tele Novella.[\[1\]](https://en.wikipedia.org/wiki/Solya)[\[3\]](https://buddymagazine.com/solya-embraces-her-west-texas-roots-both-the-beauty-and-backlash-on-queen-of-texas-debut-lp-tour/)[\[4\]](https://www.kpbs.org/events/2026/09/16/solya-soma) It reached number seventeen on Billboard's Emerging Artists chart, and its songs deal with heartbreak, identity and growing up queer in a small Southern town.[\[1\]](https://en.wikipedia.org/wiki/Solya)[\[2\]](https://floodmagazine.com/218790/solya-queen-of-texas-breaking/)[\[4\]](https://www.kpbs.org/events/2026/09/16/solya-soma)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Solya
+2. https://floodmagazine.com/218790/solya-queen-of-texas-breaking/
+3. https://buddymagazine.com/solya-embraces-her-west-texas-roots-both-the-beauty-and-backlash-on-queen-of-texas-debut-lp-tour/
+4. https://www.kpbs.org/events/2026/09/16/solya-soma
