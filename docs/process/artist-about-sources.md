@@ -825,6 +825,27 @@ Rubio is the solo project of the Chilean songwriter and producer Francisca Strau
 2. https://www.cnnchile.com/cultura/rubio-francisca-straube-entrevista-lollapalooza-musica-chile_20250929/
 3. https://www.kexp.org/read/2023/7/18/el-sonido-live-get-to-know-rubio-in-three-albums/
 
+## rum-jungle
+
+Rum Jungle are a four-piece from Newcastle, New South Wales, Benny McIntyre (vocals and guitar), Josh Giles (guitar), Michael Kolmajer (bass) and Frazer McDonald (drums), who started jamming on a balcony after McIntyre moved out of a share house and took the band name from an old poster for a group his father had played in.[\[1\]](https://en.wikipedia.org/wiki/Rum_Jungle)[\[2\]](https://read-gem.com/2025/02/21/interview-rum-jungle/) McIntyre pulled in McDonald, a 15-year-old he knew from a burger-shop job, on drums.[\[2\]](https://read-gem.com/2025/02/21/interview-rum-jungle/) Their music, which they loosely call alt-indie rock, layers pop melodies over psych-tinged guitars, and early triple j airplay, including a cover of Rihanna's 'Stay', built the audience.[\[1\]](https://en.wikipedia.org/wiki/Rum_Jungle)[\[3\]](https://www.grimygoods.com/2025/03/12/music-artists-you-should-know-rum-jungle/) After the EPs 'Crazy Days' (2017), 'Sun & Smoke' (2018), 'Everything Is Easy' (2022) and 'Hold Me in the Water' (2023), the debut album 'Recency Bias' arrived in February 2025 and reached number nine on the ARIA chart, cut with producer Simon Dobson on the Central Coast.[\[1\]](https://en.wikipedia.org/wiki/Rum_Jungle)[\[2\]](https://read-gem.com/2025/02/21/interview-rum-jungle/) The second album 'Marginalia' followed in June 2026, and they put their records out themselves.[\[1\]](https://en.wikipedia.org/wiki/Rum_Jungle)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Rum_Jungle
+2. https://read-gem.com/2025/02/21/interview-rum-jungle/
+3. https://www.grimygoods.com/2025/03/12/music-artists-you-should-know-rum-jungle/
+
+## rusowsky
+
+Rusowsky is Ruslán Mediavilla, born in 1999 and raised in Fuenlabrada on the southern edge of Madrid, the son of a Belarusian mother who led a folk band back home.[\[1\]](https://en.wikipedia.org/wiki/Rusowsky)[\[4\]](https://www.rockdelux.com/en/en-portada/rusowsky--yo-no-tengo-ni-idea-de-producir---en-portada) He trained at a conservatory and reached a professional level on piano, then turned away from both classical performance and learning studio technique, treating his limits as a method rather than a gap.[\[1\]](https://en.wikipedia.org/wiki/Rusowsky)[\[4\]](https://www.rockdelux.com/en/en-portada/rusowsky--yo-no-tengo-ni-idea-de-producir---en-portada) He is a founder of Rusia-IDK, the Madrid collective and label around Ralphie Choo, TRISTÁN!, mori and DRUMMIE, whose freeform take on pop pulls hip-hop, flamenco, reggaeton and shoegaze together.[\[3\]](https://www.dazeddigital.com/music/article/62220/1/meet-rusia-idk-the-avant-pop-collective-shaping-madrids-party-scene-ralphie-choo)[\[4\]](https://www.rockdelux.com/en/en-portada/rusowsky--yo-no-tengo-ni-idea-de-producir---en-portada) C. Tangana pulled him in to co-produce 'Bien:(' during lockdown, on a borrowed laptop that shut off every half hour.[\[4\]](https://www.rockdelux.com/en/en-portada/rusowsky--yo-no-tengo-ni-idea-de-producir---en-portada) His debut album 'DAISY' (May 2025, Warner), self-produced across 13 tracks with Jean Dawson, Ravyn Lenae, Kevin Abstract, La Zowi and Las Ketchup, went to number one in Spain, led by the double-platinum single 'malibU'.[\[1\]](https://en.wikipedia.org/wiki/Rusowsky)[\[2\]](<https://en.wikipedia.org/wiki/Daisy_(Rusowsky_album)>)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Rusowsky
+2. https://en.wikipedia.org/wiki/Daisy_(Rusowsky_album)
+3. https://www.dazeddigital.com/music/article/62220/1/meet-rusia-idk-the-avant-pop-collective-shaping-madrids-party-scene-ralphie-choo
+4. https://www.rockdelux.com/en/en-portada/rusowsky--yo-no-tengo-ni-idea-de-producir---en-portada
+
 ## ryan-beatty
 
 Ryan Beatty grew up in Clovis, California and is based in Los Angeles.[\[1\]](https://en.wikipedia.org/wiki/Ryan_Beatty) He started on YouTube in 2011 as a teenage pop singer, then stepped back and returned in an alt-R&B mode with the self-released 'Boy in Jeans' (2018) and 'Dreaming of David' (2020) on Benny Blanco's Mad Love label.[\[1\]](https://en.wikipedia.org/wiki/Ryan_Beatty) Around then he sang on Brockhampton's 'Saturation' records and Tyler, the Creator's 'Igor', and worked with Kevin Abstract.[\[1\]](https://en.wikipedia.org/wiki/Ryan_Beatty) 'Calico' (2023), co-produced with Ethan Gruska and released on Elektra, was a quiet folk record, its lead single 'Ribbons' featuring Justin Vernon of Bon Iver.[\[1\]](https://en.wikipedia.org/wiki/Ryan_Beatty)[\[2\]](<https://en.wikipedia.org/wiki/Calico_(album)>) In 2024 he co-wrote four songs on Beyoncé's 'Cowboy Carter', which won the Grammy for Album of the Year.[\[1\]](https://en.wikipedia.org/wiki/Ryan_Beatty) His fourth album 'Sweet Fortune' (2026), with Clairo contributing production and vocals, followed the single 'Secret Language'.[\[1\]](https://en.wikipedia.org/wiki/Ryan_Beatty)
@@ -955,3 +976,34 @@ Underscores is April Harper Grey, a musician and producer born in San Francisco 
 1. https://en.wikipedia.org/wiki/Underscores_(musician)
 2. https://en.wikipedia.org/wiki/Wallsocket
 3. https://en.wikipedia.org/wiki/Copycats_(song)
+
+## vwillz
+
+Vwillz, born Victor Williams, is an independent singer, rapper and producer from Colorado Springs, now based in Nashville, who built his audience himself without a label.[\[1\]](https://first-avenue.com/performer/vwillz/)[\[3\]](https://music.apple.com/us/album/york/1815508320)[\[4\]](https://www.westword.com/music/vwillz-on-before-the-storm-day-11736837/) He picked up guitar as a kid after hearing a cousin play Green Day's 'Good Riddance (Time of Your Life)' at a family gathering, and has said pursuing music was 'unstated but a foregone conclusion'.[\[4\]](https://www.westword.com/music/vwillz-on-before-the-storm-day-11736837/) He broke out in 2020 with 'Emo Rhapsody', a self-produced track that sets a piano ballad against trap drums and borrows the hook cadence of Queen's 'Bohemian Rhapsody' to address his mother about his regrets, pitched to anyone who feels they do not fit.[\[2\]](https://blog.lyricallemonade.com/p/emo-rhapsody-vwillz/)[\[4\]](https://www.westword.com/music/vwillz-on-before-the-storm-day-11736837/) His sound since has widened from emo rap into a blend of hip-hop, pop, alternative rock, folk and country, going for what his booking bio calls a 'late-night-drive atmosphere' of introspective ballads and big hooks.[\[1\]](https://first-avenue.com/performer/vwillz/) The self-released album 'York' (June 2025) runs nine songs in about nineteen minutes, and other tracks in rotation include 'Falling Slowly', 'Sundown' and 'Darkside'.[\[1\]](https://first-avenue.com/performer/vwillz/)[\[3\]](https://music.apple.com/us/album/york/1815508320)
+
+**Sources**
+
+1. https://first-avenue.com/performer/vwillz/
+2. https://blog.lyricallemonade.com/p/emo-rhapsody-vwillz/
+3. https://music.apple.com/us/album/york/1815508320
+4. https://www.westword.com/music/vwillz-on-before-the-storm-day-11736837/
+
+## world-famous-pets
+
+World Famous Pets is a band of four: singer Edie Brickell of Edie Brickell & New Bohemians, drummer and producer Matt Chamberlain, bassist Kaveh Rastegar and guitarist Mason Stoops.[\[1\]](https://stereogum.com/2503846/edie-brickell-matt-chamberlain-kaveh-rastegar-mason-stoops-announce-debut-album-as-world-famous-pets/music)[\[2\]](https://relix.com/news/detail/world-famous-pets-edie-brickell-matt-chamberlain-kaveh-rastegar-and-mason-stoops-share-new-song-and-tour-info) Brickell and Chamberlain first recorded together more than 35 years ago on New Bohemians' 'Ghost of a Dog', and the project started when the two found themselves touring together again on Paul Simon's 'A Quiet Celebration' run and Chamberlain suggested bringing Rastegar and Stoops into the studio for six days just to play.[\[1\]](https://stereogum.com/2503846/edie-brickell-matt-chamberlain-kaveh-rastegar-mason-stoops-announce-debut-album-as-world-famous-pets/music)[\[2\]](https://relix.com/news/detail/world-famous-pets-edie-brickell-matt-chamberlain-kaveh-rastegar-and-mason-stoops-share-new-song-and-tour-info) What came out is loose and improvised: Brickell describes four 'monster players who improvise in song form', moving 'like a river of music, not knowing what's around the bend'.[\[2\]](https://relix.com/news/detail/world-famous-pets-edie-brickell-matt-chamberlain-kaveh-rastegar-and-mason-stoops-share-new-song-and-tour-info) The self-titled debut, folk-pop with room to wander, is due 25 September 2026 on Shuffle Records, trailed by the singles 'Maybe Somehow' and 'I Guess It's You', with the same follow-the-music approach carried to the stage.[\[1\]](https://stereogum.com/2503846/edie-brickell-matt-chamberlain-kaveh-rastegar-mason-stoops-announce-debut-album-as-world-famous-pets/music)[\[2\]](https://relix.com/news/detail/world-famous-pets-edie-brickell-matt-chamberlain-kaveh-rastegar-and-mason-stoops-share-new-song-and-tour-info)
+
+**Sources**
+
+1. https://stereogum.com/2503846/edie-brickell-matt-chamberlain-kaveh-rastegar-mason-stoops-announce-debut-album-as-world-famous-pets/music
+2. https://relix.com/news/detail/world-famous-pets-edie-brickell-matt-chamberlain-kaveh-rastegar-and-mason-stoops-share-new-song-and-tour-info
+
+## yousuke-yukimatsu
+
+Yousuke Yukimatsu, styled ¥ØU$UK€ ¥UK1MAT$U, was born in Osaka in 1979 and grew up on his father's classic rock before starting to DJ in 2008 at a friend's party.[\[1\]](https://en.wikipedia.org/wiki/Yousuke_Yukimatsu)[\[3\]](https://www.exitfest.org/en/yousuke-yukimatsu-sets-that-transcend-the-mind-speak-to-the-heart-and-are-remembered-forever) He came up through the 2010s Osaka and Kobe underground, and a 2014 set that impressed DJ Nobu led to a Future Terror booking in Tokyo that made his name; he has been based in the city since 2020.[\[1\]](https://en.wikipedia.org/wiki/Yousuke_Yukimatsu)[\[3\]](https://www.exitfest.org/en/yousuke-yukimatsu-sets-that-transcend-the-mind-speak-to-the-heart-and-are-remembered-forever)[\[4\]](https://astralpeople.com/tours/yousuke-yukimatsu) He founded the Zone Unknown party series, which has hosted Arca, Kamixlo and Palmistry, and he built a name for sets that never repeat and run from gabber and noise to trap, house and pop.[\[1\]](https://en.wikipedia.org/wiki/Yousuke_Yukimatsu)[\[3\]](https://www.exitfest.org/en/yousuke-yukimatsu-sets-that-transcend-the-mind-speak-to-the-heart-and-are-remembered-forever) Working construction at the time, he turned to DJing full time after being treated for a malignant brain tumor in 2016.[\[1\]](https://en.wikipedia.org/wiki/Yousuke_Yukimatsu)[\[2\]](https://midnightrebels.com/from-construction-worker-to-electronic-music-icon-yousuke-yukimatsus-rise/) An early-2025 Boiler Room set in Tokyo, played shirtless and drenched in sweat, passed twelve million views and made him one of the year's breakout DJs, with festival dates from Berlin Atonal to Coachella and Montreux following.[\[1\]](https://en.wikipedia.org/wiki/Yousuke_Yukimatsu)[\[2\]](https://midnightrebels.com/from-construction-worker-to-electronic-music-icon-yousuke-yukimatsus-rise/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Yousuke_Yukimatsu
+2. https://midnightrebels.com/from-construction-worker-to-electronic-music-icon-yousuke-yukimatsus-rise/
+3. https://www.exitfest.org/en/yousuke-yukimatsu-sets-that-transcend-the-mind-speak-to-the-heart-and-are-remembered-forever
+4. https://astralpeople.com/tours/yousuke-yukimatsu
