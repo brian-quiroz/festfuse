@@ -203,6 +203,14 @@ Stored genres are Indie Rock, Garage Rock, Punk Rock. Sources consulted for the 
 rock"; none use "garage rock." Surfaced during the `about` write. Candidate: revisit the
 third genre.
 
+## rubio (location)
+
+Stored location is Santiago, Chile. Rubio (Francisca Straube) is Chilean and the
+identity is Chilean, but KEXP's 2023 write-up says she is "currently based in Mexico",
+and she has scored several Mexican film and TV productions and won a Mexican award
+(Diosa de Plata). Origin is Chile; current base may be Mexico. The `about` copy calls
+her "Chilean" and does not assert a current city. Confirm.
+
 ## leon-knight (location)
 
 Stored location is Austin, Texas. No source consulted for the `about` (Ghost Cult,

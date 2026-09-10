@@ -710,3 +710,67 @@ Paloma Morphy, born Andrea Paloma Barrios Gómez Álvarez Morphy in Mexico City 
 1. https://en.wikipedia.org/wiki/Paloma_Morphy
 2. https://modernmuze.com/who-is-paloma-morphy-the-2025-latin-grammys-best-new-artist/
 3. https://los40.com.mx/2025/08/08/paloma-morphy-abre-su-corazon-en-au-y-se-prepara-para-conquistar-mexico-desde-el-lunario-entrevista/
+
+## radio-free-alice
+
+Radio Free Alice is a Melbourne band led by singer and guitarist Noah Learmonth, with Jules Paradiso on guitar, Michael Phillips on bass and saxophone and Lochie Dowd on drums.[\[1\]](https://www.nme.com/features/music-interviews/radio-free-alice-band-interview-australia-radar-3767181)[\[4\]](https://au.rollingstone.com/music/music-features/radio-free-alice-future-of-music-2026-interview-96059/) Learmonth and Paradiso met at 14 at a Sydney high school, and the band came together around 2022 after they moved to Melbourne.[\[1\]](https://www.nme.com/features/music-interviews/radio-free-alice-band-interview-australia-radar-3767181)[\[4\]](https://au.rollingstone.com/music/music-features/radio-free-alice-future-of-music-2026-interview-96059/) They take their name from R.E.M.'s first single,[\[2\]](https://soyoungmagazine.com/melbourne-five-piece-radio-free-alice-share-debut-ep/) and their sound from 1980s post-punk and new wave: they cite early New Order, the Jam and the Housemartins, and Phillips's saxophone nods to jazz players like Sonny Rollins and Stan Getz.[\[1\]](https://www.nme.com/features/music-interviews/radio-free-alice-band-interview-australia-radar-3767181) The self-titled debut EP arrived in November 2023,[\[2\]](https://soyoungmagazine.com/melbourne-five-piece-radio-free-alice-share-debut-ep/) with further EPs since, most recently 'Empty Words', produced by Ali Chant.[\[4\]](https://au.rollingstone.com/music/music-features/radio-free-alice-future-of-music-2026-interview-96059/) 'Look What You've Done', which Learmonth calls a song about 'a marriage that's completely deteriorating but continues on anyway', is among their best-known.[\[3\]](https://www.backseatmafia.com/ep-review-the-brilliant-radio-free-alice-unveil-swaggering-self-titled-debut-ep-rest-assured-the-future-of-rocknroll-is-secure/) They signed to WME for booking alongside their local label Double Drummer,[\[5\]](https://www.backseatmafia.com/track-look-what-youve-done-radio-free-alice-dial-down-the-pace-and-unveil-scorching-new-single-tour-dates-and-signing-to-the-massive-wme-agency/) played SXSW in Austin, were listed on the NME 100, and supported the Killers at a Melbourne arena in 2024.[\[4\]](https://au.rollingstone.com/music/music-features/radio-free-alice-future-of-music-2026-interview-96059/)
+
+**Sources**
+
+1. https://www.nme.com/features/music-interviews/radio-free-alice-band-interview-australia-radar-3767181
+2. https://soyoungmagazine.com/melbourne-five-piece-radio-free-alice-share-debut-ep/
+3. https://www.backseatmafia.com/ep-review-the-brilliant-radio-free-alice-unveil-swaggering-self-titled-debut-ep-rest-assured-the-future-of-rocknroll-is-secure/
+4. https://au.rollingstone.com/music/music-features/radio-free-alice-future-of-music-2026-interview-96059/
+5. https://www.backseatmafia.com/track-look-what-youve-done-radio-free-alice-dial-down-the-pace-and-unveil-scorching-new-single-tour-dates-and-signing-to-the-massive-wme-agency/
+
+## rebecca-black
+
+Rebecca Black was born in 1997 in Irvine, California and is based in Los Angeles.[\[1\]](https://en.wikipedia.org/wiki/Rebecca_Black) Her 2011 single 'Friday', made with the pay-to-play outfit ARK Music Factory after her mother put up 4,000 dollars for the video, went viral and drew heavy mockery; she has spoken since about the depression and cyberbullying that followed.[\[1\]](https://en.wikipedia.org/wiki/Rebecca_Black) She started her own label, RB Records, and over the decade remade herself as a pop artist, marking ten years of 'Friday' in 2021 with a hyperpop remix produced by Dylan Brady of 100 gecs.[\[1\]](https://en.wikipedia.org/wiki/Rebecca_Black) The EP 'Rebecca Black Was Here' (2021) and her debut album 'Let Her Burn' (2023) leaned into hyperpop and electronic production,[\[1\]](https://en.wikipedia.org/wiki/Rebecca_Black) and 'Age of the Exhibitionist' (2026), her second album, is mostly dance-pop with hyperpop and R&B edges and lyrics about lust and sexuality.[\[2\]](https://en.wikipedia.org/wiki/Age_of_the_Exhibitionist) She also DJs, with a Boiler Room set in 2024 and an American Music Awards after-party in 2025, and she opened for Katy Perry on the 2025 Lifetimes Tour.[\[1\]](https://en.wikipedia.org/wiki/Rebecca_Black) Black came out as queer in 2020,[\[1\]](https://en.wikipedia.org/wiki/Rebecca_Black) and mounted a North American headline tour in 2026.[\[3\]](https://consequence.net/2026/07/rebecca-black-2026-north-american-tour/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Rebecca_Black
+2. https://en.wikipedia.org/wiki/Age_of_the_Exhibitionist
+3. https://consequence.net/2026/07/rebecca-black-2026-north-american-tour/
+
+## rio-kosta
+
+Rio Kosta is a Los Angeles duo, the producer and songwriter Mike Del Rio and the drummer Kosta Galanopoulos, who met backstage at a festival and started writing together during the pandemic at Del Rio's home studio.[\[1\]](https://twntythree.com/rio-kostas-debut-album-unicorn-has-arrived-featuring-new-single-mountain-top/)[\[5\]](https://twntythree.com/rio-kosta-debut-with-double-a-side-singles-ancients-its-starting/) Del Rio, born Michael Gonzalez in Queens, had already co-founded the duo POWERS, written for Kylie Minogue and Selena Gomez, and executive-produced LP's platinum album 'Lost on You'.[\[2\]](https://en.wikipedia.org/wiki/Mike_Del_Rio) As Rio Kosta the two make psychedelic pop they describe as 'intergalactic children at play': loose grooves and stacked vocal harmonies with world-music touch points, often compared to Khruangbin.[\[1\]](https://twntythree.com/rio-kostas-debut-album-unicorn-has-arrived-featuring-new-single-mountain-top/)[\[5\]](https://twntythree.com/rio-kosta-debut-with-double-a-side-singles-ancients-its-starting/) Their single 'Ancients' was built on a loop from a cassette of Kosta's father's 1970s Greek band,[\[4\]](https://www.astrophemagazine.com/astrophe-magazine/ancient-echoes-rio-kosta-in-conversation)[\[5\]](https://twntythree.com/rio-kosta-debut-with-double-a-side-singles-ancients-its-starting/) and their track 'Mountain Top' appears on the EA Sports FC 26 soundtrack.[\[3\]](https://www.fifplay.com/fc-26/soundtrack/rio-kosta-mountain-top/) The debut album 'Unicorn', thirteen tracks, came out in July 2025, by which point the project had passed three million streams.[\[1\]](https://twntythree.com/rio-kostas-debut-album-unicorn-has-arrived-featuring-new-single-mountain-top/)
+
+**Sources**
+
+1. https://twntythree.com/rio-kostas-debut-album-unicorn-has-arrived-featuring-new-single-mountain-top/
+2. https://en.wikipedia.org/wiki/Mike_Del_Rio
+3. https://www.fifplay.com/fc-26/soundtrack/rio-kosta-mountain-top/
+4. https://www.astrophemagazine.com/astrophe-magazine/ancient-echoes-rio-kosta-in-conversation
+5. https://twntythree.com/rio-kosta-debut-with-double-a-side-singles-ancients-its-starting/
+
+## rochelle-jordan
+
+Rochelle Jordan was born in England to Jamaican parents, moved to the Toronto area at four, and is now based in Los Angeles.[\[2\]](https://www.kexp.org/read/2021/7/12/midnight-perfect-world-rochelle-jordan/)[\[3\]](https://www.nme.com/features/music-interviews/rochelle-jordan-through-the-wall-interview-3900624) Toronto's moody R&B shaped her early work,[\[2\]](https://www.kexp.org/read/2021/7/12/midnight-perfect-world-rochelle-jordan/) and her sound has since drawn in UK garage, two-step and Chicago and Detroit house under a sultry vocal.[\[3\]](https://www.nme.com/features/music-interviews/rochelle-jordan-through-the-wall-interview-3900624) The producer KLSH found her through YouTube covers and has produced every one of her records.[\[3\]](https://www.nme.com/features/music-interviews/rochelle-jordan-through-the-wall-interview-3900624)[\[4\]](https://atwoodmagazine.com/rjpc-rochelle-jordan-play-with-the-changes-interview-music-2021/) Her 2014 debut '1021' drew comparisons to Aaliyah.[\[3\]](https://www.nme.com/features/music-interviews/rochelle-jordan-through-the-wall-interview-3900624) After it she went quiet for about seven years, returning in 2021 with 'Play With The Changes' on TOKiMONSTA's Young Art label.[\[3\]](https://www.nme.com/features/music-interviews/rochelle-jordan-through-the-wall-interview-3900624)[\[4\]](https://atwoodmagazine.com/rjpc-rochelle-jordan-play-with-the-changes-interview-music-2021/) Her old song 'Lowkey' went viral on TikTok in 2024, and her third album 'Through the Wall' followed in 2025 on Empire, shortlisted for the 2026 Polaris Music Prize.[\[1\]](https://en.wikipedia.org/wiki/Rochelle_Jordan)[\[3\]](https://www.nme.com/features/music-interviews/rochelle-jordan-through-the-wall-interview-3900624) Drake name-dropped her on 'Club Paradise', and she co-wrote and sang on Childish Gambino's 'Telegraph Ave.'.[\[3\]](https://www.nme.com/features/music-interviews/rochelle-jordan-through-the-wall-interview-3900624)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Rochelle_Jordan
+2. https://www.kexp.org/read/2021/7/12/midnight-perfect-world-rochelle-jordan/
+3. https://www.nme.com/features/music-interviews/rochelle-jordan-through-the-wall-interview-3900624
+4. https://atwoodmagazine.com/rjpc-rochelle-jordan-play-with-the-changes-interview-music-2021/
+
+## rodrigo-y-gabriela
+
+Rodrigo y Gabriela are the Mexican guitarists Rodrigo Sánchez and Gabriela Quintero, who met as teenagers in Mexico City and played together in the thrash-metal band Tierra Ácida before switching to acoustic guitars.[\[1\]](https://en.wikipedia.org/wiki/Rodrigo_y_Gabriela) After a record deal fell through in 1997 they left for the coast and then for Dublin, where they busked on Grafton Street and built a following, signing to ATO in 2005; their 2006 self-titled album went to number one in Ireland.[\[1\]](https://en.wikipedia.org/wiki/Rodrigo_y_Gabriela) Their instrumental music runs nuevo flamenco through acoustic rock and metal, with a hard percussive attack on the body of the guitar, and Metallica is an avowed influence.[\[1\]](https://en.wikipedia.org/wiki/Rodrigo_y_Gabriela) They won a Grammy for the 2019 album 'Mettavolution', headlined the West Holts stage at Glastonbury in 2010, played the White House for President Obama, and contributed to Hans Zimmer's score for 'Pirates of the Caribbean: On Stranger Tides'.[\[1\]](https://en.wikipedia.org/wiki/Rodrigo_y_Gabriela) Their album 'OurHome' (2026), self-produced at a studio in Tokyo with guests Marty Friedman and the pianist Hiromi, returns to all-acoustic playing after a more electric 2023 record.[\[2\]](https://consequence.net/2026/06/rodrigo-y-gabriela-ourhome-monster/) The two were a couple for years and remain musical partners.[\[1\]](https://en.wikipedia.org/wiki/Rodrigo_y_Gabriela)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Rodrigo_y_Gabriela
+2. https://consequence.net/2026/06/rodrigo-y-gabriela-ourhome-monster/
+
+## rubio
+
+Rubio is the solo project of the Chilean songwriter and producer Francisca Straube, who took up drums at eleven in Colina, outside Santiago, and played in the bands Miss Garrison, Fármacos and Picnic Kibun before going solo.[\[2\]](https://www.cnnchile.com/cultura/rubio-francisca-straube-entrevista-lollapalooza-musica-chile_20250929/) She studied music and composition at UNIACC in Santiago and later did an electronic-music-production course in Barcelona.[\[2\]](https://www.cnnchile.com/cultura/rubio-francisca-straube-entrevista-lollapalooza-musica-chile_20250929/) Her label calls her music 'dark avant-pop', built from EDM, trip-hop and Andean roots music with reggaeton, dembow and trap;[\[1\]](https://famacollective.com/artists/rubio) she cites Radiohead, James Blake and PJ Harvey.[\[3\]](https://www.kexp.org/read/2023/7/18/el-sonido-live-get-to-know-rubio-in-three-albums/) The Rubio persona, a group of white androgynous beings arriving on Earth, is drawn from the band Blonde Redhead.[\[2\]](https://www.cnnchile.com/cultura/rubio-francisca-straube-entrevista-lollapalooza-musica-chile_20250929/) After the albums 'Pez' (2018), 'Mango Negro' (2020) and 'Venus & Blue' (2023) she scored the 2022 film 'La Caída', whose soundtrack helped it win two International Emmy Awards and earned her Mexico's Diosa de Plata for best original song.[\[1\]](https://famacollective.com/artists/rubio)[\[2\]](https://www.cnnchile.com/cultura/rubio-francisca-straube-entrevista-lollapalooza-musica-chile_20250929/) She has played Lollapalooza and Primavera Sound and performed a Tiny Desk concert in 2025.[\[1\]](https://famacollective.com/artists/rubio)[\[2\]](https://www.cnnchile.com/cultura/rubio-francisca-straube-entrevista-lollapalooza-musica-chile_20250929/)
+
+**Sources**
+
+1. https://famacollective.com/artists/rubio
+2. https://www.cnnchile.com/cultura/rubio-francisca-straube-entrevista-lollapalooza-musica-chile_20250929/
+3. https://www.kexp.org/read/2023/7/18/el-sonido-live-get-to-know-rubio-in-three-albums/
