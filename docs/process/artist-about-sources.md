@@ -545,6 +545,16 @@ Kevin Atwater is a singer-songwriter from Downers Grove, Illinois, now based in 
 1. https://en.wikipedia.org/wiki/Kevin_Atwater_(singer)
 2. https://outwritenewsmag.org/2022/10/queer-next-up-kevin-atwater/
 
+## labrinth
+
+Labrinth is Timothy Lee McKenzie, born in Hackney, London, in 1989. He was doing production and remix work and sleeping in the studio when Simon Cowell signed him to Syco in 2010, the first act in six years to join the label without going through one of Cowell's talent shows.[\[1\]](https://en.wikipedia.org/wiki/Labrinth)[\[2\]](https://music.apple.com/us/artist/labrinth/205732582)[\[3\]](https://www.thegentlemansjournal.com/article/labrinth-interview-im-interested-in-going-to-other-galaxies/) He had just written and produced Tinie Tempah's UK number one 'Pass Out', and his own singles kept the run going: 'Earthquake' with Tempah reached number two in 2011 and 'Beneath Your Beautiful' with Emeli Sandé went to number one a year later.[\[1\]](https://en.wikipedia.org/wiki/Labrinth) The solo albums are 'Electronic Earth' (2012), 'Imagination & the Misfit Kid' (2019) and 'Ends & Begins' (2023, Columbia), the last a set of sci-fi love songs about his relationship that he has called 'Natural Born Killers in space', with the two-part 'Cosmic Opera' following in 2026.[\[1\]](https://en.wikipedia.org/wiki/Labrinth)[\[2\]](https://music.apple.com/us/artist/labrinth/205732582)[\[3\]](https://www.thegentlemansjournal.com/article/labrinth-interview-im-interested-in-going-to-other-galaxies/) He is a third of LSD alongside Sia and Diplo, whose album came out in 2019.[\[1\]](https://en.wikipedia.org/wiki/Labrinth) His widest audience comes from scoring HBO's 'Euphoria', where 'All for Us' and 'I'm Tired', both with Zendaya, run through the series; 'All for Us' won him a Primetime Emmy for original music and lyrics.[\[1\]](https://en.wikipedia.org/wiki/Labrinth)[\[3\]](https://www.thegentlemansjournal.com/article/labrinth-interview-im-interested-in-going-to-other-galaxies/) He also has a Grammy nomination as a producer on The Weeknd's 'Beauty Behind the Madness'.[\[1\]](https://en.wikipedia.org/wiki/Labrinth)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Labrinth
+2. https://music.apple.com/us/artist/labrinth/205732582
+3. https://www.thegentlemansjournal.com/article/labrinth-interview-im-interested-in-going-to-other-galaxies/
+
 ## laszewo
 
 Łaszewo, styled with the Polish spelling but pronounced la-ZAY-woah, is an electronic trio from Santa Barbara, California: producers Matt Ehrlich and Justin De La Fuente with singer Keeva Bouley, who came together in 2018 after a chance meeting.[\[1\]](https://hq.rostr.cc/insider/news/%C5%82aszewo-sign-with-wme-payday-publishing-boom-records)[\[2\]](https://www.last.fm/music/%C5%81aszewo/+wiki) Their music blends EDM, indie and pop, energetic on the dancefloor and introspective off it.[\[1\]](https://hq.rostr.cc/insider/news/%C5%82aszewo-sign-with-wme-payday-publishing-boom-records) The debut single 'Up In Flames' ran up millions of streams, 'Til U Hate Me' went viral, and their first album 'In Color' arrived in 2024.[\[1\]](https://hq.rostr.cc/insider/news/%C5%82aszewo-sign-with-wme-payday-publishing-boom-records) Their remix of Lola Young's 'messy' has passed 60 million Spotify streams, they have teamed with DLG. on 'Roll With It' and YDG on 'hey lil mama', and they have played EDC Orlando and Splash House.[\[3\]](https://music.apple.com/us/album/roll-with-it-single/1777581100)[\[4\]](https://dancingastronaut.com/2025/10/ydg-and-laszewo-unite-on-new-collaboration-hey-lil-mama/) In 2025 they signed with WME, Boom.Records and Payday and announced a first European tour.[\[1\]](https://hq.rostr.cc/insider/news/%C5%82aszewo-sign-with-wme-payday-publishing-boom-records)[\[4\]](https://dancingastronaut.com/2025/10/ydg-and-laszewo-unite-on-new-collaboration-hey-lil-mama/)
@@ -584,6 +594,16 @@ Leon Knight is a producer, songwriter and guitarist, a former visual-effects art
 2. https://litehouse.media/2025/11/05/leon-knight-dewayne-unite-for-funk-anthem-yes-i-do/
 3. https://www.newsweek.com/entertainment/leon-knights-unc-core-is-reviving-old-school-11156398
 
+## levity
+
+Levity is a Chicago electronic trio, John Hauldren, PJ Carberry and Josh Tarum, formed in 2019.[\[1\]](https://www.positionmusic.com/levity) They work in playful, bass-driven dubstep, trap and future bass, and came up remixing Tinashe, Louis the Child, Quinn XCII and Chelsea Cutler.[\[1\]](https://www.positionmusic.com/levity)[\[2\]](https://music.apple.com/us/artist/levity/1505353688) A viral set at Electric Forest was the turning point, and the debut EP 'Escapism, Vol. 1' followed in September 2024, with 'Flip It', featuring Dem Jointz, among their best-known tracks.[\[2\]](https://music.apple.com/us/artist/levity/1505353688)[\[3\]](https://www.villagevoice.com/behind-the-scenes-with-levity-bass-musics-fastest-rising-trio-and-biggest-fans/) They describe themselves as fans first, a posture that shows in how they treat opening acts and build a set.[\[3\]](https://www.villagevoice.com/behind-the-scenes-with-levity-bass-musics-fastest-rising-trio-and-biggest-fans/) Since then they have moved up festival bills to Coachella and Ultra.[\[3\]](https://www.villagevoice.com/behind-the-scenes-with-levity-bass-musics-fastest-rising-trio-and-biggest-fans/)
+
+**Sources**
+
+1. https://www.positionmusic.com/levity
+2. https://music.apple.com/us/artist/levity/1505353688
+3. https://www.villagevoice.com/behind-the-scenes-with-levity-bass-musics-fastest-rising-trio-and-biggest-fans/
+
 ## live
 
 Live formed in York, Pennsylvania in 1984 around singer Ed Kowalczyk, guitarist Chad Taylor, bassist Patrick Dahlheimer and drummer Chad Gracey.[\[1\]](https://en.wikipedia.org/wiki/Live_(band)) Their second album, 'Throwing Copper' (1994), produced by Talking Heads' Jerry Harrison, reached number one on the Billboard 200, sold eight million copies in the US and carried 'Selling the Drama', 'I Alone' and 'Lightning Crashes', which spent ten weeks atop the Mainstream Rock chart.[\[1\]](https://en.wikipedia.org/wiki/Live_(band))[\[2\]](https://en.wikipedia.org/wiki/Throwing_Copper) The band played Woodstock '94, followed 'Throwing Copper' with the number-one debut 'Secret Samadhi' (1997), and has sold more than twenty million albums worldwide.[\[1\]](https://en.wikipedia.org/wiki/Live_(band))[\[2\]](https://en.wikipedia.org/wiki/Throwing_Copper) Kowalczyk left the band in 2009 and rejoined in 2016, and has fronted it since.[\[1\]](https://en.wikipedia.org/wiki/Live_(band))
@@ -613,6 +633,16 @@ LP is Laura Pergolizzi, born in 1981 in Huntington Station, New York and based i
 1. https://en.wikipedia.org/wiki/LP_(singer)
 2. https://www.stereoboard.com/content/view/252540/9
 
+## lykke-li
+
+Lykke Li, born Li Lykke Timotej Zachrisson in Ystad, Sweden, in 1986, grew up between a Portuguese mountaintop and stretches in Lisbon, Morocco, Nepal and India before starting her career in Stockholm and later moving to the United States.[\[1\]](https://en.wikipedia.org/wiki/Lykke_Li) Björn Yttling of Peter Bjorn and John produced her debut 'Youth Novels' (2008), and 'Wounded Rhymes' (2011) carried 'I Follow Rivers', which topped charts across continental Europe and, in the Magician's remix, became her signature song.[\[1\]](https://en.wikipedia.org/wiki/Lykke_Li)[\[2\]](https://en.wikipedia.org/wiki/I_Follow_Rivers) 'I Never Learn' (2014), 'So Sad So Sexy' (2018) and 'Eyeye' (2022) kept circling heartbreak and loss. 'So Sad So Sexy' in particular grew out of the period after her mother's death.[\[1\]](https://en.wikipedia.org/wiki/Lykke_Li) Along the way she wrote 'Possibility' for the 'Twilight: New Moon' soundtrack, formed the supergroup LIV in 2016, and worked with Mark Ronson and David Lynch.[\[1\]](https://en.wikipedia.org/wiki/Lykke_Li)[\[3\]](https://www.nme.com/features/music-interviews/lykke-li-the-afterparty-interview-3943472) Her sixth album 'The Afterparty', a 25-minute, string-laced record she has framed as her last, arrived in May 2026 on Neon Gold; written around turning 40, it turns over questions of who to trust and how to live.[\[1\]](https://en.wikipedia.org/wiki/Lykke_Li)[\[3\]](https://www.nme.com/features/music-interviews/lykke-li-the-afterparty-interview-3943472)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Lykke_Li
+2. https://en.wikipedia.org/wiki/I_Follow_Rivers
+3. https://www.nme.com/features/music-interviews/lykke-li-the-afterparty-interview-3943472
+
 ## macy-todd
 
 Macy Todd grew up in Georgia, spent a stretch in Austin and is now based in Nashville.[\[1\]](https://www.onestowatch.com/en/blog/macy-todd-on-defying-genres-not-being-afraid-to-get-mean-and-creating-debut-ep-pretty-ruthless-q-a) She traces her start on guitar to Brandi Carlile's 'The Story' and counts Patty Griffin, Paul McCartney's 'Ram', Jeff Buckley and Hayley Williams' 'Petals for Armor' among her influences, and she resists settling into one genre, moving between pop, country, folk and Americana.[\[1\]](https://www.onestowatch.com/en/blog/macy-todd-on-defying-genres-not-being-afraid-to-get-mean-and-creating-debut-ep-pretty-ruthless-q-a) Her debut EP 'pretty ruthless' came out in July 2026 on Atlantic, six songs about being in your twenties and about aging as a woman in the music business.[\[1\]](https://www.onestowatch.com/en/blog/macy-todd-on-defying-genres-not-being-afraid-to-get-mean-and-creating-debut-ep-pretty-ruthless-q-a)[\[2\]](https://music.apple.com/us/album/pretty-ruthless-ep/6783024576) She wrote it with collaborators including her childhood friend Lauren Scott, who co-wrote 'bad bad love', and the Nashville songwriter Emily Weisband.[\[1\]](https://www.onestowatch.com/en/blog/macy-todd-on-defying-genres-not-being-afraid-to-get-mean-and-creating-debut-ep-pretty-ruthless-q-a) She has toured with Willow Avalon and Zinadelphia, played Whiskey Jam during CMA Fest and performed a writers' round at the Bluebird Cafe.[\[1\]](https://www.onestowatch.com/en/blog/macy-todd-on-defying-genres-not-being-afraid-to-get-mean-and-creating-debut-ep-pretty-ruthless-q-a)
@@ -632,6 +662,16 @@ Marzz, born Laria McCormick, is a non-binary R&B singer from Louisville, Kentuck
 2. https://www.whas11.com/article/news/local/marzz-louisville-music-r-b-music/417-64505fd4-3d92-4a20-a750-66a6ec7f50bf
 3. https://www.rollingstone.com/music/music-features/marzz-countless-times-love-letterz-interview-1339999/
 4. https://theknockturnal.com/rising-rb-starlet-marzz-talks-origins-identity-growth-and-love-letterz-with-the-knockturnal/amp
+
+## max-mcnown
+
+Max McNown was born in West Linn, Oregon, in 2001 and raised in Bend in a competitive athletic family, with no country music around him growing up; an NF concert was the first live show he saw.[\[1\]](https://en.wikipedia.org/wiki/Max_McNown)[\[3\]](https://www.euphoriazine.com/blog/2025/02/interviews-max-mcnown/) He moved to California in 2022, taught himself a handful of chords and started writing, later signing to Fugitive Recordings and basing himself in Nashville.[\[1\]](https://en.wikipedia.org/wiki/Max_McNown)[\[2\]](https://maximumvolumemusic.com/max-mcnown-announces-third-studio-album/)[\[3\]](https://www.euphoriazine.com/blog/2025/02/interviews-max-mcnown/) 'A Lot More Free', the title track of his 2023 debut EP, was a slow-building hit that reached number one on TikTok's Breakthrough USA chart and pushed past 400 million streams.[\[2\]](https://maximumvolumemusic.com/max-mcnown-announces-third-studio-album/) His full-lengths are 'Wandering' (2024), 'Night Diving' (2025) and 'Leave On a Light' (2026), the last billed as a tribute to his wife and family, and 'Better Me for You (Brown Eyes)' reached number 26 on the Hot 100.[\[1\]](https://en.wikipedia.org/wiki/Max_McNown)[\[2\]](https://maximumvolumemusic.com/max-mcnown-announces-third-studio-album/) He places himself in a country-folk lineage he sums up as hunting in a forest 'made up of Noah Kahan, Zach Bryan, and Tyler Childers', and he has sold out two nights at the Ryman and played Lollapalooza, Stagecoach and C2C.[\[2\]](https://maximumvolumemusic.com/max-mcnown-announces-third-studio-album/)[\[3\]](https://www.euphoriazine.com/blog/2025/02/interviews-max-mcnown/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Max_McNown
+2. https://maximumvolumemusic.com/max-mcnown-announces-third-studio-album/
+3. https://www.euphoriazine.com/blog/2025/02/interviews-max-mcnown/
 
 ## molly-santana
 
@@ -710,6 +750,16 @@ Paloma Morphy, born Andrea Paloma Barrios Gómez Álvarez Morphy in Mexico City 
 1. https://en.wikipedia.org/wiki/Paloma_Morphy
 2. https://modernmuze.com/who-is-paloma-morphy-the-2025-latin-grammys-best-new-artist/
 3. https://los40.com.mx/2025/08/08/paloma-morphy-abre-su-corazon-en-au-y-se-prepara-para-conquistar-mexico-desde-el-lunario-entrevista/
+
+## parcels
+
+Parcels are an Australian five-piece, Louie Swain, Patrick Hetherington, Noah Hill, Anatole Serret and Jules Crommelin, who formed in the coastal town of Byron Bay and moved to Berlin together as teenagers, sharing a cramped flat in Friedrichshain.[\[1\]](<https://en.wikipedia.org/wiki/Parcels_(band)>)[\[3\]](https://www.the-berliner.com/music-clubs/berlin-parcels-10-years-feature-interview-loved/) They signed to Kitsuné in 2015 and record through Because Music, and describe their sound as 'sort of a blend between electropop and disco-soul', built around a live band rather than the city's techno scene.[\[1\]](<https://en.wikipedia.org/wiki/Parcels_(band)>)[\[3\]](https://www.the-berliner.com/music-clubs/berlin-parcels-10-years-feature-interview-loved/) In 2017 they co-wrote and recorded 'Overnight' with Daft Punk, the duo's last song produced together before their 2021 split.[\[1\]](<https://en.wikipedia.org/wiki/Parcels_(band)>) The self-titled 'Parcels' (2018) carried 'Tieduprightnow', the double album 'Day/Night' followed in 2021, and two 'Live' volumes caught the band on analog tape at Berlin's Hansa Studios.[\[1\]](<https://en.wikipedia.org/wiki/Parcels_(band)>) A decade in, with three members still in Berlin, two back in Australia and more than a billion streams behind them, they made the loose, warm third album 'Loved' (2025, Because Music) across sessions in Berlin, Mexico and Australia.[\[1\]](<https://en.wikipedia.org/wiki/Parcels_(band)>)[\[2\]](<https://en.wikipedia.org/wiki/Loved_(Parcels_album)>)[\[3\]](https://www.the-berliner.com/music-clubs/berlin-parcels-10-years-feature-interview-loved/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Parcels_(band)
+2. https://en.wikipedia.org/wiki/Loved_(Parcels_album)
+3. https://www.the-berliner.com/music-clubs/berlin-parcels-10-years-feature-interview-loved/
 
 ## radio-free-alice
 
@@ -874,6 +924,16 @@ The Moriah Sisters are an Austin gospel group built around the sisters Janice Le
 1. https://www.fox7austin.com/news/fox-7-unplugged-the-moriah-sisters
 2. https://music.apple.com/us/artist/the-moriah-sisters/1266062300
 3. https://thedailytexan.com/2023/10/03/austin-gospel-quartet-the-moriah-sisters-on-acl-empowering-people-to-love/
+
+## the-war-on-drugs
+
+The War on Drugs formed in Philadelphia in 2005 around Adam Granduciel and Kurt Vile, who left after the debut 'Wagonwheel Blues' (2008) for his solo career, leaving Granduciel the constant member and the one who builds most of the records himself.[\[1\]](<https://en.wikipedia.org/wiki/The_War_on_Drugs_(band)>)[\[2\]](https://music.apple.com/us/artist/the-war-on-drugs/282078681) Their yearning, wall-of-sound rock runs Springsteen and Dylan through krautrock and ambient texture.[\[2\]](https://music.apple.com/us/artist/the-war-on-drugs/282078681) 'Slave Ambient' (2011) and 'Lost in the Dream' (2014) came out on Secretly Canadian, with 'Red Eyes' and 'Under the Pressure' among the signature songs.[\[1\]](<https://en.wikipedia.org/wiki/The_War_on_Drugs_(band)>)[\[2\]](https://music.apple.com/us/artist/the-war-on-drugs/282078681) The move to Atlantic brought 'A Deeper Understanding' (2017), which won Best Rock Album at the 2018 Grammys, and 'I Don't Live Here Anymore' (2021), and 'Harmonia's Dream' was nominated for Best Rock Song in 2023.[\[1\]](<https://en.wikipedia.org/wiki/The_War_on_Drugs_(band)>) After the 2024 live album 'Live Drugs Again', the single 'Who's That' arrived in September 2026, written at Granduciel's Southern California studio as a song about self-doubt, anxiety and depression and billed as the band's first new studio recording in four years, with a mostly self-recorded sixth album close behind.[\[2\]](https://music.apple.com/us/artist/the-war-on-drugs/282078681)[\[3\]](https://consequence.net/2026/09/the-war-on-drugs-whos-that-new-song/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/The_War_on_Drugs_(band)
+2. https://music.apple.com/us/artist/the-war-on-drugs/282078681
+3. https://consequence.net/2026/09/the-war-on-drugs-whos-that-new-song/
 
 ## thomas-day
 
