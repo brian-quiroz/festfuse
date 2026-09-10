@@ -148,6 +148,16 @@ Mike Bernabei, Steven Filippone, Cam Seidel, Dan DiSantis, Kathryn McCarty — k
 The Stone Pony and playing Sea.Hear.Now. Genres and location were corrected; about/similarArtists/
 tracks need a full rewrite in a dedicated pass.
 
+## balu-brigada (genres)
+
+Stored primary genre is "Groove Pop". This is not an established genre: it is a tag Henry
+Beasley coined for the band and adopted in a 2024 Ones to Watch interview. Sources
+consulted for the `about` (Wikipedia, the Billboard-syndicated Yahoo piece, Ones to Watch)
+otherwise describe them as indie-pop / alt-pop drawing on hip-hop rhythm, vintage synths
+and pop hooks, with influences from Frank Ocean, Gorillaz and N.E.R.D. Surfaced during the
+`about` verify; genre was not in scope to change. Candidate primary: Alt-Pop (already a
+stored secondary).
+
 ## brigitte-calls-me-baby (genres)
 
 Stored genres are Post-Punk, New Wave, Chamber Pop. Sources consulted for the `about`

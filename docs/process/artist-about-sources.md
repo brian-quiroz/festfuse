@@ -103,6 +103,16 @@ Asleep at the Wheel started in 1970 on a farm in Paw Paw, West Virginia,[\[1\]](
 2. https://en.wikipedia.org/wiki/Asleep_at_the_Wheel
 3. https://www.texasstandard.org/stories/asleep-at-the-wheel-celebrates-50-years-of-western-swing/
 
+## balu-brigada
+
+Balu Brigada is the Auckland band of brothers Henry and Pierre Beasley, sons of a Royal New Zealand Ballet dancer and an actress, who both studied music at Auckland University, Pierre in jazz and Henry in pop.[\[1\]](https://en.wikipedia.org/wiki/Balu_Brigada)[\[3\]](https://www.onestowatch.com/en/blog/get-to-know-groove-pop-duo-balu-brigada-live) They formed in their parents' rumpus room in 2016, changed the name from Baloo to sidestep a Disney problem, and moved to New York after signing in 2022 to ARRO, the label co-founded by Twenty One Pilots' Tyler Joseph, through Atlantic and Warner Music Australia.[\[1\]](https://en.wikipedia.org/wiki/Balu_Brigada)[\[2\]](https://www.yahoo.com/entertainment/balu-brigada-breakthrough-hit-cold-165436808.html)[\[3\]](https://www.onestowatch.com/en/blog/get-to-know-groove-pop-duo-balu-brigada-live) Henry coined the tag they use for the sound, 'groove-pop', built on the Frank Ocean, Gorillaz and N.E.R.D records they grew up on.[\[3\]](https://www.onestowatch.com/en/blog/get-to-know-groove-pop-duo-balu-brigada-live) The single 'So Cold' reached number one on the US Alternative Airplay chart in 2025, the first act to top it with a first charted song since Dexter and the Moonrocks.[\[1\]](https://en.wikipedia.org/wiki/Balu_Brigada)[\[2\]](https://www.yahoo.com/entertainment/balu-brigada-breakthrough-hit-cold-165436808.html) The debut album 'Portal' followed in August 2025, and they have toured the world opening for Twenty One Pilots.[\[1\]](https://en.wikipedia.org/wiki/Balu_Brigada)[\[2\]](https://www.yahoo.com/entertainment/balu-brigada-breakthrough-hit-cold-165436808.html)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Balu_Brigada
+2. https://www.yahoo.com/entertainment/balu-brigada-breakthrough-hit-cold-165436808.html
+3. https://www.onestowatch.com/en/blog/get-to-know-groove-pop-duo-balu-brigada-live
+
 ## bleachers
 
 Bleachers started in 2013 in Bergenfield, New Jersey, as Jack Antonoff's own band.[\[1\]](<https://en.wikipedia.org/wiki/Bleachers_(band)>) Away from it, Antonoff is one of pop's most in-demand producers, with credits for Taylor Swift, Lana Del Rey, and Lorde and three straight Grammy wins for Producer of the Year from 2022 to 2024.[\[2\]](https://en.wikipedia.org/wiki/Jack_Antonoff) The band's four albums, from 'Strange Desire' (2014) to the self-titled 'Bleachers' (2024), lean on 1980s synthesizers, saxophone, and wide, anthemic arrangements.[\[1\]](<https://en.wikipedia.org/wiki/Bleachers_(band)>)[\[3\]](<https://en.wikipedia.org/wiki/Bleachers_(album)>) A fifth album, 'Everyone for Ten Minutes', arrived in May 2026 on Dirty Hit.[\[4\]](https://en.wikipedia.org/wiki/Everyone_for_Ten_Minutes)
@@ -169,6 +179,15 @@ Bunt is Levi Wijk, a producer from Stuttgart, Germany, who folds banjo and fiddl
 4. https://livemusic.au/bunt-announces-landmark-2026-australian-in-the-round-tour/
 5. https://crowdsurfermag.com/2026/07/20/in-the-round-with-bunt/
 
+## calder-allen
+
+Calder Allen is a fifth-generation Austin songwriter and the grandson of Terry Allen, the artist and outlaw-country writer behind 'Lubbock (on Everything)'; his grandmother Jo Harvey Allen, his father Bale Creek Allen and his uncle Bukka Allen all make music too.[\[1\]](https://www.austinmonthly.com/calder-allen-is-carrying-the-torch-for-a-lineage-of-great-austin-songwriters/)[\[2\]](https://atwoodmagazine.com/cadh-calder-allen-dreamers-drifters-and-hiders-album-interview-music-feature/) He calls his own sound 'really confused country, a very chaotic country': roots songwriting about mental health, meaning and the outdoors, the last traced to the fly-fishing films that first drew him to music.[\[1\]](https://www.austinmonthly.com/calder-allen-is-carrying-the-torch-for-a-lineage-of-great-austin-songwriters/)[\[2\]](https://atwoodmagazine.com/cadh-calder-allen-dreamers-drifters-and-hiders-album-interview-music-feature/) He released his debut 'The Game' in 2022, then left Austin for Montana before coming back.[\[1\]](https://www.austinmonthly.com/calder-allen-is-carrying-the-torch-for-a-lineage-of-great-austin-songwriters/) The second album 'Dreamers, Drifters and Hiders' (2024) was made with Charlie Sexton, the Bob Dylan guitarist who had once produced his grandfather, at Arlyn Studios.[\[1\]](https://www.austinmonthly.com/calder-allen-is-carrying-the-torch-for-a-lineage-of-great-austin-songwriters/)[\[2\]](https://atwoodmagazine.com/cadh-calder-allen-dreamers-drifters-and-hiders-album-interview-music-feature/) He has shared stages with Cody Jinks, the Red Clay Strays and the Steel Woods.[\[2\]](https://atwoodmagazine.com/cadh-calder-allen-dreamers-drifters-and-hiders-album-interview-music-feature/)
+
+**Sources**
+
+1. https://www.austinmonthly.com/calder-allen-is-carrying-the-torch-for-a-lineage-of-great-austin-songwriters/
+2. https://atwoodmagazine.com/cadh-calder-allen-dreamers-drifters-and-hiders-album-interview-music-feature/
+
 ## cannons
 
 Cannons came together in Los Angeles in 2013,[\[1\]](<https://en.wikipedia.org/wiki/Cannons_(band)>)[\[2\]](https://www.hollywoodbowl.com/musicdb/artists/10261/cannons) after guitarist Ryan Clapham and multi-instrumentalist Paul Davis, friends since childhood, met singer Michelle Joy through a Craigslist ad.[\[1\]](<https://en.wikipedia.org/wiki/Cannons_(band)>) Their 2019 single 'Fire for You' reached number one on Billboard's Alternative Airplay chart[\[1\]](<https://en.wikipedia.org/wiki/Cannons_(band)>) and broke through after a sync in Netflix's 'Never Have I Ever',[\[1\]](<https://en.wikipedia.org/wiki/Cannons_(band)>)[\[2\]](https://www.hollywoodbowl.com/musicdb/artists/10261/cannons) which led to a deal with Columbia Records.[\[1\]](<https://en.wikipedia.org/wiki/Cannons_(band)>) Their albums include 'Shadows' (2019), 'Fever Dream' (2022), 'Heartbeat Highway' (2023) and 'Everything Glows' (2026).[\[1\]](<https://en.wikipedia.org/wiki/Cannons_(band)>) 'Bad Dream' and 'Loving You' both climbed into the top three of Alternative Airplay.[\[1\]](<https://en.wikipedia.org/wiki/Cannons_(band)>) In 2026 the trio co-headlined the Afterglow Tour with Bob Moses.[\[1\]](<https://en.wikipedia.org/wiki/Cannons_(band)>)[\[2\]](https://www.hollywoodbowl.com/musicdb/artists/10261/cannons)
@@ -220,6 +239,16 @@ Chloe Qisha was born in Malaysia around 1998[\[1\]](https://en.wikipedia.org/wik
 1. https://en.wikipedia.org/wiki/Chloe_Qisha
 2. https://www.rollingstone.co.uk/music/chloe-qisha-future-of-music-cover-feature-48513/
 3. https://www.thelineofbestfit.com/news/geese-chloe-qisha-and-jim-legxacy-lead-bbc-radio-1s-sound-of-2026-longlist
+
+## claire-rosinkranz
+
+Claire Rosinkranz, born in California in 2004, comes from a musical family: her father Ragnar is an Icelandic composer and violinist, her mother a piano teacher, and she chased dance before she moved that drive to music.[\[1\]](https://en.wikipedia.org/wiki/Claire_Rosinkranz)[\[2\]](https://www.clashmusic.com/features/looking-for-a-good-life-claire-rosinkranz-interviewed/) She and Ragnar co-wrote and produced 'Backyard Boy', which went viral on TikTok in 2020, while the world was stuck inside on its phones, and won her a record deal at sixteen, with Ragnar playing bass, drums, guitar and synths.[\[1\]](https://en.wikipedia.org/wiki/Claire_Rosinkranz)[\[2\]](https://www.clashmusic.com/features/looking-for-a-good-life-claire-rosinkranz-interviewed/)[\[3\]](https://royaltyexchange.com/blog/claire-rosinkranz-and-ragnar-a-father-daughter-duo-shaping-indie-pop) She signed to Republic's Slowplay imprint and now records for Purple Monkey.[\[1\]](https://en.wikipedia.org/wiki/Claire_Rosinkranz) Her sound has moved from bedroom pop toward brighter, guitar-forward alt-pop. The debut album 'Just Because' (2023), which she has called 'word vomit' more than a planned record, was followed by 'My Lover' (2026), and she has opened for Maroon 5 and Alex Warren.[\[1\]](https://en.wikipedia.org/wiki/Claire_Rosinkranz)[\[2\]](https://www.clashmusic.com/features/looking-for-a-good-life-claire-rosinkranz-interviewed/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Claire_Rosinkranz
+2. https://www.clashmusic.com/features/looking-for-a-good-life-claire-rosinkranz-interviewed/
+3. https://royaltyexchange.com/blog/claire-rosinkranz-and-ragnar-a-father-daughter-duo-shaping-indie-pop
 
 ## coleman-jennings
 
@@ -391,6 +420,17 @@ E.R. Fightmaster is a nonbinary actor and musician based in Los Angeles, best kn
 1. https://en.wikipedia.org/wiki/E._R._Fightmaster
 2. https://fightmaster1.bandcamp.com/album/tolerance
 
+## finn-wolfhard
+
+Finn Wolfhard, born in Vancouver in 2002 and known for 'Stranger Things', has kept a band going since he was a teenager.[\[1\]](https://en.wikipedia.org/wiki/Finn_Wolfhard) He fronted Calpurnia, who put out the EP 'Scout' on Royal Mountain in 2018 and turned up in Weezer's 'Take On Me' video before splitting in 2019.[\[1\]](https://en.wikipedia.org/wiki/Finn_Wolfhard)[\[2\]](<https://en.wikipedia.org/wiki/Calpurnia_(band)>) With Calpurnia's drummer Malcolm Craig he then started the duo the Aubreys.[\[1\]](https://en.wikipedia.org/wiki/Finn_Wolfhard) He challenged himself to write around fifty songs and kept the most personal for a record under his own name, the solo debut 'Happy Birthday' (June 2025, AWAL), made in Chicago with producer Kai Slater and tracked to four- and eight-track tape 'because I wanted it to feel as handmade as possible'.[\[3\]](https://www.grammy.com/news/finn-wolfhard-interview-debut-album-happy-birthday/)[\[4\]](https://consequence.net/2025/06/finn-wolfhard-happy-birthday-stranger-things/) He cites Pavement, Stereolab, Feist and Guided By Voices for the melodicism, and says music lets him project how he feels 'straight from the source' in a way acting does not.[\[3\]](https://www.grammy.com/news/finn-wolfhard-interview-debut-album-happy-birthday/) A second album, 'Fire from the Hip', followed in 2026.[\[1\]](https://en.wikipedia.org/wiki/Finn_Wolfhard)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Finn_Wolfhard
+2. https://en.wikipedia.org/wiki/Calpurnia_(band)
+3. https://www.grammy.com/news/finn-wolfhard-interview-debut-album-happy-birthday/
+4. https://consequence.net/2025/06/finn-wolfhard-happy-birthday-stranger-things/
+
 ## gabriel-jacoby
 
 Gabriel Jacoby was born in rural Anderson, South Carolina in 1998, the eldest of seven, and moved to Tampa, Florida at nine.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby)[\[3\]](https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277) He taught himself guitar, piano and production, and counts Prince, D'Angelo, Anderson .Paak and Maxwell among his influences.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby)[\[3\]](https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277) He signed to Pulse Records and relocated to Los Angeles in 2024, though he still identifies with Tampa and returns to Florida to write.[\[3\]](https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277) He started releasing music in 2022 and put out his debut EP 'gutta child' in November 2025, eight self-produced tracks he describes as fusing 'blues, funk, Florida krank, and R&B into a singular Southern identity', which NME summed up as 'Tampa krank, backwoods blues and head-nodding R&B'.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby)[\[2\]](https://thegarnettereport.com/art/music/gabriel-jacoby-releases-debut-ep-gutta-child/)[\[3\]](https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277) Its song 'bootleg' features the Tampa rapper Tom G.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby) Jacoby co-wrote Shaboozey's 'Chrome (Bonus)' in 2025, was named a Shazam Fast Forward artist, and toured North America as direct support for Khamari on the sold-out 'To Dry a Tear' run before headlining his own dates in early 2026.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby)[\[2\]](https://thegarnettereport.com/art/music/gabriel-jacoby-releases-debut-ep-gutta-child/)
@@ -400,6 +440,17 @@ Gabriel Jacoby was born in rural Anderson, South Carolina in 1998, the eldest of
 1. https://en.wikipedia.org/wiki/Gabriel_Jacoby
 2. https://thegarnettereport.com/art/music/gabriel-jacoby-releases-debut-ep-gutta-child/
 3. https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277
+
+## geese
+
+Geese are a Brooklyn band that singer Cameron Winter started with schoolmates in 2016, signed to Partisan and PIAS in 2020.[\[1\]](<https://en.wikipedia.org/wiki/Geese_(band)>) Their records keep mutating: the wiry post-punk of 'Projector' (2021), the country-funk and classic-rock swerve of '3D Country' (2023), and 'Getting Killed' (2025), made in Los Angeles with Kenny Beats while the city burned in the January wildfires.[\[1\]](<https://en.wikipedia.org/wiki/Geese_(band)>)[\[3\]](https://www.blackbirdspyplane.com/p/cameron-winter-interview-geese-the-urge-to-respond) Winter describes the method as finding something to filter through the band and then 'working backwards to try and un-plagiarize it', and says the aim is to match the world rather than escape it.[\[3\]](https://www.blackbirdspyplane.com/p/cameron-winter-interview-geese-the-urge-to-respond) His howling, theatrical vocal read as a joke to some until the solo album 'Heavy Metal' (December 2024) recast it as the real thing, taking a Pitchfork Best New Music and a high place on that site's 2025 list.[\[2\]](<https://en.wikipedia.org/wiki/Heavy_Metal_(album)>)[\[4\]](https://stereogum.com/2323412/premature-evaluation-geese-getting-killed/reviews/premature-evaluation) Geese have since played Coachella and Lollapalooza and won International Group of the Year at the 2026 Brit Awards.[\[1\]](<https://en.wikipedia.org/wiki/Geese_(band)>)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Geese_(band)
+2. https://en.wikipedia.org/wiki/Heavy_Metal_(album)
+3. https://www.blackbirdspyplane.com/p/cameron-winter-interview-geese-the-urge-to-respond
+4. https://stereogum.com/2323412/premature-evaluation-geese-getting-killed/reviews/premature-evaluation
 
 ## girlfriend
 
@@ -593,6 +644,17 @@ Leon Knight is a producer, songwriter and guitarist, a former visual-effects art
 1. https://ghostcultmag.com/leon-knight-shares-his-new-single-yes-i-do-ft-dewayne/
 2. https://litehouse.media/2025/11/05/leon-knight-dewayne-unite-for-funk-anthem-yes-i-do/
 3. https://www.newsweek.com/entertainment/leon-knights-unc-core-is-reviving-old-school-11156398
+
+## leon-thomas
+
+Leon Thomas is a Brooklyn singer, songwriter and producer who spent years as a hitmaker for other artists, co-writing SZA's 'Snooze' (Best R&B Song at the 2024 Grammys) and working with Drake, Ariana Grande and Kanye West.[\[1\]](https://en.wikipedia.org/wiki/Leon_Thomas_III)[\[3\]](https://www.grammy.com/news/leon-thomas-iii-interview-new-album-mutt/) He grew up acting, best known as André Harris on Nickelodeon's 'Victorious'.[\[1\]](https://en.wikipedia.org/wiki/Leon_Thomas_III) When he turned to producing, people who looked him up saw only the child star, so he worked as half of the duo the Rascals and stayed off the covers before stepping out as a solo artist.[\[3\]](https://www.grammy.com/news/leon-thomas-iii-interview-new-album-mutt/)[\[4\]](https://www.huffpost.com/entry/leon-thomas-mutt-interview_n_675a2f77e4b02802b83c4d36) Signed to Ty Dolla $ign's EZMNY and Motown, he released 'Electric Dusk' in 2023 and then 'Mutt' in September 2024, a jazz, rock and neo-soul record named after his dog and built as 'a metaphor for control in relationships'.[\[1\]](https://en.wikipedia.org/wiki/Leon_Thomas_III)[\[3\]](https://www.grammy.com/news/leon-thomas-iii-interview-new-album-mutt/)[\[4\]](https://www.huffpost.com/entry/leon-thomas-mutt-interview_n_675a2f77e4b02802b83c4d36) Its title track hit number six on the Hot 100 and drew a Freddie Gibbs remix, and the EP 'Pholks' came out of his Tiny Desk set.[\[1\]](https://en.wikipedia.org/wiki/Leon_Thomas_III)[\[2\]](<https://en.wikipedia.org/wiki/Mutt_(Leon_Thomas_album)>) 'Mutt' brought six nominations at the 2026 Grammys and won Best R&B Album, and he has since toured behind Bruno Mars.[\[1\]](https://en.wikipedia.org/wiki/Leon_Thomas_III)[\[2\]](<https://en.wikipedia.org/wiki/Mutt_(Leon_Thomas_album)>)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Leon_Thomas_III
+2. https://en.wikipedia.org/wiki/Mutt_(Leon_Thomas_album)
+3. https://www.grammy.com/news/leon-thomas-iii-interview-new-album-mutt/
+4. https://www.huffpost.com/entry/leon-thomas-mutt-interview_n_675a2f77e4b02802b83c4d36
 
 ## levity
 
