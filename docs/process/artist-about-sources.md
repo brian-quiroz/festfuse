@@ -592,3 +592,62 @@ Live formed in York, Pennsylvania in 1984 around singer Ed Kowalczyk, guitarist 
 
 1. https://en.wikipedia.org/wiki/Live_(band)
 2. https://en.wikipedia.org/wiki/Throwing_Copper
+
+## lluvii
+
+Lluvii is an Austin quartet: Carol Gonzalez (vocals, guitar), Ryan Gordon (bass), Kaylin Martinez (drums) and Felix Kimbrell (keys).[\[1\]](https://kvrx.org/app/blog/local-live/lluvii-displays-their-emerging-sound-on-local-live-march-3-2024/)[\[2\]](https://rhythmpassport.com/daily-discovery-lluvii-up-all-night/) Gonzalez started it as a solo project, writing the first songs while on a Pacific Ocean research trip, and her roommates Gordon and Martinez, who she knew from the Denton noise band Manifest Destiny's Child, built the material out with her; Kimbrell joined after a house party and the group came together in late 2023.[\[1\]](https://kvrx.org/app/blog/local-live/lluvii-displays-their-emerging-sound-on-local-live-march-3-2024/) Gordon and Martinez are also the rhythm section of Luna Luna.[\[3\]](https://www.austinchronicle.com/music/2022-10-07/luna-luna-moves-from-dallas-origins-to-riverside-headquarters-to-acl-fest-debut/) The band calls its sound 'neo soul art rock',[\[4\]](https://lluvii.bandcamp.com/album/tierra-y-luz) writes by jamming together in a room, and pulls in afrobeat grooves, Latin psychedelia and prog;[\[1\]](https://kvrx.org/app/blog/local-live/lluvii-displays-their-emerging-sound-on-local-live-march-3-2024/)[\[2\]](https://rhythmpassport.com/daily-discovery-lluvii-up-all-night/) members name Stevie Wonder, Red Hot Chili Peppers, Paramore and the Colombian singer Totó La Momposina as touchstones.[\[1\]](https://kvrx.org/app/blog/local-live/lluvii-displays-their-emerging-sound-on-local-live-march-3-2024/) The debut EP 'Pacifico' arrived in December 2023, named for Gonzalez's research trip, and the nine-track 'Tierra y Luz' followed in August 2024, self-released and produced by Beto Martinez at his Lechehouse studio in Buda.[\[1\]](https://kvrx.org/app/blog/local-live/lluvii-displays-their-emerging-sound-on-local-live-march-3-2024/)[\[4\]](https://lluvii.bandcamp.com/album/tierra-y-luz)
+
+**Sources**
+
+1. https://kvrx.org/app/blog/local-live/lluvii-displays-their-emerging-sound-on-local-live-march-3-2024/
+2. https://rhythmpassport.com/daily-discovery-lluvii-up-all-night/
+3. https://www.austinchronicle.com/music/2022-10-07/luna-luna-moves-from-dallas-origins-to-riverside-headquarters-to-acl-fest-debut/
+4. https://lluvii.bandcamp.com/album/tierra-y-luz
+
+## lp
+
+LP is Laura Pergolizzi, born in 1981 in Huntington Station, New York and based in Los Angeles since 2010.[\[1\]](<https://en.wikipedia.org/wiki/LP_(singer)>) They spent years writing for other artists, with cuts for Rihanna ('Cheers (Drink to That)'), Christina Aguilera ('Beautiful People'), the Backstreet Boys, Cher and Céline Dion, before their own career took hold.[\[1\]](<https://en.wikipedia.org/wiki/LP_(singer)>) Signed to Warner since 2011, LP released 'Forever for Now' (2014) and then broke through with 'Lost on You' (2016), whose title single reached number one across much of Europe and went Diamond in France.[\[1\]](<https://en.wikipedia.org/wiki/LP_(singer)>) 'Heart to Mouth' (2018), 'Churches' (2021) and 'Love Lines' (2023) followed, and the eighth album 'Room 12' arrived in September 2026 behind the singles 'Shelly', 'Love Is All I Have' and 'Mi Corazón', an acoustic ballad LP wrote with PJ Bianco about, in their words, 'two of the biggest, hardest things I ever did in my life: coming out and becoming a musician'.[\[2\]](https://www.stereoboard.com/content/view/252540/9) LP plays guitar, ukulele and harmonica, is known for the whistling hooks in their songs, and in 2012 became the first woman named a Martin Guitar ambassador.[\[1\]](<https://en.wikipedia.org/wiki/LP_(singer)>) Their 2026 touring marks ten years of 'Lost on You' with full performances of the album.[\[2\]](https://www.stereoboard.com/content/view/252540/9)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/LP_(singer)
+2. https://www.stereoboard.com/content/view/252540/9
+
+## macy-todd
+
+Macy Todd grew up in Georgia, spent a stretch in Austin and is now based in Nashville.[\[1\]](https://www.onestowatch.com/en/blog/macy-todd-on-defying-genres-not-being-afraid-to-get-mean-and-creating-debut-ep-pretty-ruthless-q-a) She traces her start on guitar to Brandi Carlile's 'The Story' and counts Patty Griffin, Paul McCartney's 'Ram', Jeff Buckley and Hayley Williams' 'Petals for Armor' among her influences, and she resists settling into one genre, moving between pop, country, folk and Americana.[\[1\]](https://www.onestowatch.com/en/blog/macy-todd-on-defying-genres-not-being-afraid-to-get-mean-and-creating-debut-ep-pretty-ruthless-q-a) Her debut EP 'pretty ruthless' came out in July 2026 on Atlantic, six songs about being in your twenties and about aging as a woman in the music business.[\[1\]](https://www.onestowatch.com/en/blog/macy-todd-on-defying-genres-not-being-afraid-to-get-mean-and-creating-debut-ep-pretty-ruthless-q-a)[\[2\]](https://music.apple.com/us/album/pretty-ruthless-ep/6783024576) She wrote it with collaborators including her childhood friend Lauren Scott, who co-wrote 'bad bad love', and the Nashville songwriter Emily Weisband.[\[1\]](https://www.onestowatch.com/en/blog/macy-todd-on-defying-genres-not-being-afraid-to-get-mean-and-creating-debut-ep-pretty-ruthless-q-a) She has toured with Willow Avalon and Zinadelphia, played Whiskey Jam during CMA Fest and performed a writers' round at the Bluebird Cafe.[\[1\]](https://www.onestowatch.com/en/blog/macy-todd-on-defying-genres-not-being-afraid-to-get-mean-and-creating-debut-ep-pretty-ruthless-q-a)
+
+**Sources**
+
+1. https://www.onestowatch.com/en/blog/macy-todd-on-defying-genres-not-being-afraid-to-get-mean-and-creating-debut-ep-pretty-ruthless-q-a
+2. https://music.apple.com/us/album/pretty-ruthless-ep/6783024576
+
+## marzz
+
+Marzz, born Laria McCormick, is a non-binary R&B singer from Louisville, Kentucky, who started singing as a child in the church where their mother and grandmother were in leadership, and began writing around age 11 to work through their parents' divorce.[\[1\]](https://www.leoweekly.com/music/make-room-for-marzz-15757035/)[\[2\]](https://www.whas11.com/article/news/local/marzz-louisville-music-r-b-music/417-64505fd4-3d92-4a20-a750-66a6ec7f50bf)[\[3\]](https://www.rollingstone.com/music/music-features/marzz-countless-times-love-letterz-interview-1339999/) In late 2019 Timbaland reposted an R&B freestyle they had put on Instagram, then flew them to Los Angeles, where the two recorded four songs together.[\[1\]](https://www.leoweekly.com/music/make-room-for-marzz-15757035/)[\[4\]](https://theknockturnal.com/rising-rb-starlet-marzz-talks-origins-identity-growth-and-love-letterz-with-the-knockturnal/amp) Two landed on the debut EP 'Love Letterz', released in June 2021 on Keep Cool and RCA, which Marzz has described as being about 'exploring, figuring out self, loving myself, and understanding who I am as a person'.[\[2\]](https://www.whas11.com/article/news/local/marzz-louisville-music-r-b-music/417-64505fd4-3d92-4a20-a750-66a6ec7f50bf)[\[4\]](https://theknockturnal.com/rising-rb-starlet-marzz-talks-origins-identity-growth-and-love-letterz-with-the-knockturnal/amp) Its standout track, the heartbreak song 'Countless Times', has passed three million streams.[\[3\]](https://www.rollingstone.com/music/music-features/marzz-countless-times-love-letterz-interview-1339999/) Marzz performed on the BET Amplified stage at the Soul Train Awards and in 2022 was named a SiriusXM Future Five artist and one of Billboard's R&B Rookies.[\[2\]](https://www.whas11.com/article/news/local/marzz-louisville-music-r-b-music/417-64505fd4-3d92-4a20-a750-66a6ec7f50bf) They cite Jhené Aiko as a major influence, along with gospel and soul singers like Lauryn Hill, Erykah Badu and Kim Burrell, and resist genre: 'whatever the beat or wherever the beat is taking me, that's where I go'.[\[1\]](https://www.leoweekly.com/music/make-room-for-marzz-15757035/)[\[2\]](https://www.whas11.com/article/news/local/marzz-louisville-music-r-b-music/417-64505fd4-3d92-4a20-a750-66a6ec7f50bf)[\[4\]](https://theknockturnal.com/rising-rb-starlet-marzz-talks-origins-identity-growth-and-love-letterz-with-the-knockturnal/amp)
+
+**Sources**
+
+1. https://www.leoweekly.com/music/make-room-for-marzz-15757035/
+2. https://www.whas11.com/article/news/local/marzz-louisville-music-r-b-music/417-64505fd4-3d92-4a20-a750-66a6ec7f50bf
+3. https://www.rollingstone.com/music/music-features/marzz-countless-times-love-letterz-interview-1339999/
+4. https://theknockturnal.com/rising-rb-starlet-marzz-talks-origins-identity-growth-and-love-letterz-with-the-knockturnal/amp
+
+## molly-santana
+
+Molly Santana, born Mya Parks in 2004, is a rapper from Fontana, California, of Japanese and African American descent who first drew a following as a fashion influencer before turning to music around 2021.[\[1\]](https://www.complex.com/music/a/treyalston/molly-santana-drake-ran-atlanta-what-to-know)[\[2\]](https://en.wikipedia.org/wiki/Molly_Santana) She signed to Victor Victor Worldwide and Capitol, releasing the EPs 'Molly's World' (2021), 'Neptune' (2022) and 'Mélange' (2023), the album 'Molly Santana' (2024) and 'Molly and Her Week of Wonders' (2025); her music blends trap and rage rap, and she names Playboi Carti, Chief Keef, Bladee and Yung Lean among her influences.[\[2\]](https://en.wikipedia.org/wiki/Molly_Santana) She went independent in 2026.[\[1\]](https://www.complex.com/music/a/treyalston/molly-santana-drake-ran-atlanta-what-to-know) That May she appeared alongside Future on 'Ran to Atlanta', a track from Drake's album 'Iceman' on which Drake raps her name; it reached number two on the Hot 100 and added roughly ten million monthly listeners to her streaming numbers within days.[\[1\]](https://www.complex.com/music/a/treyalston/molly-santana-drake-ran-atlanta-what-to-know)[\[2\]](https://en.wikipedia.org/wiki/Molly_Santana)[\[3\]](https://thesource.com/2026/05/18/molly-santana-is-a-rising-star-on-drake-and-futures-ran-to-atlanta/) She has opened for Don Toliver and Ski Mask the Slump God, brought out North West during a set at Rolling Loud in Orlando, and has an album called 'Black Punk' on the way.[\[1\]](https://www.complex.com/music/a/treyalston/molly-santana-drake-ran-atlanta-what-to-know)[\[3\]](https://thesource.com/2026/05/18/molly-santana-is-a-rising-star-on-drake-and-futures-ran-to-atlanta/)
+
+**Sources**
+
+1. https://www.complex.com/music/a/treyalston/molly-santana-drake-ran-atlanta-what-to-know
+2. https://en.wikipedia.org/wiki/Molly_Santana
+3. https://thesource.com/2026/05/18/molly-santana-is-a-rising-star-on-drake-and-futures-ran-to-atlanta/
+
+## montclair
+
+Montclair is an Austin band of half-siblings Casen, Anna, Jackson and Clay.[\[1\]](https://montclair.bandcamp.com/album/heart-is-alive) Its folk-rock moves from the surf-rock groove of 'Pastel Lies' to the wistful folk guitar of 'Passing Through', with lyrics about self-discovery and emerging adulthood.[\[2\]](https://do512.com/artists/montclair) The band self-released the EP 'Passing Through' and, in April 2025, the ten-track debut album 'Heart is Alive!', led by its upbeat title track and the heavier 'Coming to the Rescue'.[\[1\]](https://montclair.bandcamp.com/album/heart-is-alive)[\[2\]](https://do512.com/artists/montclair) Known as an energetic live act with a following across Texas, Montclair has played House of Blues Houston and a sold-out Antone's in Austin, and shared stages with Echosmith, Dayglow, Giant Rooks, The Wldlfe and Briscoe.[\[2\]](https://do512.com/artists/montclair)
+
+**Sources**
+
+1. https://montclair.bandcamp.com/album/heart-is-alive
+2. https://do512.com/artists/montclair
