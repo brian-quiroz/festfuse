@@ -222,9 +222,9 @@ the balance sweep.
 1. Official artist / label / management / festival / Spotify pages
 2. Reputable music publications and interviews
 3. AllMusic
-4. Wikipedia — after checking its citations, not taking its prose at face value
-5. Other established festival tools and apps — cross-checks only, never a sole source
-6. MusicBrainz, Everynoise, community tags — supporting evidence only
+4. Wikipedia, after checking its citations, not taking its prose at face value
+5. Other established festival tools and apps: cross-checks only, never a sole source
+6. MusicBrainz, Everynoise, community tags: supporting evidence only
 
 An AI-generated search summary (a "Google AI overview" and the like) is **not a source**
 and never satisfies a check on its own.
@@ -232,16 +232,27 @@ and never satisfies a check on its own.
 Sources for every proposed fact go **in the report**, next to the claim they support
 (see Non-negotiables).
 
+Some publications (Billboard, Rolling Stone US, Variety, Pitchfork, DIY, Westword and
+GRAMMY.com among them) rate-limit or drop behind a paywall unpredictably, sometimes
+mid-session after several of their pages have loaded fine. When one blocks, move to
+another source rather than retrying it. AllMusic's own site often refuses outright, but
+the same bios serve through the Apple Music artist pages. None of these is permanently
+off-limits; treat a block as this-request-only.
+
 ### Integrity
 
 - Never fabricate a fact, URL, Spotify ID, or citation.
 - Say "not verified" rather than filling a gap with plausible prose.
 - A citation must support the specific claim attached to it.
-- Cite only a page you opened and read. A web-search result list — its snippets and the
-  summary it synthesizes — is a set of pointers, not a source; attaching one of its URLs
+- Cite only a page you opened and read. A web-search result list, its snippets and the
+  summary it synthesizes, is a set of pointers, not a source; attaching one of its URLs
   to a claim taken from that summary is a fabricated citation. Fetch the page and
   confirm the claim is on it, or attribute it as "search results suggest" with no
   specific link.
+- A research subagent's fact sheet is a list of leads, not verified content. Re-open and
+  read every page it cites before using the claim, exactly as for an editor-supplied
+  skeleton. Misattribution is common: a song credited to the wrong artist, a co-sign
+  credited to the wrong collaborator, the right fact pinned to the wrong source.
 
 ---
 
@@ -378,13 +389,19 @@ artist-managed > label-supported, with a `- Topic` channel treated as absent; Ti
 
 `about` is the only AI-authored prose rendered in the app (the Artist Detail About
 section). The goal is one for every artist; it never blocks publishing (see the pipeline
-note). There is no "verified empty" `about` the way there is for socials — either there
+note). There is no "verified empty" `about` the way there is for socials: either there
 is verified text or the section does not render.
 
-**Verify every fact before writing it** — album titles, years, awards, chart positions,
+**Verify every fact before writing it:** album titles, years, awards, chart positions,
 stream counts, members, hometowns, tour details. Never reuse a claim from memory. If a
 fact cannot be verified, cut it rather than soften it into something vaguer that is
 still unverified.
+
+A write-new `about` rests on at least two independent sources, and on at least one real
+feature, interview, or review wherever the artist has any press at all. Wikipedia plus a
+single aggregator bio (Apple Music, AllMusic) is not enough on its own. A research
+subagent's fact sheet counts as none of these: it is a list of leads to check, not
+sources (see Integrity).
 
 Voice rules:
 
@@ -393,16 +410,51 @@ Voice rules:
   count carries its own charge. Test: would the sentence still be true if written by a
   stranger who had never heard the music?
 - **A notch of warmth, not flat recitation.** Let a real accolade register as
-  impressive. Calibrate to what the research actually turned up — a smaller artist with
+  impressive. Calibrate to what the research actually turned up: a smaller artist with
   sparse public information does not need padding.
+- **Excitement is which facts you pick, not how you write them.** The app exists to
+  build excitement, so when the research turns up something genuinely notable (recent
+  festival dates confirmed across sources, an award, a chart feat, a striking origin
+  story, a marquee collaborator), give it room instead of burying it mid-sentence.
+  Lean toward those facts. This is not license to add flavor: no music-journalist
+  voice, no writing as if you were in the room. If the verifiable material is plainly
+  informational, a plainly informational paragraph is the right result, not a gap to
+  paper over with tone.
+- **Every sentence earns its place.** Informative or exciting, ideally both. Cut a fact
+  that is neither: a stray release nobody notes, a label change with no consequence,
+  borrowed critic-abstraction that sounds deep and says nothing (an artist's own "God
+  era," "a sonic explorer"). Nothing negative for its own sake, nothing that reads as
+  oversharing.
+- **Sensitive personal facts stay out unless they shape the music.** Physical or
+  mental health, sexuality, incarceration: include only when the artist discusses the
+  fact openly and it directly bears on the work or the shape of the career. Then it is
+  one clause in context, never the opening line, never dropped in from nowhere. Worked
+  examples: a coming-out the sources did not tie to the music was cut; "a queer artist
+  from rural Kentucky" moved out of the opener into a later clause; a 2016 brain-tumor
+  diagnosis stayed because every source frames it as why the artist turned to music
+  full time. Test for keeping it: is this the documented hinge of the story, or just a
+  detail about a person.
+- **Industry and legal drama is not app material.** Lawsuits, trademark fights, "toxic
+  deal" framing, label acrimony: leave it out unless it is vague and genuinely carries
+  the narrative ("the record deal fell through, and he went quiet for years" stayed; a
+  "toxic deal" framing was cut).
 - **No dashes.** No em dashes or standalone hyphens as punctuation. Use a period or
   colon.
-- **Titles in single quotes.** `'BRAT'`, `'Halcyon'`, not double quotes.
+- **Single quotes are for titles, and only titles.** `'BRAT'`, `'Halcyon'`, not double
+  quotes. Not scare quotes, not nicknames ("Cynthia Reliford," not "Cynthia 'Cece'
+  Reliford"). When a title's own apostrophe would run into the closing quote and blur
+  where the title ends, drop the quotes and set it off another way: America's Got
+  Talent, not `'America's Got Talent'`.
+- **Keep diacritics and stylization exactly.** Céline, Björn, Sandé, Ruslán; and an
+  artist's own casing, `'malibU'`, Łaszewo, ¥ØU$UK€ ¥UK1MAT$U. Drafting and
+  transcription tend to strip these; check the final text against the sources.
 - **Describe the show, do not instruct the reader.** "His sets run on relentless low
   end," not "Expect relentless low end."
-- **Nothing tied to one appearance.** No specific stage, date, "this weekend," or
-  "hometown set." The record is reused across festivals and years. Biographical origin
-  facts ("emerged from Chicago") are fine; tying that origin to "this show" is not.
+- **Nothing tied to one appearance, nothing that expires.** No specific stage, date,
+  "this weekend," or "hometown set." No near-future tour routing, "upcoming" shows, or a
+  named festival run for the current year. The record is reused across festivals and
+  years. Biographical origin facts ("emerged from Chicago") are fine; tying that origin
+  to "this show" is not.
 - **Factual backbone; no live-performance hunt.** Build the copy from verifiable
   facts: formation, origin, discography, labels, collaborators, chart and award
   results, documented tours. Do not research what an act's shows are "known for" as a
@@ -414,8 +466,8 @@ Voice rules:
 
 Two paths, the editor's call per artist by how well they already know the artist:
 
-- **AI drafts** — Tier 3 research, sources inline, editor verifies against them.
-- **Editor writes a skeleton** — AI verifies each claim and tightens the voice (Tier 2).
+- **AI drafts:** Tier 3 research, sources inline, editor verifies against them.
+- **Editor writes a skeleton:** AI verifies each claim and tightens the voice (Tier 2).
 
 Either way the editor signs `aboutVerified`. Editing `about` after verification clears
 the flag (database trigger), so a re-verified edit must carry `aboutVerified: true` in
