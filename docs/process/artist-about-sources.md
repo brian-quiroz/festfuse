@@ -754,6 +754,16 @@ Montclair is an Austin band of half-siblings Casen, Anna, Jackson and Clay.[\[1\
 1. https://montclair.bandcamp.com/album/heart-is-alive
 2. https://do512.com/artists/montclair
 
+## nat-myers
+
+Nat Myers is a Korean-American country-blues singer, songwriter and poet from northern Kentucky, born in 1990.[\[1\]](https://en.wikipedia.org/wiki/Nat_Myers)[\[2\]](https://www.pbs.org/newshour/show/acclaimed-blues-musician-nat-myers-faces-battle-with-a-rare-cancer) He came to the blues through poetry, and plays fingerpicked pre-war Delta blues on a National resonator guitar, drawing on Blind Lemon Jefferson, Charley Patton, Robert Petway and Tommy McClennan alongside Camus and Homer.[\[2\]](https://www.pbs.org/newshour/show/acclaimed-blues-musician-nat-myers-faces-battle-with-a-rare-cancer)[\[3\]](https://shorefire.com/releases/entry/nat-myers-debut-album-yellow-peril-easy-eye-sound) Dan Auerbach signed him to Easy Eye Sound and produced his debut 'Yellow Peril' (2023) with Pat McLaughlin and Alvin Youngblood Hart, and Jason Momoa directed the video for 'Ramble No More'.[\[1\]](https://en.wikipedia.org/wiki/Nat_Myers)[\[3\]](https://shorefire.com/releases/entry/nat-myers-debut-album-yellow-peril-easy-eye-sound) The album's title is his response to the anti-Asian hate that surged during the pandemic.[\[1\]](https://en.wikipedia.org/wiki/Nat_Myers)[\[3\]](https://shorefire.com/releases/entry/nat-myers-debut-album-yellow-peril-easy-eye-sound) American Songwriter wrote that his music 'reverberates with the sound of a deep bluesman from the 20s and 30s'.[\[2\]](https://www.pbs.org/newshour/show/acclaimed-blues-musician-nat-myers-faces-battle-with-a-rare-cancer)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Nat_Myers
+2. https://www.pbs.org/newshour/show/acclaimed-blues-musician-nat-myers-faces-battle-with-a-rare-cancer
+3. https://shorefire.com/releases/entry/nat-myers-debut-album-yellow-peril-easy-eye-sound
+
 ## natasha-bedingfield
 
 Natasha Bedingfield was born in London in 1981 to New Zealand parents and grew up between London and Auckland.[\[1\]](https://en.wikipedia.org/wiki/Natasha_Bedingfield) As a teenager she and her siblings Daniel and Nikola formed the dance act the DNA Algorithm, and she studied psychology for a year at the University of Greenwich and recorded for Hillsong Church UK before signing to Phonogenic in 2003.[\[1\]](https://en.wikipedia.org/wiki/Natasha_Bedingfield) Her debut album 'Unwritten' (2004) entered the UK chart at number one; 'These Words' gave her a UK number one and 'Unwritten' became one of the most played songs on US radio, while 'Pocketful of Sunshine' reached number five on the Billboard Hot 100.[\[1\]](https://en.wikipedia.org/wiki/Natasha_Bedingfield) She was nominated for a Grammy for 'Unwritten' and has sold more than 20 million records, following the early albums with 'Strip Me' (2010) and 'Roll with Me' (2019).[\[1\]](https://en.wikipedia.org/wiki/Natasha_Bedingfield) 'Unwritten' found a second life after featuring in the 2023 film 'Anyone But You', and she performed it at the 2024 Paris Olympics;[\[1\]](https://en.wikipedia.org/wiki/Natasha_Bedingfield) her single 'Dot Dot Dot', written with Brett Hitte of Frenship, arrived in August 2026 as her first solo release in years.[\[2\]](https://www.yahoo.com/entertainment/music/articles/natasha-bedingfield-drops-first-solo-233124623.html)
@@ -762,6 +772,15 @@ Natasha Bedingfield was born in London in 1981 to New Zealand parents and grew u
 
 1. https://en.wikipedia.org/wiki/Natasha_Bedingfield
 2. https://www.yahoo.com/entertainment/music/articles/natasha-bedingfield-drops-first-solo-233124623.html
+
+## new-constellations
+
+New Constellations is a Portland, Oregon duo, Harlee Case and Josh Smith, who met in high school and started the band a decade later, in 2015, after reconnecting online.[\[1\]](https://en.wikipedia.org/wiki/New_Constellations)[\[2\]](https://telluridenews.com/arts_and_entertainment/article_15b4d623-cf7a-483f-8f21-09522006d473.html) Their music is shimmering, 1980s-leaning dream pop with an R&B undertow, kept as a side project for years until it could support them full time.[\[1\]](https://en.wikipedia.org/wiki/New_Constellations)[\[2\]](https://telluridenews.com/arts_and_entertainment/article_15b4d623-cf7a-483f-8f21-09522006d473.html) The 2021 single 'Hot Blooded' was the breakthrough, passing 120 million Spotify streams by 2025.[\[1\]](https://en.wikipedia.org/wiki/New_Constellations) The EP 'Lean In' followed in 2023, and the debut album 'It Comes in Waves' is due in May 2026 on Nettwerk.[\[1\]](https://en.wikipedia.org/wiki/New_Constellations) Case sums up the writing as pushing 'a message of being yourself and doing what you want to do'.[\[2\]](https://telluridenews.com/arts_and_entertainment/article_15b4d623-cf7a-483f-8f21-09522006d473.html)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/New_Constellations
+2. https://telluridenews.com/arts_and_entertainment/article_15b4d623-cf7a-483f-8f21-09522006d473.html
 
 ## night-tapes
 
@@ -946,6 +965,26 @@ S.G. Goodman is a songwriter from Hickman, in the rural far west of Kentucky, th
 1. https://en.wikipedia.org/wiki/S.G._Goodman
 2. https://atwoodmagazine.com/pbts-sg-goodman-planting-by-the-signs-album-interview-music-feature/
 
+## sienna-spiro
+
+Sienna Spiro was born in London in 2005, the daughter of the jeweller Glenn Spiro, whose clients include Jay-Z and Beyoncé.[\[1\]](https://en.wikipedia.org/wiki/Sienna_Spiro)[\[2\]](https://www.nylon.com/entertainment/sienna-spiro-interview-visitor-debut-album-die-on-this-hill-tiktok-new-tour) She started on TikTok covers as a teenager, went viral in 2022 with a version of Finneas's 'Break My Heart Again', and left the ELAM performing-arts school at sixteen for music, signing to Capitol.[\[1\]](https://en.wikipedia.org/wiki/Sienna_Spiro)[\[2\]](https://www.nylon.com/entertainment/sienna-spiro-interview-visitor-debut-album-die-on-this-hill-tiktok-new-tour) Her sound is pop built on jazz and soul, and she is blunt about the mood: 'My music, it's quite sad, it's quite miserable'.[\[2\]](https://www.nylon.com/entertainment/sienna-spiro-interview-visitor-debut-album-die-on-this-hill-tiktok-new-tour) 'Die on This Hill', which she found while trying to learn 'Bohemian Rhapsody' and cut with executive producer Omer Fedi, reached number nine in the UK and the top twenty of the Hot 100.[\[1\]](https://en.wikipedia.org/wiki/Sienna_Spiro)[\[2\]](https://www.nylon.com/entertainment/sienna-spiro-interview-visitor-debut-album-die-on-this-hill-tiktok-new-tour) The EP 'Sink Now, Swim Later' (2025) came first, then the debut album 'Visitor' in July 2026, and she has drawn public praise from SZA, Elton John and Sam Smith.[\[1\]](https://en.wikipedia.org/wiki/Sienna_Spiro)[\[2\]](https://www.nylon.com/entertainment/sienna-spiro-interview-visitor-debut-album-die-on-this-hill-tiktok-new-tour)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Sienna_Spiro
+2. https://www.nylon.com/entertainment/sienna-spiro-interview-visitor-debut-album-die-on-this-hill-tiktok-new-tour
+
+## skye-newman
+
+Skye Newman is a singer-songwriter from Eltham in South East London, born in 2003, who takes the SE9 postcode as a running title.[\[1\]](https://en.wikipedia.org/wiki/Skye_Newman)[\[2\]](https://www.nme.com/features/music-interviews/skye-newman-se9-part-1-interview-radar-3905047) An aunt who sings jazz and blues got her started; she was writing songs at eleven, was in studios by thirteen, and signed to Columbia after a video of hers went viral.[\[2\]](https://www.nme.com/features/music-interviews/skye-newman-se9-part-1-interview-radar-3905047) Her debut single 'Hairdresser' (2025), about a one-sided friendship, reached number 15 in the UK, and the follow-up 'Family Matters', about drug addiction and grief, went to number five, making her the first British woman in over a decade to land her first two singles in the top 20.[\[1\]](https://en.wikipedia.org/wiki/Skye_Newman)[\[2\]](https://www.nme.com/features/music-interviews/skye-newman-se9-part-1-interview-radar-3905047) She released the EPs 'SE9 Part 1' (2025) and 'SE9 Part 2' (2026), won the BBC Sound of 2026 poll, and toured as support for Lewis Capaldi and Harry Styles while playing festivals from Reading and Leeds to Lollapalooza.[\[1\]](https://en.wikipedia.org/wiki/Skye_Newman)[\[3\]](https://www.nme.com/news/music/reading-leeds-2026-check-out-the-full-stage-times-3963739)[\[4\]](https://www.setlist.fm/setlists/skye-newman-53ee5b69.html)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Skye_Newman
+2. https://www.nme.com/features/music-interviews/skye-newman-se9-part-1-interview-radar-3905047
+3. https://www.nme.com/news/music/reading-leeds-2026-check-out-the-full-stage-times-3963739
+4. https://www.setlist.fm/setlists/skye-newman-53ee5b69.html
+
 ## solomon-hicks
 
 Solomon Hicks, who also performs as King Solomon Hicks, was born in Harlem in 1995 and started guitar at six with his mother as his first teacher.[\[1\]](https://en.wikipedia.org/wiki/Solomon_Hicks) At thirteen he was playing lead in the Cotton Club's seventeen-piece band, and he trained at the Harlem School of the Arts and the Harbor Conservatory in jazz, classical and Afro-Cuban music.[\[1\]](https://en.wikipedia.org/wiki/Solomon_Hicks) His electric blues pulls in jazz, gospel, soul and funk.[\[1\]](https://en.wikipedia.org/wiki/Solomon_Hicks)[\[2\]](https://www.americanbluesscene.com/2020/03/king-solomon-hicks-debuts-with-harlem/) The debut album 'Harlem' (2020), on Provogue, won the 2021 Blues Music Award for best emerging artist, and he has shared stages with Bruce Springsteen, B.B. King and Beth Hart.[\[1\]](https://en.wikipedia.org/wiki/Solomon_Hicks)[\[2\]](https://www.americanbluesscene.com/2020/03/king-solomon-hicks-debuts-with-harlem/) His second album 'How Did I Ever Get This Blue?' is billed as a sequel to 'Harlem'. It came out in January 2026 on Mascot, produced by Kirk Yano in Austin, with guests including the drummer Chris Layton, the turntablist DJ Logic and the slide guitarist Joanna Connor.[\[3\]](https://bluesrockreview.com/2026/01/solomon-hicks-how-did-i-ever-get-this-blue-review.html)[\[4\]](https://www.mascotlabelgroup.com/blogs/news/new-album-from-solomon-hicks)
@@ -968,6 +1007,16 @@ Solya, born Solya Ava Lowe in 2006, grew up mostly in Abilene, in West Texas, an
 3. https://buddymagazine.com/solya-embraces-her-west-texas-roots-both-the-beauty-and-backlash-on-queen-of-texas-debut-lp-tour/
 4. https://www.kpbs.org/events/2026/09/16/solya-soma
 
+## stella-lefty
+
+Stella Lefty is Stella Lefkofsky, raised in the Chicago suburb of Glencoe and now based in Los Angeles, the daughter of the Groupon and Tempus co-founder Eric Lefkofsky.[\[1\]](https://en.wikipedia.org/wiki/Stella_Lefty)[\[3\]](https://www.songwriteruniverse.com/stella-lefty-boston-ep-songs/) She has written songs since she was five or six and grew up on Taylor Swift, and started posting them online as a college student.[\[3\]](https://www.songwriteruniverse.com/stella-lefty-boston-ep-songs/) After 'Kiss Me' and then 'Thinking 'Bout You' caught on, she moved to LA and signed to Atlantic's country imprint Outpost.[\[1\]](https://en.wikipedia.org/wiki/Stella_Lefty)[\[2\]](https://savingcountrymusic.com/making-sense-of-stella-lefty-and-new-song-boston/) She wrote the chorus of her breakout 'Boston', pedal steel over a pop hook, at a piano on a Nashville writing trip, meaning it only as a social clip; it climbed into the top five of the Hot 100 and, because it echoes Noah Kahan's 'Stick Season', now carries a writing credit for him.[\[1\]](https://en.wikipedia.org/wiki/Stella_Lefty)[\[2\]](https://savingcountrymusic.com/making-sense-of-stella-lefty-and-new-song-boston/)[\[3\]](https://www.songwriteruniverse.com/stella-lefty-boston-ep-songs/) The independent EP 'Tragic, Really' (2025) gave way to 'Is This Heaven?' (2026), a Field of Dreams reference she calls the most herself she has sounded, which reached number nine on the Top Country Albums chart.[\[1\]](https://en.wikipedia.org/wiki/Stella_Lefty)[\[3\]](https://www.songwriteruniverse.com/stella-lefty-boston-ep-songs/) Her debut album 'Long Way Home' followed in August 2026, with her boyfriend, the country singer Vincent Mason, duetting on 'Something to Lose'.[\[1\]](https://en.wikipedia.org/wiki/Stella_Lefty)[\[3\]](https://www.songwriteruniverse.com/stella-lefty-boston-ep-songs/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Stella_Lefty
+2. https://savingcountrymusic.com/making-sense-of-stella-lefty-and-new-song-boston/
+3. https://www.songwriteruniverse.com/stella-lefty-boston-ep-songs/
+
 ## steve-aoki
 
 Steve Aoki was born in Miami in 1977, grew up a skater kid in Newport Beach, California, and is a son of the Benihana founder Rocky Aoki.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki)[\[2\]](https://podcasts.apple.com/us/podcast/steve-aoki/id1345682353?i=1000773695264) He found his footing in the straight-edge hardcore punk scene, and launched Dim Mak Records in 1996 out of living-room shows at his college house, later moving into electronic music through DJing and remixes.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki)[\[2\]](https://podcasts.apple.com/us/podcast/steve-aoki/id1345682353?i=1000773695264) Named after a martial-arts concept from Bruce Lee, the label was an early home to Bloc Party, the Kills, Klaxons and the Bloody Beetroots.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki) His own music is electro and big-room house that crosses freely into pop, rock and hip-hop, with collaborators from BTS to Linkin Park to Fall Out Boy.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki) The debut album 'Wonderland' (2012) drew a Grammy nomination, and Pollstar named him the highest-grossing electronic act in North America that year.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki) He tours relentlessly, around 250 shows a year, and the live show is a spectacle of crowd surfing, champagne and cake thrown into the audience.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki) A 2016 documentary, I'll Sleep When I'm Dead, followed him on the road, and his Aoki Foundation funds brain research.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki)
@@ -976,6 +1025,19 @@ Steve Aoki was born in Miami in 1977, grew up a skater kid in Newport Beach, Cal
 
 1. https://en.wikipedia.org/wiki/Steve_Aoki
 2. https://podcasts.apple.com/us/podcast/steve-aoki/id1345682353?i=1000773695264
+
+## suki-waterhouse
+
+Suki Waterhouse, born in Hammersmith, London, in 1992, is an English model and actress, most recently the keyboardist in 'Daisy Jones & the Six', who has run a music career alongside it.[\[1\]](https://en.wikipedia.org/wiki/Suki_Waterhouse) She put out early singles from 2016 and released her debut album 'I Can't Let Go' on Sub Pop in 2022, followed by 'Memoir of a Sparklemuffin' in 2024 and 'Loveland' on Island in 2026.[\[1\]](https://en.wikipedia.org/wiki/Suki_Waterhouse)[\[3\]](https://northerntransmissions.com/suki-waterhouse-memoir-of-a-sparklemuffin/) Her 2017 single 'Good Looking' became a sleeper hit five years later when it went viral on TikTok, going Gold in the UK and double platinum in Canada.[\[1\]](https://en.wikipedia.org/wiki/Suki_Waterhouse)[\[2\]](<https://en.wikipedia.org/wiki/Good_Looking_(song)>) She wrote much of 'Memoir' during the last months of a pregnancy, then played Coachella and opened for Taylor Swift at Wembley in 2024, and has since taken the songs to festivals like Lollapalooza and Hinterland.[\[1\]](https://en.wikipedia.org/wiki/Suki_Waterhouse)[\[5\]](https://www.clashmusic.com/live/live-report-lollapalooza-2026/)[\[6\]](https://shadestudios.com/music/f/hinterland-day-4-suki-waterhouse-and-geese-impress) Her music is dream pop with an LA garage-rock streak, pulled toward smoky, nostalgic writing about fame, scrutiny and romance.[\[1\]](https://en.wikipedia.org/wiki/Suki_Waterhouse)[\[3\]](https://northerntransmissions.com/suki-waterhouse-memoir-of-a-sparklemuffin/) On stage she is polished and a little theatrical, a stylish, self-aware presence rooted in her modelling years, and the sets move between dreamy and kinetic.[\[4\]](https://dailybruin.com/2026/07/24/suki-waterhouses-cheeky-loveland-tour-enchants-the-hollywood-forever-cemetery)[\[6\]](https://shadestudios.com/music/f/hinterland-day-4-suki-waterhouse-and-geese-impress)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Suki_Waterhouse
+2. https://en.wikipedia.org/wiki/Good_Looking_(song)
+3. https://northerntransmissions.com/suki-waterhouse-memoir-of-a-sparklemuffin/
+4. https://dailybruin.com/2026/07/24/suki-waterhouses-cheeky-loveland-tour-enchants-the-hollywood-forever-cemetery
+5. https://www.clashmusic.com/live/live-report-lollapalooza-2026/
+6. https://shadestudios.com/music/f/hinterland-day-4-suki-waterhouse-and-geese-impress
 
 ## temper-city
 
