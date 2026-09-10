@@ -440,11 +440,12 @@ Voice rules:
   "toxic deal" framing was cut).
 - **No dashes.** No em dashes or standalone hyphens as punctuation. Use a period or
   colon.
-- **Single quotes are for titles, and only titles.** `'BRAT'`, `'Halcyon'`, not double
-  quotes. Not scare quotes, not nicknames ("Cynthia Reliford," not "Cynthia 'Cece'
-  Reliford"). When a title's own apostrophe would run into the closing quote and blur
-  where the title ends, drop the quotes and set it off another way: America's Got
-  Talent, not `'America's Got Talent'`.
+- **Single quotes carry titles and the occasional short attributed quote. Never double
+  quotes.** `'BRAT'`, `'Halcyon'`; a brief spoken phrase in single quotes is fine when
+  it earns its place. No scare quotes and no nicknames: write Cynthia Reliford, not
+  Cynthia 'Cece' Reliford. When a title's own apostrophe would run into the closing
+  quote and blur where the title ends, drop the quotes and set it off another way:
+  America's Got Talent, not `'America's Got Talent'`.
 - **Keep diacritics and stylization exactly.** Céline, Björn, Sandé, Ruslán; and an
   artist's own casing, `'malibU'`, Łaszewo, ¥ØU$UK€ ¥UK1MAT$U. Drafting and
   transcription tend to strip these; check the final text against the sources.
