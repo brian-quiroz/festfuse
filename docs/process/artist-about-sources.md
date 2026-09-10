@@ -834,3 +834,64 @@ Solya, born Solya Ava Lowe in 2006, grew up mostly in Abilene, in West Texas, an
 2. https://floodmagazine.com/218790/solya-queen-of-texas-breaking/
 3. https://buddymagazine.com/solya-embraces-her-west-texas-roots-both-the-beauty-and-backlash-on-queen-of-texas-debut-lp-tour/
 4. https://www.kpbs.org/events/2026/09/16/solya-soma
+
+## steve-aoki
+
+Steve Aoki was born in Miami in 1977, grew up a skater kid in Newport Beach, California, and is a son of the Benihana founder Rocky Aoki.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki)[\[2\]](https://podcasts.apple.com/us/podcast/steve-aoki/id1345682353?i=1000773695264) He found his footing in the straight-edge hardcore punk scene, and launched Dim Mak Records in 1996 out of living-room shows at his college house, later moving into electronic music through DJing and remixes.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki)[\[2\]](https://podcasts.apple.com/us/podcast/steve-aoki/id1345682353?i=1000773695264) Named after a martial-arts concept from Bruce Lee, the label was an early home to Bloc Party, the Kills, Klaxons and the Bloody Beetroots.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki) His own music is electro and big-room house that crosses freely into pop, rock and hip-hop, with collaborators from BTS to Linkin Park to Fall Out Boy.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki) The debut album 'Wonderland' (2012) drew a Grammy nomination, and Pollstar named him the highest-grossing electronic act in North America that year.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki) He tours relentlessly, around 250 shows a year, and the live show is a spectacle of crowd surfing, champagne and cake thrown into the audience.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki) A 2016 documentary, 'I'll Sleep When I'm Dead', followed him on the road, and his Aoki Foundation funds brain research.[\[1\]](https://en.wikipedia.org/wiki/Steve_Aoki)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Steve_Aoki
+2. https://podcasts.apple.com/us/podcast/steve-aoki/id1345682353?i=1000773695264
+
+## temper-city
+
+Temper City is a Los Angeles trio of Israeli musicians: singer Eytan Peled with Chen Kordova on guitar and Aviv Barenholtz on drums, the last two also the production duo Sync, who have worked together since they were twelve and produced for Israeli stars Noa Kirel and Netta Barzilai.[\[1\]](https://en.wikipedia.org/wiki/Self_Aware)[\[3\]](https://music.apple.com/us/artist/temper-city/1872869285) They formed in 2021 and put out early tracks like 'Why So Serious' and 'Where We Are' through NoCopyrightSounds.[\[1\]](https://en.wikipedia.org/wiki/Self_Aware)[\[2\]](https://en.wikipedia.org/wiki/Temper_City) Their debut single 'Self Aware' (February 2026), on Thirty Knots, is dark, rhythmic alt-rock in the lineage of Cage the Elephant and the Neighbourhood; it reached number 35 on the Billboard Hot 100, which the band says makes them the first Israeli band to chart there.[\[1\]](https://en.wikipedia.org/wiki/Self_Aware)[\[3\]](https://music.apple.com/us/artist/temper-city/1872869285) The single 'Reverse Psychology' followed later in 2026.[\[1\]](https://en.wikipedia.org/wiki/Self_Aware)[\[3\]](https://music.apple.com/us/artist/temper-city/1872869285)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Self_Aware
+2. https://en.wikipedia.org/wiki/Temper_City
+3. https://music.apple.com/us/artist/temper-city/1872869285
+
+## the-4411
+
+The 4411 is an Austin band of Cogan McBride (vocals), Tomas Gerlach (drums), Alan Holmquist (guitar) and Nick Speer (bass).[\[2\]](https://www.austinchronicle.com/music/record-reviews/the-4411-chase-the-feeling-of-a-never-ending-summer/) McBride and Gerlach, lifelong friends, started it during the pandemic while still in high school, and rounded out the lineup as roommates at Texas State University.[\[1\]](https://theduckclub.com/artist/the-4411/)[\[4\]](https://ktswblog.net/2025/02/24/the-4411-talks-success-and-touring/) Their folk-leaning indie rock, with sweeping arrangements and story-driven lyrics, has drawn comparisons to the Paper Kites.[\[1\]](https://theduckclub.com/artist/the-4411/)[\[2\]](https://www.austinchronicle.com/music/record-reviews/the-4411-chase-the-feeling-of-a-never-ending-summer/) The single 'As You Please' (2023) led to their first tour and shaped the debut EP 'We Killed the Sun' (2025);[\[1\]](https://theduckclub.com/artist/the-4411/)[\[3\]](https://the4411.bandcamp.com/) a second EP, 'Haven't Seen You in So Long' (2026), carries 'Sunset Calling' and 'In Due Time'.[\[2\]](https://www.austinchronicle.com/music/record-reviews/the-4411-chase-the-feeling-of-a-never-ending-summer/)
+
+**Sources**
+
+1. https://theduckclub.com/artist/the-4411/
+2. https://www.austinchronicle.com/music/record-reviews/the-4411-chase-the-feeling-of-a-never-ending-summer/
+3. https://the4411.bandcamp.com/
+4. https://ktswblog.net/2025/02/24/the-4411-talks-success-and-touring/
+
+## the-moriah-sisters
+
+The Moriah Sisters are an Austin gospel group built around the sisters Janice Lee and Cynthia 'Cece' Reliford, who sing with fellow members of Greater Mount Moriah Primitive Baptist Church, where the group formed in the mid-1990s.[\[3\]](https://thedailytexan.com/2023/10/03/austin-gospel-quartet-the-moriah-sisters-on-acl-empowering-people-to-love/) Their sound mixes contemporary gospel with the older quartet-gospel style, backed by Jonathan Davis on piano and organ and Lee's son Calvin Shepard Jr. on drums.[\[1\]](https://www.fox7austin.com/news/fox-7-unplugged-the-moriah-sisters)[\[3\]](https://thedailytexan.com/2023/10/03/austin-gospel-quartet-the-moriah-sisters-on-acl-empowering-people-to-love/) They are a monthly staple of the gospel brunch at Stubb's Bar-B-Q, alternating with other gospel acts, have taken part in the American Artists Project alongside the soprano Mela Sarajane Dailey, and turn up on FOX 7 Austin for the holidays.[\[1\]](https://www.fox7austin.com/news/fox-7-unplugged-the-moriah-sisters)[\[3\]](https://thedailytexan.com/2023/10/03/austin-gospel-quartet-the-moriah-sisters-on-acl-empowering-people-to-love/) Their albums are 'Walk by Faith / At the Gate' (2011) and 'We Come a Long Way' (2017), and they made their ACL debut in 2023.[\[2\]](https://music.apple.com/us/artist/the-moriah-sisters/1266062300)[\[3\]](https://thedailytexan.com/2023/10/03/austin-gospel-quartet-the-moriah-sisters-on-acl-empowering-people-to-love/)
+
+**Sources**
+
+1. https://www.fox7austin.com/news/fox-7-unplugged-the-moriah-sisters
+2. https://music.apple.com/us/artist/the-moriah-sisters/1266062300
+3. https://thedailytexan.com/2023/10/03/austin-gospel-quartet-the-moriah-sisters-on-acl-empowering-people-to-love/
+
+## thomas-day
+
+Thomas Day is a pop singer-songwriter from Brentwood, Tennessee, near Nashville, who started in musical theater at nine and was a field-goal kicker good enough for college scholarship offers before he chose music.[\[1\]](https://www.nashville.com/thomas-day-announces-full-length-project-out-october-27th/)[\[3\]](https://www.maxpreps.com/news/24F-bXi60UyTszJbUS0UtA/tennessee-high-school-football-kicker-thomas-day-advances-on-americas-got-talent.htm) He auditioned for 'America's Got Talent' in 2020 with Finneas's 'Break My Heart Again', and built a following with TikTok covers of Adele, Bruno Mars, Lewis Capaldi and Sam Smith.[\[2\]](https://music.apple.com/us/artist/thomas-day/1576542827)[\[3\]](https://www.maxpreps.com/news/24F-bXi60UyTszJbUS0UtA/tennessee-high-school-football-kicker-thomas-day-advances-on-americas-got-talent.htm) He signed to Arista in 2021 and put out the album 'Love Me for Another Day' (2023), songs he has said he 'wrote and recorded when I was 18 and 19, trying to figure out the kind of artist I want to be', followed by the EPs 'Angel Boy' (2024) and 'kids' (2025).[\[1\]](https://www.nashville.com/thomas-day-announces-full-length-project-out-october-27th/)[\[2\]](https://music.apple.com/us/artist/thomas-day/1576542827) His earnest pop is about the ups and downs of young adulthood, and he has toured Europe and the US opening for Joshua Bassett.[\[2\]](https://music.apple.com/us/artist/thomas-day/1576542827)[\[4\]](https://www.broadwayworld.com/bwwmusic/article/Thomas-Day-Releases-Angel-Boy-EP-20240913)
+
+**Sources**
+
+1. https://www.nashville.com/thomas-day-announces-full-length-project-out-october-27th/
+2. https://music.apple.com/us/artist/thomas-day/1576542827
+3. https://www.maxpreps.com/news/24F-bXi60UyTszJbUS0UtA/tennessee-high-school-football-kicker-thomas-day-advances-on-americas-got-talent.htm
+4. https://www.broadwayworld.com/bwwmusic/article/Thomas-Day-Releases-Angel-Boy-EP-20240913
+
+## underscores
+
+Underscores is April Harper Grey, a musician and producer born in San Francisco in 2000 who studied music at NYU and now lives in Chicago.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>) She started out posting dubstep to SoundCloud as a teenager and built the underscores project around constant reinvention and detailed sound design, pulling emo, pop-punk, folk and dubstep into what began as hyperpop; by 2023 she was telling NME that 'hyperpop is officially dead'.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>) The debut album 'Fishmonger' (2021) led to a support slot with 100 gecs.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>) 'Wallsocket' (2023), on Mom + Pop, is a concept album set in an invented Michigan town, following three young women through questions of class, suburbia and trans identity.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>)[\[2\]](https://en.wikipedia.org/wiki/Wallsocket) She featured on Danny Brown's 'Copycats' in 2025, released her third album 'U' in 2026, and has opened for Porter Robinson and Charli XCX.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>)[\[3\]](<https://en.wikipedia.org/wiki/Copycats_(song)>)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Underscores_(musician)
+2. https://en.wikipedia.org/wiki/Wallsocket
+3. https://en.wikipedia.org/wiki/Copycats_(song)
