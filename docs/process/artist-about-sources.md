@@ -651,3 +651,62 @@ Montclair is an Austin band of half-siblings Casen, Anna, Jackson and Clay.[\[1\
 
 1. https://montclair.bandcamp.com/album/heart-is-alive
 2. https://do512.com/artists/montclair
+
+## natasha-bedingfield
+
+Natasha Bedingfield was born in London in 1981 to New Zealand parents and grew up between London and Auckland.[\[1\]](https://en.wikipedia.org/wiki/Natasha_Bedingfield) As a teenager she and her siblings Daniel and Nikola formed the dance act the DNA Algorithm, and she studied psychology for a year at the University of Greenwich and recorded for Hillsong Church UK before signing to Phonogenic in 2003.[\[1\]](https://en.wikipedia.org/wiki/Natasha_Bedingfield) Her debut album 'Unwritten' (2004) entered the UK chart at number one; 'These Words' gave her a UK number one and 'Unwritten' became one of the most played songs on US radio, while 'Pocketful of Sunshine' reached number five on the Billboard Hot 100.[\[1\]](https://en.wikipedia.org/wiki/Natasha_Bedingfield) She was nominated for a Grammy for 'Unwritten' and has sold more than 20 million records, following the early albums with 'Strip Me' (2010) and 'Roll with Me' (2019).[\[1\]](https://en.wikipedia.org/wiki/Natasha_Bedingfield) 'Unwritten' found a second life after featuring in the 2023 film 'Anyone But You', and she performed it at the 2024 Paris Olympics;[\[1\]](https://en.wikipedia.org/wiki/Natasha_Bedingfield) her single 'Dot Dot Dot', written with Brett Hitte of Frenship, arrived in August 2026 as her first solo release in years.[\[2\]](https://www.yahoo.com/entertainment/music/articles/natasha-bedingfield-drops-first-solo-233124623.html)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Natasha_Bedingfield
+2. https://www.yahoo.com/entertainment/music/articles/natasha-bedingfield-drops-first-solo-233124623.html
+
+## night-tapes
+
+Night Tapes are a London dream-pop trio: Iiris Vesik, who moved from Tallinn, Estonia after releasing a solo album there, on vocals and synths, plus Max Doohan on drums, once of Another Sky, and the jazz-trained guitarist Sam Richards, who both produce.[\[1\]](https://en.wikipedia.org/wiki/Night_Tapes)[\[2\]](https://www.nme.com/the-cover/night-tapes-08-09-2025-3890670) The three began as housemates jamming late at night in South London, which is where the name came from, and cut their first EP quietly enough not to disturb the neighbours.[\[1\]](https://en.wikipedia.org/wiki/Night_Tapes) Their music sets Vesik's layered vocals over minimalist drum loops and synths with trip-hop and ambient textures,[\[1\]](https://en.wikipedia.org/wiki/Night_Tapes) and they name Talk Talk, Jon Hopkins and Björk as reference points, calling their approach feeling-based, with logic kept out of it.[\[2\]](https://www.nme.com/the-cover/night-tapes-08-09-2025-3890670) They signed to Nettwerk in 2022, released the EPs 'Perfect Kindness' (2023) and 'assisted memories' (2024), and made the debut album 'portals//polarities' (2025) mostly on tour, working in field recordings from Los Angeles, Estonia and Mexico.[\[1\]](https://en.wikipedia.org/wiki/Night_Tapes)[\[2\]](https://www.nme.com/the-cover/night-tapes-08-09-2025-3890670) Their 2023 single 'drifting' is their biggest track so far.[\[1\]](https://en.wikipedia.org/wiki/Night_Tapes)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Night_Tapes
+2. https://www.nme.com/the-cover/night-tapes-08-09-2025-3890670
+
+## night-traveler
+
+Night Traveler is an Austin duo, Adam Fischer and Hunter Glaske, who both write, play and produce their own material.[\[1\]](https://nighttravelermusic.com/pages/about) They started the project in 2018 and released the single '1984' about two months later; it drew more than 100,000 streams in its first month.[\[1\]](https://nighttravelermusic.com/pages/about)[\[3\]](https://www.last.fm/music/NIGHT+TRAVELER/+wiki) Their sound is guitar-forward and 80s-tinged, built on pocket grooves and confessional lyrics about love and loss, and has drawn comparisons to the War on Drugs and the Paper Kites.[\[1\]](https://nighttravelermusic.com/pages/about)[\[2\]](https://www.melodicmag.com/news/night-traveler-releases-love-nobody-else-leading-up-to-second-full-length-album/) They have recorded in unusual places, from lakeside retreats to a remote cabin in New Mexico, releasing 'Dreams You Don't Forget' in 2021 and 'Hotspot' in 2024, which Musicbed named its album of the year.[\[1\]](https://nighttravelermusic.com/pages/about) Their music has been picked up by popular outlets including MTV and 'Monday Night Football',[\[2\]](https://www.melodicmag.com/news/night-traveler-releases-love-nobody-else-leading-up-to-second-full-length-album/) and the pair opened for Stevie Nicks on some of her 2025 dates and were named a Gibson Spotlight artist for 2026.[\[1\]](https://nighttravelermusic.com/pages/about)
+
+**Sources**
+
+1. https://nighttravelermusic.com/pages/about
+2. https://www.melodicmag.com/news/night-traveler-releases-love-nobody-else-leading-up-to-second-full-length-album/
+3. https://www.last.fm/music/NIGHT+TRAVELER/+wiki
+
+## noga-erez
+
+Noga Erez is an Israeli musician, born in Tel Aviv in 1989 and raised in Caesarea, who studied composition at the Jerusalem Academy of Music and Dance.[\[1\]](https://en.wikipedia.org/wiki/Noga_Erez) She makes her records with her partner Ori Rousso, mixing electronic pop, hip-hop and alternative music under rapped, pointed lyrics about politics, power and life online.[\[1\]](https://en.wikipedia.org/wiki/Noga_Erez) After 'Off the Radar' (2017) and 'Kids' (2021) on City Slang, her third album 'The Vandalist' (2024) was her first for a major label, on Neon Gold and Atlantic;[\[1\]](https://en.wikipedia.org/wiki/Noga_Erez)[\[2\]](https://en.wikipedia.org/wiki/The_Vandalist) recorded partly over five months in Madrid, it moves between English, Hebrew and Spanish and features Robbie Williams, Dillom and Flyana Boss.[\[2\]](https://en.wikipedia.org/wiki/The_Vandalist) She has worked with Missy Elliott on 'Nails' and appeared with Florence and the Machine,[\[1\]](https://en.wikipedia.org/wiki/Noga_Erez) and in 2026 she became the first Israeli artist to play Coachella, on a run that has also taken in Lollapalooza and Austin City Limits.[\[1\]](https://en.wikipedia.org/wiki/Noga_Erez)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Noga_Erez
+2. https://en.wikipedia.org/wiki/The_Vandalist
+
+## palace
+
+Palace formed in London in 2012 around singer Leo Wyndham, with Rupert Turner on guitar, Matt Hodges on drums and, since 2018, Harry Deacon on bass.[\[1\]](<https://en.wikipedia.org/wiki/Palace_(band)>) They released their first single, 'Veins', in 2014,[\[2\]](https://www.nme.com/news/music/palace-talk-ferocious-beautiful-new-album-ultrasound-there-is-often-great-hope-to-be-found-in-difficult-times-3612584) and the monthly Palace Presents night they ran at the George Tavern from 2016 grew into their own label and a wider community.[\[3\]](https://www.broadwayworld.com/san-francisco/article/Palace-to-Release-Fifth-Studio-Album-Ox-20260721) AllMusic describes the group's sound as 'languid and atmospheric' and guitar-based, and both AllMusic and Equipboard tag it as indie rock and blues-rock.[\[4\]](https://www.allmusic.com/artist/palace-mn0003303810)[\[5\]](https://equipboard.com/band/palace#about) The debut album 'So Long Forever' (2016) was produced by Adam Jaffrey, who has stayed with them since;[\[2\]](https://www.nme.com/news/music/palace-talk-ferocious-beautiful-new-album-ultrasound-there-is-often-great-hope-to-be-found-in-difficult-times-3612584)[\[3\]](https://www.broadwayworld.com/san-francisco/article/Palace-to-Release-Fifth-Studio-Album-Ox-20260721) 'Life After' (2019), 'Shoals' (2022) and 'Ultrasound' (2024) followed, the last written around a miscarriage Wyndham and his partner went through, with the band reaching for something 'heavy but contained' and citing Cocteau Twins, Massive Attack and Neil Young.[\[1\]](<https://en.wikipedia.org/wiki/Palace_(band)>)[\[2\]](https://www.nme.com/news/music/palace-talk-ferocious-beautiful-new-album-ultrasound-there-is-often-great-hope-to-be-found-in-difficult-times-3612584) Their fifth album 'Ox', recorded in Deptford with Jaffrey and drawing on the Band, Townes Van Zandt and Edward Hopper, arrives in September 2026 on the band's own Palace Presents through AWAL, led by the single 'Kid'.[\[3\]](https://www.broadwayworld.com/san-francisco/article/Palace-to-Release-Fifth-Studio-Album-Ox-20260721)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Palace_(band)
+2. https://www.nme.com/news/music/palace-talk-ferocious-beautiful-new-album-ultrasound-there-is-often-great-hope-to-be-found-in-difficult-times-3612584
+3. https://www.broadwayworld.com/san-francisco/article/Palace-to-Release-Fifth-Studio-Album-Ox-20260721
+4. https://www.allmusic.com/artist/palace-mn0003303810
+5. https://equipboard.com/band/palace#about
+
+## paloma-morphy
+
+Paloma Morphy, born Andrea Paloma Barrios Gómez Álvarez Morphy in Mexico City in 2000, worked as a criminal-defense lawyer before quitting to make music.[\[1\]](https://en.wikipedia.org/wiki/Paloma_Morphy)[\[2\]](https://modernmuze.com/who-is-paloma-morphy-the-2025-latin-grammys-best-new-artist/) She started posting covers on TikTok in 2022 on a friend's suggestion, going from 13 followers to thousands in weeks, and released her first track 'La idiota soy yo' that November.[\[2\]](https://modernmuze.com/who-is-paloma-morphy-the-2025-latin-grammys-best-new-artist/)[\[3\]](https://los40.com.mx/2025/08/08/paloma-morphy-abre-su-corazon-en-au-y-se-prepara-para-conquistar-mexico-desde-el-lunario-entrevista/) She sings in Spanish, and her alt-pop pairs bright melodies with blunt lyrics; critics have likened her to Lorde, Billie Eilish, Julieta Venegas and Natalia Lafourcade.[\[1\]](https://en.wikipedia.org/wiki/Paloma_Morphy)[\[3\]](https://los40.com.mx/2025/08/08/paloma-morphy-abre-su-corazon-en-au-y-se-prepara-para-conquistar-mexico-desde-el-lunario-entrevista/) Her debut album 'Au' came out in May 2025 on Sony Music México and has passed 20 million Spotify streams, carried by the breakout 'lo que un día fue'.[\[2\]](https://modernmuze.com/who-is-paloma-morphy-the-2025-latin-grammys-best-new-artist/)[\[3\]](https://los40.com.mx/2025/08/08/paloma-morphy-abre-su-corazon-en-au-y-se-prepara-para-conquistar-mexico-desde-el-lunario-entrevista/) Billboard named her a Latin Artist on the Rise, and in November 2025 she won Best New Artist at the Latin Grammys, telling the room, 'If you have a song you're embarrassed to upload, do it'.[\[1\]](https://en.wikipedia.org/wiki/Paloma_Morphy)[\[2\]](https://modernmuze.com/who-is-paloma-morphy-the-2025-latin-grammys-best-new-artist/) Her single 'la mexicana' takes on gender-based violence in Mexico.[\[2\]](https://modernmuze.com/who-is-paloma-morphy-the-2025-latin-grammys-best-new-artist/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Paloma_Morphy
+2. https://modernmuze.com/who-is-paloma-morphy-the-2025-latin-grammys-best-new-artist/
+3. https://los40.com.mx/2025/08/08/paloma-morphy-abre-su-corazon-en-au-y-se-prepara-para-conquistar-mexico-desde-el-lunario-entrevista/
