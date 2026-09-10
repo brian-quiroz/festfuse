@@ -15,7 +15,9 @@ The full editorial process — the pipeline, who owns which field, the source hi
 the research-intensity model, per-field rules, about-copy voice, and the similar-artist
 heuristic — is in
 **[`docs/process/artist-editorial-process.md`](../../../docs/process/artist-editorial-process.md)**.
-Read it and follow it. Incident case studies are in
+Read it in full once when you start a stretch of artist work, for the reasoning and the
+per-field rules. The output gate at the bottom of this file is what you run before every
+review batch; it is short by design, re-read it each time. Incident case studies are in
 [`docs/process/artist-editorial-incidents.md`](../../../docs/process/artist-editorial-incidents.md);
 read those only when a check is getting shaky.
 
@@ -45,3 +47,23 @@ Essentials:
 - Present a per-artist report and wait for explicit approval before building a payload.
   Sources for every factual field. Never sound certain when the research is thin —
   surface the options instead.
+
+## Output gate: run before presenting any about-copy batch
+
+Per entry, every time, right before sending the batch for review. A verified fact is not
+the finish line; these are separate requirements and each has to be checked.
+
+- Two or more independent sources, at least one a real feature, interview, or review.
+  Wikipedia plus a second Wikipedia page, or Wikipedia plus an aggregator bio (Apple
+  Music, AllMusic), is a fail.
+- Every citation is a page opened and read, not a search-result snippet.
+- Single quotes only, for titles and the occasional short attributed quote. No double
+  quotes anywhere.
+- No hype adjectives ("legendary", "jaw-dropping", "one of the most exciting..."). The
+  excitement comes from which facts are chosen.
+- Nothing tied to one appearance (stage, set time, "this weekend") and nothing that
+  stale-dates (a named current-year tour routing, "upcoming" shows).
+- Dash check: no em or en dashes.
+- No run-on sentences; roughly five to seven sentences.
+- Genre or location problems go to `artist-flagged-issues.md`, not fixed inline, and the
+  copy still states the correct fact.
