@@ -60,6 +60,9 @@ the finish line; these are separate requirements and each has to be checked.
   quotes anywhere.
 - No hype adjectives ("legendary", "jaw-dropping", "one of the most exciting..."). The
   excitement comes from which facts are chosen.
+- No controversial or heavy detail that is not load-bearing to the music (ongoing
+  illness, nepo-baby / industry-plant discourse, a "critics say it isn't really X"
+  debate). Neutral-to-negative framing about the work is cut, not softened.
 - Nothing tied to one appearance (stage, set time, "this weekend") and nothing that
   stale-dates (a named current-year tour routing, "upcoming" shows).
 - Dash check: no em or en dashes.

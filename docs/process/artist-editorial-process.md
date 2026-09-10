@@ -438,6 +438,12 @@ Voice rules:
   deal" framing, label acrimony: leave it out unless it is vague and genuinely carries
   the narrative ("the record deal fell through, and he went quiet for years" stayed; a
   "toxic deal" framing was cut).
+- **Keep it clean.** The app exists to elevate the artist. Leave out controversial or
+  heavy detail that is not load-bearing to the music or the narrative, even when it is
+  public and sourced: an ongoing illness, a nepo-baby or industry-plant discourse, a
+  "critics argue it isn't really country" debate. Keep a fact that genuinely has to be
+  there, but state it plainly and drop the charged wording. Neutral-to-negative framing
+  about the work gets cut, not softened. When unsure, surface it as an editor call.
 - **No dashes.** No em dashes or standalone hyphens as punctuation. Use a period or
   colon.
 - **Single quotes carry titles and the occasional short attributed quote. Never double
