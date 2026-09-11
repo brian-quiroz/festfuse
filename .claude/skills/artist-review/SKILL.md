@@ -77,5 +77,8 @@ the finish line; these are separate requirements and each has to be checked.
   stale-dates (a named current-year tour routing, "upcoming" shows).
 - Dash check: no em or en dashes.
 - No run-on sentences; roughly five to seven sentences.
+- Opener check: not "X is/are A [and B], from City, who..." — that roster-tag pattern
+  reads mechanically, especially for a duo or band. Lead with an action, a scene, or
+  the one fact that earns the sentence.
 - Genre or location problems go to `artist-flagged-issues.md`, not fixed inline, and the
   copy still states the correct fact.

@@ -412,6 +412,12 @@ Voice rules:
 - **A notch of warmth, not flat recitation.** Let a real accolade register as
   impressive. Calibrate to what the research actually turned up: a smaller artist with
   sparse public information does not need padding.
+- **Open with more than an ID card.** "X is/are A [and B], from City, who..." reads
+  mechanically as a first sentence, especially for a duo or band, where it turns into a
+  roster call before anything else happens. Lead with an action, a scene, or the one
+  fact that earns the opener, and let names land inside a sentence that is doing
+  something, not stating an identity. Matters most on headliner-tier entries, where the
+  opener sets the tone for the rest of the section.
 - **Excitement is which facts you pick, not how you write them.** The app exists to
   build excitement, so when the research turns up something genuinely notable (recent
   festival dates confirmed across sources, an award, a chart feat, a striking origin
