@@ -505,11 +505,18 @@ padded four. Evaluated on `name` + `slug` only.
   Not a research project; if a stated relationship will not confirm quickly, drop that
   claim or that pick and flag it.
 - The four deliberately **mix matching dimensions** (sound/genre, scene/scale, thematic
-  parallel) rather than four genre-nearest-neighbors, and **mix at least one
-  bigger-name act with one smaller or rising one** — based on _current_ scale, checked,
-  not remembered. "Bigger" and "smaller" are relative to the other picks in the set, not
-  necessarily to the source artist: a set for a Sub-headliner can satisfy this with a mix
-  of Sub-headliner and Undercard picks, with no Headliner required.
+  parallel) rather than four genre-nearest-neighbors, and **aim to mix a bigger-name act
+  with a smaller or rising one** when a genuine fit exists — based on _current_ scale,
+  checked, not remembered, and relative to the other picks in the set, not necessarily to
+  the source artist (a set for a Sub-headliner can satisfy this with a mix of
+  Sub-headliner and Undercard picks, no Headliner required). This is a goal, not a
+  requirement: never force a weak scale-mix pick just to satisfy it, and do not re-flag
+  the same thin pocket (no Sub-headliner-or-above bridge act exists) every time it
+  recurs.
+- **Diversity across the roster takes priority over scale-mixing in any single set.**
+  When a pocket has only one or two viable bridge acts into a bigger tier, actively cap
+  and rotate their use while drafting rather than defaulting to the same pick each time
+  the pocket comes up. Do not wait for the balance sweep to catch it after the fact.
 - **Genre similarity (stored, Tier 0) is the default basis for a pick.** Reach for
   `about` text / `artist-about-sources.md`, or a bounded web lookup, only to break a tie
   between comparably-fitting candidates, or to backfill a fourth when genre alone falls
