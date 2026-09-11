@@ -12,9 +12,12 @@ alwaysApply: false
 
 The full editorial process — the pipeline, who owns which field, the source hierarchy,
 the research-intensity model, per-field rules, about-copy voice, and the similar-artist
-heuristic — is in @docs/process/artist-editorial-process.md. Read it and follow it.
-Incident case studies are in @docs/process/artist-editorial-incidents.md; read those
-only when a check is getting shaky.
+heuristic — is in @docs/process/artist-editorial-process.md. Read it in full once when
+you start a stretch of artist work, for the reasoning and the per-field rules. The output
+gate at the bottom of this file is what you run before every review batch; it is short by
+design, re-read it each time. Incident case studies are in
+@docs/process/artist-editorial-incidents.md; read those only when a check is getting
+shaky.
 
 Essentials:
 
@@ -42,3 +45,38 @@ Essentials:
 - Present a per-artist report and wait for explicit approval before building a payload.
   Sources for every factual field. Never sound certain when the research is thin —
   surface the options instead.
+- Present the batch as a working markdown file in the scratchpad first, one section
+  per artist, every claim carrying a clickable source link so review happens from the
+  links. For a drafted or verified `about`, each section is written as its eventual
+  `artist-about-sources.md` entry (copy with `[\[N\]](url)` markers, then a numbered
+  source list). For a deferred pass, each is its eventual `artist-about-leads.md`
+  entry (`- fact. Source: url`) alongside the genres and location report. End the file
+  with the genre and location flags and any draft claims cut or contested. The file
+  is a review aid; the durable record is the wave commit into the sources or leads
+  file.
+
+## Output gate: run before presenting any about-copy batch
+
+Per entry, every time, right before sending the batch for review. A verified fact is not
+the finish line; these are separate requirements and each has to be checked.
+
+- Two or more independent sources, at least one a real feature, interview, or review.
+  Wikipedia plus a second Wikipedia page, or Wikipedia plus an aggregator bio (Apple
+  Music, AllMusic), is a fail.
+- Every citation is a page opened and read, not a search-result snippet.
+- Single quotes only, for titles and the occasional short attributed quote. No double
+  quotes anywhere.
+- No hype adjectives ("legendary", "jaw-dropping", "one of the most exciting..."). The
+  excitement comes from which facts are chosen.
+- No controversial or heavy detail that is not load-bearing to the music (ongoing
+  illness, nepo-baby / industry-plant discourse, a "critics say it isn't really X"
+  debate). Neutral-to-negative framing about the work is cut, not softened.
+- Nothing tied to one appearance (stage, set time, "this weekend") and nothing that
+  stale-dates (a named current-year tour routing, "upcoming" shows).
+- Dash check: no em or en dashes.
+- No run-on sentences; roughly five to seven sentences.
+- Opener check: not "X is/are A [and B], from City, who..." — that roster-tag pattern
+  reads mechanically, especially for a duo or band. Lead with an action, a scene, or
+  the one fact that earns the sentence.
+- Genre or location problems go to `artist-flagged-issues.md`, not fixed inline, and the
+  copy still states the correct fact.
