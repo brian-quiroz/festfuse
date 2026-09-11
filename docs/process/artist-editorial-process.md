@@ -508,6 +508,16 @@ padded four. Evaluated on `name` + `slug` only.
   parallel) rather than four genre-nearest-neighbors, and **mix at least one
   bigger-name act with one smaller or rising one** — based on _current_ scale, checked,
   not remembered.
+- **Genre similarity (stored, Tier 0) is the default basis for a pick.** Reach for
+  `about` text / `artist-about-sources.md`, or a bounded web lookup, only to break a tie
+  between comparably-fitting candidates, or to backfill a fourth when genre alone falls
+  short, never as a routine parallel check once genre already supports four. Try
+  `about`/sources first since it is free, already-verified local data; a web lookup is
+  the last resort, bounded to one or two searches, not a research pass. When `about` is
+  used, cross-check the claim against `artist-about-sources.md`, not just the prose at
+  face value.
+- **Never characterize a pick from memory.** Every characterization claim traces to a
+  stored genre tag, verified `about` text, or a source actually opened this session.
 - **Soft preference:** when two candidates fit comparably, prefer the less-referenced
   lineup artist (see below).
 - **Order is a deliberate editorial choice** — not popularity rank (do not lead with the
