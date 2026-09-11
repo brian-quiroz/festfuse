@@ -137,31 +137,6 @@ Mike Bernabei, Steven Filippone, Cam Seidel, Dan DiSantis, Kathryn McCarty — k
 The Stone Pony and playing Sea.Hear.Now. Genres and location were corrected; about/similarArtists/
 tracks need a full rewrite in a dedicated pass.
 
-## balu-brigada (genres)
-
-Stored primary genre is "Groove Pop". This is not an established genre: it is a tag Henry
-Beasley coined for the band and adopted in a 2024 Ones to Watch interview. Sources
-consulted for the `about` (Wikipedia, the Billboard-syndicated Yahoo piece, Ones to Watch)
-otherwise describe them as indie-pop / alt-pop drawing on hip-hop rhythm, vintage synths
-and pop hooks, with influences from Frank Ocean, Gorillaz and N.E.R.D. Surfaced during the
-`about` verify; genre was not in scope to change. Candidate primary: Alt-Pop (already a
-stored secondary).
-
-## brigitte-calls-me-baby (genres)
-
-Stored genres are Post-Punk, New Wave, Chamber Pop. Sources consulted for the `about`
-(Wikipedia, NME) describe the band as post-punk, new wave, and jangle pop, and none support
-"chamber pop." Surfaced during the `about` write; genres were not in scope to change.
-Candidate swap: jangle pop.
-
-## cassandra-coleman (location)
-
-Stored location is Nashville. Nashville Voyager describes her as "based in Columbia,
-Tennessee" and Apple Music lists Columbia, TN as her hometown; only a 2021 HollywoodLife
-piece said Nashville. Her interviews describe growing up in rural Tennessee "near the Blue
-Ridge Mountains" (East Tennessee), which is not Columbia (Middle Tennessee). Surfaced during
-the `about` write; location was not in scope to change. Candidate: Columbia, TN.
-
 ## dexter-and-the-moonrocks (location)
 
 Stored location is Abilene, Texas. Wikipedia states verbatim "While various media sources
@@ -188,12 +163,6 @@ Stored genres are Disco House, House, Funk. Her official bio describes a "signat
 multi-genre style" blending classical training with "modern electronic sounds" and does not
 name a house or disco subgenre. The disco-house tags are not contradicted but not
 confirmed. Worth a check.
-
-## ethan-regan (location)
-
-Stored location is Raleigh, North Carolina. His own press bio (First Avenue, Duck Club)
-says "this Charlotte native." The Raleigh value traces to clture.org, which no longer
-loads. The `about` copy uses Charlotte. Candidate: Charlotte, North Carolina.
 
 ## fai-laci (genres)
 
@@ -229,15 +198,6 @@ is an Arizona singer-songwriter, New York-based, who studied jazz at The New Sch
 Atwood Magazine calls his music "folk-rock". The `about` copy describes the correct
 artist. Fix: location to Arizona (origin) or New York (base); revisit "Americana" in
 genres.
-
-## turnstile (genres)
-
-Stored genres are Hardcore Punk, Alternative Rock, Post-Hardcore. Hardcore Punk and
-Alternative Rock are supported (AllMusic tags the band hardcore punk; the Pitchfork
-'Glow On' review frames them as alternative rock, per the editor; both sites refused
-a fetch during this pass). Wikipedia and the reachable sources use 'melodic hardcore'
-and 'pop-hardcore', never 'post-hardcore'. Surfaced during the `about` re-verify.
-Candidate: swap the third genre from Post-Hardcore to Melodic Hardcore.
 
 ## villanelle (genres)
 
