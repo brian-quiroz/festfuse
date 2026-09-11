@@ -1049,6 +1049,17 @@ Temper City is a Los Angeles trio of Israeli musicians: singer Eytan Peled with 
 2. https://en.wikipedia.org/wiki/Temper_City
 3. https://music.apple.com/us/artist/temper-city/1872869285
 
+## sunday-1994
+
+Sunday (1994) is a transatlantic band built around Paige Turner, who is based in Los Angeles, and Lee Newell, from Slough in England, with a third member who performs only as X.[\[2\]](https://www.rollingstone.co.uk/music/sunday-1994-play-next-interview-43974/)[\[3\]](https://atwoodmagazine.com/sdtvc-sunday-1994-band-music-interview-tv-car-chase-2024/) Turner and Newell met in 2014 writing songs for other artists and for advertisements, and Newell had earlier fronted the indie band Viva Brother.[\[1\]](<https://en.wikipedia.org/wiki/Sunday_(1994)>)[\[2\]](https://www.rollingstone.co.uk/music/sunday-1994-play-next-interview-43974/) They began releasing their own music as Sunday (1994) in 2024, led by 'Tired Boy', the first song Turner learned to play on guitar.[\[2\]](https://www.rollingstone.co.uk/music/sunday-1994-play-next-interview-43974/) The six-track EP 'Sunday (1994)' followed in May 2024 on Arista and RCA, trailed later that year by a deluxe edition fronted by 'TV Car Chase', and a second EP, 'Devotion', arrived in May 2025.[\[1\]](<https://en.wikipedia.org/wiki/Sunday_(1994)>)[\[3\]](https://atwoodmagazine.com/sdtvc-sunday-1994-band-music-interview-tv-car-chase-2024/) Their music runs distorted guitars and shoegaze textures under a cinematic sense of longing, in the lineage of Mazzy Star and Alvvays.[\[3\]](https://atwoodmagazine.com/sdtvc-sunday-1994-band-music-interview-tv-car-chase-2024/)[\[4\]](https://vein.es/tour-diaries-dreamscapes-paige-turner-of-sunday-1994-on-a-breakout-year/) They write and film on physical media rather than digital because, as Newell puts it, they want it to be tangible and real.[\[2\]](https://www.rollingstone.co.uk/music/sunday-1994-play-next-interview-43974/)[\[3\]](https://atwoodmagazine.com/sdtvc-sunday-1994-band-music-interview-tv-car-chase-2024/) Clips posted to TikTok built a following fast enough that the band has sold out shows on both sides of the Atlantic and toured Europe opening for The Last Dinner Party.[\[2\]](https://www.rollingstone.co.uk/music/sunday-1994-play-next-interview-43974/)[\[3\]](https://atwoodmagazine.com/sdtvc-sunday-1994-band-music-interview-tv-car-chase-2024/)[\[4\]](https://vein.es/tour-diaries-dreamscapes-paige-turner-of-sunday-1994-on-a-breakout-year/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Sunday_(1994)
+2. https://www.rollingstone.co.uk/music/sunday-1994-play-next-interview-43974/
+3. https://atwoodmagazine.com/sdtvc-sunday-1994-band-music-interview-tv-car-chase-2024/
+4. https://vein.es/tour-diaries-dreamscapes-paige-turner-of-sunday-1994-on-a-breakout-year/
+
 ## the-4411
 
 The 4411 is an Austin band of Cogan McBride (vocals), Tomas Gerlach (drums), Alan Holmquist (guitar) and Nick Speer (bass).[\[2\]](https://www.austinchronicle.com/music/record-reviews/the-4411-chase-the-feeling-of-a-never-ending-summer/) McBride and Gerlach, lifelong friends, started it during the pandemic while still in high school, and rounded out the lineup as roommates at Texas State University.[\[1\]](https://theduckclub.com/artist/the-4411/)[\[4\]](https://ktswblog.net/2025/02/24/the-4411-talks-success-and-touring/) Their folk-leaning indie rock, with sweeping arrangements and story-driven lyrics, has drawn comparisons to the Paper Kites.[\[1\]](https://theduckclub.com/artist/the-4411/)[\[2\]](https://www.austinchronicle.com/music/record-reviews/the-4411-chase-the-feeling-of-a-never-ending-summer/) The single 'As You Please' (2023) led to their first tour and shaped the debut EP 'We Killed the Sun' (2025);[\[1\]](https://theduckclub.com/artist/the-4411/)[\[3\]](https://the4411.bandcamp.com/) a second EP, 'Haven't Seen You in So Long' (2026), carries 'Sunset Calling' and 'In Due Time'.[\[2\]](https://www.austinchronicle.com/music/record-reviews/the-4411-chase-the-feeling-of-a-never-ending-summer/)
@@ -1059,6 +1070,17 @@ The 4411 is an Austin band of Cogan McBride (vocals), Tomas Gerlach (drums), Ala
 2. https://www.austinchronicle.com/music/record-reviews/the-4411-chase-the-feeling-of-a-never-ending-summer/
 3. https://the4411.bandcamp.com/
 4. https://ktswblog.net/2025/02/24/the-4411-talks-success-and-touring/
+
+## the-chainsmokers
+
+The Chainsmokers are Alex Pall and Drew Taggart, an electronic pop duo who formed in New York in 2012 after their manager introduced them.[\[1\]](https://en.wikipedia.org/wiki/The_Chainsmokers)[\[2\]](https://stereogum.com/2283569/the-number-ones-the-chainsmokers-closer-feat-halsey/columns/the-number-ones) Taggart had grown up in Maine and interned at a record label while at Syracuse, and Pall was DJing around the city.[\[2\]](https://stereogum.com/2283569/the-number-ones-the-chainsmokers-closer-feat-halsey/columns/the-number-ones) Their first attention came from the 2014 novelty single '#Selfie', which reached number 16, and 'Roses' gave them a first top ten hit in 2016.[\[2\]](https://stereogum.com/2283569/the-number-ones-the-chainsmokers-closer-feat-halsey/columns/the-number-ones) 'Closer', with Halsey, followed it to number one on the Billboard Hot 100 and held there for twelve weeks.[\[2\]](https://stereogum.com/2283569/the-number-ones-the-chainsmokers-closer-feat-halsey/columns/the-number-ones) 'Don't Let Me Down', with Daya, won the 2017 Grammy for Best Dance Recording, and 'Something Just Like This', with Coldplay, was nominated the following year.[\[2\]](https://stereogum.com/2283569/the-number-ones-the-chainsmokers-closer-feat-halsey/columns/the-number-ones)[\[3\]](https://www.grammy.com/artists/chainsmokers/20109/) Their debut album 'Memories...Do Not Open' entered the Billboard 200 at number one in 2017.[\[1\]](https://en.wikipedia.org/wiki/The_Chainsmokers) They have kept up a steady output since, through the albums 'So Far So Good' and 'Summertime Friends' and the 2024 EP 'No Hard Feelings', and Taggart said in a 2023 interview that the duo still feels like it is 'just getting started'.[\[1\]](https://en.wikipedia.org/wiki/The_Chainsmokers)[\[4\]](https://dancingastronaut.com/2023/01/the-chainsmokers-get-candid-on-call-her-daddy-guest-interview-theres-a-lot-of-things-we-regret-doing/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/The_Chainsmokers
+2. https://stereogum.com/2283569/the-number-ones-the-chainsmokers-closer-feat-halsey/columns/the-number-ones
+3. https://www.grammy.com/artists/chainsmokers/20109/
+4. https://dancingastronaut.com/2023/01/the-chainsmokers-get-candid-on-call-her-daddy-guest-interview-theres-a-lot-of-things-we-regret-doing/
 
 ## the-moriah-sisters
 
@@ -1080,6 +1102,16 @@ The War on Drugs formed in Philadelphia in 2005 around Adam Granduciel and Kurt 
 2. https://music.apple.com/us/artist/the-war-on-drugs/282078681
 3. https://consequence.net/2026/09/the-war-on-drugs-whos-that-new-song/
 
+## the-xx
+
+The xx formed in 2005 at a school in south London, where Romy Madley Croft, Oliver Sim and Jamie Smith, later known as Jamie xx, had been friends since childhood.[\[1\]](https://en.wikipedia.org/wiki/The_xx)[\[3\]](https://www.anothermanmag.com/library/9914/oliver-sim) Their self-titled debut arrived in 2009 on Young Turks and won the 2010 Mercury Prize, a record built on space and restraint, with Madley Croft and Sim's voices circling each other over Smith's spare electronics.[\[1\]](https://en.wikipedia.org/wiki/The_xx)[\[3\]](https://www.anothermanmag.com/library/9914/oliver-sim) 'Coexist' followed in 2012 and reached number one in the UK, as did 'I See You' in 2017, which the band recorded across New York, Marfa, Reykjavik, Los Angeles and London and led with the single 'On Hold'.[\[1\]](https://en.wikipedia.org/wiki/The_xx)[\[2\]](https://www.timeout.com/london/blog/london-trio-the-xx-announce-new-album-i-see-you-111016) Between xx records each member released solo work, Jamie xx's 'In Colour' in 2015 and then Sim's 'Hideous Bastard' and Madley Croft's 'Mid Air', and the band has credited the success of 'In Colour' with renewing its confidence.[\[1\]](https://en.wikipedia.org/wiki/The_xx)[\[3\]](https://www.anothermanmag.com/library/9914/oliver-sim) They reconvened for Jamie xx's 2024 Glastonbury set and a 2025 festival appearance, then played their first full show together in eight years in 2026, with a fourth album in development.[\[1\]](https://en.wikipedia.org/wiki/The_xx)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/The_xx
+2. https://www.timeout.com/london/blog/london-trio-the-xx-announce-new-album-i-see-you-111016
+3. https://www.anothermanmag.com/library/9914/oliver-sim
+
 ## thomas-day
 
 Thomas Day is a pop singer-songwriter from Brentwood, Tennessee, near Nashville, who started in musical theater at nine and was a field-goal kicker good enough for college scholarship offers before he chose music.[\[1\]](https://www.nashville.com/thomas-day-announces-full-length-project-out-october-27th/)[\[3\]](https://www.maxpreps.com/news/24F-bXi60UyTszJbUS0UtA/tennessee-high-school-football-kicker-thomas-day-advances-on-americas-got-talent.htm) He auditioned for America's Got Talent in 2020 with Finneas's 'Break My Heart Again', and built a following with TikTok covers of Adele, Bruno Mars, Lewis Capaldi and Sam Smith.[\[2\]](https://music.apple.com/us/artist/thomas-day/1576542827)[\[3\]](https://www.maxpreps.com/news/24F-bXi60UyTszJbUS0UtA/tennessee-high-school-football-kicker-thomas-day-advances-on-americas-got-talent.htm) He signed to Arista in 2021 and put out the album 'Love Me for Another Day' (2023), songs he has said he 'wrote and recorded when I was 18 and 19, trying to figure out the kind of artist I want to be', followed by the EPs 'Angel Boy' (2024) and 'kids' (2025).[\[1\]](https://www.nashville.com/thomas-day-announces-full-length-project-out-october-27th/)[\[2\]](https://music.apple.com/us/artist/thomas-day/1576542827) His earnest pop is about the ups and downs of young adulthood, and he has toured Europe and the US opening for Joshua Bassett.[\[2\]](https://music.apple.com/us/artist/thomas-day/1576542827)[\[4\]](https://www.broadwayworld.com/bwwmusic/article/Thomas-Day-Releases-Angel-Boy-EP-20240913)
@@ -1091,6 +1123,15 @@ Thomas Day is a pop singer-songwriter from Brentwood, Tennessee, near Nashville,
 3. https://www.maxpreps.com/news/24F-bXi60UyTszJbUS0UtA/tennessee-high-school-football-kicker-thomas-day-advances-on-americas-got-talent.htm
 4. https://www.broadwayworld.com/bwwmusic/article/Thomas-Day-Releases-Angel-Boy-EP-20240913
 
+## turnstile
+
+Turnstile formed in Baltimore in 2010 out of the city's hardcore scene, with Brendan Yates moving from behind the drums to the front as a singer who had never sung before.[\[1\]](<https://en.wikipedia.org/wiki/Turnstile_(band)>)[\[2\]](https://www.blackbirdspyplane.com/p/turnstile-interview-brendan-yates-never-enough-2025) The band, now Yates, Franz Lyons, Daniel Fang, Pat McCrory and Meg Mills, released 'Nonstop Feeling' in 2015 and 'Time & Space' in 2018 before 'Glow On' in 2021 pushed their mix of hardcore, alternative rock and pop hooks onto the Billboard 200 and earned three Grammy nominations.[\[1\]](<https://en.wikipedia.org/wiki/Turnstile_(band)>) 'Never Enough' followed in June 2025 on Roadrunner, reaching number nine on the Billboard 200 and the top ten in five countries, with guest turns from Hayley Williams, Faye Webster, Shabaka Hutchings and Dev Hynes and production from A.G. Cook.[\[1\]](<https://en.wikipedia.org/wiki/Turnstile_(band)>)[\[2\]](https://www.blackbirdspyplane.com/p/turnstile-interview-brendan-yates-never-enough-2025) At the 2026 Grammy Awards the band won Best Rock Album and Best Metal Performance, from five nominations that made them the first act nominated in the rock, alternative and metal fields in the same year.[\[1\]](<https://en.wikipedia.org/wiki/Turnstile_(band)>) Brendan Yates co-directed a fifty-minute film to accompany 'Never Enough'.[\[2\]](https://www.blackbirdspyplane.com/p/turnstile-interview-brendan-yates-never-enough-2025) Turnstile has toured arenas with My Chemical Romance and Blink-182 while keeping the physical, communal feel of a hardcore show.[\[1\]](<https://en.wikipedia.org/wiki/Turnstile_(band)>)[\[2\]](https://www.blackbirdspyplane.com/p/turnstile-interview-brendan-yates-never-enough-2025)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Turnstile_(band)
+2. https://www.blackbirdspyplane.com/p/turnstile-interview-brendan-yates-never-enough-2025
+
 ## underscores
 
 Underscores is April Harper Grey, a musician and producer born in San Francisco in 2000 who studied music at NYU and now lives in Chicago.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>) She started out posting dubstep to SoundCloud as a teenager and built the underscores project around constant reinvention and detailed sound design, pulling emo, pop-punk, folk and dubstep into what began as hyperpop; by 2023 she was telling NME that 'hyperpop is officially dead'.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>) The debut album 'Fishmonger' (2021) led to a support slot with 100 gecs.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>) 'Wallsocket' (2023), on Mom + Pop, is a concept album set in an invented Michigan town, following three young women through questions of class, suburbia and trans identity.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>)[\[2\]](https://en.wikipedia.org/wiki/Wallsocket) She featured on Danny Brown's 'Copycats' in 2025, released her third album 'U' in 2026, and has opened for Porter Robinson and Charli XCX.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>)[\[3\]](<https://en.wikipedia.org/wiki/Copycats_(song)>)
@@ -1100,6 +1141,15 @@ Underscores is April Harper Grey, a musician and producer born in San Francisco 
 1. https://en.wikipedia.org/wiki/Underscores_(musician)
 2. https://en.wikipedia.org/wiki/Wallsocket
 3. https://en.wikipedia.org/wiki/Copycats_(song)
+
+## villanelle
+
+Villanelle is a London trio of Gene Gallagher, Ben Taylor and Jack Schiavo, who met by chance in the summer of 2023.[\[1\]](https://www.nme.com/features/music-interviews/villanelle-interview-gene-gallagher-measly-means-ep-radar-3943577) Gallagher is the son of Liam Gallagher, and the band played its first shows opening the 2024 'Definitely Maybe' anniversary tour at his invitation.[\[1\]](https://www.nme.com/features/music-interviews/villanelle-interview-gene-gallagher-measly-means-ep-radar-3943577) Their music leans on 1990s grunge and alternative rock, with the heavy riffs of Smashing Pumpkins and Black Sabbath in the background and an early single, 'Hinge', that NME called Nirvana-indebted.[\[1\]](https://www.nme.com/features/music-interviews/villanelle-interview-gene-gallagher-measly-means-ep-radar-3943577) The debut EP 'Measly Means' arrived in May 2026 with five tracks, among them 'Placebo', 'Hinge' and 'Opportunity Arising', which Gallagher describes as a softer turn away from the band's usual heavy riffs.[\[2\]](https://readdork.com/news/villanelle-measly-means-ep-release) Its first vinyl run sold out on pre-order, and another thousand copies were pressed for independent shops in the UK and North America.[\[2\]](https://readdork.com/news/villanelle-measly-means-ep-release) NME placed the band on its NME 100 list of new artists, and they have toured with Miles Kane, headlined The Lexington in London, and taken a 'Punchbag' tour around university venues.[\[1\]](https://www.nme.com/features/music-interviews/villanelle-interview-gene-gallagher-measly-means-ep-radar-3943577)
+
+**Sources**
+
+1. https://www.nme.com/features/music-interviews/villanelle-interview-gene-gallagher-measly-means-ep-radar-3943577
+2. https://readdork.com/news/villanelle-measly-means-ep-release
 
 ## vwillz
 

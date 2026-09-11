@@ -240,3 +240,20 @@ is an Arizona singer-songwriter, New York-based, who studied jazz at The New Sch
 Atwood Magazine calls his music "folk-rock". The `about` copy describes the correct
 artist. Fix: location to Arizona (origin) or New York (base); revisit "Americana" in
 genres.
+
+## turnstile (genres)
+
+Stored genres are Hardcore Punk, Alternative Rock, Post-Hardcore. Hardcore Punk and
+Alternative Rock are supported (AllMusic tags the band hardcore punk; the Pitchfork
+'Glow On' review frames them as alternative rock, per the editor; both sites refused
+a fetch during this pass). Wikipedia and the reachable sources use 'melodic hardcore'
+and 'pop-hardcore', never 'post-hardcore'. Surfaced during the `about` re-verify.
+Candidate: swap the third genre from Post-Hardcore to Melodic Hardcore.
+
+## villanelle (genres)
+
+Stored genres are Indie Rock, Alternative Rock, Post-Punk. Every source consulted for
+the `about` (NME, Dork) frames them as 1990s grunge and alternative rock (Smashing
+Pumpkins, Black Sabbath, Nirvana-indebted), and NME quotes the band rejecting "indie"
+and "art rock." Nothing supports Post-Punk. Surfaced during the `about` re-verify.
+Candidate: full genre re-look, likely Grunge in the primary slot.
