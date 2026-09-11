@@ -103,6 +103,31 @@ Asleep at the Wheel started in 1970 on a farm in Paw Paw, West Virginia,[\[1\]](
 2. https://en.wikipedia.org/wiki/Asleep_at_the_Wheel
 3. https://www.texasstandard.org/stories/asleep-at-the-wheel-celebrates-50-years-of-western-swing/
 
+## audrey-hobert
+
+Audrey Hobert was born in New York City, grew up in Los Angeles, and graduated from NYU in 2021 with a degree in screenwriting.[\[1\]](https://en.wikipedia.org/wiki/Audrey_Hobert) She spent two years as a staff writer on the Nickelodeon sitcom 'The Really Loud House' before turning to music with her childhood friend Gracie Abrams, whom she met at Abrams' fifth-grade graduation.[\[1\]](https://en.wikipedia.org/wiki/Audrey_Hobert) She co-wrote 'Risk' and 'I Love You, I'm Sorry' on Abrams' 2024 album 'The Secret of Us' and directed both videos.[\[1\]](https://en.wikipedia.org/wiki/Audrey_Hobert)[\[3\]](https://www.nylon.com/entertainment/audrey-hobert-sue-me-gracie-abrams-music) In May 2025 she released her debut solo single 'Sue Me' on RCA Records, followed by her 12-track debut album 'Who's the Clown?' that August.[\[2\]](<https://en.wikipedia.org/wiki/Sue_Me_(Audrey_Hobert_song)>)[\[4\]](<https://en.wikipedia.org/wiki/Who%27s_the_Clown%3F>) She landed on the album's title and cover the morning after finishing the song 'Sex and the City'.[\[5\]](https://www.coupdemainmagazine.com/audrey-hobert/20184) Her songwriting leans on deadpan humor and narrative detail, set to guitar-driven pop.[\[1\]](https://en.wikipedia.org/wiki/Audrey_Hobert)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Audrey_Hobert
+2. https://en.wikipedia.org/wiki/Sue_Me_(Audrey_Hobert_song)
+3. https://www.nylon.com/entertainment/audrey-hobert-sue-me-gracie-abrams-music
+4. https://en.wikipedia.org/wiki/Who%27s_the_Clown%3F
+5. https://www.coupdemainmagazine.com/audrey-hobert/20184
+
+## bad-nerves
+
+Bad Nerves began at Christmas 2015, when guitarist Will Phillipson texted frontman Bobby Nerves proposing they start a band, and the pair wrote their early songs in a garage.[\[1\]](https://discover.ticketmaster.co.uk/new-music/bad-nerves-band-interview-61578/) The five-piece, rounded out by George Berry, Jonathan Poulton, and Samuel Thompson, released their self-titled debut album in 2020 and its follow-up, 'Still Nervous', in 2024, both recorded in that same garage.[\[1\]](https://discover.ticketmaster.co.uk/new-music/bad-nerves-band-interview-61578/)[\[2\]](https://www.last.fm/music/Bad+Nerves/+wiki)[\[4\]](https://slrmagazine.com/2024/03/02/bad-nerves-announce-new-album-still-nervous-for-release-may-31st/) Their hook-driven, sub-two-minute songs have drawn comparisons to the Ramones, the Strokes, and the Black Keys, and earned them support slots with Royal Blood, the Hives, and Nothing But Thieves.[\[3\]](https://www.messedmag.com/2024/03/14/essex-punks-bad-nerves-talk-breakthrough-year-writing-their-fastest-songs-ever-and-buying-mansions-in-the-future-interview/) In 2024 they signed to Loosegroove Records, the label co-founded by Pearl Jam's Stone Gossard, and the following year Green Day's Billie Joe Armstrong invited them to open shows on his band's South American tour, calling them 'the best band in England right now.'[\[5\]](https://lollipopmagazine.com/2024/10/bad-nerves-sign-with-loosegroove-records-on-fall-tour-news/)[\[6\]](https://es.rollingstone.com/arg-quienes-son-los-bad-nerves-la-banda-inglesa-que-eligio-green-day-para-su-tour-sudamericano/)
+
+**Sources**
+
+1. https://discover.ticketmaster.co.uk/new-music/bad-nerves-band-interview-61578/
+2. https://www.last.fm/music/Bad+Nerves/+wiki
+3. https://www.messedmag.com/2024/03/14/essex-punks-bad-nerves-talk-breakthrough-year-writing-their-fastest-songs-ever-and-buying-mansions-in-the-future-interview/
+4. https://slrmagazine.com/2024/03/02/bad-nerves-announce-new-album-still-nervous-for-release-may-31st/
+5. https://lollipopmagazine.com/2024/10/bad-nerves-sign-with-loosegroove-records-on-fall-tour-news/
+6. https://es.rollingstone.com/arg-quienes-son-los-bad-nerves-la-banda-inglesa-que-eligio-green-day-para-su-tour-sudamericano/
+
 ## balu-brigada
 
 Balu Brigada is the Auckland band of brothers Henry and Pierre Beasley, sons of a Royal New Zealand Ballet dancer and an actress, who both studied music at Auckland University, Pierre in jazz and Henry in pop.[\[1\]](https://en.wikipedia.org/wiki/Balu_Brigada)[\[3\]](https://www.onestowatch.com/en/blog/get-to-know-groove-pop-duo-balu-brigada-live) They formed in their parents' rumpus room in 2016, changed the name from Baloo to sidestep a Disney problem, and moved to New York after signing in 2022 to ARRO, the label co-founded by Twenty One Pilots' Tyler Joseph, through Atlantic and Warner Music Australia.[\[1\]](https://en.wikipedia.org/wiki/Balu_Brigada)[\[2\]](https://www.yahoo.com/entertainment/balu-brigada-breakthrough-hit-cold-165436808.html)[\[3\]](https://www.onestowatch.com/en/blog/get-to-know-groove-pop-duo-balu-brigada-live) Henry coined the tag they use for the sound, 'groove-pop', built on the Frank Ocean, Gorillaz and N.E.R.D records they grew up on.[\[3\]](https://www.onestowatch.com/en/blog/get-to-know-groove-pop-duo-balu-brigada-live) The single 'So Cold' reached number one on the US Alternative Airplay chart in 2025, the first act to top it with a first charted song since Dexter and the Moonrocks.[\[1\]](https://en.wikipedia.org/wiki/Balu_Brigada)[\[2\]](https://www.yahoo.com/entertainment/balu-brigada-breakthrough-hit-cold-165436808.html) The debut album 'Portal' followed in August 2025, and they have toured the world opening for Twenty One Pilots.[\[1\]](https://en.wikipedia.org/wiki/Balu_Brigada)[\[2\]](https://www.yahoo.com/entertainment/balu-brigada-breakthrough-hit-cold-165436808.html)
@@ -112,6 +137,18 @@ Balu Brigada is the Auckland band of brothers Henry and Pierre Beasley, sons of 
 1. https://en.wikipedia.org/wiki/Balu_Brigada
 2. https://www.yahoo.com/entertainment/balu-brigada-breakthrough-hit-cold-165436808.html
 3. https://www.onestowatch.com/en/blog/get-to-know-groove-pop-duo-balu-brigada-live
+
+## bella-kay
+
+Bella Kay was born in Houston in 2006 and moved to Orlando as a teenager, where she started posting song clips to social media before her career took off.[\[1\]](https://en.wikipedia.org/wiki/Bella_Kay) Her debut single 'The Sick' (2025) surpassed 100 million streams on Spotify, and the 2026 single 'iloveitiloveitiloveit' reached number 17 on the US Billboard Hot 100 and number 2 on the UK Singles Chart.[\[1\]](https://en.wikipedia.org/wiki/Bella_Kay) Signed to Atlantic Records,[\[2\]](https://www.musicweek.com/radar/read/on-the-radar-bella-kay/094296) she released her debut EP 'sick to my stomach' in November 2025.[\[1\]](https://en.wikipedia.org/wiki/Bella_Kay)[\[3\]](https://theconcertchronicles.com/2025/11/20/bella-kay-releases-debut-ep-sick-to-my-stomach/) She followed it with the EP 'are you mad at me?'.[\[4\]](https://www.officialcharts.com/chart-news/bella-kay-interview-are-you-mad-at-me-new-ep/) Her 13-track debut album 'My Reckless Abandon' arrived in July 2026 and reached number 96 on the Billboard 200.[\[1\]](https://en.wikipedia.org/wiki/Bella_Kay)[\[5\]](https://www.thatericalper.com/2026/07/17/alt-pop-riser-bella-kay-releases-debut-album-my-reckless-abandon/) She has called the album cathartic, built from 'all of my thoughts, the good, bad, confusing, obsessive, honest, and beautiful ones,' and hopes listeners 'recognize themselves and their own experiences' in it.[\[5\]](https://www.thatericalper.com/2026/07/17/alt-pop-riser-bella-kay-releases-debut-album-my-reckless-abandon/) Her music pairs alt-pop production with acoustic guitar and confessional songwriting, and she counts Rihanna, Olivia Rodrigo, and Sabrina Carpenter among her influences.[\[1\]](https://en.wikipedia.org/wiki/Bella_Kay)[\[4\]](https://www.officialcharts.com/chart-news/bella-kay-interview-are-you-mad-at-me-new-ep/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Bella_Kay
+2. https://www.musicweek.com/radar/read/on-the-radar-bella-kay/094296
+3. https://theconcertchronicles.com/2025/11/20/bella-kay-releases-debut-ep-sick-to-my-stomach/
+4. https://www.officialcharts.com/chart-news/bella-kay-interview-are-you-mad-at-me-new-ep/
+5. https://www.thatericalper.com/2026/07/17/alt-pop-riser-bella-kay-releases-debut-album-my-reckless-abandon/
 
 ## bleachers
 
@@ -123,6 +160,19 @@ Bleachers started in 2013 in Bergenfield, New Jersey, as Jack Antonoff's own ban
 2. https://en.wikipedia.org/wiki/Jack_Antonoff
 3. https://en.wikipedia.org/wiki/Bleachers_(album)
 4. https://en.wikipedia.org/wiki/Everyone_for_Ten_Minutes
+
+## blood-orange
+
+Blood Orange is the alt-R&B and art-pop project of British-born, New York-based songwriter, producer, and multi-instrumentalist Devonté Hynes.[\[2\]](https://en.wikipedia.org/wiki/Dev_Hynes) Before Blood Orange he recorded as Test Icicles and then Lightspeed Champion, debuting the current project with 2011's 'Coastal Grooves'.[\[1\]](https://en.wikipedia.org/wiki/Coastal_Grooves)[\[2\]](https://en.wikipedia.org/wiki/Dev_Hynes) Hynes crafts lush, atmospheric soundscapes that merge 80s funk, soul, and modern R&B with themes of identity and race, and has produced and written for Solange, FKA twigs, Carly Rae Jepsen, and Mariah Carey.[\[3\]](https://www.grammy.com/news/blood-orange-devonte-hynes-interview-new-album-essex-honey/)[\[4\]](https://www.nme.com/reviews/reviews-blood-orange-16507-305190) His 2025 album 'Essex Honey' followed the sudden death of his mother in 2023 and was written back in his home county of Essex; Hynes has said the only reason he makes music is 'excavation.'[\[5\]](https://www.anothermag.com/fashion-beauty/16554/dev-hynes-interview-blood-orange-essex-honey-new-album) Lorde, a close friend and New York neighbor who was working on her own album at the same time, features on the record.[\[6\]](https://www.nme.com/news/music/dev-hynes-brits-2026-interview-lorde-test-icicles-reunion-lightspeed-champion-essex-honey-3932388) After avoiding live performance for years, he toured 'Essex Honey' through 2026, closing with a headline set at London's Rally Festival that August.[\[5\]](https://www.anothermag.com/fashion-beauty/16554/dev-hynes-interview-blood-orange-essex-honey-new-album)[\[6\]](https://www.nme.com/news/music/dev-hynes-brits-2026-interview-lorde-test-icicles-reunion-lightspeed-champion-essex-honey-3932388)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Coastal_Grooves
+2. https://en.wikipedia.org/wiki/Dev_Hynes
+3. https://www.grammy.com/news/blood-orange-devonte-hynes-interview-new-album-essex-honey/
+4. https://www.nme.com/reviews/reviews-blood-orange-16507-305190
+5. https://www.anothermag.com/fashion-beauty/16554/dev-hynes-interview-blood-orange-essex-honey-new-album
+6. https://www.nme.com/news/music/dev-hynes-brits-2026-interview-lorde-test-icicles-reunion-lightspeed-champion-essex-honey-3932388
 
 ## bo-staloch
 
@@ -208,6 +258,18 @@ Cassandra Coleman grew up in rural Tennessee, near the Blue Ridge Mountains.[\[1
 3. https://www.melodicmag.com/news/cassandra-coleman-shares-her-coming-of-age-story-on-debut-single/
 4. https://music.apple.com/us/artist/cassandra-coleman/1600330632
 
+## charli-xcx
+
+Charli XCX has spent over a decade at the forefront of pop, writing hits for other artists, including Icona Pop's 'I Love It' and Iggy Azalea's 'Fancy', while building a genre-spanning solo catalogue of her own.[\[1\]](<https://en.wikipedia.org/wiki/I_Love_It_(Icona_Pop_song)>)[\[2\]](<https://en.wikipedia.org/wiki/Fancy_(Iggy_Azalea_song)>) After working with the experimental PC Music collective from 2015, she pushed pop toward its glitchy, auto-tuned extreme on the 2017 mixtape 'Pop 2', then pulled back toward a more mainstream, 1980s-inflected synth-pop on 2022's 'Crash'.[\[5\]](https://en.wikipedia.org/wiki/Charli_XCX) Her 2024 album 'BRAT' became a cultural phenomenon, its neon-green aesthetic defining 'brat summer' and earning three Grammys, including Best Dance/Electronic Album, and five BRIT Awards, including Album of the Year.[\[3\]](https://www.thefader.com/2025/02/26/every-award-charli-xcx-brat-won-brit-grammys)[\[5\]](https://en.wikipedia.org/wiki/Charli_XCX) She followed it in 2026 with 'Music, Fashion, Film', a multimedia studio album produced with A.G. Cook and Finn Keane that marks a turn toward a more guitar-driven sound.[\[4\]](<https://en.wikipedia.org/wiki/Music,_Fashion,_Film>)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/I_Love_It_(Icona_Pop_song)
+2. https://en.wikipedia.org/wiki/Fancy_(Iggy_Azalea_song)
+3. https://www.thefader.com/2025/02/26/every-award-charli-xcx-brat-won-brit-grammys
+4. https://en.wikipedia.org/wiki/Music,_Fashion,_Film
+5. https://en.wikipedia.org/wiki/Charli_XCX
+
 ## charlotte-lawrence
 
 Charlotte Lawrence is the daughter of television producer Bill Lawrence and actress Christa Miller,[\[1\]](https://en.wikipedia.org/wiki/Charlotte_Lawrence) born in Los Angeles in 2000 and playing classical piano from age five.[\[1\]](https://en.wikipedia.org/wiki/Charlotte_Lawrence) She featured on Kaskade's 'Cold as Stone', released her first EP 'Young' in 2018,[\[1\]](https://en.wikipedia.org/wiki/Charlotte_Lawrence) and signed to Atlantic Records the following year.[\[1\]](https://en.wikipedia.org/wiki/Charlotte_Lawrence) Her song 'Joke's on You' appeared on the 2020 'Birds of Prey' soundtrack,[\[1\]](https://en.wikipedia.org/wiki/Charlotte_Lawrence)[\[2\]](https://atwoodmagazine.com/somewhere-charlotte-lawrence-album-review/) and a second EP, 'Charlotte', followed in 2021.[\[1\]](https://en.wikipedia.org/wiki/Charlotte_Lawrence)[\[2\]](https://atwoodmagazine.com/somewhere-charlotte-lawrence-album-review/) She released her debut album 'Somewhere', which includes an 'Ophelia' co-write with Gracie Abrams, in June 2025.[\[2\]](https://atwoodmagazine.com/somewhere-charlotte-lawrence-album-review/) She also models, signed to IMG.[\[1\]](https://en.wikipedia.org/wiki/Charlotte_Lawrence)
@@ -249,6 +311,22 @@ Claire Rosinkranz, born in California in 2004, comes from a musical family: her 
 1. https://en.wikipedia.org/wiki/Claire_Rosinkranz
 2. https://www.clashmusic.com/features/looking-for-a-good-life-claire-rosinkranz-interviewed/
 3. https://royaltyexchange.com/blog/claire-rosinkranz-and-ragnar-a-father-daughter-duo-shaping-indie-pop
+
+## cmat
+
+Ciara Mary-Alice Thompson grew up in Dunboyne, County Meath, and dropped out of Trinity College Dublin at 18 on medical advice, moving to Denmark for a three-month songwriting camp before returning to build her career as CMAT.[\[1\]](https://en.wikipedia.org/wiki/CMAT)[\[7\]](https://www.irishexaminer.com/lifestyle/artsandculture/arid-40808079.html) A 2018 songwriting workshop with Charli XCX became a turning point: XCX told her she was 'really good at music' but didn't yet know what she was doing, and needed to leave Manchester for London or back home to Dublin, advice CMAT calls the best she ever received.[\[7\]](https://www.irishexaminer.com/lifestyle/artsandculture/arid-40808079.html) Her music pairs country songwriting structures with indie-pop arrangements and narrative lyrics.[\[1\]](https://en.wikipedia.org/wiki/CMAT) Her 2022 debut album, 'If My Wife New I'd Be Dead', won the Choice Music Prize for Irish Album of the Year.[\[2\]](https://www.hotpress.com/culture/choice-music-prize-cmat-wins-album-of-the-year-for-if-my-wife-new-id-be-dead-for-22955850) Its 2023 follow-up, 'Crazymad, for Me', earned a Mercury Prize nomination and a BRIT Award nomination for International Artist of the Year.[\[3\]](<https://en.wikipedia.org/wiki/Crazymad,_for_Me>)[\[4\]](https://www.rte.ie/entertainment/2024/0124/1428422-rising-irish-star-cmat-nominated-for-a-brit-award/) Her 2025 album 'Euro-Country' expanded her sound with full-band production and went on to win her a second Choice Music Prize and the Ivor Novello Award for Best Album, beating Lily Allen, Olivia Dean and Wolf Alice, plus a second Mercury Prize nomination.[\[5\]](https://en.wikipedia.org/wiki/Euro-Country)[\[8\]](https://www.irishtimes.com/culture/music/2026/03/05/cmat-wins-choice-music-prize-album-of-the-year-for-euro-country/)[\[9\]](https://www.rte.ie/entertainment/2026/0521/1574622-cmat-wins-ivor-novello-award-for-best-album/) On stage, she performs backed by a live band, leading crowds through camp theatrical choreography and the 'Dunboyne County two-step,' a nod to her hometown.[\[6\]](https://www.nme.com/reviews/live/cmat-glastonbury-2025-live-review-photos-setlist-3873182)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/CMAT
+2. https://www.hotpress.com/culture/choice-music-prize-cmat-wins-album-of-the-year-for-if-my-wife-new-id-be-dead-for-22955850
+3. https://en.wikipedia.org/wiki/Crazymad,_for_Me
+4. https://www.rte.ie/entertainment/2024/0124/1428422-rising-irish-star-cmat-nominated-for-a-brit-award/
+5. https://en.wikipedia.org/wiki/Euro-Country
+6. https://www.nme.com/reviews/live/cmat-glastonbury-2025-live-review-photos-setlist-3873182
+7. https://www.irishexaminer.com/lifestyle/artsandculture/arid-40808079.html
+8. https://www.irishtimes.com/culture/music/2026/03/05/cmat-wins-choice-music-prize-album-of-the-year-for-euro-country/
+9. https://www.rte.ie/entertainment/2026/0521/1574622-cmat-wins-ivor-novello-award-for-best-album/
 
 ## coleman-jennings
 
