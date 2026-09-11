@@ -136,9 +136,3 @@ Lollapalooza 2026 booking directly) is an Asbury Park, NJ alt-folk-rock/psych ba
 Mike Bernabei, Steven Filippone, Cam Seidel, Dan DiSantis, Kathryn McCarty — known for selling out
 The Stone Pony and playing Sea.Hear.Now. Genres and location were corrected; about/similarArtists/
 tracks need a full rewrite in a dedicated pass.
-
-## damaris-bojor (name, tracks)
-
-Stored name is "Damaris Bojor"; sources consistently render it "Dámaris Bójor" with
-accents. Stored Quick Picks track "Miro Al Cielo" is more correctly "Miro al Cielo"
-(lowercase "al"). Surfaced during the `about` write.
