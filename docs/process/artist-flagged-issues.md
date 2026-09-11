@@ -137,13 +137,6 @@ Mike Bernabei, Steven Filippone, Cam Seidel, Dan DiSantis, Kathryn McCarty — k
 The Stone Pony and playing Sea.Hear.Now. Genres and location were corrected; about/similarArtists/
 tracks need a full rewrite in a dedicated pass.
 
-## dexter-and-the-moonrocks (location)
-
-Stored location is Abilene, Texas. Wikipedia states verbatim "While various media sources
-have listed their hometown as being Abilene, they are from rural Throckmorton County,
-Texas" (~70 miles northeast); Songfacts concurs. The Abilene framing traces to a Texas
-Monthly headline. Surfaced during the `about` write. Candidate: Throckmorton, Texas.
-
 ## cure-for-paranoia (genres)
 
 Stored genres are Alternative Hip-Hop, Neo-Soul, Funk. "Alternative hip-hop" is
@@ -170,34 +163,6 @@ Stored genres are Indie Rock, Garage Rock, Punk Rock. Sources consulted for the 
 (Big Hassle, Melt FM, Easy Eye Sound) describe punk, glam, classic rock and "alternative
 rock"; none use "garage rock." Surfaced during the `about` write. Candidate: revisit the
 third genre.
-
-## rubio (location)
-
-Stored location is Santiago, Chile. Rubio (Francisca Straube) is Chilean and the
-identity is Chilean, but KEXP's 2023 write-up says she is "currently based in Mexico",
-and she has scored several Mexican film and TV productions and won a Mexican award
-(Diosa de Plata). Origin is Chile; current base may be Mexico. The `about` copy calls
-her "Chilean" and does not assert a current city. Confirm.
-
-## leon-knight (location)
-
-Stored location is Austin, Texas. No source consulted for the `about` (Ghost Cult,
-Litehouse, Newsweek, idobi) states where Leon Knight is from or based; the 'Yes I Do'
-session was cut at Def Jam's studio and his first headline show was at the Echo in Los
-Angeles. Nothing contradicts Austin, but nothing supports it. The `about` copy asserts
-no location. Confirm Austin or change it.
-
-## joshua-jensen (location, genres)
-
-Stored location is Seattle, Washington and stored genres are Indie Folk, Americana,
-Singer-Songwriter. Those describe a different musician also named Josh Jensen
-(joshuajensen.bandcamp.com: a Seattle "PNW Americana" artist on Washingtones Records,
-albums 'Unravel the Wire' and 'This Is Where We Landed'). The booked artist, confirmed by
-the stored Spotify id (2c2U7EyKWSTsi5FKsolROm) and the stored Quick Picks track 'Hoping',
-is an Arizona singer-songwriter, New York-based, who studied jazz at The New School;
-Atwood Magazine calls his music "folk-rock". The `about` copy describes the correct
-artist. Fix: location to Arizona (origin) or New York (base); revisit "Americana" in
-genres.
 
 ## villanelle (genres)
 
