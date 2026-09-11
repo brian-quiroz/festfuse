@@ -137,37 +137,8 @@ Mike Bernabei, Steven Filippone, Cam Seidel, Dan DiSantis, Kathryn McCarty — k
 The Stone Pony and playing Sea.Hear.Now. Genres and location were corrected; about/similarArtists/
 tracks need a full rewrite in a dedicated pass.
 
-## cure-for-paranoia (genres)
-
-Stored genres are Alternative Hip-Hop, Neo-Soul, Funk. "Alternative hip-hop" is
-consistently supported; the neo-soul and funk tags trace to a Dallas Observer interview
-("trippy soul-infused hip-hop... rap, R&B, funk and jazz") that was not re-read this pass.
-Worth a check against a current source.
-
 ## damaris-bojor (name, tracks)
 
 Stored name is "Damaris Bojor"; sources consistently render it "Dámaris Bójor" with
 accents. Stored Quick Picks track "Miro Al Cielo" is more correctly "Miro al Cielo"
 (lowercase "al"). Surfaced during the `about` write.
-
-## dj-cassandra (genres)
-
-Stored genres are Disco House, House, Funk. Her official bio describes a "signature
-multi-genre style" blending classical training with "modern electronic sounds" and does not
-name a house or disco subgenre. The disco-house tags are not contradicted but not
-confirmed. Worth a check.
-
-## fai-laci (genres)
-
-Stored genres are Indie Rock, Garage Rock, Punk Rock. Sources consulted for the `about`
-(Big Hassle, Melt FM, Easy Eye Sound) describe punk, glam, classic rock and "alternative
-rock"; none use "garage rock." Surfaced during the `about` write. Candidate: revisit the
-third genre.
-
-## villanelle (genres)
-
-Stored genres are Indie Rock, Alternative Rock, Post-Punk. Every source consulted for
-the `about` (NME, Dork) frames them as 1990s grunge and alternative rock (Smashing
-Pumpkins, Black Sabbath, Nirvana-indebted), and NME quotes the band rejecting "indie"
-and "art rock." Nothing supports Post-Punk. Surfaced during the `about` re-verify.
-Candidate: full genre re-look, likely Grunge in the primary slot.
