@@ -479,6 +479,18 @@ Fancy Hagood, born Jake Hagood in 1991 in Bentonville, Arkansas, first reached l
 2. https://rainbowrodeomag.com/fancy-hagood-american-spirit/
 3. https://americana-uk.com/fancy-hagood-american-spirit
 
+## faouzia
+
+Faouzia Ouihya, performing mononymously as Faouzia, was born in Casablanca, Morocco, and moved to Canada at one, settling in Carman, Manitoba.[\[1\]](https://en.wikipedia.org/wiki/Faouzia) She started writing songs and playing piano at six, and her vocals carry the Arabic tonalities she grew up on through singers like Umm Kulthum and Fairuz, set against cinematic dark-pop production.[\[1\]](https://en.wikipedia.org/wiki/Faouzia) Her 2020 duet with John Legend, 'Minefields', later featured on her 2022 EP 'CITIZENS', which she framed as a prequel to a debut album still to come.[\[1\]](https://en.wikipedia.org/wiki/Faouzia)[\[2\]](https://thehoneypop.com/2025/11/07/exclusive-interview-how-faouzias-film-noir-turns-heartache-into-high-drama/) That album, 'FILM NOIR', arrived in November 2025 as her first full-length release and her first made fully independent of a label, blending jazz, orchestral arrangements, and Arabic vocals; she has called finishing it independently what she is proudest of.[\[2\]](https://thehoneypop.com/2025/11/07/exclusive-interview-how-faouzias-film-noir-turns-heartache-into-high-drama/) Its track 'UNETHICAL' broke into the UK's Official Independent Singles Breakers Chart.[\[3\]](https://www.officialcharts.com/songs/faouzia-unethical/) Live, her sets lean on powerhouse vocals over a small band, with occasional stripped-down piano moments.[\[4\]](https://weliveentertainment.com/we-live-entertainment/concert-review-faouzia-proves-shes-pops-next-great-voice-fonda-theatre/)[\[5\]](https://justonemoreconcert.com/2026/08/19/faouzia-returns-to-toronto-independent-and-re-invigorated/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Faouzia
+2. https://thehoneypop.com/2025/11/07/exclusive-interview-how-faouzias-film-noir-turns-heartache-into-high-drama/
+3. https://www.officialcharts.com/songs/faouzia-unethical/
+4. https://weliveentertainment.com/we-live-entertainment/concert-review-faouzia-proves-shes-pops-next-great-voice-fonda-theatre/
+5. https://justonemoreconcert.com/2026/08/19/faouzia-returns-to-toronto-independent-and-re-invigorated/
+
 ## fcukers
 
 Fcukers are a New York trio: Shanny Wise, once the frontwoman of The Shacks, on vocals, Jackson Walker Lewis on bass and production after five years in Spud Cannon, and Ben Scharf on drums.[\[1\]](https://en.wikipedia.org/wiki/Fcukers)[\[2\]](https://www.nylon.com/entertainment/fcukers-band-new-york-city-music) They formed in late 2022 and played their first show at Baby's All Right in March 2023, rebuilding the sound of '90s dance acts like Deee-Lite and The Chemical Brothers as modern party music.[\[2\]](https://www.nylon.com/entertainment/fcukers-band-new-york-city-music) Early tracks caught Junior Sanchez, who remixed them for his Brobot label, and the band went on to remix the James Murphy single 'Los Angeles'.[\[2\]](https://www.nylon.com/entertainment/fcukers-band-new-york-city-music)[\[3\]](https://ninjatune.net/release/fcukers/baggyss) They signed to Ninja Tune's Technicolour imprint in 2024 and released the EP 'Baggy$$' that September, which won a 2025 Libera Award for Best Dance Record; its track 'Homie Don't Shake' samples Beck.[\[1\]](https://en.wikipedia.org/wiki/Fcukers)[\[3\]](https://ninjatune.net/release/fcukers/baggyss) The debut album 'Ö' followed in March 2026.[\[1\]](https://en.wikipedia.org/wiki/Fcukers) They have played Governors Ball, Bonnaroo and Primavera Sound and opened for Tame Impala.[\[1\]](https://en.wikipedia.org/wiki/Fcukers)[\[2\]](https://www.nylon.com/entertainment/fcukers-band-new-york-city-music)
@@ -764,6 +776,20 @@ Lluvii is an Austin quartet: Carol Gonzalez (vocals, guitar), Ryan Gordon (bass)
 3. https://www.austinchronicle.com/music/2022-10-07/luna-luna-moves-from-dallas-origins-to-riverside-headquarters-to-acl-fest-debut/
 4. https://lluvii.bandcamp.com/album/tierra-y-luz
 
+## lorde
+
+Ella Yelich-O'Connor, performing as Lorde, released her debut album 'Pure Heroine' in 2013 at sixteen; it is now certified six times platinum in the US.[\[1\]](https://en.wikipedia.org/wiki/Pure_Heroine)[\[2\]](https://www.riaa.com/gold-platinum/) Its 2017 follow-up, 'Melodrama', was nominated for the Grammy for Album of the Year and later placed on Rolling Stone's list of the 500 greatest albums of all time.[\[3\]](https://en.wikipedia.org/wiki/Melodrama_(Lorde_album)) 'Solar Power' (2021) turned toward folk and psych-pop; reviews were mixed, with NME calling it a 'dazzling hat-trick from a master of her craft.'[\[4\]](https://en.wikipedia.org/wiki/Solar_Power_(album)) 'Virgin' followed on June 27, 2025, returning to pulsing synthesizers and distorted guitars, made with producer Jim-E Stack rather than her longtime collaborator Jack Antonoff; Lorde has said she 'came into her own power' making it, calling it an attempt to heal parts of herself from her teenage years.[\[5\]](https://en.wikipedia.org/wiki/Virgin_(Lorde_album))[\[6\]](https://billboardphilippines.com/music/features/lorde-virgin-interview-feature-2025/) It debuted at number two on the Billboard 200 and gave her a first UK number-one album.[\[5\]](https://en.wikipedia.org/wiki/Virgin_(Lorde_album)) She has since headlined major festivals, including the opening night of Lollapalooza 2026 in Chicago.[\[7\]](https://www.cbsnews.com/chicago/news/lollapalooza-grant-park-headliners-lorde-naperville-john-summit/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Pure_Heroine
+2. https://www.riaa.com/gold-platinum/
+3. https://en.wikipedia.org/wiki/Melodrama_(Lorde_album)
+4. https://en.wikipedia.org/wiki/Solar_Power_(album)
+5. https://en.wikipedia.org/wiki/Virgin_(Lorde_album)
+6. https://billboardphilippines.com/music/features/lorde-virgin-interview-feature-2025/
+7. https://www.cbsnews.com/chicago/news/lollapalooza-grant-park-headliners-lorde-naperville-john-summit/
+
 ## lp
 
 LP is Laura Pergolizzi, born in 1981 in Huntington Station, New York and based in Los Angeles since 2010.[\[1\]](<https://en.wikipedia.org/wiki/LP_(singer)>) They spent years writing for other artists, with cuts for Rihanna ('Cheers (Drink to That)'), Christina Aguilera ('Beautiful People'), the Backstreet Boys, Cher and Céline Dion, before their own career took hold.[\[1\]](<https://en.wikipedia.org/wiki/LP_(singer)>) Signed to Warner since 2011, LP released 'Forever for Now' (2014) and then broke through with 'Lost on You' (2016), whose title single reached number one across much of Europe and went Diamond in France.[\[1\]](<https://en.wikipedia.org/wiki/LP_(singer)>) 'Heart to Mouth' (2018), 'Churches' (2021) and 'Love Lines' (2023) followed, and the eighth album 'Room 12' arrived in September 2026 behind the singles 'Shelly', 'Love Is All I Have' and 'Mi Corazón', an acoustic ballad LP wrote with PJ Bianco about, in their words, 'two of the biggest, hardest things I ever did in my life: coming out and becoming a musician'.[\[2\]](https://www.stereoboard.com/content/view/252540/9) LP plays guitar, ukulele and harmonica, is known for the whistling hooks in their songs, and in 2012 became the first woman named a Martin Guitar ambassador.[\[1\]](<https://en.wikipedia.org/wiki/LP_(singer)>) Their 2026 touring marks ten years of 'Lost on You' with full performances of the album.[\[2\]](https://www.stereoboard.com/content/view/252540/9)
@@ -791,6 +817,18 @@ Macy Todd grew up in Georgia, spent a stretch in Austin and is now based in Nash
 
 1. https://www.onestowatch.com/en/blog/macy-todd-on-defying-genres-not-being-afraid-to-get-mean-and-creating-debut-ep-pretty-ruthless-q-a
 2. https://music.apple.com/us/album/pretty-ruthless-ep/6783024576
+
+## marlon-funaki
+
+Marlon Funaki is a 23-year-old Japanese and Mexican American solo artist from Redlands, California, who writes, records, and produces his own alternative rock, threaded with psychedelic tones and jazz-inflected guitar.[\[1\]](https://www.ticketmaster.com/marlon-funaki-tickets/artist/3086229)[\[2\]](https://audiotree.bandcamp.com/album/marlon-funaki-on-audiotree-live) He sold his Xbox for his first electric guitar as a teenager and later busked on the streets of Redlands to fund rides home.[\[1\]](https://www.ticketmaster.com/marlon-funaki-tickets/artist/3086229)[\[2\]](https://audiotree.bandcamp.com/album/marlon-funaki-on-audiotree-live) He released the EP 'The Universal Language' in 2020 and his debut full-length album, 'Monterey Village', in 2022, followed by the 2025 EP 'Overdue', the same year he was named Luck Reunion's 'Artist on the Rise.'[\[1\]](https://www.ticketmaster.com/marlon-funaki-tickets/artist/3086229)[\[3\]](https://hq.rostr.cc/insider/news/marlon-funaki-signs-with-warner-records)[\[4\]](https://www.okeechobeefest.com/artists/marlon-funaki) He signed to Warner Records in January 2026, releasing 'Let You In' as his major-label debut single, and has shared stages with acts as different as Palace and Billy Currington.[\[1\]](https://www.ticketmaster.com/marlon-funaki-tickets/artist/3086229)[\[3\]](https://hq.rostr.cc/insider/news/marlon-funaki-signs-with-warner-records)[\[4\]](https://www.okeechobeefest.com/artists/marlon-funaki) Live, he fronts a four-piece band that solidified in early 2024, and more than one reviewer has described his shows as pulling audiences in with an electric calm that leaves rooms buzzing with energy.[\[4\]](https://www.okeechobeefest.com/artists/marlon-funaki)[\[2\]](https://audiotree.bandcamp.com/album/marlon-funaki-on-audiotree-live)[\[5\]](https://kcpr.org/marlon-funaki-music-evolution/)
+
+**Sources**
+
+1. https://www.ticketmaster.com/marlon-funaki-tickets/artist/3086229
+2. https://audiotree.bandcamp.com/album/marlon-funaki-on-audiotree-live
+3. https://hq.rostr.cc/insider/news/marlon-funaki-signs-with-warner-records
+4. https://www.okeechobeefest.com/artists/marlon-funaki
+5. https://kcpr.org/marlon-funaki-music-evolution/
 
 ## marzz
 
@@ -919,6 +957,19 @@ Parcels are an Australian five-piece, Louie Swain, Patrick Hetherington, Noah Hi
 1. https://en.wikipedia.org/wiki/Parcels_(band)
 2. https://en.wikipedia.org/wiki/Loved_(Parcels_album)
 3. https://www.the-berliner.com/music-clubs/berlin-parcels-10-years-feature-interview-loved/
+
+## paris-paloma
+
+Paris Paloma is a singer-songwriter from Ashbourne, Derbyshire, who studied Fine Art and History of Art at Goldsmiths, University of London, before releasing her first singles in 2020.[\[1\]](https://en.wikipedia.org/wiki/Paris_Paloma)[\[2\]](https://sites.gold.ac.uk/art-degree-shows/paris-phillips/) Pre-release snippets of her 2023 single 'labour' went viral on TikTok, and after it came out the song soundtracked a wave of videos of women describing their own experiences with sexism.[\[3\]](https://en.wikipedia.org/wiki/Labour_(song)) It has since passed a billion streams on Spotify and earned an RIAA Gold certification, though it peaked outside the Hot 100 itself, reaching number 9 on Hot Alternative Songs.[\[4\]](https://www.broadwayworld.com/bwwmusic/article/Paris-Paloma-Releases-THE-FATAL-FLAW-Album-Plans-World-Tour-20260904)[\[5\]](https://www.riaa.com/gold-platinum/)[\[3\]](https://en.wikipedia.org/wiki/Labour_(song)) Her 2024 debut album, 'Cacophony', built on those themes with lush, layered vocal arrangements on Nettwerk Music Group.[\[6\]](https://en.wikipedia.org/wiki/Cacophony_(Paris_Paloma_album)) Her second album, 'The Fatal Flaw', followed in September 2026, its title drawn from the opening line of Donna Tartt's 'The Secret History', backed by her biggest tour yet.[\[4\]](https://www.broadwayworld.com/bwwmusic/article/Paris-Paloma-Releases-THE-FATAL-FLAW-Album-Plans-World-Tour-20260904) Her recorded work centers on acoustic guitar, choral vocal layering, and lyrics referencing historical art and folklore.[\[1\]](https://en.wikipedia.org/wiki/Paris_Paloma)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Paris_Paloma
+2. https://sites.gold.ac.uk/art-degree-shows/paris-phillips/
+3. https://en.wikipedia.org/wiki/Labour_(song)
+4. https://www.broadwayworld.com/bwwmusic/article/Paris-Paloma-Releases-THE-FATAL-FLAW-Album-Plans-World-Tour-20260904
+5. https://www.riaa.com/gold-platinum/
+6. https://en.wikipedia.org/wiki/Cacophony_(Paris_Paloma_album)
 
 ## radio-free-alice
 
@@ -1062,6 +1113,19 @@ Skye Newman is a singer-songwriter from Eltham in South East London, born in 200
 2. https://www.nme.com/features/music-interviews/skye-newman-se9-part-1-interview-radar-3905047
 3. https://www.nme.com/news/music/reading-leeds-2026-check-out-the-full-stage-times-3963739
 4. https://www.setlist.fm/setlists/skye-newman-53ee5b69.html
+
+## snow-strippers
+
+Snow Strippers are the American electronic duo of vocalist Tatiana Schwaninger and producer Graham Perez, who moved to Detroit and started the project together in 2021.[\[1\]](https://en.wikipedia.org/wiki/Snow_Strippers)[\[2\]](https://magazine.032c.com/magazine/almost-a-threat-snow-strippers) They put out the 20-track debut album 'The Snow Strippers' in 2022, then built a discography of mixtapes and EPs through the New York label Surf Gang, including 'April Mixtape 3' and the ongoing 'Night Killaz' series.[\[3\]](https://music.apple.com/ng/album/the-snow-strippers/1632378457)[\[4\]](https://surfgang.nyc/releases/april-mixtape-3) Their sound pairs distorted synths and heavy basslines with deadpan vocal hooks and high-tempo dance beats, an update on 2000s indie sleaze for a new generation of concertgoers.[\[1\]](https://en.wikipedia.org/wiki/Snow_Strippers)[\[5\]](https://parklifedc.com/2026/01/12/live-review-snow-strippers-930-club-1-8-26/) A sold-out show at Washington DC's 9:30 Club in January 2026 drew mosh pits and crowd surfing, with one reviewer calling their stage presence 'as electric as their sound.'[\[5\]](https://parklifedc.com/2026/01/12/live-review-snow-strippers-930-club-1-8-26/)[\[6\]](https://uclaradio.com/snow-strippers-930-club-1-8-26/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Snow_Strippers
+2. https://magazine.032c.com/magazine/almost-a-threat-snow-strippers
+3. https://music.apple.com/ng/album/the-snow-strippers/1632378457
+4. https://surfgang.nyc/releases/april-mixtape-3
+5. https://parklifedc.com/2026/01/12/live-review-snow-strippers-930-club-1-8-26/
+6. https://uclaradio.com/snow-strippers-930-club-1-8-26/
 
 ## solomon-hicks
 
