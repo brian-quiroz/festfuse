@@ -686,6 +686,17 @@ Kevin Atwater is a singer-songwriter from Downers Grove, Illinois, now based in 
 1. https://en.wikipedia.org/wiki/Kevin_Atwater_(singer)
 2. https://outwritenewsmag.org/2022/10/queer-next-up-kevin-atwater/
 
+## kings-of-leon
+
+Kings of Leon started as a family band in 1999: three Followill brothers, Caleb, Nathan and Jared, joined by their cousin Matthew, playing Southern boogie and garage rock.[\[1\]](https://en.wikipedia.org/wiki/Kings_of_Leon) 'Only by the Night' (2008) made them a stadium band, and 'Use Somebody' took Record of the Year at the 2010 Grammys, one of four the band has won.[\[2\]](https://www.grammy.com/artists/kings-leon/7815/) Their ninth album, 'Can We Please Have Fun' (2024), was their first on their own label, LoveTap, made with producer Kid Harpoon, and pulled back toward the rawness of their early years.[\[3\]](https://www.nme.com/features/music-interviews/kings-of-leon-can-we-please-have-fun-3753952) A tenth album, 'O My Beloved', was announced in September 2026: after Caleb broke his foot and the band called off a European tour, he picked up an acoustic guitar, and what came out was a stripped-down, more personal turn from the band's usual sound.[\[4\]](https://www.local10.com/entertainment/2026/09/10/kings-of-leon-reveal-a-new-more-personal-acoustic-songwriting-direction-with-album-o-my-beloved/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Kings_of_Leon
+2. https://www.grammy.com/artists/kings-leon/7815/
+3. https://www.nme.com/features/music-interviews/kings-of-leon-can-we-please-have-fun-3753952
+4. https://www.local10.com/entertainment/2026/09/10/kings-of-leon-reveal-a-new-more-personal-acoustic-songwriting-direction-with-album-o-my-beloved/
+
 ## labrinth
 
 Labrinth is Timothy Lee McKenzie, born in Hackney, London, in 1989. He was doing production and remix work and sleeping in the studio when Simon Cowell signed him to Syco in 2010, the first act in six years to join the label without going through one of Cowell's talent shows.[\[1\]](https://en.wikipedia.org/wiki/Labrinth)[\[2\]](https://music.apple.com/us/artist/labrinth/205732582)[\[3\]](https://www.thegentlemansjournal.com/article/labrinth-interview-im-interested-in-going-to-other-galaxies/) He had just written and produced Tinie Tempah's UK number one 'Pass Out', and his own singles kept the run going: 'Earthquake' with Tempah reached number two in 2011 and 'Beneath Your Beautiful' with Emeli Sandé went to number one a year later.[\[1\]](https://en.wikipedia.org/wiki/Labrinth) The solo albums are 'Electronic Earth' (2012), 'Imagination & the Misfit Kid' (2019) and 'Ends & Begins' (2023, Columbia), the last a set of sci-fi love songs about his relationship that he has called 'Natural Born Killers in space', with the two-part 'Cosmic Opera' following in 2026.[\[1\]](https://en.wikipedia.org/wiki/Labrinth)[\[2\]](https://music.apple.com/us/artist/labrinth/205732582)[\[3\]](https://www.thegentlemansjournal.com/article/labrinth-interview-im-interested-in-going-to-other-galaxies/) He is a third of LSD alongside Sia and Diplo, whose album came out in 2019.[\[1\]](https://en.wikipedia.org/wiki/Labrinth) His widest audience comes from scoring HBO's 'Euphoria', where 'All for Us' and 'I'm Tired', both with Zendaya, run through the series; 'All for Us' won him a Primetime Emmy for original music and lyrics.[\[1\]](https://en.wikipedia.org/wiki/Labrinth)[\[3\]](https://www.thegentlemansjournal.com/article/labrinth-interview-im-interested-in-going-to-other-galaxies/) He also has a Grammy nomination as a producer on The Weeknd's 'Beauty Behind the Madness'.[\[1\]](https://en.wikipedia.org/wiki/Labrinth)
@@ -775,6 +786,18 @@ Lluvii is an Austin quartet: Carol Gonzalez (vocals, guitar), Ryan Gordon (bass)
 2. https://rhythmpassport.com/daily-discovery-lluvii-up-all-night/
 3. https://www.austinchronicle.com/music/2022-10-07/luna-luna-moves-from-dallas-origins-to-riverside-headquarters-to-acl-fest-debut/
 4. https://lluvii.bandcamp.com/album/tierra-y-luz
+
+## lola-young
+
+Lola Young grew up in South London and won the under-16 category of Open Mic UK in 2016.[\[1\]](https://en.wikipedia.org/wiki/Lola_Young) Her voice is raspy and her writing is conversational, closer to talking than performing.[\[1\]](https://en.wikipedia.org/wiki/Lola_Young) Her second album, 'This Wasn't Meant For You Anyway' (2024), carried 'Messy', which spent four weeks at number one in the UK, the longest run there by a British woman since Adele, and reached number 14 on the Billboard Hot 100.[\[2\]](https://www.officialcharts.com/chart-news/lola-young-messy-number-1-week-4-kendrick-lamar-lady-gaga-abracadabra/)[\[3\]](https://en.wikipedia.org/wiki/Messy_(Lola_Young_song)) 'Messy' won Best Pop Solo Performance at the 2026 Grammys, and Young took British Breakthrough Artist at the Brits the same year.[\[4\]](https://www.grammy.com/video/lola-young-wins-best-pop-solo-performance-messy/)[\[5\]](https://en.wikipedia.org/wiki/Brit_Awards_2026) Her third album followed in September 2025, debuting at number three on the UK Albums Chart.[\[1\]](https://en.wikipedia.org/wiki/Lola_Young)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Lola_Young
+2. https://www.officialcharts.com/chart-news/lola-young-messy-number-1-week-4-kendrick-lamar-lady-gaga-abracadabra/
+3. https://en.wikipedia.org/wiki/Messy_(Lola_Young_song)
+4. https://www.grammy.com/video/lola-young-wins-best-pop-solo-performance-messy/
+5. https://en.wikipedia.org/wiki/Brit_Awards_2026
 
 ## lorde
 
@@ -1035,6 +1058,18 @@ Rubio is the solo project of the Chilean songwriter and producer Francisca Strau
 2. https://www.cnnchile.com/cultura/rubio-francisca-straube-entrevista-lollapalooza-musica-chile_20250929/
 3. https://www.kexp.org/read/2023/7/18/el-sonido-live-get-to-know-rubio-in-three-albums/
 
+## rufus-du-sol
+
+RÜFÜS DU SOL formed in Sydney in 2010: Tyrone Lindqvist, Jon George and James Hunt, later based in Los Angeles.[\[1\]](<https://en.wikipedia.org/wiki/R%C3%BCf%C3%BCs_Du_Sol>)[\[2\]](https://www.nme.com/news/music/rufus-du-sol-win-best-dance-electronic-recording-at-2022-grammys-3197009)[\[3\]](https://floodmagazine.com/104069/perfect-day-in-la-rufus-du-sol/) They built their sound with vocals that rise into melodic house over live playing, treating the stage lighting as a fourth band member and drawing on acts like the Chemical Brothers and the Presets.[\[4\]](https://au.rollingstone.com/music/music-features/rufus-du-sol-james-hunt-jon-george-interview-87668/) 'Alive', from 'Surrender' (2021), won Best Dance/Electronic Recording at the 2022 Grammys.[\[2\]](https://www.nme.com/news/music/rufus-du-sol-win-best-dance-electronic-recording-at-2022-grammys-3197009) By a breakthrough 2016 Coachella set, watching the crowd spill out past the tent, Hunt has said it was clear the band had arrived.[\[4\]](https://au.rollingstone.com/music/music-features/rufus-du-sol-james-hunt-jon-george-interview-87668/) The fifth album, 'Inhale / Exhale', followed in 2024 on the band's own label, Rose Avenue Records, and its tour became the highest-selling electronic tour ever, with 750,000 tickets sold to 1.5 million fans worldwide.[\[4\]](https://au.rollingstone.com/music/music-features/rufus-du-sol-james-hunt-jon-george-interview-87668/)[\[5\]](https://relentlessbeats.com/2024/10/album-review-rufus-du-sols-fifth-album-inhale-exhale/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Rüfüs_Du_Sol
+2. https://www.nme.com/news/music/rufus-du-sol-win-best-dance-electronic-recording-at-2022-grammys-3197009
+3. https://floodmagazine.com/104069/perfect-day-in-la-rufus-du-sol/
+4. https://au.rollingstone.com/music/music-features/rufus-du-sol-james-hunt-jon-george-interview-87668/
+5. https://relentlessbeats.com/2024/10/album-review-rufus-du-sols-fifth-album-inhale-exhale/
+
 ## rum-jungle
 
 Rum Jungle are a four-piece from Newcastle, New South Wales, Benny McIntyre (vocals and guitar), Josh Giles (guitar), Michael Kolmajer (bass) and Frazer McDonald (drums), who started jamming on a balcony after McIntyre moved out of a share house and took the band name from an old poster for a group his father had played in.[\[1\]](https://en.wikipedia.org/wiki/Rum_Jungle)[\[2\]](https://read-gem.com/2025/02/21/interview-rum-jungle/) McIntyre pulled in McDonald, a 15-year-old he knew from a burger-shop job, on drums.[\[2\]](https://read-gem.com/2025/02/21/interview-rum-jungle/) Their music, which they loosely call alt-indie rock, layers pop melodies over psych-tinged guitars, and early triple j airplay, including a cover of Rihanna's 'Stay', built the audience.[\[1\]](https://en.wikipedia.org/wiki/Rum_Jungle)[\[3\]](https://www.grimygoods.com/2025/03/12/music-artists-you-should-know-rum-jungle/) After the EPs 'Crazy Days' (2017), 'Sun & Smoke' (2018), 'Everything Is Easy' (2022) and 'Hold Me in the Water' (2023), the debut album 'Recency Bias' arrived in February 2025 and reached number nine on the ARIA chart, cut with producer Simon Dobson on the Central Coast.[\[1\]](https://en.wikipedia.org/wiki/Rum_Jungle)[\[2\]](https://read-gem.com/2025/02/21/interview-rum-jungle/) The second album 'Marginalia' followed in June 2026, and they put their records out themselves.[\[1\]](https://en.wikipedia.org/wiki/Rum_Jungle)
@@ -1103,6 +1138,17 @@ Sienna Spiro was born in London in 2005, the daughter of the jeweller Glenn Spir
 1. https://en.wikipedia.org/wiki/Sienna_Spiro
 2. https://www.nylon.com/entertainment/sienna-spiro-interview-visitor-debut-album-die-on-this-hill-tiktok-new-tour
 
+## skrillex
+
+Sonny Moore grew up between San Francisco and the Highland Park neighborhood of Los Angeles before reinventing himself as Skrillex.[\[1\]](https://en.wikipedia.org/wiki/Skrillex) He sang in the post-hardcore band From First to Last before going solo, then pushed a loud, drop-heavy dubstep into the American mainstream with EPs like 'Scary Monsters and Nice Sprites', which won three Grammys in 2012 on the way to nine total, more than any other electronic act has won.[\[1\]](https://en.wikipedia.org/wiki/Skrillex)[\[2\]](https://www.grammy.com/artists/skrillex/6363/) He released two albums a day apart in 2023, 'Quest for Fire' and 'Don't Get Too Close', then a sprawling, 34-track 2025 record spanning EDM, techno and drum and bass.[\[3\]](https://relentlessbeats.com/2025/04/skrillex-unveils-new-album-fck-u-skrillex-you-think-ur-andy-warhol-but-your-not3/) At Ultra Miami 2025, his first main-stage set there in a decade, he brought out Damian Marley for 'Make It Bun Dem' and Flowdan for 'Rumble' and a posse cut with Chase &amp; Status, Bou, IRAH and Takura.[\[4\]](https://www.nme.com/news/music/watch-skrillex-return-ultra-first-time-decade-damian-marley-young-niko-3850674)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Skrillex
+2. https://www.grammy.com/artists/skrillex/6363/
+3. https://relentlessbeats.com/2025/04/skrillex-unveils-new-album-fck-u-skrillex-you-think-ur-andy-warhol-but-your-not3/
+4. https://www.nme.com/news/music/watch-skrillex-return-ultra-first-time-decade-damian-marley-young-niko-3850674
+
 ## skye-newman
 
 Skye Newman is a singer-songwriter from Eltham in South East London, born in 2003, who takes the SE9 postcode as a running title.[\[1\]](https://en.wikipedia.org/wiki/Skye_Newman)[\[2\]](https://www.nme.com/features/music-interviews/skye-newman-se9-part-1-interview-radar-3905047) An aunt who sings jazz and blues got her started; she was writing songs at eleven, was in studios by thirteen, and signed to Columbia after a video of hers went viral.[\[2\]](https://www.nme.com/features/music-interviews/skye-newman-se9-part-1-interview-radar-3905047) Her debut single 'Hairdresser' (2025), about a one-sided friendship, reached number 15 in the UK, and the follow-up 'Family Matters', about drug addiction and grief, went to number five, making her the first British woman in over a decade to land her first two singles in the top 20.[\[1\]](https://en.wikipedia.org/wiki/Skye_Newman)[\[2\]](https://www.nme.com/features/music-interviews/skye-newman-se9-part-1-interview-radar-3905047) She released the EPs 'SE9 Part 1' (2025) and 'SE9 Part 2' (2026), won the BBC Sound of 2026 poll, and toured as support for Lewis Capaldi and Harry Styles while playing festivals from Reading and Leeds to Lollapalooza.[\[1\]](https://en.wikipedia.org/wiki/Skye_Newman)[\[3\]](https://www.nme.com/news/music/reading-leeds-2026-check-out-the-full-stage-times-3963739)[\[4\]](https://www.setlist.fm/setlists/skye-newman-53ee5b69.html)
@@ -1126,6 +1172,17 @@ Snow Strippers are the American electronic duo of vocalist Tatiana Schwaninger a
 4. https://surfgang.nyc/releases/april-mixtape-3
 5. https://parklifedc.com/2026/01/12/live-review-snow-strippers-930-club-1-8-26/
 6. https://uclaradio.com/snow-strippers-930-club-1-8-26/
+
+## sofi-tukker
+
+Brooklyn's SOFI TUKKER build genre-blending dance-pop out of a friendship that started when Tucker Halpern struck up a conversation with Sophie Hawley-Weld after her set at a Brown University art show.[\[1\]](https://www.wbur.org/onlyagame/2019/03/15/sofi-tukker-halpern-drinkee-brown) 'We have no idea what genre we're making half the time,' Hawley-Weld has said, and their music runs Brazilian rhythms like bossa nova and baião through disco, techno and jazz.[\[4\]](https://atwoodmagazine.com/sftk-sofi-tukker-interview-music-feature-2023/)[\[2\]](https://en.wikipedia.org/wiki/Sofi_Tukker) 'Drinkee' earned a Grammy nomination for Best Dance Recording in 2017, and their debut album 'Treehouse' another for Best Dance/Electronic Album in 2019.[\[1\]](https://www.wbur.org/onlyagame/2019/03/15/sofi-tukker-halpern-drinkee-brown)[\[3\]](https://www.grammy.com/artists/sofi-tukker/20153/) The duo has four albums now, from 'Treehouse' (2018) through 'Wet Tennis' (2022) and 'BREAD' (2024) to 'butter' (2025), which leaned further into Brazilian genres with features from Seu Jorge and Liniker.[\[2\]](https://en.wikipedia.org/wiki/Sofi_Tukker)
+
+**Sources**
+
+1. https://www.wbur.org/onlyagame/2019/03/15/sofi-tukker-halpern-drinkee-brown
+2. https://en.wikipedia.org/wiki/Sofi_Tukker
+3. https://www.grammy.com/artists/sofi-tukker/20153/
+4. https://atwoodmagazine.com/sftk-sofi-tukker-interview-music-feature-2023/
 
 ## solomon-hicks
 
@@ -1274,6 +1331,21 @@ Turnstile formed in Baltimore in 2010 out of the city's hardcore scene, with Bre
 1. https://en.wikipedia.org/wiki/Turnstile_(band)
 2. https://www.blackbirdspyplane.com/p/turnstile-interview-brendan-yates-never-enough-2025
 
+## twenty-one-pilots
+
+Tyler Joseph and Josh Dun formed twenty one pilots in their hometown of Columbus, Ohio, in 2009.[\[1\]](https://en.wikipedia.org/wiki/Twenty_One_Pilots) Joseph has described their mix of rap, rock and electropop as what critics call 'schizoid pop.'[\[2\]](https://www.gulf-times.com/story/475491/twenty-one-pilots-and-the-duos-schizoid-pop) 'Car Radio' grew out of a real theft: after Joseph left his car unlocked one day, running late for class, thieves took the radio, GPS and CDs he couldn't afford to replace, and he wrote about what it meant to lose the noise that had been keeping his own thoughts at bay.[\[3\]](https://www.songfacts.com/facts/twenty-one-pilots/car-radio) 'Blurryface' (2015) went six-times platinum behind the top-five hits 'Stressed Out' and 'Ride', and 'Stressed Out' won Best Pop Duo/Group Performance at the 2017 Grammys, which the two accepted in their underwear on a pact made while watching an earlier ceremony together.[\[4\]](https://en.wikipedia.org/wiki/Blurryface)[\[5\]](https://www.grammy.com/video/twenty-one-pilots-2017-grammys-win-underwear-acceptance-speech/)[\[6\]](https://www.eonline.com/news/828800/twenty-one-pilots-goes-pantsless-to-accept-the-award-for-best-pop-duo-group-performance-at-the-2017-grammys) 'Heathens', written to sound like a Suicide Squad recruit warning how dangerous the team really is, led the film's 2016 soundtrack and matched 'Stressed Out' as their highest Hot 100 peak, at number two.[\[7\]](<https://en.wikipedia.org/wiki/Heathens_(Twenty_One_Pilots_song)>) 'Blurryface', 'Trench' (2018), 'Scaled and Icy' (2021) and 'Clancy' (2024) all connect to one story set in a fictional city, Dema, which the 2025 album 'Breach' brought to a close.[\[1\]](https://en.wikipedia.org/wiki/Twenty_One_Pilots)[\[8\]](<https://en.wikipedia.org/wiki/Breach_(Twenty_One_Pilots_album)>)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Twenty_One_Pilots
+2. https://www.gulf-times.com/story/475491/twenty-one-pilots-and-the-duos-schizoid-pop
+3. https://www.songfacts.com/facts/twenty-one-pilots/car-radio
+4. https://en.wikipedia.org/wiki/Blurryface
+5. https://www.grammy.com/video/twenty-one-pilots-2017-grammys-win-underwear-acceptance-speech/
+6. https://www.eonline.com/news/828800/twenty-one-pilots-goes-pantsless-to-accept-the-award-for-best-pop-duo-group-performance-at-the-2017-grammys
+7. https://en.wikipedia.org/wiki/Heathens_(Twenty_One_Pilots_song)
+8. https://en.wikipedia.org/wiki/Breach_(Twenty_One_Pilots_album)
+
 ## underscores
 
 Underscores is April Harper Grey, a musician and producer born in San Francisco in 2000 who studied music at NYU and now lives in Chicago.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>) She started out posting dubstep to SoundCloud as a teenager and built the underscores project around constant reinvention and detailed sound design, pulling emo, pop-punk, folk and dubstep into what began as hyperpop; by 2023 she was telling NME that 'hyperpop is officially dead'.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>) The debut album 'Fishmonger' (2021) led to a support slot with 100 gecs.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>) 'Wallsocket' (2023), on Mom + Pop, is a concept album set in an invented Michigan town, following three young women through questions of class, suburbia and trans identity.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>)[\[2\]](https://en.wikipedia.org/wiki/Wallsocket) She featured on Danny Brown's 'Copycats' in 2025, released her third album 'U' in 2026, and has opened for Porter Robinson and Charli XCX.[\[1\]](<https://en.wikipedia.org/wiki/Underscores_(musician)>)[\[3\]](<https://en.wikipedia.org/wiki/Copycats_(song)>)
@@ -1312,6 +1384,17 @@ World Famous Pets is a band of four: singer Edie Brickell of Edie Brickell & New
 
 1. https://stereogum.com/2503846/edie-brickell-matt-chamberlain-kaveh-rastegar-mason-stoops-announce-debut-album-as-world-famous-pets/music
 2. https://relix.com/news/detail/world-famous-pets-edie-brickell-matt-chamberlain-kaveh-rastegar-and-mason-stoops-share-new-song-and-tour-info
+
+## young-miko
+
+María Victoria Ramírez de Arellano grew up in Añasco, on the west side of Puerto Rico, and studied drawing at university before turning to tattooing and, eventually, music as Young Miko.[\[1\]](https://en.wikipedia.org/wiki/Young_Miko)[\[2\]](https://www.primerahora.com/entretenimiento/musica/notas/young-miko-del-futbol-al-genero-urbano/) She played soccer as a teenager and saved everything she earned as a tattoo artist to pay for her first-ever studio session.[\[1\]](https://en.wikipedia.org/wiki/Young_Miko)[\[2\]](https://www.primerahora.com/entretenimiento/musica/notas/young-miko-del-futbol-al-genero-urbano/) The 2022 EP 'Trap Kitty' established her as a rising force in Latin trap, and within a year she was opening shows for Karol G, appearing on Bad Bunny's 'Nadie sabe lo que va a pasar mañana' and Tainy's 'Data', and reaching the Billboard Hot 100 for the first time on a duet with Feid.[\[1\]](https://en.wikipedia.org/wiki/Young_Miko)[\[3\]](https://es.rollingstone.com/arg-future-of-music-young-miko/) The 2024 album 'Att.' earned a Grammy nomination for Best Música Urbana Album, and her Bizarrap session that same year reached number one in Spain and the top five across Latin America.[\[1\]](https://en.wikipedia.org/wiki/Young_Miko)[\[4\]](https://en.wikipedia.org/wiki/Young_Miko:_Bzrp_Music_Sessions,_Vol._58) 'Sometimes I feel the car is going too fast,' she has said of the pace of her rise, which took her from 10,000 Instagram followers to over 30 million monthly Spotify listeners in three years.[\[3\]](https://es.rollingstone.com/arg-future-of-music-young-miko/) Her second album, 'Do Not Disturb', followed in November 2025, with a deluxe edition the next year, and she has become known as one of the few openly queer women reshaping reggaetón and Latin trap toward greater inclusivity.[\[1\]](https://en.wikipedia.org/wiki/Young_Miko)[\[3\]](https://es.rollingstone.com/arg-future-of-music-young-miko/)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Young_Miko
+2. https://www.primerahora.com/entretenimiento/musica/notas/young-miko-del-futbol-al-genero-urbano/
+3. https://es.rollingstone.com/arg-future-of-music-young-miko/
+4. https://en.wikipedia.org/wiki/Young_Miko:_Bzrp_Music_Sessions,_Vol._58
 
 ## yousuke-yukimatsu
 
