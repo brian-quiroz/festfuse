@@ -108,17 +108,6 @@ Isaiah Trimbo — pitched as "90s Radiohead meets Paramore/Slow Pulp/Big Thief,"
 (19M+ streams). Genres and location were corrected; about/similarArtists/tracks need a full rewrite
 in a dedicated pass.
 
-## stella-lefty (about, tagline, whySee, whatToExpect, similarArtists, tracks)
-
-Entire record beyond genres/location still describes a fictional LA bedroom-pop singer-songwriter
-(word-for-word identical about/tagline/tracks to porch-light's fictional persona, apparently a
-copy-paste error). The real Stella Lefty (verified via the stored Spotify ID, corroborated
-independently by an Apple Music Lollapalooza 2026 concert listing placing her Sunday Aug 2,
-7:45-8:30 PM, Airbnb stage — matching our stored appearance exactly) is Stella Lefkofsky, a viral
-country-pop artist (16M+ monthly listeners, hit single "Boston" at 133M+ streams, EP 'Is This
-Heaven?' debuted on the Billboard 200 and Top Country Albums charts). Genres were corrected;
-location was already accurate. about/similarArtists/tracks need a full rewrite in a dedicated pass.
-
 ## case-oats (about, tagline, whySee, whatToExpect, similarArtists, tracks)
 
 Entire record beyond genres/location still describes a fictional Chicago alternative-rock
