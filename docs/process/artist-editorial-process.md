@@ -507,7 +507,9 @@ padded four. Evaluated on `name` + `slug` only.
 - The four deliberately **mix matching dimensions** (sound/genre, scene/scale, thematic
   parallel) rather than four genre-nearest-neighbors, and **mix at least one
   bigger-name act with one smaller or rising one** — based on _current_ scale, checked,
-  not remembered.
+  not remembered. "Bigger" and "smaller" are relative to the other picks in the set, not
+  necessarily to the source artist: a set for a Sub-headliner can satisfy this with a mix
+  of Sub-headliner and Undercard picks, with no Headliner required.
 - **Genre similarity (stored, Tier 0) is the default basis for a pick.** Reach for
   `about` text / `artist-about-sources.md`, or a bounded web lookup, only to break a tie
   between comparably-fitting candidates, or to backfill a fourth when genre alone falls
