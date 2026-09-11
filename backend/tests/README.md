@@ -198,6 +198,13 @@ slug already taken by another name, and an unknown family; that `delete_genre` r
 an unassigned row but refuses one an artist is assigned; and a clear error for a missing
 slug.
 
+`integration/test_track_authoring.py` exercises the track authoring service
+(`rename_track`) against the seeded database. It proves a rename updates the `Track`
+row's name; that the plan lists every artist whose `track_selections` reference the
+track, including the multi-artist case; that renaming to the current name is an
+idempotent no-op reporting `already_matches`; and refusals for an unknown
+`spotify_track_id` and a blank name.
+
 `integration/test_clean_bootstrap.py` is the exception to the rollback-contained
 pattern: it proves the from-empty half of "rebuild the database from PostgreSQL alone"
 (roadmap section 5, ADR-0014). It creates a disposable `festfuse_cleanboot_*` database,
@@ -260,7 +267,11 @@ The integration suite currently verifies:
   (series, runs, days, stages) idempotently; and
 - genre authoring (roadmap section 7): `create_genre` inserting into its family with the
   derived slug and refusing name/slug/family clashes, its idempotent re-add, and
-  `delete_genre` removing an unassigned genre while refusing an assigned one.
+  `delete_genre` removing an unassigned genre while refusing an assigned one; and
+- track authoring: `rename_track` updating a `Track` row's name, reporting every artist
+  whose track selection references it (including the multi-artist case), its idempotent
+  no-op for an unchanged name, and refusals for an unknown Spotify track ID and a blank
+  name.
 
 ## Commands
 
@@ -368,6 +379,18 @@ the same command replays against the hosted database). The matching
 `app/data/categories.ts` entry is a separate hand edit — `--preview` prints the lines to
 add. `delete_genre` removes one genre and refuses one any artist is assigned; it is a
 test and cleanup tool, mirroring `delete_artist`.
+
+```bash
+python -m scripts.edit_track --spotify-id <id> --name "<name>" --preview
+python -m scripts.edit_track --spotify-id <id> --name "<name>" --apply
+```
+
+`edit_track` renames one `Track` row's display name by Spotify track ID. It exists
+because `edit_artist`'s track-selection patching only sets a `Track`'s name when
+creating a new row; an existing row (looked up by `spotify_track_id`) is reused as-is,
+so a name-only correction to an already-selected track doesn't apply through
+`edit_artist`. Since a `Track` row can be referenced by more than one artist, the
+`--preview` plan lists every artist the rename affects.
 
 The editorial-pipeline scripts (`build_roster_payloads`, `check_artist_links`,
 `show_artist`) are operator tooling, documented in

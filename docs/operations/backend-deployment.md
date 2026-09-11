@@ -81,6 +81,34 @@ the hosted image writes, redeploy the frontend (an empty commit, or the host's r
 control) so already-cached routes pick up the new data — Next serves stale route and
 fetch caches otherwise.
 
+## Adding or removing a genre
+
+Direct-to-PostgreSQL genre vocabulary authoring (ADR-0011). Same preview/apply
+convention; run through the same tunnel against the hosted database. From `backend/`:
+
+```bash
+railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.add_genre --name "<name>" --family "<family>" --preview'
+railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.delete_genre --slug <slug> --preview'
+```
+
+`add_genre` resolves the family by name, derives the slug unless `--slug` overrides it,
+and is idempotent — an identical re-add against the hosted database is a no-op. It only
+prints the reminder to mirror the addition in `app/data/categories.ts`; that frontend
+edit still has to happen and deploy separately (ADR-0011). `delete_genre` refuses a
+genre any artist is assigned. See `backend/tests/README.md` for exact scope.
+
+## Renaming a track
+
+```bash
+railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.edit_track --spotify-id <id> --name "<name>" --preview'
+```
+
+`edit_track` renames one `Track` row's display name by Spotify track ID — the gap
+`edit_artist` leaves, since its track-selection patching only sets a name when creating
+a new row. A `Track` row can be referenced by more than one artist, so the `--preview`
+plan lists every artist the rename affects. See `backend/tests/README.md` for exact
+scope.
+
 ## Editorial pipeline scripts
 
 The CLIs the editorial process (`docs/process/artist-editorial-process.md`,

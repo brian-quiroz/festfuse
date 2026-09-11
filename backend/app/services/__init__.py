@@ -28,6 +28,11 @@ from app.services.genre_authoring import (
     delete_genre,
     derive_genre_slug,
 )
+from app.services.track_authoring import (
+    TrackAuthoringError,
+    TrackRename,
+    rename_track,
+)
 
 __all__ = [
     "ArtistAuthoringError",
@@ -37,9 +42,12 @@ __all__ = [
     "GenreAuthoringError",
     "GenreCreation",
     "GenreDeletion",
+    "TrackAuthoringError",
+    "TrackRename",
     "create_genre",
     "delete_genre",
     "derive_genre_slug",
+    "rename_track",
     "add_existing_artist_to_run",
     "attach_run_schedule",
     "create_artist",
