@@ -47,6 +47,15 @@ Essentials:
 - Present a per-artist report and wait for explicit approval before building a payload.
   Sources for every factual field. Never sound certain when the research is thin —
   surface the options instead.
+- Present the batch as a working markdown file in the scratchpad first, one section
+  per artist, every claim carrying a clickable source link so review happens from the
+  links. For a drafted or verified `about`, each section is written as its eventual
+  `artist-about-sources.md` entry (copy with `[\[N\]](url)` markers, then a numbered
+  source list). For a deferred pass, each is its eventual `artist-about-leads.md`
+  entry (`- fact. Source: url`) alongside the genres and location report. End the file
+  with the genre and location flags and any draft claims cut or contested. The file
+  is a review aid; the durable record is the wave commit into the sources or leads
+  file.
 
 ## Output gate: run before presenting any about-copy batch
 

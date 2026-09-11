@@ -145,6 +145,16 @@ Whichever path, the commit that sets `aboutVerified` also files the sources the 
 rests on in `docs/process/artist-about-sources.md` (ADR-0020). For a deferred
 artist, its leads section moves there on verify instead of being deleted.
 
+**The review doc.** The batch comes back as a working markdown file in the scratchpad,
+not just inline chat, so you review from clickable source links. One section per
+artist, every claim carrying its source. For a drafted or verified `about` each
+section is written in the shape of its eventual `artist-about-sources.md` entry (the
+copy with numbered citation markers, then the source list); for a deferred round each
+is its eventual `artist-about-leads.md` entry (a cited bullet list) alongside the
+genres and location report. The genre and location flags, and any draft claims that
+were cut or contested, come at the end. The file is a review aid and stays in the
+scratchpad; the durable record is the wave commit into the sources or leads file.
+
 ---
 
 ## Pacing and cost
