@@ -37,7 +37,7 @@ from app.services import (
     evaluate_artist_publication,
 )
 from scripts.build_roster_payloads import create_from_payloads, parse_roster
-from scripts.show_artist import _render_detail, _render_roster
+from scripts.show_artist import _render_detail, _render_roster, _resolve_run_id
 
 pytestmark = [
     pytest.mark.postgres,
@@ -1011,3 +1011,28 @@ def test_show_artist_detail_and_roster_render(
     assert _render_roster(session, sort="similar-count", include_drafts=True) == 0
     roster = capsys.readouterr().out
     assert artist.slug in roster
+
+
+def test_show_artist_roster_scopes_to_one_run(
+    session: Session, capsys: pytest.CaptureFixture[str]
+) -> None:
+    artist = _seed_artist(session)  # lollapalooza-2026 / main only
+    add_existing_artist_to_run(session, _acl_payload(artist.slug))
+    session.flush()
+
+    weekend_1_id = _resolve_run_id(session, edition="acl-2026", run="weekend-1")
+    weekend_2_id = _resolve_run_id(session, edition="acl-2026", run="weekend-2")
+
+    assert (
+        _render_roster(session, sort="slug", include_drafts=True, run_id=weekend_1_id)
+        == 0
+    )
+    weekend_1_roster = capsys.readouterr().out
+    assert artist.slug in weekend_1_roster
+
+    assert (
+        _render_roster(session, sort="slug", include_drafts=True, run_id=weekend_2_id)
+        == 0
+    )
+    weekend_2_roster = capsys.readouterr().out
+    assert artist.slug not in weekend_2_roster
