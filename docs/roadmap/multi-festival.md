@@ -55,10 +55,10 @@ into a roadmap anyway: its start gate is a lineup announcement no one controls.
 
 - Coachella import — its lineup-drop date is not reliably known.
 - Full editorial review of the ACL roster (about copy, per-run similar-artist
-  curation, genre/location fact-check). That runs as a parallel track per
+  curation, genre/location fact-check). That ran as a parallel track per
   [`../process/artist-editorial-process.md`](../process/artist-editorial-process.md);
-  publication gates on neither `about` nor the similar-artist set (ADR-0013), so ACL
-  ships usable without it and "Sounds like" is simply absent for ACL until curated.
+  publication gated on neither `about` nor the similar-artist set (ADR-0013), so ACL
+  shipped usable ahead of it. Both are now complete (see section 11).
 
 ## Product behavior (decided; see ADR-0015)
 
@@ -529,9 +529,10 @@ write to the hosted Railway database got focused review. All the code it depende
   roster-only CSV mode, deployed, walked once against real production data, then given
   its schedule via `attach_run_schedule` from its full CSV and confirmed as a normal
   scheduled run.
-- Per-run similar-artist sets and ACL-specific `about` copy remain on the parallel
-  editorial track; the per-run re-curation cost is recorded in
-  `docs/FUTURE_CONSIDERATIONS.md` "Similar-Artist Relationship Graph".
+- Per-run similar-artist sets and ACL-specific `about` copy ran on the parallel
+  editorial track and are both now complete for every ACL artist, both weekends; the
+  per-run re-curation cost is recorded in `docs/FUTURE_CONSIDERATIONS.md`
+  "Similar-Artist Relationship Graph".
 
 **Checkpoint reached:** ACL 2026 is fully imported and published, both weekends, on the
 local and hosted database, and live in production.

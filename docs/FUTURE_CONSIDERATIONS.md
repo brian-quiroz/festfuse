@@ -286,7 +286,8 @@ clearly enumerable edge cases (malformed URL, non-`open.spotify.com` hostname,
 missing artist-ID path segment, trailing query params) — straightforward input/output
 assertions, unlike the queue-building coverage gap above, which needs property-based
 tests because of real `Math.random()` use. Not built now — no frontend framework
-exists yet; revisit alongside standing up frontend testing generally, post-MVP.
+exists yet; revisit alongside standing up frontend testing generally (not in scope
+now per `AGENTS.md`'s Current Milestone).
 
 ---
 
@@ -367,23 +368,6 @@ local output root outside the repo (ADR-0019). Published photo attribution alrea
 lives in PostgreSQL and renders on `/credits`, so a committed record would be a
 secondary archive, not the source of truth — the same tradeoff as the roster above.
 Decide both together in one ADR rather than piecemeal.
-
----
-
-## Future Consideration: Non-Headliner About Copy Backlog
-
-The ACL 2026 roster published with `about` copy for headliners only. For every other
-ACL artist, the research pass captured sourced `about` leads — raw facts with their
-URLs — into `docs/process/artist-about-leads.md` instead of drafting prose, the
-deferred-`about` branch of the research process (ADR-0018). Writing each artist's
-`about` from its leads is a Tier-2 editorial job (the sourcing is done; it needs
-same-day re-verification and drafting), tracked per-slug in that file, on the parallel
-editorial track. It does not gate publication (ADR-0013) — ACL artist pages render
-fully without it.
-
-**Not scheduled here.** It is steady editorial work, not a development item. The leads
-file is the worklist; an entry moves to `docs/process/artist-about-sources.md` once
-that artist's `about` is verified (ADR-0020).
 
 ---
 
@@ -952,11 +936,10 @@ relationship metadata are deferred until a concrete graph feature requires them"
 **Revisit when:** there is a genuine second festival, the per-run re-curation cost
 becomes real, or the count-driven sweep visibly fails to keep the distribution sane.
 
-**Update (ACL 2026):** the second-festival trigger has arrived. ACL is live with two
-weekend runs, and each run needs its own curated similar-artist set on the parallel
-editorial track — the first place the per-run re-curation cost is paid for real. The
-greedy local approach is still what the editorial process uses; this entry stays open
-as the fuller answer.
+**Update (ACL 2026):** the second-festival trigger has arrived and both runs now have
+a fully curated similar-artist set for every artist — the first place the per-run
+re-curation cost was paid for real. The greedy local approach is still what the
+editorial process uses; this entry stays open as the fuller answer.
 
 ---
 
@@ -1052,8 +1035,8 @@ copy.
 `tests/integration/conftest.py` (or a `_factories.py`) both files import from,
 reconciling the drifted signatures carefully so no existing assertion changes meaning.
 
-**Not scheduled.** Belongs with the broader backend-test-coverage effort (the remaining
-MVP 2.0 item per `AGENTS.md`'s Current Milestone), not a feature PR.
+**Not scheduled.** Belongs with the broader backend-test-coverage effort (not in scope
+now per `AGENTS.md`'s Current Milestone), not a feature PR.
 
 ---
 
