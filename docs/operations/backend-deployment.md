@@ -121,6 +121,7 @@ python -m scripts.build_roster_payloads --input roster.csv \
 python -m scripts.check_artist_links --slug <slug>        # or --edition/--run, or all
 python -m scripts.show_artist --slug <slug>               # full record + readiness
 python -m scripts.show_artist --roster --sort similar-count   # slug|schedule also
+python -m scripts.show_artist --roster --edition <edition-slug> --run <run-slug>
 ```
 
 **`build_roster_payloads`** fans a hand-authored roster CSV into draft `add_artist`
@@ -167,7 +168,11 @@ record, verification stamps, publication readiness, the full About text, the
 similar-artist set, and how many other artists cite this one. `--roster` prints one line
 per published artist (`slug, name, billing, day, refs, genres`) for the similar-artist
 membership check and the distribution balance sweep; `--sort` is `similar-count`
-(default, ascending), `slug`, or `schedule`.
+(default, ascending), `slug`, or `schedule`. Without `--edition`/`--run`, `--roster`
+spans every festival and run combined, which does not distinguish one run's lineup from
+another's, so it is not a valid membership source for per-run similar-artist work.
+Passing `--edition`/`--run` together scopes both the listed artists and the `refs` count
+to that one festival run.
 
 **`scripts.sourcing/`** holds the photo-sourcing wrappers used by
 [`../process/artist-image-sourcing.md`](../process/artist-image-sourcing.md)

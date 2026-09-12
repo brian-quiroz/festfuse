@@ -4,7 +4,12 @@ Read-only. ``--slug <slug>`` dumps every stored field, the verification stamps,
 publication readiness, the run-scoped similar-artist set, and how many other artists
 cite this one as similar. ``--roster`` prints one line per published artist
 (slug, name, genres, billing, day, inbound similar-artist count) for the similar-artist
-membership check and the distribution balance sweep. Neither mode writes anything.
+membership check and the distribution balance sweep. Pass ``--edition``/``--run``
+together to scope ``--roster`` to one festival run: only artists with a lineup entry
+in that run are listed, and the inbound count only reflects that run's similar-artist
+sets. Without them, ``--roster`` spans every festival/run (unchanged legacy
+behavior): a combined view that does not distinguish runs, so it is not a valid
+membership source for per-run similar-artist work. Neither mode writes anything.
 """
 
 from __future__ import annotations
@@ -21,6 +26,8 @@ from app.models import (
     Artist,
     ArtistGenre,
     ArtistTrackSelection,
+    FestivalEdition,
+    FestivalRun,
     LineupEntry,
     SimilarArtist,
     SimilarArtistSet,
@@ -34,33 +41,45 @@ _BILLING_LABEL = {
 }
 
 
-def _artist_days(artist: Artist) -> str:
-    """Distinct weekday labels across the artist's appearances, e.g. ``Thu/Sun``."""
+def _artist_days(entries: list[LineupEntry]) -> str:
+    """Distinct weekday labels across the given lineup entries, e.g. ``Thu/Sun``."""
     dates = sorted(
         {
             appearance.festival_day.date
-            for entry in artist.lineup_entries
+            for entry in entries
             for appearance in entry.appearances
         }
     )
     return "/".join(day.strftime("%a") for day in dates) or "-"
 
 
-def _earliest_start(artist: Artist) -> datetime | None:
+def _earliest_start(entries: list[LineupEntry]) -> datetime | None:
     starts = [
-        appearance.starts_at
-        for entry in artist.lineup_entries
-        for appearance in entry.appearances
+        appearance.starts_at for entry in entries for appearance in entry.appearances
     ]
     return min(starts) if starts else None
 
 
-def _inbound_counts(session) -> dict[int, int]:
-    rows = session.execute(
-        select(SimilarArtist.target_artist_id, func.count()).group_by(
-            SimilarArtist.target_artist_id
-        )
-    ).all()
+def _resolve_run_id(session, *, edition: str, run: str) -> int:
+    run_id = session.scalar(
+        select(FestivalRun.id)
+        .join(FestivalEdition, FestivalRun.festival_edition_id == FestivalEdition.id)
+        .where(FestivalEdition.slug == edition, FestivalRun.slug == run)
+    )
+    if run_id is None:
+        raise SystemExit(f"No festival run {run!r} in edition {edition!r}.")
+    return run_id
+
+
+def _inbound_counts(session, *, run_id: int | None) -> dict[int, int]:
+    query = select(SimilarArtist.target_artist_id, func.count()).group_by(
+        SimilarArtist.target_artist_id
+    )
+    if run_id is not None:
+        query = query.join(
+            SimilarArtistSet, SimilarArtist.similarity_set_id == SimilarArtistSet.id
+        ).where(SimilarArtistSet.festival_run_id == run_id)
+    rows = session.execute(query).all()
     return {artist_id: count for artist_id, count in rows}
 
 
@@ -188,7 +207,9 @@ def _render_detail(session, slug: str) -> int:
     return 0
 
 
-def _render_roster(session, *, sort: str, include_drafts: bool) -> int:
+def _render_roster(
+    session, *, sort: str, include_drafts: bool, run_id: int | None = None
+) -> int:
     query = select(Artist).options(
         selectinload(Artist.genre_assignments).selectinload(ArtistGenre.genre),
         selectinload(Artist.lineup_entries)
@@ -197,11 +218,19 @@ def _render_roster(session, *, sort: str, include_drafts: bool) -> int:
     )
     if not include_drafts:
         query = query.where(Artist.publication_status == "published")
+    if run_id is not None:
+        query = query.where(
+            Artist.lineup_entries.any(LineupEntry.festival_run_id == run_id)
+        )
     artists = list(session.scalars(query))
-    counts = _inbound_counts(session)
+    counts = _inbound_counts(session, run_id=run_id)
 
-    def billing(artist: Artist) -> str:
-        entries = artist.lineup_entries
+    def run_entries(artist: Artist) -> list[LineupEntry]:
+        if run_id is None:
+            return artist.lineup_entries
+        return [e for e in artist.lineup_entries if e.festival_run_id == run_id]
+
+    def billing(entries: list[LineupEntry]) -> str:
         tier = entries[0].billing_tier if entries else None
         return _BILLING_LABEL.get(tier or "", tier or "-")
 
@@ -210,10 +239,12 @@ def _render_roster(session, *, sort: str, include_drafts: bool) -> int:
             "slug": a.slug,
             "name": a.name,
             "genres": ", ".join(g.genre.name for g in a.genre_assignments) or "-",
-            "billing": billing(a),
-            "day": _artist_days(a),
+            "billing": billing(run_entries(a)),
+            "day": _artist_days(run_entries(a)),
             "refs": counts.get(a.id, 0),
-            "_start": _earliest_start(a) or datetime.max.replace(tzinfo=None),
+            "_start": _earliest_start(run_entries(a)) or datetime.max.replace(
+                tzinfo=None
+            ),
         }
         for a in artists
     ]
@@ -265,12 +296,33 @@ def main() -> int:
         action="store_true",
         help="--roster: include draft artists (published only by default)",
     )
+    parser.add_argument(
+        "--edition",
+        help="--roster: scope to this festival edition slug (requires --run)",
+    )
+    parser.add_argument(
+        "--run",
+        help="--roster: scope to this festival run slug (requires --edition)",
+    )
     args = parser.parse_args()
+
+    if bool(args.edition) != bool(args.run):
+        parser.error("--edition and --run must be given together")
+    if (args.edition or args.run) and not args.roster:
+        parser.error("--edition/--run only apply to --roster")
 
     with SessionLocal() as session:
         if args.roster:
+            run_id = (
+                _resolve_run_id(session, edition=args.edition, run=args.run)
+                if args.edition
+                else None
+            )
             return _render_roster(
-                session, sort=args.sort, include_drafts=args.include_drafts
+                session,
+                sort=args.sort,
+                include_drafts=args.include_drafts,
+                run_id=run_id,
             )
         return _render_detail(session, args.slug)
 

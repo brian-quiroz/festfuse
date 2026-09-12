@@ -175,9 +175,11 @@ batch isolates a failed row (unknown stage) in its own savepoint without blockin
 good rows and skips a slug already in the target run; `--apply` commits each artist and
 a rerun of the same roster reports every artist as skipped; a roster imported against a
 different run adds an already-existing artist to that run (`would add to run` /
-`added to run`, then `skipped` on a rerun); and `show_artist.py`'s detail and roster
+`added to run`, then `skipped` on a rerun); `show_artist.py`'s detail and roster
 renderers run against a seeded artist without error, showing readiness and the inbound
-similar-artist reference count.
+similar-artist reference count; and `--roster`'s `--edition`/`--run` filter scopes both
+the listed artists and the inbound count to one festival run, excluding an artist only
+present in a different run.
 
 The staged import (multi-festival roadmap) is covered in the same file: a roster-only
 row persists as an announced entry with no appearances; re-running with the full

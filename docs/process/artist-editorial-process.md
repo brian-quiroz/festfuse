@@ -505,9 +505,35 @@ padded four. Evaluated on `name` + `slug` only.
   Not a research project; if a stated relationship will not confirm quickly, drop that
   claim or that pick and flag it.
 - The four deliberately **mix matching dimensions** (sound/genre, scene/scale, thematic
-  parallel) rather than four genre-nearest-neighbors, and **mix at least one
-  bigger-name act with one smaller or rising one** — based on _current_ scale, checked,
-  not remembered.
+  parallel) rather than four genre-nearest-neighbors, and **aim to mix a bigger-name act
+  with a smaller or rising one** when a genuine fit exists — based on _current_ scale,
+  checked, not remembered, and relative to the other picks in the set, not necessarily to
+  the source artist (a set for a Sub-headliner can satisfy this with a mix of
+  Sub-headliner and Undercard picks, no Headliner required). This is a goal, not a
+  requirement: never force a weak scale-mix pick just to satisfy it, and do not re-flag
+  the same thin pocket (no Sub-headliner-or-above bridge act exists) every time it
+  recurs.
+- **Diversity across the roster takes priority over scale-mixing in any single set.**
+  When a pocket has only one or two viable bridge acts into a bigger tier, actively cap
+  and rotate their use while drafting rather than defaulting to the same pick each time
+  the pocket comes up. Do not wait for the balance sweep to catch it after the fact.
+- **Genre similarity (stored, Tier 0) is the default basis for a pick.** Reach for
+  `about` text / `artist-about-sources.md`, or a bounded web lookup, only to break a tie
+  between comparably-fitting candidates, or to backfill a fourth when genre alone falls
+  short, never as a routine parallel check once genre already supports four. Try
+  `about`/sources first since it is free, already-verified local data; a web lookup is
+  the last resort, bounded to one or two searches, not a research pass. When `about` is
+  used, cross-check the claim against `artist-about-sources.md`, not just the prose at
+  face value.
+- **Never characterize a pick from memory.** Every characterization claim traces to a
+  stored genre tag, verified `about` text, or a source actually opened this session.
+- **A shared tag from a broad or generic umbrella is not enough on its own.** "Pop,"
+  "Rock," and a generic regional/cultural label like "Latin X" cover sonically unrelated
+  artists (upbeat 2000s radio pop and cinematic orchestral dark-pop both say "Pop";
+  reggaeton and acoustic folk both say "Latin"). A specific tag (Dark Pop,
+  Neo-Psychedelia, Contemporary Folk) carries real signal on its own; a broad one needs
+  the `about` text to actually back up the connection before it counts as a match, not
+  just the shared word.
 - **Soft preference:** when two candidates fit comparably, prefer the less-referenced
   lineup artist (see below).
 - **Order is a deliberate editorial choice** — not popularity rank (do not lead with the
