@@ -114,22 +114,27 @@ above applies here — keep it plain and out of the way of the rest of the app.
 
 ## Current Milestone
 
-Shipped: MVP 1.0 (Artist Page, Explore, Quick Picks, Festival Story, Planner), the
-backend data cutover (PostgreSQL is the sole artist data source, read and write), and
-MVP 2.0's multi-festival and multi-run support (`docs/roadmap/multi-festival.md`,
-ADR-0015): Austin City Limits 2026 is live in production as a second edition with two
-scheduled weekend runs alongside Lollapalooza 2026, reached through a
-`/festivals/{edition}/{run}` routing model and a persisted active-context selection;
-the full frontend experience for an announced lineup with no schedule yet (ADR-0016);
-festival- and city-generic content; and video-only publication readiness (ADR-0017).
-The ACL roster is imported and published on both databases; its editorial polish
-(per-run similar-artist sets, non-headliner `about` copy, photos) continues on the
-parallel track.
+Shipped:
 
-Remaining (MVP 2.0): broader automated test coverage — standing up a frontend test
-framework (none exists today) and expanding the backend suite — as its own effort.
+- MVP 1.0: Artist Page, Explore, Quick Picks, Festival Story, Planner.
+- The backend data cutover: PostgreSQL is the sole artist data source, read and
+  write.
+- MVP 2.0's multi-festival and multi-run support (`docs/roadmap/multi-festival.md`,
+  ADR-0015): Austin City Limits 2026 live in production as a second edition with two
+  scheduled weekend runs alongside Lollapalooza 2026, reached through a
+  `/festivals/{edition}/{run}` routing model and a persisted active-context
+  selection; the full frontend experience for an announced lineup with no schedule
+  yet (ADR-0016); festival- and city-generic content; and video-only publication
+  readiness (ADR-0017).
+- The ACL roster imported and published on both databases, with every artist
+  covered as fully as possible across similar artists, `about` copy, videos, and
+  Quick Picks tracks. Photos are best-effort: roughly half of each weekend's roster
+  has one, which is the accepted outcome of that pass, not a gap awaiting further
+  work.
 
-Not in scope now: accessibility/performance work; accounts; Compare.
+Not in scope now: accessibility/performance work; accounts; Compare; broader
+automated test coverage (standing up a frontend test framework, none exists today,
+and expanding the backend suite).
 
 ---
 
