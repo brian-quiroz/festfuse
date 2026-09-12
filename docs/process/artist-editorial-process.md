@@ -356,6 +356,14 @@ Every genre string used must match an existing table entry exactly (spelling, ca
 hyphenation) — never invent a variant spelling of something already there. State why the
 first genre is first, every time.
 
+**A shared genre name does not guarantee a shared sound.** "Trap" and "EDM Trap" are
+separate table entries for exactly this reason: the plain "Trap" row covers hip-hop
+trap (Atlanta-style, 808s and hi-hats under rapped vocals), while "EDM Trap" covers an
+unrelated festival/bass-music subgenre that happened to get tagged with the same word
+before the split. Before assigning either, check which sound the artist's own sources
+actually describe — do not default to the row a superficially similar artist already
+has.
+
 ### Location
 
 One structured value: `{ city, state?, country }` (`state` only for the United States).
