@@ -327,7 +327,16 @@ check (`pg_restore` a recent dump into a throwaway database plus `alembic check`
 ADR-0014 also deferred). ADR-0014 anticipated this: "a future automated backup cron ...
 can be added later without revisiting this decision."
 
-**Do first:** enable Railway PITR, it is the least-effort real improvement.
+**Checked (2026-09-12):** Railway PITR requires a paid (Pro) plan, so it is not the
+free least-effort fix it looked like — it is a real cost decision, not a checkbox.
+Until that plan upgrade happens, the operative mitigation is discipline around manual
+`pg_dump`s: a fresh one before and after any bulk hosted-database push (see
+`backend-deployment.md` "Before a bulk hosted-database push", added after the ACL 2026
+similar-artist milestone shipped 190 writes with no fresh dump on either side because
+nothing in the push workflow prompted for one).
+
+**Do first:** upgrade to Railway Pro and enable PITR when the cost is justified;
+until then, treat the dump-before-a-bulk-push discipline above as the real backstop.
 
 ---
 
@@ -362,12 +371,22 @@ candidate — transient, derivable from the DB, and committing per-edit patches 
 contradict the source-of-truth model. Related: "No Automated Production Database
 Backup" above.
 
+**Recommendation (2026-09-12), roster half only:** the third option — commit nothing.
+ACL's data never lived in git the way Lollapalooza's did, so there is no deletion to
+preserve; a committed snapshot here would be a new, ongoing commitment to mirror the
+database rather than a one-time rescue of something git would otherwise have lost, and
+that contradicts the sole-source-of-truth model this project deliberately moved to.
+The real gap this surfaced was operational discipline, not a missing git artifact —
+addressed above and in `backend-deployment.md`. Not a formal ADR yet; this is the
+reasoning to draw on if one gets written.
+
 The same question covers **image-sourcing provenance**: per-batch research CSVs and the
 attribution records they carry (creator, license, source page) currently stay in a
 local output root outside the repo (ADR-0019). Published photo attribution already
 lives in PostgreSQL and renders on `/credits`, so a committed record would be a
-secondary archive, not the source of truth — the same tradeoff as the roster above.
-Decide both together in one ADR rather than piecemeal.
+secondary archive, not the source of truth — the same tradeoff as the roster above,
+and the recommendation likely generalizes, but that half is still open since photo
+coverage itself is ongoing. Decide both together in one ADR rather than piecemeal.
 
 ---
 

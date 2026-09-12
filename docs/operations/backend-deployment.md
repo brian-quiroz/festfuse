@@ -50,6 +50,17 @@ A new environment is stood up in two steps after `alembic upgrade head`:
    the empty database, then reconciling with `alembic upgrade head` and a clean
    `alembic check`) is in [`backup-restore.md`](backup-restore.md) (ADR-0014).
 
+## Before a bulk hosted-database push
+
+Take a fresh `pg_dump` ([`backup-restore.md`](backup-restore.md)) before replaying more
+than a handful of `--apply` calls against the hosted database in one sitting — a
+milestone-scale editorial push, a genre-vocabulary migration, anything on that order.
+A single one-off edit does not need its own dump; a batch that would take real
+editorial effort to reconstruct does. This is easy to blow past silently because
+nothing in the tunnel workflow below prompts for it — check the timestamp on the most
+recent `.dump` file before starting, and take a new one first if it predates the work
+you are about to do.
+
 ## Adding, editing, or removing an artist
 
 Direct-to-PostgreSQL artist authoring (ADR-0011 and ADR-0012,
