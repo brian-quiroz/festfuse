@@ -527,6 +527,13 @@ padded four. Evaluated on `name` + `slug` only.
   face value.
 - **Never characterize a pick from memory.** Every characterization claim traces to a
   stored genre tag, verified `about` text, or a source actually opened this session.
+- **A shared tag from a broad or generic umbrella is not enough on its own.** "Pop,"
+  "Rock," and a generic regional/cultural label like "Latin X" cover sonically unrelated
+  artists (upbeat 2000s radio pop and cinematic orchestral dark-pop both say "Pop";
+  reggaeton and acoustic folk both say "Latin"). A specific tag (Dark Pop,
+  Neo-Psychedelia, Contemporary Folk) carries real signal on its own; a broad one needs
+  the `about` text to actually back up the connection before it counts as a match, not
+  just the shared word.
 - **Soft preference:** when two candidates fit comparably, prefer the less-referenced
   lineup artist (see below).
 - **Order is a deliberate editorial choice** — not popularity rank (do not lead with the
