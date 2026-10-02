@@ -141,7 +141,10 @@ multi-run festival's weekend lineups overlap without being identical. An artist 
 Must See while viewing weekend 1, who does not play weekend 2, still counts toward
 weekend 2's Sidebar "My Picks" / "Must See" / "Interested" totals and reads as a
 "decided" artist in weekend 2's Pick Status filter — even though no card for them
-appears in weekend 2's Explore. The number is off, not the data.
+appears in weekend 2's Explore. The number is off, not the data. An artist withdrawn
+from a run by an official schedule change (`apply_schedule_changes.py`) is a second
+source of the same discrepancy: their pick keeps counting in that run after they leave
+its lineup.
 
 The clean fix keeps decisions edition-scoped but intersects the **counts and the Pick
 Status facet** with the run's actual roster (the sidebar and Explore already hold that
@@ -769,6 +772,35 @@ cancelled Appearances server-side entirely, rather than returning and ignoring t
 see [ADR-0006](decisions/0006-shared-run-appearances-store.md). Widen that filter
 together with adding a status field to `FestivalRunAppearanceRead` once a
 cancellation UI design exists for these bulk-consuming surfaces too.
+
+---
+
+## Withdrawn Artists Leave Saved Picks Silently
+
+When `apply_schedule_changes.py` withdraws an artist from a run, every public feed drops
+them. Surfaces built from the run's lineup (Explore, the Planner grid, Quick Picks,
+Festival Story, and the Sidebar's Scheduled and Conflicts counts) stop showing the
+user's saved pick or scheduled set for that artist, with no notice. The Sidebar's pick
+counts still include it (see "Pick Counts Not Scoped to a Run's Own Roster"). A
+bookmarked Artist Detail URL for that run now lands on the not-found page. Nothing
+breaks, and a replacement act gets no special mention either.
+
+A "lineup changed since your last visit" notice (who left, who arrived, which saved
+sets moved) would serve the confidence goal during festival week, but it needs the
+frontend to remember what each user last saw, which is new client state. Revisit if
+lineup changes become frequent enough that users notice missing picks.
+
+---
+
+## Overlap Validation on Authoring Imports
+
+Only `apply_schedule_changes.py` refuses a set that overlaps another active set on the
+same stage or by the same artist. `add_artist`, `add_existing_artist_to_run`, and
+`build_roster_payloads` write appearances without that check, so an arriving act typed
+into an occupied slot is accepted silently. Moving the check into `_attach_appearances`
+would cover every path; it was left out of the schedule-change work to keep
+festival-week scope small. Until then, check an arrival's slot against the official
+grid before adding it.
 
 ---
 
