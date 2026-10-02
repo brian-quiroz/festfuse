@@ -58,6 +58,24 @@ def _validate_image_sourced_at(value: date | None) -> date | None:
     return value
 
 
+def validate_source_date(value: str) -> str:
+    """A 'Mon DD' festival date, the shape every authoring file uses."""
+    try:
+        datetime.strptime(f"{value} {_SHAPE_CHECK_YEAR}", "%b %d %Y")
+    except ValueError as error:
+        raise ValueError("expected a 'Mon DD' date, e.g. 'Jul 30'") from error
+    return value
+
+
+def validate_source_time(value: str) -> str:
+    """An 'H:MM AM/PM' set time, the shape every authoring file uses."""
+    try:
+        datetime.strptime(value, _SOURCE_TIME_FORMAT)
+    except ValueError as error:
+        raise ValueError("expected a 'H:MM AM/PM' time, e.g. '8:30 PM'") from error
+    return value
+
+
 class _AuthoringModel(BaseModel):
     model_config = ConfigDict(
         alias_generator=to_camel,
@@ -146,20 +164,12 @@ class AppearanceInput(_AuthoringModel):
     @field_validator("date")
     @classmethod
     def _date_shape(cls, value: str) -> str:
-        try:
-            datetime.strptime(f"{value} {_SHAPE_CHECK_YEAR}", "%b %d %Y")
-        except ValueError as error:
-            raise ValueError("expected a 'Mon DD' date, e.g. 'Jul 30'") from error
-        return value
+        return validate_source_date(value)
 
     @field_validator("start_time", "end_time")
     @classmethod
     def _time_shape(cls, value: str) -> str:
-        try:
-            datetime.strptime(value, _SOURCE_TIME_FORMAT)
-        except ValueError as error:
-            raise ValueError("expected a 'H:MM AM/PM' time, e.g. '8:30 PM'") from error
-        return value
+        return validate_source_time(value)
 
     @field_validator("billing_tier")
     @classmethod

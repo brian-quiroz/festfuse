@@ -84,6 +84,12 @@ whitespace stripped), and `create_genre`'s pre-query guards reject a blank name 
 touching the database, an unknown family (listing the known ones), and a name that
 derives an invalid slug.
 
+`test_schedule_change_schema.py` (fast, no database) covers the strict
+`ScheduleChangeInput` changeset schema behind `apply_schedule_changes.py`: moves and
+withdrawals parse by their `op`, and an empty changeset, an unknown op, a malformed
+date / time / slug, a move with no end time, and an unknown field (such as a database
+appearance id) are each refused.
+
 ## PostgreSQL integration tests
 
 `integration/test_artist_schema.py` connects through the real SQLAlchemy engine to a
@@ -207,6 +213,17 @@ track, including the multi-artist case; that renaming to the current name is an
 idempotent no-op reporting `already_matches`; and refusals for an unknown
 `spotify_track_id` and a blank name.
 
+`integration/test_schedule_change.py` exercises the schedule change service
+(`apply_schedule_changes`) against the seeded database, using late-night ACL 2026
+slots no real set occupies. It proves a move edits the existing `Appearance` row in
+place (same id, which saved Planner schedules are keyed by), including an end-time-only
+move; that a stale or already-applied `before` slot is refused with the current slots
+listed; refusals for an unknown stage, run, or artist; that a withdrawal moves the
+lineup entry to `withdrawn`, keeps its appearances, and reports (and, through the
+lineup trigger, unverifies) every similar-artist set on the run that targets it; that a
+withdrawn entry cannot change again; and that a move onto an occupied stage slot is
+refused unless the occupant is withdrawn in the same changeset.
+
 `integration/test_clean_bootstrap.py` is the exception to the rollback-contained
 pattern: it proves the from-empty half of "rebuild the database from PostgreSQL alone"
 (roadmap section 5, ADR-0014). It creates a disposable `festfuse_cleanboot_*` database,
@@ -273,7 +290,10 @@ The integration suite currently verifies:
 - track authoring: `rename_track` updating a `Track` row's name, reporting every artist
   whose track selection references it (including the multi-artist case), its idempotent
   no-op for an unchanged name, and refusals for an unknown Spotify track ID and a blank
-  name.
+  name; and
+- schedule changes: `apply_schedule_changes` moving an appearance in place, refusing a
+  stale, repeated, or overlapping move, and withdrawing a lineup entry while retaining
+  its appearances and reporting the similar-artist sets it unverifies.
 
 ## Commands
 
