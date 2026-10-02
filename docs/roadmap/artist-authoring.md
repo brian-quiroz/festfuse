@@ -20,6 +20,8 @@ This roadmap is complete. PostgreSQL is the sole artist data source.
   [`docs/process/artist-editorial-process.md`](../process/artist-editorial-process.md):
   a single artist via `scripts/add_artist.py` / `edit_artist.py` / `delete_artist.py`,
   a hand-authored roster CSV via `scripts/build_roster_payloads.py`.
+- An official schedule change (moved sets, departed artists) applies through
+  `scripts/apply_schedule_changes.py` (section 8).
 - Postgres rebuilds from a `pg_dump` alone: the `pg_dump` / `pg_restore` procedure
   ([`docs/operations/backup-restore.md`](../operations/backup-restore.md), ADR-0014),
   reconciled with `alembic upgrade head` and a clean `alembic check`.
@@ -276,6 +278,39 @@ frontend reads it through the API; artist facts are written to it directly throu
 
 **Checkpoint reached:** adding a genre to the database is a guarded, idempotent,
 replayable command instead of a hand-written `INSERT`.
+
+### 8. Schedule changes
+
+**Status: completed.**
+
+- The first official schedule change (Austin City Limits 2026, reposted grids during
+  festival week) needed edits no authoring CLI covered: `edit_artist` patches artist
+  facts, never appearances, and nothing could take an artist off a run. Decisions:
+  [ADR-0021](../decisions/0021-departing-act-is-a-run-level-lineup-withdrawal.md)
+  (what a departure is) and
+  [ADR-0022](../decisions/0022-schedule-changes-as-natural-key-changesets.md) (how a
+  change is applied).
+- `app/services/schedule_change.py` (`apply_schedule_changes`) holds the logic;
+  `scripts/apply_schedule_changes.py` is a thin CLI with the same `--preview` /
+  `--apply` modes. One JSON changeset per edition lists `move` and `withdraw`
+  operations, applied in order in one transaction.
+- A `move` names the appearance by its current stage, date, and start time and edits
+  that row in place, so its id (the key every saved Planner schedule uses) survives.
+  A stale or already-applied slot is refused, which also lets one file replay safely
+  against both databases even though their appearance ids differ.
+- A `withdraw` moves the lineup entry to `withdrawn` and keeps its appearances, per the
+  lifecycle in `artist-data-model.md`. It never cancels an appearance (the frontend
+  cannot render one yet). The lineup trigger unverifies every similar-artist set on the
+  run that targets the artist, and the preview lists those sources for re-curation.
+- After every change applies, a moved appearance that overlaps another active set on
+  its stage, or another set by the same artist, refuses the whole changeset.
+- An arriving artist is not an operation: `add_artist` (new slug) and
+  `build_roster_payloads` (existing slug, another run) already cover it.
+- Coverage: `test_schedule_change_schema.py` (fast) and
+  `integration/test_schedule_change.py` (PostgreSQL).
+
+**Checkpoint reached:** an official schedule change is a previewable, replayable
+changeset instead of hand-written SQL, and it preserves users' saved schedules.
 
 ## Guardrails
 
