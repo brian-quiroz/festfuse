@@ -28,6 +28,8 @@ preserve the context, alternatives, and tradeoffs behind that system.
 | [0018](0018-about-copy-leads-during-deferred-about-passes.md)             | Capture about-copy leads during deferred-`about` research passes                                  | Accepted           |
 | [0019](0019-artist-photo-sourcing-and-reuse-license-policy.md)            | Artist photo sourcing and reuse-license policy                                                    | Accepted           |
 | [0020](0020-retain-about-copy-sources-after-verification.md)              | Retain about-copy sources after verification in a committed provenance file                       | Accepted           |
+| [0021](0021-departing-act-is-a-run-level-lineup-withdrawal.md)            | A departing act is a run-level lineup withdrawal                                                  | Accepted           |
+| [0022](0022-schedule-changes-as-natural-key-changesets.md)                | Official schedule changes are natural-key changesets applied in place                             | Accepted           |
 
 ## Lightweight convention
 

@@ -28,6 +28,13 @@ from app.services.genre_authoring import (
     delete_genre,
     derive_genre_slug,
 )
+from app.services.schedule_change import (
+    AppearanceMove,
+    LineupWithdrawal,
+    ScheduleChangeError,
+    ScheduleChangeSummary,
+    apply_schedule_changes,
+)
 from app.services.track_authoring import (
     TrackAuthoringError,
     TrackRename,
@@ -42,6 +49,11 @@ __all__ = [
     "GenreAuthoringError",
     "GenreCreation",
     "GenreDeletion",
+    "AppearanceMove",
+    "LineupWithdrawal",
+    "ScheduleChangeError",
+    "ScheduleChangeSummary",
+    "apply_schedule_changes",
     "TrackAuthoringError",
     "TrackRename",
     "create_genre",

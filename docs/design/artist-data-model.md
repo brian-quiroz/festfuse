@@ -782,8 +782,10 @@ Stage 1 ─── many Appearance
 The database enforces foreign keys, supported lifecycle/billing values, and
 `ends_at > starts_at`. Backend/import validation confirms that the LineupEntry and
 FestivalDay belong to the same run, the Stage belongs to that run's FestivalEdition, the
-localized start date matches the FestivalDay, and neither the artist nor stage has
-overlapping active performances.
+localized start date matches the FestivalDay. That neither the artist nor the stage has
+overlapping active performances is checked only when an official schedule change is
+applied (`scripts/apply_schedule_changes.py`); the artist authoring and roster import
+paths do not check it.
 
 There is intentionally no unique constraint on LineupEntry plus FestivalDay: one
 artist may perform multiple non-overlapping sets on the same day, as DEVAULT does in
@@ -1046,7 +1048,7 @@ artist have one.
 | Appearance                      | LineupEntry and FestivalDay belong to the same FestivalRun                                                     |          |      Yes       |                  | Contextual cross-table validation                                                                |
 | Appearance                      | Stage belongs to the FestivalEdition owning that run                                                           |          |      Yes       |                  | Prevents cross-edition stage assignments                                                         |
 | Appearance                      | Localized start date matches FestivalDay                                                                       |          |      Yes       |                  | Uses the FestivalEdition's configured timezone                                                   |
-| Appearance                      | Active sets do not overlap for one Artist or Stage                                                             |          |      Yes       |                  | Multiple non-overlapping sets on one day remain valid                                            |
+| Appearance                      | Active sets do not overlap for one Artist or Stage                                                             |          |      Yes       |                  | Schedule-change apply only; non-overlapping same-day sets stay valid                             |
 | Appearance                      | Weekday, formatted times, duration, and primary status are derived                                             |          |      Yes       |       Yes        | Do not persist redundant presentation values                                                     |
 | Appearance                      | Cancelling a set retains its stable ID and schedule record                                                     |          |      Yes       |                  | Saved schedule references can detect cancellation                                                |
 | Festival hierarchy              | FestivalSeries slug and FestivalEdition slug are unique                                                        |   Yes    |                |                  | Series is recurring identity; edition slug is the public occurrence key                          |
