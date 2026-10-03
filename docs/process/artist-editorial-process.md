@@ -74,7 +74,7 @@ Columns:
 
 | Column                   | Notes                                                                                                                                                                                              |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`                   | Stylized as the artist writes it in running prose, not a logo treatment.                                                                                                                           |
+| `name`                   | Stylized as the artist writes it in running prose, not a logo treatment. Required on every row, including an artist that already exists (the import leaves an existing record's name unchanged). |
 | `slug`                   | Lowercase, hyphen-separated. Spell out a leading number ("five-seconds-of-summer") unless the numeral is inseparable from the identity ("54-ultra"). See ARCHITECTURE.md "Slug Naming Convention". |
 | `spotify_url`            | The canonical `https://open.spotify.com/artist/{id}` URL. Resolve identity on Spotify before entering it — a name can refer to several acts.                                                       |
 | `youtube_url`            | Optional. Official/verified > artist-managed > label-supported. A `- Topic` auto-channel counts as absent.                                                                                         |
@@ -191,7 +191,9 @@ on Spotify and fills the canonical track name.
 
 ### 5. Link check and publish (editor)
 
-Run `check_artist_links.py` (per artist, per run, or all) — it resolves every external
+Run `check_artist_links.py` per artist (`--slug`, which checks the artist whether draft
+or published) or per run with `--include-drafts` (without it, a run check covers
+published artists only and prints how many drafts it skipped). It resolves every external
 identifier (Spotify artist and track IDs, YouTube video ID, social URLs, image
 source/license URLs) via oEmbed and HTTP, mechanical resolve checks only. It exits
 non-zero on any failure.
@@ -602,8 +604,9 @@ the whole roster but only moves the outliers.
    listed them as one of its four. A withdrawal keeps those sets' four entries, the
    departed artist still among them, and its preview lists every flagged set; a hard
    delete removes those rows, leaving those sets with three entries.
-2. **Re-curate only the sets the trigger flagged** — for each, the AI proposes a
-   replacement fourth pick so it is a valid, verified four again, editor approves. A set
+2. **Re-curate only the sets the trigger flagged**: for each, the AI proposes a
+   replacement for every departed pick it lists (a set can list more than one
+   departed artist) so it is a valid, verified four again, editor approves. A set
    that never listed the departed artist has no hole, keeps its verification, and is
    **not** re-curated.
 3. **Balance sweep** — the counts have now shifted: the departed artist's four outbound
@@ -637,7 +640,8 @@ The service CLIs (approval and `--preview`-before-`--apply` are Non-negotiables)
 - `edit_artist.py --input patch.json --preview | --apply` — field-level changes. The
   preview prints a per-field change plan, a slug-change warning, and the re-run
   publication readiness.
-- `check_artist_links.py` — the pre-publish gate, run on the batch being published.
+- `check_artist_links.py`: the pre-publish gate, run on the batch being published
+  (`--slug` per artist, or `--edition`/`--run` with `--include-drafts`).
 - `publish_artists` — draft to published.
 
 Full flags, the roster CSV format, and the hosted-database tunnel commands are in

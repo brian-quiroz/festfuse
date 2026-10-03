@@ -131,7 +131,7 @@ hosted database. From `backend/`:
 ```bash
 python -m scripts.build_roster_payloads --input roster.csv \
     --edition <edition-slug> --run <run-slug> --preview   # then --apply
-python -m scripts.check_artist_links --slug <slug>        # or --edition/--run, or all
+python -m scripts.check_artist_links --slug <slug>        # or --edition/--run [--include-drafts], or all
 python -m scripts.show_artist --slug <slug>               # full record + readiness
 python -m scripts.show_artist --roster --sort similar-count   # slug|schedule also
 python -m scripts.show_artist --roster --edition <edition-slug> --run <run-slug>
@@ -148,8 +148,9 @@ slug, name, spotify_url, youtube_url, tiktok_url, mbid, billing_tier,
 stage, date, start_time, end_time
 ```
 
-Only `slug` and `name` are hard-required as headers; every other column is optional and
-droppable. The four schedule columns travel together. A file is either announced (no
+Only `slug` and `name` are hard-required, as headers and as a value on every row,
+including a row for an artist that already exists (its stored name is not changed);
+every other column is optional and droppable. The four schedule columns travel together. A file is either announced (no
 schedule columns) or scheduled, never a mix; an announced festival is brought in with
 an announced pass, then a scheduled re-run against the same run. The editor-facing
 workflow, the per-mode column requirements, and `billing_tier` inheritance are in
@@ -169,8 +170,11 @@ artist/track ids, YouTube video id, YouTube/TikTok/image-source/image-license UR
 oEmbed and plain HTTP — mechanical resolve checks only, never identity. It reports OK /
 BROKEN / UNVERIFIABLE and exits non-zero only on a BROKEN link (a confirmed 404/410 or
 failed oEmbed); UNVERIFIABLE (403, 429, timeout, a local `public/` image path) does not
-fail the run. Run it as the pre-publish check on the batch you are about to publish; it
-is not wired into `publish_artists`. `--jobs N` (default 8) fans requests out in
+fail the run; an unknown `--slug` fails it too. Run it as the pre-publish check on the
+batch you are about to publish. `--slug` checks the named artist whether draft or
+published; a run-wide or full check covers published artists only unless
+`--include-drafts` is passed, and prints how many drafts it skipped. It is not wired
+into `publish_artists`. `--jobs N` (default 8) fans requests out in
 parallel — a whole-run check finishes in seconds instead of timing out, but Spotify's
 oEmbed endpoint throttles a burst of a few hundred lookups, so at roster scale many good
 Spotify links report UNVERIFIABLE rather than OK. That never yields a false BROKEN, so

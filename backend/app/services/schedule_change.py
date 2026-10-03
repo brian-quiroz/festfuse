@@ -52,10 +52,14 @@ class LineupWithdrawal:
     run_slug: str
     artist_slug: str
     retained_appearances: list[str]
-    # Artists whose verified similar-artist set on this run includes the withdrawn
-    # artist. The withdrawal unverifies each of those sets (a database trigger), so
-    # every one loses its Similar Artists section until the set is re-curated.
+    # Announced artists whose verified similar-artist set on this run includes the
+    # withdrawn artist. The withdrawal unverifies each of those sets (a database
+    # trigger), so every one loses its Similar Artists section until re-curated.
     similar_sources: list[str]
+    # Sets that also include the withdrawn artist but were already unverified (e.g.
+    # by an earlier withdrawal in the same changeset). They need this pick replaced
+    # too; together with similar_sources this is the complete re-curation worklist.
+    already_unverified_sources: list[str]
 
 
 @dataclass
@@ -168,15 +172,21 @@ def _apply_withdrawal(
     timezone: ZoneInfo,
 ) -> LineupWithdrawal:
     # Read before the status change flushes: the lineup_entries trigger then clears
-    # verified_at on exactly these sets.
-    similar_sources = session.scalars(
-        select(Artist.slug)
+    # verified_at on the verified ones. Sources withdrawn from the run are skipped;
+    # their sets are never served.
+    rows = session.execute(
+        select(Artist.slug, SimilarArtistSet.verified_at.is_not(None))
         .join(SimilarArtistSet, SimilarArtistSet.source_artist_id == Artist.id)
         .join(SimilarArtist, SimilarArtist.similarity_set_id == SimilarArtistSet.id)
+        .join(
+            LineupEntry,
+            (LineupEntry.artist_id == Artist.id)
+            & (LineupEntry.festival_run_id == run.id),
+        )
         .where(
             SimilarArtistSet.festival_run_id == run.id,
-            SimilarArtistSet.verified_at.is_not(None),
             SimilarArtist.target_artist_id == entry.artist_id,
+            LineupEntry.lineup_status == "announced",
         )
         .order_by(Artist.slug)
     ).all()
@@ -190,7 +200,8 @@ def _apply_withdrawal(
             for a in entry.appearances
             if a.appearance_status == "scheduled"
         ],
-        similar_sources=list(similar_sources),
+        similar_sources=[slug for slug, verified in rows if verified],
+        already_unverified_sources=[slug for slug, verified in rows if not verified],
     )
 
 

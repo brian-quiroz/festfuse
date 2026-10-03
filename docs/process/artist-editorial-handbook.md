@@ -21,7 +21,7 @@ loaded by any skill.
 | **Skeletons**      | Run `build_roster_payloads.py --preview`, read the report, fix any flagged rows, then `--apply`.                                                                                                                                                                                                                                                                     |
 | **Research pass**  | Read the AI's per-artist report. Approve per field or per artist. Where it surfaced two or three options, pick one. Nothing is written until you say so.                                                                                                                                                                                                             |
 | **Flagship track** | Pick it in Spotify — you can see play counts, song age, and the "Popular" order. This is a judgment call (a defining track vs. a current-moment one). The AI gives you nothing here; use `show_artist --slug` for the rest of the record as context. Skip it for an artist with no Spotify presence that publishes on a featured live-performance video (see below). |
-| **Publish**        | `check_artist_links` passes, then `publish_artists`. Needs identity + 3 genres + location + one preview (a Spotify artist ID, a full Listen First set, or a featured video) + a flagship track unless the preview is a video alone. Not `about`, not similar artists.                                                                                                |
+| **Publish**        | `check_artist_links` passes (per artist with `--slug`, or per run with `--include-drafts`), then `publish_artists`. Needs identity + 3 genres + location + one preview (a Spotify artist ID, a full Listen First set, or a featured video) + a flagship track unless the preview is a video alone. Not `about`, not similar artists.                                                                                                |
 | **Sign-off**       | You set every `*Verified` flag, always, after reading the evidence. The AI never does.                                                                                                                                                                                                                                                                               |
 
 Similar-artist sets come later, after enough of the roster is published to draw from.
@@ -87,7 +87,7 @@ does not use.
 | Column                   | Required                                          | Notes                                                                                                                                                       |
 | ------------------------ | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `slug`                   | always                                            | Lowercase, hyphen-separated. Spell out a leading number ("five-seconds-of-summer") unless the numeral is inseparable from the identity ("54-ultra").        |
-| `name`                   | always                                            | Stylized as the artist writes it in prose, not a logo treatment. On a schedule re-run it appears only in the report, never re-saved.                        |
+| `name`                   | always                                            | Stylized as the artist writes it in prose, not a logo treatment. On a schedule re-run, or for an existing artist added to another run, it appears only in the report, never re-saved. |
 | `billing_tier`           | announced roster; a new artist's first appearance | `Headliner`, `Sub-headliner`, or `Undercard`, taken from the poster. Inherited (may be omitted) on a schedule re-run for an already-announced artist.       |
 | `stage`                  | scheduled roster                                  | Must match a seeded stage name for the edition.                                                                                                             |
 | `date`                   | scheduled roster                                  | `Jul 30` format; must match a seeded festival day.                                                                                                          |
@@ -95,6 +95,12 @@ does not use.
 | `spotify_url`            | optional                                          | Canonical `https://open.spotify.com/artist/{id}`. Resolve identity on Spotify first; a name can point at several acts. Fine to leave for the research pass. |
 | `youtube_url`            | optional                                          | Official/verified > artist-managed > label-supported. A `- Topic` auto-channel counts as absent.                                                            |
 | `tiktok_url`             | optional                                          | Canonical `@handle` profile URL.                                                                                                                            |
+
+Editing the roster in Excel or Numbers: a date like `Oct 4` or a time like `2:00 PM`
+typed into a General-format cell is converted to a date or time and saved back in the
+app's own format, which the import rejects. Format the `date`, `start_time`, and
+`end_time` columns as Text before typing, and check the saved file in a plain-text
+editor before the `--preview`.
 
 Identity and socials are read only by the pass that _creates_ the artist. A schedule
 re-run looks each artist up by slug and touches only appearances, so identity/social

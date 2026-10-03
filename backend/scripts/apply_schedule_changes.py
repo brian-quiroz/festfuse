@@ -47,6 +47,11 @@ def _render_plan(summary: ScheduleChangeSummary) -> None:
                     "    unverifies the similar-artist set of: "
                     + ", ".join(withdrawal.similar_sources)
                 )
+            if withdrawal.already_unverified_sources:
+                print(
+                    "    also listed in (set already unverified): "
+                    + ", ".join(withdrawal.already_unverified_sources)
+                )
 
 
 def main() -> int:

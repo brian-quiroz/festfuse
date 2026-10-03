@@ -2,7 +2,10 @@
 
 Read-only against PostgreSQL; makes outbound oEmbed / HTTP requests to resolve the
 Spotify, YouTube, TikTok, and image URLs. Mechanical resolve checks only, never "is this
-the right artist". Exits non-zero only on a BROKEN link. Scope flags, `--jobs`, and the
+the right artist". Exits non-zero on a BROKEN link or an unknown `--slug`. `--slug`
+checks the named artist whatever its publication status; a run-wide or full check covers
+published artists unless `--include-drafts` is passed, and says how many drafts it
+skipped. Scope flags, `--jobs`, and the
 Spotify burst-throttling caveat are in `docs/operations/backend-deployment.md`
 ("Editorial pipeline scripts").
 
@@ -170,14 +173,16 @@ def check_artists(
     return grouped
 
 
-def _select_artists(session, args) -> list[Artist]:
+def _select_artists(session, args) -> tuple[list[Artist], int]:
+    """The artists to check, plus how many drafts the scope skipped. A named slug is
+    always checked: it is usually a draft about to be published (the pre-publish gate)."""
     query = select(Artist).options(
         selectinload(Artist.track_selections).selectinload(ArtistTrackSelection.track),
         selectinload(Artist.videos),
     )
     if args.slug:
-        query = query.where(Artist.slug == args.slug)
-    elif args.edition and args.run:
+        return list(session.scalars(query.where(Artist.slug == args.slug))), 0
+    if args.edition and args.run:
         query = (
             query.join(Artist.lineup_entries)
             .join(LineupEntry.festival_run)
@@ -187,9 +192,11 @@ def _select_artists(session, args) -> list[Artist]:
                 FestivalRun.slug == args.run,
             )
         )
-    if not args.include_drafts:
-        query = query.where(Artist.publication_status == "published")
-    return list(session.scalars(query.order_by(Artist.slug)))
+    in_scope = list(session.scalars(query.order_by(Artist.slug)))
+    if args.include_drafts:
+        return in_scope, 0
+    published = [a for a in in_scope if a.publication_status == "published"]
+    return published, len(in_scope) - len(published)
 
 
 def main() -> int:
@@ -201,7 +208,7 @@ def main() -> int:
     parser.add_argument(
         "--include-drafts",
         action="store_true",
-        help="include draft artists (published only by default)",
+        help="with --edition/--run or no scope, include drafts (--slug always does)",
     )
     parser.add_argument("--timeout", type=float, default=10.0)
     parser.add_argument(
@@ -215,8 +222,16 @@ def main() -> int:
         parser.error("--edition and --run must be given together")
 
     with SessionLocal() as session:
-        artists = _select_artists(session, args)
+        artists, skipped_drafts = _select_artists(session, args)
 
+    if args.slug and not artists:
+        print(f"No artist with slug {args.slug!r}.")
+        return 1
+    if skipped_drafts:
+        print(
+            f"{skipped_drafts} draft artist(s) skipped; "
+            "add --include-drafts to check them."
+        )
     if not artists:
         print("No matching artists.")
         return 0

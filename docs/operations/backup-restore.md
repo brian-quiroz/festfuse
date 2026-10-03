@@ -56,7 +56,10 @@ Keep the `.dump` file somewhere durable and private (it holds the full artist
 dataset). It is a point-in-time snapshot: take a fresh one on a schedule and before
 and after any large data change, such as adding a festival.
 
-Stop the tunnel with `Ctrl+C` when the dump finishes.
+Stop the tunnel with `Ctrl+C` when the dump finishes. If it was stopped any other way
+(for example by killing the `railway` process when it ran in the background), its `ssh`
+child can survive and keep the port open. Check with `lsof -nP -iTCP:55432 -sTCP:LISTEN`;
+a leftover `ssh ... -L 127.0.0.1:55432:... ssh.railway.com` process is safe to stop.
 
 ## 2. Restore into a fresh database
 
