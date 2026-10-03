@@ -172,7 +172,13 @@ artist refused (and the artist's own slug re-submitted as a no-op), refusals for
 unknown genre / artist / edition / run, that publication readiness is recomputed after
 editing a draft, and that an edit which would drop a currently-publishable published
 artist below the readiness bar is refused while a published artist that stays ready (or
-was already below the bar) is still editable.
+was already below the bar) is still editable. Similar-artist membership is enforced at
+write time: one `edit_artist` patch naming four ineligible picks is refused with every
+slug and its reason (unpublished, withdrawn from the run, a draft lineup entry, not in
+the run's lineup); `create_artist` refuses an ineligible pick the same way; a withdrawn
+artist cannot be given picks while its set can still be cleared; and a set
+`edit_artist` accepts is exactly what `read_festival_artist_by_slug` serves, because
+both use the shared rule in `app/lib/lineup_membership.py`.
 
 The same file also covers the editorial pipeline tooling (roadmap 4b): a roster
 skeleton built by `parse_roster` and `create_from_payloads` persists as a `draft` with
@@ -185,7 +191,9 @@ different run adds an already-existing artist to that run (`would add to run` /
 renderers run against a seeded artist without error, showing readiness and the inbound
 similar-artist reference count; and `--roster`'s `--edition`/`--run` filter scopes both
 the listed artists and the inbound count to one festival run, excluding an artist only
-present in a different run.
+present in a different run. That run-scoped roster leaves out an artist withdrawn from
+the run (naming it in a footer), lists a draft lineup entry only with
+`--include-drafts`, and drops a withdrawn artist's own set from the inbound count.
 
 The staged import (multi-festival roadmap) is covered in the same file: a roster-only
 row persists as an announced entry with no appearances; re-running with the full
@@ -277,13 +285,15 @@ The integration suite currently verifies:
 - single-artist field-level edits through the authoring service (ADR-0012):
   verification re-stamping after a triggered content change, wholesale collection
   replacement with idempotent re-apply, image/video set-and-clear, identity
-  self-exclusion, reference refusals, readiness recomputation, and the
-  published-stays-publishable guard; and
+  self-exclusion, reference refusals, readiness recomputation, the
+  published-stays-publishable guard, and similar-artist membership refusals that share
+  the public read's rule; and
 - the editorial pipeline tooling (roadmap 4b): roster-skeleton creation through
   `parse_roster` / `create_from_payloads` (draft lineup and schedule, per-savepoint
   isolation of a failed row, skip-if-already-in-run, rerun safety, and adding an
   existing artist to a different run) and the `show_artist.py` detail and roster
-  renderers; and
+  renderers, including the run-scoped roster's withdrawn exclusion from its listing and
+  counts; and
 - the staged import (multi-festival roadmap): a roster-only row creating an announced
   entry, a second pass with the full schedule CSV attaching it through
   `attach_run_schedule`, and that function's refusals (no appearances, no entry in the

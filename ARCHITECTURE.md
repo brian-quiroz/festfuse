@@ -516,7 +516,9 @@ FestivalRun + source Artist ─── SimilarArtistSet ─── SimilarArtist e
   display-order semantics plus availability history.
 - Similar Artists are directional, ordered, and FestivalRun-scoped. Target deletion
   is restricted so another Artist's curated set cannot silently shrink.
-- Similar Artist curation selects published, announced targets in the exact run. The
+- Similar Artist curation selects published, announced targets in the exact run,
+  enforced at write time by the authoring service through the same membership rule the
+  public query applies (`app/lib/lineup_membership.py`). The
   public query additionally returns all four entries or none: if any target later
   becomes unpublished, the complete set is hidden rather than partially filtered.
   Unpublishing does not clear `verified_at`, because availability and editorial

@@ -5,9 +5,10 @@ publication readiness, the run-scoped similar-artist set, and how many other art
 cite this one as similar. ``--roster`` prints one line per published artist
 (slug, name, genres, billing, day, inbound similar-artist count) for the similar-artist
 membership check and the distribution balance sweep. Pass ``--edition``/``--run``
-together to scope ``--roster`` to one festival run: only artists with a lineup entry
-in that run are listed, and the inbound count only reflects that run's similar-artist
-sets. Without them, ``--roster`` spans every festival/run (unchanged legacy
+together to scope ``--roster`` to one festival run: only artists announced in that
+run are listed (plus draft entries with ``--include-drafts``), artists withdrawn from
+it are named in a footer instead, and the inbound count only reflects that run's
+similar-artist sets, leaving out the sets of withdrawn artists. Without them, ``--roster`` spans every festival/run (unchanged legacy
 behavior): a combined view that does not distinguish runs, so it is not a valid
 membership source for per-run similar-artist work. Neither mode writes anything.
 """
@@ -21,6 +22,7 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import selectinload
 
 from app.database import SessionLocal
+from app.lib.lineup_membership import PUBLIC_LINEUP_STATUS
 from app.models import (
     Appearance,
     Artist,
@@ -76,11 +78,55 @@ def _inbound_counts(session, *, run_id: int | None) -> dict[int, int]:
         SimilarArtist.target_artist_id
     )
     if run_id is not None:
+        owner_withdrawn = (
+            select(LineupEntry.id)
+            .where(
+                LineupEntry.artist_id == SimilarArtistSet.source_artist_id,
+                LineupEntry.festival_run_id == run_id,
+                LineupEntry.lineup_status == "withdrawn",
+            )
+            .exists()
+        )
         query = query.join(
             SimilarArtistSet, SimilarArtist.similarity_set_id == SimilarArtistSet.id
-        ).where(SimilarArtistSet.festival_run_id == run_id)
+        ).where(SimilarArtistSet.festival_run_id == run_id, ~owner_withdrawn)
     rows = session.execute(query).all()
     return {artist_id: count for artist_id, count in rows}
+
+
+def _roster_artists(
+    session, *, include_drafts: bool, run_id: int | None
+) -> tuple[list[Artist], list[str]]:
+    """The artists to list, plus the slugs left out for being withdrawn from the run
+    (always empty without a run)."""
+    query = select(Artist).options(
+        selectinload(Artist.genre_assignments).selectinload(ArtistGenre.genre),
+        selectinload(Artist.lineup_entries)
+        .selectinload(LineupEntry.appearances)
+        .selectinload(Appearance.festival_day),
+    )
+    if not include_drafts:
+        query = query.where(Artist.publication_status == "published")
+    if run_id is None:
+        return list(session.scalars(query)), []
+
+    query = query.where(
+        Artist.lineup_entries.any(LineupEntry.festival_run_id == run_id)
+    )
+    listed_statuses = {PUBLIC_LINEUP_STATUS} | ({"draft"} if include_drafts else set())
+    artists: list[Artist] = []
+    withdrawn: list[str] = []
+    for artist in session.scalars(query):
+        status = next(
+            e.lineup_status
+            for e in artist.lineup_entries
+            if e.festival_run_id == run_id
+        )
+        if status == "withdrawn":
+            withdrawn.append(artist.slug)
+        elif status in listed_statuses:
+            artists.append(artist)
+    return artists, sorted(withdrawn)
 
 
 def _render_detail(session, slug: str) -> int:
@@ -210,19 +256,9 @@ def _render_detail(session, slug: str) -> int:
 def _render_roster(
     session, *, sort: str, include_drafts: bool, run_id: int | None = None
 ) -> int:
-    query = select(Artist).options(
-        selectinload(Artist.genre_assignments).selectinload(ArtistGenre.genre),
-        selectinload(Artist.lineup_entries)
-        .selectinload(LineupEntry.appearances)
-        .selectinload(Appearance.festival_day),
+    artists, withdrawn = _roster_artists(
+        session, include_drafts=include_drafts, run_id=run_id
     )
-    if not include_drafts:
-        query = query.where(Artist.publication_status == "published")
-    if run_id is not None:
-        query = query.where(
-            Artist.lineup_entries.any(LineupEntry.festival_run_id == run_id)
-        )
-    artists = list(session.scalars(query))
     counts = _inbound_counts(session, run_id=run_id)
 
     def run_entries(artist: Artist) -> list[LineupEntry]:
@@ -273,6 +309,8 @@ def _render_roster(
             f"{row['refs']:>4}  {row['genres']}"
         )
     print(f"\n{len(rows)} artist(s).")
+    if withdrawn:
+        print(f"Excluded (withdrawn in this run): {', '.join(withdrawn)}")
     return 0
 
 

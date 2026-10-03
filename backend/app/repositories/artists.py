@@ -3,6 +3,7 @@ from zoneinfo import ZoneInfo
 from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload, raiseload, selectinload
 
+from app.lib.lineup_membership import PUBLIC_LINEUP_STATUS, is_public_run_member
 from app.models import (
     Appearance,
     Artist,
@@ -210,7 +211,7 @@ def read_festival_artist_by_slug(
             Artist.publication_status == "published",
             FestivalRun.slug == run_slug,
             FestivalEdition.slug == edition_slug,
-            LineupEntry.lineup_status == "announced",
+            LineupEntry.lineup_status == PUBLIC_LINEUP_STATUS,
         )
     )
     lineup_entry = session.scalar(statement)
@@ -258,12 +259,7 @@ def read_festival_artist_by_slug(
             key=lambda entry: entry.display_order,
         )
         all_targets_are_public = all(
-            entry.target_artist.publication_status == "published"
-            and any(
-                target_lineup.festival_run_id == festival_run.id
-                and target_lineup.lineup_status == "announced"
-                for target_lineup in entry.target_artist.lineup_entries
-            )
+            is_public_run_member(entry.target_artist, festival_run.id)
             for entry in ordered_entries
         )
         if all_targets_are_public:
@@ -359,11 +355,7 @@ def _read_run_similar_artists(
             similarity_set.entries, key=lambda entry: entry.display_order
         )
         all_targets_are_public = all(
-            entry.target_artist.publication_status == "published"
-            and any(
-                target_lineup.lineup_status == "announced"
-                for target_lineup in entry.target_artist.lineup_entries
-            )
+            is_public_run_member(entry.target_artist, festival_run_id)
             for entry in ordered_entries
         )
         if not all_targets_are_public:
@@ -465,7 +457,7 @@ def read_festival_run_appearances(
         )
         .where(
             LineupEntry.festival_run_id == festival_run.id,
-            LineupEntry.lineup_status == "announced",
+            LineupEntry.lineup_status == PUBLIC_LINEUP_STATUS,
             Artist.publication_status == "published",
             # Cancelled excluded too, unlike read_festival_artist_by_slug — see ADR-0004.
             Appearance.appearance_status == "scheduled",
@@ -536,7 +528,7 @@ def read_festival_run_artists(
         )
         .where(
             LineupEntry.festival_run_id == festival_run.id,
-            LineupEntry.lineup_status == "announced",
+            LineupEntry.lineup_status == PUBLIC_LINEUP_STATUS,
             Artist.publication_status == "published",
         )
         # No set times to order by; billing tier (headliner < sub_headliner <
@@ -578,7 +570,7 @@ def read_run_ids_with_public_schedule(session: Session, run_ids: list[int]) -> s
             .join(Artist, Artist.id == LineupEntry.artist_id)
             .where(
                 LineupEntry.festival_run_id.in_(run_ids),
-                LineupEntry.lineup_status == "announced",
+                LineupEntry.lineup_status == PUBLIC_LINEUP_STATUS,
                 Artist.publication_status == "published",
                 Appearance.appearance_status == "scheduled",
             )
@@ -601,7 +593,7 @@ def read_run_ids_with_published_artists(session: Session, run_ids: list[int]) ->
             .join(Artist, Artist.id == LineupEntry.artist_id)
             .where(
                 LineupEntry.festival_run_id.in_(run_ids),
-                LineupEntry.lineup_status == "announced",
+                LineupEntry.lineup_status == PUBLIC_LINEUP_STATUS,
                 Artist.publication_status == "published",
             )
             .distinct()

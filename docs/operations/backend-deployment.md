@@ -189,7 +189,9 @@ membership check and the distribution balance sweep; `--sort` is `similar-count`
 spans every festival and run combined, which does not distinguish one run's lineup from
 another's, so it is not a valid membership source for per-run similar-artist work.
 Passing `--edition`/`--run` together scopes both the listed artists and the `refs` count
-to that one festival run.
+to that one festival run: it lists only artists announced in that run (draft entries too
+with `--include-drafts`), names any artist withdrawn from it in a footer, and leaves
+withdrawn artists' own sets out of `refs`.
 
 **`scripts.sourcing/`** holds the photo-sourcing wrappers used by
 [`../process/artist-image-sourcing.md`](../process/artist-image-sourcing.md)

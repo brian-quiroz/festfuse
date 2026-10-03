@@ -18,6 +18,7 @@ from app.lib.artist_source import (
     parse_focal_y,
     parse_spotify_artist_id,
 )
+from app.lib.lineup_membership import similar_target_problem
 from app.models import (
     Appearance,
     Artist,
@@ -145,16 +146,34 @@ def _resolve_genres(session: Session, names: list[str]) -> list[Genre]:
     return [by_name[name] for name in names]
 
 
-def _resolve_similar_targets(session: Session, slugs: list[str]) -> dict[str, Artist]:
+def _resolve_similar_targets(
+    session: Session, slugs: list[str], run: FestivalRun
+) -> dict[str, Artist]:
     by_slug = {
         artist.slug: artist
-        for artist in session.scalars(select(Artist).where(Artist.slug.in_(slugs)))
+        for artist in session.scalars(
+            select(Artist)
+            .where(Artist.slug.in_(slugs))
+            .options(selectinload(Artist.lineup_entries))
+        )
     }
     missing = [slug for slug in slugs if slug not in by_slug]
     if missing:
         raise ArtistAuthoringError(
             "unknown similar-artist target(s): "
             + ", ".join(repr(slug) for slug in missing)
+        )
+    # The same membership rule the public read applies, so a pick that would hide the
+    # whole set is refused here instead of failing silently there.
+    problems = [
+        (slug, problem)
+        for slug in slugs
+        if (problem := similar_target_problem(by_slug[slug], run.id)) is not None
+    ]
+    if problems:
+        raise ArtistAuthoringError(
+            f"similar-artist target(s) not eligible in run {run.slug!r}: "
+            + ", ".join(f"{slug!r} ({problem})" for slug, problem in problems)
         )
     return by_slug
 
@@ -223,7 +242,7 @@ def create_artist(session: Session, payload: ArtistAuthoringInput) -> Artist:
     genres = _resolve_genres(session, artist_input.genres)
     similar_targets = (
         _resolve_similar_targets(
-            session, [entry.slug for entry in artist_input.similar_artists]
+            session, [entry.slug for entry in artist_input.similar_artists], run
         )
         if artist_input.similar_artists_verified and artist_input.similar_artists
         else {}
@@ -543,9 +562,11 @@ def _load_artist_for_edit(session: Session, slug: str) -> Artist:
     return artist
 
 
-def _require_lineup_entry(session: Session, artist: Artist, run: FestivalRun) -> None:
+def _require_lineup_entry(
+    session: Session, artist: Artist, run: FestivalRun
+) -> LineupEntry:
     entry = session.scalar(
-        select(LineupEntry.id).where(
+        select(LineupEntry).where(
             LineupEntry.artist_id == artist.id,
             LineupEntry.festival_run_id == run.id,
         )
@@ -554,6 +575,7 @@ def _require_lineup_entry(session: Session, artist: Artist, run: FestivalRun) ->
         raise ArtistAuthoringError(
             f"artist {artist.slug!r} has no lineup entry in run {run.slug!r}"
         )
+    return entry
 
 
 def _apply_scalars(artist: Artist, fields: ArtistEditFields) -> list[FieldChange]:
@@ -904,7 +926,15 @@ def edit_artist(session: Session, payload: ArtistEditInput) -> EditSummary:
     )
 
     run = _resolve_run(session, payload.edition, payload.run)
-    _require_lineup_entry(session, artist, run)
+    lineup_entry = _require_lineup_entry(session, artist, run)
+    # A withdrawn artist's page is gone for this run, so picks written for it could
+    # never show (clearing its set is still allowed). A draft owner is fine: its set
+    # appears once the artist is published.
+    if fields.similar_artists and lineup_entry.lineup_status == "withdrawn":
+        raise ArtistAuthoringError(
+            f"artist {artist.slug!r} is withdrawn from run {run.slug!r}; "
+            "its similar-artist set cannot be edited"
+        )
 
     _reject_taken_identity(
         session,
@@ -925,7 +955,7 @@ def edit_artist(session: Session, payload: ArtistEditInput) -> EditSummary:
     )
     similar_targets = (
         _resolve_similar_targets(
-            session, [entry.slug for entry in fields.similar_artists]
+            session, [entry.slug for entry in fields.similar_artists], run
         )
         if fields.similar_artists
         else {}
