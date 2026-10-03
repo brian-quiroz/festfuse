@@ -301,7 +301,9 @@ replayable command instead of a hand-written `INSERT`.
 - A `withdraw` moves the lineup entry to `withdrawn` and keeps its appearances, per the
   lifecycle in `artist-data-model.md`. It never cancels an appearance (the frontend
   cannot render one yet). The lineup trigger unverifies every similar-artist set on the
-  run that targets the artist, and the preview lists those sources for re-curation.
+  run that targets the artist, and the preview lists those sources for re-curation,
+  including sets an earlier withdrawal already unverified, so a set that listed two
+  departed artists shows up under both.
 - After every change applies, a moved appearance that overlaps another active set on
   its stage, or another set by the same artist, refuses the whole changeset.
 - An arriving artist is not an operation: `add_artist` (new slug) and

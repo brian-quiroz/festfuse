@@ -221,8 +221,16 @@ move; that a stale or already-applied `before` slot is refused with the current 
 listed; refusals for an unknown stage, run, or artist; that a withdrawal moves the
 lineup entry to `withdrawn`, keeps its appearances, and reports (and, through the
 lineup trigger, unverifies) every similar-artist set on the run that targets it; that a
+set listing two departing artists is reported by both withdrawals (the second as
+already unverified) while a withdrawn source's set is not reported; that a
 withdrawn entry cannot change again; and that a move onto an occupied stage slot is
 refused unless the occupant is withdrawn in the same changeset.
+
+`integration/test_link_check_selection.py` exercises which artists
+`check_artist_links` selects, against the seeded database and with no network: a
+`--slug` check includes the named artist even as a draft; a run-wide check skips
+drafts and counts them unless `--include-drafts` is passed; and an unknown `--slug`
+exits non-zero with a clear message.
 
 `integration/test_clean_bootstrap.py` is the exception to the rollback-contained
 pattern: it proves the from-empty half of "rebuild the database from PostgreSQL alone"
@@ -293,7 +301,10 @@ The integration suite currently verifies:
   name; and
 - schedule changes: `apply_schedule_changes` moving an appearance in place, refusing a
   stale, repeated, or overlapping move, and withdrawing a lineup entry while retaining
-  its appearances and reporting the similar-artist sets it unverifies.
+  its appearances and reporting every similar-artist set that lists it, including
+  sets already unverified; and
+- the link check's artist selection: drafts checked by `--slug`, counted and skipped
+  by a run-wide check unless `--include-drafts`, and an unknown slug failing.
 
 ## Commands
 

@@ -204,6 +204,35 @@ def test_withdrawal_retains_appearances_and_reports_similar_sources(
     assert similarity_set.verified_at is None
 
 
+def test_a_set_listing_two_departing_artists_is_reported_by_both(
+    session: Session,
+) -> None:
+    first = _seed(session)
+    second = _seed(session, start="11:30 PM", end="11:45 PM")
+    source = _seed(
+        session,
+        stage="BMI",
+        similar=[first.artist.slug, second.artist.slug, "charli-xcx", "the-xx"],
+    )
+    # A withdrawn source's set is never served, so it is not part of the worklist.
+    departed_source = _seed(
+        session,
+        stage="Beatbox",
+        similar=[second.artist.slug, "charli-xcx", "the-xx", "geese"],
+    )
+    _apply(session, _withdraw(departed_source.artist.slug))
+
+    summary = _apply(
+        session, _withdraw(first.artist.slug), _withdraw(second.artist.slug)
+    )
+
+    first_report, second_report = summary.withdrawals
+    assert first_report.similar_sources == [source.artist.slug]
+    assert first_report.already_unverified_sources == []
+    assert second_report.similar_sources == []
+    assert second_report.already_unverified_sources == [source.artist.slug]
+
+
 def test_a_withdrawn_artist_cannot_change_again(session: Session) -> None:
     entry = _seed(session)
     _apply(session, _withdraw(entry.artist.slug))
