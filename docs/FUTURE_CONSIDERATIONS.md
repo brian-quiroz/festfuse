@@ -908,10 +908,14 @@ but nothing enforces that. This is intentional for now (ADR-0011) — the author
 workflow validates against the `genres` table, the frontend against the TS list.
 
 The cost surfaces when a genuinely new genre is needed: `add_genre` writes the `genres`
-row, and `categories.ts` has to be updated by hand in the same change, or the drift is
-real (an artist tagged with a genre the filter UI does not know about). The clean
-resolution is to serve the filter vocabulary from the API so there is one list; until
-then, "add a genre" is a two-place change.
+row, and `categories.ts` has to be updated by hand in the same change. The frontend's
+API mapper (`mapGenres` in `app/lib/api/mapFestivalArtist.ts`) throws on any genre not
+in its list, and the run feed it maps is shared by Explore, Planner, Quick Picks, and
+Festival Story, so one published artist with an unknown genre takes down every surface
+for that run. The interim guard is deploy order: the `categories.ts` change ships before
+the genre is used on the hosted database (`artist-editorial-process.md`, Genres). The
+clean resolution is to serve the filter vocabulary from the API so there is one list;
+until then, "add a genre" is a two-place change.
 
 ---
 

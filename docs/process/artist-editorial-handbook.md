@@ -222,4 +222,6 @@ record and runs in re-review mode — Tier 2, the current content as the baselin
   `docs/process/artist-flagged-issues.md`, not applied silently.
 - A genre the artist needs that is not in the table: the AI flags it with sources; you
   add it with `add_genre` (writes the `genres` row) and mirror the entry into
-  `app/data/categories.ts` by hand in the same change.
+  `app/data/categories.ts` by hand in the same change. On the hosted database, the
+  `categories.ts` change must be merged and deployed first; the frontend refuses a
+  genre it does not know.
