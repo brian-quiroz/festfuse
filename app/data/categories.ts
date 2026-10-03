@@ -208,6 +208,7 @@ export const GENRES = [
   "Korean Hip-Hop",
   "Latin Pop",
   "Latin Trap",
+  "Latino Country",
   "Lo-Fi Indie",
   "Melodic Bass",
   "Melodic Hardcore",
@@ -348,6 +349,7 @@ export const GENRE_FAMILIES = {
     "Irish Folk",
     "Western Swing",
     "Regional Mexican",
+    "Latino Country",
   ],
   "Hip-Hop/Rap": [
     "Alternative Hip-Hop",

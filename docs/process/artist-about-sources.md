@@ -522,6 +522,15 @@ Finn Wolfhard, born in Vancouver in 2002 and known for 'Stranger Things', has ke
 3. https://www.grammy.com/news/finn-wolfhard-interview-debut-album-happy-birthday/
 4. https://consequence.net/2025/06/finn-wolfhard-happy-birthday-stranger-things/
 
+## flight-by-nothing
+
+Flight By Nothing started as a birthday jam session between five friends who grew up playing music together in Texas, in bedrooms, school bands and musical theater.[\[1\]](https://www.kpcw.org/show/the-local-view/2026-03-27/flight-by-nothing-the-jam-session-that-never-ended) The band formed outside Dallas in 2016, with Conner on vocals, Huey on keys, Pacco on lead guitar, Sam on drums and Porfii on bass, and moved to Austin in 2021.[\[2\]](https://www.masqueradeatlanta.com/attraction/flight-by-nothing/) Their indie rock draws on influences from pop punk to hip-hop and classic rock.[\[1\]](https://www.kpcw.org/show/the-local-view/2026-03-27/flight-by-nothing-the-jam-session-that-never-ended) In 2022 they played Hangout Music Festival and headlined a tour of the Southeast, and in 2023 they released the album 'BACK FOR MORE'.[\[2\]](https://www.masqueradeatlanta.com/attraction/flight-by-nothing/) National touring followed, selling out venues across the US and their first show in Canada.[\[2\]](https://www.masqueradeatlanta.com/attraction/flight-by-nothing/)
+
+**Sources**
+
+1. https://www.kpcw.org/show/the-local-view/2026-03-27/flight-by-nothing-the-jam-session-that-never-ended
+2. https://www.masqueradeatlanta.com/attraction/flight-by-nothing/
+
 ## gabriel-jacoby
 
 Gabriel Jacoby was born in rural Anderson, South Carolina in 1998, the eldest of seven, and moved to Tampa, Florida at nine.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby)[\[3\]](https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277) He taught himself guitar, piano and production, and counts Prince, D'Angelo, Anderson .Paak and Maxwell among his influences.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby)[\[3\]](https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277) He signed to Pulse Records and relocated to Los Angeles in 2024, though he still identifies with Tampa and returns to Florida to write.[\[3\]](https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277) He started releasing music in 2022 and put out his debut EP 'gutta child' in November 2025, eight self-produced tracks he describes as fusing 'blues, funk, Florida krank, and R&B into a singular Southern identity', which NME summed up as 'Tampa krank, backwoods blues and head-nodding R&B'.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby)[\[2\]](https://thegarnettereport.com/art/music/gabriel-jacoby-releases-debut-ep-gutta-child/)[\[3\]](https://www.nme.com/the-cover/gabriel-jacoby-07-09-2026-3967277) Its song 'bootleg' features the Tampa rapper Tom G.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby) Jacoby co-wrote Shaboozey's 'Chrome (Bonus)' in 2025, was named a Shazam Fast Forward artist, and toured North America as direct support for Khamari on the sold-out 'To Dry a Tear' run before headlining his own dates in early 2026.[\[1\]](https://en.wikipedia.org/wiki/Gabriel_Jacoby)[\[2\]](https://thegarnettereport.com/art/music/gabriel-jacoby-releases-debut-ep-gutta-child/)
@@ -558,6 +567,16 @@ Girlfriend is Kenya Edwards, an R&B singer-songwriter raised in Sardis, Mississi
 7. https://music.apple.com/us/album/honey-water/1858611265
 8. https://www.shatterthestandards.com/p/album-review-honey-water-by-girlfriend
 9. https://www.paramountpressexpress.com/bet/releases/?view=112552-bet-spotlights-rising-rb-voice-girlfriend-as-bet-amplified-artist-for-march-2026
+
+## girlsweetvoiced
+
+girlsweetvoiced built her following singing to her webcam, in clips that spread across TikTok and Tumblr.[\[1\]](https://www.undrtheradar.co.uk/blog/girlsweetvoiced-soundtracks-sad-girl-summer-with-latest-track-tonight)[\[3\]](https://www.pi.fyi/p/girlsweetvoiced) The Ottawa singer pairs soft, breathy vocals with lo-fi beats in a bedroom pop style that leans toward stillness.[\[1\]](https://www.undrtheradar.co.uk/blog/girlsweetvoiced-soundtracks-sad-girl-summer-with-latest-track-tonight)[\[2\]](https://www.interviewmagazine.com/music/girlsweetvoiced-lovesweet-debut-album-joni-mitchell-california) Her single 'Tonight' samples Joni Mitchell's 'California', a sample Mitchell cleared personally.[\[1\]](https://www.undrtheradar.co.uk/blog/girlsweetvoiced-soundtracks-sad-girl-summer-with-latest-track-tonight)[\[2\]](https://www.interviewmagazine.com/music/girlsweetvoiced-lovesweet-debut-album-joni-mitchell-california) Her debut album, 'Lovesweet', arrived in July 2026 on A24 Music and RCA Records.[\[3\]](https://www.pi.fyi/p/girlsweetvoiced) She sums it up in three words: 'Warm. Exploratory. Sweet.'[\[2\]](https://www.interviewmagazine.com/music/girlsweetvoiced-lovesweet-debut-album-joni-mitchell-california)
+
+**Sources**
+
+1. https://www.undrtheradar.co.uk/blog/girlsweetvoiced-soundtracks-sad-girl-summer-with-latest-track-tonight
+2. https://www.interviewmagazine.com/music/girlsweetvoiced-lovesweet-debut-album-joni-mitchell-california
+3. https://www.pi.fyi/p/girlsweetvoiced
 
 ## grace-ives
 
@@ -639,6 +658,15 @@ Izzy Escobar is a Cuban-Italian singer-songwriter from Massachusetts, now based 
 
 1. https://www.iheart.com/content/2026-07-14-who-is-izzy-escobar-watch-her-new-hate-to-be-the-one-video/
 2. https://justlistentothis.co.uk/news/izzy-escobar-releases-new-single-hate-to-be-the-one/
+
+## jason-scott-and-the-high-heat
+
+Jason Scott worked as a multi-instrumentalist, producer, engineer and session musician before launching his own career with the 2017 EP 'Living Rooms' and assembling the High Heat.[\[1\]](https://holler.country/feature/introducing/video-premiere-jason-scott-and-the-high-heat-quittin-time/) The Oklahoma City band's debut album, 'Castle Rock', arrived in 2022, mixing amplified Americana with big-hooked heartland roots rock.[\[1\]](https://holler.country/feature/introducing/video-premiere-jason-scott-and-the-high-heat-quittin-time/) Their second album, 'American Grin', followed in 2025.[\[2\]](https://www.opry.com/artists/jason-scott-the-high-heat) The viral 'Too Good, Too Bad' led to several opening slots on Morgan Wallen's stadium 'Still The Problem Tour'.[\[2\]](https://www.opry.com/artists/jason-scott-the-high-heat) They have also opened for Wyatt Flores and 49 Winchester, played Stagecoach, and were named Texas Emerging Group of the Year at the 2025 Texas Music Awards.[\[2\]](https://www.opry.com/artists/jason-scott-the-high-heat)
+
+**Sources**
+
+1. https://holler.country/feature/introducing/video-premiere-jason-scott-and-the-high-heat-quittin-time/
+2. https://www.opry.com/artists/jason-scott-the-high-heat
 
 ## jess-williamson
 
@@ -1240,16 +1268,6 @@ Suki Waterhouse, born in Hammersmith, London, in 1992, is an English model and a
 5. https://www.clashmusic.com/live/live-report-lollapalooza-2026/
 6. https://shadestudios.com/music/f/hinterland-day-4-suki-waterhouse-and-geese-impress
 
-## temper-city
-
-Temper City is a Los Angeles trio of Israeli musicians: singer Eytan Peled with Chen Kordova on guitar and Aviv Barenholtz on drums, the last two also the production duo Sync, who have worked together since they were twelve and produced for Israeli stars Noa Kirel and Netta Barzilai.[\[1\]](https://en.wikipedia.org/wiki/Self_Aware)[\[3\]](https://music.apple.com/us/artist/temper-city/1872869285) They formed in 2021 and put out early tracks like 'Why So Serious' and 'Where We Are' through NoCopyrightSounds.[\[1\]](https://en.wikipedia.org/wiki/Self_Aware)[\[2\]](https://en.wikipedia.org/wiki/Temper_City) Their debut single 'Self Aware' (February 2026), on Thirty Knots, is dark, rhythmic alt-rock in the lineage of Cage the Elephant and the Neighbourhood; it reached number 35 on the Billboard Hot 100, which the band says makes them the first Israeli band to chart there.[\[1\]](https://en.wikipedia.org/wiki/Self_Aware)[\[3\]](https://music.apple.com/us/artist/temper-city/1872869285) The single 'Reverse Psychology' followed later in 2026.[\[1\]](https://en.wikipedia.org/wiki/Self_Aware)[\[3\]](https://music.apple.com/us/artist/temper-city/1872869285)
-
-**Sources**
-
-1. https://en.wikipedia.org/wiki/Self_Aware
-2. https://en.wikipedia.org/wiki/Temper_City
-3. https://music.apple.com/us/artist/temper-city/1872869285
-
 ## sunday-1994
 
 Sunday (1994) is a transatlantic band built around Paige Turner, who is based in Los Angeles, and Lee Newell, from Slough in England, with a third member who performs only as X.[\[2\]](https://www.rollingstone.co.uk/music/sunday-1994-play-next-interview-43974/)[\[3\]](https://atwoodmagazine.com/sdtvc-sunday-1994-band-music-interview-tv-car-chase-2024/) Turner and Newell met in 2014 writing songs for other artists and for advertisements, and Newell had earlier fronted the indie band Viva Brother.[\[1\]](<https://en.wikipedia.org/wiki/Sunday_(1994)>)[\[2\]](https://www.rollingstone.co.uk/music/sunday-1994-play-next-interview-43974/) They began releasing their own music as Sunday (1994) in 2024, led by 'Tired Boy', the first song Turner learned to play on guitar.[\[2\]](https://www.rollingstone.co.uk/music/sunday-1994-play-next-interview-43974/) The six-track EP 'Sunday (1994)' followed in May 2024 on Arista and RCA, trailed later that year by a deluxe edition fronted by 'TV Car Chase', and a second EP, 'Devotion', arrived in May 2025.[\[1\]](<https://en.wikipedia.org/wiki/Sunday_(1994)>)[\[3\]](https://atwoodmagazine.com/sdtvc-sunday-1994-band-music-interview-tv-car-chase-2024/) Their music runs distorted guitars and shoegaze textures under a cinematic sense of longing, in the lineage of Mazzy Star and Alvvays.[\[3\]](https://atwoodmagazine.com/sdtvc-sunday-1994-band-music-interview-tv-car-chase-2024/)[\[4\]](https://vein.es/tour-diaries-dreamscapes-paige-turner-of-sunday-1994-on-a-breakout-year/) They write and film on physical media rather than digital because, as Newell puts it, they want it to be tangible and real.[\[2\]](https://www.rollingstone.co.uk/music/sunday-1994-play-next-interview-43974/)[\[3\]](https://atwoodmagazine.com/sdtvc-sunday-1994-band-music-interview-tv-car-chase-2024/) Clips posted to TikTok built a following fast enough that the band has sold out shows on both sides of the Atlantic and toured Europe opening for The Last Dinner Party.[\[2\]](https://www.rollingstone.co.uk/music/sunday-1994-play-next-interview-43974/)[\[3\]](https://atwoodmagazine.com/sdtvc-sunday-1994-band-music-interview-tv-car-chase-2024/)[\[4\]](https://vein.es/tour-diaries-dreamscapes-paige-turner-of-sunday-1994-on-a-breakout-year/)
@@ -1260,6 +1278,16 @@ Sunday (1994) is a transatlantic band built around Paige Turner, who is based in
 2. https://www.rollingstone.co.uk/music/sunday-1994-play-next-interview-43974/
 3. https://atwoodmagazine.com/sdtvc-sunday-1994-band-music-interview-tv-car-chase-2024/
 4. https://vein.es/tour-diaries-dreamscapes-paige-turner-of-sunday-1994-on-a-breakout-year/
+
+## temper-city
+
+Temper City is a Los Angeles trio of Israeli musicians: singer Eytan Peled with Chen Kordova on guitar and Aviv Barenholtz on drums, the last two also the production duo Sync, who have worked together since they were twelve and produced for Israeli stars Noa Kirel and Netta Barzilai.[\[1\]](https://en.wikipedia.org/wiki/Self_Aware)[\[3\]](https://music.apple.com/us/artist/temper-city/1872869285) They formed in 2021 and put out early tracks like 'Why So Serious' and 'Where We Are' through NoCopyrightSounds.[\[1\]](https://en.wikipedia.org/wiki/Self_Aware)[\[2\]](https://en.wikipedia.org/wiki/Temper_City) Their debut single 'Self Aware' (February 2026), on Thirty Knots, is dark, rhythmic alt-rock in the lineage of Cage the Elephant and the Neighbourhood; it reached number 35 on the Billboard Hot 100, which the band says makes them the first Israeli band to chart there.[\[1\]](https://en.wikipedia.org/wiki/Self_Aware)[\[3\]](https://music.apple.com/us/artist/temper-city/1872869285) The single 'Reverse Psychology' followed later in 2026.[\[1\]](https://en.wikipedia.org/wiki/Self_Aware)[\[3\]](https://music.apple.com/us/artist/temper-city/1872869285)
+
+**Sources**
+
+1. https://en.wikipedia.org/wiki/Self_Aware
+2. https://en.wikipedia.org/wiki/Temper_City
+3. https://music.apple.com/us/artist/temper-city/1872869285
 
 ## the-4411
 
@@ -1366,6 +1394,17 @@ Villanelle is a London trio of Gene Gallagher, Ben Taylor and Jack Schiavo, who 
 
 1. https://www.nme.com/features/music-interviews/villanelle-interview-gene-gallagher-measly-means-ep-radar-3943577
 2. https://readdork.com/news/villanelle-measly-means-ep-release
+
+## vinny-tovar
+
+Vinny Tovar grew up on the southeast side of San Antonio and writes country songs about small-town life, love, loss and redemption.[\[1\]](https://www.klrn.org/blogs/station-news/district-4-vinny-tovar/) His Mexican-American heritage is a significant influence on his music.[\[2\]](https://ksat.com/news/local/2025/02/22/san-antonio-country-artists-vinny-tovar-and-aubry-rodriguez-breathe-new-life-into-pass-me-by) In 2025 he and Aubry Rodriguez, daughter of 1970s country star Johnny Rodriguez, released their take on 'Pass Me By (If You're Only Passing Through)', with a video shot at the San Antonio honky-tonk The Lonesome Rose and a cameo from Johnny Rodriguez himself.[\[2\]](https://ksat.com/news/local/2025/02/22/san-antonio-country-artists-vinny-tovar-and-aubry-rodriguez-breathe-new-life-into-pass-me-by) He also joined Sunny Sauceda, Jack Mason, Jerry DeLeon & Southbound and Rico Gonzales on 'Is Anybody Goin' To San Antone', an Azteca Ranch Music collaboration produced by Stormy Cooper Media and Sundance Head.[\[3\]](https://tejanonation.net/2024/06/28/timeless-classic-is-anybody-goin-to-san-antone-revived-with-azteca-ranch-music-collaboration) His catalog also includes 'Leaving With My Heart', recorded with La Maquinaria Norteña.[\[4\]](https://open.spotify.com/artist/0SdfAIPqjuj8pPmO0mJqWV)
+
+**Sources**
+
+1. https://www.klrn.org/blogs/station-news/district-4-vinny-tovar/
+2. https://ksat.com/news/local/2025/02/22/san-antonio-country-artists-vinny-tovar-and-aubry-rodriguez-breathe-new-life-into-pass-me-by
+3. https://tejanonation.net/2024/06/28/timeless-classic-is-anybody-goin-to-san-antone-revived-with-azteca-ranch-music-collaboration
+4. https://open.spotify.com/artist/0SdfAIPqjuj8pPmO0mJqWV
 
 ## vwillz
 
