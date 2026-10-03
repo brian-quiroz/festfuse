@@ -786,6 +786,21 @@ Leon Thomas is a Brooklyn singer, songwriter and producer who spent years as a h
 3. https://www.grammy.com/news/leon-thomas-iii-interview-new-album-mutt/
 4. https://www.huffpost.com/entry/leon-thomas-mutt-interview_n_675a2f77e4b02802b83c4d36
 
+## letrainiump
+
+LeTrainiump grew up in Mamou, Louisiana, a small Cajun town billed as the Zydeco Capital of the World, and counts zydeco players Keith Frank and Chris Ardoin among his first influences.[\[1\]](https://thetrailconservancy.org/?p=38083)[\[2\]](https://www.fox8live.com/2023/03/23/locally-tuned-letrainiump-is-his-way-becoming-household-name) LeTrainiump Richard moved to New Orleans to find a musical community and built his pop sound there, drawing on Michael Jackson, New Edition and SWV.[\[3\]](https://www.myspiltmilk.com/articles/letrainiump-wins-desk-of-the-day-performing-lost-with-saxkixave-1)[\[4\]](https://offbeat.com/news/letrainiump-finds-his-musical-calling-in-pop-music-scene) His songs set smooth vocal hooks over nostalgic synths, Nile Rodgers style guitar riffs and deep funk rhythms, finished with a late 1990s and early 2000s sheen.[\[5\]](https://tickets.venuepilot.com/e/letrainiump-ep-release-with-david-suarez-and-alexis-the-sanity-2025-04-25-gasa-gasa-new-orleans-abf5db) In 2021 his performance of 'Lost?' with SaxKixAve, his trio with rapper Alfred Banks and producer Albert Allenback of Tank and the Bangas, was named an NPR Tiny Desk Contest Desk of the Day.[\[3\]](https://www.myspiltmilk.com/articles/letrainiump-wins-desk-of-the-day-performing-lost-with-saxkixave-1) He also appears on the debut album from the New Orleans collective GLBL WRMNG.[\[4\]](https://offbeat.com/news/letrainiump-finds-his-musical-calling-in-pop-music-scene) His stages have run from Tipitina's to a halftime set at a New Orleans Pelicans game.[\[2\]](https://www.fox8live.com/2023/03/23/locally-tuned-letrainiump-is-his-way-becoming-household-name) He followed with 'In Real Time' in 2025 and has since moved his base from Louisiana to Austin.[\[6\]](https://www.musicmetricsvault.com/artists/letrainiump/5bfZ3ITa57jVjSqJE6EhwH)[\[7\]](https://iamtunedup.com/?p=31077)[\[8\]](https://www.instagram.com/letrainiump/)
+
+**Sources**
+
+1. https://thetrailconservancy.org/?p=38083
+2. https://www.fox8live.com/2023/03/23/locally-tuned-letrainiump-is-his-way-becoming-household-name
+3. https://www.myspiltmilk.com/articles/letrainiump-wins-desk-of-the-day-performing-lost-with-saxkixave-1
+4. https://offbeat.com/news/letrainiump-finds-his-musical-calling-in-pop-music-scene
+5. https://tickets.venuepilot.com/e/letrainiump-ep-release-with-david-suarez-and-alexis-the-sanity-2025-04-25-gasa-gasa-new-orleans-abf5db
+6. https://www.musicmetricsvault.com/artists/letrainiump/5bfZ3ITa57jVjSqJE6EhwH
+7. https://iamtunedup.com/?p=31077
+8. https://www.instagram.com/letrainiump/
+
 ## levity
 
 Levity is a Chicago electronic trio, John Hauldren, PJ Carberry and Josh Tarum, formed in 2019.[\[1\]](https://www.positionmusic.com/levity) They work in playful, bass-driven dubstep, trap and future bass, and came up remixing Tinashe, Louis the Child, Quinn XCII and Chelsea Cutler.[\[1\]](https://www.positionmusic.com/levity)[\[2\]](https://music.apple.com/us/artist/levity/1505353688) A viral set at Electric Forest was the turning point, and the debut EP 'Escapism, Vol. 1' followed in September 2024, with 'Flip It', featuring Dem Jointz, among their best-known tracks.[\[2\]](https://music.apple.com/us/artist/levity/1505353688)[\[3\]](https://www.villagevoice.com/behind-the-scenes-with-levity-bass-musics-fastest-rising-trio-and-biggest-fans/) They describe themselves as fans first, a posture that shows in how they treat opening acts and build a set.[\[3\]](https://www.villagevoice.com/behind-the-scenes-with-levity-bass-musics-fastest-rising-trio-and-biggest-fans/) Since then they have moved up festival bills to Coachella and Ultra.[\[3\]](https://www.villagevoice.com/behind-the-scenes-with-levity-bass-musics-fastest-rising-trio-and-biggest-fans/)
