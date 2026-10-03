@@ -579,10 +579,14 @@ is inserted, updated, or deleted. That deliberate propagation protects verificat
 even for raw SQL writes and also causes the PostgreSQL-owned parent `updated_at` to
 refresh.
 
-Backend review validation owns the contextual rules. Both source and target Artists
-must be published and have announced LineupEntries in the exact FestivalRun before
-the heuristic is run; an Artist cannot recommend itself; and a set can be verified
-only with exactly four entries or intentionally zero. The database trigger
+Backend review validation owns the contextual rules. The authoring service
+(`add_artist` / `edit_artist`) refuses any target Artist that is not published with an
+announced LineupEntry in the set's exact FestivalRun, using the same membership rule as
+the public read (`app/lib/lineup_membership.py`). It refuses picks for a source whose
+LineupEntry in that run is withdrawn; a draft source is allowed, because its set stays
+hidden until the source is published, and curating after publication remains the
+editorial process. An Artist cannot recommend itself, and a set can be verified only
+with exactly four entries or intentionally zero. The database trigger
 automatically invalidates the set after adding, removing, replacing, or reordering an
 entry.
 
@@ -1024,7 +1028,7 @@ artist have one.
 | Video deletion                  | Deleting an Artist removes its ArtistVideo rows                                                                |   Yes    |                |                  | Artist-owned dependent content                                                                   |
 | Similar Artist set              | One set exists at most per source Artist and FestivalRun                                                       |   Yes    |                |                  | Composite unique constraint                                                                      |
 | Similar Artist entry            | A target and display position from 1–4 are each unique within a set                                            |   Yes    |                |                  | Composite primary key, bounded order, and scoped order uniqueness                                |
-| Similar Artist entry            | Source and every target are published and have announced LineupEntries in the same FestivalRun before curation |          |      Yes       |                  | Heuristic runs after eligible Artists are published; does not depend on schedule availability    |
+| Similar Artist entry            | Every target is published, with an announced LineupEntry in the set's FestivalRun; the source is not withdrawn |          |      Yes       |                  | Write-time check shares the public read's rule; a draft source is allowed until published        |
 | Similar Artist entry            | An Artist cannot recommend itself                                                                              |          |      Yes       |                  | Source lives on the parent set, so validate contextually                                         |
 | Similar Artist review           | Only sets with exactly four entries or intentionally zero can be verified                                      |          |      Yes       |                  | Zero preserves the reviewed-empty CYSO case                                                      |
 | Similar Artist review           | Entry insert/update/delete clears parent-set verification                                                      |   Yes    |                |                  | Child trigger updates the parent, whose timestamp trigger refreshes `updated_at`                 |

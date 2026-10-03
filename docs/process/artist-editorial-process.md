@@ -512,10 +512,13 @@ re-review or a challenged fact can be traced without re-researching
 Exactly four, ordered, or a verified-empty set (the CYSO case) — never a forced or
 padded four. Evaluated on `name` + `slug` only.
 
-- **Membership** is always a Tier 0 check against the published lineup — validated
+- **Membership** is always a Tier 0 check against the published lineup, validated
   against the `show_artist.py --roster` snapshot, which is also where candidates are
   drawn from. Every pick must be a published, announced artist in this run. This is the
   single most common failure of ad hoc similar-artist lists and is never a web search.
+  `edit_artist` and `add_artist` refuse a pick that fails it, naming each one and why,
+  and refuse picks for an artist withdrawn from the run; the snapshot is still where
+  candidates come from.
 - **Characterization** — a bounded Tier 1 check on the chosen four plus the source
   artist: does the stated similarity actually hold, is each one's current scale right.
   Not a research project; if a stated relationship will not confirm quickly, drop that
@@ -568,11 +571,12 @@ The lineup is a closed system, so repeatedly picking the same artist for a niche
 an equally valid one never surfaces.
 
 - **Soft preference** during drafting (above).
-- **Reference count** — `show_artist.py --roster` prints the whole published roster
+- **Reference count**: `show_artist.py --roster` prints the whole published roster
   (`slug | name | genres | billing | day`) with, for each artist, how many others cite
-  it as similar. It reads existing `similar_artists` rows; it is not a workflow step. It
-  does not target a flat distribution — some artists are legitimate genre anchors, some
-  legitimate outliers.
+  it as similar. It reads existing `similar_artists` rows; it is not a workflow step.
+  Scoped to a run (`--edition`/`--run`), it leaves out artists withdrawn from that run,
+  naming them in a footer, and does not count their own sets. It does not target a flat
+  distribution: some artists are legitimate genre anchors, some legitimate outliers.
 - **Balance sweep** — run after each wave of similar-artist work and after every lineup
   change:
   1. Read the reference counts.
