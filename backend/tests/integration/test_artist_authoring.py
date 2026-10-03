@@ -10,6 +10,7 @@ and similar-artist targets.
 import os
 import secrets
 from collections.abc import Iterator
+from datetime import UTC, datetime
 from uuid import uuid4
 
 import pytest
@@ -26,6 +27,7 @@ from app.models import (
     SimilarArtistSet,
     Track,
 )
+from app.repositories.artists import read_festival_artist_by_slug
 from app.schemas.artist_authoring import ArtistAuthoringInput, ArtistEditInput
 from app.services import (
     ArtistAuthoringError,
@@ -37,7 +39,13 @@ from app.services import (
     evaluate_artist_publication,
 )
 from scripts.build_roster_payloads import create_from_payloads, parse_roster
-from scripts.show_artist import _render_detail, _render_roster, _resolve_run_id
+from scripts.show_artist import (
+    _inbound_counts,
+    _render_detail,
+    _render_roster,
+    _resolve_run_id,
+    _roster_artists,
+)
 
 pytestmark = [
     pytest.mark.postgres,
@@ -557,6 +565,8 @@ def test_edit_does_not_trap_an_already_unpublishable_published_artist(
 
 def test_delete_refused_for_similar_target_then_forced(session: Session) -> None:
     target = create_artist(session, _payload(_full_payload()))
+    target.publication_status = "published"  # a similar-artist pick must be published
+    session.flush()
     target_slug = target.slug
 
     referrer = create_artist(
@@ -912,7 +922,8 @@ def test_two_stage_import_attaches_a_schedule_to_an_announced_entry(
 
 def test_attach_run_schedule_rejects_a_billing_mismatch(session: Session) -> None:
     slug = f"test-{uuid4().hex[:12]}"
-    data = _full_payload(slug=slug, appearances=[])
+    # No similar set: the default picks are Lollapalooza artists, not ACL weekend 1.
+    data = _full_payload(slug=slug, appearances=[], similarArtists=[])
     data["billingTier"] = "Headliner"
     data["edition"], data["run"] = "acl-2026", "weekend-1"
     create_artist(session, _payload(data))
@@ -1036,3 +1047,142 @@ def test_show_artist_roster_scopes_to_one_run(
     )
     weekend_2_roster = capsys.readouterr().out
     assert artist.slug not in weekend_2_roster
+
+
+# --- similar-artist membership ------------------------------------------------
+
+
+def _withdraw_entry(session: Session, artist: Artist, run: FestivalRun) -> None:
+    entry = next(e for e in artist.lineup_entries if e.festival_run_id == run.id)
+    entry.lineup_status = "withdrawn"
+    entry.withdrawn_at = datetime.now(UTC)
+    session.flush()
+
+
+def _published(artist: Artist, session: Session) -> Artist:
+    artist.publication_status = "published"
+    session.flush()
+    return artist
+
+
+def _set_picks(owner_slug: str, picks: list[str]) -> ArtistEditInput:
+    return _edit(
+        owner_slug,
+        similarArtists=[{"slug": slug} for slug in picks],
+        similarArtistsVerified=True,
+    )
+
+
+def _draft_entry_artist(session: Session) -> Artist:
+    """Published, but its Lollapalooza lineup entry is still a draft (no billing)."""
+    return _published(
+        create_artist(session, _payload(_full_payload(appearances=[]))), session
+    )
+
+
+def _acl_only_artist(session: Session) -> Artist:
+    data = _full_payload(appearances=[], similarArtists=[])
+    data["billingTier"] = "Headliner"
+    data["edition"], data["run"] = "acl-2026", "weekend-1"
+    return _published(create_artist(session, _payload(data)), session)
+
+
+def test_edit_refuses_every_ineligible_similar_pick_by_name(session: Session) -> None:
+    main = _run(session, "lollapalooza-2026", "main")
+    owner = _seed_artist(session)
+    unpublished = _seed_artist(session)
+    withdrawn = _published(_seed_artist(session), session)
+    _withdraw_entry(session, withdrawn, main)
+    draft_entry = _draft_entry_artist(session)
+    acl_only = _acl_only_artist(session)
+
+    picks = [unpublished.slug, withdrawn.slug, draft_entry.slug, acl_only.slug]
+    with pytest.raises(ArtistAuthoringError) as refused:
+        edit_artist(session, _set_picks(owner.slug, picks))
+    message = str(refused.value)
+    assert "not eligible in run 'main'" in message
+    assert f"'{unpublished.slug}' (not published)" in message
+    assert f"'{withdrawn.slug}' (withdrawn from this run)" in message
+    assert f"'{draft_entry.slug}' (draft lineup entry in this run)" in message
+    assert f"'{acl_only.slug}' (not in this run's lineup)" in message
+
+
+def test_create_refuses_an_ineligible_similar_pick(session: Session) -> None:
+    unpublished = _seed_artist(session)
+    data = _full_payload(
+        similarArtists=[
+            {"slug": unpublished.slug},
+            {"slug": "charli-xcx"},
+            {"slug": "the-xx"},
+            {"slug": "tate-mcrae"},
+        ]
+    )
+    with pytest.raises(ArtistAuthoringError, match=r"\(not published\)"):
+        create_artist(session, _payload(data))
+
+
+def test_withdrawn_owner_cannot_get_picks_but_can_be_cleared(session: Session) -> None:
+    owner = _published(_seed_artist(session), session)
+    _withdraw_entry(session, owner, _run(session, "lollapalooza-2026", "main"))
+
+    with pytest.raises(ArtistAuthoringError, match="is withdrawn from run 'main'"):
+        edit_artist(session, _set_picks(owner.slug, REAL_SIMILAR))
+
+    cleared = edit_artist(session, _edit(owner.slug, similarArtists=None))
+    assert [change.group for change in cleared.changed] == ["similarArtists"]
+
+
+def test_accepted_similar_set_is_what_the_public_read_serves(session: Session) -> None:
+    # Write check and read layer share one membership rule: a set edit_artist
+    # accepts is served as written.
+    owner = _published(_seed_artist(session), session)
+    picks = ["lorde", "charli-xcx", "the-xx", "tate-mcrae"]
+    edit_artist(session, _set_picks(owner.slug, picks))
+    session.flush()
+    session.expire_all()
+
+    served = read_festival_artist_by_slug(
+        session,
+        edition_slug="lollapalooza-2026",
+        run_slug="main",
+        artist_slug=owner.slug,
+    )
+    assert served is not None
+    assert [a.slug for a in served.festival_context.similar_artists] == picks
+
+
+def test_show_artist_roster_leaves_out_withdrawn_and_draft_entries(
+    session: Session, capsys: pytest.CaptureFixture[str]
+) -> None:
+    main = _run(session, "lollapalooza-2026", "main")
+    withdrawn = _published(_seed_artist(session), session)
+    _withdraw_entry(session, withdrawn, main)
+    draft_entry = _draft_entry_artist(session)
+
+    listed, excluded = _roster_artists(session, include_drafts=False, run_id=main.id)
+    listed_slugs = {artist.slug for artist in listed}
+    assert withdrawn.slug in excluded
+    assert withdrawn.slug not in listed_slugs
+    assert draft_entry.slug not in listed_slugs
+
+    with_drafts, _ = _roster_artists(session, include_drafts=True, run_id=main.id)
+    assert draft_entry.slug in {artist.slug for artist in with_drafts}
+
+    assert (
+        _render_roster(session, sort="slug", include_drafts=False, run_id=main.id) == 0
+    )
+    rendered = capsys.readouterr().out
+    assert "Excluded (withdrawn in this run):" in rendered
+    assert withdrawn.slug in rendered.split("Excluded (withdrawn in this run):")[1]
+
+
+def test_show_artist_counts_skip_a_withdrawn_owners_set(session: Session) -> None:
+    main = _run(session, "lollapalooza-2026", "main")
+    charli_id = session.scalar(select(Artist.id).where(Artist.slug == "charli-xcx"))
+    baseline = _inbound_counts(session, run_id=main.id).get(charli_id, 0)
+
+    owner = _seed_artist(session)  # its set cites charli-xcx
+    assert _inbound_counts(session, run_id=main.id)[charli_id] == baseline + 1
+
+    _withdraw_entry(session, owner, main)
+    assert _inbound_counts(session, run_id=main.id).get(charli_id, 0) == baseline

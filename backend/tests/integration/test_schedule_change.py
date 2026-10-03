@@ -89,6 +89,12 @@ def _seed(
     return created.lineup_entries[0]
 
 
+def _publish(entry: LineupEntry) -> LineupEntry:
+    """A similar-artist pick must be published, so seeded picks are published first."""
+    entry.artist.publication_status = "published"
+    return entry
+
+
 def _move(
     slug: str,
     *,
@@ -178,7 +184,7 @@ def test_unknown_stage_run_and_artist_are_refused(session: Session) -> None:
 def test_withdrawal_retains_appearances_and_reports_similar_sources(
     session: Session,
 ) -> None:
-    departing = _seed(session)
+    departing = _publish(_seed(session))
     source = _seed(
         session,
         start="11:30 PM",
@@ -207,8 +213,8 @@ def test_withdrawal_retains_appearances_and_reports_similar_sources(
 def test_a_set_listing_two_departing_artists_is_reported_by_both(
     session: Session,
 ) -> None:
-    first = _seed(session)
-    second = _seed(session, start="11:30 PM", end="11:45 PM")
+    first = _publish(_seed(session))
+    second = _publish(_seed(session, start="11:30 PM", end="11:45 PM"))
     source = _seed(
         session,
         stage="BMI",
