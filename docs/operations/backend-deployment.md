@@ -105,7 +105,9 @@ railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD=
 `add_genre` resolves the family by name, derives the slug unless `--slug` overrides it,
 and is idempotent — an identical re-add against the hosted database is a no-op. It only
 prints the reminder to mirror the addition in `app/data/categories.ts`; that frontend
-edit still has to happen and deploy separately (ADR-0011). `delete_genre` refuses a
+edit still has to happen separately (ADR-0011), and it has to deploy **before** the genre
+is added to the hosted database or assigned to an artist there. The frontend throws on
+a genre missing from its list, taking down every surface for that run. `delete_genre` refuses a
 genre any artist is assigned. See `backend/tests/README.md` for exact scope.
 
 ## Renaming a track

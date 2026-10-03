@@ -338,6 +338,12 @@ the matching `app/data/categories.ts` entry is a hand edit in the same change (t
 lists mirror each other by hand — see "Genre Vocabulary Lives in Two Places" in
 `FUTURE_CONSIDERATIONS.md`), and every added genre is one more thing to keep aligned.
 
+**Deploy order for a new genre.** The frontend rejects any genre the API returns that is
+not in its `categories.ts` list, and every surface for that run fails to load. So the
+`categories.ts` change ships first: merged and deployed. Only then run `add_genre` and
+the artist patches that use the genre against the hosted database. Local can go in any
+order.
+
 The reverse extreme is worse, though: never force an artist into a "close enough" genre
 that is not actually accurate just because it is already in the table. If the artist's
 real genre is not represented, adding it is the right call — flag it in the report with

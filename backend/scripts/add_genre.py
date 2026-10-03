@@ -32,6 +32,10 @@ def _render_plan(plan: GenreCreation) -> None:
     print("Mirror this in app/data/categories.ts (hand edit, ADR-0011):")
     print(f'  - add "{plan.name}" to the GENRES array')
     print(f'  - add "{plan.name}" to GENRE_FAMILIES["{plan.family}"]')
+    print(
+        "Deploy that frontend change before using this genre on the hosted "
+        "database: the frontend rejects a genre it does not know."
+    )
 
 
 def main() -> int:
