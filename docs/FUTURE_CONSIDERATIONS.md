@@ -804,6 +804,23 @@ grid before adding it.
 
 ---
 
+## Publishing Is All-or-Nothing
+
+`publish_artists --apply` publishes every draft in the database that passes the
+readiness policy; it has no per-artist or per-run scope. Readiness is structural
+(identity, location, three genres, a preview), not editorial approval, so a draft held
+back on purpose (unresolved identity, an unapproved research report, a second batch
+still in review) is published along with the intended batch as soon as its fields
+happen to be filled. The dry run makes this hard to catch: it prints totals and the
+video-only list, not which drafts it would publish.
+
+Mitigations, cheapest first: list the slugs the dry run would publish; add a `--slug`
+(repeatable) or `--edition` / `--run` scope; record editorial approval on the record so
+readiness can require it. Until then, list the database's drafts before every
+`--apply` and confirm they are exactly the intended batch.
+
+---
+
 ## Future Consideration: Run Schedule-State Threshold
 
 `FestivalRunRead.schedule_state` ([ADR-0016](decisions/0016-describe-a-run-without-a-public-schedule.md))

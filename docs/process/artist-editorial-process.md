@@ -587,14 +587,15 @@ the whole roster but only moves the outliers.
    flags them as under-referenced and proposes working them into a handful of existing
    sets where they fit as well as the current pick. Editor approves each swap.
 
-**Artist dropped** (today, a `delete_artist --force` of a mistaken draft; the withdrawal
-tool for a published artist is deferred — ADR-0011 — but the mechanism below is the
-same):
+**Artist dropped** (a published artist leaving a run's lineup is withdrawn with
+`apply_schedule_changes.py`, per ADR-0021 and ADR-0022; a mistaken draft is removed with
+`delete_artist --force`):
 
 1. The departure invalidates similar-artist sets. The database trigger clears
-   `verified_at` on the departed artist's own set **and** on every set that listed them
-   as one of its four; a hard delete also removes those rows, leaving those sets with
-   three entries.
+   `verified_at` on the departed artist's own set **and** on every set in that run that
+   listed them as one of its four. A withdrawal keeps those sets' four entries, the
+   departed artist still among them, and its preview lists every flagged set; a hard
+   delete removes those rows, leaving those sets with three entries.
 2. **Re-curate only the sets the trigger flagged** — for each, the AI proposes a
    replacement fourth pick so it is a valid, verified four again, editor approves. A set
    that never listed the departed artist has no hole, keeps its verification, and is
