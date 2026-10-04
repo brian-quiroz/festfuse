@@ -588,14 +588,20 @@ an equally valid one never surfaces.
 
 ### Lineup change
 
-Two steps, in order. Re-curation is scoped to what broke; the sweep then looks across
-the whole roster but only moves the outliers.
+The steps run in order. Re-curation is scoped to what broke, verified-empty sets on the
+run are re-tested against the changed roster, and the sweep then looks across the whole
+roster but only moves the outliers.
 
 **Artist added:**
 
-1. **Draft their own set** — the AI proposes four, membership-checked against the
+1. **Draft their own set:** the AI proposes four, membership-checked against the
    `show_artist.py --roster` snapshot, editor approves. Nothing else is touched yet.
-2. **Balance sweep** — the newcomer is at inbound reference count zero, so the sweep
+2. **Re-test verified-empty sets** on the run against the new roster. An empty set
+   records that no genuine four existed, not that the artist is exempt from having one.
+   If the arrival makes a genuine four possible, the AI proposes it like any new set and
+   the editor approves; otherwise the set stays empty, and the review notes that it was
+   re-tested.
+3. **Balance sweep:** the newcomer is at inbound reference count zero, so the sweep
    flags them as under-referenced and proposes working them into a handful of existing
    sets where they fit as well as the current pick. Editor approves each swap.
 
@@ -613,7 +619,10 @@ the whole roster but only moves the outliers.
    departed artist) so it is a valid, verified four again, editor approves. A set
    that never listed the departed artist has no hole, keeps its verification, and is
    **not** re-curated.
-3. **Balance sweep** — the counts have now shifted: the departed artist's four outbound
+3. **Re-test verified-empty sets** on the run, as for an added artist. A departure
+   rarely makes a genuine four possible, but the rule is the same: empty is re-checked
+   on every lineup change, never treated as permanent.
+4. **Balance sweep:** the counts have now shifted: the departed artist's four outbound
    picks are gone (each of their targets lost an inbound reference) and the step-2
    replacements added inbound references elsewhere. The sweep reads the full count table
    and, where an artist is now notably over- or under-referenced, proposes a swap in a
