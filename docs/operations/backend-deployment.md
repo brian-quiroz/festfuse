@@ -75,6 +75,11 @@ railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD=
 railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.delete_artist --slug <slug> --preview'
 ```
 
+**Warning:** run one script per `railway run`. The `POSTGRES_*` assignments at the start
+of the `sh -c` string reach only the first command, so a second script chained with `&&`
+inside the same string connects to the local database from `backend/.env` instead, with
+no error.
+
 `add_artist` reads a strict `{ schemaVersion, edition, run, billingTier?, artist }` file
 (see `backend/app/schemas/artist_authoring.py`) and creates the artist as a `draft`;
 run the `publish_artists` commands afterward. `edit_artist` reads a strict

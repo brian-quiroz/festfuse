@@ -804,6 +804,21 @@ grid before adding it.
 
 ---
 
+## Schedule Changes Without a Changeset Operation
+
+`apply_schedule_changes.py` has two operations, `move` and `withdraw`. A `move` keeps
+the appearance on its date, and nothing reverses a `withdraw`: the withdrawn lineup
+entry stays, and the one-entry-per-run-and-artist constraint blocks adding the artist
+to that run again. So if an organizer brings back an act it dropped, or moves a set to
+another day, no tool covers it. The fix would be hand-written SQL, which ADR-0022 was
+written to replace. A reinstated act would also keep its own similar-artist set and
+every set that cited it unverified, so it would need re-curating. Cancelling an
+appearance is a separate gap (see "Artist Detail Schedule States"). ADR-0022 expects
+each as a new operation; add one when a real change needs it, ideally before the
+festival week it is needed in.
+
+---
+
 ## Publishing Is All-or-Nothing
 
 `publish_artists --apply` publishes every draft in the database that passes the
