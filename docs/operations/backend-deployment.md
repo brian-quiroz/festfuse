@@ -36,8 +36,8 @@ data restore is a recovery operation, not an ordinary synchronization mechanism.
 A new environment is stood up in two steps after `alembic upgrade head`:
 
 1. Every configured festival hierarchy (series, runs, days, stages), from the FastAPI
-   service's Railway console. Run `--preview` first and read the diff — it must show
-   only the inserts you expect — then `--apply`; the seed is insert-only and never
+   service's Railway console. Run `--preview` first and read the diff (it must show
+   only the inserts you expect), then `--apply`; the seed is insert-only and never
    modifies an existing row:
 
    ```bash
@@ -53,11 +53,11 @@ A new environment is stood up in two steps after `alembic upgrade head`:
 ## Before a bulk hosted-database push
 
 Take a fresh `pg_dump` ([`backup-restore.md`](backup-restore.md)) before replaying more
-than a handful of `--apply` calls against the hosted database in one sitting — a
+than a handful of `--apply` calls against the hosted database in one sitting: a
 milestone-scale editorial push, a genre-vocabulary migration, anything on that order.
 A single one-off edit does not need its own dump; a batch that would take real
 editorial effort to reconstruct does. This is easy to blow past silently because
-nothing in the tunnel workflow below prompts for it — check the timestamp on the most
+nothing in the tunnel workflow below prompts for it. Check the timestamp on the most
 recent `.dump` file before starting, and take a new one first if it predates the work
 you are about to do.
 
@@ -80,11 +80,15 @@ of the `sh -c` string reach only the first command, so a second script chained w
 inside the same string connects to the local database from `backend/.env` instead, with
 no error.
 
+The tunnel these commands go through prints the database password when it opens; open
+it yourself and keep its output private, never through an agent (see the warning in
+[`backup-restore.md`](backup-restore.md), "Back up the hosted database").
+
 `add_artist` reads a strict `{ schemaVersion, edition, run, billingTier?, artist }` file
 (see `backend/app/schemas/artist_authoring.py`) and creates the artist as a `draft`;
 run the `publish_artists` commands afterward. `edit_artist` reads a strict
-`{ schemaVersion, edition, run, slug, artist }` patch — every key in `artist` is a
-change, an absent key is left alone, a `null` key is cleared — and applies it to one
+`{ schemaVersion, edition, run, slug, artist }` patch (every key in `artist` is a
+change, an absent key is left alone, a `null` key is cleared) and applies it to one
 existing artist; the `--preview` plan shows each changed field and the recomputed
 publication readiness. `delete_artist` needs `--force` to remove an artist that another
 artist's Similar Artist set points at. See `backend/tests/README.md` for exact scope.
@@ -94,7 +98,7 @@ tree, deploy that file first: merge the branch so the frontend ships the asset, 
 it resolves in production, then run the hosted-database `--apply`. Applying the row
 while the file is still undeployed makes production request an image that 404s. After
 the hosted image writes, redeploy the frontend (an empty commit, or the host's redeploy
-control) so already-cached routes pick up the new data — Next serves stale route and
+control) so already-cached routes pick up the new data; Next serves stale route and
 fetch caches otherwise.
 
 ## Adding or removing a genre
@@ -108,7 +112,7 @@ railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD=
 ```
 
 `add_genre` resolves the family by name, derives the slug unless `--slug` overrides it,
-and is idempotent — an identical re-add against the hosted database is a no-op. It only
+and is idempotent: an identical re-add against the hosted database is a no-op. It only
 prints the reminder to mirror the addition in `app/data/categories.ts`; that frontend
 edit still has to happen separately (ADR-0011), and it has to deploy **before** the genre
 is added to the hosted database or assigned to an artist there. The frontend throws on
@@ -121,7 +125,7 @@ genre any artist is assigned. See `backend/tests/README.md` for exact scope.
 railway run --service Postgres sh -c 'POSTGRES_USER="$PGUSER" POSTGRES_PASSWORD="$PGPASSWORD" POSTGRES_HOST="127.0.0.1" POSTGRES_PORT="55432" POSTGRES_DB="$PGDATABASE" python -m scripts.edit_track --spotify-id <id> --name "<name>" --preview'
 ```
 
-`edit_track` renames one `Track` row's display name by Spotify track ID — the gap
+`edit_track` renames one `Track` row's display name by Spotify track ID, the gap
 `edit_artist` leaves, since its track-selection patching only sets a name when creating
 a new row. A `Track` row can be referenced by more than one artist, so the `--preview`
 plan lists every artist the rename affects. See `backend/tests/README.md` for exact
@@ -172,7 +176,7 @@ left for the research pass.
 
 **`check_artist_links`** resolves every external identifier on an artist (Spotify
 artist/track ids, YouTube video id, YouTube/TikTok/image-source/image-license URLs) via
-oEmbed and plain HTTP — mechanical resolve checks only, never identity. It reports OK /
+oEmbed and plain HTTP: mechanical resolve checks only, never identity. It reports OK /
 BROKEN / UNVERIFIABLE and exits non-zero only on a BROKEN link (a confirmed 404/410 or
 failed oEmbed); UNVERIFIABLE (403, 429, timeout, a local `public/` image path) does not
 fail the run; an unknown `--slug` fails it too. Run it as the pre-publish check on the
@@ -180,7 +184,7 @@ batch you are about to publish. `--slug` checks the named artist whether draft o
 published; a run-wide or full check covers published artists only unless
 `--include-drafts` is passed, and prints how many drafts it skipped. It is not wired
 into `publish_artists`. `--jobs N` (default 8) fans requests out in
-parallel — a whole-run check finishes in seconds instead of timing out, but Spotify's
+parallel. A whole-run check finishes in seconds instead of timing out, but Spotify's
 oEmbed endpoint throttles a burst of a few hundred lookups, so at roster scale many good
 Spotify links report UNVERIFIABLE rather than OK. That never yields a false BROKEN, so
 the exit code stays trustworthy; a per-batch run gives a cleaner positive result.
