@@ -42,6 +42,13 @@ In terminal 1, open the tunnel and leave it running:
 railway connect Postgres --tunnel-only --port 55432
 ```
 
+**Warning:** this command prints the database's connection details, password included.
+Run it only in your own terminal, and keep its output out of shared logs, screenshots,
+chats, and AI coding-agent sessions. Don't hand it to an agent to run: anything a command
+prints lands in the agent's transcript. The `railway run` commands in terminal 2 read the
+credentials from Railway's service variables inside the quoted `sh -c` string and never
+print them.
+
 In terminal 2, write a timestamped custom-format dump. It contains the schema, the
 data, and the recorded Alembic revision:
 
