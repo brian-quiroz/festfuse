@@ -30,6 +30,9 @@ Essentials:
 - Read a draft with `python -m backend.scripts.show_artist --slug <slug>`; `--roster`
   prints the whole-roster snapshot for similar-artist membership checks and the balance
   sweep.
+- After drafting a similar-artist set, never before, run
+  `check_similar_artists.py --proposed` and answer every flag in the report you present
+  (process doc, "Similar artists"). Needs `TYPESAFE_API_KEY` in `backend/.env`.
 - Apply approved changes through the service CLIs, `--preview` before `--apply`:
   `build_roster_payloads.py` (bulk skeletons), `edit_artist.py --input patch.json`
   (field-level), `check_artist_links.py` (pre-publish gate).

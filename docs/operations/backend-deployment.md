@@ -144,7 +144,20 @@ python -m scripts.check_artist_links --slug <slug>        # or --edition/--run [
 python -m scripts.show_artist --slug <slug>               # full record + readiness
 python -m scripts.show_artist --roster --sort similar-count   # slug|schedule also
 python -m scripts.show_artist --roster --edition <edition-slug> --run <run-slug>
+python -m scripts.check_similar_artists --slug <slug> \
+    --edition <edition-slug> --run <run-slug> [--proposed a,b,c,d]
+python -m scripts.benchmark_similar_artist_fit [--raw scores.json] > benchmark.md
 ```
+
+**`check_similar_artists`** asks TypeSafe AI's Jev whether a fan of one artist would
+likely enjoy each member of its similar-artist set, and shortlists better-fitting
+candidates from the run's published roster (ADR-0023). It checks the stored set, or a
+draft passed with `--proposed`. It needs
+`TYPESAFE_API_KEY`, set in `backend/.env` (an optional setting, see `.env.example`) or
+the environment. Read-only against the database; about ten outbound requests per run,
+sent in parallel. **`benchmark_similar_artist_fit`** runs its fit question over every
+verified set (about 2,000 requests, a few cents); re-run it before bumping the pinned
+Jev model version (`docs/process/artist-similar-artist-check.md`).
 
 **`build_roster_payloads`** fans a hand-authored roster CSV into draft `add_artist`
 payloads. Per artist it picks one action from the database state: `create_artist` for

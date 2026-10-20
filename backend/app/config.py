@@ -16,5 +16,8 @@ class Settings(BaseSettings):
     postgres_port: int
     postgres_db: str
 
+    # Operator tooling only (check_similar_artists); the deployed backend never sets it.
+    typesafe_api_key: str | None = None
+
 
 settings = Settings()

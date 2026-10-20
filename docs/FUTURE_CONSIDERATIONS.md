@@ -1242,3 +1242,20 @@ curator, a real behavior store, or an editorial pipeline for row definitions.
 
 Related: "'All Artists' Browse View on Explore", "Empty Curated Carousels Render a
 Bare Header", ARCHITECTURE.md § Carousel Duplicate Suppression.
+
+---
+
+## Verified Similar-Artist Picks the Jev Check Flags
+
+The benchmark in [`docs/process/artist-similar-artist-check.md`](process/artist-similar-artist-check.md)
+ran the fit question over every verified similar-artist set. 74 verified picks scored
+under the 0.4 "worth a look" threshold, across about one source artist in five, and 6
+scored under 0.25. A low fit can mean a deliberate scale or thematic pick, a genre-tag
+mismatch that understates a real fit, or an editorial slip; the benchmark cannot tell
+which.
+
+Not re-reviewed now: that is a review wave under the editorial process (the drafter
+researches each flagged pick and states why it stays or proposes a swap, the editor
+approves), not part of building the check. Start with the six under 0.25.
+`benchmark_similar_artist_fit.py` lists every flagged pick; `check_similar_artists.py`
+shows one source artist's flags.
