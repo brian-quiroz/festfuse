@@ -31,6 +31,10 @@ This roadmap is complete. PostgreSQL is the sole artist data source.
   `backend/scripts/sourcing/` wrappers, per
   [`docs/process/artist-image-sourcing.md`](../process/artist-image-sourcing.md)
   (policy: ADR-0019).
+- Drafted similar-artist sets get an independent check through
+  `scripts/check_similar_artists.py`, per
+  [`docs/process/artist-similar-artist-check.md`](../process/artist-similar-artist-check.md)
+  (decision: ADR-0023).
 
 ## Rollout sequence
 

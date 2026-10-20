@@ -563,6 +563,22 @@ padded four. Evaluated on `name` + `slug` only.
 State the reasoning behind the set _and_ its ordering, with sources for the
 characterization claims. The editor signs `similarArtistsVerified`.
 
+**Second opinion (ADR-0023).** Once the set is drafted, and never before, run
+`check_similar_artists.py --slug <slug> --edition <edition> --run <run> --proposed
+a,b,c,d` and include its report with the set. It asks Jev, per pick, whether a fan of
+the source artist would likely enjoy it (flagging under 0.4, and under 0.25 as a likely
+mismatch), lists shortlisted candidates whose fit beats a member's by at least 0.05,
+and flags a single-tier set. What the numbers mean, how Jev behaves, and the benchmark
+behind the thresholds: [`artist-similar-artist-check.md`](artist-similar-artist-check.md).
+
+- A flag is a prompt, not a rejection. For each flagged member, say why it stays (a
+  deliberate scale or thematic pick is expected to rank low) or swap it. For each
+  skipped candidate, say why it was passed over.
+- A Jev rank is not a source. Characterization claims still trace to stored genres,
+  verified `about`, or a page opened this session.
+- The one exception to "draft first": when genre and `about` cannot supply a genuine
+  fourth pick, Jev's ranking may surface one. Say so in the set's reasoning.
+
 ---
 
 ## Similar-artist distribution

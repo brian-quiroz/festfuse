@@ -90,6 +90,25 @@ withdrawals parse by their `op`, and an empty changeset, an unknown op, a malfor
 date / time / slug, a move with no end time, and an unknown field (such as a database
 appearance id) are each refused.
 
+`test_check_similar_artists.py` (fast, no network) covers the pure parts of
+`check_similar_artists.py` (ADR-0023): the yes/no fit request carries only name,
+genres, and verified `about` (no billing or citation counts) and pins the model
+version; the Choice request lists every candidate in a seeded shuffle that repeats for
+the same seed and differs across seeds; `average_shares` averages samples, counts an
+omitted candidate as zero, and refuses an option it never sent; `shortlist` keeps
+shares at the threshold, highest first; and `review_set` flags members under 0.4 and
+under 0.25, lists only shortlisted non-members whose fit beats some member's by the
+0.05 margin, and only against those members (with
+which of those members are cited by more other sets), and reports a single-tier set but
+not a mixed or one-member one.
+
+`test_benchmark_similar_artist_fit.py` (fast, no network) covers the pure parts of
+`benchmark_similar_artist_fit.py`: `pick_mismatches` draws only artists whose genre
+families share none of the source's (never an untagged artist or a real pick), repeats
+for the same seed, and returns fewer when the pool is small; `win_rate` counts a
+(source, pick, mismatch) triple once when a set repeats across runs; and
+`threshold_rows` reports the flagged, caught, and per-source shares at each threshold.
+
 ## PostgreSQL integration tests
 
 `integration/test_artist_schema.py` connects through the real SQLAlchemy engine to a
@@ -436,7 +455,8 @@ so a name-only correction to an already-selected track doesn't apply through
 `--preview` plan lists every artist the rename affects.
 
 The editorial-pipeline scripts (`build_roster_payloads`, `check_artist_links`,
-`show_artist`) are operator tooling, documented in
+`show_artist`, `check_similar_artists`, `benchmark_similar_artist_fit`) are operator
+tooling, documented in
 `docs/operations/backend-deployment.md`; their test coverage is described above.
 
 ## Current boundaries
